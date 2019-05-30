@@ -179,6 +179,14 @@
 }
 
 :root {
+    --effects-RoundedCorner2: 2px;
+    --effects-Elevation4: var(--depths-Depth4);
+    --effects-Elevation8: var(--depths-Depth8);
+    --effects-Elevation16: var(--depths-Depth16);
+    --effects-Elevation32: var(--depths-Depth64);
+}
+
+:root {
     --fontSize-Mini: 10px;
     --fontSize-XSmall: 11px;
     --fontSize-Small: 12px;

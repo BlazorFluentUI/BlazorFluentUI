@@ -1,7 +1,7 @@
 ﻿@inherits CheckboxBase
 @*<KeytipData keytipProps={keytipProps} disabled={disabled}>
     {(keytipAttributes: any): JSX.Element => (*@
-<div class=@($"fabricCheckbox-root ms-Checkbox-checkbox {(isChecked ? "is-checked" : "")} {(Reversed ? "reversed" : "")} {(Disabled ? "is-disabled" : "is-enabled")}")>
+<div class=@($"fabricCheckbox-root ms-Checkbox-checkbox {(isChecked ? "is-checked" : "not-checked")} {(Reversed ? "reversed" : "")} {(Disabled ? "is-disabled" : "is-enabled")}")>
     <input type="checkbox"
            id=@Id
            class=@($"fabricCheckbox-input mediumFont" )

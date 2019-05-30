@@ -1,0 +1,62 @@
+@inherits ComponentBase
+@using System.Reactive.Subjects
+@using System.Reactive.Linq
+@using Microsoft.JSInterop
+
+@typeparam TItem
+
+@inject IJSRuntime JSRuntime
+
+<div ref="rootElement" role="presentation">
+    @{
+        var index = StartIndex;
+        foreach (var item in this.ItemsSource)
+        {
+            <ListItem IndexPosition=@index Item=@item ItemClicked=@ItemClicked IsActive=@(this.SelectedItems.Contains(item)) >
+                @ItemTemplate(item)
+            </ListItem>
+            index++;
+        }
+    }
+</div>
+
+@functions{
+    ElementRef rootElement;
+
+    //private BehaviorSubject<double> heightSubject;
+
+    public double Width { get; set; }
+    public double Height { get; set; }
+    //public IObservable<double> Height { get => this.heightSubject.AsObservable(); }
+
+    [Parameter] RenderFragment<TItem> ItemTemplate { get; set; }
+
+    [Parameter] IEnumerable<TItem> ItemsSource { get; set; }
+       
+    [Parameter] int StartIndex { get; set; }
+
+    [Parameter] ISubject<(int index, double height)> PageMeasureSubject { get; set; }
+
+    [Parameter]
+    private Func<object, UIMouseEventArgs, Task> ItemClicked { get; set; }
+
+    
+    [Parameter] IEnumerable<TItem> SelectedItems { get; set; }
+
+
+    protected override Task OnInitAsync()
+    {
+        //this.heightSubject = new BehaviorSubject<double>(0);
+        return base.OnInitAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync()
+    {
+        var result = await JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureElementRect", rootElement);
+        this.Width = result["width"];
+        this.Height = result["height"];
+        //this.heightSubject.OnNext(result["height"]);
+        this.PageMeasureSubject.OnNext((this.StartIndex, this.Height));
+        await base.OnAfterRenderAsync();
+    }
+}

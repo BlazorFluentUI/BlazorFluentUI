@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />
+    <ProjectReference Include="..\..\..\src\BlazorFabric.List\BlazorFabric.List.csproj" />
     <ProjectReference Include="..\BlazorFabric.Test.HostedClient.Shared\BlazorFabric.Test.HostedClient.Shared.csproj" />
   </ItemGroup>
 

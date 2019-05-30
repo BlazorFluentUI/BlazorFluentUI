@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Test.HostedCli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Checkbox", "src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj", "{84CC73BB-8759-44DE-9148-BD5293E0193E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.List", "src\BlazorFabric.List\BlazorFabric.List.csproj", "{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{84CC73BB-8759-44DE-9148-BD5293E0193E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84CC73BB-8759-44DE-9148-BD5293E0193E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84CC73BB-8759-44DE-9148-BD5293E0193E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{FFB712E2-02AB-418C-B361-8D80D5494B63} = {BF862BBB-D3F1-49F6-BCC8-6C3DB36B84C1}
 		{8632CA6F-9662-4C76-932A-168B0E4968A8} = {BF862BBB-D3F1-49F6-BCC8-6C3DB36B84C1}
 		{84CC73BB-8759-44DE-9148-BD5293E0193E} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

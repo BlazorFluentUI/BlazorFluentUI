@@ -123,11 +123,11 @@
     border-color: var(--semanticColors-InputBackgroundChecked);
 }
 .fabricCheckbox-checkbox-disabled {
-    border-color: var(--semanticColors-NeutralTertiaryAlt);
+    border-color: var(--palette-NeutralTertiaryAlt);
 }
     .fabricCheckbox-checkbox-disabled.fabricCheckbox-checkbox-checked {
-        background: var(--semanticColors-NeutralTertiaryAlt);
-        border-color: var(--semanticColors-NeutralTertiaryAlt);
+        background: var(--palette-NeutralTertiaryAlt);
+        border-color: var(--palette-NeutralTertiaryAlt);
     }
 
 

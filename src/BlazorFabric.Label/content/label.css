@@ -1,0 +1,29 @@
+﻿.fabricLabel-root {
+    /*FontVariantAlternates = theme.Fonts.Medium.FontVariantAlternates;*/
+    font-weight: var(--fontWeight-SemiBold);
+    color: var(--semanticColors-BodyText);
+    box-sizing: border-box;
+    box-shadow:none;
+    margin: 0;
+    display: block;
+    padding : 5px 0px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.fabricLabel-root-disabled {
+    color: var(--palette-NeutralTertiary);
+}
+
+.fabricLabel-root-required::after{
+    content: ' *';
+    color: var(--semanticColors-ErrorText);
+    padding-right: 12px;
+}
+
+@media screen and (-ms-high-contrast: active)
+{
+    .fabricLabel-root-disabled{
+        color: GrayText;
+    }
+}

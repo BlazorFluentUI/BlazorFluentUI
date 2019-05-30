@@ -1,0 +1,44 @@
+﻿@inherits CheckboxBase
+@*<KeytipData keytipProps={keytipProps} disabled={disabled}>
+    {(keytipAttributes: any): JSX.Element => (*@
+<div class=@($"fabricCheckbox-root ms-Checkbox-checkbox {(isChecked ? "is-checked" : "")} {(Reversed ? "reversed" : "")} {(Disabled ? "is-disabled" : "is-enabled")}")>
+    <input type="checkbox"
+           id=@Id
+           class=@($"fabricCheckbox-input mediumFont" )
+           checked=@(Checked.HasValue ? Checked.Value : DefaultChecked)
+           disabled=@Disabled
+           onclick=@OnClick
+           onchange="@OnChange"
+           aria-disabled=@Disabled
+           aria-label=@AriaLabel
+           aria-labelledby=@AriaLabelledBy
+           aria-describedby=@AriaDescribedBy
+           aria-posinset=@AriaPositionInSet
+           aria-setsize=@AriaSetSize />
+    <label class=@($"fabricCheckbox-label {(Reversed ? "fabricCheckbox-label-reversed" : "")} {(Disabled ? "fabricCheckbox-label-disabled" : "fabricCheckbox-label-enabled")}  {(isChecked ? "fabricCheckbox-label-checked" : "fabricCheckbox-label-unchecked")}")
+           for="@Id">
+        <div class=@($"fabricCheckbox-checkbox ms-Checkbox-checkbox {(Reversed? "fabricCheckbox-checkbox-reversed":"")} {(Disabled ? "fabricCheckbox-checkbox-disabled" : "fabricCheckbox-checkbox-enabled")} {(isChecked ? "fabricCheckbox-checkbox-checked" : "fabricCheckbox-checkbox-unchecked")}")>
+            <i class=@($"ms-Checkbox-checkmark fabricCheckbox-checkmark {(Disabled ? "fabricCheckbox-checkmark-disabled" : "")} {(isChecked ? "fabricCheckbox-checkmark-checked" : "")} ms-Icon ms-Icon--CheckMark ") aria-hidden="true"></i>
+        </div>
+        <span class=@($"fabricCheckbox-text ms-Checkbox-text {(Reversed ? "fabricCheckbox-text-reversed" : "")} {(Disabled ? "fabricCheckbox-text-disabled" : "")}")>@Label</span>
+    </label>
+</div>
+@*)}
+    </KeytipData>*@
+
+@*const { className, theme, reversed, checked, disabled, isUsingCustomLabelRender } = props;
+  const { semanticColors } = theme;
+  const checkmarkFontColor = semanticColors.inputForegroundChecked;
+  const checkmarkFontColorCheckedDisabled = semanticColors.disabledBackground;
+  const checkmarkFontColorHovered = semanticColors.inputBorder;
+  const checkboxBorderColor = semanticColors.smallInputBorder;
+  const checkboxBorderColorChecked = semanticColors.inputBackgroundChecked;
+  const checkboxBorderColorDisabled = semanticColors.disabledBodySubtext;
+  const checkboxBorderHoveredColor = semanticColors.inputBorderHovered;
+  const checkboxBackgroundChecked = semanticColors.inputBackgroundChecked;
+  const checkboxBackgroundCheckedHovered = semanticColors.inputBackgroundCheckedHovered;
+  const checkboxBorderColorCheckedHovered = semanticColors.inputBackgroundCheckedHovered;
+  const checkboxHoveredTextColor = semanticColors.bodyText;
+  const checkboxBackgroundDisabledChecked = semanticColors.disabledBodySubtext;
+  const checkboxTextColor = semanticColors.bodyText;
+  const checkboxTextColorDisabled = semanticColors.disabledText;*@

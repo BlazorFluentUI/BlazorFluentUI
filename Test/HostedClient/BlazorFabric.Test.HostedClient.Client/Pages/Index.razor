@@ -1,0 +1,16 @@
+﻿@page "/"
+
+<h2>Labels</h2>
+<BlazorFabric.Label.Label>Standard Label</BlazorFabric.Label.Label>
+<BlazorFabric.Label.Label Required="true">Required Label</BlazorFabric.Label.Label>
+<BlazorFabric.Label.Label Disabled="true">Disabled Label</BlazorFabric.Label.Label>
+
+<h2>Checkboxes</h2>
+<BlazorFabric.Label.Label>Checkbox is @(isChecked ? "checked" : "unchecked").</BlazorFabric.Label.Label>
+<BlazorFabric.Checkbox.Checkbox Label="Regular Checkbox" bind-Checked=@isChecked/>
+<BlazorFabric.Checkbox.Checkbox Label="Disabled Checkbox" Disabled="true"/>
+<BlazorFabric.Checkbox.Checkbox Label="Disabled Checked Checkbox" Checked="true" Disabled="true" />
+
+@functions{
+    bool isChecked=false;
+}

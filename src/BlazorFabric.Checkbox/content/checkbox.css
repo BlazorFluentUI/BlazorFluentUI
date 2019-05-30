@@ -1,0 +1,191 @@
+﻿/* ROOT */
+.fabricCheckbox-root {
+    display: flex;
+    position: relative;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* INPUT */
+
+.fabricCheckbox-input {
+    position: absolute;
+    background: none;
+    opacity: 0;
+}
+
+/* LABEL */
+
+.fabricCheckbox-label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    text-align: left;
+}
+
+.fabricCheckbox-label-reversed {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.fabricCheckbox-label-disabled{
+    cursor:default;
+}
+
+
+    .fabricCheckbox-label-unchecked:hover .ms-Checkbox-checkbox.fabricCheckbox-label-enabled {
+        border-color: var(--semanticColors-InputBackgroundChecked);
+    }
+    .fabricCheckbox-label-unchecked:focus .ms-Checkbox-checkbox.fabricCheckbox-label-enabled {
+        border-color: var(--semanticColors-InputBackgroundChecked);
+    }
+    .fabricCheckbox-label-unchecked:hover .ms-Checkbox-checkmark.fabricCheckbox-label-enabled {
+        color: var(--semanticColors-InputBorder);
+        opacity: 1;
+    }
+
+.fabricCheckbox-label-checked:hover .ms-Checkbox-checkbox.fabricCheckbox-label-enabled {
+    background: var(--semanticColors-InputBackgroundCheckedHovered);
+    border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+}
+.fabricCheckbox-label-checked:focus .ms-Checkbox-checkbox.fabricCheckbox-label-enabled {
+    background: var(--semanticColors-InputBackgroundCheckedHovered);
+    border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+}
+
+.fabricCheckbox-label-checked:hover .ms-Checkbox-text.fabricCheckbox-label-enabled {
+    color: var(--semanticColors-BodyText);
+}
+.fabricCheckbox-label-checked:focus .ms-Checkbox-text.fabricCheckbox-label-enabled {
+    color: var(--semanticColors-BodyText);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .fabricCheckbox-label-unchecked:hover .ms-Checkbox-checkbox.fabricCheckbox-label-enabled {
+        border-color: Highlight;
+    }
+    .fabricCheckbox-label-unchecked:hover .ms-Checkbox-checkmark.fabricCheckbox-label-enabled {
+        color: Highlight;
+    }
+
+    .fabricCheckbox-label-checked:hover .ms-Checkbox-checkbox.fabricCheckbox-label-enabled {
+        background: Window;
+        border-color: Highlight;
+    }
+    .fabricCheckbox-label-checked:focus .ms-Checkbox-checkbox.fabricCheckbox-label-enabled {
+        background: Highlight;
+    }
+    .fabricCheckbox-label-checked:focus:hover .ms-Checkbox-checkbox.fabricCheckbox-label-enabled {
+        background: Highlight;
+    }
+    .fabricCheckbox-label-checked:focus:hover .ms-Checkbox-checkmark.fabricCheckbox-label-enabled {
+        color: Window;
+    }
+    .fabricCheckbox-label-checked:hover .ms-Checkbox-checkmark.fabricCheckbox-label-enabled {
+        color: Highlight;
+    }
+
+}
+
+/* CHECKBOX */
+
+.fabricCheckbox-checkbox {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--semanticColors-SmallInputBorder);
+    box-sizing: border-box;
+    transition-property: background, border, border-color;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(.4,0,.23,1);
+    /* in case the icon is bigger than the box */
+    overflow: hidden;
+    margin-left: 4px;
+}
+.fabricCheckbox-checkbox-reversed{
+    margin-right: 4px;
+    margin-left: 0px;
+}
+
+.fabricCheckbox-checkbox-checked.fabricCheckbox-checkbox-enabled {
+    background: var(--semanticColors-InputBackgroundChecked);
+    border-color: var(--semanticColors-InputBackgroundChecked);
+}
+.fabricCheckbox-checkbox-disabled {
+    border-color: var(--semanticColors-DisabledBodySubtext);
+}
+    .fabricCheckbox-checkbox-disabled.fabricCheckbox-checkbox-checked {
+        background: var(--semanticColors-DisabledBodySubtext);
+        border-color: var(--semanticColors-DisabledBodySubtext);
+    }
+
+
+@media screen and (-ms-high-contrast: active) {
+    .fabricCheckbox-checkbox-checked.fabricCheckbox-checkbox-enabled {
+        background: Highlight;
+        border-color: Highlight;
+    }
+    .fabricCheckbox-checkbox-disabled {
+        border-color: InactiveBorder;
+    }
+
+}
+
+/* CHECKMARK */
+
+.fabricCheckbox-checkmark{
+    opacity:0;
+    color: var(--semanticColors-InputForegroundChecked);
+    font-size: var(--fontSize-Medium);
+    line-height: 20px;
+}
+.fabricCheckbox-checkmark-checked {
+    opacity:1;
+}
+.fabricCheckbox-checkmark-disabled.fabricCheckbox-checkmark-checked {
+    color: var(--semanticColors-DisabledBackground);
+}
+
+.fabricCheckbox-checkmark-disabled {
+    color: var(--semanticColors-DisabledText);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .fabricCheckbox-checkmark {
+        color: Window;
+        MsHighContrastAdjust: none;
+    }
+    .fabricCheckbox-checkmark-disabled {
+        color: InactiveBorder;
+    }
+}
+
+/* TEXT */
+.fabricCheckbox-text {
+    color: var(--semanticColors-BodyText);
+    font-size: var(--fontSize-Medium);
+    line-height: 20px;
+    margin-left: 4px;
+}
+
+.fabricCheckbox-text-reversed {
+    margin-right: 4px;
+    margin-left: 0px;
+}
+
+.fabricCheckbox-text-disabled {
+    color: var(--semanticColors-DisabledText);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .fabricCheckbox-text-disabled {
+        color: InactiveBorder;
+    }
+}

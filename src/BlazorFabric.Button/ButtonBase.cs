@@ -60,7 +60,10 @@ namespace BlazorFabric.Button
         ///  Whether the button is checked
         /// </summary>
         [Parameter]
-        protected bool Checked { get; set; }
+        protected bool? Checked { get; set; }
+
+        [Parameter]
+        protected EventCallback<bool> CheckedChanged { get; set; }
 
         /// <summary>
         /// The aria label of the button for the benefit of screen readers.
@@ -94,6 +97,7 @@ namespace BlazorFabric.Button
 
         [Parameter]
         protected bool Toggle { get; set; }
+
         [Parameter]
         protected bool Split { get; set; }
 
@@ -108,8 +112,9 @@ namespace BlazorFabric.Button
 
 
         private ICommand command;
-
         protected bool commandDisabled = false;
+
+        protected bool isChecked = false;
 
         protected override Task OnParametersSetAsync()
         {
@@ -128,6 +133,11 @@ namespace BlazorFabric.Button
                 Command.CanExecuteChanged += Command_CanExecuteChanged;
             }
 
+            if (this.Checked.HasValue)
+            {
+                isChecked = this.Checked.Value;
+            }
+
             return base.OnParametersSetAsync();
         }
 
@@ -138,6 +148,12 @@ namespace BlazorFabric.Button
 
         protected async Task OnClick(UIMouseEventArgs args)
         {
+            if (Toggle)
+            {
+                this.isChecked = !this.isChecked;
+                await this.CheckedChanged.InvokeAsync(this.isChecked);
+            }
+
             if (Clicked != null)
             {
                 await Clicked.Invoke(this, args);
@@ -164,19 +180,7 @@ namespace BlazorFabric.Button
 
         }
 
-        static class ButtonGlobalClassNames
-        {
-#pragma warning disable IDE1006 // Naming Styles
-            public const string msButton = "ms-Button";
-            public const string msButtonIcon = "ms-Button-icon";
-            public const string msButtonMenuIcon = "ms-Button-menuIcon";
-            public const string msButtonLabel = "ms-Button-label";
-            public const string msButtonDescription = "ms-Button-description";
-            public const string msButtonScreenReaderText = "ms-Button-screenReaderText";
-            public const string msButtonFlexContainer = "ms-Button-flexContainer";
-            public const string msButtonTextContainer = "ms-Button-textContainer";
-#pragma warning restore IDE1006 // Naming Styles
-        }
+      
 
         //protected override void ApplyStyles()
         //{

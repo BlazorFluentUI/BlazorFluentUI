@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="content\button-default.css" />
     <None Remove="content\button.css" />
   </ItemGroup>
 

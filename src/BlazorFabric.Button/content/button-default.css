@@ -1,0 +1,42 @@
+﻿/*
+    This file is to show how CSS and other static resources (such as images) can be
+    used from a library project/package.
+*/
+
+.fabricButton.default {
+    color: var(--semanticColors-ButtonText);
+    background-color: var(--palette-White);
+    border: 1px solid var(--palette-NeutralSecondaryAlt);
+}
+
+    .fabricButton.default:hover {
+        color: var(--semanticColors-ButtonTextHovered);
+        background-color: var(--palette-NeutralLighter);
+    }
+
+    .fabricButton.default:active {
+        color: var(--semanticColors-ButtonTextChecked);
+        background-color: var(--palette-NeutralLight);
+    }
+
+    .fabricButton.default.is-checked {
+        color: var(--semanticColors-ButtonTextChecked);
+        background-color: var(--palette-NeutralLight);
+    }
+
+        .fabricButton.default.is-checked:hover {
+            background-color: var(--palette-NeutralLight);
+        }
+
+    .fabricButton.default.is-disabled {
+        border-color: var(--palette-NeutralLighter);
+        background-color: var(--palette-NeutralLighter);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    .fabricButton.default {
+        color: Highlight;
+        border-color: Highlight;
+    }
+
+}

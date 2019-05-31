@@ -8,20 +8,32 @@
 
 <h2>Checkboxes</h2>
 <Label>Checkbox is @(isChecked ? "checked" : "unchecked").</Label>
-<Checkbox Label="Regular Checkbox" bind-Checked=@isChecked/>
-<Checkbox Label="Disabled Checkbox" Disabled="true"/>
+<Checkbox Label="Regular Checkbox" bind-Checked=@isChecked />
+<Checkbox Label="Disabled Checkbox" Disabled="true" />
 <Checkbox Label="Disabled Checked Checkbox" Checked="true" Disabled="true" />
 
 <h2>Buttons</h2>
 <Label>Button Result: @buttonDebug</Label>
-<PrimaryButton Text="Primary Button" Command=@buttonCommand CommandParameter=@("Primary")/>
+<PrimaryButton Text="Primary Button" Command=@buttonCommand CommandParameter=@("Primary") />
 <PrimaryButton Disabled="true" Text="Disabled Primary Button" />
+
+<DefaultButton Text="Default Button" Command=@buttonCommand CommandParameter=@("Default") />
+<DefaultButton Disabled="true" Text="Disabled Default Button" />
+
+<Label>Toggle Buttons</Label>
+<DefaultButton Text="Toggle Button" Toggle="true" Command=@buttonCommand CommandParameter=@("Toggle") />
+
+<div style="height:5px"></div>
+<Checkbox Label="Bound to toggle button below" Checked=@isToggled bind-Checked=@isToggled />
+<DefaultButton Text=@(isToggled ? "Not Toggled" : "Toggled") Toggle="true" Checked=@isToggled bind-Checked=@isToggled Command=@buttonCommand CommandParameter=@("Toggle") />
 
 @functions{
     System.Windows.Input.ICommand buttonCommand;
     int commandCount = 0;
     bool isChecked=false;
     string buttonDebug="";
+
+  bool isToggled=false;
 
     protected override Task OnInitAsync()
     {

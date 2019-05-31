@@ -9,7 +9,8 @@ There are no MergeStyles in this port.  It's just each control packaged into its
 
 ## To use
 1. Install NuGet package for the control you want.  
-2. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.
+2. If you are using Server-side Blazor, use BlazorEmbedLibrary to help transfer all of the component assets to your main project automatically.  (Keep in mind List virtualization is not a good experience on server-side yet due to excessive scroll event calls.)
+3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.
 
 `<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/10.0.0/css/fabric.min.css" />`
 

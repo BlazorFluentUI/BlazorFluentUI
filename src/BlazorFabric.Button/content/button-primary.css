@@ -1,0 +1,59 @@
+﻿/*
+    This file is to show how CSS and other static resources (such as images) can be
+    used from a library project/package.
+*/
+
+.fabricButton.primary {
+    color: var(--palette-White);
+    background-color: var(--palette-ThemePrimary);
+    border:none;
+}
+
+    .fabricButton.primary:hover {
+        color: var(--palette-White);
+        background-color: var(--palette-ThemeDarkAlt);
+    }
+
+    .fabricButton.primary:active {
+        color: var(--palette-White);
+        background-color: var(--palette-ThemeDark);
+    }
+
+.fabricButton.primary.is-checked {
+    color: var(--palette-White);
+    background-color: var(--palette-ThemeDark);
+    border: none;
+}
+    .fabricButton.primary.is-checked:hover {
+        color: var(--palette-White);
+        background-color: var(--palette-ThemePrimary);
+        border: none;
+    }
+
+.fabricButton.primary.is-disabled {
+    /*color: var(--palette-NeutralLighter);
+    background-color: var(--palette-NeutralLighter);*/
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .fabricButton.primary {
+        color: Window;
+        background-color: WindowText;
+        MsHighContrastAdjust: none;
+    }
+        .fabricButton.primary:hover {
+            color: Window;
+            background-color: Highlight;
+        }
+        .fabricButton.primary:active {
+            color: Window;
+            background-color: WindowText;
+            MsHighContrastAdjust: none;
+        }
+
+    .fabricButton.primary.is-disabled {
+        color: GrayText;
+        background-color: Window;
+        border-color: GrayText;
+    }
+}

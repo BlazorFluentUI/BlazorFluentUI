@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -6,7 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BlazorEmbedLibrary" Version="0.1.0-beta-4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.List\BlazorFabric.List.csproj" />
   </ItemGroup>
 
 </Project>

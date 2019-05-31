@@ -1,16 +1,36 @@
 ﻿@page "/"
 
+
 <h2>Labels</h2>
-<BlazorFabric.Label.Label>Standard Label</BlazorFabric.Label.Label>
-<BlazorFabric.Label.Label Required="true">Required Label</BlazorFabric.Label.Label>
-<BlazorFabric.Label.Label Disabled="true">Disabled Label</BlazorFabric.Label.Label>
+<Label>Standard Label</Label>
+<Label Required="true">Required Label</Label>
+<Label Disabled="true">Disabled Label</Label>
 
 <h2>Checkboxes</h2>
-<BlazorFabric.Label.Label>Checkbox is @(isChecked ? "checked" : "unchecked").</BlazorFabric.Label.Label>
-<BlazorFabric.Checkbox.Checkbox Label="Regular Checkbox" bind-Checked=@isChecked/>
-<BlazorFabric.Checkbox.Checkbox Label="Disabled Checkbox" Disabled="true"/>
-<BlazorFabric.Checkbox.Checkbox Label="Disabled Checked Checkbox" Checked="true" Disabled="true" />
+<Label>Checkbox is @(isChecked ? "checked" : "unchecked").</Label>
+<Checkbox Label="Regular Checkbox" bind-Checked=@isChecked/>
+<Checkbox Label="Disabled Checkbox" Disabled="true"/>
+<Checkbox Label="Disabled Checked Checkbox" Checked="true" Disabled="true" />
+
+<h2>Buttons</h2>
+<Label>Button Result: @buttonDebug</Label>
+<PrimaryButton Text="Primary Button" Command=@buttonCommand CommandParameter=@("Primary")/>
+<PrimaryButton Disabled="true" Text="Disabled Primary Button" />
 
 @functions{
+    System.Windows.Input.ICommand buttonCommand;
+    int commandCount = 0;
     bool isChecked=false;
+    string buttonDebug="";
+
+    protected override Task OnInitAsync()
+    {
+        buttonCommand = new Utils.RelayCommand((p) =>
+        {
+            buttonDebug = $"{p.ToString()} button was clicked. {commandCount++}";
+            StateHasChanged();
+        });
+
+        return base.OnInitAsync();
+    }
 }

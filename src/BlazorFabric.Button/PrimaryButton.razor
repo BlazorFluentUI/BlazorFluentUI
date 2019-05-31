@@ -1,0 +1,27 @@
+﻿@inherits ButtonBase
+
+<button class=@($"ms-Button--primary fabricButton mediumFont primary {(Disabled ? "is-disabled" : "")}") 
+        onclick=@OnClick
+        disabled=@(Disabled && !AllowDisabledFocus)>
+    <div style="display: inline-block">
+
+        <div class="fabricButton-flexContainer ms-Button-flexContainer">
+
+            <div class="fabricButton-textContainer ms-Button-textContainer">
+                @if (Text != null)
+                {
+                    <div class="fabricButton-label ms-Button-label" >
+                        @Text
+                    </div>
+                }
+                @if (SecondaryText != null)
+                {
+                    <div class="Description ms-Button-description">
+                        @SecondaryText
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</button>

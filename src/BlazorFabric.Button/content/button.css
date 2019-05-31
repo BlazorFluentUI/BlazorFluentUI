@@ -1,0 +1,94 @@
+﻿.fabricButton {
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    user-select: none;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: top;
+    padding: 0 16px;
+    min-width: 80px;
+    height: 32px;
+    border-radius: var(--effects-RoundedCorner2);
+}
+.fabricButton.primary{
+    border-width: 0px;
+}
+
+.fabricButton:active > *{
+    position:relative;
+    left:0;
+    top:0;
+}
+
+.fabricButton.is-disabled{
+    background-color:var(--semanticColors-DisabledBackground);
+    color:var(--semanticColors-DisabledText);
+    cursor:default;
+    pointer-events:none;
+}
+
+    .fabricButton:hover{
+        outline:0;
+    }
+    .fabricButton:focus {
+        outline: 0;
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    .fabricButton {
+        color: GrayText;
+        border-color:GrayText;
+    }
+}
+
+.fabricButton.is-disabled .fabricButton-icon{
+    color: var(--semanticColors-DisabledText);
+}
+.fabricButton.is-disabled .fabricButton-menuIcon {
+    color: var(--semanticColors-DisabledText);
+}
+
+.fabricButton-flexContainer{
+    display:flex;
+    height:100%;
+    flex-wrap:nowrap;
+    justify-content:center;
+    align-items:center;
+}
+
+.fabricButton-textContainer{
+    flex-grow:1;
+}
+
+.fabricButton-icon{
+    font-size: var(--fontSize-Icon);
+    margin: 0px 4px;
+    height:16px;
+    line-height:16px;
+    text-align:center;
+    vertical-align:middle;
+    flex-shrink:0;
+}
+
+.fabricButton-menuIcon{
+    font-size:var(--fontSize-Small);
+}
+
+.fabricButton-label{
+    font-weight: var(--fontWeight-SemiBold);
+    margin: 0px 4px;
+    line-height:100%;
+}
+
+.fabricButton-screenReaderText{
+    position:absolute;
+    width:1px;
+    height:1px;
+    margin:-1px;
+    padding:0px;
+    border:0px;
+    overflow:hidden;
+}

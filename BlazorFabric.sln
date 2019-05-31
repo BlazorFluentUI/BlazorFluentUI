@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Checkbox", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.List", "src\BlazorFabric.List\BlazorFabric.List.csproj", "{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Button", "src\BlazorFabric.Button\BlazorFabric.Button.csproj", "{629DA8C5-0BE1-487E-B191-79AE709FFE81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{629DA8C5-0BE1-487E-B191-79AE709FFE81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{629DA8C5-0BE1-487E-B191-79AE709FFE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{629DA8C5-0BE1-487E-B191-79AE709FFE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{629DA8C5-0BE1-487E-B191-79AE709FFE81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{8632CA6F-9662-4C76-932A-168B0E4968A8} = {BF862BBB-D3F1-49F6-BCC8-6C3DB36B84C1}
 		{84CC73BB-8759-44DE-9148-BD5293E0193E} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{629DA8C5-0BE1-487E-B191-79AE709FFE81} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

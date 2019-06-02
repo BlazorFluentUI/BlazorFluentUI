@@ -13,7 +13,7 @@
     <Version>1.0.0-beta</Version>
     <Authors>Lee McPherson</Authors>
     <Product></Product>
-    <Description>Label from Blazor port of Office Fabric UI</Description>
+    <Description>TextField from Blazor port of Office Fabric UI</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
     <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
@@ -31,14 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  
+
 </Project>

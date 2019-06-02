@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.List", "src\Bl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Button", "src\BlazorFabric.Button\BlazorFabric.Button.csproj", "{629DA8C5-0BE1-487E-B191-79AE709FFE81}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.TextField", "src\BlazorFabric.TextField\BlazorFabric.TextField.csproj", "{209132FE-0F19-4791-A2DD-B4EAD4B2D7AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{629DA8C5-0BE1-487E-B191-79AE709FFE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{629DA8C5-0BE1-487E-B191-79AE709FFE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{629DA8C5-0BE1-487E-B191-79AE709FFE81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{209132FE-0F19-4791-A2DD-B4EAD4B2D7AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{209132FE-0F19-4791-A2DD-B4EAD4B2D7AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{209132FE-0F19-4791-A2DD-B4EAD4B2D7AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{209132FE-0F19-4791-A2DD-B4EAD4B2D7AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{84CC73BB-8759-44DE-9148-BD5293E0193E} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{629DA8C5-0BE1-487E-B191-79AE709FFE81} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{209132FE-0F19-4791-A2DD-B4EAD4B2D7AD} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

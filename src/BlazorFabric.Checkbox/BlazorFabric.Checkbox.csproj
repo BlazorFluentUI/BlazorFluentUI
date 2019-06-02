@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,6 +10,13 @@
     <LangVersion>7.3</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <Version>1.0.0-beta</Version>
+    <Authors>Lee McPherson</Authors>
+    <Product></Product>
+    <Description>Checkbox from Blazor port of Office Fabric UI</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +32,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

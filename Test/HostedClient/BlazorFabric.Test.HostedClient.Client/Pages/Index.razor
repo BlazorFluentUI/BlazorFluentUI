@@ -27,13 +27,15 @@
 <Checkbox Label="Bound to toggle button below" Checked=@isToggled bind-Checked=@isToggled />
 <DefaultButton Text=@(isToggled ? "Not Toggled" : "Toggled") Toggle="true" Checked=@isToggled bind-Checked=@isToggled Command=@buttonCommand CommandParameter=@("Toggle") />
 
+
+
 @functions{
     System.Windows.Input.ICommand buttonCommand;
     int commandCount = 0;
-    bool isChecked=false;
-    string buttonDebug="";
+    bool isChecked = false;
+    string buttonDebug = "";
 
-  bool isToggled=false;
+    bool isToggled = false;
 
     protected override Task OnInitAsync()
     {

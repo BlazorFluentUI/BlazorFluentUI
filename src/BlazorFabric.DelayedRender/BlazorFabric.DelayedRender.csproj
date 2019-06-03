@@ -13,18 +13,11 @@
     <Version>1.0.0-beta</Version>
     <Authors>Lee McPherson</Authors>
     <Product></Product>
-    <Description>TextField from Blazor port of Office Fabric UI</Description>
+    <Description>DelayedRender from Blazor port of Office Fabric UI</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
     <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <!-- .js/.css files will be referenced via <script>/<link> tags; other content files will just be included in the app's 'dist' directory without any tags referencing them -->
-    <EmbeddedResource Include="content\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
-    <EmbeddedResource Include="content\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
-    <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview5-19227-01" />
@@ -35,12 +28,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
-    <ProjectReference Include="..\BlazorFabric.DelayedRender\BlazorFabric.DelayedRender.csproj" />
-    <ProjectReference Include="..\BlazorFabric.Label\BlazorFabric.Label.csproj" />
   </ItemGroup>
 
 </Project>

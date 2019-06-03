@@ -23,5 +23,8 @@ namespace BlazorFabric.Label
         [Parameter]
         protected bool Disabled { get; set; }
 
+        [Parameter]
+        protected string HtmlFor { get; set; }
+
     }
 }

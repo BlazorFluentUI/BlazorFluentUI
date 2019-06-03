@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Components
+
+@inherits ComponentBase
+
+@if (isRendered)
+{
+    @ChildContent
+}
+else
+{
+
+}
+
+@functions{
+    private bool isRendered=false;
+    private System.Timers.Timer timer;
+
+    [Parameter] private RenderFragment ChildContent { get; set; }
+    [Parameter] private int Delay { get; set; }
+
+    protected override Task OnInitAsync()
+    {
+        timer = new System.Timers.Timer();
+        timer.AutoReset = false;
+        timer.Elapsed += Timer_Elapsed;
+        return base.OnInitAsync();
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        timer.Interval = this.Delay;
+        return base.OnParametersSetAsync();
+    }
+
+    protected override Task OnAfterRenderAsync()
+    {
+        timer.Start();
+        return base.OnAfterRenderAsync();
+    }
+
+    private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs args)
+    {
+        isRendered = true;
+        StateHasChanged();
+    }
+
+}

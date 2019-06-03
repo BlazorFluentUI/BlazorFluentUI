@@ -1,0 +1,153 @@
+﻿/* LABEL STYLES */
+.ms-TextField.ms-TextField--underlined.is-disabled .ms-Label {
+    color: var(--palette-NeutralTertiary);
+}
+
+.ms-TextField.ms-TextField--underlined .ms-Label {
+    font-size: var(--fontSize-Medium);
+    margin-right: 8px;
+    padding-left: 12px;
+    padding-right: 0px;
+    line-height: 22px;
+    height: 32px;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField.is-active .ms-Label {
+        height: 31px;
+    }
+}
+
+
+/* TEXTFIELD STYLES  */
+
+
+.ms-TextField {
+    position:relative;
+}
+
+.ms-TextField--underlined .ms-TextField-wrapper {
+    display:flex;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--semanticColors-InputBorder);
+    width:100%;
+}
+
+.ms-TextField--underlined.ms-TextField--errorMessage:not(is-disabled) .ms-TextField-wrapper {
+    border-bottom-color: var(--semanticColors-ErrorText);
+}
+.ms-TextField--underlined.ms-TextField--errorMessage:not(is-disabled) .ms-TextField-wrapper:hover {
+    border-bottom-color: var(--semanticColors-ErrorText);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField--underlined.ms-TextField--errorMessage:not(is-disabled) .ms-TextField-wrapper:hover {
+        border-bottom-color: Highlight;
+    }
+}
+.ms-TextField--underlined.is-disabled .ms-TextField-wrapper {
+    border-bottom-color: var(--semanticColors-DisabledBackground);
+}
+.ms-TextField--underlined:not(is-disabled):not(is-focused):not(ms-TextField--errorMessage) .ms-TextField-wrapper:hover {
+    border-bottom-color: var(--semanticColors-InputBorderHovered);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField--underlined:not(is-disabled):not(is-focused):not(ms-TextField--errorMessage) .ms-TextField-wrapper:hover {
+        border-bottom-color: Highlight;
+    }
+}
+.ms-TextField--underlined.is-focused.ms-TextField--errorMessage .ms-TextField-wrapper {
+    border-bottom-color: var(--semanticColors-ErrorText);
+}
+.ms-TextField--underlined.is-focused:not(ms-TextField--errorMessage) .ms-TextField-wrapper {
+    border-bottom-color: var(--semanticColors-InputFocusBorderAlt);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField--underlined.is-focused .ms-TextField-wrapper {
+        border-bottom-color: Highlight;
+        border-bottom-width: 2px;
+    }
+}
+
+/* FIELDGROUP */
+
+.ms-TextField-fieldGroup{
+    border: 1px solid var(--semanticColors-InputBorder);
+    background: var(--semanticColors-InputBackground);
+    cursor: text;
+    height: 32px;
+    display:flex;
+    flex-direction:row;
+    align-items: stretch;
+    position: relative;
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField-fieldGroup:hover {
+        border-color: Highlight;
+    }
+}
+.ms-TextField--multiline .ms-TextField-fieldGroup{
+    min-height:60px;
+    height: auto;
+    display:flex;
+}
+.ms-TextField--borderless .ms-TextField-fieldGroup{
+    border:none;
+}
+.ms-TextFiled:not(is-focused):not(is-disabled) .ms-TextField-fieldGroup:hover{
+    border-bottom-color: var(--semanticColors-InputBorderHovered);
+}
+.ms-TextField.is-focused .ms-TextField-fieldGroup{
+    border-color: var(--semanticColors.InputFocusBorderAlt);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField.is-focused .ms-TextField-fieldGroup {
+        border-color: Highlight;
+        border-width: 2px;
+    }
+}
+.ms-TextField.is-disabled .ms-TextField-fieldGroup {
+    background-color: var(--semanticColors.DisabledBackground);
+    border-collapse: var(--semanticColors.DisabledBackground);
+    cursor: default;
+}
+.ms-TextField--underlined .ms-TextField-fieldGroup{
+    flex: 1 1 0px;
+    border: none;
+    text-align:left;
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField--underlined.is-focused .ms-TextField-fieldGroup {
+        height: 31px;
+    }
+}
+.ms-TextField--underlined.is-disabled .ms-TextField-fieldGroup {
+    background-color: transparent;
+}
+.ms-TextField--errorMessage:hover .ms-TextField-fieldGroup{
+    border-color: var(--semanticColors-ErrorText);
+}
+.ms-TextField--errorMessage:focus .ms-TextField-fieldGroup {
+    border-color: var(--semanticColors-ErrorText);
+}
+.ms-TextField--errorMessage.is-focused .ms-TextField-fieldGroup {
+    border-color: var(--semanticColors-ErrorText);
+}
+
+.ms-TextField.no-label.is-required:after{
+    content: '*';
+    color: var(--semanticColors-ErrorText);
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField.no-label.is-required:after {
+        right: -14px;
+    }
+}
+
+/* FIELD (the input) */
+.ms-TextField-field{
+
+}

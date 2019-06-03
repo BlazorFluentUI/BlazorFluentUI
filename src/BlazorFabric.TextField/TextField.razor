@@ -1,0 +1,65 @@
+﻿@inherits TextFieldBase
+
+<div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")} {(this.errorMessageShown!=null ? "ms-TextField-errorMessage" : "")} {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(this.Label == null ? "no-label" : "")}")>
+    <div class="ms-TextField-wrapper">
+        @if (this.Label != null)
+        {
+            <BlazorFabric.Label.Label Required=@this.Resizable HtmlFor=@this.id Disabled=@this.Disabled>@this.Label</BlazorFabric.Label.Label>
+        }
+        <div class="ms-TextField-fieldGroup">
+            <div class="prefix">
+                <span style="padding-bottom: 1px;">@this.Prefix</span>
+            </div>
+            @if (this.Multiline)
+            {
+                <textarea 
+                       id=@this.id
+                       value=@currentValue
+                       oninput=@OnInput
+                       onchange=@OnChange
+                       class="mediumFont ms-TextField-field"
+                       aria-label=@this.AriaLabel
+                       aria-describedby=@this.descriptionId
+                       aria-invalid=@(this.ErrorMessage != null ? true: false)
+                       readOnly=@this.ReadOnly
+                       onfocus=@OnFocus
+                       onblur=@OnBlur />
+            }
+            else
+            {
+                <input type="text"
+                       id=@this.id
+                       value=@currentValue
+                       oninput=@OnInput
+                       onchange=@OnChange
+                       class="mediumFont ms-TextField-field"
+                       aria-label=@this.AriaLabel
+                       aria-describedby=@this.descriptionId
+                       aria-invalid=@(this.ErrorMessage != null ? true: false)
+                       readOnly=@this.ReadOnly
+                       onfocus=@OnFocus
+                       onblur=@OnBlur />
+            }
+            @*        {(iconClass || iconProps) && <Icon className={this._classNames.icon} {...iconProps} />}*@
+            <div class="suffix">
+                <span style="padding-bottom: 1px;">@this.Suffix</span>
+            </div>
+        </div>
+    </div>
+   @if (this.Description != null || this.errorMessageShown != null)
+   {
+        <span id="descriptionId">
+            <span class="description">@this.Description</span>
+            @if (this.ErrorMessage != null)
+            {
+                <div role="alert">
+                    <BlazorFabric.DelayedRender.DelayedRender Delay="1000">
+                        <p class="errorMessage">
+                            <span data-automation-id="error-message">{errorMessage}</span>
+                        </p>
+                    </BlazorFabric.DelayedRender.DelayedRender>
+                </div>
+            }
+        </span>
+   }
+</div>

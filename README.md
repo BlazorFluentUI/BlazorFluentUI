@@ -13,7 +13,6 @@ https://blazorfabric.azurewebsites.net/
 - Icon, only MS icons 
 - Nav, in-progress
 
-no icon controls yet
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project.  NuGet packages planned...

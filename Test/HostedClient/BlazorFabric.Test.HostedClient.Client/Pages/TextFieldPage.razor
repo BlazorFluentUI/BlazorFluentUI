@@ -28,6 +28,18 @@
 <div class="textFieldDiv">
     <TextField Label="Disabled Placeholder" Placeholder="placeholder text" Disabled="true" />
 </div>
+<div class="textFieldDiv">
+    <TextField Label="Disabled Placeholder" Placeholder="placeholder text" Disabled="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="With Prefix" Prefix="https://" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="With Suffix" Suffix="bananas" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="With Prefix & Suffix" Prefix="Dr." Suffix="Esquire" />
+</div>
 
 <h2>No Labels</h2>
 <div class="textFieldDiv">
@@ -83,7 +95,7 @@
     <TextField Label="TextField OnInput 2" bind-Value-OnInput=@onInputContent />
 </div>
 <div class="textFieldDiv" style="display:flex; flex-direction: row">
-    <TextField Label="TextField OnChange 1"  bind-Value-OnChange=@onChangeContent />
+    <TextField Label="TextField OnChange 1" bind-Value-OnChange=@onChangeContent />
     <TextField Label="TextField OnChange 2" bind-Value-OnChange=@onChangeContent />
 </div>
 

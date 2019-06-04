@@ -10,6 +10,8 @@ https://blazorfabric.azurewebsites.net/
 - Checkbox -done, except for icons
 - List -done, but bad server-side experience
 - TextField -done, except for icons
+- Icon, only MS icons 
+- Nav, in-progress
 
 no icon controls yet
 

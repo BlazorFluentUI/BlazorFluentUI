@@ -41,7 +41,7 @@ else
     private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs args)
     {
         isRendered = true;
-        StateHasChanged();
+        Invoke(()=>StateHasChanged());
     }
 
 }

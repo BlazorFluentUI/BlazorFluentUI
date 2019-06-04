@@ -206,9 +206,35 @@
     --fontWeight-Bold: 700;
 }
 
+.smallFont {
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+}
+
 .mediumFont{
     font-size: var(--fontSize-Medium);
     font-weight: var(--fontWeight-Regular);
+}
+
+:root {
+    --animation-DURATION_3: 0.367s;
+    --animation-EASING_FUNCTION_1: cubic-bezier(0.1,0.25,0.75,0.9);
+}
+
+
+@keyframes Slide_down_in_20 {
+    from {
+        opacity: 0;
+        transform: translate3d(0,-20px,0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0,0,0);
+    }
+}
+
+.slideDownIn20 {
+    animation: Slide_down_in_20 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
 }
 
 

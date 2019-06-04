@@ -1,25 +1,94 @@
 ﻿@page "/textFieldPage"
 
-<h2>TextField</h2>
-<TextField Label="TextField" />
-<TextField Label="TextField Required" Required="true" />
-<TextField Label="TextField Underlined" Underlined="true" />
-<TextField Label="TextField Disabled" Disabled="true" />
+<h2>Basic TextField</h2>
+<div class="textFieldDiv">
+    <TextField Label="TextField" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="TextField Disabled" Disabled="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="TextField Readonly" ReadOnly="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="TextField Required" Required="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Required="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="With Error" ErrorMessage="there is an error" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="With Input Mask" MaskChar="+" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="With Placeholder" Placeholder="placeholder text" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="Disabled Placeholder" Placeholder="placeholder text" Disabled="true" />
+</div>
 
-<Label>No labels</Label>
-<TextField Required="true" />
-<TextField Underlined="true" />
-<TextField Disabled="true" />
+<h2>No Labels</h2>
+<div class="textFieldDiv">
+    <TextField Required="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Underlined="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Disabled="true" />
+</div>
 
-<Label>Multiline</Label>
-<TextField Label="TextField" Multiline="true" />
-<TextField Label="TextField Required" Multiline="true" Required="true" />
-<TextField Label="TextField Underlined" Multiline="true" Underlined="true" />
-<TextField Label="TextField Disabled" Multiline="true" Disabled="true" />
 
+<h2>Multiline</h2>
+<div class="textFieldDiv">
+    <TextField Label="TextField Multiline" Multiline="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="TextField Multiline Required" Multiline="true" Required="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="TextField Multiline Disabled" Multiline="true" Disabled="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="Not resizable" Multiline="true" Resizable="false" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="Auto-adjusting height" Multiline="true" AutoAdjustHeight="true" />
+</div>
+
+
+<h2>Underline &amp; Borderless</h2>
+<div class="textFieldDiv">
+    <TextField Label="TextField Underlined" Underlined="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="TextField Underlined Disabled" Underlined="true" Disabled="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="TextField Underlined Required" Underlined="true" Required="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="TextField Borderless" Borderless="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="TextField Multiline Borderless" Multiline="true" Borderless="true" />
+</div>
+
+<h2>Binding Mode</h2>
+
+<div class="textFieldDiv" style="display:flex; flex-direction: row">
+    <TextField Label="TextField OnInput 1" bind-Value-OnInput=@onInputContent />
+    <TextField Label="TextField OnInput 2" bind-Value-OnInput=@onInputContent />
+</div>
+<div class="textFieldDiv" style="display:flex; flex-direction: row">
+    <TextField Label="TextField OnChange 1"  bind-Value-OnChange=@onChangeContent />
+    <TextField Label="TextField OnChange 2" bind-Value-OnChange=@onChangeContent />
+</div>
 
 @functions {
-
-
+    string onInputContent = "";
+    string onChangeContent = "";
 
 }

@@ -133,3 +133,9 @@ app {
         display: block;
     }
 }
+
+
+.textFieldDiv{
+    margin:5px 0px;
+    width:400px;
+}

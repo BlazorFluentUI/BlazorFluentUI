@@ -34,33 +34,33 @@
     width:100%;
 }
 
-.ms-TextField--underlined.ms-TextField--errorMessage:not(is-disabled) .ms-TextField-wrapper {
+.ms-TextField--underlined.has-error:not(.is-disabled) .ms-TextField-wrapper {
     border-bottom-color: var(--semanticColors-ErrorText);
 }
-.ms-TextField--underlined.ms-TextField--errorMessage:not(is-disabled) .ms-TextField-wrapper:hover {
+.ms-TextField--underlined.has-error:not(.is-disabled) .ms-TextField-wrapper:hover {
     border-bottom-color: var(--semanticColors-ErrorText);
 }
 @media screen and (-ms-high-contrast: active) {
-    .ms-TextField--underlined.ms-TextField--errorMessage:not(is-disabled) .ms-TextField-wrapper:hover {
+    .ms-TextField--underlined.ms-TextField--errorMessage:not(.is-disabled) .ms-TextField-wrapper:hover {
         border-bottom-color: Highlight;
     }
 }
 .ms-TextField--underlined.is-disabled .ms-TextField-wrapper {
-    border-bottom-color: var(--semanticColors-DisabledBackground);
+    /*border-bottom-color: var(--semanticColors-DisabledBackground);*/
 }
-.ms-TextField--underlined:not(is-disabled):not(is-focused):not(ms-TextField--errorMessage) .ms-TextField-wrapper:hover {
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.has-error) .ms-TextField-wrapper:hover {
     border-bottom-color: var(--semanticColors-InputBorderHovered);
 }
 @media screen and (-ms-high-contrast: active) {
-    .ms-TextField--underlined:not(is-disabled):not(is-focused):not(ms-TextField--errorMessage) .ms-TextField-wrapper:hover {
+    .ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.has-error) .ms-TextField-wrapper:hover {
         border-bottom-color: Highlight;
     }
 }
-.ms-TextField--underlined.is-focused.ms-TextField--errorMessage .ms-TextField-wrapper {
+.ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper {
     border-bottom-color: var(--semanticColors-ErrorText);
 }
-.ms-TextField--underlined.is-focused:not(ms-TextField--errorMessage) .ms-TextField-wrapper {
-    border-bottom-color: var(--semanticColors-InputFocusBorderAlt);
+.ms-TextField--underlined.is-focused:not(.has-error) .ms-TextField-wrapper {
+    /*border-bottom-color: var(--semanticColors-InputFocusBorderAlt);*/
 }
 @media screen and (-ms-high-contrast: active) {
     .ms-TextField--underlined.is-focused .ms-TextField-wrapper {
@@ -68,6 +68,11 @@
         border-bottom-width: 2px;
     }
 }
+/*fluent addition*/
+.ms-TextField-wrapper {
+    border-color: var(--palette-NeutralSecondaryAlt);
+}
+
 
 /* FIELDGROUP */
 
@@ -94,12 +99,12 @@
 .ms-TextField--borderless .ms-TextField-fieldGroup{
     border:none;
 }
-.ms-TextFiled:not(is-focused):not(is-disabled) .ms-TextField-fieldGroup:hover{
-    border-bottom-color: var(--semanticColors-InputBorderHovered);
+.ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover {
+    border-color: var(--semanticColors-InputBorderHovered);
 }
-.ms-TextField.is-focused .ms-TextField-fieldGroup{
-    border-color: var(--semanticColors.InputFocusBorderAlt);
-}
+/*.ms-TextField.is-focused .ms-TextField-fieldGroup{
+    border-color: var(--semanticColors-InputFocusBorderAlt);
+}*/
 @media screen and (-ms-high-contrast: active) {
     .ms-TextField.is-focused .ms-TextField-fieldGroup {
         border-color: Highlight;
@@ -107,8 +112,8 @@
     }
 }
 .ms-TextField.is-disabled .ms-TextField-fieldGroup {
-    background-color: var(--semanticColors.DisabledBackground);
-    border-collapse: var(--semanticColors.DisabledBackground);
+    background-color: var(--semanticColors-DisabledBackground);
+    /*border-color: var(--semanticColors-DisabledBackground);*/
     cursor: default;
 }
 .ms-TextField--underlined .ms-TextField-fieldGroup{
@@ -124,14 +129,17 @@
 .ms-TextField--underlined.is-disabled .ms-TextField-fieldGroup {
     background-color: transparent;
 }
-.ms-TextField--errorMessage:hover .ms-TextField-fieldGroup{
-    border-color: var(--semanticColors-ErrorText);
+.ms-TextField.has-error .ms-TextField-fieldGroup {
+    border-color: var(--palette-Red);
 }
-.ms-TextField--errorMessage:focus .ms-TextField-fieldGroup {
-    border-color: var(--semanticColors-ErrorText);
-}
-.ms-TextField--errorMessage.is-focused .ms-TextField-fieldGroup {
-    border-color: var(--semanticColors-ErrorText);
+    .ms-TextField.has-error .ms-TextField-fieldGroup:hover {
+        border-color: var(--palette-RedDark);
+    }
+    .ms-TextField.has-error .ms-TextField-fieldGroup:focus {
+        border-color: var(--palette-RedDark);
+    }
+.ms-TextField.has-error.is-focused .ms-TextField-fieldGroup {
+    border-color: var(--palette-RedDark);
 }
 
 .ms-TextField.no-label.is-required:after{
@@ -146,8 +154,133 @@
         right: -14px;
     }
 }
+/* fluent addon */
+.ms-TextField-fieldGroup {
+    border-radius: var(--effects-RoundedCorner2);
+    border-color: var(--palette-NeutralSecondaryAlt);
+}
+/*.ms-TextField.is-disabled .ms-TextField-fieldGroup {
+    border-color: var(--palette-NeutralSecondaryAlt);
+}*/
 
-/* FIELD (the input) */
-.ms-TextField-field{
+    /* FIELD (the input) */
+    .ms-TextField-field{
+    border-radius: 0px;
+    border: none;
+    background: none;
+    background-color:transparent;
+    color: var(--semanticColors-InputText);
+    padding: 0px 8px;
+    width: 100%;
+    min-width: 0px;
+    text-overflow: ellipsis;
+    outline: 0px;
+}
+    .ms-TextField-field:active{
+        outline: 0px;
+    }
+    .ms-TextField-field:focus {
+        outline: 0px;
+    }
+    .ms-TextField-field:hover {
+        outline: 0px;
+    }
+    .ms-TextField-field::-ms-clear{
+        display: none;
+    }
+    .ms-TextField-field::placeholder{
+        color: var(--semanticColors-InputPlaceholderText);
+        opacity: 1;
+    }
+    .ms-TextField-field:-ms-input-placeholder {
+        color: var(--semanticColors-InputPlaceholderText);
+        opacity: 1;
+    }
 
+.ms-TextField--multiline.ms-TextField--unresizable .ms-TextField-field{
+    resize:none;
+}
+
+.ms-TextField--multiline .ms-TextField-field {
+    min-height: inherit;
+    line-height: 17px;
+    flex-grow: 1;
+    padding: 6px 8px;
+    overflow: auto;
+    width: 100%;
+}
+.ms-TextField--multiline.auto-adjust-height .ms-TextField-field {
+    overflow:hidden;
+}
+
+/*has-icon*/
+.ms-TextField:not(.is-disabled) .ms-TextField-field {
+    color: var(--palette-NeutralDark);
+}
+.ms-TextField.is-disabled .ms-TextField-field {
+    background-color: transparent;
+    color: var(--semanticColors-DisabledText);
+}
+    .ms-TextField.is-disabled .ms-TextField-field::placeholder {
+        color: var(--palette-NeutralTertiary);
+    }
+    .ms-TextField.is-disabled .ms-TextField-field:-ms-input-placeholder {
+        color: var(--palette-NeutralTertiary);
+    }
+.ms-TextField--underlined .ms-TextField-field {
+    text-align:left;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField.is-focused:not(.ms-TextField--borderless) .ms-TextField-field {
+        padding-left:11px;
+        padding-right:11px;
+    }
+    .ms-TextField.is-focused.ms-TextField--multiline:not(.ms-TextField--borderless) .ms-TextField-field {
+        padding-top: 4px;
+    }
+}
+
+
+/* ICON */
+/*icon class stuff */
+
+/* ERROR MESSAGE */
+.ms-TextField--errorMessage{
+    color: var(--palette-RedDark);
+    margin: 0;
+    padding-top: 5px;
+    display:flex;
+    align-items:center;
+}
+
+/* PREFIX */
+.ms-TextField-prefix {
+    background: var(--semanticColors-DisabledBackground);
+    color: var(--semanticColors-InputPlaceholderText);
+    display:flex;
+    align-items:center;
+    padding: 0px 10px;
+    line-height: 1px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.ms-TextField.is-disabled .ms-TextField-prefix {
+    color: var(--semanticColors-DisabledText);
+}
+
+/* SUFFIX */
+.ms-TextField-suffix {
+    background: var(--semanticColors-DisabledBackground);
+    color: var(--semanticColors-InputPlaceholderText);
+    display: flex;
+    align-items: center;
+    padding: 0px 10px;
+    line-height: 1px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.ms-TextField.is-disabled .ms-TextField-suffix {
+    color: var(--semanticColors-DisabledText);
 }

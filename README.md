@@ -5,11 +5,11 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Status
-- Label
-- DefaultButton, PrimaryButton
-- Checkbox
-- List
-- TextField
+- Label -done
+- DefaultButton, PrimaryButton -working, but incomplete
+- Checkbox -done, except for icons
+- List -done, but bad server-side experience
+- TextField -done, except for icons
 
 no icon controls yet
 

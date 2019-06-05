@@ -1,0 +1,7 @@
+﻿.ms-Button--action{
+    padding: 0px 4px;
+    height: 40px;
+    color: var(--palette-NeutralPrimary);
+    background-color: transparent;
+    border: 1px solid transparent;
+}

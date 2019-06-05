@@ -1,0 +1,22 @@
+﻿@inherits NavLinkGroupBase
+
+    <div key={groupIndex} class=@($"ms-Nav-group {(this.isExpanded ? "is-expanded":"")}")>
+        @if (Name != null)
+        {
+            <button className={classNames.chevronButton}
+                    onclick=@ClickHandler
+                    aria-label=@this.ExpandButtonAriaLabel
+                    aria-expanded={this._isGroupExpanded(group)}>
+                <Icon className={classNames.chevronIcon} iconName="ChevronDown" />
+                @Name
+            </button>
+        }
+        {group.name ? onRenderGroupHeader(group, this._renderGroupHeader) : null}
+        <div className={classNames.groupContent}>
+            @ChildContent
+        </div>
+    </div>
+
+@functions{
+    
+}

@@ -1,3 +1,4 @@
+using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,11 @@ using System.Windows.Input;
 
 namespace BlazorFabric.Button
 {
-    public class ButtonBase : ComponentBase
+    public class ButtonBase : FabricComponentBase
     {
         public ElementRef ButtonRef { get; set; }
+
+        [Parameter] protected RenderFragment ChildContent { get; set; }
 
         /// <summary>
         ///  If provided, this component will be rendered as an anchor.
@@ -102,7 +105,8 @@ namespace BlazorFabric.Button
         protected bool Split { get; set; }
 
         [Parameter]
-        protected Func<ButtonBase, UIMouseEventArgs, Task> Clicked { get; set; }
+        //protected Func<ButtonBase, UIMouseEventArgs, Task> Clicked { get; set; }
+        protected EventCallback<UIMouseEventArgs> OnClick { get; set; }
 
         [Parameter]
         protected ICommand Command { get; set; }
@@ -146,7 +150,7 @@ namespace BlazorFabric.Button
             commandDisabled = Command.CanExecute(CommandParameter);
         }
 
-        protected async Task OnClick(UIMouseEventArgs args)
+        protected async Task ClickHandler(UIMouseEventArgs args)
         {
             if (Toggle)
             {
@@ -154,10 +158,11 @@ namespace BlazorFabric.Button
                 await this.CheckedChanged.InvokeAsync(this.isChecked);
             }
 
-            if (Clicked != null)
-            {
-                await Clicked.Invoke(this, args);
-            }
+            await OnClick.InvokeAsync(args);
+            //if (Clicked != null)
+            //{
+            //    await Clicked.Invoke(this, args);
+            //}
             if (Command != null)
             {
                 Command.Execute(CommandParameter);

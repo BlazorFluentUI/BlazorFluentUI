@@ -33,6 +33,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.TextField", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.DelayedRender", "src\BlazorFabric.DelayedRender\BlazorFabric.DelayedRender.csproj", "{B9DD8A1F-0DBA-424D-AEC4-01931917F6B2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Icon", "src\BlazorFabric.Icon\BlazorFabric.Icon.csproj", "{552C8577-272A-4814-BCDC-DEE133EDCF48}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Nav", "src\BlazorFabric.Nav\BlazorFabric.Nav.csproj", "{96D5BABC-AA99-434B-AE4B-C3883534DBC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +87,14 @@ Global
 		{B9DD8A1F-0DBA-424D-AEC4-01931917F6B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9DD8A1F-0DBA-424D-AEC4-01931917F6B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9DD8A1F-0DBA-424D-AEC4-01931917F6B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{552C8577-272A-4814-BCDC-DEE133EDCF48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{552C8577-272A-4814-BCDC-DEE133EDCF48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{552C8577-272A-4814-BCDC-DEE133EDCF48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{552C8577-272A-4814-BCDC-DEE133EDCF48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96D5BABC-AA99-434B-AE4B-C3883534DBC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96D5BABC-AA99-434B-AE4B-C3883534DBC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96D5BABC-AA99-434B-AE4B-C3883534DBC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96D5BABC-AA99-434B-AE4B-C3883534DBC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +113,8 @@ Global
 		{629DA8C5-0BE1-487E-B191-79AE709FFE81} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{209132FE-0F19-4791-A2DD-B4EAD4B2D7AD} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{B9DD8A1F-0DBA-424D-AEC4-01931917F6B2} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{552C8577-272A-4814-BCDC-DEE133EDCF48} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{96D5BABC-AA99-434B-AE4B-C3883534DBC2} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

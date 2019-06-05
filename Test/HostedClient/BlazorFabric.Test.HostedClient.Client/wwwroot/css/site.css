@@ -139,3 +139,10 @@ app {
     margin:5px 0px;
     width:400px;
 }
+
+.iconExample{
+    font-size: 50px;
+}
+.iconExample.red {
+    color: red;
+}

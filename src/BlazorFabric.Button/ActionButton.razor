@@ -1,6 +1,6 @@
 ﻿@inherits ButtonBase
 
-<button class=@($"ms-Button ms-Button--default fabricButton mediumFont default {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}")
+<button class=@($"ms-Button ms-Button--action ms-Button--command fabricButton mediumFont default {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}")
         onclick=@ClickHandler
         disabled=@(Disabled && !AllowDisabledFocus)>
     <div style="display: inline-block">
@@ -15,12 +15,12 @@
                             @Text
                         </div>
                     }
-                    @if (SecondaryText != null)
+                    @*@if (SecondaryText != null)
                     {
                         <div class="Description ms-Button-description">
                             @SecondaryText
                         </div>
-                    }
+                    }*@
                 </div>
 
             }
@@ -29,6 +29,6 @@
                 @ChildContent
             }
         </div>
-            
+
     </div>
 </button>

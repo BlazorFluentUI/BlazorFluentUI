@@ -13,7 +13,7 @@
     <Version>1.0.0-beta</Version>
     <Authors>Lee McPherson</Authors>
     <Product></Product>
-    <Description>Buttons from Blazor port of Office Fabric UI</Description>
+    <Description>Nav from Blazor port of Office Fabric UI</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
     <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
@@ -27,24 +27,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="content\button-action.css" />
-    <None Remove="content\button-default.css" />
-    <None Remove="content\button.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview5-19227-01" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Button\BlazorFabric.Button.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+  
+  
 
 </Project>

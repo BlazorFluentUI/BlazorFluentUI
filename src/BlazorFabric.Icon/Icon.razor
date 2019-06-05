@@ -1,0 +1,22 @@
+@inherits IconBase
+
+
+@if(IconType == IconType.Image)
+{
+    <div data-icon-name=@IconName class=@($"ms-Icon ms-Icon-imageContainer {(this.IsPlaceholder ? "ms-Icon-placeHolder" : "")} {this.ClassName}") role="presentation">
+
+    </div>
+}
+else
+{
+    <i data-icon-name=@IconName class=@($"ms-Icon ms-Icon--{IconName} {(this.IsPlaceholder ? "ms-Icon-placeHolder" : "")} {this.ClassName}") role="presentation">
+
+    </i>
+}
+
+
+@functions{
+
+
+
+}

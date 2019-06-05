@@ -8,9 +8,11 @@
   <ItemGroup>
     <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\TextFieldPage.razor" Link="Pages\TextFieldPage.razor">
       <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Shared\NavMenu.razor" Link="Shared\NavMenu.razor">
       <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -21,14 +23,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\NavPage.razor" Link="Pages\NavPage.razor">
+      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BlazorEmbedLibrary" Version="0.1.0-beta-4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.List\BlazorFabric.List.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Nav\BlazorFabric.Nav.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.TextField\BlazorFabric.TextField.csproj" />
   </ItemGroup>
 

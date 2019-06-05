@@ -1,0 +1,35 @@
+﻿@page "/navPage2"
+
+<Nav ExpandButtonAriaLabel="t">
+    
+    <NavLinkGroup Name="First" CollapseByDefault="false">
+        <NavFabricLink Name="A Link" />
+        <NavFabricLink Name="B Link" />
+        <NavFabricLink Name="C Link" />
+
+    </NavLinkGroup>
+    <NavLinkGroup Name="Second" CollapseByDefault="true">
+        <NavFabricLink Name="D Link" />
+        <NavFabricLink Name="E Link" />
+        <NavFabricLink Name="F Link" />
+    </NavLinkGroup>
+    <NavLinkGroup Name="Third" CollapseByDefault="true">
+        <NavFabricLink Name="G Link" />
+    </NavLinkGroup>
+    <NavLinkGroup Name="Fouth" CollapseByDefault="true">
+        <NavFabricLink Name="H Link" />
+    </NavLinkGroup>
+    
+</Nav>
+
+@functions {
+
+    
+
+    protected override Task OnInitAsync()
+    {
+
+
+        return Task.CompletedTask;
+    }
+}

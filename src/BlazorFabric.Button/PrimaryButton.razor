@@ -1,12 +1,14 @@
 ﻿@inherits ButtonBase
 
-<button class=@($"ms-Button--primary fabricButton mediumFont primary {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}") 
-        onclick=@OnClick
+<button class=@($"ms-Button ms-Button--primary fabricButton mediumFont primary {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}") 
+        onclick=@ClickHandler
         disabled=@(Disabled && !AllowDisabledFocus)>
     <div style="display: inline-block">
 
         <div class="fabricButton-flexContainer ms-Button-flexContainer">
 
+            @if (Text != null)
+            {
             <div class="fabricButton-textContainer ms-Button-textContainer">
                 @if (Text != null)
                 {
@@ -21,7 +23,11 @@
                     </div>
                 }
             </div>
-
+            }
+            else
+            {
+                @ChildContent
+            }
         </div>
     </div>
 </button>

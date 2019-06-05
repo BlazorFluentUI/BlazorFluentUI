@@ -1,28 +1,31 @@
 ﻿@inherits ButtonBase
 
-<button class=@($"ms-Button ms-Button--action ms-Button--command fabricButton mediumFont default {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}")
+<button class=@($"ms-Button ms-Button--action ms-Button--command mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}")
         onclick=@ClickHandler
         disabled=@(Disabled && !AllowDisabledFocus)>
     <div style="display: inline-block">
 
-        <div class="fabricButton-flexContainer ms-Button-flexContainer">
+        <div class="ms-Button-flexContainer">
+            @if (IconName != null)
+            {
+                <BlazorFabric.Icon.Icon ClassName="ms-Button-icon" IconName=@IconName />
+            }
             @if (Text != null)
             {
-                <div class="fabricButton-textContainer ms-Button-textContainer">
+                <div class="ms-Button-textContainer">
                     @if (Text != null)
                     {
-                        <div class="fabricButton-label ms-Button-label">
+                        <div class="ms-Button-label">
                             @Text
                         </div>
                     }
                     @*@if (SecondaryText != null)
-                    {
-                        <div class="Description ms-Button-description">
-                            @SecondaryText
-                        </div>
-                    }*@
+                {
+                    <div class="Description ms-Button-description">
+                        @SecondaryText
+                    </div>
+                }*@
                 </div>
-
             }
             else
             {

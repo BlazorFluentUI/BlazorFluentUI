@@ -3,17 +3,19 @@
     <div key={groupIndex} class=@($"ms-Nav-group {(this.isExpanded ? "is-expanded":"")}")>
         @if (Name != null)
         {
-            <button className={classNames.chevronButton}
+            <button class="ms-Nav-chevronButton is-group largeFont"
                     onclick=@ClickHandler
                     aria-label=@this.ExpandButtonAriaLabel
                     aria-expanded={this._isGroupExpanded(group)}>
-                <Icon className={classNames.chevronIcon} iconName="ChevronDown" />
+                <BlazorFabric.Icon.Icon ClassName="ms-Nav-chevron" IconName="ChevronDown" />
                 @Name
             </button>
         }
-        {group.name ? onRenderGroupHeader(group, this._renderGroupHeader) : null}
-        <div className={classNames.groupContent}>
-            @ChildContent
+        
+        <div class="ms-Nav-groupContent slideDownIn20">
+            <ul role="list" class="ms-Nav-navItems">
+                @ChildContent
+            </ul>
         </div>
     </div>
 

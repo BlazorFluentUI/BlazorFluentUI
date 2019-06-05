@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
   </ItemGroup>
 
   <ItemGroup>

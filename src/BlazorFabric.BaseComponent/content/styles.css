@@ -206,13 +206,24 @@
     --fontWeight-Bold: 700;
 }
 
+:root {
+    --zindex-Nav: 1;
+    --zindex-FocusStyle: 1;
+    --zindex-Coachmark: 1000;
+    --zindex-Layer: 1000000;
+    --zindex-KeytipLayer: 1000001;
+}
+
 .smallFont {
     font-size: var(--fontSize-Small);
     font-weight: var(--fontWeight-Regular);
 }
-
 .mediumFont{
     font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+}
+.largeFont {
+    font-size: var(--fontSize-Large);
     font-weight: var(--fontWeight-Regular);
 }
 
@@ -233,8 +244,22 @@
     }
 }
 
+@keyframes Slide_right_in_40{
+    from {
+        opacity: 0;
+        transform: translate3d(-40px,0,0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0,0,0);
+    }
+}
+
 .slideDownIn20 {
     animation: Slide_down_in_20 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
+}
+.slideRightIn40 {
+    animation: Slide_right_in_40 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
 }
 
 

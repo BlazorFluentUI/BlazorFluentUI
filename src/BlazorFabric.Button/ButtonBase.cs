@@ -105,6 +105,9 @@ namespace BlazorFabric.Button
         protected bool Split { get; set; }
 
         [Parameter]
+        protected string IconName { get; set; }
+
+        [Parameter]
         //protected Func<ButtonBase, UIMouseEventArgs, Task> Clicked { get; set; }
         protected EventCallback<UIMouseEventArgs> OnClick { get; set; }
 

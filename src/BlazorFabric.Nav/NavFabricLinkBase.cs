@@ -21,8 +21,10 @@ namespace BlazorFabric.Nav
         [Parameter] protected string Target { get; set; }  //link <a> target
         [Parameter] protected string Title { get; set; } //tooltip and ARIA
         [Parameter] protected string Url { get; set; }  
-        
+                
         [Parameter] EventCallback<NavFabricLinkBase> OnClick { get; set; }
+
+        protected bool isSelected { get; set; }
 
         protected override Task OnInitAsync()
         {
@@ -32,6 +34,11 @@ namespace BlazorFabric.Nav
         protected override Task OnParametersSetAsync()
         {
             return base.OnParametersSetAsync();
+        }
+
+        protected async Task ClickHandler(UIMouseEventArgs args)
+        {
+            await OnClick.InvokeAsync(this);
         }
     }
 }

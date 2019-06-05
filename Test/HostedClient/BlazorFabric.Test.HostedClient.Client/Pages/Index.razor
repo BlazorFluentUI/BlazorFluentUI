@@ -20,6 +20,9 @@
 <DefaultButton Text="Default Button" Command=@buttonCommand CommandParameter=@("Default") />
 <DefaultButton Disabled="true" Text="Disabled Default Button" />
 
+<ActionButton Text="Action Button" IconName="Airplane" Command=@buttonCommand CommandParameter=@("Action")/>
+<ActionButton Text="Disabled Action Button" Disabled="true" IconName="Mail" Command=@buttonCommand CommandParameter=@("Action") />
+
 <Label>Toggle Buttons</Label>
 <DefaultButton Text="Toggle Button" Toggle="true" Command=@buttonCommand CommandParameter=@("Toggle") />
 

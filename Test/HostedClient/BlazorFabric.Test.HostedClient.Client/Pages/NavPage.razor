@@ -1,13 +1,19 @@
 ﻿@page "/navPage2"
 
+<h2>UNFINISHED!</h2>
+
 <Nav ExpandButtonAriaLabel="t">
     
     <NavLinkGroup Name="First" CollapseByDefault="false">
-        <NavFabricLink Name="A Link" />
-        <NavFabricLink Name="B Link" />
+        <NavFabricLink Name="A Link" Icon="Airplane" />
+        <NavFabricLink Name="B Link" IsExpanded="true">
+            <NavFabricLink Name="B SubLink 1" />
+            <NavFabricLink Name="B SubLink 2" />
+            <NavFabricLink Name="B SubLink 3" />
+        </NavFabricLink>
         <NavFabricLink Name="C Link" />
 
-    </NavLinkGroup>
+</NavLinkGroup>
     <NavLinkGroup Name="Second" CollapseByDefault="true">
         <NavFabricLink Name="D Link" />
         <NavFabricLink Name="E Link" />

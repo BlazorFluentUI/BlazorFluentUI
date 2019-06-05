@@ -1,11 +1,185 @@
-﻿/*
-    This file is to show how CSS and other static resources (such as images) can be
-    used from a library project/package.
-*/
+﻿/* Button Styles */
+.ms-Nav .ms-Button-textContainer{
+    overflow:hidden;
+}
+.ms-Nav .ms-Button-label {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    line-height: 36px;
+}
 
-.my-component {
-    border: 2px dashed red;
-    padding: 1em;
-    margin: 1em 0;
-    background-image: url('background.png');
+.ms-Nav {
+    overflow-y: auto;
+    user-select: none;
+    WebkitOverflowScrolling: touch;
+}
+.ms-Nav.is-on-top {
+    position:absolute;
+}
+
+.ms-Nav-linkText{
+    margin: 0px 4px;
+    overflow: hidden;
+    vertical-align: middle;
+    text-align:left;
+    text-overflow:ellipsis;
+}
+
+.ms-Nav-compositeLink{
+    display:block;
+    position:relative;
+    color: var(--semanticColors-BodyText);
+    background-color:var(--semanticColors-BodyBackground);
+}
+.ms-Nav-compositeLink.is-disabled {
+    color: var(--semanticColors-DisabledText);
+}
+.ms-Nav-link{
+    /*getFocusStyles*/
+    display: block;
+    position: relative;
+    height: 36px;
+    width: 100%;
+    line-height:36px;
+    text-decoration: none;
+    cursor:pointer;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+    padding-left: 20px;
+    padding-right:20px;
+    color: var(--semanticColors-BodyText);
+}
+.ms-Nav-compositeLink:hover:not(.is-disabled) .ms-Nav-link{
+    background-color: var(--palette-NeutralLighterAlt);
+    color: var(--semanticColors-BodyText);
+}
+.ms-Nav-compositeLink.is-selected .ms-Nav-link{
+    color: var(--palette-ThemePrimary);
+    background-color: var(--palette-NeutralLighter);
+}
+.ms-Nav-compositeLink.is-selected .ms-Nav-link:after {
+    border-left: 2px solid var(--palette-NeutralLighter);
+    content: "";
+    position: absolute;
+    top: 0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    pointer-events:none;
+}
+.ms-Nav-compositeLink.is-disabled .ms-Nav-link {
+    color: var(--semanticColors-DisabledText);
+}
+.ms-Nav-compositeLink.is-button .ms-Nav-link {
+    color: var(--palette-ThemePrimary);
+}
+
+.ms-Nav-chevronButton {
+    /*getFocusStyles*/
+    display:block;
+    font-weight: var(--fontWeight-Regular);
+    font-size: var(--fontSize-Small);
+    text-align: left;
+    line-height: 36px;
+    margin: 5px 0px;
+    padding: 0px 20px 0px 28px;
+    border: none;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+    cursor:pointer;
+    color: var(--semanticColors-BodyText);
+    background-color:transparent;
+}
+    .ms-Nav-chevronButton:visited {
+        color: inherit;
+    }
+    .ms-Nav-chevronButton:hover {
+        color: var(--semanticColors-BodyText);
+        background-color: var(--palette-NeutralLighterAlt);
+    }
+.ms-Nav-compositeLink:hover .ms-Nav-chevronButton {
+    color: var(--semanticColors-BodyText);
+    background-color: var(--palette-NeutralLighterAlt);
+}
+.ms-Nav-chevronButton.is-group{
+    width:100%;
+    height: 36px;
+    border-bottom: 1px solid var(--semanticColors-BodyDivider);
+}
+/* i.e. is a link */
+.ms-Nav-compositeLink:not(.is-button) .ms-Nav-chevronButton {
+    display: block;
+    width: 26px;
+    height: 34px;
+    position: absolute;
+    top: 1px;
+    /* NEED NESTING LEVEL HERE */ left: 1px; /* indentationSize(14) * nestingLevel + 1 */
+    z-index: var(--zindex-Nav);
+    padding:0;
+    margin:0;
+}
+
+.ms-Nav-compositeLink.is-selected .ms-Nav-chevronButton {
+    color: var(--palette-ThemePrimary);
+    background-color: var(--palette-NeutralLighterAlt);
+}
+.ms-Nav-compositeLink.is-selected .ms-Nav-chevronButton:after{
+    border-left: 2px solid var(--palette-ThemePrimary);
+    content: "";
+    position: absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    pointer-events:none;
+}
+
+
+.ms-Nav-chevron {
+    position: absolute;
+    left: 8px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 12px;
+    transition: transform .1s linear;
+}
+.ms-Nav-compositeLink.is-expanded .ms-Nav-chevron {
+    transform: rotate(-180deg);
+}
+.ms-Nav-compositeLink:not(.is-button) .ms-Nav-chevron {
+    top: 0;
+}
+.ms-Nav-group.is-expanded .ms-Nav-chevron {
+    transform: rotate(-180deg);
+}
+.ms-Nav-group:not(.is-button) .ms-Nav-chevron {
+    top: 0;
+}
+
+
+.ms-Nav-navItem {
+    padding:0;
+}
+
+
+.ms-Nav-navItems{
+    list-style-type: none;
+    padding:0;
+}
+
+.ms-Nav-group{
+    position:relative;
+}
+
+
+.ms-Nav-groupContent{
+    display:none;
+    margin-bottom:40px;
+}
+
+.ms-Nav-group.is-expanded .ms-Nav-groupContent{
+    display:block;
 }

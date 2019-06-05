@@ -5,13 +5,14 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Status
-- Label
-- DefaultButton, PrimaryButton
-- Checkbox
-- List
-- TextField
+- Label -done
+- DefaultButton, PrimaryButton -working, but incomplete
+- Checkbox -done, except for icons
+- List -done, but bad server-side experience
+- TextField -done, except for icons
+- Icon, only MS icons 
+- Nav, in-progress
 
-no icon controls yet
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project.  NuGet packages planned...

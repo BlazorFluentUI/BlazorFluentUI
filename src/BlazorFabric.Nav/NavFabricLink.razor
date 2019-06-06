@@ -1,10 +1,10 @@
 ﻿@inherits  NavFabricLinkBase
 
 <li role="listitem" class="ms-Nav-navItem">
-    <div class=@($"ms-Nav-compositeLink {(IsExpanded?"is-expanded":"")} {(Disabled?"is-disabled":"")} {(isSelected?"is-selected":"")} {(IsButton?"is-button":"")}")>
+    <div class=@($"ms-Nav-compositeLink {(isExpanded?"is-expanded":"")} {(Disabled?"is-disabled":"")} {(isSelected?"is-selected":"")} {(IsButton?"is-button":"")} {depthClass}")>
         @if (this.ChildContent != null)
         {
-            <button class="ms-Nav-chevronButton" onclick=@ClickHandler aria-label=@AriaLabel aria-expanded=@IsExpanded>
+            <button class="ms-Nav-chevronButton" onclick=@ClickHandler aria-label=@AriaLabel aria-expanded=@isExpanded>
                 <BlazorFabric.Icon.Icon ClassName="ms-Nav-chevron" IconName="ChevronDown" />
             </button>
         }        
@@ -12,10 +12,10 @@
             <div class="ms-Nav-linkText">@Name</div>
         </BlazorFabric.Button.ActionButton>
     </div>
-    @if (this.IsExpanded)
+    @if (this.isExpanded)
     {
-        <ul role="list" class="ms-Nav-navItems">
-            @ChildContent
+        <ul role="list" class="ms-Nav-navItems slideDownIn20">
+                @ChildContent
         </ul>
     }
 </li>

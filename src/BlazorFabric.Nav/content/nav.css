@@ -121,6 +121,18 @@
     padding:0;
     margin:0;
 }
+.ms-Nav-compositeLink:not(.is-button).depth-one .ms-Nav-chevronButton {
+    left: 15px;
+}
+.ms-Nav-compositeLink:not(.is-button).depth-two .ms-Nav-chevronButton {
+    left: 29px;
+}
+.ms-Nav-compositeLink:not(.is-button).depth-three .ms-Nav-chevronButton {
+    left: 43px;
+}
+.ms-Nav-compositeLink:not(.is-button).depth-four .ms-Nav-chevronButton {
+    left: 57px;
+}
 
 .ms-Nav-compositeLink.is-selected .ms-Nav-chevronButton {
     color: var(--palette-ThemePrimary);
@@ -146,16 +158,16 @@
     font-size: 12px;
     transition: transform .1s linear;
 }
-.ms-Nav-compositeLink.is-expanded .ms-Nav-chevron {
+.ms-Nav-compositeLink.is-expanded > * > .ms-Nav-chevron {
     transform: rotate(-180deg);
 }
-.ms-Nav-compositeLink:not(.is-button) .ms-Nav-chevron {
+.ms-Nav-compositeLink:not(.is-button) > * > .ms-Nav-chevron {
     top: 0;
 }
-.ms-Nav-group.is-expanded .ms-Nav-chevron {
+.ms-Nav-group.is-expanded > * > .ms-Nav-chevron {
     transform: rotate(-180deg);
 }
-.ms-Nav-group:not(.is-button) .ms-Nav-chevron {
+.ms-Nav-group:not(.is-button) > * > .ms-Nav-chevron {
     top: 0;
 }
 

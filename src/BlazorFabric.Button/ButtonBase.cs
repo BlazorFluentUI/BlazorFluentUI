@@ -1,5 +1,6 @@
 using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.RenderTree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -188,334 +189,99 @@ namespace BlazorFabric.Button
 
         }
 
+
+        protected void StartRoot(RenderTreeBuilder builder, string buttonClassName)
+        {
+            if (this.Href == null)
+            {
+                builder.OpenElement(0, "button");
+            }
+            else
+            {
+                builder.OpenElement(0, "a");
+                builder.AddAttribute(1, "href", this.Href);
+            }
+
+            builder.AddAttribute(2, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
+            builder.AddAttribute(3, "onclick", this.ClickHandler);
+            builder.AddAttribute(4, "disabled", this.Disabled && !this.AllowDisabledFocus);
+
+            if (false) // menu!
+            {
+                builder.OpenElement(5, "div");
+                builder.AddAttribute(6, "style", "display: inline-block;");
+            }
+            builder.OpenElement(7, "div");
+            builder.AddAttribute(8, "class", "ms-Button-flexContainer");
+
+            if (this.IconName != null)
+            {
+                builder.OpenComponent<BlazorFabric.Icon.Icon>(9);
+                builder.AddAttribute(10, "ClassName", "ms-Button-icon");
+                builder.AddAttribute(11, "IconName", this.IconName);
+                builder.CloseComponent();
+            }
+            if (this.Text != null)
+            {
+                builder.OpenElement(12, "div");
+                builder.AddAttribute(13, "class", "ms-Button-textContainer");
+                builder.OpenElement(14, "div");
+                builder.AddAttribute(15, "class", "ms-Button-label");
+                builder.AddContent(16, this.Text);
+                builder.CloseElement();
+                if (this.SecondaryText != null)
+                {
+                    builder.OpenElement(17, "div");
+                    builder.AddAttribute(18, "class", "ms-Button-description");
+                    builder.AddContent(19, this.SecondaryText);
+                    builder.CloseElement();
+                }
+                builder.CloseElement();
+            }
+            if (this.AriaDescripton != null)
+            {
+                builder.OpenElement(20, "span");
+                builder.AddAttribute(21, "class", "ms-Button-screenReaderText");
+                builder.AddContent(22, this.AriaDescripton);
+                builder.CloseElement();
+            }
+            if (this.Text == null && this.ChildContent != null)
+            {
+                builder.AddContent(23, this.ChildContent);
+            }
+            if (!this.Split && false)
+            {
+                builder.OpenComponent<BlazorFabric.Icon.Icon>(24);
+                builder.AddAttribute(25, "IconName", "ChevronDown");
+                builder.AddAttribute(26, "ClassName", "ms-Button-menuIcon");
+                builder.CloseComponent();
+            }
+            if (false)
+            {
+               //render Menu, !donotlayer,  not yet made
+            }
+
+
+
+            builder.CloseElement();
+
+            if (false)
+            {
+                //render Menu, donotlayer,  not yet made
+            }
+            if (false) // menu causes inline-block div
+            {
+                builder.CloseElement();
+            }
+            builder.CloseElement();
+            
+        }
+        
+        protected void EndRoot(RenderTreeBuilder builder)
+        {
       
+        }
 
-        //protected override void ApplyStyles()
-        //{
-
-        //    var theme = ThemingEngine.DefaultTheme.Value;
-
-        //    var isDisabled = this.Disabled || this.commandDisabled;
-
-        //    var baseStyles = this.GetBaseStyles();
-
-        //    // Root Styles
-        //    var rootStyles = new List<Style>();
-
-        //    var name = new Style();
-        //    name = "ms-Button";
-        //    rootStyles.Add(name);
-
-        //    rootStyles.Add(baseStyles.Root);
-
-        //    if (this.Checked)
-        //    {
-        //        var checkedStyle = new Style();
-        //        checkedStyle = "is-Checked";
-        //        rootStyles.Add(checkedStyle);
-        //        rootStyles.Add(baseStyles.RootChecked);
-        //    }
-        //    //IMPLEMENT isExpanded (part of split button)
-
-
-        //    if (isDisabled)
-        //    {
-        //        var disabledStyle = new Style();
-        //        disabledStyle = "is-disabled";
-        //        rootStyles.Add(disabledStyle);
-        //        rootStyles.Add(baseStyles.RootDisabled);
-        //    }
-        //    else
-        //    {
-        //        if (!this.Checked /* && !isExpanded */)
-        //        {
-
-        //            var style = new Style();
-        //            style.Selectors.Add(":hover", baseStyles.RootHovered);
-        //            style.Selectors.Add($":hover .{ButtonGlobalClassNames.msButtonLabel}", baseStyles.LabelHovered);
-        //            style.Selectors.Add($":hover .{ButtonGlobalClassNames.msButtonIcon}", baseStyles.IconHovered);
-        //            style.Selectors.Add($":hover .{ButtonGlobalClassNames.msButtonDescription}", baseStyles.DescriptionHovered);
-        //            style.Selectors.Add($":hover .{ButtonGlobalClassNames.msButtonMenuIcon}", baseStyles.MenuIconHovered);
-        //            style.Selectors.Add(":focus", baseStyles.RootFocused);
-        //            style.Selectors.Add(":active", baseStyles.RootPressed);
-        //            style.Selectors.Add($":active .{ButtonGlobalClassNames.msButtonIcon}", baseStyles.IconPressed);
-        //            style.Selectors.Add($":active .{ButtonGlobalClassNames.msButtonDescription}", baseStyles.DescriptionPressed);
-        //            style.Selectors.Add($":active .{ButtonGlobalClassNames.msButtonMenuIcon}", baseStyles.MenuIconPressed);
-        //            rootStyles.Add(style);
-        //        }
-        //    }
-        //    if (isDisabled && this.Checked)
-        //    {
-        //        rootStyles.Add(baseStyles.RootCheckedDisabled);
-        //    }
-        //    if (!isDisabled && this.Checked)
-        //    {
-        //        var style = new Style();
-        //        style.Selectors.Add(":hover", baseStyles.RootCheckedHovered);
-        //        style.Selectors.Add(":active", baseStyles.RootCheckedPressed);
-        //        rootStyles.Add(style);
-        //    }
-
-        //    // Other Styles
-
-        //    var nameFlexContainerStyle = new Style();
-        //    nameFlexContainerStyle = "ms-Button-flexContainer";
-
-        //    var nameTextContainerStyle = new Style();
-        //    nameTextContainerStyle = "ms-Button-textContainer";
-
-        //    // Icon Styles
-        //    var nameIconStyle = new Style("ms-Button-icon");
-        //    // TO-DO ... finish icon styles on button
-
-
-        //    //Label
-        //    var nameLabelStyle = new Style("ms-Button-label");
-
-        //    //MenuIcon
-        //    //TODO
-
-        //    //Description
-        //    var nameDescriptionStyle = new Style("ms-Button-description");
-
-
-        //    this.baseButtonStyles = new ButtonStyles
-        //    {
-        //        Root = new Style(rootStyles.ToArray()),
-        //        FlexContainer = new Style(new[] { nameFlexContainerStyle, baseStyles.FlexContainer }),
-        //        TextContainer = new Style(new[] { nameTextContainerStyle, baseStyles.TextContainer }),
-        //        //Icon
-        //        Label = new Style(new[] { nameLabelStyle, baseStyles.Label, this.Checked ? baseStyles.LabelChecked : new Style(), this.Disabled ? baseStyles.LabelDisabled : new Style() }),
-        //        //MenuIcon
-        //        Description = new Style(new[] { nameDescriptionStyle, baseStyles.Description, this.Checked ? baseStyles.DescriptionChecked : new Style(), this.Disabled ? baseStyles.DescriptionDisabled : new Style() })
-        //        //ScreenReader
-        //    };
-
-
-
-
-        //}
-
-        //private ButtonStyles GetBaseStyles()
-        //{
-        //    var theme = ThemingEngine.DefaultTheme.Value;
-
-        //    var themeStyles = this.GetThemeStyle();
-
-
-        //    var fontRootStyle = theme.Fonts.Medium;
-        //    var baseRootStyle = new Style()
-        //    {
-        //        //getFocusStyles() // need to implement
-        //        BoxSizing = BoxSizing.BorderBox,
-        //        BorderWidth = this.Primary ? "0px" : "1px",
-        //        BorderStyle = "solid",
-        //        //Border = "1px solid " + theme.SemanticColors.ButtonBorder,
-        //        UserSelect = UserSelect.None,
-        //        Display = "inline-block",
-        //        TextDecoration = "none",
-        //        TextAlign = "center",
-        //        Cursor = "pointer",
-        //        VerticalAlign = "top",
-        //        Padding = "0 16px"
-        //    };
-        //    baseRootStyle.Selectors.Add(":active > *", new Style
-        //    {
-        //        Position = Position.Relative,
-        //        Left = 0,
-        //        Top = 0
-        //    });
-
-        //    var baseRootDisabledStyle = new Style
-        //    {
-        //        BackgroundColor = theme.SemanticColors.DisabledBackground,
-        //        Color = theme.SemanticColors.DisabledText,
-        //        Cursor = "default",
-        //        PointerEvents = "none"
-        //    };
-        //    baseRootStyle.Selectors.Add(":hover", new Style() { Outline = 0 });
-        //    baseRootStyle.Selectors.Add(":focus", new Style() { Outline = 0 });
-        //    baseRootStyle.Selectors.Add(CommonStyles.HighContrastSelector, new Style() { Color = "grayText", BorderColor = "grayText" });
-
-        //    var iconDisabledStyle = new Style { Color = theme.SemanticColors.DisabledText };
-        //    var menuIconDisabledStyle = new Style { Color = theme.SemanticColors.DisabledText };
-
-        //    var flexContainerStyle = new Style
-        //    {
-        //        Display = "flex",
-        //        Height = "100%",
-        //        FlexWrap = FlexWrap.Nowrap,
-        //        JustifyContent = JustifyContent.Center,
-        //        AlignItems = AlignItems.Center
-        //    };
-
-        //    var textContainerStyle = new Style { FlexGrow = 1 };
-
-        //    var iconStyle = new Style
-        //    {
-        //        FontSize = Styling.Fonts.FontSizes.DefaultFontSizes.Icon,
-        //        Margin = "0px 4px",
-        //        Height = "16px",
-        //        LineHeight = "16px",
-        //        TextAlign = "center",
-        //        VerticalAlign = "middle",
-        //        FlexShrink = 0
-        //    };
-
-        //    var menuIconStyle = new Style { FontSize = Styling.Fonts.FontSizes.DefaultFontSizes.Small };
-
-        //    var labelStyle = new Style
-        //    {
-        //        Margin = "0px 4px",
-        //        LineHeight = "100%"
-        //    };
-
-        //    var screenReaderTextStyle = new Style
-        //    {
-        //        Position = Position.Absolute,
-        //        Width = 1,
-        //        Height = 1,
-        //        Margin = -1,
-        //        Padding = 0,
-        //        Border = 0,
-        //        Overflow = Overflow.Hidden
-        //    };
-
-
-        //    return new ButtonStyles()
-        //    {
-        //        Root = new Style(new[] { themeStyles.Root, fontRootStyle, baseRootStyle }),
-        //        RootDisabled = new Style(new[] { themeStyles.RootDisabled, baseRootDisabledStyle }),
-        //        RootHovered = themeStyles.RootHovered,
-        //        RootPressed = themeStyles.RootPressed,
-        //        RootExpanded = themeStyles.RootExpanded,
-        //        RootChecked = themeStyles.RootChecked,
-        //        RootCheckedHovered = themeStyles.RootCheckedHovered,
-        //        IconDisabled = iconDisabledStyle,
-        //        MenuIconDisabled = menuIconDisabledStyle,
-        //        FlexContainer = flexContainerStyle,
-        //        TextContainer = textContainerStyle,
-        //        Icon = iconStyle,
-        //        MenuIcon = new Style(new[] { iconStyle, menuIconStyle }),
-        //        Label = labelStyle,
-        //        ScreenReaderText = screenReaderTextStyle
-        //    };
-
-        //}
-
-
-
-
-        //protected ButtonStyles GetThemeStyle()
-        //{
-        //    var theme = ThemingEngine.DefaultTheme.Value;
-        //    var buttonBackground = theme.SemanticColors.ButtonBackground;
-        //    var buttonBackgroundChecked = theme.SemanticColors.ButtonBackgroundChecked;
-        //    var buttonBackgroundHovered = theme.SemanticColors.ButtonBackgroundHovered;
-
-        //    var buttonText = theme.SemanticColors.ButtonText;
-        //    var buttonTextHovered = theme.SemanticColors.ButtonTextHovered;
-        //    var buttonTextChecked = theme.SemanticColors.ButtonTextChecked;
-        //    var buttonTextCheckedHovered = theme.SemanticColors.ButtonTextCheckedHovered;
-
-
-        //    if (!this.Primary)
-        //    {
-        //        var variantName = new Style("ms-Button--default");
-        //        var rootStyle = new Style
-        //        {
-        //            Color = buttonText,
-        //            BorderRadius = theme.Effects.RoundedCorner2,
-        //            BackgroundColor = theme.Palette.White,
-        //            Border = $"1px solid {theme.Palette.NeutralSecondaryAlt}"
-        //            //getFocusStyle(theme).... TO DO 
-        //        };
-        //        var rootHoveredStyle = new Style
-        //        {
-        //            BackgroundColor = theme.Palette.NeutralLighter,
-        //            Color = buttonTextHovered
-        //        };
-        //        rootHoveredStyle.Selectors.Add(CommonStyles.HighContrastSelector, new Style { BorderColor = "Highlight", Color = "Highlight" });
-        //        rootHoveredStyle.Selectors.Add(".ms-Button--primary", new Style { BackgroundColor = theme.Palette.ThemeDarkAlt });
-
-        //        var rootPressedStyle = new Style { BackgroundColor = theme.Palette.NeutralLight, Color = buttonTextChecked };
-        //        var rootExpandedStyle = new Style { BackgroundColor = buttonBackgroundChecked, Color = buttonTextChecked };
-        //        var rootCheckedStyle = new Style { BackgroundColor = theme.Palette.NeutralLight, Color = buttonTextChecked };
-        //        var rootDisabledStyle = new Style { BackgroundColor = theme.Palette.NeutralLighter, BorderColor = theme.Palette.NeutralLighter };
-
-        //        var rootCheckedHoveredStyle = new Style { BackgroundColor = theme.Palette.NeutralLight };
-
-        //        // TO-DO :  split button styles
-
-        //        return new ButtonStyles
-        //        {
-        //            Root = new Style(new[] { variantName, rootStyle }),
-        //            RootHovered = rootHoveredStyle,
-        //            RootPressed = rootPressedStyle,
-        //            RootExpanded = rootExpandedStyle,
-        //            RootChecked = rootCheckedStyle,
-        //            RootCheckedHovered = rootCheckedHoveredStyle,
-        //            RootDisabled = rootDisabledStyle
-        //        };
-
-        //    }
-        //    else
-        //    {
-        //        var variantName = new Style("ms-Button--primary");
-        //        var rootStyle = new Style
-        //        {
-        //            Color = theme.Palette.White,
-        //            BorderRadius = theme.Effects.RoundedCorner2,
-        //            BackgroundColor = theme.Palette.ThemePrimary,
-        //            Border = "none"
-        //            //getFocusStyle(theme).... TO DO 
-        //        };
-        //        rootStyle.Selectors.Add(CommonStyles.HighContrastSelector, new Style
-        //        {
-        //            Color = "Window",
-        //            BackgroundColor = "WindowText",
-        //            MsHighContrastAdjust = "none"
-        //        });
-        //        var rootHoveredStyle = new Style
-        //        {
-        //            BackgroundColor = theme.Palette.ThemeDarkAlt,
-        //            Color = theme.Palette.White
-        //        };
-        //        rootHoveredStyle.Selectors.Add(CommonStyles.HighContrastSelector, new Style { BackgroundColor = "Highlight", Color = "Window" });
-
-        //        var rootPressedStyle = new Style { BackgroundColor = theme.Palette.ThemeDark, Color = theme.Palette.White };
-        //        rootPressedStyle.Selectors.Add(CommonStyles.HighContrastSelector, new Style
-        //        {
-        //            Color = "Window",
-        //            BackgroundColor = "WindowText",
-        //            MsHighContrastAdjust = "none"
-        //        });
-        //        var rootExpandedStyle = new Style { BackgroundColor = theme.Palette.ThemeDark, Color = theme.Palette.White};
-        //        var rootCheckedStyle = new Style { BackgroundColor = theme.Palette.ThemeDark, Color = theme.Palette.White };
-        //        var rootCheckedHoveredStyle = new Style { BackgroundColor = theme.Palette.ThemePrimary, Color = theme.Palette.White };
-        //        var rootDisabledStyle = new Style();// { BackgroundColor = theme.Palette.NeutralLighter, BorderColor = theme.Palette.NeutralLighter };
-        //        rootDisabledStyle.Selectors.Add(CommonStyles.HighContrastSelector, new Style
-        //        {
-        //            Color = "GrayText",
-        //            BackgroundColor = "Window",
-        //            BorderColor= "GrayText"
-        //        });
-
-        //        // TO-DO :  split button styles
-
-        //        return new ButtonStyles
-        //        {
-        //            Root = new Style(new[] { variantName, rootStyle }),
-        //            RootHovered = rootHoveredStyle,
-        //            RootPressed = rootPressedStyle,
-        //            RootExpanded = rootExpandedStyle,
-        //            RootChecked = rootCheckedStyle,
-        //            RootCheckedHovered = rootCheckedHoveredStyle,
-        //            RootDisabled = rootDisabledStyle
-        //        };
-
-        //    }
-        //}
 
     }
 }

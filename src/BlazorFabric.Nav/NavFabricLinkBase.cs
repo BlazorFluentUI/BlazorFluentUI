@@ -9,7 +9,7 @@ namespace BlazorFabric.Nav
 {
     public class NavFabricLinkBase : FabricComponentBase
     { 
-        [Parameter] protected int Context { get; set; }
+        [Inject] protected IUriHelper UriHelper { get; set; }
         
         [Parameter] protected RenderFragment ChildContent { get; set; }  //LINKS
 
@@ -21,11 +21,14 @@ namespace BlazorFabric.Nav
         [Parameter] protected string Name { get; set; }
         [Parameter] protected string Target { get; set; }  //link <a> target
         [Parameter] protected string Title { get; set; } //tooltip and ARIA
+        [Parameter] protected string Id { get; set; }
         [Parameter] protected string Url { get; set; }
 
         [Parameter] protected int NestedDepth { get; set; }
 
         [Parameter] EventCallback<NavFabricLinkBase> OnClick { get; set; }
+
+        [CascadingParameter(Name="ClearSelectionAction")] Action ClearSelectionAction { get; set; }
 
         protected bool isExpanded { get; set; }
 
@@ -33,10 +36,25 @@ namespace BlazorFabric.Nav
         protected bool isSelected { get; set; }
         protected string depthClass = "";
        
+       
         protected override Task OnInitAsync()
         {
-            
+            UriHelper.OnLocationChanged += UriHelper_OnLocationChanged;
             return base.OnInitAsync();
+        }
+
+        private void UriHelper_OnLocationChanged(object sender, string e)
+        {
+            if (e.EndsWith(this.Id) && !isSelected )
+            {
+                isSelected = true;
+                StateHasChanged();
+            }
+            else if (!e.EndsWith(this.Id) && isSelected)
+            {
+                isSelected = false;
+                StateHasChanged();
+            }
         }
 
         protected override Task OnParametersSetAsync()
@@ -65,12 +83,20 @@ namespace BlazorFabric.Nav
                     depthClass = "depth-six";
                     break;
             }
+
+           
+
             return base.OnParametersSetAsync();
         }
 
-        protected async Task ClickHandler(UIMouseEventArgs args)
+        protected Task ExpandHandler(UIMouseEventArgs args)
         {
             this.isExpanded = !this.isExpanded;
+            return Task.CompletedTask;
+        }
+
+        protected async Task ClickHandler(UIMouseEventArgs args)
+        {          
             await OnClick.InvokeAsync(this);
         }
     }

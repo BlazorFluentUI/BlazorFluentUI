@@ -30,6 +30,9 @@
 <Checkbox Label="Bound to toggle button below" Checked=@isToggled bind-Checked=@isToggled />
 <DefaultButton Text=@(isToggled ? "Not Toggled" : "Toggled") Toggle="true" Checked=@isToggled bind-Checked=@isToggled Command=@buttonCommand CommandParameter=@("Toggle") />
 
+<div style="height:5px"></div>
+<DefaultButton Href="/#link" Text="Link Button"/>
+
 <h2>Icons</h2>
 <Icon IconName="Airplane" ClassName="iconExample"/>
 <Icon IconName="Mail" ClassName="iconExample" />

@@ -35,22 +35,28 @@
 .ms-Nav-compositeLink.is-disabled {
     color: var(--semanticColors-DisabledText);
 }
-.ms-Nav-link{
+.ms-Nav-link {
     /*getFocusStyles*/
+    outline: transparent;
+    position: relative;
+    /*endFocusStyles*/
     display: block;
     position: relative;
     height: 36px;
     width: 100%;
-    line-height:36px;
+    line-height: 36px;
     text-decoration: none;
-    cursor:pointer;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    overflow:hidden;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     padding-left: 20px;
-    padding-right:20px;
+    padding-right: 20px;
     color: var(--semanticColors-BodyText);
 }
+    .ms-Nav-link::-moz-focus-inner {
+        border: 0;
+    }
 .ms-Nav-compositeLink:hover:not(.is-disabled) .ms-Nav-link{
     background-color: var(--palette-NeutralLighterAlt);
     color: var(--semanticColors-BodyText);
@@ -78,6 +84,9 @@
 
 .ms-Nav-chevronButton {
     /*getFocusStyles*/
+    outline: transparent;
+    position: relative;
+    /*endFocusStyles*/
     display:block;
     font-weight: var(--fontWeight-Regular);
     font-size: var(--fontSize-Small);
@@ -93,6 +102,9 @@
     color: var(--semanticColors-BodyText);
     background-color:transparent;
 }
+    .ms-Nav-chevronButton::-moz-focus-inner{
+        border:0;
+    }
     .ms-Nav-chevronButton:visited {
         color: inherit;
     }
@@ -134,6 +146,49 @@
     left: 57px;
 }
 
+
+.ms-Nav-compositeLink .ms-Nav-link {
+    padding-left: 27px;
+}
+.ms-Nav-compositeLink.depth-one .ms-Nav-link {
+    padding-left: 41px;
+}
+.ms-Nav-compositeLink.depth-two .ms-Nav-link {
+    padding-left: 55px;
+}
+.ms-Nav-compositeLink.depth-three .ms-Nav-link {
+    padding-left: 79px;
+}
+.ms-Nav-compositeLink.depth-four .ms-Nav-link {
+    padding-left: 83px;
+}
+.ms-Nav-compositeLink.depth-five .ms-Nav-link {
+    padding-left: 101px;
+}
+
+
+.ms-Nav-compositeLink .ms-Nav-link.has-icon {
+    padding-left: 3px;
+}
+.ms-Nav-compositeLink.depth-one .ms-Nav-link.has-icon {
+    padding-left: 17px;
+}
+.ms-Nav-compositeLink.depth-two .ms-Nav-link.has-icon {
+    padding-left: 31px;
+}
+.ms-Nav-compositeLink.depth-three .ms-Nav-link.has-icon {
+    padding-left: 45px;
+}
+.ms-Nav-compositeLink.depth-four .ms-Nav-link.has-icon {
+    padding-left: 59px;
+}
+.ms-Nav-compositeLink.depth-five .ms-Nav-link.has-icon {
+    padding-left: 73px;
+}
+
+
+
+
 .ms-Nav-compositeLink.is-selected .ms-Nav-chevronButton {
     color: var(--palette-ThemePrimary);
     background-color: var(--palette-NeutralLighterAlt);
@@ -148,6 +203,16 @@
     left:0;
     pointer-events:none;
 }
+    .ms-Nav-compositeLink.is-selected .ms-Nav-link:only-child:after {
+        border-left: 2px solid var(--palette-ThemePrimary);
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+    }
 
 
 .ms-Nav-chevron {

@@ -14,7 +14,7 @@ namespace BlazorFabric.Nav
         [Parameter] protected string ExpandButtonAriaLabel { get; set; }
 
         [Parameter] protected bool IsOnTop { get; set; }
-
+                
         protected override Task OnInitAsync()
         {
             return base.OnInitAsync();

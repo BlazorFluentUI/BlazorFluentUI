@@ -224,7 +224,7 @@
 }
 .largeFont {
     font-size: var(--fontSize-Large);
-    font-weight: var(--fontWeight-Regular);
+    font-weight: var(--fontWeight-SemiLight);
 }
 
 :root {

@@ -7,25 +7,25 @@
 <Nav ExpandButtonAriaLabel="t">
     
     <NavLinkGroup Name="First" CollapseByDefault="false">
-        <NavFabricLink Name="A Link" Icon="Airplane" />
-        <NavFabricLink Name="B Link" >
-            <NavFabricLink Name="B SubLink 1" NestedDepth="1"/>
-            <NavFabricLink Name="B SubLink 2" NestedDepth="1"/>
-            <NavFabricLink Name="B SubLink 3" NestedDepth="1"/>
+        <NavFabricLink Name="A Link" Icon="Airplane" Url="/navPage2#ALink" Id="ALink" />
+        <NavFabricLink Name="B Link"  Url="/navPage2#BLink" Id="BLink">
+            <NavFabricLink Name="B SubLink 1" NestedDepth="1" Url="/navPage2#BLink1" Id="BLink1"/>
+            <NavFabricLink Name="B SubLink 2" NestedDepth="1" Url="/navPage2#BLink2" Id="BLink2"/>
+            <NavFabricLink Name="B SubLink 3" NestedDepth="1" Url="/navPage2#BLink3" Id="BLink3"/>
         </NavFabricLink>
-        <NavFabricLink Name="C Link" />
+        <NavFabricLink Name="C Link" Url="/navPage2#CLink" Id="CLink" />
 
 </NavLinkGroup>
     <NavLinkGroup Name="Second" CollapseByDefault="true">
-        <NavFabricLink Name="D Link"  />
-        <NavFabricLink Name="E Link" />
-        <NavFabricLink Name="F Link" />
+        <NavFabricLink Name="D Link"  Url="/navPage2#DLink" Id="DLink"/>
+        <NavFabricLink Name="E Link" Url="/navPage2#ELink" Id="ELink"/>
+        <NavFabricLink Name="F Link" Url="/navPage2#FLink" Id="FLink"/>
     </NavLinkGroup>
     <NavLinkGroup Name="Third" CollapseByDefault="true">
-        <NavFabricLink Name="G Link" />
+        <NavFabricLink Name="G Link" Url="/navPage2#GLink" Id="GLink"/>
     </NavLinkGroup>
     <NavLinkGroup Name="Fouth" CollapseByDefault="true">
-        <NavFabricLink Name="H Link" />
+        <NavFabricLink Name="H Link" Url="/navPage2#HLink" Id="HLink"/>
     </NavLinkGroup>
     
 </Nav>

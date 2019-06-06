@@ -17,7 +17,7 @@ namespace BlazorFabric.Nav
 
         [Parameter] protected EventCallback<NavLinkGroupBase> OnClick { get; set; }
 
-        protected bool isExpanded = false;
+        protected bool isExpanded = true;
 
         protected async Task ClickHandler(UIMouseEventArgs args)
         {
@@ -33,6 +33,7 @@ namespace BlazorFabric.Nav
 
         protected override Task OnParametersSetAsync()
         {
+            isExpanded = !this.CollapseByDefault;
             return base.OnParametersSetAsync();
         }
 

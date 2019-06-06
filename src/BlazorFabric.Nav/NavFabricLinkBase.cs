@@ -39,18 +39,24 @@ namespace BlazorFabric.Nav
        
         protected override Task OnInitAsync()
         {
+            ProcessUri(UriHelper.GetAbsoluteUri());
             UriHelper.OnLocationChanged += UriHelper_OnLocationChanged;
             return base.OnInitAsync();
         }
 
         private void UriHelper_OnLocationChanged(object sender, string e)
         {
-            if (e.EndsWith(this.Id) && !isSelected )
+            ProcessUri(e);
+        }
+
+        private void ProcessUri(string uri)
+        {
+            if (uri.EndsWith(this.Id) && !isSelected)
             {
                 isSelected = true;
                 StateHasChanged();
             }
-            else if (!e.EndsWith(this.Id) && isSelected)
+            else if (!uri.EndsWith(this.Id) && isSelected)
             {
                 isSelected = false;
                 StateHasChanged();

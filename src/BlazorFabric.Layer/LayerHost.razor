@@ -1,0 +1,11 @@
+﻿@inherits  LayerHostBase
+
+    <CascadingValue Value=@this Name="HostedContent">
+        @if(IsSet){
+            <span class="ms-layer">
+                @HostedContent
+            </span>
+        }
+        @ChildContent
+    </CascadingValue>
+

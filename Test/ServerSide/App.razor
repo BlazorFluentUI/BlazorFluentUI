@@ -2,9 +2,10 @@
     The Router component displays whichever component has a @page
     directive matching the current URI.
 *@
-<EmbeddedContent Assemblies=@Assemblies />
-<Router AppAssembly="typeof(Startup).Assembly" />
-
+    <BlazorFabric.Layer.LayerHost>
+        <EmbeddedContent Assemblies=@Assemblies />
+        <Router AppAssembly="typeof(Startup).Assembly" />
+    </BlazorFabric.Layer.LayerHost>
 @functions
 {
     List<System.Reflection.Assembly> Assemblies = new List<System.Reflection.Assembly>()
@@ -17,6 +18,7 @@
         typeof(BlazorFabric.TextField.TextField).Assembly,
                 typeof(BlazorFabric.Icon.Icon).Assembly,
                         typeof(BlazorFabric.Nav.Nav).Assembly,
+                        typeof(BlazorFabric.Layer.Layer).Assembly,
     };
 
 }

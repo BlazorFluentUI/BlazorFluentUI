@@ -12,6 +12,11 @@ namespace BlazorFabric.Button
 {
     public class ButtonBase : FabricComponentBase
     {
+        internal ButtonBase()
+        {
+
+        }
+
         public ElementRef ButtonRef { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }

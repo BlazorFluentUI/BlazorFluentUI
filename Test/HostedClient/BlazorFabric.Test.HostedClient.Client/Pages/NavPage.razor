@@ -11,7 +11,7 @@
             <NavFabricLink Name="B SubLink 2" NestedDepth="1" Url="/navPage#BLink2" Id="BLink2"/>
             <NavFabricLink Name="B SubLink 3" NestedDepth="1" Url="/navPage#BLink3" Id="BLink3"/>
         </NavFabricLink>
-        <NavFabricLink Name="C Link" Url="/navPage2#CLink" Id="CLink" />
+        <NavFabricLink Name="C Link" Url="/navPage#CLink" Id="CLink" />
 
 </NavLinkGroup>
     <NavLinkGroup Name="Second" CollapseByDefault="true">
@@ -28,14 +28,3 @@
     
 </Nav>
 
-@functions {
-
-    
-
-    protected override Task OnInitAsync()
-    {
-
-
-        return Task.CompletedTask;
-    }
-}

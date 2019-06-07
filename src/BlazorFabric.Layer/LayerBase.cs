@@ -10,7 +10,7 @@ namespace BlazorFabric.Layer
 {
     // Blazor doesn't have a React equivalent to "createPortal" so to use a Layer, you need to place 
     // a LayerHost manually near the root of the app.  This will allow you to use a CascadeParameter 
-    // to send a RenderTreeBuilder from the host to anywhere in the app and render items to it.
+    // to send the LayerHost to anywhere in the app and render items to it.
 
     public class Layer : FabricComponentBase
     {

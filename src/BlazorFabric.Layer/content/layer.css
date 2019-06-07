@@ -3,9 +3,20 @@
     used from a library project/package.
 */
 
-.my-component {
-    border: 2px dashed red;
-    padding: 1em;
-    margin: 1em 0;
-    background-image: url('background.png');
+.ms-Layer {
+    
+}
+
+.ms-Layer--fixed {
+    position: fixed;
+    z-index: var(--zindex-Layer);
+    top: 0;
+    left: 0;
+    width: 100vh;
+    height: 100vh;
+    visibility: hidden;
+}
+
+.ms-Layer-content{
+    visibility:visible;
 }

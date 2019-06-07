@@ -14,6 +14,8 @@ namespace BlazorFabric.Layer
 
         [Parameter] protected RenderFragment HostedContent { get; set; }
 
+        [Parameter] protected bool IsFixed { get; set; } = true;
+
         public bool IsSet { get; set; } = false;
 
         public void SetHostedContent(RenderFragment renderFragment)
@@ -26,9 +28,5 @@ namespace BlazorFabric.Layer
             }
         }
 
-        protected override void OnInit()
-        {
-            base.OnInit();
-        }
     }
 }

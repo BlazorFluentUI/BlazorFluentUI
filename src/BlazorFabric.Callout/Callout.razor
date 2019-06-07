@@ -1,3 +1,30 @@
-﻿<div class="my-component">
-    This Blazor component is defined in the <strong>BlazorFabric.Callout</strong> package.
-</div>
+﻿@inherits  CalloutBase
+
+@if (this.DoNotLayer)
+{
+
+}
+else
+{
+    <BlazorFabric.Layer.Layer >
+        <div class="ms-Callout-container" ref="RootElementRef">
+            <div class=@($"ms-Callout mediumFont")
+                 style=@($"top:{Position.top}px;left:{Position.left}px; {(this.Hidden ? "visibility: hidden;" : "")} {(CalloutWidth > 0?"width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")>
+                @if(this.IsBeakVisible)
+                {
+                    <div class="ms-Callout-beak" style=@($"position: initial;width:{BeakWidth}px; height:{BeakWidth}px; {(BackgroundColor != null ? "background-color:"+BackgroundColor+";" : "")}")/>
+                    <div class="ms-Callout-beakCurtain" />
+                }
+                <BlazorFabric.Popup.Popup AriaLabel=@AriaLabel
+                                          AriaDescribedBy=@AriaDescribedBy
+                                          AriaLabelledBy=@AriaLabelledBy
+                                          ClassName="ms-Callout-main"
+                                          ShouldRestoreFocus="true"
+                                          Style=@($"max-height: {contentMaxHeight}px;{(overflowYHidden ? "overflow-y: hidden;" : "")} {(BackgroundColor != null ? "background-color:"+BackgroundColor+";" : "")}")>
+                    @ChildContent
+                </BlazorFabric.Popup.Popup>
+            </div>
+        </div>
+    </BlazorFabric.Layer.Layer>
+}
+                

@@ -1,6 +1,8 @@
 ﻿@inherits NavLinkGroupBase
 
-    <div key={groupIndex} class=@($"ms-Nav-group {(this.isExpanded ? "is-expanded":"")}")>
+    <div key={groupIndex} 
+         class=@($"ms-Nav-group {(this.isExpanded ? "is-expanded":"")}")
+         ref="RootElementRef">
         @if (Name != null)
         {
             <button class="ms-Nav-chevronButton is-group "

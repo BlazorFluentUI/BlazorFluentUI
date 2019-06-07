@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorFabric.BaseComponent;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric.Label
 {
-    public class LabelBase : ComponentBase
+    public class LabelBase : FabricComponentBase
     {
         [Parameter]
         protected RenderFragment ChildContent { get; set; }

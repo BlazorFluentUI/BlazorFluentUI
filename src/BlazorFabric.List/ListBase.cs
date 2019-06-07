@@ -13,10 +13,11 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 using Blazor.OfficeUiFabric.Components.List;
 using Microsoft.JSInterop;
+using BlazorFabric.BaseComponent;
 
 namespace BlazorFabric.List
 {
-    public class ListBase<TItem> : ComponentBase
+    public class ListBase<TItem> : FabricComponentBase
     {
         protected bool firstRender = false;
 

@@ -1,5 +1,6 @@
 ﻿using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.RenderTree;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,16 +17,27 @@ namespace BlazorFabric.Layer
 
         [Parameter] protected bool IsFixed { get; set; } = true;
 
-        public bool IsSet { get; set; } = false;
+        //public bool IsSet { get; set; } = false;
 
-        public void SetHostedContent(RenderFragment renderFragment)
+        protected Dictionary<string, (RenderFragment fragment, LayerPortal portal)> portals = new Dictionary<string, (RenderFragment fragment, LayerPortal portal)>();
+
+        //protected override void BuildRenderTree(RenderTreeBuilder builder)
+        //{
+        //    base.BuildRenderTree(builder);
+
+        //    builder.OpenComponent<CascadingValue<LayerHost>>(0);
+
+
+        //    builder.CloseComponent();
+
+        //}
+        protected LayerPortal layerPortal;
+
+        public void AddOrUpdateHostedContent(string layerId, RenderFragment renderFragment)
         {
-            if (!IsSet)
-            {
-                this.IsSet = true;
-                HostedContent = renderFragment;
-                StateHasChanged();
-            }
+            //until we can get references from a loop, looks like we can only use one portal at a time.
+            //maybe with preview 6
+            layerPortal.SetChildContent(renderFragment, IsFixed);
         }
 
     }

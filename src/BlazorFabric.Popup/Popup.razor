@@ -1,0 +1,15 @@
+﻿@inherits PopupBase
+
+<div 
+     class=@ClassName
+     role=@Role
+     aria-label=@AriaLabel
+     aria-labelledby=@AriaLabelledBy
+     aria-describedby=@AriaDescribedBy
+     onkeydown=@KeyDownHandler
+     style=@($"{this.Style}outline: none")
+     ref="RootElementRef"
+     >
+    @ChildContent
+</div>
+

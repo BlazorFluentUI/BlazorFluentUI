@@ -200,16 +200,20 @@ namespace BlazorFabric.Button
             if (this.Href == null)
             {
                 builder.OpenElement(0, "button");
+                
             }
             else
             {
                 builder.OpenElement(0, "a");
-                builder.AddAttribute(1, "href", this.Href);
+                //builder.AddElementReferenceCapture(1, (elementRef) => { RootElementRef = elementRef; });
+                builder.AddAttribute(2, "href", this.Href);
+                
             }
 
-            builder.AddAttribute(2, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
-            builder.AddAttribute(3, "onclick", this.ClickHandler);
-            builder.AddAttribute(4, "disabled", this.Disabled && !this.AllowDisabledFocus);
+            builder.AddAttribute(3, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
+            builder.AddAttribute(4, "onclick", this.ClickHandler);
+            builder.AddAttribute(5, "disabled", this.Disabled && !this.AllowDisabledFocus);
+            builder.AddElementReferenceCapture(6, (elementRef) => { RootElementRef = elementRef; });
 
             if (false) // menu!
             {
@@ -278,14 +282,12 @@ namespace BlazorFabric.Button
             {
                 builder.CloseElement();
             }
+            
             builder.CloseElement();
             
         }
         
-        protected void EndRoot(RenderTreeBuilder builder)
-        {
-      
-        }
+       
 
 
     }

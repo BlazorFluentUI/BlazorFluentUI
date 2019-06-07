@@ -34,6 +34,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
     <ProjectReference Include="..\BlazorFabric.Layer\BlazorFabric.Layer.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Popup\BlazorFabric.Popup.csproj" />
   </ItemGroup>
 
   <ItemGroup>

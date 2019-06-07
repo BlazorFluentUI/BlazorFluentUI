@@ -1,17 +1,11 @@
 ﻿@inherits  LayerHostBase
 
-    <CascadingValue Value=@this Name="HostedContent">
+    <CascadingValue Value=@this Name="HostedContent" >
         @ChildContent
 
 
-        <div class="ms-LayerHost">
-            @if(IsSet){
-            <span class=@($"ms-Layer mediumFont {(this.IsFixed ? "ms-Layer--fixed" : "")}")>
-                <div class="ms-Layer-content">
-                    @HostedContent
-                </div>
-            </span>
-            }
+        <div class="ms-LayerHost" ref="RootElementRef">
+            <LayerPortal ref="layerPortal" />
         </div>
 
     </CascadingValue>

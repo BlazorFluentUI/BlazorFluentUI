@@ -1,0 +1,22 @@
+﻿@page "/calloutPage"
+
+<h1>Callout</h1>
+
+
+<DefaultButton Text="Show Callout" OnClick=@ClickHandler ref="calloutTarget" />
+<Callout Hidden=@calloutHidden FabricComponentTarget=@calloutTarget>
+    Just a test!
+</Callout>
+
+@functions{ 
+
+    DefaultButton calloutTarget;
+    bool calloutHidden = true;
+
+    Task ClickHandler(UIMouseEventArgs args)
+    {
+        calloutHidden = !calloutHidden;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+}

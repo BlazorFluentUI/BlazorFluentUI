@@ -1,0 +1,7 @@
+﻿@inherits  LayerPortalBase
+    
+    <span class=@($"ms-Layer mediumFont {(this.IsFixed ? "ms-Layer--fixed" : "")}")>
+        <div class="ms-Layer-content">
+            @ChildContent
+        </div>
+    </span>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorFabric.BaseComponent;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric.TextField
 {
-    public class TextFieldBase : ComponentBase
+    public class TextFieldBase : FabricComponentBase
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
 

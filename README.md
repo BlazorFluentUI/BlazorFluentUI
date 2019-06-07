@@ -6,12 +6,12 @@ https://blazorfabric.azurewebsites.net/
 
 ## Status
 - Label -done
-- DefaultButton, PrimaryButton -working, but incomplete
+- DefaultButton, PrimaryButton, ActionButton -working, but incomplete
 - Checkbox -done, except for icons
 - List -done, but bad server-side experience
 - TextField -done, except for icons
 - Icon, only MS icons 
-- Nav, in-progress
+- Nav -done!
 
 
 ## Info

@@ -12,7 +12,7 @@ https://blazorfabric.azurewebsites.net/
 - TextField -done, except for icons
 - Icon, only MS icons 
 - Nav -done!
-- ContextMenu -in-progress
+- ContextualMenu -in-progress
 - Callout (part of ContextMenu) -in-progress
 - Layer (part of Callout) -in-progress
 

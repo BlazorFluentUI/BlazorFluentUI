@@ -14,7 +14,7 @@ else
                  style=@($"top:{Position.top}px;left:{Position.left}px; {(this.Hidden ? "visibility: hidden;" : "")} {(CalloutWidth > 0?"width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")>
                 @if(this.IsBeakVisible)
                 {
-                    <div class="ms-Callout-beak" style=@($"position: initial;width:{BeakWidth}px; height:{BeakWidth}px; {(BackgroundColor != null ? "background-color:"+BackgroundColor+";" : "")}")/>
+                    <div class="ms-Callout-beak" style=@($"width:{BeakWidth}px; height:{BeakWidth}px; {(BackgroundColor != null ? "background-color:"+BackgroundColor+";" : "")}")/>
                     <div class="ms-Callout-beakCurtain" />
                 }
                 <BlazorFabric.Popup.Popup AriaLabel=@AriaLabel

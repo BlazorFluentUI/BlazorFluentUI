@@ -7,8 +7,10 @@
 else
 {
     <BlazorFabric.Layer.Layer >
-        <div class="ms-Callout-container" ref="RootElementRef">
+        <div class="ms-Callout-container" ref="RootElementRef" id="host" >
             <div class=@($"ms-Callout mediumFont")
+                 id="callout"
+                 ref="calloutRef"
                  style=@($"top:{Position.top}px;left:{Position.left}px; {(this.Hidden ? "visibility: hidden;" : "")} {(CalloutWidth > 0?"width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")>
                 @if(this.IsBeakVisible)
                 {

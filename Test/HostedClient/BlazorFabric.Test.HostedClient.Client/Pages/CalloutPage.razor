@@ -5,11 +5,16 @@
 
 <DefaultButton Text="Show Callout" OnClick=@ClickHandler ref="calloutTarget" />
 <Callout Hidden=@calloutHidden FabricComponentTarget=@calloutTarget>
-    Just a test!
+    <h2>Callout Test</h2>
+    <p>
+        There are a few things in here.
+    </p>
+    <PrimaryButton Text="Ok" />
 </Callout>
 
 @functions{ 
 
+    bool isInitialized = false;
     DefaultButton calloutTarget;
     bool calloutHidden = true;
 
@@ -17,6 +22,19 @@
     {
         calloutHidden = !calloutHidden;
         StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    protected override Task OnAfterRenderAsync()
+    {
+        if (!isInitialized)
+        {
+            if (calloutTarget != null)
+            {
+                isInitialized = true;
+                StateHasChanged();
+            }
+        }
         return Task.CompletedTask;
     }
 }

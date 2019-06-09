@@ -30,6 +30,17 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.measureElementRect = measureElementRect;
     ;
+    function getWindowRect() {
+        var rect = {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            top: 0,
+            left: 0
+        };
+        return rect;
+    }
+    BlazorFabricBaseComponent.getWindowRect = getWindowRect;
+    ;
     function _expandRect(rect, pagesBefore, pagesAfter) {
         var top = rect.top - pagesBefore * rect.height;
         var height = rect.height + (pagesBefore + pagesAfter) * rect.height;

@@ -43,6 +43,15 @@ namespace BlazorFabricBaseComponent {
     export function measureElementRect(element: HTMLElement): IRectangle {
         return element.getBoundingClientRect();
     };
+    export function getWindowRect(): IRectangle {
+        var rect: IRectangle = {
+            width: window.innerWidth,// - scrollbarwidth
+            height: window.innerHeight,
+            top: 0,
+            left: 0
+        }
+        return rect;
+    };
 
 
     function _expandRect(rect: IRectangle, pagesBefore: number, pagesAfter: number): IRectangle {

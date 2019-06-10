@@ -9,7 +9,7 @@
 
 @media screen and (-ms-high-contrast: active) {
     .ms-Callout {
-        border-width: 1;
+        border-width: 1px;
         border-style: solid;
         border-color: WindowText;
     }

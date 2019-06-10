@@ -1,4 +1,5 @@
 ﻿using BlazorFabric.BaseComponent;
+using BlazorFabric.Layer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -42,20 +43,31 @@ namespace BlazorFabric.Callout
 
         [Parameter] protected Rectangle Position { get; set; } = new Rectangle();
 
+        [CascadingParameter(Name ="HostedContent")] private LayerHost LayerHost { get; set; }  
+
         protected double contentMaxHeight = 0;
         protected bool overflowYHidden = false;
 
         protected bool isMeasured = false;
+        protected bool isLayerHostRegistered = false;
 
         protected ElementRef calloutRef;
 
         protected override async Task OnAfterRenderAsync()
         {
-            if (!isMeasured)
+            if (!isLayerHostRegistered)
             {
+                LayerHost.OnScroll = EventCallback.Factory.Create<UIEventArgs>(this, ScrollHandler); 
 
+                isLayerHostRegistered = true;
             }
             await base.OnAfterRenderAsync();
+        }
+
+        private Task ScrollHandler(UIEventArgs args)
+        {
+            Hidden = true;
+            return Task.CompletedTask;
         }
 
         protected override async Task OnParametersSetAsync()

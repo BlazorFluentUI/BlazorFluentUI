@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.RenderTree;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlazorFabric.Layer
 {
@@ -16,6 +17,11 @@ namespace BlazorFabric.Layer
         [Parameter] protected RenderFragment HostedContent { get; set; }
 
         [Parameter] protected bool IsFixed { get; set; } = true;
+
+        [Parameter] public EventCallback<UIEventArgs> OnScroll { get; set; }  // CAN'T USE THESE... NEED TO USE FUNC INSTEAD
+        [Parameter] public EventCallback<UIEventArgs> OnResize { get; set; } 
+        [Parameter] public EventCallback<UIFocusEventArgs> OnFocusIn { get; set; }
+        [Parameter] public EventCallback<UIMouseEventArgs> OnClick { get; set; }
 
         //public bool IsSet { get; set; } = false;
 
@@ -39,6 +45,26 @@ namespace BlazorFabric.Layer
             //maybe with preview 6
             layerPortal.SetChildContent(renderFragment, IsFixed);
         }
+
+        //protected Task ScrollHandler(UIEventArgs args)
+        //{
+        //    return OnScroll.InvokeAsync(args);
+        //}
+
+        //protected Task ResizeHandler(UIEventArgs args)
+        //{
+        //    return OnResize.InvokeAsync(args);
+        //}
+
+        //protected Task FocusInHandler(UIFocusEventArgs args)
+        //{
+        //    return OnFocusIn.InvokeAsync(args);
+        //}
+
+        //protected Task ClickHandler(UIMouseEventArgs args)
+        //{
+        //    return OnClick.InvokeAsync(args);
+        //}
 
     }
 }

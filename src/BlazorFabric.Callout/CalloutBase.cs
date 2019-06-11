@@ -44,7 +44,9 @@ namespace BlazorFabric.Callout
 
         [Parameter] protected EventCallback<bool> HiddenChanged { get; set; }
 
-        [Parameter] protected Rectangle Position { get; set; } = new Rectangle();
+        protected Rectangle Position { get; set; } = new Rectangle();
+
+        protected CalloutPositionedInfo CalloutPosition { get; set; } = new CalloutPositionedInfo();
 
         [CascadingParameter(Name ="HostedContent")] private LayerHost LayerHost { get; set; }  
 
@@ -106,9 +108,10 @@ namespace BlazorFabric.Callout
 
             contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
 
-            var calloutPositioning = await PositionCalloutAsync(targetRect, maxBounds);
+            this.CalloutPosition = await PositionCalloutAsync(targetRect, maxBounds);
+            //this.CalloutPosition = calloutPositioning;
 
-            this.Position = calloutPositioning.ElementRectangle;
+            //this.Position = this.CalloutPosition.ElementRectangle;
 
             isMeasured = true;
             StateHasChanged();
@@ -148,19 +151,102 @@ namespace BlazorFabric.Callout
             var gap = Math.Sqrt(beakWidth * beakWidth * 2) / 2 + GapSpace;
                         
 
-            var positionedElement = await PositionElementRelativeAsync(targetRect, maxBounds);
+            var positionedElement = await PositionElementRelativeAsync(gap, targetRect, maxBounds);
 
-            return new CalloutPositionedInfo(await FinalizePositionDataAsync(positionedElement, maxBounds), null);
+            var beakPositioned = PositionBeak(beakWidth, positionedElement);
+
+            var finalizedBeakPosition = FinalizeBeakPosition(positionedElement, beakPositioned, maxBounds);
+
+            var finalizedElemenentPosition = await FinalizePositionDataAsync(positionedElement, maxBounds);
+
+            return new CalloutPositionedInfo(finalizedElemenentPosition.element, finalizedElemenentPosition.targetEdge, finalizedElemenentPosition.alignmentEdge, finalizedBeakPosition);
 
         }
 
-        private async Task<ElementPosition> FinalizePositionDataAsync(ElementPositionInfo positionedElement, Rectangle bounds)
+        private CalloutBeakPositionedInfo FinalizeBeakPosition(ElementPosition elementPosition, Rectangle positionedBeak, Rectangle bounds)
+        {
+            var targetEdge = (RectangleEdge)((int)elementPosition.TargetEdge * -1);
+            var actualElement = new Rectangle(0, elementPosition.ElementRectangle.width, 0, elementPosition.ElementRectangle.height);
+            PartialRectangle returnValue = new PartialRectangle();
+            var returnEdge = FinalizeReturnEdge(
+                elementPosition.ElementRectangle,
+                elementPosition.AlignmentEdge != RectangleEdge.None ? elementPosition.AlignmentEdge : GetFlankingEdges(targetEdge).positiveEdge,
+                bounds);
+            switch (targetEdge)
+            {
+                case RectangleEdge.Bottom:
+                    returnValue.bottom = GetEdgeValue(positionedBeak, targetEdge);
+                    break;
+                case RectangleEdge.Left:
+                    returnValue.left = GetEdgeValue(positionedBeak, targetEdge);
+                    break;
+                case RectangleEdge.Right:
+                    returnValue.right = GetEdgeValue(positionedBeak, targetEdge);
+                    break;
+                case RectangleEdge.Top:
+                    returnValue.top = GetEdgeValue(positionedBeak, targetEdge);
+                    break;
+            }
+            switch (returnEdge)
+            {
+                case RectangleEdge.Bottom:
+                    returnValue.bottom = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
+                    break;
+                case RectangleEdge.Left:
+                    returnValue.left = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
+                    break;
+                case RectangleEdge.Right:
+                    returnValue.right = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
+                    break;
+                case RectangleEdge.Top:
+                    returnValue.top = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
+                    break;
+            }
+            return new CalloutBeakPositionedInfo(
+                returnValue,
+                GetClosestEdge(elementPosition.TargetEdge, positionedBeak, actualElement),
+                targetEdge);
+        }
+
+        private Rectangle PositionBeak(double beakWidth, ElementPositionInfo elementPosition)
+        {
+            var target = elementPosition.TargetRectangle;
+            var edges = GetFlankingEdges(elementPosition.TargetEdge);
+            var beakTargetPoint = GetCenterValue(target, elementPosition.TargetEdge);
+            var elementBounds = new Rectangle(
+                beakWidth / 2,
+                elementPosition.ElementRectangle.width - beakWidth / 2,
+                beakWidth / 2,
+                elementPosition.ElementRectangle.height - beakWidth / 2
+                );
+            var beakPosition = new Rectangle(0, beakWidth, 0, beakWidth);
+            beakPosition = MoveEdge(beakPosition, (RectangleEdge)((int)elementPosition.TargetEdge * -1), -beakWidth / 2);
+            beakPosition = CenterEdgeToPoint(
+                beakPosition,
+                (RectangleEdge)((int)elementPosition.TargetEdge * -1),
+                beakTargetPoint - GetRelativeRectEdgeValue(edges.positiveEdge, elementPosition.ElementRectangle)
+                );
+
+            if (!IsEdgeInBounds(beakPosition, elementBounds, edges.positiveEdge))
+            {
+                beakPosition = AlignEdges(beakPosition, elementBounds, edges.positiveEdge);
+            }
+            else if (!IsEdgeInBounds(beakPosition, elementBounds, edges.negativeEdge))
+            {
+                beakPosition = AlignEdges(beakPosition, elementBounds, edges.negativeEdge);
+            }
+
+            return beakPosition;
+        }
+
+
+        private async Task<(PartialRectangle element, RectangleEdge targetEdge, RectangleEdge alignmentEdge)> FinalizePositionDataAsync(ElementPositionInfo positionedElement, Rectangle bounds)
         {
             var finalizedElement = await FinalizeElementPositionAsync(positionedElement.ElementRectangle,/*hostElement,*/ positionedElement.TargetEdge, bounds, positionedElement.AlignmentEdge);
-            return new ElementPosition(finalizedElement, positionedElement.TargetEdge, positionedElement.AlignmentEdge);
+            return (finalizedElement, positionedElement.TargetEdge, positionedElement.AlignmentEdge);
         }
 
-        private async Task<Rectangle> FinalizeElementPositionAsync(Rectangle elementRectangle, /* hostElement, */ RectangleEdge targetEdge, Rectangle bounds, RectangleEdge alignmentEdge)
+        private async Task<PartialRectangle> FinalizeElementPositionAsync(Rectangle elementRectangle, /* hostElement, */ RectangleEdge targetEdge, Rectangle bounds, RectangleEdge alignmentEdge)
         {
             var hostRectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", RootElementRef);
             var elementEdge = CoverTarget ? targetEdge : (RectangleEdge)((int)targetEdge * -1);
@@ -168,7 +254,7 @@ namespace BlazorFabric.Callout
             var returnEdge = FinalizeReturnEdge(elementRectangle, alignmentEdge != RectangleEdge.None ? alignmentEdge : GetFlankingEdges(targetEdge).positiveEdge, bounds);
 
             //HOW TO DO THE PARTIAL STUFF?  Might need to set other sides to -1
-            var returnValue = new Rectangle();
+            var returnValue = new PartialRectangle();
             switch (elementEdge)
             {
                 case RectangleEdge.Bottom:
@@ -219,7 +305,7 @@ namespace BlazorFabric.Callout
             return GetRelativeEdgeValue(edge, edgeDifference);
         }
 
-        private async Task<ElementPositionInfo> PositionElementRelativeAsync(Rectangle targetRect, Rectangle boundingRect)
+        private async Task<ElementPositionInfo> PositionElementRelativeAsync(double gap, Rectangle targetRect, Rectangle boundingRect)
         {
             
             //previous data... not implemented
@@ -239,7 +325,7 @@ namespace BlazorFabric.Callout
             //GetRectangleFromElement()
             var calloutRectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", calloutRef);
 
-            var positionedElement = PositionElementWithinBounds(calloutRectangle, targetRect, boundingRect, positionData, this.GapSpace);
+            var positionedElement = PositionElementWithinBounds(calloutRectangle, targetRect, boundingRect, positionData, gap);
 
             var elementPositionInfo = positionedElement.ToElementPositionInfo(targetRect);
             return elementPositionInfo;

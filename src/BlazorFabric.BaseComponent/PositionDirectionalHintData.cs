@@ -52,14 +52,47 @@ namespace BlazorFabric.BaseComponent
         }
     }
 
-    public class CalloutPositionedInfo : ElementPosition
+    public class CalloutPositionedInfo 
     {
-        public CalloutPositionedInfo(ElementPosition elementPosition, ElementPosition beakPosition): base(elementPosition.ElementRectangle, elementPosition.TargetEdge, elementPosition.AlignmentEdge)
+        public CalloutPositionedInfo() 
         {
+            BeakPosition = new CalloutBeakPositionedInfo();
+            ElementRectangle = new PartialRectangle();
+        }
+        public CalloutPositionedInfo(PartialRectangle rectangle,RectangleEdge targetEdge, RectangleEdge alignmentEdge, CalloutBeakPositionedInfo beakPosition)
+        {
+            ElementRectangle = rectangle;
+            TargetEdge = targetEdge;
+            AlignmentEdge = alignmentEdge;
             BeakPosition = beakPosition;
         }
 
-        public ElementPosition BeakPosition { get; set; }
+        public PartialRectangle ElementRectangle { get; set; }
+        public RectangleEdge TargetEdge { get; set; }
+        public RectangleEdge AlignmentEdge { get; set; }
+
+        public CalloutBeakPositionedInfo BeakPosition { get; set; }
+    }
+
+    public class CalloutBeakPositionedInfo
+    {
+        public PartialRectangle ElementRectangle { get; set; }
+        public RectangleEdge TargetEdge { get; set; }
+        public RectangleEdge AlignmentEdge { get; set; }
+
+        public RectangleEdge ClosestEdge { get; set; }
+
+        public CalloutBeakPositionedInfo() 
+        {
+            ElementRectangle = new PartialRectangle();
+        }
+        public CalloutBeakPositionedInfo(PartialRectangle elementRectangle, RectangleEdge targetEdge, RectangleEdge closestEdge)
+        {
+            ElementRectangle = elementRectangle;
+            TargetEdge = targetEdge;
+            AlignmentEdge = RectangleEdge.None;
+            ClosestEdge = closestEdge;
+        }
     }
 
     public enum RectangleEdge

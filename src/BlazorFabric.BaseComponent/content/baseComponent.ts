@@ -44,6 +44,10 @@ namespace BlazorFabricBaseComponent {
         return element.getBoundingClientRect();
     };
 
+    export function getWindow(element: HTMLElement): Window {
+        return element.ownerDocument.defaultView;
+    }
+
     export function getWindowRect(): IRectangle {
         var rect: IRectangle = {
             width: window.innerWidth,// - scrollbarwidth

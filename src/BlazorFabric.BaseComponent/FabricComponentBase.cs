@@ -15,7 +15,7 @@ namespace BlazorFabric.BaseComponent
         [Parameter] protected string ClassName { get; set; }
         [Parameter] protected string Style { get; set; }
 
-        protected ElementRef RootElementRef;
+        public ElementRef RootElementRef;
 
         public async Task<Rectangle> GetBoundsAsync()
         {
@@ -27,6 +27,7 @@ namespace BlazorFabric.BaseComponent
             else
                 return new Rectangle();
         }
+                
 
     }
 }

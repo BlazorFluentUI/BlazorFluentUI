@@ -18,7 +18,7 @@ namespace BlazorFabric.Layer
 
         [Parameter] protected bool IsFixed { get; set; } = true;
 
-        [Parameter] public EventCallback<UIEventArgs> OnScroll { get; set; }  // CAN'T USE THESE... NEED TO USE FUNC INSTEAD
+        [Parameter] public Func<UIEventArgs, Task> OnScroll { get; set; }  // CAN'T USE THESE... NEED TO USE FUNC INSTEAD
         [Parameter] public EventCallback<UIEventArgs> OnResize { get; set; } 
         [Parameter] public EventCallback<UIFocusEventArgs> OnFocusIn { get; set; }
         [Parameter] public EventCallback<UIMouseEventArgs> OnClick { get; set; }
@@ -46,10 +46,15 @@ namespace BlazorFabric.Layer
             layerPortal.SetChildContent(renderFragment, IsFixed);
         }
 
-        //protected Task ScrollHandler(UIEventArgs args)
-        //{
-        //    return OnScroll.InvokeAsync(args);
-        //}
+        protected Task ScrollHandler(UIEventArgs args)
+        {
+            if (OnScroll != null)
+            {
+                return OnScroll.Invoke(args);
+            }
+            return Task.CompletedTask;
+            //return OnScroll.InvokeAsync(args);
+        }
 
         //protected Task ResizeHandler(UIEventArgs args)
         //{

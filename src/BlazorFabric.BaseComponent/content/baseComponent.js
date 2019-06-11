@@ -30,6 +30,10 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.measureElementRect = measureElementRect;
     ;
+    function getWindow(element) {
+        return element.ownerDocument.defaultView;
+    }
+    BlazorFabricBaseComponent.getWindow = getWindow;
     function getWindowRect() {
         var rect = {
             width: window.innerWidth,

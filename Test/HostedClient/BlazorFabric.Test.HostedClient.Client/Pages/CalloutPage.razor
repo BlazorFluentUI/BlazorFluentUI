@@ -4,7 +4,7 @@
 
 
 <DefaultButton Text="Show Callout" OnClick=@ClickHandler ref="calloutTarget" />
-<Callout Hidden=@calloutHidden FabricComponentTarget=@calloutTarget>
+<Callout Hidden=@calloutHidden bind-Hidden=@calloutHidden FabricComponentTarget=@calloutTarget>
     <h2>Callout Test</h2>
     <p>
         There are a few things in here.

@@ -13,6 +13,7 @@ namespace BlazorFabric.Callout
     {
         internal CalloutBase() { }
 
+        [Inject] private IComponentContext ComponentContext { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
@@ -41,6 +42,8 @@ namespace BlazorFabric.Callout
         [Parameter] protected string AriaDescribedBy { get; set; }
         [Parameter] protected bool Hidden { get; set; } = false;
 
+        [Parameter] protected EventCallback<bool> HiddenChanged { get; set; }
+
         [Parameter] protected Rectangle Position { get; set; } = new Rectangle();
 
         [CascadingParameter(Name ="HostedContent")] private LayerHost LayerHost { get; set; }  
@@ -55,20 +58,26 @@ namespace BlazorFabric.Callout
 
         protected override async Task OnAfterRenderAsync()
         {
-            if (!isLayerHostRegistered)
+            if (!isLayerHostRegistered && ComponentContext.IsConnected)
             {
-                LayerHost.OnScroll = EventCallback.Factory.Create<UIEventArgs>(this, ScrollHandler); 
+                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.registerHandlers", this.FabricComponentTarget.RootElementRef, new DotNetObjectRef(this));
 
                 isLayerHostRegistered = true;
             }
             await base.OnAfterRenderAsync();
         }
 
-        private Task ScrollHandler(UIEventArgs args)
+        [JSInvokable] public void ScrollHandler()
         {
-            Hidden = true;
-            return Task.CompletedTask;
+            //Hidden = true;
+            if (!Hidden)
+            {
+                HiddenChanged.InvokeAsync(true);
+            }
+            //StateHasChanged();
+            //return Task.CompletedTask;
         }
+
 
         protected override async Task OnParametersSetAsync()
         {

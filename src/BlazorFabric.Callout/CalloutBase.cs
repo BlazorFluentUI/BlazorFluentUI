@@ -67,15 +67,18 @@ namespace BlazorFabric.Callout
             await base.OnAfterRenderAsync();
         }
 
-        [JSInvokable] public void ScrollHandler()
+        [JSInvokable] public async void ScrollHandler()
         {
-            //Hidden = true;
             if (!Hidden)
             {
-                HiddenChanged.InvokeAsync(true);
+                await HiddenChanged.InvokeAsync(true);
             }
-            //StateHasChanged();
-            //return Task.CompletedTask;
+            await CalculateCalloutPositionAsync();
+        }
+
+        [JSInvokable] public async void ResizeHandler()
+        {
+            await CalculateCalloutPositionAsync();
         }
 
 
@@ -83,28 +86,32 @@ namespace BlazorFabric.Callout
         {
             if (this.FabricComponentTarget != null && !isMeasured)
             {
-                Rectangle targetBounds = null;
-                //targetBounds = await this.FabricComponentTarget.GetBoundsAsync();
-                Rectangle maxBounds = null;
-                if (this.Bounds != null)
-                    maxBounds = Bounds;
-                else
-                {
-                    //javascript to get screen bounds
-                    maxBounds = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.getWindowRect");
-                }
-                var targetRect = await this.FabricComponentTarget.GetBoundsAsync();
-
-                contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
-
-                var calloutPositioning = await PositionCalloutAsync(targetRect, maxBounds);
-
-                this.Position = calloutPositioning.ElementRectangle;
-
-                isMeasured = true;
-                StateHasChanged();
+                await CalculateCalloutPositionAsync();
+                
             }
             await base.OnParametersSetAsync();
+        }
+
+        private async Task CalculateCalloutPositionAsync()
+        {
+            Rectangle maxBounds = null;
+            if (this.Bounds != null)
+                maxBounds = Bounds;
+            else
+            {
+                //javascript to get screen bounds
+                maxBounds = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.getWindowRect");
+            }
+            var targetRect = await this.FabricComponentTarget.GetBoundsAsync();
+
+            contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
+
+            var calloutPositioning = await PositionCalloutAsync(targetRect, maxBounds);
+
+            this.Position = calloutPositioning.ElementRectangle;
+
+            isMeasured = true;
+            StateHasChanged();
         }
 
         private double GetMaxHeight(Rectangle targetRect, Rectangle maxBounds)

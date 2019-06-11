@@ -4,6 +4,7 @@ var BlazorFabricCallout;
     function registerHandlers(targetElement, calloutRef) {
         var window = targetElement.ownerDocument.defaultView;
         window.onscroll = function (ev) { return calloutRef.invokeMethodAsync("ScrollHandler"); };
+        window.onresize = function (ev) { return calloutRef.invokeMethodAsync("ResizeHandler"); };
     }
     BlazorFabricCallout.registerHandlers = registerHandlers;
     function getWindow(element) {

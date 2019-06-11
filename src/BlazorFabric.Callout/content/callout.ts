@@ -21,7 +21,7 @@ namespace BlazorFabricCallout {
     export function registerHandlers(targetElement: HTMLElement, calloutRef: DotNetReferenceType): void {
         var window = targetElement.ownerDocument.defaultView;
         window.onscroll = (ev: Event) => calloutRef.invokeMethodAsync("ScrollHandler");
-        
+        window.onresize = (ev: Event) => calloutRef.invokeMethodAsync("ResizeHandler");
     }
 
   

@@ -2,8 +2,8 @@
 
 @typeparam TItem
 
-<div ref="scrollableDiv" onscroll=@OnScroll class=@($"fabricList ms-List mediumFont") role="presentation" ref="RootElementRef">
-    <div ref="rootDiv" class="ms-List" role="list">
+<div @onscroll=@OnScroll class=@($"fabricList ms-List mediumFont") role="presentation" @ref="RootElementRef">
+    <div @ref="rootDiv" class="ms-List" role="list">
         <div ref="surfaceDiv" class="ms-List-surface" role="presentation">
             @ItemPagesRender
         </div>

@@ -1,17 +1,11 @@
 ﻿@inherits  CalloutBase
 
-@if (this.DoNotLayer)
-{
 
-}
-else
-{
     <BlazorFabric.Layer.Layer >
-        <div class="ms-Callout-container" ref="RootElementRef" id="host" >
+        <div class="ms-Callout-container" @ref="RootElementRef" >
             <div class=@($"ms-Callout mediumFont")
-                 id="callout"
-                 ref="calloutRef"
-                 style=@($"{CalloutPosition.ElementRectangle.GetStyle()} {(this.Hidden ? "visibility: hidden;" : "")} {(CalloutWidth > 0?"width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")>
+                 @ref="calloutRef"
+                 style=@($"{CalloutPosition.ElementRectangle.GetStyle()} {(this.Hidden ? "visibility: hidden;" : "")} {(CalloutWidth > 0 ? "width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")>
                 @if(this.IsBeakVisible)
                 {
                     <div class="ms-Callout-beak" style=@($"{CalloutPosition.BeakPosition.ElementRectangle.GetStyle()} width:{BeakWidth}px; height:{BeakWidth}px; {(BackgroundColor != null ? "background-color:"+BackgroundColor+";" : "")}")/>
@@ -28,5 +22,5 @@ else
             </div>
         </div>
     </BlazorFabric.Layer.Layer>
-}
+
                 

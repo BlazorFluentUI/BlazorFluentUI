@@ -91,12 +91,12 @@
 <h2>Binding Mode</h2>
 
 <div class="textFieldDiv" style="display:flex; flex-direction: row">
-    <TextField Label="TextField OnInput 1" bind-Value-OnInput=@onInputContent />
-    <TextField Label="TextField OnInput 2" bind-Value-OnInput=@onInputContent />
+    <TextField Label="TextField OnInput 1"  @bind-Value=@onInputContent @bind-Value:event="OnInput" />
+    <TextField Label="TextField OnInput 2"  @bind-Value=@onInputContent @bind-Value:event="OnInput"/>
 </div>
 <div class="textFieldDiv" style="display:flex; flex-direction: row">
-    <TextField Label="TextField OnChange 1" bind-Value-OnChange=@onChangeContent />
-    <TextField Label="TextField OnChange 2" bind-Value-OnChange=@onChangeContent />
+    <TextField Label="TextField OnChange 1" @bind-Value=@onChangeContent @bind-Value:event="OnChange"/>
+    <TextField Label="TextField OnChange 2" @bind-Value=@onChangeContent @bind-Value:event="OnChange"/>
 </div>
 
 @functions {

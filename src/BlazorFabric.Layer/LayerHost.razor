@@ -1,12 +1,12 @@
 ﻿@inherits  LayerHostBase
 
     <CascadingValue Value=@this Name="HostedContent" >
-        <div onscroll=@ScrollHandler onresize="" onfocusin=@OnFocusIn onclick=@OnClick style=@Style>
+        <div style=@Style>
             @ChildContent
 
 
             <div class="ms-LayerHost" ref="RootElementRef">
-                <LayerPortal ref="layerPortal" />
+                <LayerPortal @ref=@layerPortal/>
             </div>
         </div>
     </CascadingValue>

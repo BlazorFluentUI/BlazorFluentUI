@@ -8,7 +8,7 @@
 
 <h2>Checkboxes</h2>
 <Label>Checkbox is @(isChecked ? "checked" : "unchecked").</Label>
-<Checkbox Label="Regular Checkbox" bind-Checked=@isChecked />
+<Checkbox Label="Regular Checkbox"  @bind-Checked=@isChecked @bind-Checked:event="CheckChanged" />
 <Checkbox Label="Disabled Checkbox" Disabled="true" />
 <Checkbox Label="Disabled Checked Checkbox" Checked="true" Disabled="true" />
 
@@ -27,8 +27,8 @@
 <DefaultButton Text="Toggle Button" Toggle="true" Command=@buttonCommand CommandParameter=@("Toggle") />
 
 <div style="height:5px"></div>
-<Checkbox Label="Bound to toggle button below" Checked=@isToggled bind-Checked=@isToggled />
-<DefaultButton Text=@(isToggled ? "Not Toggled" : "Toggled") Toggle="true" Checked=@isToggled bind-Checked=@isToggled Command=@buttonCommand CommandParameter=@("Toggle") />
+<Checkbox Label="Bound to toggle button below"  @bind-Checked=@isToggled @bind-Checked:event="CheckedChanged" />
+<DefaultButton Text=@(isToggled ? "Not Toggled" : "Toggled") Toggle="true" @bind-Checked=@isToggled @bind-Checked:event="CheckedChanged" Command=@buttonCommand CommandParameter=@("Toggle") />
 
 <div style="height:5px"></div>
 <DefaultButton Href="/#link" Text="Link Button"/>
@@ -39,7 +39,7 @@
 <Icon IconName="Video" ClassName="iconExample red"/>
 
 
-@functions{
+@code{
     System.Windows.Input.ICommand buttonCommand;
     int commandCount = 0;
     bool isChecked = false;

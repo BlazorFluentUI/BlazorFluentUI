@@ -53,6 +53,7 @@ namespace BlazorFabric.Callout
         protected double contentMaxHeight = 0;
         protected bool overflowYHidden = false;
 
+        protected bool isRenderedOnce = false;
         protected bool isMeasured = false;
         protected bool isLayerHostRegistered = false;
 
@@ -60,12 +61,20 @@ namespace BlazorFabric.Callout
 
         protected override async Task OnAfterRenderAsync()
         {
+            
             if (!isLayerHostRegistered && ComponentContext.IsConnected)
             {
-                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.registerHandlers", this.FabricComponentTarget.RootElementRef, new DotNetObjectRef(this));
+                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.registerHandlers", this.FabricComponentTarget.RootElementRef, DotNetObjectRef.Create(this));
 
                 isLayerHostRegistered = true;
+
+                if (!isMeasured && this.FabricComponentTarget != null && !isRenderedOnce)
+                {
+                    await CalculateCalloutPositionAsync();
+                }
             }
+            isRenderedOnce = true;
+
             await base.OnAfterRenderAsync();
         }
 
@@ -75,18 +84,20 @@ namespace BlazorFabric.Callout
             {
                 await HiddenChanged.InvokeAsync(true);
             }
+            isMeasured = false;
             await CalculateCalloutPositionAsync();
         }
 
         [JSInvokable] public async void ResizeHandler()
         {
+            isMeasured = false;
             await CalculateCalloutPositionAsync();
         }
 
 
         protected override async Task OnParametersSetAsync()
         {
-            if (this.FabricComponentTarget != null && !isMeasured)
+            if (this.FabricComponentTarget != null && !isMeasured && isRenderedOnce)
             {
                 await CalculateCalloutPositionAsync();
                 
@@ -318,8 +329,8 @@ namespace BlazorFabric.Callout
             {
                 positionData.AlignmentEdge = GetClosestEdge(positionData.TargetEdge, targetRect, boundingRect);
             }
-            else
-                positionData.AlignTargetEdge = AlignTargetEdge;
+
+            positionData.AlignTargetEdge = AlignTargetEdge;
 
             //Now calculate positionedElement
             //GetRectangleFromElement()
@@ -347,16 +358,18 @@ namespace BlazorFabric.Callout
 
         private ElementPosition AdjustFitWithinBounds(Rectangle element, Rectangle target, Rectangle bounding, PositionDirectionalHintData positionData, double gap = 0)
         {
-            ElementPosition elementEstimate = new ElementPosition(element, positionData.TargetEdge, positionData.AlignmentEdge);
+            var alignmentEdge = positionData.AlignmentEdge;
+            var alignTargetEdge = positionData.AlignTargetEdge;
+            ElementPosition elementEstimate = new ElementPosition(element, positionData.TargetEdge, alignmentEdge);
             if (!DirectionalHintFixed  && !CoverTarget)
             {
                 elementEstimate = FlipToFit(element, target, bounding, positionData, gap);
             }
             var outOfBounds = GetOutOfBoundsEdges(element, bounding);
-            if(AlignTargetEdge)
+            if(alignTargetEdge)
             {
                 // The edge opposite to the alignment edge might be out of bounds. Flip alignment to see if we can get it within bounds.
-                if (outOfBounds.IndexOf((RectangleEdge)((int)elementEstimate.AlignmentEdge * -1)) > -1)
+                if (elementEstimate.AlignmentEdge != RectangleEdge.None &&  outOfBounds.IndexOf((RectangleEdge)((int)elementEstimate.AlignmentEdge * -1)) > -1)
                 {
                     var flippedElementEstimate = FlipAlignmentEdge(elementEstimate, target, gap);
                     if (IsRectangleWithinBounds(flippedElementEstimate.ElementRectangle, bounding))
@@ -383,7 +396,7 @@ namespace BlazorFabric.Callout
             estimatedElementPosition = this.CoverTarget
                 ? AlignEdges(elementToPosition, target, positionData.TargetEdge, gap)
                 : AlignOppositeEdges(elementToPosition, target, positionData.TargetEdge, gap);
-            if (!AlignTargetEdge)
+            if (positionData.AlignmentEdge == RectangleEdge.None)
             {
                 var targetMiddlePoint = GetCenterValue(target, positionData.TargetEdge);
                 estimatedElementPosition = CenterEdgeToPoint(estimatedElementPosition, elementEdge, targetMiddlePoint);

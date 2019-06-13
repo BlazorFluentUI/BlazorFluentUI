@@ -43,10 +43,11 @@ namespace BlazorFabric.Nav
             UriHelper.OnLocationChanged += UriHelper_OnLocationChanged;
             return base.OnInitAsync();
         }
+                
 
-        private void UriHelper_OnLocationChanged(object sender, string e)
+        private void UriHelper_OnLocationChanged(object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
         {
-            ProcessUri(e);
+            ProcessUri(e.Location);
         }
 
         private void ProcessUri(string uri)

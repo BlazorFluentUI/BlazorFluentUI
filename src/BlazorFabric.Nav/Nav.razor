@@ -1,7 +1,7 @@
 ﻿@inherits  NavBase
 
 <div role="navigation" 
-     ref="RootElementRef"
+     @ref="RootElementRef"
      class=@($"mediumFont ms-Nav {(IsOnTop?"is-on-top":"")} {(IsOnTop?"slideRightIn40":"")}") 
      aria-label=@AriaLabel>
     <CascadingValue Value=@this.ExpandButtonAriaLabel>

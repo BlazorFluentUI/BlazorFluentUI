@@ -81,6 +81,7 @@ namespace BlazorFabricBaseComponent {
             innerRect.bottom! <= outerRect.bottom! &&
             innerRect.right! <= outerRect.right!
         );
+
     }
 
     function _mergeRect(targetRect: IRectangle, newRect: IRectangle): IRectangle {

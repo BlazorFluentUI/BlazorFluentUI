@@ -7,7 +7,7 @@
 
 @inject IJSRuntime JSRuntime
 
-<div ref="rootElement" role="presentation">
+<div @ref="rootElement" role="presentation">
     @{
         var index = StartIndex;
         foreach (var item in this.ItemsSource)

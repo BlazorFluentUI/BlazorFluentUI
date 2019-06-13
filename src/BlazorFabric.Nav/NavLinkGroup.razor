@@ -2,11 +2,11 @@
 
     <div key={groupIndex} 
          class=@($"ms-Nav-group {(this.isExpanded ? "is-expanded":"")}")
-         ref="RootElementRef">
+         @ref="RootElementRef">
         @if (Name != null)
         {
             <button class="ms-Nav-chevronButton is-group "
-                    onclick=@ClickHandler
+                    @onclick=@ClickHandler
                     aria-label=@this.ExpandButtonAriaLabel
                     aria-expanded={this._isGroupExpanded(group)}>
                 <BlazorFabric.Icon.Icon ClassName="ms-Nav-chevron" IconName="ChevronDown" />

@@ -1,7 +1,7 @@
 ﻿@inherits TextFieldBase
 
 <div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(this.ErrorMessage != null ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(this.Label == null ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )}")
-     ref="RootElementRef">
+     @ref="RootElementRef">
     <div class="ms-TextField-wrapper">
         @if (this.Label != null)
         {
@@ -17,11 +17,11 @@
             @if (this.Multiline)
             {
                 <textarea id=@this.id
-                          ref="textAreaRef"
+                          @ref="textAreaRef"
                           style=@inlineTextAreaStyle
                           value=@currentValue
-                          oninput=@InputHandler
-                          onchange=@ChangeHandler
+                          @oninput=@InputHandler
+                          @onchange=@ChangeHandler
                           class="mediumFont ms-TextField-field"
                           aria-label=@this.AriaLabel
                           aria-describedby=@this.descriptionId
@@ -30,16 +30,16 @@
                           placeholder=@this.Placeholder
                           disabled=@this.Disabled
                           resizable=false
-                          onfocus=@OnFocus
-                          onblur=@OnBlur />
+                          @onfocus=@OnFocus
+                          @onblur=@OnBlur />
             }
             else
             {
                 <input type="text"
                        id=@this.id
                        value=@currentValue
-                       oninput=@InputHandler
-                       onchange=@ChangeHandler
+                       @oninput=@InputHandler
+                       @onchange=@ChangeHandler
                        class="mediumFont ms-TextField-field"
                        aria-label=@this.AriaLabel
                        aria-describedby=@this.descriptionId
@@ -47,8 +47,8 @@
                        readOnly=@this.ReadOnly
                        placeholder=@this.Placeholder
                        disabled=@this.Disabled
-                       onfocus=@OnFocus
-                       onblur=@OnBlur />
+                       @onfocus=@OnFocus
+                       @onblur=@OnBlur />
             }
             @*        {(iconClass || iconProps) && <Icon className={this._classNames.icon} {...iconProps} />}*@
             @if (this.Suffix != null)

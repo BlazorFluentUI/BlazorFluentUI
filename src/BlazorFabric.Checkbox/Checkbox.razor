@@ -2,14 +2,14 @@
 @*<KeytipData keytipProps={keytipProps} disabled={disabled}>
     {(keytipAttributes: any): JSX.Element => (*@
 <div class=@($"fabricCheckbox-root ms-Checkbox-checkbox {(isChecked ? "is-checked" : "not-checked")} {(Reversed ? "reversed" : "")} {(Disabled ? "is-disabled" : "is-enabled")}") 
-     ref="RootElementRef">
+     @ref="RootElementRef">
     <input type="checkbox"
            id=@Id
            class=@($"fabricCheckbox-input mediumFont" )
            checked=@(Checked.HasValue ? Checked.Value : DefaultChecked)
            disabled=@Disabled
-           onclick=@OnClick
-           onchange="@OnChange"
+           @onclick=@OnClick
+           @onchange="@OnChange"
            aria-disabled=@Disabled
            aria-label=@AriaLabel
            aria-labelledby=@AriaLabelledBy

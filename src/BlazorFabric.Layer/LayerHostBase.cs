@@ -37,6 +37,7 @@ namespace BlazorFabric.Layer
         //    builder.CloseComponent();
 
         //}
+
         protected LayerPortal layerPortal;
 
         public void AddOrUpdateHostedContent(string layerId, RenderFragment renderFragment)

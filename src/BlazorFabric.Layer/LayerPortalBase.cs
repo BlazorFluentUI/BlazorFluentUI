@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BlazorFabric.Layer
 {
-    public class LayerPortalBase : FabricComponentBase
+    public class LayerPortalBase : FabricComponentBase, IDisposable
     {
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
@@ -17,6 +17,17 @@ namespace BlazorFabric.Layer
             this.ChildContent = renderFragment;
             this.IsFixed = isFixed;
             StateHasChanged();
+        }
+
+        public void RemoveChildContent()
+        {
+            this.ChildContent = null;
+            StateHasChanged();
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

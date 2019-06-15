@@ -2,10 +2,10 @@
 
 
     <BlazorFabric.Layer.Layer >
-        <div class="ms-Callout-container" @ref="RootElementRef" >
-            <div class=@($"ms-Callout mediumFont")
+        <div class="ms-Callout-container" @ref="RootElementRef" style=@($"{(this.Hidden ? "visibility: hidden;" : "")}") >
+            <div class=@($"ms-Callout mediumFont {GetAnimationStyle()}")
                  @ref="calloutRef"
-                 style=@($"{CalloutPosition.ElementRectangle.GetStyle()} {(this.Hidden ? "visibility: hidden;" : "")} {(CalloutWidth > 0 ? "width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")>
+                 style=@($"{CalloutPosition.ElementRectangle.GetStyle()} {(CalloutWidth > 0 ? "width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")>
                 @if(this.IsBeakVisible)
                 {
                     <div class="ms-Callout-beak" style=@($"{CalloutPosition.BeakPosition.ElementRectangle.GetStyle()} width:{BeakWidth}px; height:{BeakWidth}px; {(BackgroundColor != null ? "background-color:"+BackgroundColor+";" : "")}")/>

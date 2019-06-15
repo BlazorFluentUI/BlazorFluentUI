@@ -2,13 +2,14 @@
 
 <h1>Callout</h1>
 
-
+<div style="height:300px;"></div>
 <DefaultButton Text="Show Callout" OnClick=@ClickHandler @ref="calloutTarget" />
-<Callout @bind-Hidden=@calloutHidden 
-         
-         FabricComponentTarget=@calloutTarget
+
+@if (!calloutHidden)
+{
+<Callout FabricComponentTarget=@calloutTarget
          Style="max-width:300px;"
-         DirectionalHint=@BaseComponent.DirectionalHint.TopAutoEdge
+         DirectionalHint=@BaseComponent.DirectionalHint.RightBottomEdge
          >
     <h2>Callout Test</h2>
     <p style="min-width: 150px;">
@@ -16,6 +17,7 @@
     </p>
     <PrimaryButton Text="Ok" />
 </Callout>
+}
 
 @code { 
 

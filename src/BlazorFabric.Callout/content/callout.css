@@ -15,6 +15,10 @@
     }
 }
 
+.ms-Callout-container{
+    position:relative;
+}
+
 .ms-Callout-beak{
     position:absolute;
     background-color: var(--palette-White);

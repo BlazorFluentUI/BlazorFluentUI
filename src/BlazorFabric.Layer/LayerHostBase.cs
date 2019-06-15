@@ -47,6 +47,11 @@ namespace BlazorFabric.Layer
             layerPortal.SetChildContent(renderFragment, IsFixed);
         }
 
+        public void RemoveHostedContent(string layerId)
+        {
+            layerPortal.RemoveChildContent();
+        }
+
         protected Task ScrollHandler(UIEventArgs args)
         {
             if (OnScroll != null)

@@ -7,6 +7,12 @@ var BlazorFabricCallout;
         window.onresize = function (ev) { return calloutRef.invokeMethodAsync("ResizeHandler"); };
     }
     BlazorFabricCallout.registerHandlers = registerHandlers;
+    function unregisterHandlers(targetElement, calloutRef) {
+        var window = targetElement.ownerDocument.defaultView;
+        window.onscroll = null;
+        window.onresize = null;
+    }
+    BlazorFabricCallout.unregisterHandlers = unregisterHandlers;
     function getWindow(element) {
         return element.ownerDocument.defaultView;
     }

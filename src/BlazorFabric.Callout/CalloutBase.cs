@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric.Callout
 {
-    public class CalloutBase : FabricComponentBase
+    public class CalloutBase : FabricComponentBase, IDisposable
     {
         internal CalloutBase() { }
 
@@ -94,6 +94,22 @@ namespace BlazorFabric.Callout
             await CalculateCalloutPositionAsync();
         }
 
+        protected string GetAnimationStyle()
+        {
+            switch (CalloutPosition.TargetEdge)
+            {
+                case RectangleEdge.Bottom:
+                    return "slideDownIn10";
+                case RectangleEdge.Left:
+                    return "slideLeftIn10";
+                case RectangleEdge.Right:
+                    return "slideRightIn10";
+                case RectangleEdge.Top:
+                    return "slideUpIn10";
+                default:
+                    return "";
+            }
+        }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -104,6 +120,14 @@ namespace BlazorFabric.Callout
             }
             await base.OnParametersSetAsync();
         }
+
+
+        public async void Dispose()
+        {
+            await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", this.FabricComponentTarget.RootElementRef, DotNetObjectRef.Create(this));
+
+        }
+
 
         private async Task CalculateCalloutPositionAsync()
         {

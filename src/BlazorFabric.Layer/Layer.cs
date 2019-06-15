@@ -12,7 +12,7 @@ namespace BlazorFabric.Layer
     // a LayerHost manually near the root of the app.  This will allow you to use a CascadeParameter 
     // to send the LayerHost to anywhere in the app and render items to it.
 
-    public class Layer : ComponentBase
+    public class Layer : ComponentBase, IDisposable
     {
         //internal LayerBase() { }
 
@@ -41,6 +41,11 @@ namespace BlazorFabric.Layer
         {
             //if (layerElement == null)
             base.OnAfterRender();
+        }
+
+        public void Dispose()
+        {
+            LayerHost.RemoveHostedContent(this.id);
         }
     }
 }

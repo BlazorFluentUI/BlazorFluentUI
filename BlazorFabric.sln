@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Layer", "src\B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Popup", "src\BlazorFabric.Popup\BlazorFabric.Popup.csproj", "{4B508E82-0975-4671-8002-04C393417F82}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Dropdown", "src\BlazorFabric.Dropdown\BlazorFabric.Dropdown.csproj", "{C994D495-7DBA-4650-B0AE-B1B437EFB923}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{4B508E82-0975-4671-8002-04C393417F82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B508E82-0975-4671-8002-04C393417F82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B508E82-0975-4671-8002-04C393417F82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C994D495-7DBA-4650-B0AE-B1B437EFB923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C994D495-7DBA-4650-B0AE-B1B437EFB923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C994D495-7DBA-4650-B0AE-B1B437EFB923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C994D495-7DBA-4650-B0AE-B1B437EFB923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,6 +149,7 @@ Global
 		{EFC1DA1F-FDCB-4BE4-B667-239ED0B61725} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{311CBC1F-B29F-45E8-A6C7-F35848C4C80E} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{4B508E82-0975-4671-8002-04C393417F82} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{C994D495-7DBA-4650-B0AE-B1B437EFB923} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

@@ -1,7 +1,7 @@
 # BlazorFabric
 Simple port of Office Fabric React components and style to Blazor
 
-## Demo
+## Demo (not working until Azure updates to preview-6 of aspnetcore)
 https://blazorfabric.azurewebsites.net/
 
 ## Status

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,9 +41,12 @@ namespace BlazorFabric.Callout
         [Parameter] protected string AriaLabel { get; set; }
         [Parameter] protected string AriaLabelledBy { get; set; }
         [Parameter] protected string AriaDescribedBy { get; set; }
-        [Parameter] protected bool Hidden { get; set; } = false;
+
+        protected bool Hidden { get; set; } = true;
 
         [Parameter] protected EventCallback<bool> HiddenChanged { get; set; }
+
+        [Parameter] protected EventCallback<bool> OnDismiss { get; set; }
 
         protected Rectangle Position { get; set; } = new Rectangle();
 
@@ -80,12 +84,13 @@ namespace BlazorFabric.Callout
 
         [JSInvokable] public async void ScrollHandler()
         {
-            if (!Hidden)
-            {
-                await HiddenChanged.InvokeAsync(true);
-            }
+            await OnDismiss.InvokeAsync(true);
+            //if (!Hidden)
+            //{
+            await HiddenChanged.InvokeAsync(true);
+            //}
             isMeasured = false;
-            await CalculateCalloutPositionAsync();
+            //await CalculateCalloutPositionAsync();
         }
 
         [JSInvokable] public async void ResizeHandler()
@@ -140,8 +145,10 @@ namespace BlazorFabric.Callout
                 maxBounds = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.getWindowRect");
             }
             var targetRect = await this.FabricComponentTarget.GetBoundsAsync();
+            Debug.WriteLine($"TargetRect: {targetRect.left}, {targetRect.top}, {targetRect.right}, {targetRect.bottom}");
 
             contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
+            StateHasChanged();
 
             this.CalloutPosition = await PositionCalloutAsync(targetRect, maxBounds);
             //this.CalloutPosition = calloutPositioning;
@@ -149,6 +156,7 @@ namespace BlazorFabric.Callout
             //this.Position = this.CalloutPosition.ElementRectangle;
 
             isMeasured = true;
+            Hidden = false;
             StateHasChanged();
         }
 
@@ -184,8 +192,8 @@ namespace BlazorFabric.Callout
         {
             var beakWidth = IsBeakVisible ? BeakWidth : 0;
             var gap = Math.Sqrt(beakWidth * beakWidth * 2) / 2 + GapSpace;
-                        
 
+            Debug.WriteLine($"MaxBounds: {maxBounds.left}, {maxBounds.top}, {maxBounds.right}, {maxBounds.bottom}");
             var positionedElement = await PositionElementRelativeAsync(gap, targetRect, maxBounds);
 
             var beakPositioned = PositionBeak(beakWidth, positionedElement);
@@ -284,6 +292,9 @@ namespace BlazorFabric.Callout
         private async Task<PartialRectangle> FinalizeElementPositionAsync(Rectangle elementRectangle, /* hostElement, */ RectangleEdge targetEdge, Rectangle bounds, RectangleEdge alignmentEdge)
         {
             var hostRectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", RootElementRef);
+            Debug.WriteLine($"HostRect: {hostRectangle.left}, {hostRectangle.top}, {hostRectangle.right}, {hostRectangle.bottom}");
+
+
             var elementEdge = CoverTarget ? targetEdge : (RectangleEdge)((int)targetEdge * -1);
             //elementEdgeString
             var returnEdge = FinalizeReturnEdge(elementRectangle, alignmentEdge != RectangleEdge.None ? alignmentEdge : GetFlankingEdges(targetEdge).positiveEdge, bounds);
@@ -359,6 +370,7 @@ namespace BlazorFabric.Callout
             //Now calculate positionedElement
             //GetRectangleFromElement()
             var calloutRectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", calloutRef);
+            Debug.WriteLine($"Callout: {calloutRectangle.left}, {calloutRectangle.top}, {calloutRectangle.right}, {calloutRectangle.bottom}");
 
             var positionedElement = PositionElementWithinBounds(calloutRectangle, targetRect, boundingRect, positionData, gap);
 

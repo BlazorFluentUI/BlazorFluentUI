@@ -10,6 +10,7 @@
 <Callout FabricComponentTarget=@calloutTarget
          Style="max-width:300px;"
          DirectionalHint=@BaseComponent.DirectionalHint.RightBottomEdge
+         OnDismiss=@DismissHandler
          >
     <h2>Callout Test</h2>
     <p style="min-width: 150px;">
@@ -21,27 +22,33 @@
 
 @code { 
 
-    bool isInitialized = false;
-    DefaultButton calloutTarget;
-    bool calloutHidden = true;
+bool isInitialized = false;
+DefaultButton calloutTarget;
+bool calloutHidden = true;
 
-    Task ClickHandler(UIMouseEventArgs args)
-    {
-        calloutHidden = !calloutHidden;
-        StateHasChanged();
-        return Task.CompletedTask;
-    }
+Task ClickHandler(UIMouseEventArgs args)
+{
+    calloutHidden = !calloutHidden;
+    StateHasChanged();
+    return Task.CompletedTask;
+}
 
-    protected override Task OnAfterRenderAsync()
+protected override Task OnAfterRenderAsync()
+{
+    if (!isInitialized)
     {
-        if (!isInitialized)
+        if (calloutTarget != null)
         {
-            if (calloutTarget != null)
-            {
-                isInitialized = true;
-                StateHasChanged();
-            }
+            isInitialized = true;
+            StateHasChanged();
         }
-        return Task.CompletedTask;
     }
+    return Task.CompletedTask;
+}
+
+protected Task DismissHandler(bool isDismissed)
+{
+    calloutHidden = true;
+    return Task.CompletedTask;
+}
 }

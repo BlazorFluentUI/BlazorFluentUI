@@ -25,8 +25,7 @@ namespace BlazorFabric.Layer
 
         //public bool IsSet { get; set; } = false;
 
-        protected Dictionary<string, (RenderFragment fragment, LayerPortal portal)> portals = new Dictionary<string, (RenderFragment fragment, LayerPortal portal)>();
-
+        
         //protected override void BuildRenderTree(RenderTreeBuilder builder)
         //{
         //    base.BuildRenderTree(builder);
@@ -44,12 +43,12 @@ namespace BlazorFabric.Layer
         {
             //until we can get references from a loop, looks like we can only use one portal at a time.
             //maybe with preview 6
-            layerPortal.SetChildContent(renderFragment, IsFixed);
+            layerPortal.SetChildContent(layerId, renderFragment, IsFixed);
         }
 
         public void RemoveHostedContent(string layerId)
         {
-            layerPortal.RemoveChildContent();
+            layerPortal.RemoveChildContent(layerId);
         }
 
         protected Task ScrollHandler(UIEventArgs args)

@@ -10,7 +10,7 @@ namespace BlazorFabric.Dropdown
     {
         [Parameter] protected string AriaLabel { get; set; }
         [Parameter] protected bool Disabled { get; set; }
-        [Parameter] protected int DropdownWidth { get; set; } = 0.0;
+        [Parameter] protected int DropdownWidth { get; set; } = 0;
         [Parameter] protected string ErrorMessage { get; set; }
         [Parameter] protected bool IsOpen { get; set; }
         [Parameter] protected string Label { get; set; }

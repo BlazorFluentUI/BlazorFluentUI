@@ -8,20 +8,32 @@ namespace BlazorFabric.Layer
 {
     public class LayerPortalBase : FabricComponentBase, IDisposable
     {
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        //[Parameter] protected RenderFragment ChildContent { get; set; }
 
-        protected bool IsFixed = true;
+        //protected bool IsFixed = true;
 
-        public void SetChildContent(RenderFragment renderFragment, bool isFixed)
+        protected Dictionary<string, (RenderFragment fragment, bool isFixed)> fragments = new Dictionary<string, (RenderFragment fragment, bool isFixed)>();
+
+
+        public void SetChildContent(string layerId, RenderFragment renderFragment, bool isFixed)
         {
-            this.ChildContent = renderFragment;
-            this.IsFixed = isFixed;
+            if (fragments.ContainsKey(layerId))
+            {
+                fragments[layerId] = (renderFragment, isFixed);
+            }
+            else
+            {
+                fragments.Add(layerId, (renderFragment, isFixed));
+            }
+            //this.ChildContent = renderFragment;
+            //this.IsFixed = isFixed;
             StateHasChanged();
         }
 
-        public void RemoveChildContent()
+        public void RemoveChildContent(string layerId)
         {
-            this.ChildContent = null;
+            fragments.Remove(layerId);
+            //this.ChildContent = null;
             StateHasChanged();
         }
 

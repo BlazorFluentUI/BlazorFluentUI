@@ -171,11 +171,11 @@
 }
 
 :root{
-    --depths-Depth0: "0 0 0 0 transparent";
-    --depths-Depth4: "0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108)";
-    --depths-Depth8: "0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132), 0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108)";
-    --depths-Depth16: "0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108)";
-    --depths-Depth64: "0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18)";
+    --depths-Depth0: 0 0 0 0 transparent;
+    --depths-Depth4: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
+    --depths-Depth8: 0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132), 0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108);
+    --depths-Depth16: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
+    --depths-Depth64: 0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18);
 }
 
 :root {
@@ -229,7 +229,8 @@
 
 :root {
     --animation-DURATION_3: 0.367s;
-    --animation-EASING_FUNCTION_1: cubic-bezier(0.1,0.25,0.75,0.9);
+    --animation-EASING_FUNCTION_1: cubic-bezier(0.1,0.9,0.2,1);
+    --animation-EASING_FUNCTION_2: cubic-bezier(0.1,0.25,0.75,0.9);
 }
 
 @keyframes Slide_down_in_10 {
@@ -304,7 +305,7 @@
     animation: Slide_down_in_20 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
 }
 .slideRightIn10 {
-    animation: Slide_left_in_10 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
+    animation: Slide_right_in_10 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
 }
 .slideRightIn40 {
     animation: Slide_right_in_40 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);

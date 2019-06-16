@@ -2,21 +2,22 @@
 
 <h1>Callout</h1>
 
-<div style="height:300px;"></div>
+<div style="height:100px;"></div>
 <DefaultButton Text="Show Callout" OnClick=@ClickHandler @ref="calloutTarget" />
 
 @if (!calloutHidden)
 {
-<Callout FabricComponentTarget=@calloutTarget
-         Style="max-width:300px;"
+<Callout FabricComponentTarget=@calloutTarget         
          DirectionalHint=@BaseComponent.DirectionalHint.RightBottomEdge
          OnDismiss=@DismissHandler
          >
-    <h2>Callout Test</h2>
-    <p style="min-width: 150px;">
-        There are a few things in here.
-    </p>
-    <PrimaryButton Text="Ok" />
+    <div Style="max-width:300px; padding:20px;">
+        <h2>Callout Test</h2>
+        <p style="min-width: 150px;">
+            There are a few things in here.
+        </p>
+        <PrimaryButton Text="Ok" />
+    </div>
 </Callout>
 }
 

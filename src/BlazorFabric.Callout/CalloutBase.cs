@@ -42,6 +42,7 @@ namespace BlazorFabric.Callout
         [Parameter] protected string AriaLabelledBy { get; set; }
         [Parameter] protected string AriaDescribedBy { get; set; }
 
+        // This is no longer available to use publicly.  Need this to hide control when calculating position otherwise it blinks into the top corner.
         protected bool Hidden { get; set; } = true;
 
         [Parameter] protected EventCallback<bool> HiddenChanged { get; set; }
@@ -63,12 +64,14 @@ namespace BlazorFabric.Callout
 
         protected ElementRef calloutRef;
 
+        private List<int> eventHandlerIds;
+
         protected override async Task OnAfterRenderAsync()
         {
             
             if (!isLayerHostRegistered && ComponentContext.IsConnected)
             {
-                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.registerHandlers", this.FabricComponentTarget.RootElementRef, DotNetObjectRef.Create(this));
+                eventHandlerIds =  await JSRuntime.InvokeAsync<List<int>>("BlazorFabricCallout.registerHandlers", this.RootElementRef, DotNetObjectRef.Create(this));
 
                 isLayerHostRegistered = true;
 
@@ -85,18 +88,31 @@ namespace BlazorFabric.Callout
         [JSInvokable] public async void ScrollHandler()
         {
             await OnDismiss.InvokeAsync(true);
-            //if (!Hidden)
-            //{
             await HiddenChanged.InvokeAsync(true);
-            //}
             isMeasured = false;
-            //await CalculateCalloutPositionAsync();
         }
 
         [JSInvokable] public async void ResizeHandler()
         {
+            await OnDismiss.InvokeAsync(true);
+            await HiddenChanged.InvokeAsync(true);
             isMeasured = false;
-            await CalculateCalloutPositionAsync();
+        }
+
+        [JSInvokable]
+        public async void FocusHandler()
+        {
+            await OnDismiss.InvokeAsync(true);
+            await HiddenChanged.InvokeAsync(true);
+            isMeasured = false;
+        }
+
+        [JSInvokable]
+        public async void ClickHandler()
+        {
+            await OnDismiss.InvokeAsync(true);
+            await HiddenChanged.InvokeAsync(true);
+            isMeasured = false;
         }
 
         protected string GetAnimationStyle()
@@ -120,6 +136,7 @@ namespace BlazorFabric.Callout
         {
             if (this.FabricComponentTarget != null && !isMeasured && isRenderedOnce)
             {
+                //this will never get called initially because the target won't be rendered yet.  Shouldn't be called after due to isMeasured  
                 await CalculateCalloutPositionAsync();
                 
             }
@@ -129,7 +146,7 @@ namespace BlazorFabric.Callout
 
         public async void Dispose()
         {
-            await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", this.FabricComponentTarget.RootElementRef, DotNetObjectRef.Create(this));
+            await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", this.FabricComponentTarget.RootElementRef, DotNetObjectRef.Create(this), eventHandlerIds);
 
         }
 

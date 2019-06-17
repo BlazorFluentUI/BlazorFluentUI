@@ -27,13 +27,13 @@
     <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <EmbeddedResource Remove="content\baseComponent.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="content\baseComponent.ts" />
-  </ItemGroup>
+  </ItemGroup>-->
 
 
   <ItemGroup>

@@ -1,0 +1,84 @@
+﻿/*
+    This file is to show how CSS and other static resources (such as images) can be
+    used from a library project/package.
+*/
+
+.ms-Dropdown {
+    color: var(--palette-NeutralPrimary);
+    border-color: var(--palette-NeutralSecondary);
+    position:relative;
+    outline:0;
+    user-select:none;
+
+}
+
+
+.ms-Dropdown-title{
+    background-color: var(--semanticColors-InputBackground);
+    border-width:1px;
+    border-style: solid;
+    border-color: var(--semanticColors-InputBorder);
+    border-radius: var(--effects-RounderCorner2);
+    cursor: pointer;
+    display:block;
+    height: 32px;
+    line-height: 30px;
+    padding: 0 28px 0 8px;
+    position:relative;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+.ms-Dropdown.is-open  .ms-Dropdown-title {
+    /* depends on open border edge */
+}
+.ms-Dropdown.is-placeholder .ms-Dropdown-title{
+    color: var(--semanticColors-InputPlaceholderText);
+}
+.ms-Dropdown.has-error .ms-Dropdown-title {
+    border-color: var(--semanticColors-ErrorText);
+}
+.ms-Dropdown.is-disabled .ms-Dropdown-title {
+    background-color: var(--semanticColors-DisabledBackground);
+    border:none;
+    color: var(--semanticColors-DisabledText);
+    cursor:default;
+}
+
+.ms-Dropdown-caretDownWrapper{
+    position:absolute;
+    top:1px;
+    right:8px;
+    height:32px;
+    line-height:30px;
+    cursor:pointer;
+}
+.ms-Dropdown.is-disabled .ms-Dropdown-caretDownWrapper {
+    cursor:default;
+}
+
+.ms-Dropdown-caretDown {
+    color: var(--palette-NeutralSecondary);
+    font-size: var(--fontSize-Small);
+    pointer-events:none;
+}
+.ms-Dropdown.is-disabled .ms-Dropdown-caretDown {
+    color: var(--semanticColors-DisabledText);
+}
+
+.ms-Dropdown-errorMessage{
+    color: var(--semanticColors-ErrorText);
+    padding-top:5px;
+}
+
+.ms-Dropdown-callout{
+    box-shadow: var(--effects-Elevation8);
+    /*border-radius depends on direction*/
+}
+    .ms-Dropdown-callout .ms-Callout-main {
+        /*border-radius depends on direction*/
+    }
+
+.ms-Dropdown-itemsWrapper:focus{
+    outline:0;
+}

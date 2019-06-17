@@ -45,6 +45,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\DropdownPage.razor" Link="Pages\DropdownPage.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BlazorEmbedLibrary" Version="0.1.0-beta-4" />
   </ItemGroup>
 
@@ -53,6 +57,7 @@
     <ProjectReference Include="..\..\src\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.ContextualMenu\BlazorFabric.ContextualMenu.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Dropdown\BlazorFabric.Dropdown.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Layer\BlazorFabric.Layer.csproj" />

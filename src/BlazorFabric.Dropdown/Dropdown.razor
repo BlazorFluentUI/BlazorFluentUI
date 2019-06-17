@@ -1,75 +1,97 @@
-﻿@inherits  DropdownBase
+﻿@inherits DropdownBase<TItem>
 
-    <div class="ms-Dropdown-root" @ref=@RootElementRef>
-        @if (this.Label != null)
-        {
-            <BlazorFabric.Label.Label ClassName="ms-Dropdown-label" HtmlFor=@id Required=@Required>
-                @Label
-            </BlazorFabric.Label.Label>
-        }
-        @*KeyTipData*@
-        <div tabindex=@(Disabled ? -1 : 0)
-             aria-expanded=@(IsOpen ? "true" : "false")
-             aria-label=@AriaLabel
-             aria-labelledby=@(Label != null ? id+"-label" : null)
-             aria-describedby="?"
-             aria-activedescendant="?"
-             aria-disabled=@Disabled
-             aria-owns=@(IsOpen ? id + "-list" : null)
-             class="ms-Dropdown-dropdown">
-            <span id=@($"{id}-option")
-                  class="ms-Dropdown-title"
-                  aria-atomic="true"
-                  role="menuitem">
-                @if (selectedOptions.Count > 0)
+@typeparam TItem
+
+<div class="ms-Dropdown-root" @ref=@RootElementRef>
+    @if (this.Label != null)
+    {
+        <BlazorFabric.Label.Label ClassName="ms-Dropdown-label" HtmlFor=@id Required=@Required>
+            @Label
+        </BlazorFabric.Label.Label>
+    }
+    @*KeyTipData*@
+    <div tabindex=@(Disabled ? -1 : 0)
+         aria-expanded=@(isOpen ? "true" : "false")
+         aria-label=@AriaLabel
+         aria-labelledby=@(Label != null ? id+"-label" : null)
+         aria-describedby="?"
+         aria-activedescendant="?"
+         aria-disabled=@Disabled
+         aria-owns=@(isOpen ? id + "-list" : null)
+         @onclick=@ClickHandler
+         @onfocus=@FocusHandler
+         class=@($"ms-Dropdown-dropdown mediumFont {(isOpen?"is-open":"")}  {(Disabled?"is-disabled":"")}  {(selectedOptions.Count == 0 ?"is-placeholder":"")}")>
+        <span id=@($"{id}-option")
+              class="ms-Dropdown-title"
+              aria-atomic="true"
+              role="menuitem">
+            @if (selectedOptions.Count > 0)
+            {
+                <span>@string.Join(", ", selectedOptions)</span>
+            }
+            else
+            {
+                if(this.Placeholder != null)
                 {
-                    //render option title
+                    <span>@this.Placeholder</span>
                 }
-                else
-                {
-                    //render placeholder
-                }
-            </span>
-        </div>
-        @if (IsOpen)
-        {
-            //render container
-            @if (isSmall)
+            }
+        </span>
+        <span class="ms-Dropdown-caretDownWrapper">
+            <BlazorFabric.Icon.Icon IconName="ChevronDown" ClassName="ms-Dropdown-caretDown" />
+        </span>
+    </div>
+    @if (isOpen)
+    {
+        //render container
+        @if (isSmall)
         {
 
         }
         else
         {
-    <BlazorFabric.Callout.Callout IsBeakVisible="false"
-                                  GapSpace="0"
-                                  DoNotLayer="false"
-                                  DirectionalHintFixed="false"
-                                  DirectionalHint=@BaseComponent.DirectionalHint.BottomLeftEdge
-                                  ClassName="ms-Dropdown-callout"
-                                  FabricComponentTarget=@this
-                                  CalloutWidth=@DropdownWidth>
-        <div class="ms-Dropdown-dropdownItemsWrapper"
-             onKeyDown=""
-             onKeyUp=""
-             tabIndex="0">
-            @*<FocusZone ref={this._focusZone}
-                       direction={FocusZoneDirection.vertical}
-                       id={id + '-list' }
-                       className={this._classNames.dropdownItems}
-                       aria-labelledby={id + '-label' }
-                       role="listbox">*@
+            <BlazorFabric.Callout.Callout IsBeakVisible="false"
+                                          GapSpace="0"
+                                          DoNotLayer="false"
+                                          DirectionalHintFixed="false"
+                                          DirectionalHint=@BaseComponent.DirectionalHint.BottomLeftEdge
+                                          ClassName="ms-Dropdown-callout"
+                                          FabricComponentTarget=@this
+                                          OnDismiss=@DismissHandler
+                                          CalloutWidth=@DropdownWidth>
+                <div class="ms-Dropdown-dropdownItemsWrapper"
+                     onKeyDown=""
+                     onKeyUp=""
+                     tabIndex="0">
+                    @*<FocusZone ref={this._focusZone}
+                        direction={FocusZoneDirection.vertical}
+                        id={id + '-list' }
+                        className={this._classNames.dropdownItems}
+                        aria-labelledby={id + '-label' }
+                        role="listbox">*@
+                    <CascadingValue Value=@this>
+                        @if (ItemsSource != null)
+                        {
+                            foreach (var item in ItemsSource)
+                            {
+                                @ItemTemplate(item)
+                            }
+                        }
+                        else
+                        {
+                            @ChildContent
+                        }
+                    </CascadingValue>
+                    @*</FocusZone>*@
+                </div>
+            </BlazorFabric.Callout.Callout>
 
-
-            @*</FocusZone>*@
-        </div>
-    </BlazorFabric.Callout.Callout>
-
-            }
         }
-        @if (ErrorMessage != null)
-        {
-            //render error message
-        }
+    }
+    @if (ErrorMessage != null)
+    {
+        <div class="ms-Dropdown-errorMessage smallFont">@ErrorMessage</div>
+    }
 
 
-    </div>
+</div>

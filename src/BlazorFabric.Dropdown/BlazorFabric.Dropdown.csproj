@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,6 +6,14 @@
     <LangVersion>7.3</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <Version>1.0.2-beta</Version>
+    <Authors>Lee McPherson</Authors>
+    <Product></Product>
+    <Description>Dropdown from Blazor port of Office Fabric UI</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,8 +29,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
     <ProjectReference Include="..\BlazorFabric.Label\BlazorFabric.Label.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

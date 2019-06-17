@@ -1,0 +1,29 @@
+@page "/dropdownPage"
+
+@using Models
+
+<h1>DropdownPage</h1>
+
+<div style="max-width:300px;">
+    <Dropdown ItemsSource=@items  Placeholder="Select an option">
+        <ItemTemplate>
+            <DropdownItem TItem="DataItem" />
+        </ItemTemplate>
+    </Dropdown>
+</div>
+@code {
+
+    List<DataItem> items;
+
+    protected override Task OnInitAsync()
+    {
+        items = new List<DataItem>
+    {
+        new DataItem(1),
+        new DataItem(2),
+        new DataItem(3)
+    };
+        return base.OnInitAsync();
+    }
+
+}

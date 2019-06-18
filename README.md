@@ -6,15 +6,16 @@ https://blazorfabric.azurewebsites.net/
 
 ## Status
 - Label -done
-- DefaultButton, PrimaryButton, ActionButton -working, but incomplete
+- DefaultButton, PrimaryButton, ActionButton(CommandButton) -working, but incomplete
 - Checkbox -done, except for icons
 - List -done, but bad server-side experience
 - TextField -done, except for icons
 - Icon, only MS icons 
 - Nav -done!
 - ContextualMenu -in-progress
-- Callout (part of ContextMenu) -in-progress
-- Layer (part of Callout) -in-progress
+- Callout (part of ContextMenu) -working, not positioning perfectly
+- Layer (part of Callout) -done?  only layers at root window right now.
+- Dropdown -done? working well 
 
 
 ## Info

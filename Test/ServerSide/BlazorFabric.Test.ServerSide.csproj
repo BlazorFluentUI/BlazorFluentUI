@@ -45,7 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\DropdownPage.razor" Link="Pages\DropdownPage.razor" />
+    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\DropdownPage.razor" Link="Pages\DropdownPage.razor">
+      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

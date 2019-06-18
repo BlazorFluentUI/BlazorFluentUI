@@ -3,7 +3,7 @@
 
     <BlazorFabric.Layer.Layer>
         <div class="ms-Callout-container" @ref="RootElementRef" style=@($"{(this.Hidden ? "visibility: hidden;" : "")}") >
-            <div class=@($"ms-Callout mediumFont {GetAnimationStyle()}")
+            <div class=@($"ms-Callout mediumFont {GetAnimationStyle()} {CalloutPosition.TargetEdge.ToString()}")
                  @ref="calloutRef"
                  style=@($"{CalloutPosition.ElementRectangle.GetStyle()} {(CalloutWidth > 0 ? "width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")>
                 @if(this.IsBeakVisible)

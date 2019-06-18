@@ -4,26 +4,99 @@
 
 <h1>DropdownPage</h1>
 
+<h3>Uncontrolled Single Selection</h3>
+<BlazorFabric.Label.Label>Selected: @uncontrolledSingleSelectionResult</BlazorFabric.Label.Label>
 <div style="max-width:300px;">
-    <Dropdown ItemsSource=@items  Placeholder="Select an option">
+    <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler>
         <ItemTemplate>
-            <DropdownItem TItem="DataItem" />
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
         </ItemTemplate>
     </Dropdown>
 </div>
+
+<h3>Uncontrolled Multi-Selection</h3>
+<BlazorFabric.Label.Label>Selected: @string.Join(", ", uncontrolledMultiSelectionResult)</BlazorFabric.Label.Label>
+<div style="max-width:300px;">
+    <Dropdown ItemsSource=@items TItem="DataItem" MultiSelect="true" Placeholder="Select options..." OnChange=@UncontrolledMultiChangeHandler>
+        <ItemTemplate>
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+        </ItemTemplate>
+    </Dropdown>
+</div>
+
+<h3>Controlled Single Selection</h3>
+<BlazorFabric.Label.Label>Selected: @string.Join(", ", controlledSingleSelectionResult)</BlazorFabric.Label.Label>
+<div style="max-width:300px;">
+    <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" @bind-SelectedKeys=@controlledSingleSelectionResult @bind-SelectedKeys:event="SelectedKeysChanged">
+        <ItemTemplate>
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+        </ItemTemplate>
+    </Dropdown>
+</div>
+
+<h3>Controlled Multi-Selection</h3>
+<BlazorFabric.Label.Label>Selected: @string.Join(", ", controlledMultiSelectionResult)</BlazorFabric.Label.Label>
+<div style="max-width:300px;">
+    <Dropdown ItemsSource=@items TItem="DataItem" MultiSelect="true" Placeholder="Select options..." @bind-SelectedKeys=@controlledMultiSelectionResult @bind-SelectedKeys:event="SelectedKeysChanged">
+        <ItemTemplate>
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+        </ItemTemplate>
+    </Dropdown>
+</div>
+
+<h3>Disabled</h3>
+<div style="max-width:300px;">
+    <Dropdown ItemsSource=@items TItem="DataItem" Disabled="true" Placeholder="Select an option" >
+        <ItemTemplate>
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+        </ItemTemplate>
+    </Dropdown>
+</div>
+
+<h3>Disabled with Selected</h3>
+<div style="max-width:300px;">
+    <Dropdown ItemsSource=@items TItem="DataItem" Disabled="true" Placeholder="Select an option" @bind-SelectedKeys=@controlledSingleSelectionResult @bind-SelectedKeys:event="SelectedKeysChanged">
+        <ItemTemplate>
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+        </ItemTemplate>
+    </Dropdown>
+</div>
+
+
 @code {
+
+    string uncontrolledSingleSelectionResult;
+    List<string> uncontrolledMultiSelectionResult = new List<string>();
+
+    List<string> controlledSingleSelectionResult = new List<string> { "Third" };
+    List<string> controlledMultiSelectionResult = new List<string> { "Second", "Third" };
 
     List<DataItem> items;
 
     protected override Task OnInitAsync()
     {
         items = new List<DataItem>
-    {
-        new DataItem(1),
-        new DataItem(2),
-        new DataItem(3)
-    };
+{
+            new DataItem("First"),
+            new DataItem("Second"),
+            new DataItem("Third"),
+            new DataItem("Fourth"),
+            new DataItem("Fifth")
+        };
         return base.OnInitAsync();
+    }
+
+    void UncontrolledSingleChangeHandler((string key, bool isAdded) args)
+    {
+        uncontrolledSingleSelectionResult = args.key;
+    }
+
+    void UncontrolledMultiChangeHandler((string key, bool isAdded) args)
+    {
+        if (args.isAdded)
+            uncontrolledMultiSelectionResult.Add(args.key);
+        else
+            uncontrolledMultiSelectionResult.Remove(args.key);
     }
 
 }

@@ -20,14 +20,14 @@
          aria-owns=@(isOpen ? id + "-list" : null)
          @onclick=@ClickHandler
          @onfocus=@FocusHandler
-         class=@($"ms-Dropdown-dropdown mediumFont {(isOpen?"is-open":"")}  {(Disabled?"is-disabled":"")}  {(selectedOptions.Count == 0 ?"is-placeholder":"")}")>
+         class=@($"ms-Dropdown mediumFont {(isOpen?"is-open":"")} {(this.Label!=null ? "has-label" : "")} {(Disabled?"is-disabled":"")} {(Required?"is-required":"")} {(SelectedKeys.Count == 0 ?"has-placeholder":"")} {(ErrorMessage != null ?"has-error":"")}")>
         <span id=@($"{id}-option")
               class="ms-Dropdown-title"
               aria-atomic="true"
               role="menuitem">
-            @if (selectedOptions.Count > 0)
-            {
-                <span>@string.Join(", ", selectedOptions)</span>
+            @if (SelectedKeys.Count > 0)
+         {
+                <span>@String.Join(", ", SelectedKeys)</span>
             }
             else
             {
@@ -58,30 +58,32 @@
                                           ClassName="ms-Dropdown-callout"
                                           FabricComponentTarget=@this
                                           OnDismiss=@DismissHandler
-                                          CalloutWidth=@DropdownWidth>
-                <div class="ms-Dropdown-dropdownItemsWrapper"
+                                          CalloutWidth=@(DropdownWidth == 0 ? (int)dropDownBounds.width : DropdownWidth)>
+                <div class="ms-Dropdown-itemsWrapper"
                      onKeyDown=""
                      onKeyUp=""
                      tabIndex="0">
-                    @*<FocusZone ref={this._focusZone}
-                        direction={FocusZoneDirection.vertical}
-                        id={id + '-list' }
-                        className={this._classNames.dropdownItems}
-                        aria-labelledby={id + '-label' }
-                        role="listbox">*@
-                    <CascadingValue Value=@this>
-                        @if (ItemsSource != null)
-                        {
-                            foreach (var item in ItemsSource)
+                    <div class="ms-Dropdown-items">
+                        @*<FocusZone ref={this._focusZone}
+        direction={FocusZoneDirection.vertical}
+        id={id + '-list' }
+        className={this._classNames.dropdownItems}
+        aria-labelledby={id + '-label' }
+        role="listbox">*@
+                        <CascadingValue Value=@this>
+                            @if (ItemsSource != null)
                             {
-                                @ItemTemplate(item)
+                                foreach (var item in ItemsSource)
+                                {
+                                    @ItemTemplate(item)
+                                }
                             }
-                        }
-                        else
-                        {
-                            @ChildContent
-                        }
-                    </CascadingValue>
+                            else
+                            {
+                                @ChildContent
+                            }
+                        </CascadingValue>
+                    </div>
                     @*</FocusZone>*@
                 </div>
             </BlazorFabric.Callout.Callout>

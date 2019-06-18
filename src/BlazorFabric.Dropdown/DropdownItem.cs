@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.RenderTree;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlazorFabric.Dropdown
 {
@@ -14,13 +15,31 @@ namespace BlazorFabric.Dropdown
         [Parameter] protected bool Disabled { get; set; }
         [Parameter] protected bool Hidden { get; set; }
         [Parameter] protected SelectableOptionMenuItemType ItemType { get; set; } = SelectableOptionMenuItemType.Normal;
-        [Parameter] protected string Key { get; set; }
+        [Parameter] protected string ItemKey { get; set; }
+        //[Parameter] protected string Selected { get; set; }
         [Parameter] protected string Text { get; set; }
         [Parameter] protected string Title { get; set; }
 
         [CascadingParameter] protected DropdownBase<TItem> Dropdown { get; set; }
 
         private bool isSelected = false;
+
+        protected override Task OnParametersSetAsync()
+        {
+            if (this.Dropdown!= null && this.Dropdown.SelectedKeys.Count > 0)
+            {
+                if (this.Dropdown.SelectedKeys.Contains(this.ItemKey))
+                    isSelected = true;
+                else
+                    isSelected = false;
+            }
+            else
+            {
+                isSelected = false;
+            }
+
+            return base.OnParametersSetAsync();
+        }
 
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -47,20 +66,28 @@ namespace BlazorFabric.Dropdown
             if (Dropdown.MultiSelect)
             {
                 builder.OpenComponent<Checkbox.Checkbox>(i);
-                builder.AddAttribute(i + 1, "key", this.Key);
+                //builder.AddAttribute(i + 2, "Key", this.Key);
                 builder.AddAttribute(i + 2, "Disabled", Disabled);
                 builder.AddAttribute(i + 3, "ClassName", $"ms-Dropdown-item {(Disabled ? "is-disabled" : "")} {(Hidden ? "is-hidden" : "")}  {(isSelected ? "selected" : "")}");
                 builder.AddAttribute(i + 4, "Label", this.Text);
-                builder.AddAttribute(i + 5, "Title", this.Title != null ? this.Title : this.Text);
-                builder.AddAttribute(i + 6, "Checked", isSelected);
+                builder.AddAttribute(i + 5, "Checked", isSelected);
+                builder.AddAttribute(i + 6, "CheckedChanged", EventCallback.Factory.Create<bool>(this, __value => { if (isSelected) { this.Dropdown.RemoveSelection(this.ItemKey); } else { this.Dropdown.AddSelection(this.ItemKey); } }));
                 builder.CloseComponent();
             }
             else
             {
                 builder.OpenComponent<ActionButton>(i);
-                builder.AddAttribute(i + 1, "key", this.Key);
+                //builder.AddAttribute(i + 1, "Key", this.Key);
                 builder.AddAttribute(i + 2, "Disabled", Disabled);
                 builder.AddAttribute(i + 3, "ClassName", $"ms-Dropdown-item {(Disabled ? "is-disabled" : "")} {(Hidden ? "is-hidden" : "")}  {(isSelected ? "selected" : "")}");
+                builder.AddAttribute(i + 4, "OnClick", EventCallback.Factory.Create<UIMouseEventArgs>(this, __value => { this.Dropdown.ResetSelection(); this.Dropdown.AddSelection(this.ItemKey); }));
+                builder.AddAttribute(i + 5, "ChildContent", (RenderFragment)((builder2) =>
+                {
+                    builder2.OpenElement(i + 6, "span");
+                    builder2.AddAttribute(i + 7, "class", "ms-Dropdown-optionText");
+                    builder2.AddContent(i + 8, this.Text);
+                    builder2.CloseElement();
+                }));                
                 builder.CloseComponent();
             }
         }
@@ -68,18 +95,20 @@ namespace BlazorFabric.Dropdown
         private void BuildHeader(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "key", this.Key);
-            builder.AddAttribute(2, "class", "ms-Dropdown-itemHeader");
-            BuildOption(builder, 3);
+            builder.AddElementReferenceCapture(1, element => this.RootElementRef = element);
+            //builder.AddAttribute(2, "key", this.ItemKey);
+            builder.AddAttribute(3, "class", "ms-Dropdown-itemHeader mediumFont");
+            BuildOption(builder, 4);
             builder.CloseElement();
         }
 
         private void BuildSeparator(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "role", "separator");
-            builder.AddAttribute(2, "key", 1);
-            builder.AddAttribute(3, "class", "ms-Dropdown-divider");
+            builder.AddElementReferenceCapture(1, element => this.RootElementRef = element);
+            builder.AddAttribute(2, "role", "separator");
+            //builder.AddAttribute(3, "key", 1);
+            builder.AddAttribute(4, "class", "ms-Dropdown-divider");
             builder.CloseElement();
         }
     }

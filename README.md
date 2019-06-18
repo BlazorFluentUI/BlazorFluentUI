@@ -1,7 +1,7 @@
 # BlazorFabric
 Simple port of Office Fabric React components and style to Blazor
 
-## Demo (not working until Azure updates to preview-6 of aspnetcore)
+## Demo (workaround for publishing working!)
 https://blazorfabric.azurewebsites.net/
 
 ## Status
@@ -12,7 +12,7 @@ https://blazorfabric.azurewebsites.net/
 - TextField -done, except for icons
 - Icon, only MS icons 
 - Nav -done!
-- ContextualMenu -in-progress
+- ContextualMenu -in-progress, broken currently
 - Callout (part of ContextMenu) -working, not positioning perfectly
 - Layer (part of Callout) -done?  only layers at root window right now.
 - Dropdown -done? working well 

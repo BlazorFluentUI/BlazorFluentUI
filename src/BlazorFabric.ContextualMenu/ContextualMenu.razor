@@ -2,6 +2,47 @@
 
 @typeparam TItem
 
-<div class="my-component" ref="RootElementRef">
-    This Blazor component is defined in the <strong>BlazorFabric.ContextualMenu</strong> package.
-</div>
+
+<BlazorFabric.Callout.Callout FabricComponentTarget=@FabricComponentTarget
+                              IsBeakVisible=@IsBeakVisible
+                              BeakWidth=@BeakWidth
+                              DirectionalHint=@DirectionalHint
+                              GapSpace=@GapSpace
+                              CoverTarget=@CoverTarget
+                              ClassName="ms-ContextualMenu-callout"
+                              Bounds=@Bounds
+                              DirectionalHintFixed=@DirectionalHintFixed
+                              AlignTargetEdge=@AlignTargetEdge
+                              OnDismiss=@OnDismiss
+                              >
+    <div aria-label=@AriaLabel
+         style=""
+         class="ms-ContextualMenu-container">
+        @if (Title != null)
+        {
+            <div class="ms-ContextMenu-title">
+                @Title
+            </div>
+        }
+        @if (ItemsSource != null && ItemsSource.Count() > 0)
+        {
+            <div class=@($"ms-ContextualMenu mediumFont {(this.IsOpen ? "is-open" : "")}")>
+                <ul class="ms-ContextualMenu-list" role="menu">
+                    @foreach (var menuItem in ItemsSource)
+                    {
+                        @MenuItemTemplate(menuItem)
+                    }
+                </ul>
+            </div>
+        }
+        else
+        {
+            <div class=@($"ms-ContextualMenu mediumFont {(this.IsOpen ? "is-open" : "")}")>
+                <ul class="ms-ContextualMenu-list" role="menu">
+                    @ChildContent
+                </ul>
+            </div>
+        }
+    </div>
+
+</BlazorFabric.Callout.Callout>

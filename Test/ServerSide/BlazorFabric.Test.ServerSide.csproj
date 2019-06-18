@@ -51,6 +51,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\ContextualMenuPage.razor" Link="Pages\ContextualMenuPage.razor">
+      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BlazorEmbedLibrary" Version="0.1.0-beta-4" />
   </ItemGroup>
 

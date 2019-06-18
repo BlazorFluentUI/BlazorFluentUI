@@ -10,7 +10,7 @@
     <LangVersion>7.3</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <Version>1.0.1-beta</Version>
+    <Version>1.0.2-beta</Version>
     <Authors>Lee McPherson</Authors>
     <Product></Product>
     <Description>Callout from Blazor port of Office Fabric UI</Description>
@@ -50,9 +50,9 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="wwwroot\callout.css" />
-    <None Include="wwwroot\callout.js" />
-    <None Include="wwwroot\callout.js.map" />
+    <!--<Content Include="wwwroot\callout.css" />
+    <Content Include="wwwroot\callout.js" />
+    <Content Include="wwwroot\callout.js.map" />-->
     <None Include="wwwroot\callout.ts">
       <Generator>TypescriptCompile</Generator>
     </None>

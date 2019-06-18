@@ -1,0 +1,60 @@
+@page "/contextualMenuPage"
+
+@using Models
+
+<h1>ContextualMenu</h1>
+
+<DefaultButton Text="Show ContextualMenu" >
+    <ContextualMenuContent>
+        @*<ContextualMenu TItem="object" FabricComponentTarget=@buttonRef>*@
+            <ContextualMenuItem Text="Test1" />
+            <ContextualMenuItem Text="Test2" />
+            <ContextualMenuItem Text="Test3" />
+        @*</ContextualMenu>*@
+    </ContextualMenuContent>
+</DefaultButton>
+
+        <ContextualMenu TItem="object">
+            <ContextualMenuItem Text="Test1" />
+            <ContextualMenuItem Text="Test2" />
+            <ContextualMenuItem Text="Test3" />
+        </ContextualMenu>
+
+
+@code {
+
+string uncontrolledSingleSelectionResult;
+List<string> uncontrolledMultiSelectionResult = new List<string>();
+
+List<string> controlledSingleSelectionResult = new List<string> { "Third" };
+List<string> controlledMultiSelectionResult = new List<string> { "Second", "Third" };
+
+List<DataItem> items;
+
+protected override Task OnInitAsync()
+{
+    items = new List<DataItem>
+{
+            new DataItem("First"),
+            new DataItem("Second"),
+            new DataItem("Third"),
+            new DataItem("Fourth"),
+            new DataItem("Fifth")
+        };
+    return base.OnInitAsync();
+}
+
+void UncontrolledSingleChangeHandler((string key, bool isAdded) args)
+{
+    uncontrolledSingleSelectionResult = args.key;
+}
+
+void UncontrolledMultiChangeHandler((string key, bool isAdded) args)
+{
+    if (args.isAdded)
+        uncontrolledMultiSelectionResult.Add(args.key);
+    else
+        uncontrolledMultiSelectionResult.Remove(args.key);
+}
+
+}

@@ -19,4 +19,8 @@
     <ProjectReference Include="..\BlazorFabric.Test.HostedClient.Shared\BlazorFabric.Test.HostedClient.Shared.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);NU1605</NoWarn>
+  </PropertyGroup>
+
 </Project>

@@ -1,11 +1,42 @@
-﻿/*
-    This file is to show how CSS and other static resources (such as images) can be
-    used from a library project/package.
-*/
+﻿.ms-ContextualMenu {
+    background-color: var(--semanticColors-BodyBackground);
+    min-width: 180px;
+}
 
-.my-component {
-    border: 2px dashed red;
-    padding: 1em;
-    margin: 1em 0;
-    background-image: url('background.png');
+.ms-ContextualMenu-container:focus{
+    outline:0;
+}
+
+.ms-ContextualMenu-list{
+    list-style-type: none;
+    margin: 0;
+    padding:0;
+}
+
+.ms-ContextualMenu-header{
+    /* include smallFont */
+    font-weight: var(--fontWeight-SemiBold);
+    color: var(--semanticColors-MenuHeader);
+    background: none;
+    background-color:transparent;
+    border:none;
+    height:36px;
+    line-height:36px;
+    cursor:default;
+    padding: 0px 6px;
+    user-select:none;
+    text-align:left;
+}
+
+.ms-ContextualMenu-title{
+    font-size:16px;
+    padding-right:14px;
+    padding-left:14px;
+    padding-bottom:5px;
+    padding-top:5px;
+    background-color:var(--palette-NeutralLight);
+}
+
+.ms-ContextualMenu .ms-Callout{
+    box-shadow: var(--effects-Elevation8);
 }

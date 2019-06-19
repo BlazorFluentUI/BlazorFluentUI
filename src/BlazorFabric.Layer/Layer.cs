@@ -17,25 +17,41 @@ namespace BlazorFabric.Layer
         //internal LayerBase() { }
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IComponentContext ComponentContext { get; set; }
         
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
         [CascadingParameter(Name = "HostedContent")] protected LayerHost LayerHost { get; set; }
 
-        private string id = Guid.NewGuid().ToString();
+        private bool addedToHost = false;
+
+        public string id = Guid.NewGuid().ToString();
 
         protected override Task OnParametersSetAsync()
         {
-            LayerHost.AddOrUpdateHostedContent(id, ChildContent);
+            if (!addedToHost)
+            {
+                LayerHost.AddOrUpdateHostedContent(id, ChildContent);
+                addedToHost = true;
+            }
             return base.OnParametersSetAsync();
         }
 
         protected override bool ShouldRender()
         {
-            if (LayerHost != null)
+            if (LayerHost != null && ComponentContext.IsConnected)
+            {
                 LayerHost.AddOrUpdateHostedContent(id, ChildContent);
+                addedToHost = true;
+            }
+            return false;
             return base.ShouldRender();
         }
+
+        //public void Rerender()
+        //{
+        //    StateHasChanged();
+        //}
 
         protected override void OnAfterRender()
         {
@@ -46,6 +62,7 @@ namespace BlazorFabric.Layer
         public void Dispose()
         {
             LayerHost.RemoveHostedContent(this.id);
+            addedToHost = false;
         }
     }
 }

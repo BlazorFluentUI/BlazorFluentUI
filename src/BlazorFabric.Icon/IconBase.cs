@@ -14,7 +14,7 @@ namespace BlazorFabric.Icon
         [Parameter] protected string IconName { get; set; }
         [Parameter] protected string AriaLabel { get; set; }
         [Parameter] protected IconType IconType { get; set; }
-        [Parameter] protected bool IsPlaceholder { get; set; }
+        //[Parameter] protected bool IsPlaceholder { get; set; }
 
 
     }

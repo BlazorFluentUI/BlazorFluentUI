@@ -9,9 +9,19 @@
         @*<ContextualMenu TItem="object" FabricComponentTarget=@buttonRef>*@
         <ContextualMenuItem Text="Header1" ItemType=@ContextualMenuItemType.Header />
         <ContextualMenuItem Text="Test1" />
-        <ContextualMenuItem Text="Test2" />
+        <ContextualMenuItem Text="Test2" IconName="Mail" />
         <ContextualMenuItem ItemType=@ContextualMenuItemType.Divider />
-        <ContextualMenuItem Text="Test3" />
+        <ContextualMenuItem Text="Test3 Check" CanCheck="true" />
+        <ContextualMenuItem Text="Header2" ItemType=@ContextualMenuItemType.Header />
+        <ContextualMenuItem Text="Test4" />
+        <ContextualMenuItem Text="Contains Submenu5">
+            <SubmenuContent>
+                <ContextualMenuItem Text="SubItem1" />
+                <ContextualMenuItem Text="SubItem2" />
+                <ContextualMenuItem Text="SubItem3" />
+            </SubmenuContent>
+        </ContextualMenuItem>
+        <ContextualMenuItem Text="Test6" />
         @*</ContextualMenu>*@
     </ContextualMenuContent>
 </DefaultButton>

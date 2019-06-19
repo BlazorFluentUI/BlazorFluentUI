@@ -53,27 +53,37 @@ namespace BlazorFabric.Callout
 
         protected CalloutPositionedInfo CalloutPosition { get; set; } = new CalloutPositionedInfo();
 
-        [CascadingParameter(Name ="HostedContent")] private LayerHost LayerHost { get; set; }  
+        //[CascadingParameter(Name ="HostedContent")] private LayerHost LayerHost { get; set; }  
 
         protected double contentMaxHeight = 0;
         protected bool overflowYHidden = false;
 
         protected bool isRenderedOnce = false;
         protected bool isMeasured = false;
-        protected bool isLayerHostRegistered = false;
+        protected bool isEventHandlersRegistered = false;
+
+        protected Layer.Layer layerRef;
 
         protected ElementRef calloutRef;
 
         private List<int> eventHandlerIds;
 
+        protected override Task OnInitAsync()
+        {
+            System.Diagnostics.Debug.WriteLine("Creating Callout");
+
+            return base.OnInitAsync();
+        }
+
+
         protected override async Task OnAfterRenderAsync()
         {
             
-            if (!isLayerHostRegistered && ComponentContext.IsConnected)
+            if (!isEventHandlersRegistered && ComponentContext.IsConnected)
             {
                 eventHandlerIds =  await JSRuntime.InvokeAsync<List<int>>("BlazorFabricCallout.registerHandlers", this.RootElementRef, DotNetObjectRef.Create(this));
 
-                isLayerHostRegistered = true;
+                isEventHandlersRegistered = true;
 
                 if (!isMeasured && this.FabricComponentTarget != null && !isRenderedOnce)
                 {
@@ -146,10 +156,18 @@ namespace BlazorFabric.Callout
 
         public async void Dispose()
         {
-            await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", this.FabricComponentTarget.RootElementRef, DotNetObjectRef.Create(this), eventHandlerIds);
+            if (eventHandlerIds != null)
+                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", this.FabricComponentTarget.RootElementRef, DotNetObjectRef.Create(this), eventHandlerIds);
 
         }
 
+
+        //public void ShouldRerender()
+        //{
+        //    //
+        //    //layerRef.Rerender();
+        //    StateHasChanged();
+        //}
 
         private async Task CalculateCalloutPositionAsync()
         {
@@ -169,6 +187,7 @@ namespace BlazorFabric.Callout
 
             this.CalloutPosition = await PositionCalloutAsync(targetRect, maxBounds);
             //this.CalloutPosition = calloutPositioning;
+            Debug.WriteLine($"CalloutPosition: {CalloutPosition.ElementRectangle.left}, {CalloutPosition.ElementRectangle.top}, {CalloutPosition.ElementRectangle.right}, {CalloutPosition.ElementRectangle.bottom}");
 
             //this.Position = this.CalloutPosition.ElementRectangle;
 

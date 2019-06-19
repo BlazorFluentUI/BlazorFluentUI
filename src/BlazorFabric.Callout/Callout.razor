@@ -1,7 +1,7 @@
 ﻿@inherits  CalloutBase
 
 
-    <BlazorFabric.Layer.Layer>
+    <BlazorFabric.Layer.Layer @ref="layerRef">
         <div class="ms-Callout-container" @ref="RootElementRef" style=@($"{(this.Hidden ? "visibility: hidden;" : "")}") >
             <div class=@($"ms-Callout mediumFont {GetAnimationStyle()} {CalloutPosition.TargetEdge.ToString()}")
                  @ref="calloutRef"

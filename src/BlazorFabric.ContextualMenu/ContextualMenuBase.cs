@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlazorFabric.ContextualMenu
 {
@@ -11,28 +12,34 @@ namespace BlazorFabric.ContextualMenu
         internal ContextualMenuBase() { }
 
         
-        [Parameter] protected bool AlignTargetEdge { get; set; }
-        [Parameter] protected string AriaLabel { get; set; }
-        [Parameter] protected int BeakWidth { get; set; } = 16;
-        [Parameter] protected Rectangle Bounds { get; set; }
-        [Parameter] protected RenderFragment ChildContent { get; set; }
-        [Parameter] protected bool CoverTarget { get; set; }
-        [Parameter] protected DirectionalHint DirectionalHint { get; set; } = DirectionalHint.BottomAutoEdge;
-        [Parameter] protected bool DirectionalHintFixed { get; set; }
-        [Parameter] protected FabricComponentBase FabricComponentTarget { get; set; }
-        [Parameter] protected int GapSpace { get; set; } = 0;
-        [Parameter] protected bool IsBeakVisible { get; set; }
-        [Parameter] protected bool IsOpen { get; set; }  //to get styling
-        [Parameter] protected IEnumerable<TItem> ItemsSource { get; set; }
-        [Parameter] protected RenderFragment<TItem> MenuItemTemplate { get; set; }
-        [Parameter] protected string Title { get; set; }
-        [Parameter] protected bool UseTargetWidth { get; set; } = false;
-        [Parameter] protected bool UseTargetAsMinWidth { get; set; } = false;
+        [Parameter] public bool AlignTargetEdge { get; set; }
+        [Parameter] public string AriaLabel { get; set; }
+        [Parameter] public int BeakWidth { get; set; } = 16;
+        [Parameter] public Rectangle Bounds { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public bool CoverTarget { get; set; }
+        [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.BottomAutoEdge;
+        [Parameter] public bool DirectionalHintFixed { get; set; }
+        [Parameter] public FabricComponentBase FabricComponentTarget { get; set; }
+        [Parameter] public int GapSpace { get; set; } = 0;
+        [Parameter] public bool IsBeakVisible { get; set; }
+        [Parameter] public bool IsOpen { get; set; }  //to get styling
+        [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
+        [Parameter] public RenderFragment<TItem> MenuItemTemplate { get; set; }
+        [Parameter] public double SubMenuHoverDelay { get; set; } = 250;
+        [Parameter] public string Title { get; set; }
+        [Parameter] public bool UseTargetWidth { get; set; } = false;
+        [Parameter] public bool UseTargetAsMinWidth { get; set; } = false;
 
-        [Parameter] protected EventCallback<bool> OnDismiss { get; set; }
+        [Parameter] public EventCallback<bool> OnDismiss { get; set; }
 
+        protected override Task OnInitAsync()
+        {
+            System.Diagnostics.Debug.WriteLine("Creating ContextualMenu");
+            return base.OnInitAsync();
+        }
 
         public int HasIconCount = 0; //needed to shift margins and make space for all 
-
+        public int HasCheckable = 0;
     }
 }

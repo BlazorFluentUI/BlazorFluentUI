@@ -17,12 +17,18 @@ namespace BlazorFabric.Nav
                 
         protected override Task OnInitAsync()
         {
+            System.Diagnostics.Debug.WriteLine("Initializing NavBase");
             return base.OnInitAsync();
         }
 
         protected override Task OnParametersSetAsync()
         {
             return base.OnParametersSetAsync();
+        }
+
+        public void ManuallyRefresh()
+        {
+            StateHasChanged();
         }
     }
 }

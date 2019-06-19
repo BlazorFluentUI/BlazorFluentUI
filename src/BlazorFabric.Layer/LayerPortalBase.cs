@@ -8,34 +8,52 @@ namespace BlazorFabric.Layer
 {
     public class LayerPortalBase : FabricComponentBase, IDisposable
     {
-        //[Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
-        //protected bool IsFixed = true;
+        [Parameter] public bool IsFixed { get; set; } = true;
 
-        protected Dictionary<string, (RenderFragment fragment, bool isFixed)> fragments = new Dictionary<string, (RenderFragment fragment, bool isFixed)>();
+        //protected Dictionary<string, (RenderFragment fragment, bool isFixed)> fragments = new Dictionary<string, (RenderFragment fragment, bool isFixed)>();
 
 
-        public void SetChildContent(string layerId, RenderFragment renderFragment, bool isFixed)
+        protected bool shouldRender = false;
+
+        protected override bool ShouldRender()
         {
-            if (fragments.ContainsKey(layerId))
+            if (shouldRender)
             {
-                fragments[layerId] = (renderFragment, isFixed);
+                shouldRender = false;
+                return true;
             }
-            else
-            {
-                fragments.Add(layerId, (renderFragment, isFixed));
-            }
-            //this.ChildContent = renderFragment;
-            //this.IsFixed = isFixed;
+            return false;
+        }
+
+        public void Rerender()
+        {
+            shouldRender = true;
             StateHasChanged();
         }
 
-        public void RemoveChildContent(string layerId)
-        {
-            fragments.Remove(layerId);
-            //this.ChildContent = null;
-            StateHasChanged();
-        }
+        //public void SetChildContent(string layerId, RenderFragment renderFragment, bool isFixed)
+        //{
+        //    if (fragments.ContainsKey(layerId))
+        //    {
+        //        fragments[layerId] = (renderFragment, isFixed);
+        //    }
+        //    else
+        //    {
+        //        fragments.Add(layerId, (renderFragment, isFixed));
+        //    }
+        //    //this.ChildContent = renderFragment;
+        //    //this.IsFixed = isFixed;
+        //    Rerender();
+        //}
+
+        //public void RemoveChildContent(string layerId)
+        //{
+        //    fragments.Remove(layerId);
+        //    //this.ChildContent = null;
+        //    Rerender();
+        //}
 
         public void Dispose()
         {

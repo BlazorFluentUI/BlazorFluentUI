@@ -3,13 +3,13 @@
 
 @if(IconType == IconType.Image)
 {
-    <div class=@($"ms-Icon ms-Icon-imageContainer {(this.IsPlaceholder ? "ms-Icon-placeHolder" : "")} {this.ClassName}") role="presentation" >
+    <div class=@($"ms-Icon ms-Icon-imageContainer {this.ClassName}") role="presentation" >
 
     </div>
 }
 else
 {
-    <i class=@($"ms-Icon ms-Icon--{IconName} {(this.IsPlaceholder ? "ms-Icon-placeHolder" : "")} {this.ClassName}") role="presentation" @ref="RootElementRef">
+    <i class=@($"ms-Icon {(string.IsNullOrEmpty(this.IconName) ? "ms-Icon-placeHolder" : "ms-Icon--" + this.IconName)} {this.ClassName}") role="presentation" @ref="RootElementRef">
 
     </i>
 }

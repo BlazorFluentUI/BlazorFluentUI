@@ -1,6 +1,6 @@
 ﻿@inherits  LayerPortalBase
     
-@foreach (var pair in fragments)
+@*@foreach (var pair in fragments)
 {
     <span @key=pair.Key
           class=@($"ms-Layer mediumFont {(pair.Value.isFixed ? "ms-Layer--fixed" : "")}") 
@@ -9,4 +9,10 @@
             @pair.Value.fragment
         </div>
     </span>
-}
+}*@
+
+    <span class=@($"ms-Layer mediumFont {(this.IsFixed ? "ms-Layer--fixed" : "")}")>
+        <div class="ms-Layer-content" ref="RootElementRef">
+            @ChildContent
+        </div>
+    </span>

@@ -12,7 +12,7 @@ https://blazorfabric.azurewebsites.net/
 - TextField -done, except for icons
 - Icon, only MS icons 
 - Nav -done!
-- ContextualMenu -in-progress, broken currently
+- ContextualMenu -in-progress
 - Callout (part of ContextMenu) -working, not positioning perfectly
 - Layer (part of Callout) -done?  only layers at root window right now.
 - Dropdown -done? working well 

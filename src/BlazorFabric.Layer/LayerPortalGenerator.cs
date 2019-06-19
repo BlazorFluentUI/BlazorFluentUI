@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.RenderTree;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BlazorFabric.Layer
@@ -12,7 +13,7 @@ namespace BlazorFabric.Layer
 
         private int sequenceCount = 0;
         private Dictionary<string, int> portalSequenceStarts = new Dictionary<string, int>();
-        private Dictionary<string, RenderFragment> portalFragments = new Dictionary<string, RenderFragment>();
+        private List<(string id, RenderFragment fragment)> portalFragments = new List<(string id, RenderFragment fragment)>();
         private Dictionary<string, LayerPortal> portals = new Dictionary<string, LayerPortal>();
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -21,32 +22,35 @@ namespace BlazorFabric.Layer
             foreach (var portalPair in portalFragments)
             {
                 int sequenceStart = 0;
-                if (portalSequenceStarts.ContainsKey(portalPair.Key))
-                    sequenceStart = portalSequenceStarts[portalPair.Key];
+                if (portalSequenceStarts.ContainsKey(portalPair.id))
+                    sequenceStart = portalSequenceStarts[portalPair.id];
                 else
                 {
                     sequenceStart = sequenceCount;
-                    portalSequenceStarts.Add(portalPair.Key, sequenceStart);
+                    portalSequenceStarts.Add(portalPair.id, sequenceStart);
                     sequenceCount += 5; //advance the count for the next new layerportal
                     // this will eventually run out of numbers... need to reset everything at some point...  maybe it's not necessary
                 }
                 builder.OpenComponent<LayerPortal>(sequenceStart);
-                builder.AddAttribute(sequenceStart + 1, "ChildContent", portalPair.Value);
-                builder.AddComponentReferenceCapture(sequenceStart + 2, (component) => portals[portalPair.Key] = (LayerPortal)component);
+                builder.AddAttribute(sequenceStart + 1, "ChildContent", portalPair.fragment);
+                builder.AddComponentReferenceCapture(sequenceStart + 2, (component) => portals[portalPair.id] = (LayerPortal)component);
                 builder.CloseComponent();
             }
         }
 
         public void AddOrUpdateHostedContent(string layerId, RenderFragment renderFragment)
         {
-            if (portalFragments.ContainsKey(layerId))
+            var foundPortalFragment = portalFragments.FirstOrDefault(x => x.id == layerId);
+            if (foundPortalFragment != default((string,RenderFragment)))
             {
-                portalFragments[layerId] = renderFragment;
+                foundPortalFragment.fragment = renderFragment;
+                System.Diagnostics.Debug.WriteLine($"Rerendering layer: {layerId}");
                 portals[layerId].Rerender();
             }
             else
             {
-                portalFragments.Add(layerId, renderFragment); //should render the first time and not after unless explicitly set.
+                System.Diagnostics.Debug.WriteLine($"Adding new layer: {layerId}, {portalFragments.Count} layer(s) in host currently.");
+                portalFragments.Add((layerId, renderFragment)); //should render the first time and not after unless explicitly set.
                 StateHasChanged();
             }
            
@@ -54,7 +58,8 @@ namespace BlazorFabric.Layer
 
         public void RemoveHostedContent(string layerId)
         {
-            portalFragments.Remove(layerId);
+            System.Diagnostics.Debug.WriteLine($"Disposing layer: {layerId}");
+            portalFragments.Remove(portalFragments.First(x => x.id == layerId));
             if (portals.ContainsKey(layerId))
                 portals.Remove(layerId);
             portalSequenceStarts.Remove(layerId);

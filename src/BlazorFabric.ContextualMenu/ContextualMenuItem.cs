@@ -46,7 +46,7 @@ namespace BlazorFabric.ContextualMenu
 
         [JSInvokable] public void MouseEnterHandler()
         {
-            Debug.WriteLine("Mouse Enter");
+            //Debug.WriteLine("Mouse Enter");
             if (leaveTimer.Enabled)
                 leaveTimer.Stop();
             if (subContextMenuShown)
@@ -57,7 +57,7 @@ namespace BlazorFabric.ContextualMenu
 
         [JSInvokable] public void MouseLeaveHandler()
         {
-            Debug.WriteLine("Mouse Leave");
+            //Debug.WriteLine("Mouse Leave");
             if (enterTimer.Enabled)
                 enterTimer.Stop();
 
@@ -112,6 +112,7 @@ namespace BlazorFabric.ContextualMenu
         protected override Task OnInitAsync()
         {
             System.Diagnostics.Debug.WriteLine("Creating MenuItem");
+            enterTimer.AutoReset = false;
             enterTimer.Elapsed += EnterTimer_Elapsed;
             leaveTimer.Elapsed += LeaveTimer_Elapsed;
             return base.OnInitAsync();
@@ -124,6 +125,8 @@ namespace BlazorFabric.ContextualMenu
 
         private void EnterTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine($"Show submenu");
+
             subContextMenuShown = true;
             Invoke(() => StateHasChanged());
         }

@@ -157,6 +157,7 @@
     --semanticColors-ButtonTextChecked: var(--palette-NeutralDark);
     --semanticColors-ButtonTextCheckedHovered: var(--palette-Black);
     --semanticColors-MenuItemBackgroundHovered: var(--palette-NeutralLighter);
+    --semanticColors-MenuItemBackgroundPressed: var(--palette-NeutralLight);
     --semanticColors-MenuIcon: var(--palette-ThemePrimary);
     --semanticColors-MenuHeader: var(--palette-ThemePrimary);
     --semanticColors-ListBackground: var(--palette-White);

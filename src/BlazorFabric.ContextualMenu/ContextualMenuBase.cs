@@ -31,7 +31,8 @@ namespace BlazorFabric.ContextualMenu
 
         [Parameter] protected EventCallback<bool> OnDismiss { get; set; }
 
-        
+
+        public int HasIconCount = 0; //needed to shift margins and make space for all 
 
     }
 }

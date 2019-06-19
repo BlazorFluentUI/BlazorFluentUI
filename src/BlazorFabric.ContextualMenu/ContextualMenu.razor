@@ -27,20 +27,24 @@
         @if (ItemsSource != null && ItemsSource.Count() > 0)
         {
             <div class=@($"ms-ContextualMenu mediumFont {(this.IsOpen ? "is-open" : "")}")>
-                <ul class="ms-ContextualMenu-list" role="menu">
-                    @foreach (var menuItem in ItemsSource)
-                    {
-                        @MenuItemTemplate(menuItem)
-                    }
-                </ul>
+                <CascadingValue Value=@this>
+                    <ul class="ms-ContextualMenu-list" role="menu">
+                        @foreach (var menuItem in ItemsSource)
+                        {
+                            @MenuItemTemplate(menuItem)
+                        }
+                    </ul>
+                </CascadingValue>
             </div>
         }
         else
         {
             <div class=@($"ms-ContextualMenu mediumFont {(this.IsOpen ? "is-open" : "")}")>
-                <ul class="ms-ContextualMenu-list" role="menu">
-                    @ChildContent
-                </ul>
+                <CascadingValue Value=@this>
+                    <ul class="ms-ContextualMenu-list" role="menu">
+                        @ChildContent
+                    </ul>
+                </CascadingValue>
             </div>
         }
     </div>

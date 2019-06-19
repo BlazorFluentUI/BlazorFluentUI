@@ -7,19 +7,17 @@
 <DefaultButton Text="Show ContextualMenu" >
     <ContextualMenuContent>
         @*<ContextualMenu TItem="object" FabricComponentTarget=@buttonRef>*@
-            <ContextualMenuItem Text="Test1" />
-            <ContextualMenuItem Text="Test2" />
-            <ContextualMenuItem Text="Test3" />
+        <ContextualMenuItem Text="Header1" ItemType=@ContextualMenuItemType.Header />
+        <ContextualMenuItem Text="Test1" />
+        <ContextualMenuItem Text="Test2" />
+        <ContextualMenuItem ItemType=@ContextualMenuItemType.Divider />
+        <ContextualMenuItem Text="Test3" />
         @*</ContextualMenu>*@
     </ContextualMenuContent>
 </DefaultButton>
 
-        <ContextualMenu TItem="object">
-            <ContextualMenuItem Text="Test1" />
-            <ContextualMenuItem Text="Test2" />
-            <ContextualMenuItem Text="Test3" />
-        </ContextualMenu>
-
+<h3>Starting to look good.  Finish Header, Section, submenu, and wire up events properly</h3>
+       
 
 @code {
 

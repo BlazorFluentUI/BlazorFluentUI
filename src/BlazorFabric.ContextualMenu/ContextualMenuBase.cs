@@ -26,12 +26,19 @@ namespace BlazorFabric.ContextualMenu
         [Parameter] public bool IsOpen { get; set; }  //to get styling
         [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
         [Parameter] public RenderFragment<TItem> MenuItemTemplate { get; set; }
-        [Parameter] public double SubMenuHoverDelay { get; set; } = 250;
+        //[Parameter] public double SubMenuHoverDelay { get; set; } = 250;
         [Parameter] public string Title { get; set; }
         [Parameter] public bool UseTargetWidth { get; set; } = false;
         [Parameter] public bool UseTargetAsMinWidth { get; set; } = false;
 
         [Parameter] public EventCallback<bool> OnDismiss { get; set; }
+
+        public string SubmenuActiveKey { get; set; }
+        public void SetSubmenuActiveKey(string key)
+        {
+            SubmenuActiveKey = key;
+            StateHasChanged();
+        }
 
         protected override Task OnInitAsync()
         {

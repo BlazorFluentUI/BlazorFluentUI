@@ -32,13 +32,13 @@ namespace BlazorFabric.ContextualMenu
         [Parameter] public bool Checked { get; set; }
         [Parameter] public bool Split { get; set; }
 
-        [Parameter] public EventCallback<UIMouseEventArgs> OnClick { get; set; }
+        [Parameter] public EventCallback<string> OnClick { get; set; }
 
         [CascadingParameter] public ContextualMenuBase<object> ContextualMenu { get; set; }
 
-        public bool IsExpanded { get; set; }
+        //public bool IsExpanded { get; set; }
 
-        private bool subContextMenuShown = false;
+        //private bool ContextMenuShown = false;
         private ElementRef linkElementRef;
         private List<int> eventHandlerIds;
         private Timer enterTimer = new Timer();
@@ -46,10 +46,10 @@ namespace BlazorFabric.ContextualMenu
 
         [JSInvokable] public void MouseEnterHandler()
         {
-            //Debug.WriteLine("Mouse Enter");
+            Debug.WriteLine("Mouse Enter");
             if (leaveTimer.Enabled)
                 leaveTimer.Stop();
-            if (subContextMenuShown)
+            if (ContextualMenu.SubmenuActiveKey == this.Key)
                 return;
             if (!enterTimer.Enabled)
                 enterTimer.Start();
@@ -100,10 +100,10 @@ namespace BlazorFabric.ContextualMenu
             if (CanCheck == true)
                 ContextualMenu.HasCheckable++;
 
-            if (!enterTimer.Enabled)
-                enterTimer.Interval = ContextualMenu.SubMenuHoverDelay;
-            if (!enterTimer.Enabled)
-                enterTimer.Interval = ContextualMenu.SubMenuHoverDelay;
+            //if (!enterTimer.Enabled)
+            //    enterTimer.Interval = ContextualMenu.SubMenuHoverDelay;
+            //if (!enterTimer.Enabled)
+            //    enterTimer.Interval = ContextualMenu.SubMenuHoverDelay;
 
 
             return base.OnParametersSetAsync();
@@ -113,9 +113,15 @@ namespace BlazorFabric.ContextualMenu
         {
             System.Diagnostics.Debug.WriteLine("Creating MenuItem");
             enterTimer.AutoReset = false;
+            enterTimer.Interval = 250; // can't set this in ParametersSetAsync because it resets the countdown after each refresh, which causes another refresh, infinite loop
             enterTimer.Elapsed += EnterTimer_Elapsed;
             leaveTimer.Elapsed += LeaveTimer_Elapsed;
             return base.OnInitAsync();
+        }
+
+        private async void ClickHandler(UIMouseEventArgs args)
+        {
+            await this.OnClick.InvokeAsync(this.Key);
         }
 
         private void LeaveTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -125,10 +131,15 @@ namespace BlazorFabric.ContextualMenu
 
         private void EnterTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine($"{e.SignalTime}");
+            enterTimer.Stop();
             System.Diagnostics.Debug.WriteLine($"Show submenu");
+            if (SubmenuContent != null)
+                Invoke(()=>ContextualMenu.SetSubmenuActiveKey(Key)); //open this submenu
+            else if (ContextualMenu.SubmenuActiveKey != Key)
+                Invoke(() => ContextualMenu.SetSubmenuActiveKey(""));  //clear any other open menu
 
-            subContextMenuShown = true;
-            Invoke(() => StateHasChanged());
+            //Invoke(() => StateHasChanged());
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -182,7 +193,7 @@ namespace BlazorFabric.ContextualMenu
         private void RenderNormalItem(RenderTreeBuilder builder)
         {
             builder.OpenElement(11, "li");
-            builder.AddAttribute(12, "class", $"ms-ContextualMenu-item mediumFont {(Disabled ? "is-disabled" : "")} {(Checked ? "is-checked" : "")} {(IsExpanded ? "is-expanded" : "")}");
+            builder.AddAttribute(12, "class", $"ms-ContextualMenu-item mediumFont {(Disabled ? "is-disabled" : "")} {(Checked ? "is-checked" : "")} {(ContextualMenu.SubmenuActiveKey == Key ? "is-expanded" : "")}");
             builder.AddElementReferenceCapture(13, (element) => RootElementRef = element);
             RenderItemKind(builder);
             builder.CloseElement();
@@ -209,7 +220,7 @@ namespace BlazorFabric.ContextualMenu
             //skip KeytipData
             builder.OpenElement(21, "a");
             builder.AddAttribute(22, "href", this.Href);
-            builder.AddAttribute(23, "onclick", this.OnClick);
+            builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, this.OnClick));
             builder.AddAttribute(24, "role", "menuitem");
             builder.AddAttribute(25, "class", "ms-ContextualMenu-link mediumFont");
 
@@ -224,7 +235,7 @@ namespace BlazorFabric.ContextualMenu
             builder.OpenElement(20, "div");
             //skip KeytipData
             builder.OpenElement(21, "button");
-            builder.AddAttribute(22, "onclick", this.OnClick);
+            builder.AddAttribute(22, "onclick", ClickHandler);
             builder.AddAttribute(23, "role", "menuitem");
             builder.AddAttribute(24, "class", "ms-ContextualMenu-link mediumFont");
             builder.AddElementReferenceCapture(25, (linkElement) => linkElementRef = linkElement);  //need this to register mouse events in javascript (not available in Blazor)
@@ -251,7 +262,7 @@ namespace BlazorFabric.ContextualMenu
             if (SubmenuContent != null)
             {
                 RenderSubMenuIcon(builder);
-                if (subContextMenuShown)
+                if (ContextualMenu.SubmenuActiveKey == Key)
                     RenderSubContextualMenu(builder);
             }
             builder.CloseElement();
@@ -302,8 +313,8 @@ namespace BlazorFabric.ContextualMenu
         {
             builder.OpenComponent<ContextualMenu.ContextualMenu<object>>(70);
             builder.AddAttribute(71, "FabricComponentTarget", this);
-            builder.AddAttribute(72, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { subContextMenuShown = false; }));
-            builder.AddAttribute(73, "IsOpen", subContextMenuShown);
+            builder.AddAttribute(72, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { ContextualMenu.SetSubmenuActiveKey(""); }));
+            builder.AddAttribute(73, "IsOpen", ContextualMenu.SubmenuActiveKey == Key);
             builder.AddAttribute(74, "DirectionalHint", DirectionalHint.RightTopEdge);
             builder.AddAttribute(75, "ChildContent", SubmenuContent);
             builder.CloseComponent();

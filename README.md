@@ -1,3 +1,5 @@
+_Been on vacation for 3 weeks... updates should start up again soon after preview7 is released :)_
+
 # BlazorFabric
 Simple port of Office Fabric React components and style to Blazor
 

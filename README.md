@@ -4,7 +4,7 @@ Simple port of Office Fabric React components and style to Blazor
 ## Demo
 https://blazorfabric.azurewebsites.net/
 
-## Status
+## Status - all updated to preview8
 - Label -done
 - DefaultButton, PrimaryButton, ActionButton(CommandButton) -working, but incomplete
 - Checkbox -done, except for icons

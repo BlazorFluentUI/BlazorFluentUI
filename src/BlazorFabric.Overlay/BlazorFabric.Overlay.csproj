@@ -13,7 +13,7 @@
     <Version>1.0.3-preview8</Version>
     <Authors>Lee McPherson</Authors>
     <Product></Product>
-    <Description>Buttons from Blazor port of Office Fabric UI</Description>
+    <Description>Overlay from Blazor port of Office Fabric UI (usually a dependency for another control!)</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
     <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
@@ -27,16 +27,9 @@
     <EmbeddedResource Include="wwwroot\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
-  <!--<ItemGroup>
-    <None Remove="wwwroot\button-action.css" />
-    <None Remove="wwwroot\button-default.css" />
-    <None Remove="wwwroot\button.css" />
-  </ItemGroup>-->
-
   <ItemGroup>
-    <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
-    <ProjectReference Include="..\BlazorFabric.ContextualMenu\BlazorFabric.ContextualMenu.csproj" />
-    <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0-preview8.19405.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview8.19405.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,11 +37,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <!--<None Include="wwwroot\button-primary.css" />-->
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview8.19405.7" />
   </ItemGroup>
 
 </Project>

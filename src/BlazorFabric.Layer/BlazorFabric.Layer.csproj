@@ -10,7 +10,7 @@
     <LangVersion>7.3</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <Version>1.0.2-beta</Version>
+    <Version>1.0.3-preview8</Version>
     <Authors>Lee McPherson</Authors>
     <Product></Product>
     <Description>Layer from Blazor port of Office Fabric UI</Description>
@@ -44,7 +44,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="wwwroot\layer.css" />
   </ItemGroup>
 
 </Project>

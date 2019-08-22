@@ -17,17 +17,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
-    <ProjectReference Include="..\..\..\BlazorFabric.Modal\BlazorFabric.Modal.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.ContextualMenu\BlazorFabric.ContextualMenu.csproj" />
+    <ProjectReference Include="..\..\..\src\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Dropdown\BlazorFabric.Dropdown.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Layer\BlazorFabric.Layer.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.List\BlazorFabric.List.csproj" />
+    <ProjectReference Include="..\..\..\src\BlazorFabric.Modal\BlazorFabric.Modal.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Nav\BlazorFabric.Nav.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.TextField\BlazorFabric.TextField.csproj" />
     <ProjectReference Include="..\BlazorFabric.Test.HostedClient.Shared\BlazorFabric.Test.HostedClient.Shared.csproj" />

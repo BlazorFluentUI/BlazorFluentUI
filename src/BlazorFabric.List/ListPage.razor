@@ -1,18 +1,20 @@
-@inherits ComponentBase
 @using System.Reactive.Subjects
 @using System.Reactive.Linq
 @using Microsoft.JSInterop
+@using BlazorFabric.BaseComponent
+
+@inherits FabricComponentBase
 
 @typeparam TItem
 
 @inject IJSRuntime JSRuntime
 
-<div @ref="rootElement" role="presentation">
+<div @ref="RootElementReference" @ref:suppressField role="presentation">
     @{
         var index = StartIndex;
         foreach (var item in this.ItemsSource)
         {
-            <ListItem IndexPosition=@index Item=@item ItemClicked=@ItemClicked IsActive=@(this.SelectedItems.Contains(item)) >
+            <ListItem IndexPosition=@index Item=@item ItemClicked=@ItemClicked IsActive=@(this.SelectedItems.Contains(item))>
                 @ItemTemplate(item)
             </ListItem>
             index++;
@@ -21,8 +23,6 @@
 </div>
 
 @functions{
-    ElementRef rootElement;
-
     //private BehaviorSubject<double> heightSubject;
 
     public double Width { get; set; }
@@ -32,7 +32,7 @@
     [Parameter] RenderFragment<TItem> ItemTemplate { get; set; }
 
     [Parameter] IEnumerable<TItem> ItemsSource { get; set; }
-       
+
     [Parameter] int StartIndex { get; set; }
 
     [Parameter] ISubject<(int index, double height)> PageMeasureSubject { get; set; }
@@ -40,19 +40,19 @@
     [Parameter]
     private Func<object, UIMouseEventArgs, Task> ItemClicked { get; set; }
 
-    
+
     [Parameter] IEnumerable<TItem> SelectedItems { get; set; }
 
 
-    protected override Task OnInitAsync()
+    protected override Task OnInitializedAsync()
     {
         //this.heightSubject = new BehaviorSubject<double>(0);
-        return base.OnInitAsync();
+        return base.OnInitializedAsync();
     }
 
     protected override async Task OnAfterRenderAsync()
     {
-        var result = await JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureElementRect", rootElement);
+        var result = await JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureElementRect", RootElementReference);
         this.Width = result["width"];
         this.Height = result["height"];
         //this.heightSubject.OnNext(result["height"]);

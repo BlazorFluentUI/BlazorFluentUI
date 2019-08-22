@@ -3,7 +3,7 @@
 <h1>Callout</h1>
 
 <div style="height:100px;"></div>
-<DefaultButton Text="Show Callout" OnClick=@ClickHandler @ref="calloutTarget" />
+<DefaultButton Text="Show Callout" OnClick=ClickHandler @ref="calloutTarget" />
 
 @if (!calloutHidden)
 {
@@ -24,7 +24,6 @@
 @code { 
 
 bool isInitialized = false;
-DefaultButton calloutTarget;
 bool calloutHidden = true;
 
 Task ClickHandler(UIMouseEventArgs args)
@@ -38,11 +37,11 @@ protected override Task OnAfterRenderAsync()
 {
     if (!isInitialized)
     {
-        if (calloutTarget != null)
-        {
+        //if (calloutTarget != null)
+        //{
             isInitialized = true;
             StateHasChanged();
-        }
+        //}
     }
     return Task.CompletedTask;
 }

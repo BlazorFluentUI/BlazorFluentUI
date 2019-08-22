@@ -14,15 +14,15 @@ namespace BlazorFabric.Popup
     {
         internal PopupBase() { }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [Parameter] protected string Role { get; set; }
-        [Parameter] protected string AriaLabel { get; set; }
-        [Parameter] protected string AriaLabelledBy { get; set; }
-        [Parameter] protected string AriaDescribedBy { get; set; }
-        [Parameter] protected bool ShouldRestoreFocus { get; set; } = true;  //THIS DOES NOTHING AT THE MOMENT.  
+        [Parameter] public string Role { get; set; }
+        [Parameter] public string AriaLabel { get; set; }
+        [Parameter] public string AriaLabelledBy { get; set; }
+        [Parameter] public string AriaDescribedBy { get; set; }
+        [Parameter] public bool ShouldRestoreFocus { get; set; } = true;  //THIS DOES NOTHING AT THE MOMENT.  
 
-        [Parameter] protected EventCallback<UIEventArgs> OnDismiss { get; set; }
+        [Parameter] public EventCallback<UIEventArgs> OnDismiss { get; set; }
 
 
         // Come back to this later if needed!

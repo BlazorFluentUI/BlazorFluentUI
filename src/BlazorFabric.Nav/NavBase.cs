@@ -15,10 +15,10 @@ namespace BlazorFabric.Nav
 
         [Parameter] protected bool IsOnTop { get; set; }
                 
-        protected override Task OnInitAsync()
+        protected override Task OnInitializedAsync()
         {
             System.Diagnostics.Debug.WriteLine("Initializing NavBase");
-            return base.OnInitAsync();
+            return base.OnInitializedAsync();
         }
 
         protected override Task OnParametersSetAsync()

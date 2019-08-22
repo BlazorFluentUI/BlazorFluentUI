@@ -26,7 +26,7 @@ namespace BlazorFabric.Layer
         //public bool IsSet { get; set; } = false;
 
         
-        protected LayerPortalGenerator portalGeneratorRef;
+        protected LayerPortalGenerator portalGeneratorReference;
 
         //protected RenderFragment RenderPortals() => builder =>
         //{
@@ -52,9 +52,9 @@ namespace BlazorFabric.Layer
 
         //protected LayerPortal layerPortal;
 
-        public void AddOrUpdateHostedContent(string layerId, RenderFragment renderFragment)
+        public void AddOrUpdateHostedContent(string layerId, RenderFragment renderFragment, string style)
         {
-            portalGeneratorRef.AddOrUpdateHostedContent(layerId, renderFragment);//.Add(layerId, renderFragment); //should render the first time and not after unless explicitly set.
+            portalGeneratorReference.AddOrUpdateHostedContent(layerId, renderFragment, style);//.Add(layerId, renderFragment); //should render the first time and not after unless explicitly set.
 
             //until we can get references from a loop, looks like we can only use one portal at a time.
             //maybe with preview 6
@@ -70,7 +70,7 @@ namespace BlazorFabric.Layer
             //    portals.Remove(layerId);
             //portalSequenceStarts.Remove(layerId);
             //layerPortal.RemoveChildContent(layerId);
-            portalGeneratorRef.RemoveHostedContent(layerId);
+            portalGeneratorReference.RemoveHostedContent(layerId);
         }
 
         //protected Task ScrollHandler(UIEventArgs args)

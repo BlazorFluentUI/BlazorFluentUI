@@ -2,7 +2,7 @@
 
 @typeparam TItem
 
-<div class="ms-Dropdown-root" @ref=@RootElementRef>
+<div class="ms-Dropdown-root" @ref=@RootElementReference @ref:suppressField>
     @if (this.Label != null)
     {
         <BlazorFabric.Label.Label ClassName="ms-Dropdown-label" HtmlFor=@id Required=@Required>

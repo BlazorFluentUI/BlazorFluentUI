@@ -49,7 +49,7 @@ namespace BlazorFabric.TextField
 
         private bool firstRendered = false;
         protected string currentValue;
-        protected ElementRef textAreaRef;
+        protected ElementReference textAreaRef;
         protected string inlineTextAreaStyle = "";
         protected bool isFocused = false;
 
@@ -113,7 +113,7 @@ namespace BlazorFabric.TextField
         {
             if (this.AutoAdjustHeight == true && this.Multiline==true)
             {
-                var scrollHeight = await JSRuntime.InvokeAsync<int>("BlazorFabricTextField.getScrollHeight", textAreaRef);
+                var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFabricTextField.getScrollHeight", textAreaRef);
                 inlineTextAreaStyle = $"height: {scrollHeight}px"; 
             }
         }

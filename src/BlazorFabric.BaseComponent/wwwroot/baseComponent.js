@@ -45,6 +45,13 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.getWindowRect = getWindowRect;
     ;
+    /* Focus stuff */
+    function focusFirstChild(rootElement) {
+        return false;
+    }
+    BlazorFabricBaseComponent.focusFirstChild = focusFirstChild;
+    function getNextElement(rootElement) {
+    }
     function _expandRect(rect, pagesBefore, pagesAfter) {
         var top = rect.top - pagesBefore * rect.height;
         var height = rect.height + (pagesBefore + pagesAfter) * rect.height;

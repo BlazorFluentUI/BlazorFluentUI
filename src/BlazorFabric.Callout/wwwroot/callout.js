@@ -19,6 +19,7 @@ var BlazorFabricCallout;
         var clickId = Handler.addListener(document.documentElement, "click", function (ev) { if (checkTarget(ev, targetElement)) {
             calloutRef.invokeMethodAsync("ClickHandler");
         } ; }, true);
+        //set focus, too
         return [scrollId, resizeId, focusId, clickId];
     }
     BlazorFabricCallout.registerHandlers = registerHandlers;

@@ -28,9 +28,9 @@ namespace BlazorFabric.List
         private double thresholdChangePercent = 0.10;
         //private int averageCount = 1;
 
-        //protected ElementRef scrollableDiv;
-        protected ElementRef rootDiv;
-        protected ElementRef surfaceDiv;
+        //protected ElementReference scrollableDiv;
+        protected ElementReference rootDiv;
+        protected ElementReference surfaceDiv;
 
         private double averagePageHeight = 0;
         private bool isFirstRender = true;
@@ -66,10 +66,10 @@ namespace BlazorFabric.List
 
         private System.Collections.Generic.List<TItem> selectedItems = new System.Collections.Generic.List<TItem>();
 
-        protected override Task OnInitAsync()
+        protected override Task OnInitializedAsync()
         {
             ItemPagesRender = RenderPages(0, 0);
-            return base.OnInitAsync();
+            return base.OnInitializedAsync();
         }
 
         protected override bool ShouldRender()
@@ -188,7 +188,7 @@ namespace BlazorFabric.List
 
         protected override async Task OnAfterRenderAsync()
         {
-            var scrollDivInfo = await this.JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureElementRect", this.RootElementRef);
+            var scrollDivInfo = await this.JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureElementRect", this.RootElementReference);
             height = scrollDivInfo["height"];
 
 
@@ -238,7 +238,7 @@ namespace BlazorFabric.List
 
         public async Task OnScroll(UIEventArgs args)
         {
-            var scrollRect = await this.JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureScrollWindow", this.RootElementRef);
+            var scrollRect = await this.JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureScrollWindow", this.RootElementReference);
             //Debug.WriteLine($"top: {scrollRect["top"]}");
 
             var rearSpace = height * DEFAULT_RENDERED_WINDOWS_BEHIND;

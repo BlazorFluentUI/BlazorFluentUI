@@ -59,6 +59,18 @@ namespace BlazorFabricBaseComponent {
     };
 
 
+    /* Focus stuff */
+
+    export function focusFirstChild(rootElement: HTMLElement): boolean {
+
+        return false;
+    }
+
+    function getNextElement(rootElement: HTMLElement){
+
+    }
+
+
 
     function _expandRect(rect: IRectangle, pagesBefore: number, pagesAfter: number): IRectangle {
         const top = rect.top - pagesBefore * rect.height;
@@ -94,6 +106,8 @@ namespace BlazorFabricBaseComponent {
 
         return targetRect;
     }
+
+
 
 }
 

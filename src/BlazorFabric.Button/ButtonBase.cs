@@ -18,32 +18,32 @@ namespace BlazorFabric.Button
 
         }
 
-        public ElementRef ButtonRef { get; set; }
+        public ElementReference ButtonRef { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] protected string Href { get; set; }
         [Parameter] public bool Primary { get; set; }
-        [Parameter] protected bool Disabled { get; set; }
-        [Parameter] protected bool AllowDisabledFocus { get; set; }
-        [Parameter] protected bool PrimaryDisabled { get; set; }
-        [Parameter] protected bool? Checked { get; set; }
-        [Parameter] protected string AriaLabel { get; set; }
-        [Parameter] protected string AriaDescripton { get; set; }
-        [Parameter] protected bool AriaHidden { get; set; }
-        [Parameter] protected string Text { get; set; }
-        [Parameter] protected string SecondaryText { get; set; }
-        [Parameter] protected bool Toggle { get; set; }
-        [Parameter] protected bool Split { get; set; }
-        [Parameter] protected string IconName { get; set; }
+        [Parameter] public bool Disabled { get; set; }
+        [Parameter] public bool AllowDisabledFocus { get; set; }
+        [Parameter] public bool PrimaryDisabled { get; set; }
+        [Parameter] public bool? Checked { get; set; }
+        [Parameter] public string AriaLabel { get; set; }
+        [Parameter] public string AriaDescripton { get; set; }
+        [Parameter] public bool AriaHidden { get; set; }
+        [Parameter] public string Text { get; set; }
+        [Parameter] public string SecondaryText { get; set; }
+        [Parameter] public bool Toggle { get; set; }
+        [Parameter] public bool Split { get; set; }
+        [Parameter] public string IconName { get; set; }
 
-        [Parameter] protected RenderFragment ContextualMenuContent { get; set; }
-        [Parameter] protected RenderFragment ContextualMenuItemsSource { get; set; }
-        [Parameter] protected RenderFragment ContextualMenuItemTemplate { get; set; }
+        [Parameter] public RenderFragment ContextualMenuContent { get; set; }
+        [Parameter] public RenderFragment ContextualMenuItemsSource { get; set; }
+        [Parameter] public RenderFragment ContextualMenuItemTemplate { get; set; }
 
-        [Parameter] protected EventCallback<bool> CheckedChanged { get; set; }
-        [Parameter] protected EventCallback<UIMouseEventArgs> OnClick { get; set; }
-        [Parameter] protected ICommand Command { get; set; }
-        [Parameter] protected object CommandParameter { get; set; }
+        [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+        [Parameter] public EventCallback<UIMouseEventArgs> OnClick { get; set; }
+        [Parameter] public ICommand Command { get; set; }
+        [Parameter] public object CommandParameter { get; set; }
 
         protected bool showMenu = false;
 
@@ -95,7 +95,7 @@ namespace BlazorFabric.Button
             commandDisabled = Command.CanExecute(CommandParameter);
         }
 
-        protected async Task ClickHandler(UIMouseEventArgs args)
+        protected async void ClickHandler(UIMouseEventArgs args)
         {
             if (Toggle)
             {
@@ -150,15 +150,17 @@ namespace BlazorFabric.Button
             else
             {
                 builder.OpenElement(2, "a");
-                //builder.AddElementReferenceCapture(3, (elementRef) => { RootElementRef = elementRef; });
+                //builder.AddElementReferenceCapture(3, (elementRef) => { RootElementReference = elementRef; });
                 builder.AddAttribute(3, "href", this.Href);
 
             }
 
             builder.AddAttribute(4, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
-            builder.AddAttribute(5, "onclick", this.ClickHandler);
+            builder.AddAttribute(5, "onclick", EventCallback.Factory.Create<UIMouseEventArgs>(this, this.ClickHandler));
             builder.AddAttribute(6, "disabled", this.Disabled && !this.AllowDisabledFocus);
-            builder.AddElementReferenceCapture(7, (elementRef) => { RootElementRef = elementRef; });
+            builder.AddAttribute(7, "data-is-focusable", this.Disabled || this.Split ? false : true);
+
+            builder.AddElementReferenceCapture(8, (elementRef) => { RootElementReference = elementRef; });
 
             //if (MenuContent != null) // menu!
             //{
@@ -168,12 +170,12 @@ namespace BlazorFabric.Button
             //    builder.CloseElement();
             //}
             //skipping KeytipData component
-            builder.OpenElement(8, "div");
-            builder.AddAttribute(9, "class", "ms-Button-flexContainer");
+            builder.OpenElement(9, "div");
+            builder.AddAttribute(10, "class", "ms-Button-flexContainer");
 
             if (this.IconName != null)
             {
-                builder.OpenComponent<BlazorFabric.Icon.Icon>(10);
+                builder.OpenComponent<BlazorFabric.Icon.Icon>(11);
                 builder.AddAttribute(12, "ClassName", "ms-Button-icon");
                 builder.AddAttribute(13, "IconName", this.IconName);
                 builder.CloseComponent();

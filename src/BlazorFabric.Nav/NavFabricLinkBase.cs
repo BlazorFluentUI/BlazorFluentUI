@@ -37,12 +37,12 @@ namespace BlazorFabric.Nav
         protected string depthClass = "";
        
        
-        protected override Task OnInitAsync()
+        protected override Task OnInitializedAsync()
         {
             System.Diagnostics.Debug.WriteLine("Initializing NavFabricLinkBase");
             ProcessUri(UriHelper.GetAbsoluteUri());
             UriHelper.OnLocationChanged += UriHelper_OnLocationChanged;
-            return base.OnInitAsync();
+            return base.OnInitializedAsync();
         }
                 
 

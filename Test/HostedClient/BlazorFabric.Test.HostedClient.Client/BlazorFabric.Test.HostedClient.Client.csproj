@@ -12,11 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview6.19307.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview6.19307.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview8.19405.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview8.19405.7" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
+    <ProjectReference Include="..\..\..\BlazorFabric.Modal\BlazorFabric.Modal.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />

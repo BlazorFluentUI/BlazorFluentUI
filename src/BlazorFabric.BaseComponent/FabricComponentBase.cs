@@ -15,13 +15,13 @@ namespace BlazorFabric.BaseComponent
         [Parameter] protected string ClassName { get; set; }
         [Parameter] protected string Style { get; set; }
 
-        public ElementRef RootElementRef;
+        public ElementReference RootElementReference;
 
         public async Task<Rectangle> GetBoundsAsync()
         {
             if (ComponentContext.IsConnected)
             {
-                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", RootElementRef);
+                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", RootElementReference);
                 return rectangle;
             }
             else

@@ -9,7 +9,7 @@ namespace BlazorFabric.Layer
     public class LayerPortalBase : FabricComponentBase, IDisposable
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
-
+        [Parameter] public string Id { get; set; }
         [Parameter] public bool IsFixed { get; set; } = true;
 
         //protected Dictionary<string, (RenderFragment fragment, bool isFixed)> fragments = new Dictionary<string, (RenderFragment fragment, bool isFixed)>();

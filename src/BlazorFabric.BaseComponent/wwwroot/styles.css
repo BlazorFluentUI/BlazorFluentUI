@@ -184,7 +184,7 @@
     --effects-Elevation4: var(--depths-Depth4);
     --effects-Elevation8: var(--depths-Depth8);
     --effects-Elevation16: var(--depths-Depth16);
-    --effects-Elevation32: var(--depths-Depth64);
+    --effects-Elevation64: var(--depths-Depth64);
 }
 
 :root {

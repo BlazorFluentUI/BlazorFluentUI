@@ -19,6 +19,11 @@ app {
     flex-direction: column;
 }
 
+.modalContainerOverride {
+    height: 80vh;
+    width: 80vh;
+}
+
 .top-row {
     height: 3.5rem;
     display: flex;

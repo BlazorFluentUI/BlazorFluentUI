@@ -1,0 +1,29 @@
+﻿@inherits ModalBase
+
+<BlazorFabric.Layer.Layer Style="ms-Modal-Layer" >
+    <BlazorFabric.Popup.Popup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
+            AriaLabelledBy=@TitleAriaId
+           AriaDescribedBy=@SubtitleAriaId
+           OnDismiss=@OnDismiss>
+        <div class=@($"mediumFont ms-Modal{(IsOpen ? " isOpen" : "")}{(IsModeless ? " isModeless" : "")}{(TopOffsetFixed ? " topOffsetFixed" : "")}")>
+            @if (!IsModeless)
+            {
+            if (IsBlocking)
+            {
+                    <BlazorFabric.Overlay.Overlay IsDarkThemed=@IsDarkOverlay />
+                }
+                else
+                {
+                    <BlazorFabric.Overlay.Overlay IsDarkThemed=@IsDarkOverlay OnClick=@((ev) => OnDismiss.InvokeAsync(ev))/>
+                }
+            }
+            <div class=@($"ms-Modal-main {ContainerClass}")>
+                <div @ref="allowScrollOnModal" @ref:suppressField
+                     class="ms-Modal-scrollableContent"
+                     data-is-scrollable=true>
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    </BlazorFabric.Popup.Popup>
+</BlazorFabric.Layer.Layer>

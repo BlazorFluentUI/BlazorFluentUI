@@ -3,25 +3,25 @@
     directive matching the current URI.
 *@
     <BlazorFabric.Layer.LayerHost Style="display:flex; flex-direction: row;width:100vw">
-        <EmbeddedContent Assemblies=@Assemblies />
+        @*<EmbeddedContent Assemblies=@AssemblyList />*@
         <Router AppAssembly="typeof(Startup).Assembly" />
     </BlazorFabric.Layer.LayerHost>
 @functions
 {
-    List<System.Reflection.Assembly> Assemblies = new List<System.Reflection.Assembly>()
-    {
-        typeof(BlazorFabric.BaseComponent.CommonStyles).Assembly,
-        typeof(BlazorFabric.Button.PrimaryButton).Assembly,
-        typeof(BlazorFabric.Callout.Callout).Assembly,
-        typeof(BlazorFabric.Checkbox.Checkbox).Assembly,
-        typeof(BlazorFabric.ContextualMenu.ContextualMenu<>).Assembly,
-        typeof(BlazorFabric.Dropdown.Dropdown<>).Assembly,
-        typeof(BlazorFabric.Icon.Icon).Assembly,
-        typeof(BlazorFabric.Label.Label).Assembly,
-        typeof(BlazorFabric.Layer.Layer).Assembly,
-        typeof(BlazorFabric.List.List<>).Assembly,
-        typeof(BlazorFabric.Nav.Nav).Assembly,
-        typeof(BlazorFabric.TextField.TextField).Assembly,
-    };
+    //List<System.Reflection.Assembly> AssemblyList = new List<System.Reflection.Assembly>()
+    //{
+    //    typeof(BlazorFabric.BaseComponent.CommonStyles).Assembly,
+    //    typeof(BlazorFabric.Button.PrimaryButton).Assembly,
+    //    typeof(BlazorFabric.Callout.Callout).Assembly,
+    //    typeof(BlazorFabric.Checkbox.Checkbox).Assembly,
+    //    typeof(BlazorFabric.ContextualMenu.ContextualMenu<>).Assembly,
+    //    typeof(BlazorFabric.Dropdown.Dropdown<>).Assembly,
+    //    typeof(BlazorFabric.Icon.Icon).Assembly,
+    //    typeof(BlazorFabric.Label.Label).Assembly,
+    //    typeof(BlazorFabric.Layer.Layer).Assembly,
+    //    typeof(BlazorFabric.List.List<>).Assembly,
+    //    typeof(BlazorFabric.Nav.Nav).Assembly,
+    //    typeof(BlazorFabric.TextField.TextField).Assembly,
+    //};
 
 }

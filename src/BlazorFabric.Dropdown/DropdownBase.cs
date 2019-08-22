@@ -9,22 +9,22 @@ namespace BlazorFabric.Dropdown
 {
     public class DropdownBase<TItem> : FabricComponentBase
     {
-        [Parameter] protected string AriaLabel { get; set; }
-        [Parameter] protected RenderFragment ChildContent { get; set; }
-        [Parameter] protected IEnumerable<string> DefaultSelectedKeys { get; set; }
-        [Parameter] protected bool Disabled { get; set; }
-        [Parameter] protected int DropdownWidth { get; set; } = 0;
-        [Parameter] protected string ErrorMessage { get; set; }
-        [Parameter] protected IList<TItem> ItemsSource { get; set; }
-        [Parameter] protected RenderFragment<TItem> ItemTemplate { get; set; }
-        [Parameter] protected string Label { get; set; }
+        [Parameter] public string AriaLabel { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public IEnumerable<string> DefaultSelectedKeys { get; set; }
+        [Parameter] public bool Disabled { get; set; }
+        [Parameter] public int DropdownWidth { get; set; } = 0;
+        [Parameter] public string ErrorMessage { get; set; }
+        [Parameter] public IList<TItem> ItemsSource { get; set; }
+        [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
+        [Parameter] public string Label { get; set; }
         [Parameter] public bool MultiSelect { get; set; }
-        [Parameter] protected EventCallback<(string itemKey, bool isAdded)> OnChange { get; set; } 
-        [Parameter] protected string Placeholder { get; set; }
-        [Parameter] protected bool Required { get; set; }
-        [Parameter] protected ResponsiveMode ResponsiveMode { get; set; }
+        [Parameter] public EventCallback<(string itemKey, bool isAdded)> OnChange { get; set; } 
+        [Parameter] public string Placeholder { get; set; }
+        [Parameter] public bool Required { get; set; }
+        [Parameter] public ResponsiveMode ResponsiveMode { get; set; }
         [Parameter] public List<string> SelectedKeys { get; set; } = new List<string>();
-        [Parameter] protected EventCallback<List<string>> SelectedKeysChanged { get; set; }
+        [Parameter] public EventCallback<List<string>> SelectedKeysChanged { get; set; }
 
 
 

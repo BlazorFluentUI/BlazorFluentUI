@@ -18,12 +18,12 @@ else
     [Parameter] private RenderFragment ChildContent { get; set; }
     [Parameter] private int Delay { get; set; }
 
-    protected override Task OnInitAsync()
+    protected override Task OnInitializedAsync()
     {
         timer = new System.Timers.Timer();
         timer.AutoReset = false;
         timer.Elapsed += Timer_Elapsed;
-        return base.OnInitAsync();
+        return base.OnInitializedAsync();
     }
 
     protected override Task OnParametersSetAsync()
@@ -41,7 +41,7 @@ else
     private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs args)
     {
         isRendered = true;
-        Invoke(()=>StateHasChanged());
+        InvokeAsync(()=>StateHasChanged());
     }
 
 }

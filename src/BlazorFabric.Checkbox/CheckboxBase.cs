@@ -10,54 +10,54 @@ namespace BlazorFabric.Checkbox
     public class CheckboxBase : FabricComponentBase
     {
         [Parameter]
-        protected bool? Checked { get; set; }
+        public bool? Checked { get; set; }
 
         /// <summary>
         /// Default checked state. Mutually exclusive to "checked". Use this if you want an uncontrolled component, and
         /// want the Checkbox instance to maintain its own state.
         /// </summary>
         [Parameter]
-        protected bool DefaultChecked { get; set; }
+        public bool DefaultChecked { get; set; }
 
         /// <summary>
         /// Label to display next to the checkbox.
         /// </summary>
         [Parameter]
-        protected string Label { get; set; }
+        public string Label { get; set; }
 
         /// <summary>
         /// Disabled state of the checkbox.
         /// </summary>
         [Parameter]
-        protected bool Disabled { get; set; }
+        public bool Disabled { get; set; }
 
         /// <summary>
         /// Accessible label for the checkbox.
         /// </summary>
         [Parameter]
-        protected string AriaLabel { get; set; }
+        public string AriaLabel { get; set; }
 
         [Parameter]
-        protected string AriaLabelledBy { get; set; }
+        public string AriaLabelledBy { get; set; }
 
         [Parameter]
-        protected string AriaDescribedBy { get; set; }
+        public string AriaDescribedBy { get; set; }
 
         [Parameter]
-        protected int? AriaPositionInSet { get; set; }
+        public int? AriaPositionInSet { get; set; }
 
         [Parameter]
-        protected int? AriaSetSize { get; set; }
+        public int? AriaSetSize { get; set; }
 
         [Parameter]
-        protected bool Reversed { get; set; }
+        public bool Reversed { get; set; }
 
         
         [Parameter]
-        protected Func<UIChangeEventArgs, Task> Changed { get; set; }
+        public Func<UIChangeEventArgs, Task> Changed { get; set; }
 
         [Parameter]
-        protected EventCallback<bool> CheckedChanged { get; set; }
+        public EventCallback<bool> CheckedChanged { get; set; }
 
         protected bool isChecked;
         protected string Id = Guid.NewGuid().ToString();

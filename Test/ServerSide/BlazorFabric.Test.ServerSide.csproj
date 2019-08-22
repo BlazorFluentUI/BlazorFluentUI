@@ -57,10 +57,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\ModalPage.razor" Link="Pages\ModalPage.razor">
+      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\DialogPage.razor" Link="Pages\DialogPage.razor">
+      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BlazorEmbedLibrary" Version="0.1.0-beta-4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
+    <ProjectReference Include="..\..\BlazorFabric.Modal\BlazorFabric.Modal.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />

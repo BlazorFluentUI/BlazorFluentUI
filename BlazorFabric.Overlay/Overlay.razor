@@ -1,0 +1,10 @@
+﻿<div class=@("mediumFont ms-Overlay " + (IsDarkThemed ? "ms-Overlay--dark" : "")) 
+     @onclick="OnClick"/>
+
+@code{
+    [Parameter]
+    public bool IsDarkThemed { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<UIMouseEventArgs> OnClick { get; set; }
+}

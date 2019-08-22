@@ -32,18 +32,36 @@ namespace BlazorFabric.ContextualMenu
         [Parameter] public bool UseTargetAsMinWidth { get; set; } = false;
 
         [Parameter] public EventCallback<bool> OnDismiss { get; set; }
+        
+        [CascadingParameter] public ContextualMenuBase<object> ContextualMenu { get; set; }  //maybe this contextualmenu is a child of another
+        [CascadingParameter(Name ="PortalId")] public string PortalId { get; set; }
 
         public string SubmenuActiveKey { get; set; }
         public void SetSubmenuActiveKey(string key)
         {
+            if (string.IsNullOrWhiteSpace(key) && string.IsNullOrWhiteSpace(SubmenuActiveKey))
+                return;
+            System.Diagnostics.Debug.WriteLine($"SetSubmenuActiveKey(\"{key}\") from {this.DirectionalHint}");
             SubmenuActiveKey = key;
             StateHasChanged();
         }
 
-        protected override Task OnInitAsync()
+        protected void DismissHandler(bool isDismissed)
+        {
+            System.Diagnostics.Debug.WriteLine($"ContextualMenu {PortalId} tried dismiss from {this.DirectionalHint} with SubmenuActiveKey = {SubmenuActiveKey}");
+
+
+            if (string.IsNullOrEmpty(SubmenuActiveKey))
+            {
+                System.Diagnostics.Debug.WriteLine($"ContextualMenu dismiss successful!  {this.DirectionalHint} with SubmenuActiveKey = {SubmenuActiveKey}");
+                OnDismiss.InvokeAsync(true);
+            }
+        }
+
+        protected override Task OnInitializedAsync()
         {
             System.Diagnostics.Debug.WriteLine("Creating ContextualMenu");
-            return base.OnInitAsync();
+            return base.OnInitializedAsync();
         }
 
         public int HasIconCount = 0; //needed to shift margins and make space for all 

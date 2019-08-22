@@ -29,6 +29,11 @@ namespace BlazorFabricCallout {
         var resizeId = Handler.addListener(window, "resize", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ResizeHandler"); }; }, true);
         var focusId = Handler.addListener(document.documentElement, "focus", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("FocusHandler"); }; }, true);
         var clickId = Handler.addListener(document.documentElement, "click", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ClickHandler"); }; }, true);
+
+        //set focus, too
+        
+
+
         return [scrollId,resizeId, focusId, clickId];
     }
 
@@ -38,6 +43,7 @@ namespace BlazorFabricCallout {
         for (let id of ids) {
             Handler.removeListener(id);
         }
+
         //const scrollhandler = (ev: Event) => {
         //    if (checkTarget(ev, targetElement)) {
         //        calloutRef.invokeMethodAsync("ScrollHandler");

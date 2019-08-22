@@ -3,9 +3,10 @@ var BlazorFabricContextualMenu;
 (function (BlazorFabricContextualMenu) {
     function registerHandlers(targetElement, contextualMenuItem) {
         var window = targetElement.ownerDocument.defaultView;
+        var mouseClickId = Handler.addListener(targetElement, "click", function (ev) { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("ClickHandler"); }, false);
         var mouseEnterId = Handler.addListener(targetElement, "mouseenter", function (ev) { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("MouseEnterHandler"); }, false);
-        var mouseLeaveId = Handler.addListener(targetElement, "mouseleave", function (ev) { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("MouseLeaveHandler"); }, false);
-        return [mouseEnterId, mouseLeaveId];
+        //var mouseLeaveId = Handler.addListener(targetElement, "mouseleave", (ev: Event) => { ev.preventDefault();  contextualMenuItem.invokeMethodAsync("MouseLeaveHandler"); }, false);
+        return [mouseClickId, mouseEnterId];
     }
     BlazorFabricContextualMenu.registerHandlers = registerHandlers;
     function unregisterHandlers(ids) {

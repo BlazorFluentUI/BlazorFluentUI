@@ -5,8 +5,8 @@
             @ChildContent
 
 
-            <div class="ms-LayerHost" ref="RootElementRef">
-                <LayerPortalGenerator @ref="portalGeneratorRef" />
+            <div class="ms-LayerHost" @ref="RootElementReference" @ref:suppressField>
+                <LayerPortalGenerator @ref="portalGeneratorReference" @ref:suppressField/>
                
                 @*<LayerPortal @ref=@layerPortal0 />
                 <LayerPortal @ref=@layerPortal1 />

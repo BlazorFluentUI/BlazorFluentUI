@@ -8,7 +8,7 @@
 
 <h2>Checkboxes</h2>
 <Label>Checkbox is @(isChecked ? "checked" : "unchecked").</Label>
-<Checkbox Label="Regular Checkbox" @bind-Checked=@isChecked @bind-Checked:event="CheckChanged" />
+<Checkbox Label="Regular Checkbox" @bind-Checked="isChecked" @bind-Checked:event="CheckedChanged" />
 <Checkbox Label="Disabled Checkbox" Disabled="true" />
 <Checkbox Label="Disabled Checked Checkbox" Checked="true" Disabled="true" />
 
@@ -29,7 +29,7 @@
 <DefaultButton Text="Toggle Button" Toggle="true" Command=@buttonCommand CommandParameter=@("Toggle") />
 
 <div style="height:5px"></div>
-<Checkbox Label="Bound to toggle button below" @bind-Checked=@isToggled @bind-Checked:event="CheckedChanged" />
+<Checkbox Label="Bound to toggle button below" @bind-Checked=@isToggled @bind-Checked:event="CheckedChanged"/>
 <DefaultButton Text=@(isToggled ? "Not Toggled" : "Toggled") Toggle="true" @bind-Checked=@isToggled @bind-Checked:event="CheckedChanged" Command=@buttonCommand CommandParameter=@("Toggle") />
 
 <div style="height:5px"></div>
@@ -49,7 +49,7 @@
 
     bool isToggled = false;
 
-    protected override Task OnInitAsync()
+    protected override Task OnInitializedAsync()
     {
         buttonCommand = new Utils.RelayCommand((p) =>
         {
@@ -57,6 +57,6 @@
             StateHasChanged();
         });
 
-        return base.OnInitAsync();
+        return base.OnInitializedAsync();
     }
 }

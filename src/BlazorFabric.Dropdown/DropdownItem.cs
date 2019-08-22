@@ -95,7 +95,7 @@ namespace BlazorFabric.Dropdown
         private void BuildHeader(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "div");
-            builder.AddElementReferenceCapture(1, element => this.RootElementRef = element);
+            builder.AddElementReferenceCapture(1, element => this.RootElementReference = element);
             //builder.AddAttribute(2, "key", this.ItemKey);
             builder.AddAttribute(3, "class", "ms-Dropdown-itemHeader mediumFont");
             BuildOption(builder, 4);
@@ -105,7 +105,7 @@ namespace BlazorFabric.Dropdown
         private void BuildSeparator(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "div");
-            builder.AddElementReferenceCapture(1, element => this.RootElementRef = element);
+            builder.AddElementReferenceCapture(1, element => this.RootElementReference = element);
             builder.AddAttribute(2, "role", "separator");
             //builder.AddAttribute(3, "key", 1);
             builder.AddAttribute(4, "class", "ms-Dropdown-divider");

@@ -73,7 +73,7 @@
 
     List<DataItem> items;
 
-    protected override Task OnInitAsync()
+    protected override Task OnInitializedAsync()
     {
         items = new List<DataItem>
 {
@@ -83,7 +83,7 @@
             new DataItem("Fourth"),
             new DataItem("Fifth")
         };
-        return base.OnInitAsync();
+        return base.OnInitializedAsync();
     }
 
     void UncontrolledSingleChangeHandler((string key, bool isAdded) args)

@@ -18,7 +18,7 @@ namespace BlazorFabric.Callout
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
-        [Parameter] protected ElementRef ElementTarget { get; set; }  // not working yet
+        [Parameter] protected ElementReference ElementTarget { get; set; }  // not working yet
         [Parameter] protected FabricComponentBase FabricComponentTarget { get; set; }
 
         [Parameter] protected DirectionalHint DirectionalHint { get; set; } = DirectionalHint.BottomAutoEdge;
@@ -53,7 +53,7 @@ namespace BlazorFabric.Callout
 
         protected CalloutPositionedInfo CalloutPosition { get; set; } = new CalloutPositionedInfo();
 
-        //[CascadingParameter(Name ="HostedContent")] private LayerHost LayerHost { get; set; }  
+        [CascadingParameter(Name ="PortalId")] private string PortalId { get; set; }  
 
         protected double contentMaxHeight = 0;
         protected bool overflowYHidden = false;
@@ -62,26 +62,25 @@ namespace BlazorFabric.Callout
         protected bool isMeasured = false;
         protected bool isEventHandlersRegistered = false;
 
-        protected Layer.Layer layerRef;
+        protected Layer.Layer layerReference;
 
-        protected ElementRef calloutRef;
+        protected ElementReference calloutReference;
 
         private List<int> eventHandlerIds;
 
-        protected override Task OnInitAsync()
+        protected override Task OnInitializedAsync()
         {
             System.Diagnostics.Debug.WriteLine("Creating Callout");
 
-            return base.OnInitAsync();
+            return base.OnInitializedAsync();
         }
-
 
         protected override async Task OnAfterRenderAsync()
         {
             
             if (!isEventHandlersRegistered && ComponentContext.IsConnected)
             {
-                eventHandlerIds =  await JSRuntime.InvokeAsync<List<int>>("BlazorFabricCallout.registerHandlers", this.RootElementRef, DotNetObjectRef.Create(this));
+                eventHandlerIds =  await JSRuntime.InvokeAsync<List<int>>("BlazorFabricCallout.registerHandlers", this.RootElementReference, DotNetObjectRef.Create(this));
 
                 isEventHandlersRegistered = true;
 
@@ -99,22 +98,21 @@ namespace BlazorFabric.Callout
         {
             await OnDismiss.InvokeAsync(true);
             await HiddenChanged.InvokeAsync(true);
-            isMeasured = false;
         }
 
         [JSInvokable] public async void ResizeHandler()
         {
             await OnDismiss.InvokeAsync(true);
             await HiddenChanged.InvokeAsync(true);
-            isMeasured = false;
         }
 
         [JSInvokable]
         public async void FocusHandler()
         {
+            System.Diagnostics.Debug.WriteLine($"Callout {PortalId} called dismiss from FocusHandler from {this.DirectionalHint}");
+
             await OnDismiss.InvokeAsync(true);
             await HiddenChanged.InvokeAsync(true);
-            isMeasured = false;
         }
 
         [JSInvokable]
@@ -122,7 +120,6 @@ namespace BlazorFabric.Callout
         {
             await OnDismiss.InvokeAsync(true);
             await HiddenChanged.InvokeAsync(true);
-            isMeasured = false;
         }
 
         protected string GetAnimationStyle()
@@ -157,7 +154,7 @@ namespace BlazorFabric.Callout
         public async void Dispose()
         {
             if (eventHandlerIds != null)
-                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", this.FabricComponentTarget.RootElementRef, DotNetObjectRef.Create(this), eventHandlerIds);
+                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", this.FabricComponentTarget.RootElementReference, DotNetObjectRef.Create(this), eventHandlerIds);
 
         }
 
@@ -180,14 +177,14 @@ namespace BlazorFabric.Callout
                 maxBounds = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.getWindowRect");
             }
             var targetRect = await this.FabricComponentTarget.GetBoundsAsync();
-            Debug.WriteLine($"TargetRect: {targetRect.left}, {targetRect.top}, {targetRect.right}, {targetRect.bottom}");
+            //Debug.WriteLine($"TargetRect: {targetRect.left}, {targetRect.top}, {targetRect.right}, {targetRect.bottom}");
 
             contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
             StateHasChanged();
 
             this.CalloutPosition = await PositionCalloutAsync(targetRect, maxBounds);
             //this.CalloutPosition = calloutPositioning;
-            Debug.WriteLine($"CalloutPosition: {CalloutPosition.ElementRectangle.left}, {CalloutPosition.ElementRectangle.top}, {CalloutPosition.ElementRectangle.right}, {CalloutPosition.ElementRectangle.bottom}");
+            //Debug.WriteLine($"CalloutPosition: {CalloutPosition.ElementRectangle.left}, {CalloutPosition.ElementRectangle.top}, {CalloutPosition.ElementRectangle.right}, {CalloutPosition.ElementRectangle.bottom}");
 
             //this.Position = this.CalloutPosition.ElementRectangle;
 
@@ -229,7 +226,7 @@ namespace BlazorFabric.Callout
             var beakWidth = IsBeakVisible ? BeakWidth : 0;
             var gap = Math.Sqrt(beakWidth * beakWidth * 2) / 2 + GapSpace;
 
-            Debug.WriteLine($"MaxBounds: {maxBounds.left}, {maxBounds.top}, {maxBounds.right}, {maxBounds.bottom}");
+            //Debug.WriteLine($"MaxBounds: {maxBounds.left}, {maxBounds.top}, {maxBounds.right}, {maxBounds.bottom}");
             var positionedElement = await PositionElementRelativeAsync(gap, targetRect, maxBounds);
 
             var beakPositioned = PositionBeak(beakWidth, positionedElement);
@@ -327,8 +324,8 @@ namespace BlazorFabric.Callout
 
         private async Task<PartialRectangle> FinalizeElementPositionAsync(Rectangle elementRectangle, /* hostElement, */ RectangleEdge targetEdge, Rectangle bounds, RectangleEdge alignmentEdge)
         {
-            var hostRectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", RootElementRef);
-            Debug.WriteLine($"HostRect: {hostRectangle.left}, {hostRectangle.top}, {hostRectangle.right}, {hostRectangle.bottom}");
+            var hostRectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", RootElementReference);
+            //Debug.WriteLine($"HostRect: {hostRectangle.left}, {hostRectangle.top}, {hostRectangle.right}, {hostRectangle.bottom}");
 
 
             var elementEdge = CoverTarget ? targetEdge : (RectangleEdge)((int)targetEdge * -1);
@@ -405,8 +402,8 @@ namespace BlazorFabric.Callout
 
             //Now calculate positionedElement
             //GetRectangleFromElement()
-            var calloutRectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", calloutRef);
-            Debug.WriteLine($"Callout: {calloutRectangle.left}, {calloutRectangle.top}, {calloutRectangle.right}, {calloutRectangle.bottom}");
+            var calloutRectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", calloutReference);
+            //Debug.WriteLine($"Callout: {calloutRectangle.left}, {calloutRectangle.top}, {calloutRectangle.right}, {calloutRectangle.bottom}");
 
             var positionedElement = PositionElementWithinBounds(calloutRectangle, targetRect, boundingRect, positionData, gap);
 

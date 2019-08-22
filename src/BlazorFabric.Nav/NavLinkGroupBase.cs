@@ -26,10 +26,10 @@ namespace BlazorFabric.Nav
             //return Task.CompletedTask;
         }
 
-        protected override Task OnInitAsync()
+        protected override Task OnInitializedAsync()
         {
             System.Diagnostics.Debug.WriteLine("Initializing NavLinkGroupBase");
-            return base.OnInitAsync();
+            return base.OnInitializedAsync();
         }
 
         protected override Task OnParametersSetAsync()

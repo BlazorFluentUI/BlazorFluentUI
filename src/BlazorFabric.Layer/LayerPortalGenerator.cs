@@ -13,7 +13,7 @@ namespace BlazorFabric.Layer
 
         private int sequenceCount = 0;
         private Dictionary<string, int> portalSequenceStarts = new Dictionary<string, int>();
-        private List<(string id, RenderFragment fragment)> portalFragments = new List<(string id, RenderFragment fragment)>();
+        private List<(string id, RenderFragment fragment, string style)> portalFragments = new List<(string id, RenderFragment fragment, string style)>();
         private Dictionary<string, LayerPortal> portals = new Dictionary<string, LayerPortal>();
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -33,24 +33,27 @@ namespace BlazorFabric.Layer
                 }
                 builder.OpenComponent<LayerPortal>(sequenceStart);
                 builder.AddAttribute(sequenceStart + 1, "ChildContent", portalPair.fragment);
-                builder.AddComponentReferenceCapture(sequenceStart + 2, (component) => portals[portalPair.id] = (LayerPortal)component);
+                builder.AddAttribute(sequenceStart + 2, "Id", portalPair.id);
+                builder.AddAttribute(sequenceStart + 3, "Style", portalPair.style);
+                builder.AddComponentReferenceCapture(sequenceStart + 4, (component) => portals[portalPair.id] = (LayerPortal)component);
                 builder.CloseComponent();
             }
         }
 
-        public void AddOrUpdateHostedContent(string layerId, RenderFragment renderFragment)
+        public void AddOrUpdateHostedContent(string layerId, RenderFragment renderFragment, string style)
         {
             var foundPortalFragment = portalFragments.FirstOrDefault(x => x.id == layerId);
-            if (foundPortalFragment != default((string,RenderFragment)))
+            if (foundPortalFragment != default((string,RenderFragment,string)))
             {
                 foundPortalFragment.fragment = renderFragment;
+                foundPortalFragment.style = style;
                 System.Diagnostics.Debug.WriteLine($"Rerendering layer: {layerId}");
                 portals[layerId].Rerender();
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine($"Adding new layer: {layerId}, {portalFragments.Count} layer(s) in host currently.");
-                portalFragments.Add((layerId, renderFragment)); //should render the first time and not after unless explicitly set.
+                portalFragments.Add((layerId, renderFragment, style)); //should render the first time and not after unless explicitly set.
                 StateHasChanged();
             }
            

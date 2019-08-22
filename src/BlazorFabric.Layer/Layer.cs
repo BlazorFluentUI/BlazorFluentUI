@@ -12,7 +12,7 @@ namespace BlazorFabric.Layer
     // a LayerHost manually near the root of the app.  This will allow you to use a CascadeParameter 
     // to send the LayerHost to anywhere in the app and render items to it.
 
-    public class Layer : ComponentBase, IDisposable
+    public class Layer : FabricComponentBase, IDisposable
     {
         //internal LayerBase() { }
 
@@ -31,7 +31,7 @@ namespace BlazorFabric.Layer
         {
             if (!addedToHost)
             {
-                LayerHost.AddOrUpdateHostedContent(id, ChildContent);
+                LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style);
                 addedToHost = true;
             }
             return base.OnParametersSetAsync();
@@ -41,11 +41,10 @@ namespace BlazorFabric.Layer
         {
             if (LayerHost != null && ComponentContext.IsConnected)
             {
-                LayerHost.AddOrUpdateHostedContent(id, ChildContent);
+                LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style);
                 addedToHost = true;
             }
             return false;
-            return base.ShouldRender();
         }
 
         //public void Rerender()

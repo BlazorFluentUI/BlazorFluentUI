@@ -1,4 +1,3 @@
-//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 var BlazorFabricBaseComponent;
 (function (BlazorFabricBaseComponent) {
     function measureElement(element) {

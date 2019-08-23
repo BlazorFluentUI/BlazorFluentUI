@@ -1,7 +1,4 @@
-﻿//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-
-
-namespace BlazorFabricBaseComponent {
+﻿namespace BlazorFabricBaseComponent {
 
     interface DotNetReferenceType {
 

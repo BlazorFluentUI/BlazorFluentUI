@@ -1,10 +1,12 @@
-@inherits ComponentBase
+@using BlazorFabric.BaseComponent
+
+@inherits FabricComponentBase
 
 @using Microsoft.JSInterop
 
 @inject IJSRuntime JSRuntime
 
-<div @ref="rootElement"
+<div @ref="RootElementReference" @ref:suppressField
      role="listitem"
      class=@($"ms-List-cell fabricList-item {(IsActive ? "is-active" : "")}")
      @onclick="@(e=>OnItemClick(e))">
@@ -15,17 +17,17 @@
     public double Width { get; set; }
     public double Height { get; set; }
 
-    [Parameter] object Item { get; set; }
+    [Parameter] public object Item { get; set; }
 
-    [Parameter] bool IsActive { get; set; }
+    [Parameter] public bool IsActive { get; set; }
 
-    [Parameter] int IndexPosition { get; set; }
+    [Parameter] public int IndexPosition { get; set; }
 
-    [Parameter] RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     [Parameter]
-    private Func<object, UIMouseEventArgs, Task> ItemClicked { get; set; }
-    
+    public Func<object, UIMouseEventArgs, Task> ItemClicked { get; set; }
+
     protected override async Task OnAfterRenderAsync()
     {
         //var result = await JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureElement", rootElement);

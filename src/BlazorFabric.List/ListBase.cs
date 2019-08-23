@@ -26,9 +26,7 @@ namespace BlazorFabric.List
         protected const int DEFAULT_RENDERED_WINDOWS_AHEAD = 2;
 
         private double thresholdChangePercent = 0.10;
-        //private int averageCount = 1;
 
-        //protected ElementReference scrollableDiv;
         protected ElementReference rootDiv;
         protected ElementReference surfaceDiv;
 
@@ -41,21 +39,20 @@ namespace BlazorFabric.List
 
         private double height;
 
-        //private bool isScrollRegistered = false;
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
 
         [Parameter]
-        protected IEnumerable<TItem> ItemsSource { get; set; }
+        public IEnumerable<TItem> ItemsSource { get; set; }
 
         [Parameter]
-        protected RenderFragment<TItem> ItemTemplate { get; set; }
+        public RenderFragment<TItem> ItemTemplate { get; set; }
 
         [Parameter]
-        protected SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
+        public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
         [Parameter]
-        private Func<TItem, UIMouseEventArgs, Task> ItemClicked { get; set; }
+        public Func<TItem, UIMouseEventArgs, Task> ItemClicked { get; set; }
              
         protected RenderFragment ItemPagesRender { get; set; }
 

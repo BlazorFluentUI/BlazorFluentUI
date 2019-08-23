@@ -29,19 +29,19 @@
     public double Height { get; set; }
     //public IObservable<double> Height { get => this.heightSubject.AsObservable(); }
 
-    [Parameter] RenderFragment<TItem> ItemTemplate { get; set; }
+    [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
 
-    [Parameter] IEnumerable<TItem> ItemsSource { get; set; }
+    [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
 
-    [Parameter] int StartIndex { get; set; }
+    [Parameter] public int StartIndex { get; set; }
 
-    [Parameter] ISubject<(int index, double height)> PageMeasureSubject { get; set; }
+    [Parameter] public ISubject<(int index, double height)> PageMeasureSubject { get; set; }
 
     [Parameter]
-    private Func<object, UIMouseEventArgs, Task> ItemClicked { get; set; }
+    public Func<object, UIMouseEventArgs, Task> ItemClicked { get; set; }
 
 
-    [Parameter] IEnumerable<TItem> SelectedItems { get; set; }
+    [Parameter] public IEnumerable<TItem> SelectedItems { get; set; }
 
 
     protected override Task OnInitializedAsync()

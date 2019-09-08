@@ -3,9 +3,9 @@
 
 @typeparam TItem
 
-<div @onscroll=@OnScroll class=@($"fabricList ms-List mediumFont") role="presentation" @ref="RootElementReference" @ref:suppressField>
-    <div @ref="rootDiv" @ref:suppressField class="ms-List" role="list">
-        <div @ref="surfaceDiv" @ref:suppressField class="ms-List-surface" role="presentation">
+<div @onscroll=@OnScroll class=@($"fabricList ms-List mediumFont") role="presentation" @ref="RootElementReference" >
+    <div @ref="rootDiv"  class="ms-List" role="list">
+        <div @ref="surfaceDiv"  class="ms-List-surface" role="presentation">
             @ItemPagesRender
         </div>
     </div>

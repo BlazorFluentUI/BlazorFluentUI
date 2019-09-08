@@ -7,7 +7,7 @@
 
 @inject IJSRuntime JSRuntime
 
-<div @ref="RootElementReference" @ref:suppressField
+<div @ref="RootElementReference" 
      role="listitem"
      class=@($"ms-List-cell fabricList-item {(IsActive ? "is-active" : "")}")
      @onclick="@(e=>OnItemClick(e))">

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project>
+
+  <PropertyGroup>
+    <Authors>Lee McPherson</Authors>
+    <Owners>Lee McPherson</Owners>
+    <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
+    <Product>BlazorFabric</Product>
+    <Copyright>Copyright Lee McPherson 2019</Copyright>
+    <PackageTags>Blazor;Fabric;controls</PackageTags>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+	  <PackageOutputPath>../../packages</PackageOutputPath>
+    <Version>1.0.5-preview9</Version>
+  </PropertyGroup>
+
+  
+
+</Project>

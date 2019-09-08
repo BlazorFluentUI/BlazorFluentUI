@@ -1,10 +1,10 @@
 ﻿@inherits  CalloutBase
 
 
-    <BlazorFabric.Layer.Layer @ref="layerReference" @ref:suppressField>
-        <div class="ms-Callout-container" @ref="RootElementReference" @ref:suppressField style=@($"{(this.Hidden ? "visibility: hidden;" : "")}") >
+    <BlazorFabric.Layer.Layer @ref="layerReference" >
+        <div class="ms-Callout-container" @ref="RootElementReference"  style=@($"{(this.Hidden ? "visibility: hidden;" : "")}") >
             <div class=@($"ms-Callout mediumFont {GetAnimationStyle()} {CalloutPosition.TargetEdge.ToString()}")
-                 @ref="calloutReference" @ref:suppressField
+                 @ref="calloutReference" 
                  style=@($"{CalloutPosition.ElementRectangle.GetStyle()} {(CalloutWidth > 0 ? "width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")
                  tabindex="-1">
                 @if(this.IsBeakVisible)

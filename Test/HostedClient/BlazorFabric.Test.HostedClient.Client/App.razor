@@ -1,5 +1,12 @@
 ﻿<LayerHost Style="display:flex; flex-direction: row;width:100vw">
-    <Router AppAssembly="typeof(Program).Assembly" />
+    <Router AppAssembly="typeof(Program).Assembly" >
+        <Found Context="routeData">
+            <RouteView RouteData="routeData" />
+        </Found>
+        <NotFound>
+            <p>Page not found.</p>
+        </NotFound>
+    </Router>
 </LayerHost>
 
 @code{

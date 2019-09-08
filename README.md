@@ -31,3 +31,11 @@ There are no MergeStyles in this port.  It's just each control packaged into its
 `<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/10.0.0/css/fabric.min.css" />`
 
 (Remember that the assets package has a more restrictive license.  You are required to use it with/for some type of Microsoft product.  However, one of their engineers said that using it hosted on Azure would be enough... but I'm not a lawyer, so use caution.)
+
+4. If you're using any component that requires a `Layer` as part of its inner-workings (i.e. `Modal`, `Callout`, etc... anything that pops up over already drawn stuff), you need to wrap the `Router` with a `LayerHost`.
+```
+<BlazorFabric.Layer.LayerHost Style="display:flex; flex-direction: row;width:100vw">
+    <Router AppAssembly="typeof(Startup).Assembly" />
+</BlazorFabric.Layer.LayerHost>
+```
+

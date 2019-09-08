@@ -1,6 +1,6 @@
 ﻿using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using System;
 using System.Collections;
@@ -65,11 +65,11 @@ namespace BlazorFabric.ContextualMenu
         //    //    leaveTimer.Start();
         //}
 
-        protected override async Task OnAfterRenderAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (eventHandlerIds == null)
-                eventHandlerIds = await jsRuntime.InvokeAsync<List<int>>("BlazorFabricContextualMenu.registerHandlers", this.RootElementReference, DotNetObjectRef.Create(this));
-            await base.OnAfterRenderAsync();
+                eventHandlerIds = await jsRuntime.InvokeAsync<List<int>>("BlazorFabricContextualMenu.registerHandlers", this.RootElementReference, DotNetObjectReference.Create(this));
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         public void Dispose()

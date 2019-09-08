@@ -111,5 +111,5 @@
 
 
 
-window['BlazorFabricBaseComponent'] = BlazorFabricBaseComponent || {};
+(<any>window)['BlazorFabricBaseComponent'] = BlazorFabricBaseComponent || {};
 

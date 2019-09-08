@@ -10,22 +10,22 @@ namespace BlazorFabric.Label
     public class LabelBase : FabricComponentBase
     {
         [Parameter]
-        protected RenderFragment ChildContent { get; set; }
+        public RenderFragment ChildContent { get; set; }
 
         /// <summary>
         /// Whether the associated form field is required or not
         /// </summary>
         [Parameter]
-        protected bool Required { get; set; }
+        public bool Required { get; set; }
 
         /// <summary>
         /// Renders the label as disabled.
         /// </summary>
         [Parameter]
-        protected bool Disabled { get; set; }
+        public bool Disabled { get; set; }
 
         [Parameter]
-        protected string HtmlFor { get; set; }
+        public string HtmlFor { get; set; }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,7 +36,7 @@ namespace BlazorFabric.Dropdown
         protected string id = Guid.NewGuid().ToString();
         protected bool isSmall = false;
         protected Rectangle dropDownBounds = new Rectangle();
-        private bool firstRender = true;
+        //private bool firstRender = true;
 
 
         public void ResetSelection()
@@ -80,15 +81,15 @@ namespace BlazorFabric.Dropdown
             StateHasChanged();
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             { 
                 dropDownBounds = await this.GetBoundsAsync();
-                firstRender = false;
+                //firstRender = false;
                 StateHasChanged();
             }
-            await base.OnAfterRenderAsync();
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         protected override Task OnParametersSetAsync()
@@ -102,13 +103,13 @@ namespace BlazorFabric.Dropdown
         }
 
 
-        protected Task ClickHandler(UIMouseEventArgs args)
+        protected Task ClickHandler(MouseEventArgs args)
         {
             if (!this.Disabled)
                 isOpen = !isOpen;
             return Task.CompletedTask;
         }
-        protected Task FocusHandler(UIFocusEventArgs args)
+        protected Task FocusHandler(FocusEventArgs args)
         {
             // Could write logic to open on focus automatically...
             //isOpen = true;

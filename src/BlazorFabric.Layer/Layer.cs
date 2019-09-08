@@ -17,9 +17,9 @@ namespace BlazorFabric.Layer
         //internal LayerBase() { }
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
-        [Inject] private IComponentContext ComponentContext { get; set; }
+        //[Inject] private IComponentContext ComponentContext { get; set; }
         
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         [CascadingParameter(Name = "HostedContent")] protected LayerHost LayerHost { get; set; }
 
@@ -39,7 +39,7 @@ namespace BlazorFabric.Layer
 
         protected override bool ShouldRender()
         {
-            if (LayerHost != null && ComponentContext.IsConnected)
+            if (LayerHost != null) // && ComponentContext.IsConnected)
             {
                 LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style);
                 addedToHost = true;
@@ -52,10 +52,10 @@ namespace BlazorFabric.Layer
         //    StateHasChanged();
         //}
 
-        protected override void OnAfterRender()
+        protected override void OnAfterRender(bool firstRender)
         {
             //if (layerElement == null)
-            base.OnAfterRender();
+            base.OnAfterRender(firstRender);
         }
 
         public void Dispose()

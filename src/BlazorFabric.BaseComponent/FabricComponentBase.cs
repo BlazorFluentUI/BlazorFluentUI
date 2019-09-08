@@ -9,23 +9,27 @@ namespace BlazorFabric.BaseComponent
 {
     public class FabricComponentBase: ComponentBase
     {
-        [Inject] private IComponentContext ComponentContext { get; set; }
+        //[Inject] private IComponentContext ComponentContext { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
-        [Parameter] protected string ClassName { get; set; }
-        [Parameter] protected string Style { get; set; }
+        [Parameter] public string ClassName { get; set; }
+        [Parameter] public string Style { get; set; }
 
         public ElementReference RootElementReference;
 
         public async Task<Rectangle> GetBoundsAsync()
         {
-            if (ComponentContext.IsConnected)
+            //if (ComponentContext.IsConnected)
+            //{
+            try
             {
                 var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", RootElementReference);
                 return rectangle;
             }
-            else
+            catch
+            {
                 return new Rectangle();
+            }
         }
                 
 

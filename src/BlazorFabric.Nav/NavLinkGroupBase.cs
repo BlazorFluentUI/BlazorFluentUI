@@ -1,5 +1,6 @@
 ﻿using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,17 +10,17 @@ namespace BlazorFabric.Nav
 {
     public class NavLinkGroupBase: FabricComponentBase
     {
-        [Parameter] protected bool CollapseByDefault { get; set; }
-        [Parameter] protected RenderFragment ChildContent { get; set; }
-        [Parameter] protected string Name { get; set; }
+        [Parameter] public bool CollapseByDefault { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public string Name { get; set; }
 
         [CascadingParameter] protected string ExpandButtonAriaLabel { get; set; }
 
-        [Parameter] protected EventCallback<NavLinkGroupBase> OnClick { get; set; }
+        [Parameter] public EventCallback<NavLinkGroupBase> OnClick { get; set; }
 
         protected bool isExpanded = true;
 
-        protected async Task ClickHandler(UIMouseEventArgs args)
+        protected async Task ClickHandler(MouseEventArgs args)
         {
             this.isExpanded = !this.isExpanded;
             await OnClick.InvokeAsync(this);

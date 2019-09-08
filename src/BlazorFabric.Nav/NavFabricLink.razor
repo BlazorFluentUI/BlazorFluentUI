@@ -1,8 +1,9 @@
 ﻿@inherits  NavFabricLinkBase
+@using Microsoft.AspNetCore.Components.Web
 
 <li role="listitem" 
     class="ms-Nav-navItem" 
-    @ref="RootElementRef">
+    @ref="RootElementReference">
     <div class=@($"ms-Nav-compositeLink {(isExpanded?"is-expanded":"")} {(Disabled?"is-disabled":"")} {(isSelected?"is-selected":"")} {(IsButton?"is-button":"")} {depthClass}")>
         @if (this.ChildContent != null)
         {

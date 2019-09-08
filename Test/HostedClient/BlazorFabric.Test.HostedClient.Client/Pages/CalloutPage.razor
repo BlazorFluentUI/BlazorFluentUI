@@ -23,32 +23,34 @@
 
 @code { 
 
-bool isInitialized = false;
-bool calloutHidden = true;
+    bool isInitialized = false;
+    bool calloutHidden = true;
 
-Task ClickHandler(UIMouseEventArgs args)
-{
-    calloutHidden = !calloutHidden;
-    StateHasChanged();
-    return Task.CompletedTask;
-}
+    FabricComponentBase calloutTarget;
 
-protected override Task OnAfterRenderAsync()
-{
-    if (!isInitialized)
+    Task ClickHandler(MouseEventArgs args)
     {
-        //if (calloutTarget != null)
-        //{
+        calloutHidden = !calloutHidden;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isInitialized)
+        {
+            //if (calloutTarget != null)
+            //{
             isInitialized = true;
             StateHasChanged();
-        //}
+            //}
+        }
+        return Task.CompletedTask;
     }
-    return Task.CompletedTask;
-}
 
-protected Task DismissHandler(bool isDismissed)
-{
-    calloutHidden = true;
-    return Task.CompletedTask;
-}
+    protected Task DismissHandler(bool isDismissed)
+    {
+        calloutHidden = true;
+        return Task.CompletedTask;
+    }
 }

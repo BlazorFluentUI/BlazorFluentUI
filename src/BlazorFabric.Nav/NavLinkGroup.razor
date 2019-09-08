@@ -1,8 +1,9 @@
 ﻿@inherits NavLinkGroupBase
+@using Microsoft.AspNetCore.Components.Web
 
     <div key={groupIndex} 
          class=@($"ms-Nav-group {(this.isExpanded ? "is-expanded":"")}")
-         @ref="RootElementRef">
+         @ref="RootElementReference">
         @if (Name != null)
         {
             <button class="ms-Nav-chevronButton is-group "

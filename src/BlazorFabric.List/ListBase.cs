@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Blazor.OfficeUiFabric.Components.List;
 using Microsoft.JSInterop;
 using BlazorFabric.BaseComponent;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorFabric.List
 {
@@ -52,7 +53,7 @@ namespace BlazorFabric.List
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
         [Parameter]
-        public Func<TItem, UIMouseEventArgs, Task> ItemClicked { get; set; }
+        public Func<TItem, MouseEventArgs, Task> ItemClicked { get; set; }
              
         protected RenderFragment ItemPagesRender { get; set; }
 
@@ -132,7 +133,7 @@ namespace BlazorFabric.List
                       builder.AddAttribute(i * lineCount + 4, "ItemsSource", ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE));
                       builder.AddAttribute(i * lineCount + 5, "StartIndex", i * DEFAULT_ITEMS_PER_PAGE);
                       builder.AddAttribute(i * lineCount + 6, "PageMeasureSubject", pageMeasureSubject);
-                      builder.AddAttribute(i * lineCount + 7, "ItemClicked", (Func<object, UIMouseEventArgs, Task>)OnItemClick);
+                      builder.AddAttribute(i * lineCount + 7, "ItemClicked", (Func<object, MouseEventArgs, Task>)OnItemClick);
                       builder.AddAttribute(i * lineCount + 8, "SelectedItems", selectedItems);
                       builder.AddComponentReferenceCapture(i * lineCount + 9, (comp) => renderedPages.Add((ListPage<TItem>)comp));
                       builder.CloseComponent();
@@ -146,7 +147,7 @@ namespace BlazorFabric.List
 
           };
 
-        protected Task OnItemClick(object item, UIMouseEventArgs e)
+        protected Task OnItemClick(object item, MouseEventArgs e)
         {
             var castItem = (TItem)item;
             switch (SelectionMode)
@@ -183,7 +184,7 @@ namespace BlazorFabric.List
             return Task.CompletedTask;
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             var scrollDivInfo = await this.JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureElementRect", this.RootElementReference);
             height = scrollDivInfo["height"];
@@ -227,13 +228,13 @@ namespace BlazorFabric.List
                 }
             });
 
-            await base.OnAfterRenderAsync();
+            await base.OnAfterRenderAsync(firstRender);
 
 
         }
 
 
-        public async Task OnScroll(UIEventArgs args)
+        public async Task OnScroll(EventArgs args)
         {
             var scrollRect = await this.JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureScrollWindow", this.RootElementReference);
             //Debug.WriteLine($"top: {scrollRect["top"]}");

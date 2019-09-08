@@ -14,40 +14,40 @@ namespace BlazorFabric.Callout
     {
         internal CalloutBase() { }
 
-        [Inject] private IComponentContext ComponentContext { get; set; }
+        //[Inject] private IComponentContext ComponentContext { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
-        [Parameter] protected ElementReference ElementTarget { get; set; }  // not working yet
-        [Parameter] protected FabricComponentBase FabricComponentTarget { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public ElementReference ElementTarget { get; set; }  // not working yet
+        [Parameter] public FabricComponentBase FabricComponentTarget { get; set; }
 
-        [Parameter] protected DirectionalHint DirectionalHint { get; set; } = DirectionalHint.BottomAutoEdge;
-        [Parameter] protected bool DirectionalHintFixed { get; set; }
-        [Parameter] protected bool DoNotLayer { get; set; }
-        [Parameter] protected bool IsBeakVisible { get; set; } = true;
-        [Parameter] protected int GapSpace { get; set; } = 0;
-        [Parameter] protected int BeakWidth { get; set; } = 16;
-        [Parameter] protected int CalloutWidth { get; set; } = 0;
-        [Parameter] protected int CalloutMaxWidth { get; set; } = 0;
-        [Parameter] protected string BackgroundColor { get; set; } = null;
-        [Parameter] protected Rectangle Bounds { get; set; }
-        [Parameter] protected int MinPagePadding { get; set; } = 8;
-        [Parameter] protected bool PreventDismissOnScroll { get; set; } = false;
-        [Parameter] protected bool PreventDismissOnResize { get; set; } = false;
-        [Parameter] protected bool PreventDismissOnLosFocus { get; set; } = false;
-        [Parameter] protected bool CoverTarget { get; set; } = false;
-        [Parameter] protected bool AlignTargetEdge { get; set; } = false;
-        [Parameter] protected string Role { get; set; }
-        [Parameter] protected string AriaLabel { get; set; }
-        [Parameter] protected string AriaLabelledBy { get; set; }
-        [Parameter] protected string AriaDescribedBy { get; set; }
+        [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.BottomAutoEdge;
+        [Parameter] public bool DirectionalHintFixed { get; set; }
+        [Parameter] public bool DoNotLayer { get; set; }
+        [Parameter] public bool IsBeakVisible { get; set; } = true;
+        [Parameter] public int GapSpace { get; set; } = 0;
+        [Parameter] public int BeakWidth { get; set; } = 16;
+        [Parameter] public int CalloutWidth { get; set; } = 0;
+        [Parameter] public int CalloutMaxWidth { get; set; } = 0;
+        [Parameter] public string BackgroundColor { get; set; } = null;
+        [Parameter] public Rectangle Bounds { get; set; }
+        [Parameter] public int MinPagePadding { get; set; } = 8;
+        [Parameter] public bool PreventDismissOnScroll { get; set; } = false;
+        [Parameter] public bool PreventDismissOnResize { get; set; } = false;
+        [Parameter] public bool PreventDismissOnLosFocus { get; set; } = false;
+        [Parameter] public bool CoverTarget { get; set; } = false;
+        [Parameter] public bool AlignTargetEdge { get; set; } = false;
+        [Parameter] public string Role { get; set; }
+        [Parameter] public string AriaLabel { get; set; }
+        [Parameter] public string AriaLabelledBy { get; set; }
+        [Parameter] public string AriaDescribedBy { get; set; }
 
         // This is no longer available to use publicly.  Need this to hide control when calculating position otherwise it blinks into the top corner.
         protected bool Hidden { get; set; } = true;
 
-        [Parameter] protected EventCallback<bool> HiddenChanged { get; set; }
+        [Parameter] public EventCallback<bool> HiddenChanged { get; set; }
 
-        [Parameter] protected EventCallback<bool> OnDismiss { get; set; }
+        [Parameter] public EventCallback<bool> OnDismiss { get; set; }
 
         protected Rectangle Position { get; set; } = new Rectangle();
 
@@ -75,12 +75,12 @@ namespace BlazorFabric.Callout
             return base.OnInitializedAsync();
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             
-            if (!isEventHandlersRegistered && ComponentContext.IsConnected)
+            if (!isEventHandlersRegistered) //&& ComponentContext.IsConnected)
             {
-                eventHandlerIds =  await JSRuntime.InvokeAsync<List<int>>("BlazorFabricCallout.registerHandlers", this.RootElementReference, DotNetObjectRef.Create(this));
+                eventHandlerIds =  await JSRuntime.InvokeAsync<List<int>>("BlazorFabricCallout.registerHandlers", this.RootElementReference, DotNetObjectReference.Create(this));
 
                 isEventHandlersRegistered = true;
 
@@ -91,7 +91,7 @@ namespace BlazorFabric.Callout
             }
             isRenderedOnce = true;
 
-            await base.OnAfterRenderAsync();
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         [JSInvokable] public async void ScrollHandler()
@@ -154,7 +154,7 @@ namespace BlazorFabric.Callout
         public async void Dispose()
         {
             if (eventHandlerIds != null)
-                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", this.FabricComponentTarget.RootElementReference, DotNetObjectRef.Create(this), eventHandlerIds);
+                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", this.FabricComponentTarget.RootElementReference, DotNetObjectReference.Create(this), eventHandlerIds);
 
         }
 

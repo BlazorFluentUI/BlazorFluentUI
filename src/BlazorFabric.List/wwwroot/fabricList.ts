@@ -130,5 +130,5 @@ namespace BlazorFabricList {
 
 
 
-window['BlazorFabricList'] = BlazorFabricList || {};
+(<any>window)['BlazorFabricList'] = BlazorFabricList || {};
 

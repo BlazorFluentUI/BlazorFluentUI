@@ -1,4 +1,5 @@
 ﻿@inherits TextFieldBase
+@using Microsoft.AspNetCore.Components.Web
 
 <div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(this.ErrorMessage != null ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(this.Label == null ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )}")
      @ref="RootElementReference" @ref:suppressField>

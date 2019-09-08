@@ -36,7 +36,7 @@ namespace BlazorFabric.Modal
         public RenderFragment ChildContent { get; set; }
        
         [Parameter]
-        public EventCallback<UIEventArgs> OnDismiss { get; set; }
+        public EventCallback<EventArgs> OnDismiss { get; set; }
 
         protected ElementReference allowScrollOnModal;
     }

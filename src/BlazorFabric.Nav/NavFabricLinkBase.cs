@@ -1,5 +1,6 @@
 ﻿using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,24 +10,24 @@ namespace BlazorFabric.Nav
 {
     public class NavFabricLinkBase : FabricComponentBase
     { 
-        [Inject] protected IUriHelper UriHelper { get; set; }
+        [Inject] protected NavigationManager NavigationManager { get; set; }
         
-        [Parameter] protected RenderFragment ChildContent { get; set; }  //LINKS
+        [Parameter] public RenderFragment ChildContent { get; set; }  //LINKS
 
-        [Parameter] protected string AriaLabel { get; set; }
-        [Parameter] protected bool Disabled { get; set; }
-        [Parameter] protected bool ForceAnchor { get; set; }
-        [Parameter] protected string Icon { get; set; }
-        [Parameter] protected bool IsButton { get; set; }
-        [Parameter] protected string Name { get; set; }
-        [Parameter] protected string Target { get; set; }  //link <a> target
-        [Parameter] protected string Title { get; set; } //tooltip and ARIA
-        [Parameter] protected string Id { get; set; }
-        [Parameter] protected string Url { get; set; }
+        [Parameter] public string AriaLabel { get; set; }
+        [Parameter] public bool Disabled { get; set; }
+        [Parameter] public bool ForceAnchor { get; set; }
+        [Parameter] public string Icon { get; set; }
+        [Parameter] public bool IsButton { get; set; }
+        [Parameter] public string Name { get; set; }
+        [Parameter] public string Target { get; set; }  //link <a> target
+        [Parameter] public string Title { get; set; } //tooltip and ARIA
+        [Parameter] public string Id { get; set; }
+        [Parameter] public string Url { get; set; }
 
-        [Parameter] protected int NestedDepth { get; set; }
+        [Parameter] public int NestedDepth { get; set; }
 
-        [Parameter] EventCallback<NavFabricLinkBase> OnClick { get; set; }
+        [Parameter] public EventCallback<NavFabricLinkBase> OnClick { get; set; }
 
         [CascadingParameter(Name="ClearSelectionAction")] Action ClearSelectionAction { get; set; }
 
@@ -40,8 +41,8 @@ namespace BlazorFabric.Nav
         protected override Task OnInitializedAsync()
         {
             System.Diagnostics.Debug.WriteLine("Initializing NavFabricLinkBase");
-            ProcessUri(UriHelper.GetAbsoluteUri());
-            UriHelper.OnLocationChanged += UriHelper_OnLocationChanged;
+            ProcessUri(NavigationManager.Uri);
+            NavigationManager.LocationChanged += UriHelper_OnLocationChanged;
             return base.OnInitializedAsync();
         }
                 
@@ -97,13 +98,13 @@ namespace BlazorFabric.Nav
             return base.OnParametersSetAsync();
         }
 
-        protected Task ExpandHandler(UIMouseEventArgs args)
+        protected Task ExpandHandler(MouseEventArgs args)
         {
             this.isExpanded = !this.isExpanded;
             return Task.CompletedTask;
         }
 
-        protected async Task ClickHandler(UIMouseEventArgs args)
+        protected async Task ClickHandler(MouseEventArgs args)
         {          
             await OnClick.InvokeAsync(this);
         }

@@ -15,8 +15,8 @@ else
     private bool isRendered=false;
     private System.Timers.Timer timer;
 
-    [Parameter] private RenderFragment ChildContent { get; set; }
-    [Parameter] private int Delay { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public int Delay { get; set; }
 
     protected override Task OnInitializedAsync()
     {
@@ -32,10 +32,10 @@ else
         return base.OnParametersSetAsync();
     }
 
-    protected override Task OnAfterRenderAsync()
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
         timer.Start();
-        return base.OnAfterRenderAsync();
+        return base.OnAfterRenderAsync(firstRender);
     }
 
     private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs args)

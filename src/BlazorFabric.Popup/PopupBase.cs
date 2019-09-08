@@ -1,5 +1,6 @@
 ﻿using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,7 +23,7 @@ namespace BlazorFabric.Popup
         [Parameter] public string AriaDescribedBy { get; set; }
         [Parameter] public bool ShouldRestoreFocus { get; set; } = true;  //THIS DOES NOTHING AT THE MOMENT.  
 
-        [Parameter] public EventCallback<UIEventArgs> OnDismiss { get; set; }
+        [Parameter] public EventCallback<EventArgs> OnDismiss { get; set; }
 
 
         // Come back to this later if needed!
@@ -31,7 +32,7 @@ namespace BlazorFabric.Popup
         protected bool needsVerticalScrollBar = false;
 
 
-        protected async Task KeyDownHandler(UIKeyboardEventArgs args)
+        protected async Task KeyDownHandler(KeyboardEventArgs args)
         {
             switch (args.Key)
             {

@@ -1,5 +1,6 @@
 ﻿using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -12,37 +13,37 @@ namespace BlazorFabric.TextField
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
-        [Parameter] protected bool Required { get; set; }
-        [Parameter] protected bool Multiline { get; set; }
-        [Parameter] protected bool Resizable { get; set; } = true;
-        [Parameter] protected bool AutoAdjustHeight { get; set; }
-        [Parameter] protected bool Underlined { get; set; }
-        [Parameter] protected bool Borderless { get; set; }
-        [Parameter] protected string Label { get; set; }
-        [Parameter] protected RenderFragment RenderLabel { get; set; }
-        [Parameter] protected string Description { get; set; }
-        [Parameter] protected string Prefix { get; set; }
-        [Parameter] protected string Suffix { get; set; }
-        [Parameter] protected string DefaultValue { get; set; }
-        [Parameter] protected string Value { get; set; }
-        [Parameter] protected bool Disabled { get; set; }
-        [Parameter] protected bool ReadOnly { get; set; }
-        [Parameter] protected string ErrorMessage { get; set; }
-        [Parameter] protected string AriaLabel { get; set; }
-        [Parameter] protected bool AutoComplete { get; set; }
-        [Parameter] protected string Mask { get; set; }
-        [Parameter] protected string MaskChar { get; set; }
-        [Parameter] protected string MaskFormat { get; set; }
-        [Parameter] protected string Placeholder { get; set; }
+        [Parameter] public bool Required { get; set; }
+        [Parameter] public bool Multiline { get; set; }
+        [Parameter] public bool Resizable { get; set; } = true;
+        [Parameter] public bool AutoAdjustHeight { get; set; }
+        [Parameter] public bool Underlined { get; set; }
+        [Parameter] public bool Borderless { get; set; }
+        [Parameter] public string Label { get; set; }
+        [Parameter] public RenderFragment RenderLabel { get; set; }
+        [Parameter] public string Description { get; set; }
+        [Parameter] public string Prefix { get; set; }
+        [Parameter] public string Suffix { get; set; }
+        [Parameter] public string DefaultValue { get; set; }
+        [Parameter] public string Value { get; set; }
+        [Parameter] public bool Disabled { get; set; }
+        [Parameter] public bool ReadOnly { get; set; }
+        [Parameter] public string ErrorMessage { get; set; }
+        [Parameter] public string AriaLabel { get; set; }
+        [Parameter] public bool AutoComplete { get; set; }
+        [Parameter] public string Mask { get; set; }
+        [Parameter] public string MaskChar { get; set; }
+        [Parameter] public string MaskFormat { get; set; }
+        [Parameter] public string Placeholder { get; set; }
 
         //[Parameter]
         //protected Func<UIChangeEventArgs, Task> OnChange { get; set; }
         //[Parameter]
         //protected Func<UIChangeEventArgs, Task> OnInput { get; set; }
         [Parameter]
-        protected EventCallback<string> OnChange { get; set; }
+        public EventCallback<string> OnChange { get; set; }
         [Parameter]
-        protected EventCallback<string> OnInput { get; set; }
+        public EventCallback<string> OnInput { get; set; }
 
         protected string id = Guid.NewGuid().ToString();
         protected string descriptionId = Guid.NewGuid().ToString();
@@ -64,7 +65,7 @@ namespace BlazorFabric.TextField
             return base.OnParametersSetAsync();
         }
 
-        protected async Task InputHandler(UIChangeEventArgs args)
+        protected async Task InputHandler(ChangeEventArgs args)
         {
             await AdjustInputHeightAsync();
             await OnInput.InvokeAsync((string)args.Value);
@@ -75,7 +76,7 @@ namespace BlazorFabric.TextField
             //}
         }
 
-        protected async Task ChangeHandler(UIChangeEventArgs args)
+        protected async Task ChangeHandler(ChangeEventArgs args)
         {
             await OnChange.InvokeAsync((string)args.Value);
             //await ChangeChanged.InvokeAsync((string)args.Value);
@@ -85,28 +86,28 @@ namespace BlazorFabric.TextField
             //}
         }
 
-        protected Task OnFocus(UIFocusEventArgs args)
+        protected Task OnFocus(FocusEventArgs args)
         {
             isFocused = true;
             //StateHasChanged();
             return Task.CompletedTask;
         }
 
-        protected Task OnBlur(UIFocusEventArgs args)
+        protected Task OnBlur(FocusEventArgs args)
         {
             isFocused = false;
             //StateHasChanged();
             return Task.CompletedTask;
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (!firstRendered)
             {
                 firstRendered = true;
                 await AdjustInputHeightAsync();
             }
-            await base.OnAfterRenderAsync();
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         private async Task AdjustInputHeightAsync()

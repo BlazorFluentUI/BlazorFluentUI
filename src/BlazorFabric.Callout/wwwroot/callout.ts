@@ -155,5 +155,5 @@ namespace BlazorFabricCallout {
 
 
 
-window['BlazorFabricCallout'] = BlazorFabricCallout || {};
+(<any>window)['BlazorFabricCallout'] = BlazorFabricCallout || {};
 

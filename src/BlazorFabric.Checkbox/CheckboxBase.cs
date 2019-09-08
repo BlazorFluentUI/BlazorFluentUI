@@ -1,5 +1,6 @@
 ﻿using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -54,7 +55,7 @@ namespace BlazorFabric.Checkbox
 
         
         [Parameter]
-        public Func<UIChangeEventArgs, Task> Changed { get; set; }
+        public Func<ChangeEventArgs, Task> Changed { get; set; }
 
         [Parameter]
         public EventCallback<bool> CheckedChanged { get; set; }
@@ -68,7 +69,7 @@ namespace BlazorFabric.Checkbox
             return base.OnParametersSetAsync();
         }
 
-        protected async Task OnChange(UIChangeEventArgs args)
+        protected async Task OnChange(ChangeEventArgs args)
         {
             System.Diagnostics.Debug.WriteLine($"Changed to {args.Value}");
             if (!this.Checked.HasValue)
@@ -84,7 +85,7 @@ namespace BlazorFabric.Checkbox
 
         }
 
-        protected Task OnClick(UIMouseEventArgs args)
+        protected Task OnClick(MouseEventArgs args)
         {
             System.Diagnostics.Debug.WriteLine($"Clicked");
             return Task.CompletedTask;

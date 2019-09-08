@@ -1,4 +1,5 @@
 ﻿@inherits PopupBase
+@using Microsoft.AspNetCore.Components.Web
 
 <div 
      class=@ClassName
@@ -8,7 +9,7 @@
      aria-describedby=@AriaDescribedBy
      @onkeydown=@KeyDownHandler
      style=@($"{this.Style}outline: none")
-     @ref="RootElementRef"
+     @ref="RootElementReference"
      >
     @ChildContent
 </div>

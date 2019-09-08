@@ -1,6 +1,7 @@
 using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +22,7 @@ namespace BlazorFabric.Button
         public ElementReference ButtonRef { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
-        [Parameter] protected string Href { get; set; }
+        [Parameter] public string Href { get; set; }
         [Parameter] public bool Primary { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool AllowDisabledFocus { get; set; }
@@ -41,7 +42,7 @@ namespace BlazorFabric.Button
         [Parameter] public RenderFragment ContextualMenuItemTemplate { get; set; }
 
         [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
-        [Parameter] public EventCallback<UIMouseEventArgs> OnClick { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
         [Parameter] public ICommand Command { get; set; }
         [Parameter] public object CommandParameter { get; set; }
 
@@ -95,7 +96,7 @@ namespace BlazorFabric.Button
             commandDisabled = Command.CanExecute(CommandParameter);
         }
 
-        protected async void ClickHandler(UIMouseEventArgs args)
+        protected async void ClickHandler(MouseEventArgs args)
         {
             if (Toggle)
             {
@@ -156,7 +157,7 @@ namespace BlazorFabric.Button
             }
 
             builder.AddAttribute(4, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
-            builder.AddAttribute(5, "onclick", EventCallback.Factory.Create<UIMouseEventArgs>(this, this.ClickHandler));
+            builder.AddAttribute(5, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
             builder.AddAttribute(6, "disabled", this.Disabled && !this.AllowDisabledFocus);
             builder.AddAttribute(7, "data-is-focusable", this.Disabled || this.Split ? false : true);
 

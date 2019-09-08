@@ -2,7 +2,8 @@
 using BlazorFabric.Button;
 using BlazorFabric.Checkbox;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,13 +13,13 @@ namespace BlazorFabric.Dropdown
 {
     public class DropdownItem<TItem>: FabricComponentBase
     {
-        [Parameter] protected bool Disabled { get; set; }
-        [Parameter] protected bool Hidden { get; set; }
-        [Parameter] protected SelectableOptionMenuItemType ItemType { get; set; } = SelectableOptionMenuItemType.Normal;
-        [Parameter] protected string ItemKey { get; set; }
+        [Parameter] public bool Disabled { get; set; }
+        [Parameter] public bool Hidden { get; set; }
+        [Parameter] public SelectableOptionMenuItemType ItemType { get; set; } = SelectableOptionMenuItemType.Normal;
+        [Parameter] public string ItemKey { get; set; }
         //[Parameter] protected string Selected { get; set; }
-        [Parameter] protected string Text { get; set; }
-        [Parameter] protected string Title { get; set; }
+        [Parameter] public string Text { get; set; }
+        [Parameter] public string Title { get; set; }
 
         [CascadingParameter] protected DropdownBase<TItem> Dropdown { get; set; }
 
@@ -80,7 +81,7 @@ namespace BlazorFabric.Dropdown
                 //builder.AddAttribute(i + 1, "Key", this.Key);
                 builder.AddAttribute(i + 2, "Disabled", Disabled);
                 builder.AddAttribute(i + 3, "ClassName", $"ms-Dropdown-item {(Disabled ? "is-disabled" : "")} {(Hidden ? "is-hidden" : "")}  {(isSelected ? "selected" : "")}");
-                builder.AddAttribute(i + 4, "OnClick", EventCallback.Factory.Create<UIMouseEventArgs>(this, __value => { this.Dropdown.ResetSelection(); this.Dropdown.AddSelection(this.ItemKey); }));
+                builder.AddAttribute(i + 4, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, __value => { this.Dropdown.ResetSelection(); this.Dropdown.AddSelection(this.ItemKey); }));
                 builder.AddAttribute(i + 5, "ChildContent", (RenderFragment)((builder2) =>
                 {
                     builder2.OpenElement(i + 6, "span");

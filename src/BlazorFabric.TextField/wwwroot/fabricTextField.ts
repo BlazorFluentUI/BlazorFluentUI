@@ -7,5 +7,5 @@ namespace BlazorFabricTextField {
  
 }
 
-window['BlazorFabricTextField'] = BlazorFabricTextField || {};
+(<any>window)['BlazorFabricTextField'] = BlazorFabricTextField || {};
 

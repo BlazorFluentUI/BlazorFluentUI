@@ -69,5 +69,5 @@ namespace BlazorFabricContextualMenu {
 
 
 
-window['BlazorFabricContextualMenu'] = BlazorFabricContextualMenu || {};
+(<any>window)['BlazorFabricContextualMenu'] = BlazorFabricContextualMenu || {};
 

@@ -1,4 +1,5 @@
 @using BlazorFabric.BaseComponent
+@using Microsoft.AspNetCore.Components.Web
 
 @inherits FabricComponentBase
 
@@ -26,17 +27,17 @@
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     [Parameter]
-    public Func<object, UIMouseEventArgs, Task> ItemClicked { get; set; }
+    public Func<object, MouseEventArgs, Task> ItemClicked { get; set; }
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         //var result = await JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureElement", rootElement);
         //this.Width = result["width"];
         //this.Height = result["height"];
-        await base.OnAfterRenderAsync();
+        await base.OnAfterRenderAsync(firstRender);
     }
 
-    private Task OnItemClick(UIMouseEventArgs e)
+    private Task OnItemClick(MouseEventArgs e)
     {
 
         return ItemClicked.Invoke(this.Item, e);

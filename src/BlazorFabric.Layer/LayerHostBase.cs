@@ -12,11 +12,11 @@ namespace BlazorFabric.Layer
     {
         internal LayerHostBase() { }
                
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [Parameter] protected RenderFragment HostedContent { get; set; }
+        [Parameter] public RenderFragment HostedContent { get; set; }
 
-        [Parameter] protected bool IsFixed { get; set; } = true;
+        [Parameter] public bool IsFixed { get; set; } = true;
 
         //[Parameter] public Func<UIEventArgs, Task> OnScroll { get; set; }  // CAN'T USE THESE... NEED TO USE FUNC INSTEAD
         //[Parameter] public EventCallback<UIEventArgs> OnResize { get; set; } 

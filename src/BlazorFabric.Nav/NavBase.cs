@@ -9,11 +9,11 @@ namespace BlazorFabric.Nav
 {
     public class NavBase: FabricComponentBase
     {
-        [Parameter] protected RenderFragment ChildContent { get; set; }
-        [Parameter] protected string AriaLabel { get; set; }
-        [Parameter] protected string ExpandButtonAriaLabel { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public string AriaLabel { get; set; }
+        [Parameter] public string ExpandButtonAriaLabel { get; set; }
 
-        [Parameter] protected bool IsOnTop { get; set; }
+        [Parameter] public bool IsOnTop { get; set; }
                 
         protected override Task OnInitializedAsync()
         {

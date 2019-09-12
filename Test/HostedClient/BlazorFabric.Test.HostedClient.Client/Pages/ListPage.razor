@@ -3,6 +3,7 @@
 @using Models
 
 <BlazorFabric.Label.Label>Virtualized List with selection modes</BlazorFabric.Label.Label>
+<BlazorFabric.Button.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler"/>
 <div style="height:400px;">
     <BlazorFabric.List.List ItemsSource=@data TItem="DataItem">
         <ItemTemplate>
@@ -15,16 +16,29 @@
 </div>
 
 @functions {
-    
-    List<DataItem> data;
+    int count = 0;
+    System.Collections.ObjectModel.ObservableCollection<DataItem> data;
+
+    Task ClickHandler(MouseEventArgs args)
+    {
+        System.Diagnostics.Debug.WriteLine("Clicked!");
+        for (var i = 0; i < 10; i++)
+        {
+            count++;
+            data.Add(new DataItem(count));
+        }
+        System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
+        return Task.CompletedTask;
+    }
 
     protected override Task OnInitializedAsync()
     {
-        data = new List<DataItem>();
-        for (var i = 0; i < 5000; i++)
-        {
-            data.Add(new DataItem(i));
-        }
+        data = new System.Collections.ObjectModel.ObservableCollection<DataItem>();
+        //for (var i = 0; i < 10; i++)
+        //{
+        //    count++;
+        //    data.Add(new DataItem(i));
+        //}
 
         return Task.CompletedTask;
     }

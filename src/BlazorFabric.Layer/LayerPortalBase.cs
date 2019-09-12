@@ -1,10 +1,9 @@
-﻿using BlazorFabric.BaseComponent;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFabric.Layer
+namespace BlazorFabric
 {
     public class LayerPortalBase : FabricComponentBase, IDisposable
     {

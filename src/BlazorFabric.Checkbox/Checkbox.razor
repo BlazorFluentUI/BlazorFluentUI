@@ -1,9 +1,10 @@
-﻿@inherits CheckboxBase
+﻿@namespace BlazorFabric
+@inherits CheckboxBase
 @using Microsoft.AspNetCore.Components.Web
 @*<KeytipData keytipProps={keytipProps} disabled={disabled}>
     {(keytipAttributes: any): JSX.Element => (*@
-<div class=@($"fabricCheckbox-root ms-Checkbox-checkbox {(isChecked ? "is-checked" : "not-checked")} {(Reversed ? "reversed" : "")} {(Disabled ? "is-disabled" : "is-enabled")} {ClassName}") 
-     @ref="RootElementReference" >
+<div class=@($"fabricCheckbox-root ms-Checkbox-checkbox {(isChecked ? "is-checked" : "not-checked")} {(Reversed ? "reversed" : "")} {(Disabled ? "is-disabled" : "is-enabled")} {ClassName}")
+     @ref="RootElementReference">
     <input type="checkbox"
            id=@Id
            class=@($"fabricCheckbox-input mediumFont" )
@@ -29,18 +30,18 @@
     </KeytipData>*@
 
 @*const { className, theme, reversed, checked, disabled, isUsingCustomLabelRender } = props;
-  const { semanticColors } = theme;
-  const checkmarkFontColor = semanticColors.inputForegroundChecked;
-  const checkmarkFontColorCheckedDisabled = semanticColors.disabledBackground;
-  const checkmarkFontColorHovered = semanticColors.inputBorder;
-  const checkboxBorderColor = semanticColors.smallInputBorder;
-  const checkboxBorderColorChecked = semanticColors.inputBackgroundChecked;
-  const checkboxBorderColorDisabled = semanticColors.disabledBodySubtext;
-  const checkboxBorderHoveredColor = semanticColors.inputBorderHovered;
-  const checkboxBackgroundChecked = semanticColors.inputBackgroundChecked;
-  const checkboxBackgroundCheckedHovered = semanticColors.inputBackgroundCheckedHovered;
-  const checkboxBorderColorCheckedHovered = semanticColors.inputBackgroundCheckedHovered;
-  const checkboxHoveredTextColor = semanticColors.bodyText;
-  const checkboxBackgroundDisabledChecked = semanticColors.disabledBodySubtext;
-  const checkboxTextColor = semanticColors.bodyText;
-  const checkboxTextColorDisabled = semanticColors.disabledText;*@
+    const { semanticColors } = theme;
+    const checkmarkFontColor = semanticColors.inputForegroundChecked;
+    const checkmarkFontColorCheckedDisabled = semanticColors.disabledBackground;
+    const checkmarkFontColorHovered = semanticColors.inputBorder;
+    const checkboxBorderColor = semanticColors.smallInputBorder;
+    const checkboxBorderColorChecked = semanticColors.inputBackgroundChecked;
+    const checkboxBorderColorDisabled = semanticColors.disabledBodySubtext;
+    const checkboxBorderHoveredColor = semanticColors.inputBorderHovered;
+    const checkboxBackgroundChecked = semanticColors.inputBackgroundChecked;
+    const checkboxBackgroundCheckedHovered = semanticColors.inputBackgroundCheckedHovered;
+    const checkboxBorderColorCheckedHovered = semanticColors.inputBackgroundCheckedHovered;
+    const checkboxHoveredTextColor = semanticColors.bodyText;
+    const checkboxBackgroundDisabledChecked = semanticColors.disabledBodySubtext;
+    const checkboxTextColor = semanticColors.bodyText;
+    const checkboxTextColorDisabled = semanticColors.disabledText;*@

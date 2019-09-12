@@ -1,7 +1,4 @@
-﻿using BlazorFabric.BaseComponent;
-using BlazorFabric.Button;
-using BlazorFabric.Checkbox;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using System;
@@ -9,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFabric.Dropdown
+namespace BlazorFabric
 {
     public class DropdownItem<TItem>: FabricComponentBase
     {
@@ -66,7 +63,7 @@ namespace BlazorFabric.Dropdown
         {
             if (Dropdown.MultiSelect)
             {
-                builder.OpenComponent<Checkbox.Checkbox>(i);
+                builder.OpenComponent<Checkbox>(i);
                 //builder.AddAttribute(i + 2, "Key", this.Key);
                 builder.AddAttribute(i + 2, "Disabled", Disabled);
                 builder.AddAttribute(i + 3, "ClassName", $"ms-Dropdown-item {(Disabled ? "is-disabled" : "")} {(Hidden ? "is-hidden" : "")}  {(isSelected ? "selected" : "")}");

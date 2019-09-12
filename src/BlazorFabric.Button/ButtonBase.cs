@@ -1,4 +1,3 @@
-using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -10,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace BlazorFabric.Button
+namespace BlazorFabric
 {
     public class ButtonBase : FabricComponentBase
     {
@@ -176,7 +175,7 @@ namespace BlazorFabric.Button
 
             if (this.IconName != null)
             {
-                builder.OpenComponent<BlazorFabric.Icon.Icon>(11);
+                builder.OpenComponent<BlazorFabric.Icon>(11);
                 builder.AddAttribute(12, "ClassName", "ms-Button-icon");
                 builder.AddAttribute(13, "IconName", this.IconName);
                 builder.CloseComponent();
@@ -211,7 +210,7 @@ namespace BlazorFabric.Button
             }
             if (!this.Split && false)
             {
-                builder.OpenComponent<BlazorFabric.Icon.Icon>(26);
+                builder.OpenComponent<BlazorFabric.Icon>(26);
                 builder.AddAttribute(27, "IconName", "ChevronDown");
                 builder.AddAttribute(28, "ClassName", "ms-Button-menuIcon");
                 builder.CloseComponent();
@@ -228,7 +227,7 @@ namespace BlazorFabric.Button
             }
             else if (ContextualMenuContent != null && contextMenuShown)
             {                
-                builder.OpenComponent<ContextualMenu.ContextualMenu<object>>(29);
+                builder.OpenComponent<ContextualMenu<object>>(29);
                 builder.AddAttribute(30, "FabricComponentTarget", this);
                 builder.AddAttribute(31, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { contextMenuShown = false; }));
                 builder.AddAttribute(32, "IsOpen", contextMenuShown);

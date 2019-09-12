@@ -11,10 +11,9 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
-using BlazorFabric.BaseComponent;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace BlazorFabric.List
+namespace BlazorFabric
 {
     public class ListBase<TItem> : FabricComponentBase, IDisposable
     {

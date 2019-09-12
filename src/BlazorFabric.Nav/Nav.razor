@@ -1,8 +1,9 @@
-﻿@inherits  NavBase
+﻿@namespace BlazorFabric
+@inherits NavBase
 
-<div role="navigation" 
+<div role="navigation"
      @ref="RootElementReference"
-     class=@($"mediumFont ms-Nav {(IsOnTop?"is-on-top":"")} {(IsOnTop?"slideRightIn40":"")}") 
+     class=@($"mediumFont ms-Nav {(IsOnTop?"is-on-top":"")} {(IsOnTop?"slideRightIn40":"")}")
      aria-label=@AriaLabel>
     <CascadingValue Value=@this.ExpandButtonAriaLabel>
         @ChildContent

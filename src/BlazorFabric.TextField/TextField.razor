@@ -1,4 +1,5 @@
-﻿@inherits TextFieldBase
+﻿@namespace BlazorFabric
+@inherits TextFieldBase
 @using Microsoft.AspNetCore.Components.Web
 
 <div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(this.ErrorMessage != null ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(this.Label == null ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )}")
@@ -6,7 +7,7 @@
     <div class="ms-TextField-wrapper">
         @if (this.Label != null)
         {
-            <BlazorFabric.Label.Label Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</BlazorFabric.Label.Label>
+            <BlazorFabric.Label Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</BlazorFabric.Label>
         }
         <div class="ms-TextField-fieldGroup">
             @if (this.Prefix != null)
@@ -18,7 +19,7 @@
             @if (this.Multiline)
             {
                 <textarea id=@this.id
-                          @ref="textAreaRef"                       
+                          @ref="textAreaRef"
                           style=@inlineTextAreaStyle
                           value=@currentValue
                           @oninput=@InputHandler
@@ -53,27 +54,27 @@
             }
             @*        {(iconClass || iconProps) && <Icon className={this._classNames.icon} {...iconProps} />}*@
             @if (this.Suffix != null)
-            {   
+            {
                 <div class="ms-TextField-suffix">
                     <span style="padding-bottom: 1px;">@this.Suffix</span>
                 </div>
             }
         </div>
     </div>
-   @if (this.Description != null || this.ErrorMessage != null)
-   {
+    @if (this.Description != null || this.ErrorMessage != null)
+    {
         <span id="descriptionId">
             <span class="description">@this.Description</span>
             @if (this.ErrorMessage != null)
             {
                 <div role="alert">
-                    <BlazorFabric.DelayedRender.DelayedRender Delay="100">
+                    <BlazorFabric.DelayedRender Delay="100">
                         <p class="slideDownIn20 smallFont ms-TextField--errorMessage">
                             <span data-automation-id="error-message">@this.ErrorMessage</span>
                         </p>
-                    </BlazorFabric.DelayedRender.DelayedRender>
+                    </BlazorFabric.DelayedRender>
                 </div>
             }
         </span>
-   }
+    }
 </div>

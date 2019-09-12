@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Components
+﻿@namespace BlazorFabric
+@using Microsoft.AspNetCore.Components
 
 @inherits ComponentBase
 
@@ -12,7 +13,7 @@ else
 }
 
 @functions{
-    private bool isRendered=false;
+    private bool isRendered = false;
     private System.Timers.Timer timer;
 
     [Parameter] public RenderFragment ChildContent { get; set; }
@@ -41,7 +42,7 @@ else
     private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs args)
     {
         isRendered = true;
-        InvokeAsync(()=>StateHasChanged());
+        InvokeAsync(() => StateHasChanged());
     }
 
 }

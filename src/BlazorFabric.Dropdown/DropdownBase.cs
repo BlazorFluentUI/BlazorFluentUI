@@ -1,12 +1,11 @@
-﻿using BlazorFabric.BaseComponent;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFabric.Dropdown
+namespace BlazorFabric
 {
     public class DropdownBase<TItem> : FabricComponentBase
     {

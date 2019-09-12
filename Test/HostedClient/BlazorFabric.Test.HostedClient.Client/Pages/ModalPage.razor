@@ -1,12 +1,12 @@
 ﻿@page "/modalPage"
 <h3>ModalPage</h3>
 
-<BlazorFabric.Checkbox.Checkbox Label="Is Blocking" 
+<BlazorFabric.Checkbox Label="Is Blocking" 
                                 @bind-Checked="isBlocking" 
                                 @bind-Checked:event="CheckedChanged" />
-<BlazorFabric.Button.DefaultButton OnClick="@ShowModal" 
+<BlazorFabric.DefaultButton OnClick="@ShowModal" 
                                    Text="Show Modal" />
-<BlazorFabric.Modal.Modal IsOpen=@isOpen 
+<BlazorFabric.Modal IsOpen=@isOpen 
                           ContainerClass="modalContainerOverride" 
                           OnDismiss="DismissHandler"
                           IsBlocking="@isBlocking">
@@ -14,7 +14,7 @@
         <span>Lorem Ipsum</span>
     </div>
     <div style="padding: 10px;">
-        <BlazorFabric.Button.DefaultButton OnClick="@CloseModal" Text="Close" />
+        <BlazorFabric.DefaultButton OnClick="@CloseModal" Text="Close" />
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lorem nulla, malesuada ut sagittis sit amet, vulputate in
             leo. Maecenas vulputate congue sapien eu tincidunt. Etiam eu sem turpis. Fusce tempor sagittis nunc, ut interdum ipsum
@@ -51,7 +51,7 @@
             Duis a feugiat nibh. Sed a hendrerit diam, a mattis est. In augue dolor, faucibus vel metus at, convallis rhoncus dui.
         </p>
     </div>
-</BlazorFabric.Modal.Modal>
+</BlazorFabric.Modal>
 
 @code {
     bool isOpen = false;

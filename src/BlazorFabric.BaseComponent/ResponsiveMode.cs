@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFabric.BaseComponent
+namespace BlazorFabric
 {
     public enum ResponsiveMode
     {
@@ -18,7 +18,7 @@ namespace BlazorFabric.BaseComponent
 
     public static class ResponsiveModeUtils
     {
-        static List<int> RESPONSIVE_MAX_CONSTRAINT = new List<int> { 479, 639, 1023, 1365, 1919, 99999999 };
+        readonly static List<int> RESPONSIVE_MAX_CONSTRAINT = new List<int> { 479, 639, 1023, 1365, 1919, 99999999 };
 
         public static async Task<ResponsiveMode> GetResponsiveModeAsync(IJSRuntime jSRuntime)
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFabric.Nav
+namespace BlazorFabric
 {
     public interface INavItem
     {

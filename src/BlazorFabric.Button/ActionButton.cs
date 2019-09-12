@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace BlazorFabric.Button
+namespace BlazorFabric
 {
     public class ActionButton: ButtonBase
     {

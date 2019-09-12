@@ -1,10 +1,9 @@
-﻿using BlazorFabric.BaseComponent;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFabric.Modal
+namespace BlazorFabric
 {
     public class ModalBase: FabricComponentBase
     {

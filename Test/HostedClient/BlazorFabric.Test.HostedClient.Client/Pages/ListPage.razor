@@ -2,24 +2,24 @@
 
 @using Models
 
-<BlazorFabric.Label.Label>Virtualized List with selection modes</BlazorFabric.Label.Label>
-<BlazorFabric.Button.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler"/>
+<BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
+<BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler"/>
 <div style="height:400px;">
-    <BlazorFabric.List.List ItemsSource=@data TItem="DataItem">
+    <BlazorFabric.List ItemsSource=@data TItem="DataItem">
         <ItemTemplate>
             <div style="display:flex; flex-direction:row; ">
                 <img src=@context.ImgUrl />
                 <em>@context.DisplayName</em>
             </div>
         </ItemTemplate>
-    </BlazorFabric.List.List>
+    </BlazorFabric.List>
 </div>
 
-@functions {
+@code {
     int count = 0;
     System.Collections.ObjectModel.ObservableCollection<DataItem> data;
 
-    Task ClickHandler(MouseEventArgs args)
+    Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
         System.Diagnostics.Debug.WriteLine("Clicked!");
         for (var i = 0; i < 10; i++)

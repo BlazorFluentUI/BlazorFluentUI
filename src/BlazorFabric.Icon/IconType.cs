@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFabric.Icon
+namespace BlazorFabric
 {
-
     public enum IconType
     {
         /// <summary>

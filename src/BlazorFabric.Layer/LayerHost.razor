@@ -1,14 +1,15 @@
-﻿@inherits  LayerHostBase
+﻿@namespace BlazorFabric
+@inherits LayerHostBase
 
-    <CascadingValue Value=@this Name="HostedContent" >
-        <div style=@Style>
-            @ChildContent
+<CascadingValue Value=@this Name="HostedContent">
+    <div style=@Style>
+        @ChildContent
 
 
-            <div class="ms-LayerHost" @ref="RootElementReference" >
-                <LayerPortalGenerator @ref="portalGeneratorReference" />
-               
-                @*<LayerPortal @ref=@layerPortal0 />
+        <div class="ms-LayerHost" @ref="RootElementReference">
+            <LayerPortalGenerator @ref="portalGeneratorReference" />
+
+            @*<LayerPortal @ref=@layerPortal0 />
                 <LayerPortal @ref=@layerPortal1 />
                 <LayerPortal @ref=@layerPortal2 />
                 <LayerPortal @ref=@layerPortal3 />
@@ -28,7 +29,7 @@
                 <LayerPortal @ref=@layerPortal17 />
                 <LayerPortal @ref=@layerPortal18 />
                 <LayerPortal @ref=@layerPortal19 />*@
-            </div>
         </div>
-    </CascadingValue>
+    </div>
+</CascadingValue>
 

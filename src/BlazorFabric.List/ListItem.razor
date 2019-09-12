@@ -1,4 +1,4 @@
-@using BlazorFabric.BaseComponent
+@namespace BlazorFabric
 @using Microsoft.AspNetCore.Components.Web
 
 @inherits FabricComponentBase
@@ -7,7 +7,7 @@
 
 @inject IJSRuntime JSRuntime
 
-<div @ref="RootElementReference" 
+<div @ref="RootElementReference"
      role="listitem"
      class=@($"ms-List-cell fabricList-item {(IsActive ? "is-active" : "")}")
      @onclick="@(e=>OnItemClick(e))">

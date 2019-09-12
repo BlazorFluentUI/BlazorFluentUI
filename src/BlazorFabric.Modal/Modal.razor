@@ -1,29 +1,30 @@
-﻿@inherits ModalBase
+﻿@namespace BlazorFabric
+@inherits ModalBase
 
-<BlazorFabric.Layer.Layer Style="ms-Modal-Layer" >
-    <BlazorFabric.Popup.Popup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
-            AriaLabelledBy=@TitleAriaId
-           AriaDescribedBy=@SubtitleAriaId
-           OnDismiss=@OnDismiss>
+<BlazorFabric.Layer Style="ms-Modal-Layer">
+    <BlazorFabric.Popup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
+                              AriaLabelledBy=@TitleAriaId
+                              AriaDescribedBy=@SubtitleAriaId
+                              OnDismiss=@OnDismiss>
         <div class=@($"mediumFont ms-Modal{(IsOpen ? " isOpen" : "")}{(IsModeless ? " isModeless" : "")}{(TopOffsetFixed ? " topOffsetFixed" : "")}")>
             @if (!IsModeless)
             {
-            if (IsBlocking)
-            {
-                    <BlazorFabric.Overlay.Overlay IsDarkThemed=@IsDarkOverlay />
+                if (IsBlocking)
+                {
+                    <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay />
                 }
                 else
                 {
-                    <BlazorFabric.Overlay.Overlay IsDarkThemed=@IsDarkOverlay OnClick=@((ev) => OnDismiss.InvokeAsync(ev))/>
+                    <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay OnClick=@((ev) => OnDismiss.InvokeAsync(ev)) />
                 }
             }
             <div class=@($"ms-Modal-main {ContainerClass}")>
-                <div @ref="allowScrollOnModal" 
+                <div @ref="allowScrollOnModal"
                      class="ms-Modal-scrollableContent"
                      data-is-scrollable=true>
                     @ChildContent
                 </div>
             </div>
         </div>
-    </BlazorFabric.Popup.Popup>
-</BlazorFabric.Layer.Layer>
+    </BlazorFabric.Popup>
+</BlazorFabric.Layer>

@@ -1,24 +1,25 @@
-﻿@inherits  NavFabricLinkBase
+﻿@namespace BlazorFabric
+@inherits NavFabricLinkBase
 @using Microsoft.AspNetCore.Components.Web
 
-<li role="listitem" 
-    class="ms-Nav-navItem" 
+<li role="listitem"
+    class="ms-Nav-navItem"
     @ref="RootElementReference">
     <div class=@($"ms-Nav-compositeLink {(isExpanded?"is-expanded":"")} {(Disabled?"is-disabled":"")} {(isSelected?"is-selected":"")} {(IsButton?"is-button":"")} {depthClass}")>
         @if (this.ChildContent != null)
         {
             <button class="ms-Nav-chevronButton" @onclick=@ExpandHandler aria-label=@AriaLabel aria-expanded=@isExpanded>
-                <BlazorFabric.Icon.Icon ClassName="ms-Nav-chevron" IconName="ChevronDown" />
+                <BlazorFabric.Icon ClassName="ms-Nav-chevron" IconName="ChevronDown" />
             </button>
-        }        
-        <BlazorFabric.Button.ActionButton ClassName=@($"ms-Nav-link {(Icon!=null ? "has-icon" : "")}") Href=@Url IconName=@Icon Disabled=@Disabled AriaLabel=@AriaLabel OnClick=@ClickHandler>
+        }
+        <BlazorFabric.ActionButton ClassName=@($"ms-Nav-link {(Icon!=null ? "has-icon" : "")}") Href=@Url IconName=@Icon Disabled=@Disabled AriaLabel=@AriaLabel OnClick=@ClickHandler>
             <div class="ms-Nav-linkText">@Name</div>
-        </BlazorFabric.Button.ActionButton>
+        </BlazorFabric.ActionButton>
     </div>
     @if (this.isExpanded)
     {
         <ul role="list" class="ms-Nav-navItems slideDownIn20">
-                @ChildContent
+            @ChildContent
         </ul>
     }
 </li>

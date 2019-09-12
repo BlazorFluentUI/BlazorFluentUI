@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFabric.BaseComponent
+namespace BlazorFabric
 {
     public enum DirectionalHint
     {

@@ -1,5 +1,4 @@
-﻿using BlazorFabric.BaseComponent;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using System;
@@ -10,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace BlazorFabric.ContextualMenu
+namespace BlazorFabric
 {
     public class ContextualMenuItem : FabricComponentBase, IDisposable
     {
@@ -273,7 +272,7 @@ namespace BlazorFabric.ContextualMenu
 
         private void RenderCheckMarkIcon(RenderTreeBuilder builder)
         {
-            builder.OpenComponent<Icon.Icon>(45);
+            builder.OpenComponent<Icon>(45);
             builder.AddAttribute(46, "IconName", this.Checked ? "CheckMark" : "");
             builder.AddAttribute(47, "ClassName", "ms-ContextualMenu-checkmarkIcon");
             builder.CloseComponent();
@@ -282,7 +281,7 @@ namespace BlazorFabric.ContextualMenu
 
         private void RenderItemIcon(RenderTreeBuilder builder)
         {
-            builder.OpenComponent<Icon.Icon>(51);
+            builder.OpenComponent<Icon>(51);
             builder.AddAttribute(52, "IconName", this.IconName);
             builder.AddAttribute(53, "ClassName", "ms-ContextualMenu-icon");
             builder.CloseComponent();
@@ -306,7 +305,7 @@ namespace BlazorFabric.ContextualMenu
 
         private void RenderSubMenuIcon(RenderTreeBuilder builder)
         {
-            builder.OpenComponent<Icon.Icon>(65);
+            builder.OpenComponent<Icon>(65);
             builder.AddAttribute(66, "ClassName", "ms-ContextualMenu-submenuIcon");
             builder.AddAttribute(67, "IconName", "ChevronRight");  //ignore RTL for now.
             builder.CloseComponent();
@@ -314,7 +313,7 @@ namespace BlazorFabric.ContextualMenu
         
         private void RenderSubContextualMenu(RenderTreeBuilder builder)
         {
-            builder.OpenComponent<ContextualMenu.ContextualMenu<object>>(70);
+            builder.OpenComponent<ContextualMenu<object>>(70);
             builder.AddAttribute(71, "FabricComponentTarget", this);
             builder.AddAttribute(72, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { ContextualMenu.SetSubmenuActiveKey(""); ContextualMenu.OnDismiss.InvokeAsync(true); }));
             builder.AddAttribute(73, "IsOpen", ContextualMenu.SubmenuActiveKey == Key);

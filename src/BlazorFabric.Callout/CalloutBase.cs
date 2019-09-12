@@ -1,6 +1,4 @@
-﻿using BlazorFabric.BaseComponent;
-using BlazorFabric.Layer;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -8,7 +6,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFabric.Callout
+namespace BlazorFabric
 {
     public class CalloutBase : FabricComponentBase, IDisposable
     {
@@ -62,7 +60,7 @@ namespace BlazorFabric.Callout
         protected bool isMeasured = false;
         protected bool isEventHandlersRegistered = false;
 
-        protected Layer.Layer layerReference;
+        protected Layer layerReference;
 
         protected ElementReference calloutReference;
 

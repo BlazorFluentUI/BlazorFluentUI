@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFabric.Callout
+namespace BlazorFabric
 {
     public static class PositionUtils
     {

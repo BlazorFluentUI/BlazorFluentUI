@@ -1,12 +1,11 @@
-﻿using BlazorFabric.BaseComponent;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFabric.Layer
+namespace BlazorFabric
 {
     // Blazor doesn't have a React equivalent to "createPortal" so to use a Layer, you need to place 
     // a LayerHost manually near the root of the app.  This will allow you to use a CascadeParameter 

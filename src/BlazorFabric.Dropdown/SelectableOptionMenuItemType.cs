@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFabric.Dropdown
+namespace BlazorFabric
 {
     public enum SelectableOptionMenuItemType
     {

@@ -15,7 +15,7 @@
     <IsPackable>true</IsPackable>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 	  <PackageOutputPath>../../packages</PackageOutputPath>
-    <Version>1.0.5-preview9</Version>
+    <Version>1.1.0-preview9</Version>
   </PropertyGroup>
 
   

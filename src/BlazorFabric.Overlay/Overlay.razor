@@ -1,7 +1,8 @@
-﻿@using Microsoft.AspNetCore.Components.Web
+﻿@namespace BlazorFabric
+@using Microsoft.AspNetCore.Components.Web
 
-<div class=@("mediumFont ms-Overlay " + (IsDarkThemed ? "ms-Overlay--dark" : "")) 
-     @onclick="OnClick"/>
+<div class=@("mediumFont ms-Overlay " + (IsDarkThemed ? "ms-Overlay--dark" : ""))
+     @onclick="OnClick" />
 
 @code{
     [Parameter]

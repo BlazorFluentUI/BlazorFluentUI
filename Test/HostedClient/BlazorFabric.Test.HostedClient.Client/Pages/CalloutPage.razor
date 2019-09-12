@@ -8,7 +8,7 @@
 @if (!calloutHidden)
 {
 <Callout FabricComponentTarget=@calloutTarget         
-         DirectionalHint=@BaseComponent.DirectionalHint.RightBottomEdge
+         DirectionalHint=@DirectionalHint.RightBottomEdge
          OnDismiss=@DismissHandler
          >
     <div Style="max-width:300px; padding:20px;">
@@ -28,7 +28,7 @@
 
     FabricComponentBase calloutTarget;
 
-    Task ClickHandler(MouseEventArgs args)
+    Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
         calloutHidden = !calloutHidden;
         StateHasChanged();

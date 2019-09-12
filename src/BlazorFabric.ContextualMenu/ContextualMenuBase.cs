@@ -1,11 +1,10 @@
-﻿using BlazorFabric.BaseComponent;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFabric.ContextualMenu
+namespace BlazorFabric
 {
     public class ContextualMenuBase<TItem> : FabricComponentBase
     {

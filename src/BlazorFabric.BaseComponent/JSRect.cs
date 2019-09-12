@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFabric.List
+namespace BlazorFabric
 {
     public class JSRect
     {

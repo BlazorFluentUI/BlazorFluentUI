@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFabric.ContextualMenu
+namespace BlazorFabric
 {
     public enum ContextualMenuItemType
     {

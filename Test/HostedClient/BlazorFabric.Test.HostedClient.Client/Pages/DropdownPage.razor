@@ -5,7 +5,7 @@
 <h1>Dropdown</h1>
 
 <h3>Uncontrolled Single Selection</h3>
-<BlazorFabric.Label.Label>Selected: @uncontrolledSingleSelectionResult</BlazorFabric.Label.Label>
+<BlazorFabric.Label>Selected: @uncontrolledSingleSelectionResult</BlazorFabric.Label>
 <div style="max-width:300px;">
     <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler>
         <ItemTemplate>
@@ -15,7 +15,7 @@
 </div>
 
 <h3>Uncontrolled Multi-Selection</h3>
-<BlazorFabric.Label.Label>Selected: @string.Join(", ", uncontrolledMultiSelectionResult)</BlazorFabric.Label.Label>
+<BlazorFabric.Label>Selected: @string.Join(", ", uncontrolledMultiSelectionResult)</BlazorFabric.Label>
 <div style="max-width:300px;">
     <Dropdown ItemsSource=@items TItem="DataItem" MultiSelect="true" Placeholder="Select options..." OnChange=@UncontrolledMultiChangeHandler>
         <ItemTemplate>
@@ -25,7 +25,7 @@
 </div>
 
 <h3>Controlled Single Selection</h3>
-<BlazorFabric.Label.Label>Selected: @string.Join(", ", controlledSingleSelectionResult)</BlazorFabric.Label.Label>
+<BlazorFabric.Label>Selected: @string.Join(", ", controlledSingleSelectionResult)</BlazorFabric.Label>
 <div style="max-width:300px;">
     <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" @bind-SelectedKeys=@controlledSingleSelectionResult @bind-SelectedKeys:event="SelectedKeysChanged">
         <ItemTemplate>
@@ -35,7 +35,7 @@
 </div>
 
 <h3>Controlled Multi-Selection</h3>
-<BlazorFabric.Label.Label>Selected: @string.Join(", ", controlledMultiSelectionResult)</BlazorFabric.Label.Label>
+<BlazorFabric.Label>Selected: @string.Join(", ", controlledMultiSelectionResult)</BlazorFabric.Label>
 <div style="max-width:300px;">
     <Dropdown ItemsSource=@items TItem="DataItem" MultiSelect="true" Placeholder="Select options..." @bind-SelectedKeys=@controlledMultiSelectionResult @bind-SelectedKeys:event="SelectedKeysChanged">
         <ItemTemplate>
@@ -66,16 +66,16 @@
 @code {
 
     string uncontrolledSingleSelectionResult;
-    List<string> uncontrolledMultiSelectionResult = new List<string>();
+    System.Collections.Generic.List<string> uncontrolledMultiSelectionResult = new System.Collections.Generic.List<string>();
 
-    List<string> controlledSingleSelectionResult = new List<string> { "Third" };
-    List<string> controlledMultiSelectionResult = new List<string> { "Second", "Third" };
+    System.Collections.Generic.List<string> controlledSingleSelectionResult = new System.Collections.Generic.List<string> { "Third" };
+    System.Collections.Generic.List<string> controlledMultiSelectionResult = new System.Collections.Generic.List<string> { "Second", "Third" };
 
-    List<DataItem> items;
+    System.Collections.Generic.List<DataItem> items;
 
     protected override Task OnInitializedAsync()
     {
-        items = new List<DataItem>
+        items = new System.Collections.Generic.List<DataItem>
 {
             new DataItem("First"),
             new DataItem("Second"),

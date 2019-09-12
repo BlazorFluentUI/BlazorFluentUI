@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFabric.BaseComponent
+namespace BlazorFabric
 {
     public class CommonStyles
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFabric.Button
+namespace BlazorFabric
 {
     public class DefaultButton : ButtonBase
     {

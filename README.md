@@ -24,10 +24,10 @@ https://blazorfabric.azurewebsites.net/
 
 
 ## Info
-There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project.  NuGet packages planned...
+There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 
 
 ## To use
-1. Install NuGet package for the control you want.  _BlazorFabric.*_
+1. Install NuGet package for the control you want.  _BlazorFabric.*_  (be sure to select preview packages)
 2. If you are using Server-side Blazor, you'll need to add all javascript and CSS assets from the component packages manually.  Yes, it's tedious, but you can mostly just copy the links in the demo for server-side here:  https://github.com/limefrogyank/BlazorFabric/blob/master/Test/ServerSide/Pages/_Host.cshtml
 (Keep in mind List virtualization is not a good experience on server-side yet due to excessive scroll event calls.)
 3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.

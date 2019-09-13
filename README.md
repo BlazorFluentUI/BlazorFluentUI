@@ -5,6 +5,8 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
+- v1.1.1-preview9
+	- Fixed Button contextmenu icon
 - v1.1.0-preview9 
     - Breaking changes: Changed all namespaces to `BlazorFabric`.  No more sub-namespaces using the control's name.
 

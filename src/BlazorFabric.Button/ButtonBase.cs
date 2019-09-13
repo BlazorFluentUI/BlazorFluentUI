@@ -133,34 +133,57 @@ namespace BlazorFabric
 
         protected void StartRoot(RenderTreeBuilder builder, string buttonClassName)
         {
-           //could add a DoNotLayer option here later
-            //{
+            if (Split)
+            {
+                AddSplit(builder, buttonClassName);
+            }
+            else
+            {
                 AddContent(builder, buttonClassName);
-            //}
-
-
+            }
+         
         }
 
+        protected void AddSplit(RenderTreeBuilder builder, string buttonClassName)
+        {
+            builder.OpenElement(11, "div");
+            builder.AddAttribute(12, "class", $"ms-Button-splitContainer");
+            if (!Disabled)
+            {
+                builder.AddAttribute(13, "tabindex", 0);
+            }
+
+            builder.OpenElement(14, "span");
+            builder.AddAttribute(15, "style", "display: flex;");
+
+            AddContent(builder, buttonClassName);
+            AddSplitButtonMenu(builder, buttonClassName);
+            AddSplitButtonDivider(builder, buttonClassName);
+
+            builder.CloseElement();
+            builder.CloseElement();
+        }
+               
         protected void AddContent(RenderTreeBuilder builder, string buttonClassName)
         {
             if (this.Href == null)
             {
-                builder.OpenElement(2, "button");
+                builder.OpenElement(21, "button");
             }
             else
             {
-                builder.OpenElement(2, "a");
+                builder.OpenElement(21, "a");
                 //builder.AddElementReferenceCapture(3, (elementRef) => { RootElementReference = elementRef; });
-                builder.AddAttribute(3, "href", this.Href);
+                builder.AddAttribute(22, "href", this.Href);
 
             }
 
-            builder.AddAttribute(4, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
-            builder.AddAttribute(5, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
-            builder.AddAttribute(6, "disabled", this.Disabled && !this.AllowDisabledFocus);
-            builder.AddAttribute(7, "data-is-focusable", this.Disabled || this.Split ? false : true);
+            builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
+            builder.AddAttribute(24, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
+            builder.AddAttribute(25, "disabled", this.Disabled && !this.AllowDisabledFocus);
+            builder.AddAttribute(26, "data-is-focusable", this.Disabled || this.Split ? false : true);
 
-            builder.AddElementReferenceCapture(8, (elementRef) => { RootElementReference = elementRef; });
+            builder.AddElementReferenceCapture(27, (elementRef) => { RootElementReference = elementRef; });
 
             //if (MenuContent != null) // menu!
             //{
@@ -170,49 +193,49 @@ namespace BlazorFabric
             //    builder.CloseElement();
             //}
             //skipping KeytipData component
-            builder.OpenElement(9, "div");
-            builder.AddAttribute(10, "class", "ms-Button-flexContainer");
+            builder.OpenElement(28, "div");
+            builder.AddAttribute(29, "class", "ms-Button-flexContainer");
 
             if (this.IconName != null)
             {
                 builder.OpenComponent<BlazorFabric.Icon>(11);
-                builder.AddAttribute(12, "ClassName", "ms-Button-icon");
-                builder.AddAttribute(13, "IconName", this.IconName);
+                builder.AddAttribute(41, "ClassName", "ms-Button-icon");
+                builder.AddAttribute(42, "IconName", this.IconName);
                 builder.CloseComponent();
             }
             if (this.Text != null)
             {
-                builder.OpenElement(14, "div");
-                builder.AddAttribute(15, "class", "ms-Button-textContainer");
-                builder.OpenElement(16, "div");
-                builder.AddAttribute(17, "class", "ms-Button-label");
-                builder.AddContent(18, this.Text);
+                builder.OpenElement(51, "div");
+                builder.AddAttribute(52, "class", "ms-Button-textContainer");
+                builder.OpenElement(53, "div");
+                builder.AddAttribute(54, "class", "ms-Button-label");
+                builder.AddContent(55, this.Text);
                 builder.CloseElement();
                 if (this.SecondaryText != null)
                 {
-                    builder.OpenElement(19, "div");
-                    builder.AddAttribute(20, "class", "ms-Button-description");
-                    builder.AddContent(21, this.SecondaryText);
+                    builder.OpenElement(61, "div");
+                    builder.AddAttribute(62, "class", "ms-Button-description");
+                    builder.AddContent(63, this.SecondaryText);
                     builder.CloseElement();
                 }
                 builder.CloseElement();
             }
             if (this.AriaDescripton != null)
             {
-                builder.OpenElement(22, "span");
-                builder.AddAttribute(23, "class", "ms-Button-screenReaderText");
-                builder.AddContent(24, this.AriaDescripton);
+                builder.OpenElement(71, "span");
+                builder.AddAttribute(72, "class", "ms-Button-screenReaderText");
+                builder.AddContent(73, this.AriaDescripton);
                 builder.CloseElement();
             }
             if (this.Text == null && this.ChildContent != null)
             {
-                builder.AddContent(25, this.ChildContent);
+                builder.AddContent(81, this.ChildContent);
             }
-            if (!this.Split && false)
+            if (!this.Split && this.ContextualMenuContent != null)
             {
                 builder.OpenComponent<BlazorFabric.Icon>(26);
-                builder.AddAttribute(27, "IconName", "ChevronDown");
-                builder.AddAttribute(28, "ClassName", "ms-Button-menuIcon");
+                builder.AddAttribute(91, "IconName", "ChevronDown");
+                builder.AddAttribute(92, "ClassName", "ms-Button-menuIcon");
                 builder.CloseComponent();
             }
             //menu here!
@@ -228,10 +251,10 @@ namespace BlazorFabric
             else if (ContextualMenuContent != null && contextMenuShown)
             {                
                 builder.OpenComponent<ContextualMenu<object>>(29);
-                builder.AddAttribute(30, "FabricComponentTarget", this);
-                builder.AddAttribute(31, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { contextMenuShown = false; }));
-                builder.AddAttribute(32, "IsOpen", contextMenuShown);
-                builder.AddAttribute(33, "ChildContent", ContextualMenuContent);
+                builder.AddAttribute(101, "FabricComponentTarget", this);
+                builder.AddAttribute(102, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { contextMenuShown = false; }));
+                builder.AddAttribute(103, "IsOpen", contextMenuShown);
+                builder.AddAttribute(104, "ChildContent", ContextualMenuContent);
                 builder.CloseComponent();
             }
 
@@ -251,9 +274,20 @@ namespace BlazorFabric
             builder.CloseElement();
         }
 
-        
-        
-       
+
+        protected void AddSplitButtonMenu(RenderTreeBuilder builder, string buttonClassName)
+        {
+
+
+        }
+
+        protected void AddSplitButtonDivider(RenderTreeBuilder builder, string buttonClassName)
+        {
+
+
+        }
+
+
 
 
     }

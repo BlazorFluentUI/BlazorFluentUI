@@ -25,6 +25,14 @@
 <ActionButton Text="Action Button" IconName="Airplane" Command=@buttonCommand CommandParameter=@("Action") />
 <ActionButton Text="Disabled Action Button" Disabled="true" IconName="Mail" Command=@buttonCommand CommandParameter=@("Action") />
 
+<Label>Contextual Buttons</Label>
+<DefaultButton Text="Show Menu">
+    <ContextualMenuContent>
+        <ContextualMenuItem Text="Hello!" Key="Hello"/>
+        <ContextualMenuItem Text="Another one" Key="AnotherOne"/>
+    </ContextualMenuContent>
+</DefaultButton>
+
 <Label>Toggle Buttons</Label>
 <DefaultButton Text="Toggle Button" Toggle="true" Command=@buttonCommand CommandParameter=@("Toggle") />
 

@@ -15,9 +15,15 @@
     <IsPackable>true</IsPackable>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 	  <PackageOutputPath>../../packages</PackageOutputPath>
-    <Version>1.1.0-preview9</Version>
+    <Version>1.1.1-preview9</Version>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(ProjectName.Contains('Test')) == false">
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
   
 
 </Project>

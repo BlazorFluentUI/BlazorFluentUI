@@ -25,11 +25,17 @@
 <ActionButton Text="Action Button" IconName="Airplane" Command=@buttonCommand CommandParameter=@("Action") />
 <ActionButton Text="Disabled Action Button" Disabled="true" IconName="Mail" Command=@buttonCommand CommandParameter=@("Action") />
 
+<IconButton IconName="Airplane" Command=@buttonCommand CommandParameter=@("Icon") />
+<IconButton Disabled="true" IconName="Mail" Command=@buttonCommand CommandParameter=@("Icon") />
+
+<CommandBarButton IconName="Home" Text="CommandBar Button" Command=@buttonCommand CommandParameter=@("CommandBar") />
+<CommandBarButton IconName="Home" Text="Disabled CommandBar Button" Disabled="true" Command=@buttonCommand CommandParameter=@("CommandBar") />
+
 <Label>Contextual Buttons</Label>
 <DefaultButton Text="Show Menu">
     <ContextualMenuContent>
-        <ContextualMenuItem Text="Hello!" Key="Hello"/>
-        <ContextualMenuItem Text="Another one" Key="AnotherOne"/>
+        <ContextualMenuItem Text="Hello!" Key="Hello" />
+        <ContextualMenuItem Text="Another one" Key="AnotherOne" />
     </ContextualMenuContent>
 </DefaultButton>
 
@@ -37,7 +43,7 @@
 <DefaultButton Text="Toggle Button" Toggle="true" Command=@buttonCommand CommandParameter=@("Toggle") />
 
 <div style="height:5px"></div>
-<Checkbox Label="Bound to toggle button below" @bind-Checked=@isToggled @bind-Checked:event="CheckedChanged"/>
+<Checkbox Label="Bound to toggle button below" @bind-Checked=@isToggled @bind-Checked:event="CheckedChanged" />
 <DefaultButton Text=@(isToggled ? "Not Toggled" : "Toggled") Toggle="true" @bind-Checked=@isToggled @bind-Checked:event="CheckedChanged" Command=@buttonCommand CommandParameter=@("Toggle") />
 
 <div style="height:5px"></div>

@@ -1,0 +1,12 @@
+﻿@namespace BlazorFabric
+@inherits ComponentBase
+
+<h3>CommandBarItem</h3>
+
+@code {
+    [Parameter] public string Key { get; set; }
+    [Parameter] public string Name { get; set; }
+    [Parameter] public string IconName { get; set; }
+    [Parameter] public string AriaLabel { get; set; }
+    [Parameter] public RenderFragment Items { get; set; }
+}

@@ -26,6 +26,11 @@
     <EmbeddedResource Include="wwwroot\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\button-commandBar.css" />
+    <Content Remove="wwwroot\button-icon.css" />
+  </ItemGroup>
+
   <!--<ItemGroup>
     <None Remove="wwwroot\button-action.css" />
     <None Remove="wwwroot\button-default.css" />

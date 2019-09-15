@@ -1,0 +1,30 @@
+﻿@namespace BlazorFabric
+@inherits ResizeGroupBase<TItem>
+@typeparam TItem 
+
+<div class="ms-ResizeGroup" @ref="RootElementReference">
+    <div style=@hiddenParentStyles>
+        @if (_dataNeedsMeasuring && !_isInitialMeasure)
+        {
+            <div style=@hiddenDivStyles @ref="updateHiddenDiv">
+                <CascadingValue Value="true" Name="IsMeasured">
+                    @DataTemplate(_dataToMeasure)
+                </CascadingValue>
+            </div>
+        }
+
+        <div @ref="initialHiddenDiv" style=@(_isInitialMeasure ? hiddenDivStyles : "")>
+            @if (_isInitialMeasure)
+            {
+                @DataTemplate(_dataToMeasure)
+            }
+            else
+            {
+                @if (_renderedData != null)
+                {
+                    @DataTemplate(_renderedData)
+                }
+            }
+        </div>
+    </div>
+</div>

@@ -24,6 +24,15 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.measureScrollWindow = measureScrollWindow;
     ;
+    function measureScrollDimensions(element) {
+        var dimensions = {
+            scrollHeight: element.scrollHeight,
+            scrollWidth: element.scrollWidth,
+        };
+        return dimensions;
+    }
+    BlazorFabricBaseComponent.measureScrollDimensions = measureScrollDimensions;
+    ;
     function measureElementRect(element) {
         return element.getBoundingClientRect();
     }

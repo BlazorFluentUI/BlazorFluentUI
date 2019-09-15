@@ -1,0 +1,26 @@
+﻿@page "/commandBarPage"
+
+<h3>CommandBar</h3>
+
+
+
+<CommandBar>
+    <Items>
+        <CommandBarItem Key="new" Name="New" IconName="Add" />
+        <CommandBarItem Key="extra" Name="Extra..." IconName="Home">
+            <Items>
+                <CommandBarItem  Key="extra2" Name="Hello" IconName="Home" />
+            </Items>
+        </CommandBarItem>
+    </Items>
+    <OverflowItems>
+
+    </OverflowItems>
+    <FarItems>
+
+    </FarItems>
+</CommandBar>
+
+@code {
+
+}

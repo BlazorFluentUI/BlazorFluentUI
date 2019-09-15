@@ -1,0 +1,28 @@
+﻿
+@page  "/overflowSetPage"
+@using Models
+<h3>OverflowSetPage</h3>
+
+<OverflowSet Items=@items OverflowItems=@items>
+    <ItemTemplate>
+        <CommandBarButton IconName="Add" Text=@context.Name />
+    </ItemTemplate>
+    <OverflowItemTemplate>
+        <ContextualMenuItem Text=@context.Name Key=@context.Key />
+    </OverflowItemTemplate>
+</OverflowSet>
+
+@code {
+    System.Collections.Generic.List<OverflowItem> items;
+
+    protected override Task OnInitializedAsync()
+    {
+        items = new System.Collections.Generic.List<OverflowItem>();
+        for (int i = 0; i<10; i++)
+        {
+            items.Add(new OverflowItem(i));
+        }
+
+        return Task.CompletedTask;
+    }
+}

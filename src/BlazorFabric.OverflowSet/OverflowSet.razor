@@ -1,0 +1,47 @@
+﻿@namespace BlazorFabric
+@inherits OverflowSetBase<TItem>
+@typeparam TItem
+@using Microsoft.AspNetCore.Components.Web
+
+<div class=@($"ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")}")>
+    @if (Items != null)
+    {
+        foreach (var item in Items)
+        {
+            <div @key="(item as IOverflowSetItem).Key" class="ms-OverflowSet-item">@ItemTemplate(item)</div>
+        }
+    }
+    @if (OverflowItems != null && OverflowItems.Count() > 0)
+    {
+        <div class="ms-OverflowSet-overflowButton">
+            @if (OverflowMenuButtonTemplate == null)
+            {
+                <IconButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch; height: auto;" IconName="More">
+                    <ContextualMenuContent>
+                        @foreach (var item in OverflowItems)
+                        {
+                            <div @key="(item as IOverflowSetItem).Key" class="ms-OverflowSet-item">
+                                @OverflowItemTemplate(item)
+                            </div>
+                        }
+                    </ContextualMenuContent>
+                </IconButton>
+            }
+            else
+            {
+                @OverflowMenuButtonTemplate(builder =>
+           {
+               foreach (var overflowItem in OverflowItems)
+               {
+                   builder.OpenElement(0, "div");
+                   builder.AddAttribute(1, "class", "ms-OverflowSet-item");
+                   builder.AddContent(2, OverflowItemTemplate(overflowItem));
+                   builder.SetKey((overflowItem as IOverflowSetItem).Key);
+                   builder.CloseElement();
+               }
+           });
+            }
+        </div>
+
+    }
+</div>

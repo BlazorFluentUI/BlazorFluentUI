@@ -37,6 +37,19 @@
         return rect;
     };
 
+    interface IScrollDimensions {
+        scrollHeight: number;
+        scrollWidth: number;
+    }
+
+    export function measureScrollDimensions(element: HTMLElement): IScrollDimensions {
+        var dimensions: IScrollDimensions = {
+            scrollHeight: element.scrollHeight,
+            scrollWidth: element.scrollWidth,
+        }
+        return dimensions;
+    };
+
     export function measureElementRect(element: HTMLElement): IRectangle {
         return element.getBoundingClientRect();
     };

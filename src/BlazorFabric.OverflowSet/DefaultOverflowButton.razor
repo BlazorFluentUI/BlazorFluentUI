@@ -1,0 +1,17 @@
+﻿@namespace BlazorFabric.OverflowSetInternal
+@inherits ComponentBase
+
+    <IconButton IconName="More">
+        <ContextualMenuContent>
+            @foreach (var item in OverflowItems)
+            {
+                <ContextualMenuItem Key=@item.Key  />
+            }
+
+        </ContextualMenuContent>
+    </IconButton>
+
+@code {
+            [Parameter] public IEnumerable<IOverflowSetItem> OverflowItems { get; set; }
+
+}

@@ -35,6 +35,7 @@ namespace BlazorFabric
         [Parameter] public bool Toggle { get; set; }
         [Parameter] public bool Split { get; set; }
         [Parameter] public string IconName { get; set; }
+        [Parameter] public bool HideChevron { get; set; }
 
         [Parameter] public RenderFragment ContextualMenuContent { get; set; }
         [Parameter] public RenderFragment ContextualMenuItemsSource { get; set; }
@@ -182,8 +183,9 @@ namespace BlazorFabric
             builder.AddAttribute(24, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
             builder.AddAttribute(25, "disabled", this.Disabled && !this.AllowDisabledFocus);
             builder.AddAttribute(26, "data-is-focusable", this.Disabled || this.Split ? false : true);
+            builder.AddAttribute(27, "style", this.Style);
 
-            builder.AddElementReferenceCapture(27, (elementRef) => { RootElementReference = elementRef; });
+            builder.AddElementReferenceCapture(28, (elementRef) => { RootElementReference = elementRef; });
 
             //if (MenuContent != null) // menu!
             //{
@@ -231,7 +233,7 @@ namespace BlazorFabric
             {
                 builder.AddContent(81, this.ChildContent);
             }
-            if (!this.Split && this.ContextualMenuContent != null)
+            if (!this.Split && this.ContextualMenuContent != null && !this.HideChevron)
             {
                 builder.OpenComponent<BlazorFabric.Icon>(26);
                 builder.AddAttribute(91, "IconName", "ChevronDown");

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -21,6 +22,12 @@ namespace BlazorFabric
         public bool Checked { get; set; }
 
         public string ClassName { get; set; }
+
+        public ICommand Command { get; set; }
+
+        public object CommandParameter { get; set; }
+
+        public RenderFragment ContextualMenuContent { get; set; } = builder => {};
 
         public object Data { get; set; }
 
@@ -59,5 +66,6 @@ namespace BlazorFabric
         public string Text { get; set; }
 
         public string Title { get; set; }
+        
     }
 }

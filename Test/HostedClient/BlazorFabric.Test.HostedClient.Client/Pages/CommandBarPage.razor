@@ -6,33 +6,44 @@
 
 <CommandBar Items=@items FarItems=@farItems OverflowItems=@overflowItems/>
 
+<em>@debugText</em>
+
 @code {
+    private System.Windows.Input.ICommand buttonCommand;
+    private string debugText;
+    private int commandCount = 0;
 
     private System.Collections.Generic.List<CommandBarItem> items;
     private System.Collections.Generic.List<CommandBarItem> farItems;
-     private System.Collections.Generic.List<CommandBarItem> overflowItems;
+    private System.Collections.Generic.List<CommandBarItem> overflowItems;
 
     protected override Task OnInitializedAsync()
     {
+        buttonCommand = new Utils.RelayCommand((p) =>
+        {
+            debugText = $"{p.ToString()} button was clicked. {commandCount++}";
+            StateHasChanged();
+        });
+
         items = new System.Collections.Generic.List<CommandBarItem> {
-            new CommandBarItem() { Text= "First", IconName="Home", Key="1"},
-            new CommandBarItem() {Text= "Second", IconName="Home", Key="2"},
-            new CommandBarItem() {Text= "Third", IconName="Home", Key="3"},
-            new CommandBarItem() {Text= "Fourth", IconName="Home", Key="4"}
+            new CommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new CommandBarItem() {Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new CommandBarItem() {Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new CommandBarItem() {Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
         };
 
         farItems = new System.Collections.Generic.List<CommandBarItem> {
-            new CommandBarItem() { Text= "First", IconName="Home", Key="5"},
-            new CommandBarItem() {Text= "Second", IconName="Home", Key="6"},
-            new CommandBarItem() {Text= "Third", IconName="Home", Key="7"},
-            new CommandBarItem() {Text= "Fourth", IconName="Home", Key="8"}
+            new CommandBarItem() { Text= "First", IconName="Home", Key="5", Command=buttonCommand, CommandParameter="First Far"},
+            new CommandBarItem() {Text= "Second", IconName="Home", Key="6", Command=buttonCommand, CommandParameter="Second Far"},
+            new CommandBarItem() {Text= "Third", IconName="Home", Key="7", Command=buttonCommand, CommandParameter="Third Far"},
+            new CommandBarItem() {Text= "Fourth", IconName="Home", Key="8", Command=buttonCommand, CommandParameter="Fourth Far"}
         };
 
         overflowItems = new System.Collections.Generic.List<CommandBarItem> {
-            new CommandBarItem() { Text= "First", IconName="Home", Key="9"},
-            new CommandBarItem() {Text= "Second", IconName="Home", Key="10"},
-            new CommandBarItem() {Text= "Third", IconName="Home", Key="11"},
-            new CommandBarItem() {Text= "Fourth", IconName="Home", Key="12"}
+            new CommandBarItem() { Text= "First", IconName="Home", Key="9", Command=buttonCommand, CommandParameter="First Overflow"},
+            new CommandBarItem() {Text= "Second", IconName="Home", Key="10", Command=buttonCommand, CommandParameter="Second Overflow"},
+            new CommandBarItem() {Text= "Third", IconName="Home", Key="11", Command=buttonCommand, CommandParameter="Third Overflow"},
+            new CommandBarItem() {Text= "Fourth", IconName="Home", Key="12", Command=buttonCommand, CommandParameter="Fourth Overflow"}
         };
 
         return Task.CompletedTask;

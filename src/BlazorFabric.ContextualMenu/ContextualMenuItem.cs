@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using System;
@@ -8,6 +9,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Input;
 
 namespace BlazorFabric
 {
@@ -31,7 +33,11 @@ namespace BlazorFabric
         [Parameter] public bool Checked { get; set; }
         [Parameter] public bool Split { get; set; }
 
-        [Parameter] public EventCallback<string> OnClick { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+        [Parameter] public ICommand Command { get; set; }
+        [Parameter] public object CommandParameter { get; set; }
+
 
         [CascadingParameter] public ContextualMenuBase<object> ContextualMenu { get; set; }
 
@@ -121,7 +127,8 @@ namespace BlazorFabric
         [JSInvokable] public async void ClickHandler()
         {
             System.Diagnostics.Debug.WriteLine($"ContextualMenuItem called click: {this.Key}");
-            await this.OnClick.InvokeAsync(this.Key);
+            await this.OnClick.InvokeAsync(new MouseEventArgs());
+            this.Command?.Execute(CommandParameter);
 
             await ContextualMenu.OnDismiss.InvokeAsync(true);
         }

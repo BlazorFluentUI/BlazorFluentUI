@@ -57,9 +57,9 @@
         return base.OnInitializedAsync();
         }
 
-        void ClickHandler(string key)
+        void ClickHandler(MouseEventArgs args)
         {
-        keyClicked = key;
+            keyClicked = args.ToString();
         }
 
         }

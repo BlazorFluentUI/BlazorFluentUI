@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
     <ProjectReference Include="..\BlazorFabric.Button\BlazorFabric.Button.csproj" />
+    <ProjectReference Include="..\BlazorFabric.OverflowSet\BlazorFabric.OverflowSet.csproj" />
     <ProjectReference Include="..\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj" />
   </ItemGroup>
 

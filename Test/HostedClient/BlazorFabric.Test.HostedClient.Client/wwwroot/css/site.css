@@ -32,6 +32,7 @@ app {
 
 .main {
     flex: 1;
+    overflow-x:hidden;
 }
 
     .main .top-row {

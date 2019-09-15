@@ -3,12 +3,12 @@
 @typeparam TItem
 @using Microsoft.AspNetCore.Components.Web
 
-<div class=@($"ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")}")>
+<div class=@($"{ClassName} ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")}")>
     @if (Items != null)
     {
         foreach (var item in Items)
         {
-            <div @key="(item as IOverflowSetItem).Key" class="ms-OverflowSet-item">@ItemTemplate(item)</div>
+            <div @key=(GetKey(item)) class="ms-OverflowSet-item">@ItemTemplate(item)</div>
         }
     }
     @if (OverflowItems != null && OverflowItems.Count() > 0)
@@ -20,7 +20,7 @@
                     <ContextualMenuContent>
                         @foreach (var item in OverflowItems)
                         {
-                            <div @key="(item as IOverflowSetItem).Key" class="ms-OverflowSet-item">
+                            <div @key=(GetKey(item)) class="ms-OverflowSet-item">
                                 @OverflowItemTemplate(item)
                             </div>
                         }
@@ -36,7 +36,7 @@
                    builder.OpenElement(0, "div");
                    builder.AddAttribute(1, "class", "ms-OverflowSet-item");
                    builder.AddContent(2, OverflowItemTemplate(overflowItem));
-                   builder.SetKey((overflowItem as IOverflowSetItem).Key);
+                   builder.SetKey(GetKey(overflowItem));
                    builder.CloseElement();
                }
            });

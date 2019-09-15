@@ -18,20 +18,22 @@ namespace BlazorFabric
 
         [Parameter] public RenderFragment<RenderFragment> OverflowMenuButtonTemplate { get; set; }
 
+        [Parameter] public Func<TItem, string> GetKey { get; set; }
+
         //protected System.Collections.Generic.List<TItem> calculatedItems;
         //protected System.Collections.Generic.List<TItem> calculatedOverflowItems;
 
         protected override Task OnParametersSetAsync()
         {
-            if (Items != null)
-            {
-                var e = Items.GetEnumerator();
-                if (e.MoveNext())
-                {
-                    if (!(e.Current is IOverflowSetItem))
-                        throw new Exception("Your item class must implement IOverflowSetItem.");
-                }
-            }
+            //if (Items != null)
+            //{
+            //    var e = Items.GetEnumerator();
+            //    if (e.MoveNext())
+            //    {
+            //        if (!(e.Current is IOverflowSetItem))
+            //            throw new Exception("Your item class must implement IOverflowSetItem.");
+            //    }
+            //}
 
             //There's actually no calculation.  This is not necessary.  ResizeGroup is what does this stuff.
             //calculatedItems = new System.Collections.Generic.List<TItem>(Items);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class ResizeGroupBase<TObject> : FabricComponentBase 
+    public class ResizeGroupBase<TObject> : FabricComponentBase
     {
         [Inject] IJSRuntime jSRuntime { get; set; }
 
@@ -16,16 +16,17 @@ namespace BlazorFabric
         [Parameter] public TObject Data { get; set; }
 
         [Parameter] public RenderFragment<TObject> DataTemplate { get; set; }
-        //[Parameter] public Func<TObject, RenderFragment> OnRenderData { get; set; }
         [Parameter] public Func<TObject, TObject> OnGrowData { get; set; }
         [Parameter] public Func<TObject, TObject> OnReduceData { get; set; }
         [Parameter] public Func<TObject, string> GetCacheKey { get; set; }
-        //[Parameter] public Func<IEnumerable<TItem>, (IEnumerable<TItem> primary, IEnumerable<TItem> overflow, string  cacheKey)> OnReduceData { get; set; }
+
+        [Parameter] public EventCallback<TObject> OnDataReduced { get; set; }
+        [Parameter] public EventCallback<TObject> OnDataGrown { get; set; }
 
         protected string hiddenParentStyles = "position:relative;";
         protected string hiddenDivStyles = "position:fixed;visibility:hidden;";
 
-        protected bool _dataNeedsMeasuring = false;
+        protected bool _dataNeedsMeasuring = true;
         protected bool _isInitialMeasure = true;
 
         protected ElementReference initialHiddenDiv;
@@ -40,16 +41,17 @@ namespace BlazorFabric
         protected TObject _dataToMeasure;
         protected bool _measureContainer;
         protected ResizeDirection _resizeDirection = ResizeDirection.None;
+        private string _resizeEventToken;
 
         protected override Task OnInitializedAsync()
         {
-            Debug.WriteLine("Initialized");
+            //Debug.WriteLine("Initialized");
             var state = GetInitialState();
-            Debug.WriteLine($"State dataToMeasure: {(state.DataToMeasure== null ? "null" : "not empty")}");
+           // Debug.WriteLine($"State dataToMeasure: {(state.DataToMeasure== null ? "null" : "not empty")}");
             _dataToMeasure = state.DataToMeasure;
             _measureContainer = state.MeasureContainer;
             _renderedData = state.RenderedData;
-            Debug.WriteLine($"State renderedData: {(state.RenderedData==null ? "null" : "not empty")}");
+         //   Debug.WriteLine($"State renderedData: {(state.RenderedData==null ? "null" : "not empty")}");
             _resizeDirection = state.ResizeDirection;
 
             return Task.CompletedTask;
@@ -71,23 +73,40 @@ namespace BlazorFabric
             return base.ShouldRender();
         }
 
+        //[JSInvokable] public void ResizeHappenedAsync()
+        //{
+        //    _measureContainer = true;
+        //    StateHasChanged();
+        //}
+
+        void SetMeasureContainer(bool shouldMeasureContainer)
+        {
+            _measureContainer = shouldMeasureContainer;
+            StateHasChanged();
+        }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            if (firstRender)
+            {
+                _resizeEventToken = await jSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerResizeEvent", DotNetObjectReference.Create(new ResizeGroupInternal.InteropHelper(SetMeasureContainer)), "ResizeHappenedAsync");
+            }
+
             if (_renderedData != null)
                 _hasRenderedContent = true;
-
-            //double containerDimension = double.NaN;
-            Debug.WriteLine($"IsMeasureContainer: {_measureContainer}");
+            
+            double containerDimension = double.NaN;
+            //Debug.WriteLine($"IsMeasureContainer: {_measureContainer}");
             if (_measureContainer)
             {
                 var bounds = await this.GetBoundsAsync();
-                _containerDimension = (this.Vertical ? bounds.height : bounds.width);
+                containerDimension = (this.Vertical ? bounds.height : bounds.width);
             }
             //Debug.WriteLine($"Container dimension: {_containerDimension}");
 
 
             
-            var state = GetNextState(elementDimension, _containerDimension);
+            var state = await GetNextStateAsync(containerDimension);
 
             if (state != null)
             {
@@ -95,7 +114,7 @@ namespace BlazorFabric
                 _measureContainer = state.MeasureContainer;
                 _renderedData = state.RenderedData;
                 _resizeDirection = state.ResizeDirection;
-                Debug.WriteLine($"State changed: {_resizeDirection}");
+               // Debug.WriteLine($"State changed: {_resizeDirection}");
 
                 StateHasChanged();
             }
@@ -118,7 +137,7 @@ namespace BlazorFabric
             return new ResizeGroupState<TObject>() { ResizeDirection = ResizeDirection.Grow, DataToMeasure = this.Data, MeasureContainer = true };
         }
 
-        private ResizeGroupState<TObject> GetNextState(double elementDimension, double containerDimension)
+        private async Task<ResizeGroupState<TObject>> GetNextStateAsync(double containerDimension)
         {
             if (double.IsNaN(containerDimension) && _dataToMeasure == null)
                 return null;
@@ -142,6 +161,9 @@ namespace BlazorFabric
 
             if (_dataToMeasure != null)
             {
+                //get elementDimension here
+                var elementDimension = await GetElementDimensionsAsync();
+
                 if (_resizeDirection == ResizeDirection.Grow && this.OnGrowData != null)
                 {
                     var alteredState = GrowDataUntilItDoesNotFit(_dataToMeasure, elementDimension);
@@ -188,9 +210,11 @@ namespace BlazorFabric
         {
             while (elementDimension < _containerDimension)
             {
+                Debug.WriteLine("Loop in GrowUntilNotFit");
                 var nextMeasuredData = this.OnGrowData(dataToMeasure);
                 if (nextMeasuredData == null)
                 {
+                    Debug.WriteLine($"GrowUntilNotFit:  got null nextMeasuredData");
                     return new ResizeGroupState<TObject>() { RenderedData = dataToMeasure, NullifyDataToMeasure = true, ForceNoneResizeDirection = true };
                 }
 
@@ -202,9 +226,12 @@ namespace BlazorFabric
 
                 dataToMeasure = nextMeasuredData;
             }
+            Debug.WriteLine($"GrowUntilNotFit:  element: {elementDimension}   container: {_containerDimension}");
 
             var altState = ShrinkContentsUntilTheyFit(dataToMeasure, elementDimension);
-            altState.ResizeDirection = ResizeDirection.Shrink;
+            if (altState.ResizeDirection == ResizeDirection.None)
+                altState.ResizeDirection = ResizeDirection.Shrink;
+
             return altState;
         }
 
@@ -212,11 +239,14 @@ namespace BlazorFabric
         {
             while (elementDimension > _containerDimension)
             {
+                Debug.WriteLine("Loop in ShrinkUntilTheyFit");
                 var nextMeasuredData = this.OnReduceData(dataToMeasure);
                 if (nextMeasuredData == null)
                 {
+                    Debug.WriteLine("ShrinkUntilTheyFit:  nextMeasuredData was null");
                     return new ResizeGroupState<TObject>() { RenderedData = dataToMeasure, ForceNoneResizeDirection=true, NullifyDataToMeasure=true };
                 }
+
 
                 var found = _measurementCache.TryGetValue(this.GetCacheKey(nextMeasuredData), out elementDimension);
                 if (!found)
@@ -226,6 +256,7 @@ namespace BlazorFabric
 
                 dataToMeasure = nextMeasuredData;
             }
+            Debug.WriteLine($"ShrinkUntilTheyFit:  element: {elementDimension}   container: {_containerDimension}");
 
             return new ResizeGroupState<TObject>() { RenderedData = dataToMeasure, ForceNoneResizeDirection = true, NullifyDataToMeasure = true };
 

@@ -1,7 +1,32 @@
 ﻿@namespace BlazorFabric
 @inherits CommandBarBase
 
-@*<ResizeGroup>
-    
-</ResizeGroup>*@
 
+<ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
+                Data=@_currentData
+                GetCacheKey=@(x => x.CacheKey)>
+    <DataTemplate Context="data">
+        <div class="mediumFont ms-CommandBar" role="menubar">
+            @*Primary*@
+            <OverflowSet ClassName="ms-CommandBar-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
+                <ItemTemplate>
+                    @*TooltipHost*@
+                    <CommandBarButton IconName=@context.IconName Text=@context.Text />
+                </ItemTemplate>
+                <OverflowItemTemplate>
+                    <ContextualMenuItem Text=@context.Text Key=@context.Key />
+                </OverflowItemTemplate>
+            </OverflowSet>
+            @*Secondary*@
+            <OverflowSet ClassName="ms-CommandBar-secondarySet" Items=@data.FarItems GetKey=@(x=>x.Key)>
+                <ItemTemplate>
+                    @*TooltipHost*@
+                    <CommandBarButton IconName=@context.IconName Text=@context.Text />
+                </ItemTemplate>
+                <OverflowItemTemplate>
+                    <ContextualMenuItem Text=@context.Text Key=@context.Key />
+                </OverflowItemTemplate>
+            </OverflowSet>
+        </div>
+    </DataTemplate>
+</ResizeGroup>

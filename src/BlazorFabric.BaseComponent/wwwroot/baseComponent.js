@@ -53,6 +53,33 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.getWindowRect = getWindowRect;
     ;
+    var eventRegister = {};
+    function registerResizeEvent(dotnetRef, functionName) {
+        var guid = Guid.newGuid();
+        eventRegister[guid] = debounce(function (ev) {
+            dotnetRef.invokeMethodAsync(functionName);
+        }, 16, { leading: true });
+        window.addEventListener("resize", eventRegister[guid]);
+        return guid;
+    }
+    BlazorFabricBaseComponent.registerResizeEvent = registerResizeEvent;
+    function deregisterResizeEvent(guid) {
+        var func = eventRegister[guid];
+        window.removeEventListener("resize", func);
+        eventRegister[guid] = null;
+    }
+    BlazorFabricBaseComponent.deregisterResizeEvent = deregisterResizeEvent;
+    var Guid = /** @class */ (function () {
+        function Guid() {
+        }
+        Guid.newGuid = function () {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        };
+        return Guid;
+    }());
     /* Focus stuff */
     function focusFirstChild(rootElement) {
         return false;
@@ -86,6 +113,110 @@ var BlazorFabricBaseComponent;
         targetRect.width = targetRect.right - targetRect.left + 1;
         targetRect.height = targetRect.bottom - targetRect.top + 1;
         return targetRect;
+    }
+    function debounce(func, wait, options) {
+        var _this = this;
+        if (this._isDisposed) {
+            var noOpFunction = (function () {
+                /** Do nothing */
+            });
+            noOpFunction.cancel = function () {
+                return;
+            };
+            /* tslint:disable:no-any */
+            noOpFunction.flush = (function () { return null; });
+            /* tslint:enable:no-any */
+            noOpFunction.pending = function () { return false; };
+            return noOpFunction;
+        }
+        var waitMS = wait || 0;
+        var leading = false;
+        var trailing = true;
+        var maxWait = null;
+        var lastCallTime = 0;
+        var lastExecuteTime = new Date().getTime();
+        var lastResult;
+        // tslint:disable-next-line:no-any
+        var lastArgs;
+        var timeoutId = null;
+        if (options && typeof options.leading === 'boolean') {
+            leading = options.leading;
+        }
+        if (options && typeof options.trailing === 'boolean') {
+            trailing = options.trailing;
+        }
+        if (options && typeof options.maxWait === 'number' && !isNaN(options.maxWait)) {
+            maxWait = options.maxWait;
+        }
+        var markExecuted = function (time) {
+            if (timeoutId) {
+                _this.clearTimeout(timeoutId);
+                timeoutId = null;
+            }
+            lastExecuteTime = time;
+        };
+        var invokeFunction = function (time) {
+            markExecuted(time);
+            lastResult = func.apply(_this._parent, lastArgs);
+        };
+        var callback = function (userCall) {
+            var now = new Date().getTime();
+            var executeImmediately = false;
+            if (userCall) {
+                if (leading && now - lastCallTime >= waitMS) {
+                    executeImmediately = true;
+                }
+                lastCallTime = now;
+            }
+            var delta = now - lastCallTime;
+            var waitLength = waitMS - delta;
+            var maxWaitDelta = now - lastExecuteTime;
+            var maxWaitExpired = false;
+            if (maxWait !== null) {
+                // maxWait only matters when there is a pending callback
+                if (maxWaitDelta >= maxWait && timeoutId) {
+                    maxWaitExpired = true;
+                }
+                else {
+                    waitLength = Math.min(waitLength, maxWait - maxWaitDelta);
+                }
+            }
+            if (delta >= waitMS || maxWaitExpired || executeImmediately) {
+                invokeFunction(now);
+            }
+            else if ((timeoutId === null || !userCall) && trailing) {
+                timeoutId = _this.setTimeout(callback, waitLength);
+            }
+            return lastResult;
+        };
+        var pending = function () {
+            return !!timeoutId;
+        };
+        var cancel = function () {
+            if (pending()) {
+                // Mark the debounced function as having executed
+                markExecuted(new Date().getTime());
+            }
+        };
+        var flush = function () {
+            if (pending()) {
+                invokeFunction(new Date().getTime());
+            }
+            return lastResult;
+        };
+        // tslint:disable-next-line:no-any
+        var resultFunction = (function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            lastArgs = args;
+            return callback(true);
+        });
+        resultFunction.cancel = cancel;
+        resultFunction.flush = flush;
+        resultFunction.pending = pending;
+        return resultFunction;
     }
 })(BlazorFabricBaseComponent || (BlazorFabricBaseComponent = {}));
 window['BlazorFabricBaseComponent'] = BlazorFabricBaseComponent || {};

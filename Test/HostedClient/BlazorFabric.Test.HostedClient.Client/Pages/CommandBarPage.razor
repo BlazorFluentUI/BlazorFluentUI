@@ -4,23 +4,37 @@
 
 
 
-<CommandBar>
-    <Items>
-        <CommandBarItem Key="new" Name="New" IconName="Add" />
-        <CommandBarItem Key="extra" Name="Extra..." IconName="Home">
-            <Items>
-                <CommandBarItem  Key="extra2" Name="Hello" IconName="Home" />
-            </Items>
-        </CommandBarItem>
-    </Items>
-    <OverflowItems>
-
-    </OverflowItems>
-    <FarItems>
-
-    </FarItems>
-</CommandBar>
+<CommandBar Items=@items FarItems=@farItems OverflowItems=@overflowItems/>
 
 @code {
 
+    private System.Collections.Generic.List<CommandBarItem> items;
+    private System.Collections.Generic.List<CommandBarItem> farItems;
+     private System.Collections.Generic.List<CommandBarItem> overflowItems;
+
+    protected override Task OnInitializedAsync()
+    {
+        items = new System.Collections.Generic.List<CommandBarItem> {
+            new CommandBarItem() { Text= "First", IconName="Home", Key="1"},
+            new CommandBarItem() {Text= "Second", IconName="Home", Key="2"},
+            new CommandBarItem() {Text= "Third", IconName="Home", Key="3"},
+            new CommandBarItem() {Text= "Fourth", IconName="Home", Key="4"}
+        };
+
+        farItems = new System.Collections.Generic.List<CommandBarItem> {
+            new CommandBarItem() { Text= "First", IconName="Home", Key="5"},
+            new CommandBarItem() {Text= "Second", IconName="Home", Key="6"},
+            new CommandBarItem() {Text= "Third", IconName="Home", Key="7"},
+            new CommandBarItem() {Text= "Fourth", IconName="Home", Key="8"}
+        };
+
+        overflowItems = new System.Collections.Generic.List<CommandBarItem> {
+            new CommandBarItem() { Text= "First", IconName="Home", Key="9"},
+            new CommandBarItem() {Text= "Second", IconName="Home", Key="10"},
+            new CommandBarItem() {Text= "Third", IconName="Home", Key="11"},
+            new CommandBarItem() {Text= "Fourth", IconName="Home", Key="12"}
+        };
+
+        return Task.CompletedTask;
+    }
 }

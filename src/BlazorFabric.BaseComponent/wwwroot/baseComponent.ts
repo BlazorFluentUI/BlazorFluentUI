@@ -68,8 +68,41 @@
         return rect;
     };
 
+    interface Map<T> {
+        [K: string]: T;
+    }
 
-    /* Focus stuff */
+    var eventRegister: Map<(ev: UIEvent) => void> = {};
+
+    export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string) : string {
+        var guid = Guid.newGuid();
+        eventRegister[guid] = debounce((ev: UIEvent) => {
+            dotnetRef.invokeMethodAsync(functionName);
+        }, 16, { leading: true });
+        window.addEventListener("resize", eventRegister[guid]);
+        return guid;
+    }
+
+
+
+    export function deregisterResizeEvent(guid: number) {
+        var func = eventRegister[guid];
+        window.removeEventListener("resize", func);
+        eventRegister[guid] = null;
+    }
+
+    class Guid {
+        static newGuid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0,
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+    }
+
+
+/* Focus stuff */
 
     export function focusFirstChild(rootElement: HTMLElement): boolean {
 
@@ -118,6 +151,136 @@
     }
 
 
+    function debounce<T extends Function>(
+        func: T,
+        wait?: number,
+        options?: {
+            leading?: boolean;
+            maxWait?: number;
+            trailing?: boolean;
+        }
+    ): ICancelable<T> & (() => void) {
+        if (this._isDisposed) {
+            let noOpFunction: ICancelable<T> & (() => T) = (() => {
+                /** Do nothing */
+            }) as ICancelable<T> & (() => T);
+
+            noOpFunction.cancel = () => {
+                return;
+            };
+            /* tslint:disable:no-any */
+            noOpFunction.flush = (() => null) as any;
+            /* tslint:enable:no-any */
+            noOpFunction.pending = () => false;
+
+            return noOpFunction;
+        }
+
+        let waitMS = wait || 0;
+        let leading = false;
+        let trailing = true;
+        let maxWait: number | null = null;
+        let lastCallTime = 0;
+        let lastExecuteTime = new Date().getTime();
+        let lastResult: T;
+        // tslint:disable-next-line:no-any
+        let lastArgs: any[];
+        let timeoutId: number | null = null;
+
+        if (options && typeof options.leading === 'boolean') {
+            leading = options.leading;
+        }
+
+        if (options && typeof options.trailing === 'boolean') {
+            trailing = options.trailing;
+        }
+
+        if (options && typeof options.maxWait === 'number' && !isNaN(options.maxWait)) {
+            maxWait = options.maxWait;
+        }
+
+        let markExecuted = (time: number) => {
+            if (timeoutId) {
+                this.clearTimeout(timeoutId);
+                timeoutId = null;
+            }
+            lastExecuteTime = time;
+        };
+
+        let invokeFunction = (time: number) => {
+            markExecuted(time);
+            lastResult = func.apply(this._parent, lastArgs);
+        };
+
+        let callback = (userCall?: boolean) => {
+            let now = new Date().getTime();
+            let executeImmediately = false;
+            if (userCall) {
+                if (leading && now - lastCallTime >= waitMS) {
+                    executeImmediately = true;
+                }
+                lastCallTime = now;
+            }
+            let delta = now - lastCallTime;
+            let waitLength = waitMS - delta;
+            let maxWaitDelta = now - lastExecuteTime;
+            let maxWaitExpired = false;
+
+            if (maxWait !== null) {
+                // maxWait only matters when there is a pending callback
+                if (maxWaitDelta >= maxWait && timeoutId) {
+                    maxWaitExpired = true;
+                } else {
+                    waitLength = Math.min(waitLength, maxWait - maxWaitDelta);
+                }
+            }
+
+            if (delta >= waitMS || maxWaitExpired || executeImmediately) {
+                invokeFunction(now);
+            } else if ((timeoutId === null || !userCall) && trailing) {
+                timeoutId = this.setTimeout(callback, waitLength);
+            }
+
+            return lastResult;
+        };
+
+        let pending = (): boolean => {
+            return !!timeoutId;
+        };
+
+        let cancel = (): void => {
+            if (pending()) {
+                // Mark the debounced function as having executed
+                markExecuted(new Date().getTime());
+            }
+        };
+
+        let flush = (): T => {
+            if (pending()) {
+                invokeFunction(new Date().getTime());
+            }
+
+            return lastResult;
+        };
+
+        // tslint:disable-next-line:no-any
+        let resultFunction: ICancelable<T> & (() => T) = ((...args: any[]) => {
+            lastArgs = args;
+            return callback(true);
+        }) as ICancelable<T> & (() => T);
+
+        resultFunction.cancel = cancel;
+        resultFunction.flush = flush;
+        resultFunction.pending = pending;
+
+        return resultFunction;
+    }
+
+    type ICancelable<T> = {
+        flush: () => T;
+        cancel: () => void;
+        pending: () => boolean;
+    };
 
 }
 

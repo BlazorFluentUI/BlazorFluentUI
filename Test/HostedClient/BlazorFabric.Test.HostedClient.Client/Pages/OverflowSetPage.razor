@@ -3,7 +3,7 @@
 @using Models
 <h3>OverflowSetPage</h3>
 
-<OverflowSet Items=@items OverflowItems=@items>
+<OverflowSet Items=@items OverflowItems=@items GetKey=@(x=> x.Key)>
     <ItemTemplate>
         <CommandBarButton IconName="Add" Text=@context.Name />
     </ItemTemplate>

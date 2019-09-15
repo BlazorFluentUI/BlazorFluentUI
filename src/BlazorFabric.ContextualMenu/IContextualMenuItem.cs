@@ -40,6 +40,6 @@ namespace BlazorFabric
 
         ICommand Command { get; set; }
         object CommandParameter { get; set; }
-        RenderFragment ContextualMenuContent { get; set; }
+        IEnumerable<IContextualMenuItem> Items { get; set; }
     }
 }

@@ -17,14 +17,14 @@
             @if (OverflowMenuButtonTemplate == null)
             {
                 <IconButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch; height: auto;" IconName="More">
-                    <ContextualMenuContent>
+                    @*<ContextualMenuContent>
                         @foreach (var item in OverflowItems)
                         {
                             <div @key=(GetKey(item)) class="ms-OverflowSet-item">
                                 @OverflowItemTemplate(item)
                             </div>
                         }
-                    </ContextualMenuContent>
+                    </ContextualMenuContent>*@
                 </IconButton>
             }
             else

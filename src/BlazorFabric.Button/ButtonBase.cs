@@ -37,9 +37,10 @@ namespace BlazorFabric
         [Parameter] public string IconName { get; set; }
         [Parameter] public bool HideChevron { get; set; }
 
-        [Parameter] public RenderFragment ContextualMenuContent { get; set; }
-        [Parameter] public RenderFragment ContextualMenuItemsSource { get; set; }
-        [Parameter] public RenderFragment ContextualMenuItemTemplate { get; set; }
+        [Parameter] public IEnumerable<IContextualMenuItem> MenuItems { get; set; }
+        //[Parameter] public RenderFragment ContextualMenuContent { get; set; }
+        //[Parameter] public RenderFragment ContextualMenuItemsSource { get; set; }
+        //[Parameter] public RenderFragment ContextualMenuItemTemplate { get; set; }
 
         [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
@@ -57,7 +58,7 @@ namespace BlazorFabric
 
         protected override Task OnParametersSetAsync()
         {
-            showMenu = this.ContextualMenuContent != null || this.ContextualMenuItemsSource != null;
+            showMenu = this.MenuItems != null;// || this.ContextualMenuItemsSource != null;
             //if (MenuContent == null)
             //{
             //    Debug.WriteLine("MenuContent is null");
@@ -233,7 +234,7 @@ namespace BlazorFabric
             {
                 builder.AddContent(81, this.ChildContent);
             }
-            if (!this.Split && this.ContextualMenuContent != null && !this.HideChevron)
+            if (!this.Split && this.MenuItems != null && !this.HideChevron)
             {
                 builder.OpenComponent<BlazorFabric.Icon>(26);
                 builder.AddAttribute(91, "IconName", "ChevronDown");
@@ -241,22 +242,22 @@ namespace BlazorFabric
                 builder.CloseComponent();
             }
             //menu here!
-            if (ContextualMenuItemsSource != null && contextMenuShown)
-            {
-                //builder.OpenElement(0, "div");
-                //builder.AddAttribute(1, "style", "display:inline-block;");
-                //AddContent(builder, buttonClassName);
-                ////builder.AddContent(50, ;
-                //builder.AddAttribute(51, "ChildContent", MenuContent);
-                //builder.CloseComponent();
-            }
-            else if (ContextualMenuContent != null && contextMenuShown)
+            //if (MenuItems != null && contextMenuShown)
+            //{
+            //    //builder.OpenElement(0, "div");
+            //    //builder.AddAttribute(1, "style", "display:inline-block;");
+            //    //AddContent(builder, buttonClassName);
+            //    ////builder.AddContent(50, ;
+            //    //builder.AddAttribute(51, "ChildContent", MenuContent);
+            //    //builder.CloseComponent();
+            //}
+            if (MenuItems != null && contextMenuShown)
             {                
-                builder.OpenComponent<ContextualMenu<object>>(29);
+                builder.OpenComponent<ContextualMenu>(29);
                 builder.AddAttribute(101, "FabricComponentTarget", this);
                 builder.AddAttribute(102, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { contextMenuShown = false; }));
                 builder.AddAttribute(103, "IsOpen", contextMenuShown);
-                builder.AddAttribute(104, "ChildContent", ContextualMenuContent);
+                builder.AddAttribute(104, "Items", MenuItems);
                 builder.CloseComponent();
             }
 

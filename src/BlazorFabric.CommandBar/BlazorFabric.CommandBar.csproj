@@ -19,4 +19,9 @@
     <ProjectReference Include="..\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Internal\" />
+  </ItemGroup>
+
 </Project>

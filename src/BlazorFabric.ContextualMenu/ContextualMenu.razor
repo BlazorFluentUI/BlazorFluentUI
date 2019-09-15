@@ -1,8 +1,6 @@
 ﻿@namespace BlazorFabric
 @using Microsoft.AspNetCore.Components.Web
-@inherits ContextualMenuBase<TItem>
-
-@typeparam TItem
+@inherits ContextualMenuBase
 
 
 <BlazorFabric.Callout FabricComponentTarget=@FabricComponentTarget
@@ -27,20 +25,29 @@
                 @Title
             </div>
         }
-        @if (ItemsSource != null && ItemsSource.Count() > 0)
+        @if (Items != null && Items.Count() > 0)
         {
             <div class=@($"ms-ContextualMenu mediumFont {(this.IsOpen ? "is-open" : "")}")>
                 <CascadingValue Value=@this>
                     <ul class="ms-ContextualMenu-list" role="menu">
-                        @foreach (var menuItem in ItemsSource)
+                        @foreach (var item in Items)
                         {
-                            @MenuItemTemplate(menuItem)
+                            @if (ItemTemplate != null)
+                            {
+                                @ItemTemplate(item)
+                            }
+                            else
+                            {
+                                <BlazorFabric.ContextualMenuInternal.ContextualMenuItem CanCheck=@item.CanCheck Checked=@item.Checked ClassName=@item.ClassName Command=@item.Command CommandParameter=@item.CommandParameter 
+                                                    Disabled=@item.Disabled  Href=@item.Href IconName=@item.IconName Items=@item.Items ItemType=@item.ItemType Key=@item.Key 
+                                                    OnClick=@item.OnClick SecondaryText=@item.SecondaryText Split=@item.Split Style=@item.Style Text=@item.Text/>
+                            }
                         }
                     </ul>
                 </CascadingValue>
             </div>
         }
-        else
+        @*else
         {
             <div class=@($"ms-ContextualMenu mediumFont {(this.IsOpen ? "is-open" : "")}")>
                 <CascadingValue Value=@this>
@@ -49,7 +56,7 @@
                     </ul>
                 </CascadingValue>
             </div>
-        }
+        }*@
 
     </div>
 

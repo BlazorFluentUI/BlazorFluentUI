@@ -31,13 +31,13 @@
 <CommandBarButton IconName="Home" Text="CommandBar Button" Command=@buttonCommand CommandParameter=@("CommandBar") />
 <CommandBarButton IconName="Home" Text="Disabled CommandBar Button" Disabled="true" Command=@buttonCommand CommandParameter=@("CommandBar") />
 
-<Label>Contextual Buttons</Label>
+@*<Label>Contextual Buttons</Label>
 <DefaultButton Text="Show Menu">
     <ContextualMenuContent>
         <ContextualMenuItem Text="Hello!" Key="Hello" />
         <ContextualMenuItem Text="Another one" Key="AnotherOne" />
     </ContextualMenuContent>
-</DefaultButton>
+</DefaultButton>*@
 
 <Label>Toggle Buttons</Label>
 <DefaultButton Text="Toggle Button" Toggle="true" Command=@buttonCommand CommandParameter=@("Toggle") />

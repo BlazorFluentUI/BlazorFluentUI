@@ -27,8 +27,6 @@ namespace BlazorFabric
 
         public object CommandParameter { get; set; }
 
-        public RenderFragment ContextualMenuContent { get; set; } = builder => {};
-
         public object Data { get; set; }
 
         public bool Disabled { get; set; }
@@ -38,6 +36,8 @@ namespace BlazorFabric
         public string IconName { get; set; }
 
         //public object IconProps { get; set; }
+
+        public IEnumerable<IContextualMenuItem> Items { get; set; }
 
         public ContextualMenuItemType ItemType { get; set; }
 

@@ -47,8 +47,8 @@ namespace BlazorFabric
 
         protected bool isOpen = false;
 
-        protected bool HasIconCount = false; //needed to shift margins and make space for all 
-        protected bool HasCheckable = false;
+        protected bool HasIcons = false; //needed to shift margins and make space for all 
+        protected bool HasCheckables = false;
 
         public string SubmenuActiveKey { get; set; }
         public void SetSubmenuActiveKey(string key)
@@ -68,12 +68,17 @@ namespace BlazorFabric
 
         protected Action OnCalloutDismiss => () =>
         {
-            Debug.WriteLine("Callout wants dismissal.");
+            //this.OnDismiss.InvokeAsync(false);
         };
 
-        protected Action<bool> OnDismissSubmenu => (dismissAll) =>
+        protected Action OnOpenSubmenu => () =>
         {
             
+        };
+
+        protected Action<string> OnSetSubmenu => (key) =>
+        {
+            this.SubmenuActiveKey = key;
         };
 
         //protected void DismissHandler(bool isDismissed)
@@ -99,9 +104,9 @@ namespace BlazorFabric
             if (this.Items!= null)
             {
                 if (this.Items.Count(x => x.IconName != null) > 0)
-                    HasIconCount = true;
+                    HasIcons = true;
                 if (this.Items.Count(x => x.CanCheck == true) > 0)
-                    HasCheckable = true;
+                    HasCheckables = true;
             }
             return base.OnParametersSetAsync();
         }

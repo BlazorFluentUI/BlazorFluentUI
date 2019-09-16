@@ -45,7 +45,15 @@
     private string debugText;
     private int commandCount = 0;
 
-
+    private Action<ItemClickedArgs> OnClick => args =>
+    {
+        System.Diagnostics.Debug.WriteLine($"ItemClick handler: key={args.Key}");
+        var item = contextualMenuItems.Where(x=>x.Items != null).SelectMany(x => x.Items).Concat(contextualMenuItems.Where(x=>x.Items == null)).FirstOrDefault(x => x.Key == args.Key);
+        if (item != null)
+        {
+            item.Checked = !item.Checked;
+        }
+    };
 
     protected override Task OnInitializedAsync()
     {
@@ -80,6 +88,7 @@
                 ItemType = ContextualMenuItemType.Normal,
                 Key = "Test2",
                 CanCheck=true,
+                OnClick=@OnClick,
                 Command = buttonCommand,
                 CommandParameter = "Test2"
             },

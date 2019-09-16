@@ -21,7 +21,7 @@ namespace BlazorFabric
         ContextualMenuItemType ItemType { get; set; }
         string Key { get; set; }
         object KeytipProps { get; set; }
-        EventCallback<MouseEventArgs> OnClick { get; set; }
+        Action<ItemClickedArgs> OnClick { get; set; }
         //onRender
         //onRenderIcon
         bool PrimaryDisabled { get; set; }

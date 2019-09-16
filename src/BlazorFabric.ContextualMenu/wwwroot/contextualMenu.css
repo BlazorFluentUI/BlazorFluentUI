@@ -75,8 +75,10 @@
 
 }
 .ms-ContextualMenu-link:focus {
-    outline:0;
+    outline: 0;
+    background-color: var(--palette-White);
 }
+
 .ms-ContextualMenu-link:hover{
     background-color: var(--semanticColors-MenuItemBackgroundHovered);
     color: var(--semanticColors-MenuItemTextHovered);
@@ -87,9 +89,6 @@
     .ms-ContextualMenu-link:hover .ms-ContextualMenu-submenuIcon {
         color: var(--palette-NeutralPrimary);
     }
-.ms-ContextualMenu-link:focus {
-    background-color: var(--palette-White);
-}
 
 .ms-ContextualMenu-item.is-checked .ms-ContextualMenu-checkmarkIcon {
     color: var(--palette-NeutralPrimary);

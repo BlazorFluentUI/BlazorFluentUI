@@ -33,7 +33,7 @@ namespace BlazorFabric.ContextualMenuInternal
         [Parameter] public bool Checked { get; set; }
         [Parameter] public bool Split { get; set; }
 
-        [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+        [Parameter] public EventCallback<ItemClickedArgs> OnClick { get; set; }
 
         [Parameter] public ICommand Command { get; set; }
         [Parameter] public object CommandParameter { get; set; }
@@ -41,9 +41,15 @@ namespace BlazorFabric.ContextualMenuInternal
         //[Parameter] public ContextualMenu ParentContextualMenu { get; set; }
 
         //[CascadingParameter] public ContextualMenuBase ContextualMenu { get; set; }
-        [Parameter] public EventCallback OpenSubMenu { get; set; }
+        [Parameter] public EventCallback<string> SetSubmenu { get; set; }
+        
         [Parameter] public EventCallback<bool> DismissMenu { get; set; }
-        [Parameter] public EventCallback DismissSubMenu { get; set; }
+        //[Parameter] public EventCallback DismissSubMenu { get; set; }
+
+        [Parameter] public string SubmenuActiveKey { get; set; }
+
+        [Parameter] public bool HasIcons { get; set; }
+        [Parameter] public bool HasCheckables { get; set; }
 
         protected bool isSubMenuOpen = false;
 
@@ -91,6 +97,10 @@ namespace BlazorFabric.ContextualMenuInternal
 
         protected override Task OnParametersSetAsync()
         {
+            if (this.Key == SubmenuActiveKey)
+                isSubMenuOpen = true;
+            else
+                isSubMenuOpen = false;
             //if (IconName != null)
             //    ParentContextualMenu.HasIconCount++;
             //if (CanCheck == true)
@@ -118,10 +128,12 @@ namespace BlazorFabric.ContextualMenuInternal
         [JSInvokable] public async void ClickHandler()
         {
             System.Diagnostics.Debug.WriteLine($"ContextualMenuItem called click: {this.Key}");
-            await this.OnClick.InvokeAsync(new MouseEventArgs());
+
+            await this.OnClick.InvokeAsync(new ItemClickedArgs() { MouseEventArgs = new MouseEventArgs(), Key = this.Key });
             this.Command?.Execute(CommandParameter);
 
-            await this.DismissMenu.InvokeAsync(true);
+            if (!CanCheck)
+                await this.DismissMenu.InvokeAsync(true);
             //await ParentContextualMenu.OnDismiss.InvokeAsync(true);
         }
 
@@ -130,29 +142,38 @@ namespace BlazorFabric.ContextualMenuInternal
         //    //do nothing for now... eventually
         //}
 
-        private void EnterTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private async void EnterTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             //System.Diagnostics.Debug.WriteLine($"{e.SignalTime}");
             enterTimer.Stop();
             //System.Diagnostics.Debug.WriteLine($"Show submenu");
-            if (Items != null)
-                //InvokeAsync(()=> ParentContextualMenu.SetSubmenuActiveKey(Key)); //open this submenu
-                InvokeAsync(() =>
-                {
-                    isSubMenuOpen = true;
-                    StateHasChanged();
-                }); //open this submenu
-            else
-                InvokeAsync(() =>
-                {
-                    // Need to close other submenus...
-                    //isSubMenuOpen = false;
-                    //DismissMenu.InvokeAsync(false);
-                });
-            //else if (ParentContextualMenu.SubmenuActiveKey != Key)
-            //    InvokeAsync(() => ParentContextualMenu.SetSubmenuActiveKey(""));  //clear any other open menu
 
-            //Invoke(() => StateHasChanged());
+            if (Items != null)
+                await SetSubmenu.InvokeAsync(this.Key);  //this will open the menu (if exists) and trigger closure of all other submenus from the contextmenu callback
+            else
+                await SetSubmenu.InvokeAsync(null);
+            //if (Items != null)
+            //    isSubMenuOpen = true;
+
+                //if (Items != null)
+                //    //InvokeAsync(()=> ParentContextualMenu.SetSubmenuActiveKey(Key)); //open this submenu
+                //    InvokeAsync(async () =>
+                //    {
+                //        isSubMenuOpen = true;
+                //        await OpenSubMenu.InvokeAsync(null);
+                //        //StateHasChanged();
+                //    }); //open this submenu
+                //else
+                //    InvokeAsync(() =>
+                //    {
+                //        // Need to close other submenus...
+                //        //isSubMenuOpen = false;
+                //        //DismissMenu.InvokeAsync(false);
+                //    });
+                //else if (ParentContextualMenu.SubmenuActiveKey != Key)
+                //    InvokeAsync(() => ParentContextualMenu.SetSubmenuActiveKey(""));  //clear any other open menu
+
+                //Invoke(() => StateHasChanged());
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -265,10 +286,10 @@ namespace BlazorFabric.ContextualMenuInternal
             builder.OpenElement(40, "div");
             builder.AddAttribute(41, "class", this.Split ? "ms-ContextualMenu-linkContentMenu" : "ms-ContextualMenu-linkContent");
 
-            //if (ParentContextualMenu.HasCheckable > 0)
-            //    RenderCheckMarkIcon(builder);
-            //if (ParentContextualMenu.HasIconCount > 0)
-            //    RenderItemIcon(builder);
+            if (HasCheckables)
+                RenderCheckMarkIcon(builder);
+            if (HasIcons)
+                RenderItemIcon(builder);
             RenderItemName(builder);
             if (SecondaryText != null)
                 RenderSecondaryText(builder);
@@ -331,6 +352,7 @@ namespace BlazorFabric.ContextualMenuInternal
             //builder.AddAttribute(73, "IsOpen", ParentContextualMenu.SubmenuActiveKey == Key);
             builder.AddAttribute(74, "DirectionalHint", DirectionalHint.RightTopEdge);
             builder.AddAttribute(75, "Items", Items);
+
             //builder.AddAttribute(76, "ParentContextualMenu", this.ParentContextualMenu);
             //builder.AddAttribute(75, "ChildContent", SubmenuContent);
             builder.CloseComponent();

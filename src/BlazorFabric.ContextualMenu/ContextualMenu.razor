@@ -28,23 +28,26 @@
         @if (Items != null && Items.Count() > 0)
         {
             <div class=@($"ms-ContextualMenu mediumFont")>
-                <ul class="ms-ContextualMenu-list" role="menu">
-                    @foreach (var item in Items)
-                    {
-                        @if (ItemTemplate != null)
+                    <ul class="ms-ContextualMenu-list" role="menu">
+                        @foreach (var item in Items)
                         {
-                            @ItemTemplate(item)
+                            @if (ItemTemplate != null)
+                            {
+                                @ItemTemplate(item)
+                            }
+                            else
+                            {
+                                <BlazorFabric.ContextualMenuInternal.ContextualMenuItem CanCheck=@item.CanCheck Checked=@item.Checked ClassName=@item.ClassName Command=@item.Command CommandParameter=@item.CommandParameter
+                                                                                        Disabled=@item.Disabled Href=@item.Href IconName=@item.IconName Items=@item.Items ItemType=@item.ItemType Key=@item.Key
+                                                                                        OnClick=@item.OnClick SecondaryText=@item.SecondaryText Split=@item.Split Style=@item.Style Text=@item.Text
+                                                                                        DismissMenu=@Dismiss 
+                                                                                        HasIcons=@HasIcons
+                                                                                        HasCheckables=@HasCheckables
+                                                                                        SetSubmenu=@OnSetSubmenu
+                                                                                        SubmenuActiveKey=@SubmenuActiveKey/>
+                            }
                         }
-                        else
-                        {
-                            <BlazorFabric.ContextualMenuInternal.ContextualMenuItem CanCheck=@item.CanCheck Checked=@item.Checked ClassName=@item.ClassName Command=@item.Command CommandParameter=@item.CommandParameter 
-                                                Disabled=@item.Disabled  Href=@item.Href IconName=@item.IconName Items=@item.Items ItemType=@item.ItemType Key=@item.Key 
-                                                OnClick=@item.OnClick SecondaryText=@item.SecondaryText Split=@item.Split Style=@item.Style Text=@item.Text 
-                                                DismissMenu=@Dismiss                                     
-                                                 />
-                        }
-                    }
-                </ul>
+                    </ul>
             </div>
         }
     </div>

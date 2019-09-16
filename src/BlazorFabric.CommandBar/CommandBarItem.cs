@@ -45,7 +45,7 @@ namespace BlazorFabric
 
         public object KeytipProps { get; set; }
 
-        public EventCallback<MouseEventArgs> OnClick { get; set; }
+        public Action<ItemClickedArgs> OnClick { get; set; }
 
         public bool PrimaryDisabled { get; set; }
 

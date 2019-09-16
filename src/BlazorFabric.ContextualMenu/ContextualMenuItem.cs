@@ -20,7 +20,7 @@ namespace BlazorFabric
         public ContextualMenuItemType ItemType  { get; set; }
         public string Key  { get; set; }
         public object KeytipProps  { get; set; }
-        public EventCallback<MouseEventArgs> OnClick  { get; set; }
+        public Action<ItemClickedArgs> OnClick  { get; set; }
         public bool PrimaryDisabled  { get; set; }
         public string Rel  { get; set; }
         public string Role  { get; set; }

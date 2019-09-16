@@ -256,8 +256,7 @@ namespace BlazorFabric
                 builder.OpenComponent<ContextualMenu>(29);
                 builder.AddAttribute(101, "FabricComponentTarget", this);
                 builder.AddAttribute(102, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { contextMenuShown = false; }));
-                builder.AddAttribute(103, "IsOpen", contextMenuShown);
-                builder.AddAttribute(104, "Items", MenuItems);
+                builder.AddAttribute(103, "Items", MenuItems);
                 builder.CloseComponent();
             }
 

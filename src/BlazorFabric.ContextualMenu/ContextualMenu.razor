@@ -13,7 +13,7 @@
                       Bounds=@Bounds
                       DirectionalHintFixed=@DirectionalHintFixed
                       AlignTargetEdge=@AlignTargetEdge
-                      OnDismiss=@DismissHandler>
+                      OnDismiss=@OnCalloutDismiss>
     @*TabIndex set to -1 so it is focusable, ignoring option to focus on "container??"*@
     <div aria-label=@AriaLabel
          style=""
@@ -27,37 +27,26 @@
         }
         @if (Items != null && Items.Count() > 0)
         {
-            <div class=@($"ms-ContextualMenu mediumFont {(this.IsOpen ? "is-open" : "")}")>
-                <CascadingValue Value=@this>
-                    <ul class="ms-ContextualMenu-list" role="menu">
-                        @foreach (var item in Items)
+            <div class=@($"ms-ContextualMenu mediumFont")>
+                <ul class="ms-ContextualMenu-list" role="menu">
+                    @foreach (var item in Items)
+                    {
+                        @if (ItemTemplate != null)
                         {
-                            @if (ItemTemplate != null)
-                            {
-                                @ItemTemplate(item)
-                            }
-                            else
-                            {
-                                <BlazorFabric.ContextualMenuInternal.ContextualMenuItem CanCheck=@item.CanCheck Checked=@item.Checked ClassName=@item.ClassName Command=@item.Command CommandParameter=@item.CommandParameter 
-                                                    Disabled=@item.Disabled  Href=@item.Href IconName=@item.IconName Items=@item.Items ItemType=@item.ItemType Key=@item.Key 
-                                                    OnClick=@item.OnClick SecondaryText=@item.SecondaryText Split=@item.Split Style=@item.Style Text=@item.Text/>
-                            }
+                            @ItemTemplate(item)
                         }
-                    </ul>
-                </CascadingValue>
+                        else
+                        {
+                            <BlazorFabric.ContextualMenuInternal.ContextualMenuItem CanCheck=@item.CanCheck Checked=@item.Checked ClassName=@item.ClassName Command=@item.Command CommandParameter=@item.CommandParameter 
+                                                Disabled=@item.Disabled  Href=@item.Href IconName=@item.IconName Items=@item.Items ItemType=@item.ItemType Key=@item.Key 
+                                                OnClick=@item.OnClick SecondaryText=@item.SecondaryText Split=@item.Split Style=@item.Style Text=@item.Text 
+                                                DismissMenu=@Dismiss                                     
+                                                 />
+                        }
+                    }
+                </ul>
             </div>
         }
-        @*else
-        {
-            <div class=@($"ms-ContextualMenu mediumFont {(this.IsOpen ? "is-open" : "")}")>
-                <CascadingValue Value=@this>
-                    <ul class="ms-ContextualMenu-list" role="menu">
-                        @ChildContent
-                    </ul>
-                </CascadingValue>
-            </div>
-        }*@
-
     </div>
 
 </BlazorFabric.Callout>

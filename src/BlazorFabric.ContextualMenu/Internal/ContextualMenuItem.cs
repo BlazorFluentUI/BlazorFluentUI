@@ -38,8 +38,14 @@ namespace BlazorFabric.ContextualMenuInternal
         [Parameter] public ICommand Command { get; set; }
         [Parameter] public object CommandParameter { get; set; }
 
+        //[Parameter] public ContextualMenu ParentContextualMenu { get; set; }
 
-        [CascadingParameter] public ContextualMenuBase ContextualMenu { get; set; }
+        //[CascadingParameter] public ContextualMenuBase ContextualMenu { get; set; }
+        [Parameter] public EventCallback OpenSubMenu { get; set; }
+        [Parameter] public EventCallback<bool> DismissMenu { get; set; }
+        [Parameter] public EventCallback DismissSubMenu { get; set; }
+
+        protected bool isSubMenuOpen = false;
 
         private ElementReference linkElementReference;
         private List<int> eventHandlerIds;
@@ -47,7 +53,8 @@ namespace BlazorFabric.ContextualMenuInternal
 
         [JSInvokable] public void MouseEnterHandler()
         {
-            if (ContextualMenu.SubmenuActiveKey == this.Key)
+            //if (ParentContextualMenu.SubmenuActiveKey == this.Key)
+            if (isSubMenuOpen)
                 return;
             if (!enterTimer.Enabled)
                 enterTimer.Start();
@@ -69,25 +76,25 @@ namespace BlazorFabric.ContextualMenuInternal
         public override Task SetParametersAsync(ParameterView parameters)
         {
 
-            if (IconName != null && parameters.GetValueOrDefault<string>("IconName") == null)
-            {
-                if (ContextualMenu != null)
-                    ContextualMenu.HasIconCount--;
-            }
-            if (CanCheck && parameters.GetValueOrDefault<bool>("CanCheck") == false)
-            {
-                if (ContextualMenu != null)
-                    ContextualMenu.HasCheckable--;
-            }
+            //if (IconName != null && parameters.GetValueOrDefault<string>("IconName") == null)
+            //{
+            //    if (ParentContextualMenu != null)
+            //        ParentContextualMenu.HasIconCount--;
+            //}
+            //if (CanCheck && parameters.GetValueOrDefault<bool>("CanCheck") == false)
+            //{
+            //    if (ParentContextualMenu != null)
+            //        ParentContextualMenu.HasCheckable--;
+            //}
             return base.SetParametersAsync(parameters);
         }
 
         protected override Task OnParametersSetAsync()
         {
-            if (IconName != null)
-                ContextualMenu.HasIconCount++;
-            if (CanCheck == true)
-                ContextualMenu.HasCheckable++;
+            //if (IconName != null)
+            //    ParentContextualMenu.HasIconCount++;
+            //if (CanCheck == true)
+            //    ParentContextualMenu.HasCheckable++;
 
             //if (!enterTimer.Enabled)
             //    enterTimer.Interval = ContextualMenu.SubMenuHoverDelay;
@@ -114,7 +121,8 @@ namespace BlazorFabric.ContextualMenuInternal
             await this.OnClick.InvokeAsync(new MouseEventArgs());
             this.Command?.Execute(CommandParameter);
 
-            await ContextualMenu.OnDismiss.InvokeAsync(true);
+            await this.DismissMenu.InvokeAsync(true);
+            //await ParentContextualMenu.OnDismiss.InvokeAsync(true);
         }
 
         //private void LeaveTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -128,9 +136,21 @@ namespace BlazorFabric.ContextualMenuInternal
             enterTimer.Stop();
             //System.Diagnostics.Debug.WriteLine($"Show submenu");
             if (Items != null)
-                InvokeAsync(()=>ContextualMenu.SetSubmenuActiveKey(Key)); //open this submenu
-            else if (ContextualMenu.SubmenuActiveKey != Key)
-                InvokeAsync(() => ContextualMenu.SetSubmenuActiveKey(""));  //clear any other open menu
+                //InvokeAsync(()=> ParentContextualMenu.SetSubmenuActiveKey(Key)); //open this submenu
+                InvokeAsync(() =>
+                {
+                    isSubMenuOpen = true;
+                    StateHasChanged();
+                }); //open this submenu
+            else
+                InvokeAsync(() =>
+                {
+                    // Need to close other submenus...
+                    //isSubMenuOpen = false;
+                    //DismissMenu.InvokeAsync(false);
+                });
+            //else if (ParentContextualMenu.SubmenuActiveKey != Key)
+            //    InvokeAsync(() => ParentContextualMenu.SetSubmenuActiveKey(""));  //clear any other open menu
 
             //Invoke(() => StateHasChanged());
         }
@@ -186,7 +206,7 @@ namespace BlazorFabric.ContextualMenuInternal
         private void RenderNormalItem(RenderTreeBuilder builder)
         {
             builder.OpenElement(11, "li");
-            builder.AddAttribute(12, "class", $"ms-ContextualMenu-item mediumFont {(Disabled ? "is-disabled" : "")} {(Checked ? "is-checked" : "")} {(ContextualMenu.SubmenuActiveKey == Key ? "is-expanded" : "")}");
+            builder.AddAttribute(12, "class", $"ms-ContextualMenu-item mediumFont {(Disabled ? "is-disabled" : "")} {(Checked ? "is-checked" : "")} {(isSubMenuOpen ? "is-expanded" : "")}");
             builder.AddElementReferenceCapture(13, (element) => RootElementReference = element);
             RenderItemKind(builder);
             builder.CloseElement();
@@ -245,17 +265,18 @@ namespace BlazorFabric.ContextualMenuInternal
             builder.OpenElement(40, "div");
             builder.AddAttribute(41, "class", this.Split ? "ms-ContextualMenu-linkContentMenu" : "ms-ContextualMenu-linkContent");
 
-            if (ContextualMenu.HasCheckable > 0)
-                RenderCheckMarkIcon(builder);
-            if (ContextualMenu.HasIconCount > 0)
-                RenderItemIcon(builder);
+            //if (ParentContextualMenu.HasCheckable > 0)
+            //    RenderCheckMarkIcon(builder);
+            //if (ParentContextualMenu.HasIconCount > 0)
+            //    RenderItemIcon(builder);
             RenderItemName(builder);
             if (SecondaryText != null)
                 RenderSecondaryText(builder);
             if (Items != null)
             {
                 RenderSubMenuIcon(builder);
-                if (ContextualMenu.SubmenuActiveKey == Key)
+                if (isSubMenuOpen)
+                //if (ParentContextualMenu.SubmenuActiveKey == Key)
                     RenderSubContextualMenu(builder);
             }
             builder.CloseElement();
@@ -306,10 +327,11 @@ namespace BlazorFabric.ContextualMenuInternal
         {
             builder.OpenComponent<ContextualMenu>(70);
             builder.AddAttribute(71, "FabricComponentTarget", this);
-            builder.AddAttribute(72, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { ContextualMenu.SetSubmenuActiveKey(""); ContextualMenu.OnDismiss.InvokeAsync(true); }));
-            builder.AddAttribute(73, "IsOpen", ContextualMenu.SubmenuActiveKey == Key);
+            builder.AddAttribute(72, "OnDismiss", DismissMenu);//EventCallback.Factory.Create<bool>(this, (isDismissed) => { ParentContextualMenu.SetSubmenuActiveKey(""); ParentContextualMenu.OnDismiss.InvokeAsync(true); }));
+            //builder.AddAttribute(73, "IsOpen", ParentContextualMenu.SubmenuActiveKey == Key);
             builder.AddAttribute(74, "DirectionalHint", DirectionalHint.RightTopEdge);
             builder.AddAttribute(75, "Items", Items);
+            //builder.AddAttribute(76, "ParentContextualMenu", this.ParentContextualMenu);
             //builder.AddAttribute(75, "ChildContent", SubmenuContent);
             builder.CloseComponent();
         }

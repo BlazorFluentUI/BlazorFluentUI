@@ -45,7 +45,7 @@ namespace BlazorFabric
 
         [Parameter] public EventCallback<bool> HiddenChanged { get; set; }
 
-        [Parameter] public EventCallback<bool> OnDismiss { get; set; }
+        [Parameter] public EventCallback OnDismiss { get; set; }
 
         protected Rectangle Position { get; set; } = new Rectangle();
 
@@ -94,30 +94,31 @@ namespace BlazorFabric
 
         [JSInvokable] public async void ScrollHandler()
         {
-            await OnDismiss.InvokeAsync(true);
-            await HiddenChanged.InvokeAsync(true);
+            await OnDismiss.InvokeAsync(null);
+            //await HiddenChanged.InvokeAsync(true);
         }
 
         [JSInvokable] public async void ResizeHandler()
         {
-            await OnDismiss.InvokeAsync(true);
-            await HiddenChanged.InvokeAsync(true);
+            await OnDismiss.InvokeAsync(null);
+            //await HiddenChanged.InvokeAsync(true);
         }
 
         [JSInvokable]
         public async void FocusHandler()
         {
+            //Need way to tie focus handler between all the callouts (linked contextualmenus)  ... only dimiss when ALL of them lost focus.
             System.Diagnostics.Debug.WriteLine($"Callout {PortalId} called dismiss from FocusHandler from {this.DirectionalHint}");
 
-            await OnDismiss.InvokeAsync(true);
-            await HiddenChanged.InvokeAsync(true);
+            await OnDismiss.InvokeAsync(null);
+            //await HiddenChanged.InvokeAsync(true);
         }
 
         [JSInvokable]
         public async void ClickHandler()
         {
-            await OnDismiss.InvokeAsync(true);
-            await HiddenChanged.InvokeAsync(true);
+            await OnDismiss.InvokeAsync(null);
+            //await HiddenChanged.InvokeAsync(true);
         }
 
         protected string GetAnimationStyle()

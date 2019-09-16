@@ -55,6 +55,17 @@
 <body>
     <app>Loading...</app>
 
+    <script>
+        XMLHttpRequest.prototype.open_before = XMLHttpRequest.prototype.open;
+
+        XMLHttpRequest.prototype.open = function (method, url, async) {
+            if (url.endsWith(".dll")) {
+                url = url.replace("dll", "blazor");
+            }
+            return this.open_before(method, url, async);
+        };
+    </script>
+
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
 </html>

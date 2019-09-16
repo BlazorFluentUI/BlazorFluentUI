@@ -15,7 +15,7 @@ https://blazorfabric.azurewebsites.net/
 
 ## Status - all updated to preview9 (That was a big one!)
 - Label -done
-- DefaultButton, PrimaryButton, ActionButton(CommandButton) -working
+- DefaultButton, PrimaryButton, ActionButton, IconButton, CommandButton -working
 - Checkbox -done, except for icons
 - List -supports `INotifyCollectionChanged`, but bad server-side experience
 - TextField -done, except for icons and masking

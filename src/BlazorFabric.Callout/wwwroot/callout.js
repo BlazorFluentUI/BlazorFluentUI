@@ -3,6 +3,7 @@ var BlazorFabricCallout;
 (function (BlazorFabricCallout) {
     function registerHandlers(targetElement, calloutRef) {
         var window = targetElement.ownerDocument.defaultView;
+        var calloutDivId = Handler.addCallout(targetElement);
         //window.addEventListener("scroll", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ScrollHandler"); } }, true);
         //window.addEventListener("resize", (ev: Event) => calloutRef.invokeMethodAsync("ResizeHandler"), true);
         //document.documentElement.addEventListener("focus", (ev: Event) => calloutRef.invokeMethodAsync("FocusHandler"), true);
@@ -13,36 +14,55 @@ var BlazorFabricCallout;
         var resizeId = Handler.addListener(window, "resize", function (ev) { if (checkTarget(ev, targetElement)) {
             calloutRef.invokeMethodAsync("ResizeHandler");
         } ; }, true);
-        var focusId = Handler.addListener(document.documentElement, "focus", function (ev) { if (checkTarget(ev, targetElement)) {
-            calloutRef.invokeMethodAsync("FocusHandler");
-        } ; }, true);
-        var clickId = Handler.addListener(document.documentElement, "click", function (ev) { if (checkTarget(ev, targetElement)) {
-            calloutRef.invokeMethodAsync("ClickHandler");
-        } ; }, true);
+        var focusId = Handler.addListener(document.documentElement, "focus", function (ev) {
+            var outsideCallout = true;
+            for (var prop in Handler.targetCombinedElements) {
+                if (Object.prototype.hasOwnProperty.call(Handler.targetCombinedElements, prop)) {
+                    outsideCallout = checkTarget(ev, Handler.targetCombinedElements[prop]);
+                    if (outsideCallout == false)
+                        break;
+                }
+            }
+            if (outsideCallout)
+                calloutRef.invokeMethodAsync("FocusHandler");
+        }, true);
+        var clickId = Handler.addListener(document.documentElement, "click", function (ev) {
+            var outsideCallout = true;
+            for (var prop in Handler.targetCombinedElements) {
+                if (Object.prototype.hasOwnProperty.call(Handler.targetCombinedElements, prop)) {
+                    outsideCallout = checkTarget(ev, Handler.targetCombinedElements[prop]);
+                    if (outsideCallout == false)
+                        break;
+                }
+            }
+            if (outsideCallout)
+                calloutRef.invokeMethodAsync("ClickHandler");
+        }, true);
         //set focus, too
-        return [scrollId, resizeId, focusId, clickId];
+        return [scrollId, resizeId, focusId, clickId, calloutDivId];
     }
     BlazorFabricCallout.registerHandlers = registerHandlers;
     function unregisterHandlers(targetElement, calloutRef, ids) {
         var window = targetElement.ownerDocument.defaultView;
-        for (var _i = 0, ids_1 = ids; _i < ids_1.length; _i++) {
-            var id = ids_1[_i];
+        Handler.removeCallout(ids[ids.length - 1]);
+        var handlerIds = ids.slice(0, ids.length - 1);
+        for (var _i = 0, handlerIds_1 = handlerIds; _i < handlerIds_1.length; _i++) {
+            var id = handlerIds_1[_i];
             Handler.removeListener(id);
         }
-        //const scrollhandler = (ev: Event) => {
-        //    if (checkTarget(ev, targetElement)) {
-        //        calloutRef.invokeMethodAsync("ScrollHandler");
-        //    };
-        //}
-        //window.removeEventListener("scroll", scrollhandler, true);
-        //window.removeEventListener("resize", (ev: Event) => calloutRef.invokeMethodAsync("ResizeHandler"), true);
-        //document.documentElement.removeEventListener("focus", (ev: Event) => calloutRef.invokeMethodAsync("FocusHandler"), true);
-        //document.documentElement.removeEventListener("click", clickHandler, true);
     }
     BlazorFabricCallout.unregisterHandlers = unregisterHandlers;
     var Handler = /** @class */ (function () {
         function Handler() {
         }
+        Handler.addCallout = function (element) {
+            this.targetCombinedElements[this.i] = element;
+            return this.i++;
+        };
+        Handler.removeCallout = function (id) {
+            if (id in this.targetCombinedElements)
+                delete this.targetCombinedElements[id];
+        };
         Handler.addListener = function (element, event, handler, capture) {
             element.addEventListener(event, handler, capture);
             this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
@@ -57,6 +77,7 @@ var BlazorFabricCallout;
         };
         Handler.i = 1;
         Handler.listeners = {};
+        Handler.targetCombinedElements = {};
         return Handler;
     }());
     function clickHandler(ev) {
@@ -85,6 +106,7 @@ var BlazorFabricCallout;
                 isContained = false;
                 while (child) {
                     var nextParent = getParent(child);
+                    console.log("NextParent: " + nextParent);
                     if (nextParent === parent) {
                         isContained = true;
                         break;

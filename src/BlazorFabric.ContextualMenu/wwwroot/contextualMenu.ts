@@ -23,7 +23,6 @@ namespace BlazorFabricContextualMenu {
 
         var mouseClickId = Handler.addListener(targetElement, "click", (ev: Event) => { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("ClickHandler"); }, false);
         var mouseEnterId = Handler.addListener(targetElement, "mouseenter", (ev: Event) => { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("MouseEnterHandler"); }, false);
-        //var mouseLeaveId = Handler.addListener(targetElement, "mouseleave", (ev: Event) => { ev.preventDefault();  contextualMenuItem.invokeMethodAsync("MouseLeaveHandler"); }, false);
         return [mouseClickId, mouseEnterId];
     }
 

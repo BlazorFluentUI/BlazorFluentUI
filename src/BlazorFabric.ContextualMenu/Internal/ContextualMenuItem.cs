@@ -51,6 +51,8 @@ namespace BlazorFabric.ContextualMenuInternal
         [Parameter] public bool HasIcons { get; set; }
         [Parameter] public bool HasCheckables { get; set; }
 
+        [Parameter] public EventCallback NotifyCalloutDismiss { get; set; }  // we need this to chain notifications that the callout wants to be dismissed (from scrolling, resize, or focus lost)
+
         protected bool isSubMenuOpen = false;
 
         private ElementReference linkElementReference;
@@ -352,6 +354,7 @@ namespace BlazorFabric.ContextualMenuInternal
             //builder.AddAttribute(73, "IsOpen", ParentContextualMenu.SubmenuActiveKey == Key);
             builder.AddAttribute(74, "DirectionalHint", DirectionalHint.RightTopEdge);
             builder.AddAttribute(75, "Items", Items);
+            builder.AddAttribute(76, "IsSubMenu", true);
 
             //builder.AddAttribute(76, "ParentContextualMenu", this.ParentContextualMenu);
             //builder.AddAttribute(75, "ChildContent", SubmenuContent);

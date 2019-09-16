@@ -40,9 +40,9 @@ namespace BlazorFabric
         [Parameter] public EventCallback<ContextualMenuBase> OnMenuDismissed { get; set; }
         [Parameter] public EventCallback<ContextualMenuBase> OnMenuOpened { get; set; }
 
-        [Parameter] public ContextualMenu ParentContextualMenu { get; set; }
+        [Parameter] public bool IsSubMenu { get; set; } = false;
 
-        //[CascadingParameter] public ContextualMenuBase ContextualMenu { get; set; }  //maybe this contextualmenu is a child of another
+        // for debugging only
         [CascadingParameter(Name ="PortalId")] public string PortalId { get; set; }
 
         protected bool isOpen = false;
@@ -61,6 +61,11 @@ namespace BlazorFabric
             StateHasChanged();
         }
 
+        protected Action OnNotifyCalloutDismiss => () =>
+        {
+
+        };
+
         protected void Dismiss(bool dismissAll = false)
         {
             this.OnDismiss.InvokeAsync(dismissAll);
@@ -68,7 +73,13 @@ namespace BlazorFabric
 
         protected Action OnCalloutDismiss => () =>
         {
-            //this.OnDismiss.InvokeAsync(false);
+            //if (string.IsNullOrEmpty(SubmenuActiveKey))
+            //{
+            //    if (this.IsSubMenu)
+            //        this.OnNotifyCalloutDismiss();
+            //    else
+                    this.OnDismiss.InvokeAsync(true);
+            //}
         };
 
         protected Action OnOpenSubmenu => () =>

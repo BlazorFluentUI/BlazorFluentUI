@@ -17,7 +17,7 @@ https://blazorfabric.azurewebsites.net/
 - Label -done
 - DefaultButton, PrimaryButton, ActionButton, IconButton, CommandButton -working
 - Checkbox -done, except for icons
-- List -supports `INotifyCollectionChanged`, but bad server-side experience
+- List -supports `INotifyCollectionChanged`, works!
 - TextField -done, except for icons and masking
 - Icon, only MS icons 
 - Nav -done!

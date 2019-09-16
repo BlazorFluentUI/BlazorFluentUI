@@ -14,9 +14,9 @@ namespace BlazorFabric
 
         [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
 
-        [Parameter] public RenderFragment<TItem> OverflowItemTemplate { get; set; }
+        [Parameter] public RenderFragment<IEnumerable<TItem>> OverflowTemplate { get; set; }
 
-        [Parameter] public RenderFragment<RenderFragment> OverflowMenuButtonTemplate { get; set; }
+        //[Parameter] public RenderFragment<RenderFragment> OverflowMenuButtonTemplate { get; set; }
 
         [Parameter] public Func<TItem, string> GetKey { get; set; }
 

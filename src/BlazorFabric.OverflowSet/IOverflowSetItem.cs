@@ -6,6 +6,6 @@ namespace BlazorFabric
 {
     public interface IOverflowSetItem
     {
-        string Key { get;}
+        string Key { get; }
     }
 }

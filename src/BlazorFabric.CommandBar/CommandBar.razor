@@ -11,27 +11,32 @@
             <OverflowSet ClassName="ms-CommandBar-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
                 <ItemTemplate>
                     @*TooltipHost*@
-                    <CommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : "") OnClick=@(args => context.OnClick.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key })) Command=@context.Command CommandParameter=@context.CommandParameter 
+                    <CommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null) 
+                                      OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key })) 
+                                      Command=@context.Command CommandParameter=@context.CommandParameter 
                                       Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                      Split=@context.Split Style=@context.Style SecondaryText=@context.SecondaryText />
+                                      Split=@context.Split Style=@context.Style SecondaryText=@context.SecondaryText 
+                                      
+                                      />
                 </ItemTemplate>
-                <OverflowItemTemplate>
-                    @*<ContextualMenuItem Text=@context.Text Key=@context.Key OnClick=@context.OnClick SecondaryText=@context.SecondaryText Command=@context.Command CommandParameter=@context.CommandParameter
-                                        Checked=@context.Checked CanCheck=@context.CanCheck Disabled=@context.Disabled IconName=@context.IconName Style=@context.Style ClassName=@context.ClassName 
-                                        SubmenuContent=@context.ContextualMenuContent />*@
-                </OverflowItemTemplate>
+                <OverflowTemplate>
+                    <IconButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch; height: auto;" IconName="More" MenuItems=@context />
+                </OverflowTemplate>
+                
             </OverflowSet>
             @*Secondary*@
             <OverflowSet ClassName="ms-CommandBar-secondarySet" Items=@data.FarItems GetKey=@(x=>x.Key)>
                 <ItemTemplate>
                     @*TooltipHost*@
-                    <CommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : "") OnClick=@(args => context.OnClick.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key })) Command=@context.Command CommandParameter=@context.CommandParameter
+                    <CommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null) 
+                                      OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key })) 
+                                      Command=@context.Command CommandParameter=@context.CommandParameter
                                       Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                      Split=@context.Split Style=@context.Style SecondaryText=@context.SecondaryText />
+                                      Split=@context.Split Style=@context.Style SecondaryText=@context.SecondaryText 
+                                      
+                                      />
                 </ItemTemplate>
-                <OverflowItemTemplate>
-                    @*<ContextualMenuItem Text=@context.Text Key=@context.Key />*@
-                </OverflowItemTemplate>
+
             </OverflowSet>
         </div>
     </DataTemplate>

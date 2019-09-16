@@ -7,13 +7,41 @@
     <ItemTemplate>
         <CommandBarButton IconName="Add" Text=@context.Name />
     </ItemTemplate>
-    <OverflowItemTemplate>
-        @*<ContextualMenuItem Text=@context.Name Key=@context.Key />*@
-    </OverflowItemTemplate>
+    <OverflowTemplate>
+        <IconButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch; height: auto;" IconName="More" MenuItems=@(itemTransform(context)) />
+    </OverflowTemplate>
+    @*<OverflowTemplate>
+        <IconButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch; height: auto;" IconName="More" MenuItems=@OverflowItems>
+            <ContextualMenuContent>
+                @foreach (var item in OverflowItems)
+                        {
+                <div @key=(GetKey(item)) class="ms-OverflowSet-item">
+                    @OverflowItemTemplate(item)
+                </div>
+                        }
+            </ContextualMenuContent>
+        </IconButton>
+    </OverflowTemplate>*@
 </OverflowSet>
 
 @code {
-    System.Collections.Generic.List<OverflowItem> items;
+        System.Collections.Generic.List<OverflowItem> items;
+
+        Func<IEnumerable<OverflowItem>, IEnumerable<IContextualMenuItem>> itemTransform => (items) =>
+        {
+            var menuItems = new System.Collections.Generic.List<IContextualMenuItem>();
+            foreach (var item in items)
+            {
+                var menuItem = new ContextualMenuItem()
+                {
+                    Key = item.Key,
+                    Text = item.Name,
+                    IconName = "Add"
+                };
+                menuItems.Add(menuItem);
+            }
+            return menuItems;
+        };
 
     protected override Task OnInitializedAsync()
     {

@@ -8,13 +8,16 @@
              GetCacheKey=@getCacheKey
 >
     <DataTemplate Context="data">
-        <OverflowSet Items=@data.Items OverflowItems=@data.OverflowItems>
+        <OverflowSet Items=@data.Items OverflowItems=@data.OverflowItems GetKey=@(x=> x.Key)>
             <ItemTemplate>
                 <CommandBarButton IconName="Add" Text=@context.Name />
             </ItemTemplate>
-            <OverflowItemTemplate>
-                @*<ContextualMenuItem Text=@context.Name Key=@context.Key />*@
-            </OverflowItemTemplate>
+            <OverflowTemplate>
+                <IconButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch; height: auto;" IconName="More" MenuItems=@(itemTransform(context)) />
+            </OverflowTemplate>
+            @*<OverflowItemTemplate>
+                <ContextualMenuItem Text=@context.Name Key=@context.Key />
+            </OverflowItemTemplate>*@
         </OverflowSet>
     </DataTemplate>
 </ResizeGroup>
@@ -27,7 +30,23 @@
     Func<ResizeGroupData<OverflowItem>, ResizeGroupData<OverflowItem>> onGrowData;
     Func<ResizeGroupData<OverflowItem>, ResizeGroupData<OverflowItem>>  onReduceData;
 
-
+    Func<IEnumerable<OverflowItem>, IEnumerable<IContextualMenuItem>> itemTransform => (items) =>
+        {
+            var menuItems = new System.Collections.Generic.List<IContextualMenuItem>();
+            if (items == null)
+                return menuItems;
+            foreach (var item in items)
+            {
+                var menuItem = new ContextualMenuItem()
+                {
+                    Key = item.Key,
+                    Text = item.Name,
+                    IconName = "Add"
+                };
+                menuItems.Add(menuItem);
+            }
+            return menuItems;
+        };
 
     @*Func<(IEnumerable<OverflowItem> primary, IEnumerable<OverflowItem> overflow, string cacheKey), RenderFragment> onRenderData = data =>@<OverflowSet Items=@data.primary OverflowItems=@data.overflow>
     <ItemTemplate>

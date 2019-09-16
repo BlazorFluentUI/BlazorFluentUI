@@ -36,7 +36,7 @@ There are no MergeStyles in this port.  It's just each control packaged into its
 
 ## To use
 1. Install NuGet package for the control you want.  _BlazorFabric.*_  (be sure to select preview packages)
-2. The Blazor team has been inconsistent with how static files from component libraries are added to projects lately.  You'll probably need to add all javascript and CSS assets from the component packages manually.  
+2. The Blazor team has been inconsistent with how static files from component libraries are added to projects lately. With client-side it should "just work".  With server-side you'll probably need to add all javascript and CSS assets from the component packages manually.  
 3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.
 
 `<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/10.0.0/css/fabric.min.css" />`

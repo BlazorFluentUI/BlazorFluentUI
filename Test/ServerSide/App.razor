@@ -3,7 +3,14 @@
     directive matching the current URI.
 *@
     <BlazorFabric.LayerHost Style="display:flex; flex-direction: row;width:100vw">
-        <Router AppAssembly="typeof(Startup).Assembly" />
+        <Router AppAssembly="typeof(Startup).Assembly">
+            <Found Context="routeData">
+                <RouteView RouteData="routeData" />
+            </Found>
+            <NotFound>
+                <p>Page not found.</p>
+            </NotFound>
+        </Router>
     </BlazorFabric.LayerHost>
 @functions
 {

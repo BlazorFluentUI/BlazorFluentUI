@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">BlazorFabric.Test.HostedClient</a>
+    <button class="navbar-toggler" @onclick=@ToggleNavMenu>
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<Nav>
+    <NavLinkGroup Name="Basic Controls" CollapseByDefault="false">
+        <NavFabricLink Name="Basic" Url="/" Id="/" Icon="ButtonControl" />
+        <NavFabricLink Name="TextField" Url="/textFieldPage" Id="textFieldPage" Icon="TextField" />
+        <NavFabricLink Name="Dropdown" Url="/dropdownPage" Id="dropdownPage" Icon="Dropdown" />
+    </NavLinkGroup>
+    <NavLinkGroup Name="Items & Lists" CollapseByDefault="false">
+        <NavFabricLink Name="List" Url="/listPage" Id="listPage" Icon="List" />
+    </NavLinkGroup>
+    <NavLinkGroup Name="Commands, Menus & Navs" CollapseByDefault="false">
+        <NavFabricLink Name="CommandBar" Url="/commandBarPage" Id="commandBarPage" Icon="Bar" />
+        <NavFabricLink Name="ContextualMenu" Url="/contextualMenuPage" Id="contextualMenuPage" Icon="Menu" />
+        <NavFabricLink Name="Nav" Url="/navPage" Id="navPage" Icon="SecondaryNav" />
+        <NavFabricLink Name="OverflowSet" Url="/overflowSetPage" Id="overflowSetPage" Icon="More" />
+    </NavLinkGroup>
+    <NavLinkGroup Name="Surfaces" CollapseByDefault="false">
+        <NavFabricLink Name="Callout" Url="/calloutPage" Id="calloutPage" Icon="" />
+        <NavFabricLink Name="Dialog" Url="/dialogPage" Id="dialogPage" Icon="" />
+        <NavFabricLink Name="Modal" Url="/modalPage" Id="modalPage" Icon="" />
+    </NavLinkGroup>
+    <NavLinkGroup Name="Utilities" CollapseByDefault="false">
+        <NavFabricLink Name="Layer" Url="/layerPage" Id="layerPage" Icon="" />
+        <NavFabricLink Name="ResizeGroup" Url="/resizeGroupPage" Id="resizeGroupPage" Icon="Resize" />
+    </NavLinkGroup>
+</Nav>
+
+@*<div class="@NavMenuCssClass" onclick="@ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Basic Controls
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="textFieldPage">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> TextField
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="navPage2">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Nav
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="listPage">
+                <span class="oi oi-plus" aria-hidden="true"></span> List
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </li>
+    </ul>
+</div>*@
+
+@functions {
+    bool collapseNavMenu = true;
+
+    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

@@ -39,7 +39,7 @@
 
 
 @code {
-    System.Collections.Generic.List<IContextualMenuItem> contextualMenuItems;
+        System.Collections.Generic.List<IContextualMenuItem> contextualMenuItems;
 
     private System.Windows.Input.ICommand buttonCommand;
     private string debugText;
@@ -62,8 +62,11 @@
     {
         buttonCommand = new Utils.RelayCommand((p) =>
         {
-            debugText = $"{p.ToString()} button was clicked. {commandCount++}";
-            StateHasChanged();
+            InvokeAsync(() =>
+            {
+                debugText = $"{p.ToString()} button was clicked. {commandCount++}";
+                StateHasChanged();
+            });
         });
 
         contextualMenuItems = new System.Collections.Generic.List<IContextualMenuItem>()

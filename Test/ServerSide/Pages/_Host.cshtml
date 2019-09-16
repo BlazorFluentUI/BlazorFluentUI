@@ -24,43 +24,50 @@
     <link href="css/site.css" rel="stylesheet" />
 
     <script src="_content/BlazorFabric.BaseComponent/baseComponent.js"></script>
-    <link rel="stylesheet" href="_content/BlazorFabric.BaseComponent/styles.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.BaseComponent/styles.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Button/button.css" />
-    <link rel="stylesheet" href="_content/BlazorFabric.Button/button-action.css" />
-    <link rel="stylesheet" href="_content/BlazorFabric.Button/button-default.css" />
-    <link rel="stylesheet" href="_content/BlazorFabric.Button/button-primary.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Button/button.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Button/button-action.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Button/button-default.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Button/button-primary.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Button/button-icon.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Button/button-commandBar.css" />
 
-    <script src="_content/BlazorFabric.Callout/callout.js"></script>
-    <link rel="stylesheet" href="_content/BlazorFabric.Callout/callout.css" />
+        <script src="_content/BlazorFabric.Callout/callout.js"></script>
+        <link rel="stylesheet" href="_content/BlazorFabric.Callout/callout.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Checkbox/checkbox.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Checkbox/checkbox.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.ContextualMenu/contextualMenu.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.CommandBar/commandBar.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Dropdown/dropdown.css" />
+        <script src="_content/BlazorFabric.ContextualMenu/contextualMenu.js"></script>
+        <link rel="stylesheet" href="_content/BlazorFabric.ContextualMenu/contextualMenu.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Icon/icon.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Dropdown/dropdown.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Label/label.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Icon/icon.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Layer/layer.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Label/label.css" />
 
-    <script src="_content/BlazorFabric.List/fabricList.js"></script>
-    <link rel="stylesheet" href="_content/BlazorFabric.List/list.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Layer/layer.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Modal/modal.css" />
+        <script src="_content/BlazorFabric.List/fabricList.js"></script>
+        <link rel="stylesheet" href="_content/BlazorFabric.List/list.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Nav/nav.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Modal/modal.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Overlay/overlay.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.Nav/nav.css" />
 
-    <script src="_content/BlazorFabric.TextField/fabricTextField.js"></script>
-    <link rel="stylesheet" href="_content/BlazorFabric.TextField/textfield.css" />
+        <link rel="stylesheet" href="_content/BlazorFabric.OverflowSet/overflowSet.css" />
+
+        <link rel="stylesheet" href="_content/BlazorFabric.Overlay/overlay.css" />
+
+        <script src="_content/BlazorFabric.TextField/fabricTextField.js"></script>
+        <link rel="stylesheet" href="_content/BlazorFabric.TextField/textfield.css" />
 
 </head>
 <body>
-    <app>@(await Html.RenderComponentAsync<App>())</app>
+    <app>@(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))</app>
 
     <script src="_framework/blazor.server.js"></script>
 </body>

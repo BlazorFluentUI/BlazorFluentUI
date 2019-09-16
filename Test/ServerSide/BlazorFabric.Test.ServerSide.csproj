@@ -6,69 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\TextFieldPage.razor" Link="Pages\TextFieldPage.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Shared\NavMenu.razor" Link="Shared\NavMenu.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\Index.razor" Link="Pages\Index.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\NavPage.razor" Link="Pages\NavPage.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\LayerPage.razor" Link="Pages\LayerPage.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-    </Content>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\ListPage.razor" Link="Pages\ListPage.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\CalloutPage.razor" Link="Pages\CalloutPage.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\DropdownPage.razor" Link="Pages\DropdownPage.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\ContextualMenuPage.razor" Link="Pages\ContextualMenuPage.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\ModalPage.razor" Link="Pages\ModalPage.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\HostedClient\BlazorFabric.Test.HostedClient.Client\Pages\DialogPage.razor" Link="Pages\DialogPage.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BlazorEmbedLibrary" Version="0.1.0-beta-4" />
   </ItemGroup>
 
@@ -76,6 +13,7 @@
     <ProjectReference Include="..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.CommandBar\BlazorFabric.CommandBar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.ContextualMenu\BlazorFabric.ContextualMenu.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Dropdown\BlazorFabric.Dropdown.csproj" />
@@ -85,6 +23,9 @@
     <ProjectReference Include="..\..\src\BlazorFabric.List\BlazorFabric.List.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Modal\BlazorFabric.Modal.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Nav\BlazorFabric.Nav.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.OverflowSet\BlazorFabric.OverflowSet.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Overlay\BlazorFabric.Overlay.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.TextField\BlazorFabric.TextField.csproj" />
   </ItemGroup>
 

@@ -146,36 +146,15 @@ namespace BlazorFabric.ContextualMenuInternal
 
         private async void EnterTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine($"{e.SignalTime}");
-            enterTimer.Stop();
-            //System.Diagnostics.Debug.WriteLine($"Show submenu");
+            await InvokeAsync(() =>
+            {
+                enterTimer.Stop();
 
-            if (Items != null)
-                await SetSubmenu.InvokeAsync(this.Key);  //this will open the menu (if exists) and trigger closure of all other submenus from the contextmenu callback
-            else
-                await SetSubmenu.InvokeAsync(null);
-            //if (Items != null)
-            //    isSubMenuOpen = true;
-
-                //if (Items != null)
-                //    //InvokeAsync(()=> ParentContextualMenu.SetSubmenuActiveKey(Key)); //open this submenu
-                //    InvokeAsync(async () =>
-                //    {
-                //        isSubMenuOpen = true;
-                //        await OpenSubMenu.InvokeAsync(null);
-                //        //StateHasChanged();
-                //    }); //open this submenu
-                //else
-                //    InvokeAsync(() =>
-                //    {
-                //        // Need to close other submenus...
-                //        //isSubMenuOpen = false;
-                //        //DismissMenu.InvokeAsync(false);
-                //    });
-                //else if (ParentContextualMenu.SubmenuActiveKey != Key)
-                //    InvokeAsync(() => ParentContextualMenu.SetSubmenuActiveKey(""));  //clear any other open menu
-
-                //Invoke(() => StateHasChanged());
+                if (Items != null)
+                    SetSubmenu.InvokeAsync(this.Key);  
+                else
+                    SetSubmenu.InvokeAsync(null);
+            });
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)

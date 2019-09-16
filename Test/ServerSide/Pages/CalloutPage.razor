@@ -1,0 +1,56 @@
+﻿@page "/calloutPage"
+
+<h1>Callout</h1>
+
+<div style="height:100px;"></div>
+<DefaultButton Text="Show Callout" OnClick=ClickHandler @ref="calloutTarget" />
+
+@if (!calloutHidden)
+{
+<Callout FabricComponentTarget=@calloutTarget         
+         DirectionalHint=@DirectionalHint.RightBottomEdge
+         OnDismiss=@DismissHandler
+         >
+    <div Style="max-width:300px; padding:20px;">
+        <h2>Callout Test</h2>
+        <p style="min-width: 150px;">
+            There are a few things in here.
+        </p>
+        <PrimaryButton Text="Ok" />
+    </div>
+</Callout>
+}
+
+@code { 
+
+    bool isInitialized = false;
+    bool calloutHidden = true;
+
+    FabricComponentBase calloutTarget;
+
+    Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        calloutHidden = !calloutHidden;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isInitialized)
+        {
+            //if (calloutTarget != null)
+            //{
+            isInitialized = true;
+            StateHasChanged();
+            //}
+        }
+        return Task.CompletedTask;
+    }
+
+    protected Task DismissHandler()
+    {
+        calloutHidden = true;
+        return Task.CompletedTask;
+    }
+}

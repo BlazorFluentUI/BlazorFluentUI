@@ -5,6 +5,8 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
+- v1.2.1-preview9
+	- Fixed wrong thread problem with `ContextualMenuItem` (using a timer)
 - v1.2.0-preview9
 	- Breaking changes: `ContextualMenu` attached to all buttons requires a new way to create menu items.  Use the built-in `ContextualMenuItem` class or create your own with the `IContextualMenuItem` interface.
 	- Added: `CommandBar`, `ResizeGroup`, `OverflowSet` and fixed `ContextualMenu` click/dismiss problems.

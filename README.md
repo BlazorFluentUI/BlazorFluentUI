@@ -5,6 +5,9 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
+- v1.2.0-preview9
+	- Breaking changes: `ContextualMenu` attached to all buttons requires a new way to create menu items.  Use the built-in `ContextualMenuItem` class or create your own with the `IContextualMenuItem` interface.
+	- Added: `CommandBar`, `ResizeGroup`, `OverflowSet` and fixed `ContextualMenu` click/dismiss problems.
 - v1.1.1-preview9
 	- Fixed Button contextmenu icon
 - v1.1.0-preview9 
@@ -12,17 +15,20 @@ https://blazorfabric.azurewebsites.net/
 
 ## Status - all updated to preview9 (That was a big one!)
 - Label -done
-- DefaultButton, PrimaryButton, ActionButton(CommandButton) -working, but incomplete
+- DefaultButton, PrimaryButton, ActionButton(CommandButton) -working
 - Checkbox -done, except for icons
 - List -supports `INotifyCollectionChanged`, but bad server-side experience
-- TextField -done, except for icons
+- TextField -done, except for icons and masking
 - Icon, only MS icons 
 - Nav -done!
-- ContextualMenu -in-progress
+- ContextualMenu - done! (except for Callout positioning bug)
 - Callout (part of ContextMenu) -working, not positioning perfectly
 - Layer (part of Callout) -done?  only layers at root window right now.
 - Dropdown -done? working well 
 - Modal -done!, no modeless version
+- CommandBar - done!
+- ResizeGroup - done!
+- OverflowSet - done!
 
 
 ## Info

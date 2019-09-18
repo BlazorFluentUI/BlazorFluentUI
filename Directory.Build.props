@@ -15,8 +15,15 @@
     <IsPackable>true</IsPackable>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 	  <PackageOutputPath>../../packages</PackageOutputPath>
-    <Version>1.2.0-preview9</Version>
+    <Version>1.2.2-preview9</Version>
   </PropertyGroup>
+
+  <!--<ItemGroup Condition="$(ProjectName.Contains('Test')) == false">
+    --><!-- .js/.css files will be referenced via <script>/<link> tags; other content files will just be included in the app's 'dist' directory without any tags referencing them --><!--
+    <EmbeddedResource Include="wwwroot\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="wwwroot\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="wwwroot\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>-->
 
   <ItemGroup Condition="$(ProjectName.Contains('Test')) == false">
     <None Include="..\..\LICENSE">

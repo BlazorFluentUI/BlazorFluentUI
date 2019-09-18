@@ -26,18 +26,6 @@
     <EmbeddedResource Include="wwwroot\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
-  <!--<ItemGroup>
-    <EmbeddedResource Remove="content\fabricTextField.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="content\fabricTextField.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="content\fabricTextField.ts" />
-  </ItemGroup>-->
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview9.19424.4" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.6.2">
@@ -47,10 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE">
+    <!--<None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
-    </None>
+    </None>-->
     <None Include="wwwroot\fabricTextField.js" />
     <None Include="wwwroot\fabricTextField.js.map" />
     <None Include="wwwroot\fabricTextField.ts" />

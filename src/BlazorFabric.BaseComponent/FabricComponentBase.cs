@@ -17,6 +17,12 @@ namespace BlazorFabric
 
         public ElementReference RootElementReference;
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.initializeFocusRects");
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
         public async Task<Rectangle> GetBoundsAsync()
         {
             //if (ComponentContext.IsConnected)

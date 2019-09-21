@@ -1,4 +1,9 @@
 ﻿.ms-Button {
+    /* focusStyles */
+    outline: transparent;
+    position: relative;
+    /* end */
+
     box-sizing: border-box;
     border-width: 1px;
     border-style: solid;
@@ -13,12 +18,38 @@
     height: 32px;
     border-radius: var(--effects-RoundedCorner2);
 }
-
-    .ms-Button:active > * {
-        position: relative;
-        left: 0;
-        top: 0;
+    .ms-Button::-moz-focus-inner{
+        border:0;
     }
+
+.ms-Fabric--isFocusVisible .ms-Button:focus::after{
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    border: 1px solid transparent;
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zindex-FocusStyle);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible .ms-Button:focus::after {
+        left: -2px;
+        top: -2px;
+        bottom: -2px;
+        right: -2px;
+        border: none; 
+        outline-color: ButtonText;
+    }
+}
+
+
+.ms-Button:active > * {
+    position: relative;
+    left: 0;
+    top: 0;
+}
 
     .ms-Button.is-disabled {
         background-color: var(--semanticColors-DisabledBackground);

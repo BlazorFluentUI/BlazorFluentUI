@@ -5,6 +5,11 @@
     border-width: 0px;
 }
 
+.ms-Fabric--isFocusVisible .ms-Button--primary:focus::after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+
     .ms-Button--primary:hover {
         color: var(--palette-White);
         background-color: var(--palette-ThemeDarkAlt);

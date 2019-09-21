@@ -1,5 +1,39 @@
 var BlazorFabricBaseComponent;
 (function (BlazorFabricBaseComponent) {
+    var _a;
+    function initializeFocusRects() {
+        if (!window.__hasInitializeFocusRects__) {
+            window.__hasInitializeFocusRects__ = true;
+            window.addEventListener("mousedown", _onFocusRectMouseDown, true);
+            window.addEventListener("keydown", _onFocusRectKeyDown, true);
+        }
+    }
+    BlazorFabricBaseComponent.initializeFocusRects = initializeFocusRects;
+    var IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
+    function _onFocusRectMouseDown(ev) {
+        if (window.document.body.classList.contains(IsFocusVisibleClassName)) {
+            window.document.body.classList.remove(IsFocusVisibleClassName);
+        }
+    }
+    function _onFocusRectKeyDown(ev) {
+        if (isDirectionalKeyCode(ev.which) && !window.document.body.classList.contains(IsFocusVisibleClassName)) {
+            window.document.body.classList.add(IsFocusVisibleClassName);
+        }
+    }
+    var DirectionalKeyCodes = (_a = {},
+        _a[38 /* up */] = 1,
+        _a[40 /* down */] = 1,
+        _a[37 /* left */] = 1,
+        _a[39 /* right */] = 1,
+        _a[36 /* home */] = 1,
+        _a[35 /* end */] = 1,
+        _a[9 /* tab */] = 1,
+        _a[33 /* pageUp */] = 1,
+        _a[34 /* pageDown */] = 1,
+        _a);
+    function isDirectionalKeyCode(which) {
+        return !!DirectionalKeyCodes[which];
+    }
     function measureElement(element) {
         var rect = {
             width: element.clientWidth,

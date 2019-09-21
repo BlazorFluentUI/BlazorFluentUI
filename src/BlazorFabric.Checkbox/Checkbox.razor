@@ -3,11 +3,12 @@
 @using Microsoft.AspNetCore.Components.Web
 @*<KeytipData keytipProps={keytipProps} disabled={disabled}>
     {(keytipAttributes: any): JSX.Element => (*@
-<div class=@($"fabricCheckbox-root ms-Checkbox-checkbox {(isChecked ? "is-checked" : "not-checked")} {(Reversed ? "reversed" : "")} {(Disabled ? "is-disabled" : "is-enabled")} {ClassName}")
+<div class=@($"ms-Checkbox {(isChecked ? "is-checked" : "not-checked")} {(Reversed ? "reversed" : "")} {(Disabled ? "is-disabled" : "is-enabled")} {ClassName}")
+     style=@Style
      @ref="RootElementReference">
     <input type="checkbox"
            id=@Id
-           class=@($"fabricCheckbox-input mediumFont" )
+           class=@($"ms-Checkbox-input mediumFont" )
            checked=@(Checked.HasValue ? Checked.Value : DefaultChecked)
            disabled=@Disabled
            @onclick=OnClick
@@ -18,12 +19,12 @@
            aria-describedby=@AriaDescribedBy
            aria-posinset=@AriaPositionInSet
            aria-setsize=@AriaSetSize />
-    <label class=@($"fabricCheckbox-label {(Reversed ? "fabricCheckbox-label-reversed" : "")} {(Disabled ? "fabricCheckbox-label-disabled" : "fabricCheckbox-label-enabled")}  {(isChecked ? "fabricCheckbox-label-checked" : "fabricCheckbox-label-unchecked")}")
+    <label class=@($"ms-Checkbox-label {(Reversed ? "ms-Checkbox-label-reversed" : "")} {(Disabled ? "ms-Checkbox-label-disabled" : "ms-Checkbox-label-enabled")}  {(isChecked ? "ms-Checkbox-label-checked" : "fabricCheckbox-label-unchecked")}")
            for="@Id">
-        <div class=@($"fabricCheckbox-checkbox ms-Checkbox-checkbox {(Reversed? "fabricCheckbox-checkbox-reversed":"")} {(Disabled ? "fabricCheckbox-checkbox-disabled" : "fabricCheckbox-checkbox-enabled")} {(isChecked ? "fabricCheckbox-checkbox-checked" : "fabricCheckbox-checkbox-unchecked")}")>
-            <i class=@($"ms-Checkbox-checkmark fabricCheckbox-checkmark {(Disabled ? "fabricCheckbox-checkmark-disabled" : "")} {(isChecked ? "fabricCheckbox-checkmark-checked" : "")} ms-Icon ms-Icon--CheckMark ") aria-hidden="true"></i>
+        <div class=@($"ms-Checkbox-checkbox {(Reversed? "fabricCheckbox-checkbox-reversed":"")} {(Disabled ? "ms-Checkbox-checkbox-disabled" : "ms-Checkbox-checkbox-enabled")} {(isChecked ? "ms-Checkbox-checkbox-checked" : "ms-Checkbox-checkbox-unchecked")}")>
+            <i class=@($"ms-Checkbox-checkmark {(Disabled ? "ms-Checkbox-checkmark-disabled" : "")} {(isChecked ? "ms-Checkbox-checkmark-checked" : "")} ms-Icon ms-Icon--CheckMark ") aria-hidden="true"></i>
         </div>
-        <span class=@($"fabricCheckbox-text ms-Checkbox-text {(Reversed ? "fabricCheckbox-text-reversed" : "")} {(Disabled ? "fabricCheckbox-text-disabled" : "")}")>@Label</span>
+        <span class=@($"ms-Checkbox-text ms-Checkbox-text {(Reversed ? "ms-Checkbox-text-reversed" : "")} {(Disabled ? "ms-Checkbox-text-disabled" : "")}")>@Label</span>
     </label>
 </div>
 @*)}

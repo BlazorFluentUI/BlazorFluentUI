@@ -1,5 +1,5 @@
 ﻿/* ROOT */
-.fabricCheckbox-root {
+.ms-Checkbox {
     display: flex;
     position: relative;
     word-wrap: break-word;
@@ -9,15 +9,26 @@
 
 /* INPUT */
 
-.fabricCheckbox-input {
+.ms-Checkbox-input {
     position: absolute;
     background: none;
     opacity: 0;
 }
 
+.ms-Fabric--isFocusVisible .ms-Checkbox-input:focus+.ms-Checkbox-label::before {
+    content:"";
+    outline: 1px solid var(--palette-NeutralSecondary);
+    outline-offset: 2px;
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible .ms-Checkbox-input:focus+.ms-Checkbox-label::before {
+        outline: 1px solid ActiveBorder;
+    }
+}
+
 /* LABEL */
 
-.fabricCheckbox-label {
+.ms-Checkbox-label {
     display: flex;
     align-items: flex-start;
     cursor: pointer;
@@ -26,65 +37,75 @@
     text-align: left;
 }
 
-.fabricCheckbox-label-reversed {
+.ms-Checkbox-label-reversed {
     flex-direction: row-reverse;
     justify-content: flex-end;
 }
 
-.fabricCheckbox-label-disabled{
-    cursor:default;
+.ms-Checkbox-label::before{
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    content:"";
+    pointer-events:none;
+}
+
+.ms-Checkbox-label-disabled {
+    cursor: default;
 }
 
 
-.fabricCheckbox-label-enabled.fabricCheckbox-label-unchecked:hover .ms-Checkbox-checkbox {
+.ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkbox {
     border-color: var(--semanticColors-InputBackgroundChecked);
 }
-.fabricCheckbox-label-enabled.fabricCheckbox-label-unchecked:focus .ms-Checkbox-checkbox {
+.ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:focus .ms-Checkbox-checkbox {
     border-color: var(--semanticColors-InputBackgroundChecked);
 }
-.fabricCheckbox-label-enabled.fabricCheckbox-label-unchecked:hover .ms-Checkbox-checkmark {
+.ms-Checkbox-label-enabled.fabricCheckbox-label-unchecked:hover .ms-Checkbox-checkmark {
     color: var(--semanticColors-InputBorder);
     opacity: 1;
 }
 
-.fabricCheckbox-label-enabled.fabricCheckbox-label-checked:hover .ms-Checkbox-checkbox {
+.ms-Checkbox-label-enabled.ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox {
     background: var(--semanticColors-InputBackgroundCheckedHovered);
     border-color: var(--semanticColors-InputBackgroundCheckedHovered);
 }
-.fabricCheckbox-label-enabled.fabricCheckbox-label-checked:focus .ms-Checkbox-checkbox {
+.ms-Checkbox-label-enabled.ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox {
     background: var(--semanticColors-InputBackgroundCheckedHovered);
     border-color: var(--semanticColors-InputBackgroundCheckedHovered);
 }
 
-.fabricCheckbox-label-enabled.fabricCheckbox-label-checked:hover .ms-Checkbox-text {
+.ms-Checkbox-label-enabled.ms-Checkbox-label-checked:hover .ms-Checkbox-text {
     color: var(--semanticColors-BodyText);
 }
-.fabricCheckbox-label-enabled.fabricCheckbox-label-checked:focus .ms-Checkbox-text {
+.ms-Checkbox-label-enabled.ms-Checkbox-label-checked:focus .ms-Checkbox-text {
     color: var(--semanticColors-BodyText);
 }
 
 @media screen and (-ms-high-contrast: active) {
-    .fabricCheckbox-label-enabled.fabricCheckbox-label-unchecked:hover .ms-Checkbox-checkbox {
+    .ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkbox {
         border-color: Highlight;
     }
-    .fabricCheckbox-label-enabled.fabricCheckbox-label-unchecked:hover .ms-Checkbox-checkmark {
+    .ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkmark {
         color: Highlight;
     }
 
-    .fabricCheckbox-label-enabled.fabricCheckbox-label-checked:hover .ms-Checkbox-checkbox {
+    .ms-Checkbox-label-enabled.ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox {
         background: Window;
         border-color: Highlight;
     }
-    .fabricCheckbox-label-enabled.fabricCheckbox-label-checked:focus .ms-Checkbox-checkbox {
+    .ms-Checkbox-label-enabled.ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox {
         background: Highlight;
     }
-    .fabricCheckbox-label-enabled.fabricCheckbox-label-checked:focus:hover .ms-Checkbox-checkbox {
+    .ms-Checkbox-label-enabled.ms-Checkbox-label-checked:focus:hover .ms-Checkbox-checkbox {
         background: Highlight;
     }
-    .fabricCheckbox-label-enabled.fabricCheckbox-label-checked:focus:hover .ms-Checkbox-checkmark {
+    .ms-Checkbox-label-enabled.ms-Checkbox-label-checked:focus:hover .ms-Checkbox-checkmark {
         color: Window;
     }
-    .fabricCheckbox-label-enabled.fabricCheckbox-label-checked:hover .ms-Checkbox-checkmark {
+    .ms-Checkbox-label-enabled.ms-Checkbox-label-checked:hover .ms-Checkbox-checkmark {
         color: Highlight;
     }
 
@@ -92,7 +113,7 @@
 
 /* CHECKBOX */
 
-.fabricCheckbox-checkbox {
+.ms-Checkbox-checkbox {
     display: flex;
     flex-shrink: 0;
     align-items: center;
@@ -113,30 +134,30 @@
     border-radius: var(--effects-RoundedCorner2);
     border-color: var(--palette-NeutralPrimary);
 }
-.fabricCheckbox-checkbox-reversed{
+.ms-Checkbox-checkbox-reversed {
     margin-right: 4px;
     margin-left: 0px;
 }
 
-.fabricCheckbox-checkbox-checked.fabricCheckbox-checkbox-enabled {
+.ms-Checkbox-checkbox-checked.ms-Checkbox-checkbox-enabled {
     background: var(--semanticColors-InputBackgroundChecked);
     border-color: var(--semanticColors-InputBackgroundChecked);
 }
-.fabricCheckbox-checkbox-disabled {
+.ms-Checkbox-checkbox-disabled {
     border-color: var(--palette-NeutralTertiaryAlt);
 }
-    .fabricCheckbox-checkbox-disabled.fabricCheckbox-checkbox-checked {
+    .ms-Checkbox-checkbox-disabled.ms-Checkbox-checkbox-checked {
         background: var(--palette-NeutralTertiaryAlt);
         border-color: var(--palette-NeutralTertiaryAlt);
     }
 
 
 @media screen and (-ms-high-contrast: active) {
-    .fabricCheckbox-checkbox-checked.fabricCheckbox-checkbox-enabled {
+    .ms-Checkbox-checkbox-checked.ms-Checkbox-checkbox-enabled {
         background: Highlight;
         border-color: Highlight;
     }
-    .fabricCheckbox-checkbox-disabled {
+    .ms-Checkbox-checkbox-disabled {
         border-color: InactiveBorder;
     }
 
@@ -144,72 +165,72 @@
 
 /* CHECKMARK */
 
-.fabricCheckbox-checkmark{
-    opacity:0;
+.ms-Checkbox-checkmark {
+    opacity: 0;
     color: var(--semanticColors-InputForegroundChecked);
     font-size: var(--fontSize-Medium);
     line-height: 20px;
 }
-.fabricCheckbox-checkmark-checked {
-    opacity:1;
+.ms-Checkbox-checkmark-checked {
+    opacity: 1;
 }
-.fabricCheckbox-checkmark-disabled.fabricCheckbox-checkmark-checked {
+.ms-Checkbox-checkmark-disabled.ms-Checkbox-checkmark-checked {
     color: var(--semanticColors-DisabledBackground);
 }
 
-.fabricCheckbox-checkmark-disabled {
+.ms-Checkbox-checkmark-disabled {
     color: var(--semanticColors-DisabledText);
 }
 
 @media screen and (-ms-high-contrast: active) {
-    .fabricCheckbox-checkmark {
+    .ms-Checkbox-checkmark {
         color: Window;
         MsHighContrastAdjust: none;
     }
-    .fabricCheckbox-checkmark-disabled {
+    .ms-Checkbox-checkmark-disabled {
         color: InactiveBorder;
     }
 }
 
 /* TEXT */
-.fabricCheckbox-text {
+.ms-Checkbox-text {
     color: var(--semanticColors-BodyText);
     font-size: var(--fontSize-Medium);
     line-height: 20px;
     margin-left: 4px;
 }
 
-.fabricCheckbox-text-reversed {
+.ms-Checkbox-text-reversed {
     margin-right: 4px;
     margin-left: 0px;
 }
 
-.fabricCheckbox-text-disabled {
+.ms-Checkbox-text-disabled {
     color: var(--semanticColors-DisabledText);
 }
 
 @media screen and (-ms-high-contrast: active) {
-    .fabricCheckbox-text-disabled {
+    .ms-Checkbox-text-disabled {
         color: InactiveBorder;
     }
 }
 
 /* FLUENT ADDITIONS */
 
-.fabricCheckbox-root.not-checked.is-enabled:hover .ms-Checkbox-text {
+.ms-Checkbox.not-checked.is-enabled:hover .ms-Checkbox-text {
     color: var(--palette-NeutralDark);
 }
 
-.fabricCheckbox-root.not-checked.is-enabled:hover .ms-Checkbox-checkmark {
+.ms-Checkbox.not-checked.is-enabled:hover .ms-Checkbox-checkmark {
     color: var(--palette-NeutralSecondary);
 }
 
-.fabricCheckbox-root.is-checked.is-enabled:hover .ms-Checkbox-checkbox {
+.ms-Checkbox.is-checked.is-enabled:hover .ms-Checkbox-checkbox {
     background: var(--palette-ThemeDark);
     border-color: var(--palette-ThemeDark);
 }
 
-.fabricCheckbox-root.is-checked.is-enabled:focus .ms-Checkbox-checkbox {
+.ms-Checkbox.is-checked.is-enabled:focus .ms-Checkbox-checkbox {
     background: var(--palette-ThemeDark);
     border-color: var(--palette-ThemeDark);
 }

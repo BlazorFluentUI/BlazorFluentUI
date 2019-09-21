@@ -1,6 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits ModalBase
 
+@*@if (IsOpen)
+{*@
 <BlazorFabric.Layer Style="ms-Modal-Layer">
     <BlazorFabric.Popup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
                               AriaLabelledBy=@TitleAriaId
@@ -18,13 +20,22 @@
                     <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay OnClick=@((ev) => OnDismiss.InvokeAsync(ev)) />
                 }
             }
-            <div class=@($"ms-Modal-main {ContainerClass}")>
+            <FocusTrapZone ClassName=@($"ms-Modal-main {ContainerClass}")
+                           Disabled=@(!IsOpen)
+                           ElementToFocusOnDismiss=@ElementToFocusOnDismiss
+                           IsClickableOutsideFocusTrap=@(IsModeless || IsClickableOutsideFocusTrap || !IsBlocking)
+                           IgnoreExternalFocusing=@IgnoreExternalFocusing
+                           ForceFocusInsideTrap=@(IsModeless ? !IsModeless : ForceFocusInsideTrap)
+                           FirstFocusableSelector=@FirstFocusableSelector
+                           FocusPreviouslyFocusedInnerElement="true"
+                           >
                 <div @ref="allowScrollOnModal"
                      class="ms-Modal-scrollableContent"
                      data-is-scrollable=true>
                     @ChildContent
                 </div>
-            </div>
+            </FocusTrapZone>
         </div>
     </BlazorFabric.Popup>
 </BlazorFabric.Layer>
+@*}*@

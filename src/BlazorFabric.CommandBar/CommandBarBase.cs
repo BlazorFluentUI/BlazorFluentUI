@@ -77,7 +77,7 @@ namespace BlazorFabric
         {
             _currentData = new CommandBarData() 
             { 
-                PrimaryItems = new System.Collections.Generic.List<ICommandBarItem>(Items), 
+                PrimaryItems = new System.Collections.Generic.List<ICommandBarItem>(Items != null ? Items : new List<ICommandBarItem>()), 
                 OverflowItems = new System.Collections.Generic.List<ICommandBarItem>(OverflowItems != null ? OverflowItems : new List<ICommandBarItem>()), 
                 FarItems = new System.Collections.Generic.List<ICommandBarItem>(FarItems != null ? FarItems : new List<ICommandBarItem>()), 
                 MinimumOverflowItems = OverflowItems != null ? OverflowItems.Count() : 0, 

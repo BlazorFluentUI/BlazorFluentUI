@@ -35,6 +35,13 @@ namespace BlazorFabric
         [Parameter] public string MaskFormat { get; set; }
         [Parameter] public string Placeholder { get; set; }
 
+        [Parameter]
+        public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
+        [Parameter]
+        public EventCallback<KeyboardEventArgs> OnKeyUp { get; set; }
+        [Parameter]
+        public EventCallback<KeyboardEventArgs> OnKeyPress { get; set; }
+
         //[Parameter]
         //protected Func<UIChangeEventArgs, Task> OnChange { get; set; }
         //[Parameter]

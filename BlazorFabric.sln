@@ -58,11 +58,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.CommandBar", "src\BlazorFabric.CommandBar\BlazorFabric.CommandBar.csproj", "{C9BE1FD4-E451-4EC5-898D-F7BE9250E335}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.CommandBar", "src\BlazorFabric.CommandBar\BlazorFabric.CommandBar.csproj", "{C9BE1FD4-E451-4EC5-898D-F7BE9250E335}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.ResizeGroup", "src\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj", "{302AE6DD-E232-40EB-9174-48C52433B18E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.ResizeGroup", "src\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj", "{302AE6DD-E232-40EB-9174-48C52433B18E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.OverflowSet", "src\BlazorFabric.OverflowSet\BlazorFabric.OverflowSet.csproj", "{B9A75D82-F614-4184-8228-81292A93E13B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.OverflowSet", "src\BlazorFabric.OverflowSet\BlazorFabric.OverflowSet.csproj", "{B9A75D82-F614-4184-8228-81292A93E13B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.FocusTrapZone", "src\BlazorFabric.FocusTrapZone\BlazorFabric.FocusTrapZone.csproj", "{530DE948-C970-4098-9ABC-C0A45CCFB17D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -166,6 +168,10 @@ Global
 		{B9A75D82-F614-4184-8228-81292A93E13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9A75D82-F614-4184-8228-81292A93E13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9A75D82-F614-4184-8228-81292A93E13B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{530DE948-C970-4098-9ABC-C0A45CCFB17D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{530DE948-C970-4098-9ABC-C0A45CCFB17D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{530DE948-C970-4098-9ABC-C0A45CCFB17D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{530DE948-C970-4098-9ABC-C0A45CCFB17D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -197,6 +203,7 @@ Global
 		{C9BE1FD4-E451-4EC5-898D-F7BE9250E335} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{302AE6DD-E232-40EB-9174-48C52433B18E} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{B9A75D82-F614-4184-8228-81292A93E13B} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{530DE948-C970-4098-9ABC-C0A45CCFB17D} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

@@ -37,6 +37,37 @@ namespace BlazorFabric
         [Parameter]
         public EventCallback<EventArgs> OnDismiss { get; set; }
 
+        // from IAccessiblePopupProps
+        [Parameter]
+        public ElementReference ElementToFocusOnDismiss { get; set; }
+
+        [Parameter]
+        public bool IgnoreExternalFocusing { get; set; }
+
+        [Parameter]
+        public bool ForceFocusInsideTrap { get; set; }
+
+        [Parameter]
+        public string FirstFocusableSelector { get; set; }
+
+        [Parameter]
+        public string CloseButtonAriaLabel { get; set; }
+
+        [Parameter]
+        public bool IsClickableOutsideFocusTrap { get; set; }
+
+        protected bool _isOpenDelayed = false;
+
         protected ElementReference allowScrollOnModal;
+
+        protected bool GetDelayedIsOpened()
+        {
+
+            //System.Timers.Timer timer = new System.Timers.Timer();
+            //timer.Interval = 16;
+            //timer.Elapsed
+
+             return IsOpen;
+        }
     }
 }

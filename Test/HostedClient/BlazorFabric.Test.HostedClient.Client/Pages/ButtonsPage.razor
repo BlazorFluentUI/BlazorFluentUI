@@ -1,0 +1,34 @@
+﻿@page "/buttonsPage"
+
+<h3>ButtonsPage</h3>
+@buttonDebug;
+
+<h4>Default</h4>
+<DefaultButton Text="Standard" Command=@buttonCommand CommandParameter=@("Default Standard") />
+<PrimaryButton Text="Primary" Command=@buttonCommand CommandParameter=@("Default Primary") />
+
+<h4>Compound</h4>
+<DefaultButton Text="Standard" SecondaryText="This is the secondary text." Command=@buttonCommand CommandParameter=@("Compound Standard") />
+<PrimaryButton Text="Primary" SecondaryText="This is the secondary text." Command=@buttonCommand CommandParameter=@("Compound Primary") />
+
+@code {
+
+    System.Windows.Input.ICommand buttonCommand;
+    int commandCount = 0;
+    bool isChecked = false;
+    string buttonDebug = "";
+
+    bool isToggled = false;
+
+    protected override Task OnInitializedAsync()
+    {
+        buttonCommand = new Utils.RelayCommand((p) =>
+        {
+            buttonDebug = $"{p.ToString()} button was clicked. {commandCount++}";
+            StateHasChanged();
+        });
+
+        return base.OnInitializedAsync();
+    }
+
+}

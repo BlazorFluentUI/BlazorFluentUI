@@ -1,0 +1,34 @@
+﻿@page  "/panelPage"
+
+<h3>PanelPage</h3>
+
+<PrimaryButton Text="Open Panel" OnClick=@Click/>
+
+<Panel IsOpen=@isOpen 
+       OnDismiss=@PanelDismiss
+       Type=@PanelType.Medium
+       HeaderText="Panel Example">
+    <p>
+        Hey, there's some content in here.
+    </p>
+</Panel>
+
+@code {
+
+    bool isOpen = false;
+
+    Task Click(MouseEventArgs args)
+    {
+        isOpen = true;
+
+        return Task.CompletedTask;
+    }
+
+    Task PanelDismiss()
+    {
+        System.Diagnostics.Debug.WriteLine("Called PanelDismiss from page");
+        isOpen = false;
+        return Task.CompletedTask;
+    }
+
+}

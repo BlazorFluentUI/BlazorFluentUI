@@ -215,6 +215,21 @@
     --zindex-KeytipLayer: 1000001;
 }
 
+:root {
+    --ScreenWidthMinSmall: 320px;
+    --ScreenWidthMinMedium: 480px;
+    --ScreenWidthMinLarge: 640px;
+    --ScreenWidthMinXLarge: 1024px;
+    --ScreenWidthMinXXLarge: 1366px;
+    --ScreenWidthMinXXXLarge: 1920px;
+
+    --ScreenWidthMaxSmall: 479px;
+    --ScreenWidthMaxMedium: 639px;
+    --ScreenWidthMaxLarge: 1023px;
+    --ScreenWidthMaxXLarge: 1365px;
+    --ScreenWidthMaxXXLarge: 1919px;
+}
+
 .smallFont {
     font-size: var(--fontSize-Small);
     font-weight: var(--fontWeight-Regular);
@@ -227,9 +242,16 @@
     font-size: var(--fontSize-Large);
     font-weight: var(--fontWeight-SemiLight);
 }
+.xlargeFont {
+    font-size: var(--fontSize-XLarge);
+    font-weight: var(--fontWeight-Light);
+}
 
 :root {
+    --animation-DURATION_1: 0.167s;
+    --animation-DURATION_2: 0.267s;
     --animation-DURATION_3: 0.367s;
+    --animation-DURATION_4: 0.467s;
     --animation-EASING_FUNCTION_1: cubic-bezier(0.1,0.9,0.2,1);
     --animation-EASING_FUNCTION_2: cubic-bezier(0.1,0.25,0.75,0.9);
 }
@@ -298,6 +320,59 @@
         transform: translate3d(0,0,0);
     }
 }
+@keyframes Slide_left_in_40 {
+    from {
+        opacity: 0;
+        transform: translate3d(40px,0,0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0,0,0);
+    }
+}
+
+
+@keyframes Slide_right_out_40 {
+    from {
+        opacity: 1;
+        transform: translate3d(0p,0,0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate3d(40px,0,0);
+    }
+}
+@keyframes Slide_left_out_40 {
+    from {
+        opacity: 1;
+        transform: translate3d(0p,0,0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate3d(-40px,0,0);
+    }
+}
+
+@keyframes Fade_in_100{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
+@keyframes Fade_out_100 {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
 
 .slideDownIn10 {
     animation: Slide_down_in_10 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
@@ -316,6 +391,23 @@
 }
 .slideLeftIn10 {
     animation: Slide_left_in_10 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
+}
+.slideLeftIn40 {
+    animation: Slide_left_in_40 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
+}
+
+.slideRightOut40 {
+    animation: Slide_right_out_40 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
+}
+.slideLeftOut40 {
+    animation: Slide_left_out_40 var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_1);
+}
+
+.fadeIn100{
+    animation: Fade_in_100 var(--animation-DURATION_1) var(--animation-EASING_FUNCTION_2);
+}
+.fadeOut100 {
+    animation: Fade_out_100 var(--animation-DURATION_1) var(--animation-EASING_FUNCTION_2);
 }
 
 

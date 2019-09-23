@@ -9,6 +9,7 @@ var BlazorFabricBaseComponent;
         }
     }
     BlazorFabricBaseComponent.initializeFocusRects = initializeFocusRects;
+    var DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
     var IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
     function _onFocusRectMouseDown(ev) {
         if (window.document.body.classList.contains(IsFocusVisibleClassName)) {
@@ -34,6 +35,14 @@ var BlazorFabricBaseComponent;
     function isDirectionalKeyCode(which) {
         return !!DirectionalKeyCodes[which];
     }
+    function getClientHeight(element) {
+        return element.clientHeight;
+    }
+    BlazorFabricBaseComponent.getClientHeight = getClientHeight;
+    function getScrollHeight(element) {
+        return element.scrollHeight;
+    }
+    BlazorFabricBaseComponent.getScrollHeight = getScrollHeight;
     function measureElement(element) {
         var rect = {
             width: element.clientWidth,

@@ -14,6 +14,7 @@
         }
     }
 
+    const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
     const IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
 
     function _onFocusRectMouseDown(ev: MouseEvent) {
@@ -51,6 +52,15 @@
         right?: number;
         bottom?: number;
     }
+
+    export function getClientHeight(element: HTMLElement): number {
+        return element.clientHeight;
+    }
+
+    export function getScrollHeight(element: HTMLElement): number {
+        return element.scrollHeight;
+    }
+
 
     export function measureElement(element: HTMLElement): IRectangle {
         var rect: IRectangle = {
@@ -420,6 +430,9 @@
         closeBracket = 221,
         singleQuote = 222
     }
+
+
+   
 
 }
 

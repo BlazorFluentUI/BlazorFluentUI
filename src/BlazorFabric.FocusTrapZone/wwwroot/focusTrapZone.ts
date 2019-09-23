@@ -286,7 +286,7 @@ namespace BlazorFabricFocusTrapZone {
     //    }
     //}
 
-    function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {
+    export function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {
         let isContained = false;
         if (parent && child) {
             if (allowVirtualParents) {

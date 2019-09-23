@@ -32,6 +32,7 @@
     <ProjectReference Include="..\..\..\src\BlazorFabric.Modal\BlazorFabric.Modal.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Nav\BlazorFabric.Nav.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.OverflowSet\BlazorFabric.OverflowSet.csproj" />
+    <ProjectReference Include="..\..\..\src\BlazorFabric.Panel\BlazorFabric.Panel.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.TextField\BlazorFabric.TextField.csproj" />
     <ProjectReference Include="..\BlazorFabric.Test.HostedClient.Shared\BlazorFabric.Test.HostedClient.Shared.csproj" />

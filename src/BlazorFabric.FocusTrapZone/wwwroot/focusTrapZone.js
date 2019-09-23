@@ -232,6 +232,7 @@ var BlazorFabricFocusTrapZone;
         }
         return isContained;
     }
+    BlazorFabricFocusTrapZone.elementContains = elementContains;
     function getParent(child) {
         return child && (child.parentNode && child.parentNode);
     }

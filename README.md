@@ -5,8 +5,8 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
-- v1.2.6 (aspnetcore-3.0 out of preview!)
-	- Fixed `Overlay` so that is blocked body scrolling
+- v1.2.6 *(aspnetcore-3.0 out of preview!)*
+	- Fixed `Overlay` so that it blocks body scrolling
 	- Added `Panel`
 	- Added `FocusTrapZone` (and added it to `Modal` to make focus interactions work better)
 - v1.2.2-preview9

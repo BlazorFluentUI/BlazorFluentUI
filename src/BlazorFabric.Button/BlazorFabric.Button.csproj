@@ -2,28 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <IsPackable>true</IsPackable>
-    <RestoreAdditionalProjectSources>
-      https://dotnet.myget.org/F/aspnetcore-dev/api/v3/index.json;
-      https://dotnet.myget.org/F/blazor-dev/api/v3/index.json;
-    </RestoreAdditionalProjectSources>
-    <LangVersion>7.3</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <Authors>Lee McPherson</Authors>
-    <Product></Product>
     <Description>Buttons from Blazor port of Office Fabric UI</Description>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-
-  <!--<ItemGroup>
-    <None Remove="wwwroot\button-action.css" />
-    <None Remove="wwwroot\button-default.css" />
-    <None Remove="wwwroot\button.css" />
-  </ItemGroup>-->
+   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
@@ -31,16 +12,9 @@
     <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <!--<None Include="wwwroot\button-primary.css" />-->
-  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-rc1.19457.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
   </ItemGroup>
 
 </Project>

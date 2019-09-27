@@ -1,14 +1,33 @@
 ﻿@namespace BlazorFabric
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
 @inherits FabricComponentBase
+@implements IDisposable
 
 <div class=@("mediumFont ms-Overlay " + (IsDarkThemed ? "ms-Overlay--dark" : "") + " " + ClassName)
      @onclick="OnClick" />
 
 @code{
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; }
+
     [Parameter]
     public bool IsDarkThemed { get; set; } = false;
 
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.disableBodyScroll");
+        }
+
+    }
+
+    public async void Dispose()
+    {
+        await JSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.enableBodyScroll");
+    }
 }

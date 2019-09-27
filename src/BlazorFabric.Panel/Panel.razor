@@ -13,7 +13,7 @@ else
            ClassName=@(!IsOpen && !isAnimating && IsHiddenOnDismiss ? "ms-Panel-hiddenPanel" : "")>
         <div aria-hidden=@(!IsOpen && isAnimating)
              @ref="panelElement"
-             class=@($"mediumFont ms-Panel{(HasCloseButton?" ms-Panel--hasCloseButton":"")}{GetTypeCss()}")>
+             class=@($"mediumFont ms-Panel{(HasCloseButton?" ms-Panel--hasCloseButton":"")}{GetTypeCss()} {this.ClassName}")>
             @if (IsBlocking && IsOpen)
             {
                 <Overlay ClassName=@($"ms-Panel-overlay{(isAnimating && IsOpen ? " fadeIn100":"")}{(isAnimating && !IsOpen ? " fadeOut100":"")}")

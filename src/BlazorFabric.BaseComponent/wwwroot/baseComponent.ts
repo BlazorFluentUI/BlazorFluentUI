@@ -53,6 +53,37 @@
         bottom?: number;
     }
 
+    // Disable/enable bodyscroll for overlay
+
+    var _bodyScrollDisabledCount: number = 0;
+
+    export function enableBodyScroll() : void {
+        if (_bodyScrollDisabledCount > 0) {
+
+            if (_bodyScrollDisabledCount === 1) {
+                document.body.classList.remove("disabledBodyScroll");
+                document.body .removeEventListener('touchmove', _disableIosBodyScroll);
+            }
+
+            _bodyScrollDisabledCount--;
+        }
+    }
+
+    export function disableBodyScroll(): void {
+        if (!_bodyScrollDisabledCount) {
+            document.body.classList.add("disabledBodyScroll");
+            document.body.addEventListener('touchmove', _disableIosBodyScroll, { passive: false, capture: false });
+        }
+
+        _bodyScrollDisabledCount++;
+    }
+
+    const _disableIosBodyScroll = (event: TouchEvent) => {
+        event.preventDefault();
+    };
+
+    // end
+
     export function getClientHeight(element: HTMLElement): number {
         return element.clientHeight;
     }

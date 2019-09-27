@@ -423,3 +423,7 @@ normalize {
     padding: 0px;
     box-sizing: border-box;
 }
+
+.disabledBodyScroll{
+    overflow: hidden !important;
+}

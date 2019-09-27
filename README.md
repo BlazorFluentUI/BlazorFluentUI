@@ -9,6 +9,7 @@ https://blazorfabric.azurewebsites.net/
 	- Fixed `Overlay` so that it blocks body scrolling
 	- Added `Panel`
 	- Added `FocusTrapZone` (and added it to `Modal` to make focus interactions work better)
+	- disregard previous fix!  Current guidelines are that devs must manually add js and css files to your html files.  See the sample for a copy/paste opportunity.
 - v1.2.2-preview9
 	- Fixed new components so they would automatically add their css/js to your index.html in client-side blazor
 	  (This is temporary.  You're supposed to add them in manually anyways.  This will stop working in a future version of Blazor)

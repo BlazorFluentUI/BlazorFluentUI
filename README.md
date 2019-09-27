@@ -5,6 +5,10 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
+- v1.2.6 (aspnetcore-3.0 out of preview!)
+	-Fixed `Overlay` so that is blocked body scrolling
+	-Added `Panel`
+	-Added `FocusTrapZone` (and added it to `Modal` to make focus interactions work better)
 - v1.2.2-preview9
 	- Fixed new components so they would automatically add their css/js to your index.html in client-side blazor
 	  (This is temporary.  You're supposed to add them in manually anyways.  This will stop working in a future version of Blazor)
@@ -34,7 +38,8 @@ https://blazorfabric.azurewebsites.net/
 - CommandBar - done!
 - ResizeGroup - done!
 - OverflowSet - done!
-
+- FocusTrapZone - done!
+- Panel - done!
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 

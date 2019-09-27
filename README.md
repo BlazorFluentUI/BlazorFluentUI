@@ -6,9 +6,9 @@ https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
 - v1.2.6 (aspnetcore-3.0 out of preview!)
-	-Fixed `Overlay` so that is blocked body scrolling
-	-Added `Panel`
-	-Added `FocusTrapZone` (and added it to `Modal` to make focus interactions work better)
+	- Fixed `Overlay` so that is blocked body scrolling
+	- Added `Panel`
+	- Added `FocusTrapZone` (and added it to `Modal` to make focus interactions work better)
 - v1.2.2-preview9
 	- Fixed new components so they would automatically add their css/js to your index.html in client-side blazor
 	  (This is temporary.  You're supposed to add them in manually anyways.  This will stop working in a future version of Blazor)

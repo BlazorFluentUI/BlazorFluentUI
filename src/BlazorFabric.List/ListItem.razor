@@ -9,7 +9,7 @@
 
 <div @ref="RootElementReference"
      role="listitem"
-     class=@($"ms-List-cell fabricList-item {(IsActive ? "is-active" : "")}")
+     class=@($"ms-List-cell {(IsActive ? "is-active" : "")}")
      @onclick="@(e=>OnItemClick(e))">
     @ChildContent
 </div>

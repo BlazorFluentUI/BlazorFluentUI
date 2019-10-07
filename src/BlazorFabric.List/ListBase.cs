@@ -182,10 +182,10 @@ namespace BlazorFabric
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            var rect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", this.RootElementReference);
-            _height = rect.height;
+            var surfaceRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", this.surfaceDiv);
+            _height = surfaceRect.height;
             //height = scrollDivInfo["height"];
-            System.Diagnostics.Debug.WriteLine($"List JS passed!  {rect.width}/{rect.height}");
+            System.Diagnostics.Debug.WriteLine($"List JS passed!  {surfaceRect.width}/{surfaceRect.height}");
 
             if (heightSub != null)
             {
@@ -199,7 +199,7 @@ namespace BlazorFabric
                 if (isFirstRender && x.index == 0)
                 {
                     averagePageHeight = x.height;
-                    var aheadSpace = rect.height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
+                    var aheadSpace = surfaceRect.height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
                     minRenderedPage = 0;
                     if (averagePageHeight != 0)
                         maxRenderedPage = (int)Math.Ceiling(aheadSpace / averagePageHeight);
@@ -237,7 +237,7 @@ namespace BlazorFabric
         {
             try
             {
-                var scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureScrollWindow", this.RootElementReference);
+                var scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureScrollWindow", this.surfaceDiv);
                 //Debug.WriteLine($"top: {scrollRect["top"]}");
                 Debug.WriteLine(scrollRect.ToString());
                 Debug.WriteLine(_height);

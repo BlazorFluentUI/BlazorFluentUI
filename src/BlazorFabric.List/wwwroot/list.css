@@ -3,20 +3,30 @@
     used from a library project/package.
 */
 
-.fabricList {
-    overflow: auto;
-    height:400px;
+.ms-List-root {
+    height:100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
-.fabricList-item {
+.ms-List{
+    height:100%;
+}
+
+.ms-List-surface{
+    height:100%;
+    overflow-y:auto;
+}
+
+.ms-List-cell {
     padding: 10px;
     box-sizing: border-box;
     border-bottom: 1px solid var(--semanticColors-BodyDivider);
     display: flex;
 }
-.fabricList-item:hover {
-    background-color: var(--palette-NeutralLighter);
-}
-.fabricList-item.is-active {
-    background-color: var(--palette-NeutralLight);
-}
+    .ms-List-cell:hover {
+        background-color: var(--palette-NeutralLighter);
+    }
+    .ms-List-cell.is-active {
+        background-color: var(--palette-NeutralLight);
+    }

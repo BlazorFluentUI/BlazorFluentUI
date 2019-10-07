@@ -32,7 +32,8 @@ app {
 
 .main {
     flex: 1;
-    overflow-x:hidden;
+    overflow:hidden;
+    height: 100vh;
 }
 
     .main .top-row {
@@ -41,6 +42,8 @@ app {
     }
 
 .sidebar {
+    overflow-y:auto;
+    overflow-x:hidden;
     /*background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);*/
 }
 
@@ -92,7 +95,7 @@ app {
         }
 
 .content {
-    padding-top: 1.1rem;
+    /*padding-top: 1.1rem;*/
 }
 
 .navbar-toggler {

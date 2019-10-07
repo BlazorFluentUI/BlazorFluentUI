@@ -338,3 +338,22 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/src/BlazorFabric.Layer/assetPrefs.xml
+/src/BlazorFabric.Label/assetPrefs.xml
+/src/BlazorFabric.Icon/assetPrefs.xml
+/src/BlazorFabric.FocusTrapZone/assetPrefs.xml
+/src/BlazorFabric.Dropdown/assetPrefs.xml
+/src/BlazorFabric.ContextualMenu/assetPrefs.xml
+/src/BlazorFabric.CommandBar/assetPrefs.xml
+/src/BlazorFabric.Checkbox/assetPrefs.xml
+/src/BlazorFabric.Callout/assetPrefs.xml
+/src/BlazorFabric.Button/assetPrefs.xml
+/src/BlazorFabric.List/assetPrefs.xml
+/src/BlazorFabric.TextField/assetPrefs.xml
+/src/BlazorFabric.ResizeGroup/assetPrefs.xml
+/src/BlazorFabric.Popup/assetPrefs.xml
+/src/BlazorFabric.Panel/assetPrefs.xml
+/src/BlazorFabric.Overlay/assetPrefs.xml
+/src/BlazorFabric.OverflowSet/assetPrefs.xml
+/src/BlazorFabric.Nav/assetPrefs.xml
+/src/BlazorFabric.Modal/assetPrefs.xml

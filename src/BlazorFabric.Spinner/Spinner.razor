@@ -1,0 +1,19 @@
+﻿@namespace BlazorFabric
+
+@inherits SpinnerBase
+
+    <div class=@($"{ClassName} ms-Spinner{GetPositionStyle()}")>
+        <div class=@($"ms-Spinner-circle{GetSpinnerSizeStyle()}") />
+        @if (Label != null)
+        {
+            <div class=@($"smallFont ms-Spinner-label")>@Label</div>
+        }
+        @if (StatusMessage != null)
+        {
+            <div role="status" aria-live=@GetAriaLive()>
+                <DelayedRender>
+                    <div class="ms-Spinner-screenReaderText">@AriaLabel</div>
+                </DelayedRender>
+            </div>
+        }
+    </div>

@@ -64,9 +64,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.ResizeGroup", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.OverflowSet", "src\BlazorFabric.OverflowSet\BlazorFabric.OverflowSet.csproj", "{B9A75D82-F614-4184-8228-81292A93E13B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.FocusTrapZone", "src\BlazorFabric.FocusTrapZone\BlazorFabric.FocusTrapZone.csproj", "{530DE948-C970-4098-9ABC-C0A45CCFB17D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.FocusTrapZone", "src\BlazorFabric.FocusTrapZone\BlazorFabric.FocusTrapZone.csproj", "{530DE948-C970-4098-9ABC-C0A45CCFB17D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.Panel", "src\BlazorFabric.Panel\BlazorFabric.Panel.csproj", "{30E49935-4A5F-403B-9F8D-EF204640A40A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Panel", "src\BlazorFabric.Panel\BlazorFabric.Panel.csproj", "{30E49935-4A5F-403B-9F8D-EF204640A40A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.Spinner", "src\BlazorFabric.Spinner\BlazorFabric.Spinner.csproj", "{B9E6DF8E-8EB7-48A2-BC51-1A53AF65D393}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,6 +180,10 @@ Global
 		{30E49935-4A5F-403B-9F8D-EF204640A40A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30E49935-4A5F-403B-9F8D-EF204640A40A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30E49935-4A5F-403B-9F8D-EF204640A40A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9E6DF8E-8EB7-48A2-BC51-1A53AF65D393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9E6DF8E-8EB7-48A2-BC51-1A53AF65D393}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9E6DF8E-8EB7-48A2-BC51-1A53AF65D393}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9E6DF8E-8EB7-48A2-BC51-1A53AF65D393}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -211,6 +217,7 @@ Global
 		{B9A75D82-F614-4184-8228-81292A93E13B} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{530DE948-C970-4098-9ABC-C0A45CCFB17D} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{30E49935-4A5F-403B-9F8D-EF204640A40A} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{B9E6DF8E-8EB7-48A2-BC51-1A53AF65D393} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

@@ -41,6 +41,7 @@ https://blazorfabric.azurewebsites.net/
 - OverflowSet - done!
 - FocusTrapZone - done!
 - Panel - done!
+- Spinner - done!
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 

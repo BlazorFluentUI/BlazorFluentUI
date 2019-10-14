@@ -25,7 +25,7 @@ https://blazorfabric.azurewebsites.net/
 - v1.1.0-preview9 
     - Breaking changes: Changed all namespaces to `BlazorFabric`.  No more sub-namespaces using the control's name.
 
-## Status - all updated to preview9 (That was a big one!)
+## Status
 - Label -done
 - DefaultButton, PrimaryButton, ActionButton, IconButton, CommandButton -working
 - Checkbox -done, except for icons

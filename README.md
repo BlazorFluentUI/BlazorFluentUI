@@ -36,7 +36,7 @@ https://blazorfabric.azurewebsites.net/
 - ContextualMenu - done! (except for Callout positioning bug)
 - Callout (part of ContextMenu) -working, not positioning perfectly
 - Layer (part of Callout) -done?  only layers at root window right now.
-- Dropdown -done? working well 
+- Dropdown -done? working well, but affected by Callout positioning bug
 - Modal -done!, no modeless version
 - CommandBar - done!
 - ResizeGroup - done!

@@ -5,6 +5,8 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
+- upcoming
+	- Added `Spinner`
 - v1.2.6 *(aspnetcore-3.0 out of preview!)*
 	- Fixed `Overlay` so that it blocks body scrolling
 	- Added `Panel`

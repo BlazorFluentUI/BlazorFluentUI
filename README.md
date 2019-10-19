@@ -5,6 +5,11 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
+- upcoming
+	- Added `Spinner`
+	- Added `Persona`
+	- Added `Image`
+	- Added `Tooltip`
 - v1.2.6 *(aspnetcore-3.0 out of preview!)*
 	- Fixed `Overlay` so that it blocks body scrolling
 	- Added `Panel`
@@ -23,7 +28,7 @@ https://blazorfabric.azurewebsites.net/
 - v1.1.0-preview9 
     - Breaking changes: Changed all namespaces to `BlazorFabric`.  No more sub-namespaces using the control's name.
 
-## Status - all updated to preview9 (That was a big one!)
+## Status of Controls
 - Label -done
 - DefaultButton, PrimaryButton, ActionButton, IconButton, CommandButton -working
 - Checkbox -done, except for icons
@@ -34,13 +39,18 @@ https://blazorfabric.azurewebsites.net/
 - ContextualMenu - done! (except for Callout positioning bug)
 - Callout (part of ContextMenu) -working, not positioning perfectly
 - Layer (part of Callout) -done?  only layers at root window right now.
-- Dropdown -done? working well 
+- Dropdown -done? working well, but affected by Callout positioning bug
 - Modal -done!, no modeless version
 - CommandBar - done!
 - ResizeGroup - done!
 - OverflowSet - done!
 - FocusTrapZone - done!
 - Panel - done!
+- Spinner - done!
+- Tooltip - limited functionality.  will show, but can't interact with it yet, doesn't respond to overflow yet.
+- Persona - done?
+- Image - done!
+- Spinner - done!
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 

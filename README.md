@@ -28,7 +28,7 @@ https://blazorfabric.azurewebsites.net/
 - v1.1.0-preview9 
     - Breaking changes: Changed all namespaces to `BlazorFabric`.  No more sub-namespaces using the control's name.
 
-## Status
+## Status of Controls
 - Label -done
 - DefaultButton, PrimaryButton, ActionButton, IconButton, CommandButton -working
 - Checkbox -done, except for icons
@@ -46,6 +46,10 @@ https://blazorfabric.azurewebsites.net/
 - OverflowSet - done!
 - FocusTrapZone - done!
 - Panel - done!
+- Spinner - done!
+- Tooltip - limited functionality.  will show, but can't interact with it yet, doesn't respond to overflow yet.
+- Persona - done?
+- Image - done!
 - Spinner - done!
 
 ## Info

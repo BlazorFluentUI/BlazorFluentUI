@@ -78,6 +78,25 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.measureElement = measureElement;
     ;
+    function getNaturalBounds(image) {
+        var rect = {
+            width: image.naturalWidth,
+            height: image.naturalHeight,
+            left: 0,
+            top: 0
+        };
+        return rect;
+    }
+    BlazorFabricBaseComponent.getNaturalBounds = getNaturalBounds;
+    ;
+    function supportsObjectFit() {
+        return window !== undefined && window.navigator.msMaxTouchPoints === undefined;
+    }
+    BlazorFabricBaseComponent.supportsObjectFit = supportsObjectFit;
+    function hasOverflow(element) {
+        return false;
+    }
+    BlazorFabricBaseComponent.hasOverflow = hasOverflow;
     function measureScrollWindow(element) {
         var rect = {
             width: element.scrollWidth,

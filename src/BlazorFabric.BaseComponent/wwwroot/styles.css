@@ -356,7 +356,7 @@
     }
 }
 
-@keyframes Fade_in_100{
+@keyframes Fade_in{
     from{
         opacity:0;
     }
@@ -364,7 +364,7 @@
         opacity:1;
     }
 }
-@keyframes Fade_out_100 {
+@keyframes Fade_out {
     from {
         opacity: 1;
     }
@@ -404,10 +404,18 @@
 }
 
 .fadeIn100{
-    animation: Fade_in_100 var(--animation-DURATION_1) var(--animation-EASING_FUNCTION_2);
+    animation: Fade_in var(--animation-DURATION_1) var(--animation-EASING_FUNCTION_2);
 }
 .fadeOut100 {
-    animation: Fade_out_100 var(--animation-DURATION_1) var(--animation-EASING_FUNCTION_2);
+    animation: Fade_out var(--animation-DURATION_1) var(--animation-EASING_FUNCTION_2);
+}
+
+.fadeIn200 {
+    animation: Fade_in var(--animation-DURATION_2) var(--animation-EASING_FUNCTION_2);
+}
+
+.fadeIn400 {
+    animation: Fade_in var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_2);
 }
 
 

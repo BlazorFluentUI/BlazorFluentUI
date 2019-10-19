@@ -1,0 +1,61 @@
+﻿@namespace BlazorFabric
+@inherits PersonaCoinBase
+
+<div class=@($"{ClassName} mediumFont ms-Persona-coin")>
+    @if(Size != PersonaSize.Size8)
+    {
+    <div class="ms-Persona-imageArea" style=@GetImageAreaStyle()>
+        @if (ShouldRenderInitials)
+        {
+            <div class=@($"ms-Persona-initials{(ShowUnknownPersonaCoin? " ms-Personal-initials--showUnknownPersonaCoin" : "")}")
+                 style=@GetInitialsStyle()
+                 aria-hidden="true">
+                @if (ShowUnknownPersonaCoin)
+                {
+                    <Icon IconName="Help" />
+                }
+                else
+                {
+                    var initials = GetInitials(Text, false, AllowPhoneInitials);
+                    if (initials != "")
+                    {
+                        <span>@initials</span>
+                    }
+                    else
+                    {
+                        <Icon IconName="Contact" />
+                    }
+                }
+            </div>
+        }
+        @if (ImageUrl != null)
+        {
+            var dimension = CoinSize != -1 ? CoinSize : sizeToPixels[Size];
+            <Image Src=@ImageUrl
+                   ClassName="ms-Persona-image"
+                   ImageFit=@ImageFit.Cover
+                   Width=@dimension
+                   Height=@dimension
+                   Style=@GetImageStyle()
+                   Alt=@ImageAlt 
+                   ShouldFadeIn=@ImageShouldFadeIn
+                   ShouldStartVisible=@ImageShouldStartVisible
+                   OnLoadingStateChange=@OnPhotoLoadingStateChange
+                   />
+        }
+        <PersonaPresence CoinSize=@CoinSize IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle Size=@Size />
+    </div>
+    }
+    else
+    {
+        if (Presence != PersonaPresenceStatus.None)
+        {
+            <PersonaPresence CoinSize=@CoinSize IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle Size=@Size />
+        }
+        else
+        {
+            <Icon IconName="Contact" ClassName="ms-Persona-size10WithoutPresenceIcon" />
+        }
+    }
+    @ChildContent
+</div>

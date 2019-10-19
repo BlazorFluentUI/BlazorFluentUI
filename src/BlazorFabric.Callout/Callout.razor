@@ -4,7 +4,7 @@
 
 <BlazorFabric.Layer @ref="layerReference">
     <div class="ms-Callout-container" @ref="RootElementReference" style=@($"{(this.Hidden ? "visibility: hidden;" : "")}")>
-        <div class=@($"ms-Callout mediumFont {GetAnimationStyle()} {CalloutPosition.TargetEdge.ToString()}")
+        <div class=@($"ms-Callout mediumFont {GetAnimationStyle()} {CalloutPosition.TargetEdge.ToString()} {ClassName}")
              @ref="calloutReference"
              style=@($"{CalloutPosition.ElementRectangle.GetStyle()} {(CalloutWidth > 0 ? "width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")
              tabindex="-1">

@@ -24,9 +24,7 @@ namespace BlazorFabric
         }
 
         public async Task<Rectangle> GetBoundsAsync()
-        {
-            //if (ComponentContext.IsConnected)
-            //{
+        {            
             try
             {
                 var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", RootElementReference);
@@ -37,7 +35,19 @@ namespace BlazorFabric
                 return new Rectangle();
             }
         }
-                
+
+        public async Task<Rectangle> GetBoundsAsync(ElementReference elementReference)
+        {
+            try
+            {
+                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", elementReference);
+                return rectangle;
+            }
+            catch
+            {
+                return new Rectangle();
+            }
+        }
 
     }
 }

@@ -1,0 +1,23 @@
+﻿@namespace BlazorFabric
+@inherits TooltipBase
+
+
+<Callout ClassName="mediumFont fadeIn200 ms-Tooltip"
+         FabricComponentTarget=@FabricComponentTarget
+         DirectionalHint=@DirectionalHint
+         Style=@($"max-width:{MaxWidth}px;")
+         BeakWidth=@BeakWidth
+         GapSpace="0"
+         DoNotLayer="false"
+         IsBeakVisible="true"
+         >
+    <div class="ms-Tooltip-content smallFont"
+         @onmouseenter=@OnMouseEnter
+         @onmouseleave=@OnMouseLeave
+         role="tooltip"
+         >
+        <p class="ms-Tooltip-subtext">
+            @ChildContent
+        </p>
+    </div>
+</Callout>

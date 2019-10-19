@@ -103,6 +103,24 @@
         return rect;
     };
 
+    export function getNaturalBounds(image: HTMLImageElement): IRectangle {
+        var rect: IRectangle = {
+            width: image.naturalWidth,
+            height: image.naturalHeight,
+            left: 0,
+            top: 0
+        }
+        return rect;
+    };
+
+    export function supportsObjectFit(): boolean {
+        return window !== undefined && window.navigator.msMaxTouchPoints === undefined;
+    }
+
+    export function hasOverflow(element:HTMLElement): boolean {
+        return false;
+    }
+
     export function measureScrollWindow(element: HTMLElement): IRectangle {
         var rect: IRectangle = {
             width: element.scrollWidth,

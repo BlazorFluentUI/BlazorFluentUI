@@ -1,0 +1,11 @@
+﻿@namespace BlazorFabric
+@inherits PersonaPresenceBase
+
+    <div class="ms-Persona-presence"
+         style=@GetSizeStyle()
+         title=@PresenceTitle>
+        @if (RenderIcon)
+        {
+            <Icon ClassName="ms-Persona-icon" IconName=@DetermineIcon(Presence, IsOutOfOffice) Style=@GetIconStyle() />
+        }
+    </div>

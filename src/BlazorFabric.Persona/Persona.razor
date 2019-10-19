@@ -1,0 +1,56 @@
+﻿@namespace BlazorFabric
+@inherits PersonaBase
+
+    <div class=@($"{ClassName} mediumFont ms-Persona") style=@($"{GetRootStyles()} {Style}")>
+        
+        <PersonaCoin AllowPhoneInitials=@AllowPhoneInitials CoinSize=@CoinSize ImageAlt=@ImageAlt  ImageShouldFadeIn=@ImageShouldFadeIn ImageShouldStartVisible=@ImageShouldStartVisible
+                     ImageUrl=@ImageUrl  IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle  ShowInitialsUntilImageLoads=@ShowInitialsUntilImageLoads
+                     ShowUnknownPersonaCoin=@ShowUnknownPersonaCoin Size=@Size Text=@Text />
+
+        @if(!HidePersonalDetails || Size == PersonaSize.Size8)
+        {
+        <div class="ms-Persona-details" style=@GetDetailsStyles()>
+            <div dir="auto" class="ms-Persona-primaryText" style=@GetPrimaryTextStyles() >
+                <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @Text
+                    </ChildContent>
+                    <TooltipContent>
+                        @Text
+                    </TooltipContent>
+                </TooltipHost>
+            </div>
+            <div dir="auto" class="ms-Persona-secondaryText"  style=@GetSecondaryTextStyles() >
+                <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @SecondaryText
+                    </ChildContent>
+                    <TooltipContent>
+                        @SecondaryText
+                    </TooltipContent>
+                </TooltipHost>
+            </div>
+            <div dir="auto" class="ms-Persona-tertiaryText" style=@GetTertiaryTextStyles() >
+                <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @TertiaryText
+                    </ChildContent>
+                    <TooltipContent>
+                        @TertiaryText
+                    </TooltipContent>
+                </TooltipHost>
+            </div>
+            <div dir="auto" class="ms-Persona-optionalText" style=@GetOptionalTextStyles() >
+                <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @OptionalText
+                    </ChildContent>
+                    <TooltipContent>
+                        @OptionalText
+                    </TooltipContent>
+                </TooltipHost>
+            </div>
+            @ChildContent
+        </div>
+        }
+    </div>

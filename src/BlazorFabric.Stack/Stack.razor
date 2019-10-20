@@ -1,25 +1,6 @@
 ﻿@namespace BlazorFabric
 @inherits StackBase
 
-@*@if (Reversed)
-{
-    <style>
-        @($"#{Id}.ms-Stack")
-        > * :not(:last-child) {
-            @(Horizontal ? $"margin-left:{columnGap}px;" : $"margin-top:{rowGap}px;")
-        }
-    </style>
-}
-else
-{
-    <style>
-        @($"#{Id}.ms-Stack")
-        > * :not(:first-child) {
-            @(Horizontal ? $"margin-left:{columnGap}px;" : $"margin-top:{rowGap}px;")
-        }
-    </style>
-}*@
-
 <style>
     @($"#{Id}.ms-Stack") > * {
         text-overflow: ellipsis;
@@ -39,8 +20,7 @@ else
     @($"#{Id}") .ms-Stack-inner > *:not(.ms-StackItem){
         flex-shrink: @(DisableShrink ? "0" : "1");
     }
-    @(Horizontal ? $"{Id}.ms-Stack-inner > * {{max-width:{(columnGap == 0  ? "100%" : $"calc(100% - {columnGap}px)")};}}" : $"{Id}.ms-Stack-inner > * {{max-height:{(rowGap == 0  ? "100%" : $"calc(100% - {rowGap}px)")};}}")
-
+    @(Horizontal ? $"#{Id}.ms-Stack-inner > * {{max-width:{(columnGap == 0  ? "100%" : $"calc(100% - {columnGap}px)")};}}" : $"#{Id}.ms-Stack-inner > * {{max-height:{(rowGap == 0  ? "100%" : $"calc(100% - {rowGap}px)")};}}")
 </style>
 
 @if (Wrap)

@@ -13,7 +13,8 @@ namespace BlazorFabric
         protected string horizontalMargin;
         protected string verticalMargin;
 
-        protected string Id { get; set; } = Guid.NewGuid().ToString();
+        private string _id = "g" + Guid.NewGuid().ToString();  //id selectors can't begin with a number
+        protected string Id => _id; 
 
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public bool DisableShrink { get; set; } = false;
@@ -122,6 +123,7 @@ namespace BlazorFabric
                 style += "box-sizing:border-box;";
                 style += $"padding:{Tokens.Padding?.AsPixels};";
                 style += $"width:{(columnGap==0 ? "100%" : $"calc(100% + {columnGap}px)")};";
+                style += "max-width:100vw;";
 
                 if (HorizontalAlign != Alignment.Unset)
                     style += $"{(Horizontal ? "justify-content" : "align-items")}:{CssUtils.AlignMap[HorizontalAlign]};";

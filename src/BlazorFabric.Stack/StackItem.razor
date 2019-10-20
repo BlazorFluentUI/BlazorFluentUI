@@ -1,0 +1,9 @@
+﻿@namespace BlazorFabric
+@inherits StackItemBase
+
+@if(ChildContent != null)
+{
+    <div class="mediumFont ms-StackItem" style=@GetStyles()>
+        @ChildContent
+    </div>
+}

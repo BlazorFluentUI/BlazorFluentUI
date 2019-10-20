@@ -96,8 +96,8 @@ app {
 
 .content {
     /*padding-top: 1.1rem;*/
-    overflow-y:auto;
-    height:100%;
+    overflow-y: auto;
+    height: calc(100% - 53.5px);
 }
 
 .navbar-toggler {

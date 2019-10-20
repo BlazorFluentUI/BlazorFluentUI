@@ -3,7 +3,7 @@
 
 @if(ChildContent != null)
 {
-    <div class="mediumFont ms-StackItem" style=@GetStyles()>
+    <div class="mediumFont ms-StackItem" style=@($"{GetStyles()}{Style}")>
         @ChildContent
     </div>
 }

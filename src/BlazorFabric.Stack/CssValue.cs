@@ -20,7 +20,7 @@ namespace BlazorFabric
 
         public string AsPixels => (Value is string ? (string)Value : (Value is double ? (double)Value + "px" : ""));
         public bool AsBooleanTrueExplicit => (Value is bool ? (bool)Value : false);
-        public string AsString => (Value is string ? (string)Value : (Value is Css ? ((Css)Value).ToString() : "0"));
+        public string AsString => (Value is string ? (string)Value : (Value is Css ? ((Css)Value).ToString() : (Value is double ? ((double)Value).ToString() : "0")));
     }
 
     public enum Css

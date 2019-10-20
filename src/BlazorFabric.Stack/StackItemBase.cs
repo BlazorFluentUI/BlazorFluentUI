@@ -22,28 +22,24 @@ namespace BlazorFabric
         {
             string style = "";
 
-            style += $"margin:{Tokens.Margin.AsPixels};";
-            style += $"padding:{Tokens.Padding.AsPixels};";
+            if (Tokens.Margin != null)
+                style += $"margin:{Tokens.Margin.AsPixels};";
+            if (Tokens.Padding != null)
+                style += $"padding:{Tokens.Padding.AsPixels};";
             style += $"height:{(VerticalFill ? "100%" : "auto")};";
             style += "width:auto;";
 
             if (Grow != null)
-            {
                 style += $"flex-grow:{(Grow.AsBooleanTrueExplicit == true ? "1" : Grow.AsString)};";
-            }
+            
             if (DisableShrink || (Grow!= null && Shrink != null))
-            {
                 style += "flex-shrink:0;";
-            }
+            
             if (Align != Alignment.Unset)
-            {
                 style += $"align-self:{CssUtils.AlignMap[Align]};";
-            }
+            
             if (Order.HasValue)
-            {
                 style += $"order:{Order.Value.ToString()};";
-            }
-
 
             return style;
         }

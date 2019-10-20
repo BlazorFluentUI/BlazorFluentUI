@@ -10,6 +10,7 @@ https://blazorfabric.azurewebsites.net/
 	- Added `Persona`
 	- Added `Image`
 	- Added `Tooltip`
+	- Added `Stack`
 - v1.2.6 *(aspnetcore-3.0 out of preview!)*
 	- Fixed `Overlay` so that it blocks body scrolling
 	- Added `Panel`

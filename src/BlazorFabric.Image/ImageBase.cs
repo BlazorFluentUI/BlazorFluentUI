@@ -73,6 +73,7 @@ namespace BlazorFabric
                 imageLoadState = ImageLoadState.Loaded;
                 await OnLoadingStateChange.InvokeAsync(imageLoadState);
             }
+            StateHasChanged();
         }
 
         protected Task OnImageError(EventArgs eventArgs)

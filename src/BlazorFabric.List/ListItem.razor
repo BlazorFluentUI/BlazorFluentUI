@@ -1,11 +1,6 @@
 @namespace BlazorFabric
 @using Microsoft.AspNetCore.Components.Web
-
 @inherits FabricComponentBase
-
-@using Microsoft.JSInterop
-
-@inject IJSRuntime JSRuntime
 
 <div @ref="RootElementReference"
      role="listitem"
@@ -18,28 +13,16 @@
     public double Width { get; set; }
     public double Height { get; set; }
 
-    [Parameter] public object Item { get; set; }
-
-    [Parameter] public bool IsActive { get; set; }
-
-    [Parameter] public int IndexPosition { get; set; }
-
     [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public int IndexPosition { get; set; }
+    [Parameter] public bool IsActive { get; set; }
+    [Parameter] public object Item { get; set; }
 
     [Parameter]
     public Func<object, MouseEventArgs, Task> ItemClicked { get; set; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        //var result = await JSRuntime.InvokeAsync<Dictionary<string, double>>("BlazorFabricList.measureElement", rootElement);
-        //this.Width = result["width"];
-        //this.Height = result["height"];
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
     private Task OnItemClick(MouseEventArgs e)
     {
-
         return ItemClicked.Invoke(this.Item, e);
     }
 }

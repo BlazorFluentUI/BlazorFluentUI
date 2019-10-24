@@ -21,6 +21,7 @@ var BlazorFabricBaseComponent;
             window.document.body.classList.add(IsFocusVisibleClassName);
         }
     }
+    ;
     var DirectionalKeyCodes = (_a = {},
         _a[38 /* up */] = 1,
         _a[40 /* down */] = 1,
@@ -77,7 +78,6 @@ var BlazorFabricBaseComponent;
         return rect;
     }
     BlazorFabricBaseComponent.measureElement = measureElement;
-    ;
     function getNaturalBounds(image) {
         var rect = {
             width: image.naturalWidth,
@@ -88,7 +88,6 @@ var BlazorFabricBaseComponent;
         return rect;
     }
     BlazorFabricBaseComponent.getNaturalBounds = getNaturalBounds;
-    ;
     function supportsObjectFit() {
         return window !== undefined && window.navigator.msMaxTouchPoints === undefined;
     }

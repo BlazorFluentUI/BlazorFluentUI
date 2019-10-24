@@ -37,26 +37,19 @@ namespace BlazorFabric
 
         private double _height;
 
-        [Inject]
-        private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime JSRuntime { get; set; }
 
-        [Parameter]
-        public IEnumerable<TItem> ItemsSource { get; set; }
+        [Parameter] public Func<TItem, MouseEventArgs, Task> ItemClicked { get; set; }
+        [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
+        [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
+        [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
-        [Parameter]
-        public RenderFragment<TItem> ItemTemplate { get; set; }
-
-        [Parameter]
-        public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
-
-        [Parameter]
-        public Func<TItem, MouseEventArgs, Task> ItemClicked { get; set; }
-             
         protected RenderFragment ItemPagesRender { get; set; }
 
         private ISubject<(int index, double height)> pageMeasureSubject = new Subject<(int index, double height)>();
 
         private IDisposable heightSub;
+
         private System.Collections.Generic.List<ListPage<TItem>> renderedPages = new System.Collections.Generic.List<ListPage<TItem>>();
 
         private System.Collections.Generic.List<TItem> selectedItems = new System.Collections.Generic.List<TItem>();
@@ -69,37 +62,30 @@ namespace BlazorFabric
 
         protected override Task OnParametersSetAsync()
         {
-            Debug.WriteLine("Checking INotifyCollectionChanged");
             if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
             {
-                Debug.WriteLine("Is INotifyCollectionChanged!!");
                 (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
             }
-
-
             return base.OnParametersSetAsync();
         }
 
 
         private void ListBase_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            Debug.WriteLine($"Collection has changed.  Action: {e.Action}  New: {e.NewItems?.Count}   Old: {e.OldItems?.Count}");
-            Debug.WriteLine($"ItemsSource details.  {this.ItemsSource?.Count()}");
+            //Debug.WriteLine($"Collection has changed.  Action: {e.Action}  New: {e.NewItems?.Count}   Old: {e.OldItems?.Count}");
+            //Debug.WriteLine($"ItemsSource details.  {this.ItemsSource?.Count()}");
             shouldRender = true;
             InvokeAsync(StateHasChanged);
         }
 
         protected override bool ShouldRender()
         {
-            Debug.WriteLine("Trying to re-render.");
             if (shouldRender)
             {
-                Debug.WriteLine("Successfully re-rendering.");
                 shouldRender = false;
                 return true;
             }
             return false;
-            //return base.ShouldRender();
         }
 
 
@@ -117,7 +103,7 @@ namespace BlazorFabric
                   const int lineCount = 8;
                   for (var i = 0; i <= totalPages; i++)
                   {
-                      Debug.WriteLine($"Drawing page {i}");
+                      //Debug.WriteLine($"Drawing page {i}");
                       if (startPage <= i && endPage >= i)
                       {
                           builder.OpenComponent(i * lineCount + 2, typeof(ListPage<TItem>));
@@ -173,7 +159,6 @@ namespace BlazorFabric
             ItemClicked?.Invoke(castItem, e);
 
 
-
             if (shouldRender == true)
                 this.StateHasChanged();
 
@@ -184,18 +169,15 @@ namespace BlazorFabric
         {
             var surfaceRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", this.surfaceDiv);
             _height = surfaceRect.height;
-            //height = scrollDivInfo["height"];
-            System.Diagnostics.Debug.WriteLine($"List JS passed!  {surfaceRect.width}/{surfaceRect.height}");
-
+            
             if (heightSub != null)
             {
                 heightSub.Dispose();
                 heightSub = null;
             }
-            //this.heightSub = Observable.Zip(this.renderedPages.Select(x => x.Height)).SkipWhile(x => x.Contains(0)).Subscribe(x =>
+
             heightSub = pageMeasureSubject.Subscribe(x =>
             {
-                Debug.WriteLine("Inside pageMeasureSubject");
                 if (isFirstRender && x.index == 0)
                 {
                     averagePageHeight = x.height;
@@ -222,14 +204,11 @@ namespace BlazorFabric
                     else
                     {
                         averagePageHeight = (averagePageHeight + x.height) / 2;
-
                     }
                 }
             });
 
             await base.OnAfterRenderAsync(firstRender);
-
-
         }
 
 
@@ -238,10 +217,9 @@ namespace BlazorFabric
             try
             {
                 var scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureScrollWindow", this.surfaceDiv);
-                //Debug.WriteLine($"top: {scrollRect["top"]}");
-                Debug.WriteLine(scrollRect.ToString());
-                Debug.WriteLine(_height);
-                Debug.WriteLine(averagePageHeight);
+                //Debug.WriteLine(scrollRect.ToString());
+                //Debug.WriteLine(_height);
+                //Debug.WriteLine(averagePageHeight);
 
                 var rearSpace = _height * DEFAULT_RENDERED_WINDOWS_BEHIND;
                 var aheadSpace = _height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
@@ -257,10 +235,7 @@ namespace BlazorFabric
                 {
                     minRenderedPage = minPage;
                     maxRenderedPage = maxPage;
-
-                    //Debug.WriteLine($"MinPage: {this.minRenderedPage},  MaxPage: {this.maxRenderedPage}");
-                    //page that intersects or aligns with top
-
+                                        
                     shouldRender = true;
                     Debug.WriteLine($"Scroll causing pages {minPage} to {maxPage} to rerender.");
                     ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);

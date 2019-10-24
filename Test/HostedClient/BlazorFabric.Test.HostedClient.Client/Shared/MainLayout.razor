@@ -1,15 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="sidebar">
-    <NavMenu />
+    <WidthAdjustingWrapper>
+        <NavMenu />
+    </WidthAdjustingWrapper>
 </div>
 
 <div class="main">
-    <div class="top-row px-4">
-        <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
-    </div>
+    <Stack VerticalFill="true">
+        <StackItem Grow="0" VerticalFill="false">
+            <div class="top-row px-4">
+                <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
+            </div>
+        </StackItem>
 
-    <div class="content px-4">
-        @Body
-    </div>
+        <StackItem Grow="1">
+            <div class="content px-4">
+                @Body
+            </div>
+        </StackItem>
+    </Stack>
 </div>

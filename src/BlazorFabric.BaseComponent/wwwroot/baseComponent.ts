@@ -26,7 +26,7 @@
         if (isDirectionalKeyCode(ev.which) && !window.document.body.classList.contains(IsFocusVisibleClassName)) {
             window.document.body.classList.add(IsFocusVisibleClassName);
         }
-    }
+    };
 
     const DirectionalKeyCodes: { [key: number]: number } = {
         [KeyCodes.up]: 1,
@@ -101,7 +101,7 @@
             top: 0
         }
         return rect;
-    };
+    }
 
     export function getNaturalBounds(image: HTMLImageElement): IRectangle {
         var rect: IRectangle = {
@@ -111,7 +111,7 @@
             top: 0
         }
         return rect;
-    };
+    }
 
     export function supportsObjectFit(): boolean {
         return window !== undefined && window.navigator.msMaxTouchPoints === undefined;

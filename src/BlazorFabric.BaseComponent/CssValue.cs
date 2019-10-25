@@ -18,7 +18,7 @@ namespace BlazorFabric
         public static implicit operator CssValue(in string value) => new CssValue(value);
         public static implicit operator CssValue(in Css value) => new CssValue(value);
 
-        public string AsPixels => (Value is string ? (string)Value : (Value is double ? (double)Value + "px" : ""));
+        public string AsLength => (Value is string ? (string)Value : (Value is double ? (double)Value + "px" : ""));
         public bool AsBooleanTrueExplicit => (Value is bool ? (bool)Value : false);
         public string AsString => (Value is string ? (string)Value : (Value is Css ? ((Css)Value).ToString() : (Value is double ? ((double)Value).ToString() : "0")));
     }

@@ -1,23 +1,102 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Components
+@inherits LayoutComponentBase
 
-<div class="sidebar">
-    <WidthAdjustingWrapper>
-        <NavMenu />
-    </WidthAdjustingWrapper>
-</div>
+<ResponsiveLayout>
+    <ResponsiveLayoutItem>
+        
+        <Stack VerticalFill="true">
+            <StackItem Grow="0" VerticalFill="false">
+                <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu
+                            ClassName="hamburgerButton" />
+                @*<div class="top-row">*@
+                    <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
+                @*</div>*@
+            </StackItem>
 
-<div class="main">
-    <Stack VerticalFill="true">
-        <StackItem Grow="0" VerticalFill="false">
-            <div class="top-row px-4">
-                <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
-            </div>
-        </StackItem>
+            <StackItem Grow="1">
+                @*<div class="content">*@
+                    @Body
+                @*</div>*@
+            </StackItem>
+        </Stack>
 
-        <StackItem Grow="1">
-            <div class="content px-4">
-                @Body
-            </div>
-        </StackItem>
-    </Stack>
-</div>
+        <Panel Type=@PanelType.SmallFixedNear OnDismiss=@HideMenu IsOpen=@isPanelOpen ClassName="hiddenMenu">
+            <NavigationTemplate>
+                <IconButton IconName="GlobalNavButton" OnClick=@HideMenu
+                            ClassName="hamburgerButton" />
+            </NavigationTemplate>
+            <ChildContent>
+                <NavMenu OnLinkClicked=@OnNavLinkClick />
+            </ChildContent>
+        </Panel>
+    </ResponsiveLayoutItem>
+
+    <ResponsiveLayoutItem MinWidth="768">
+        <Stack Horizontal="true">
+            <StackItem Grow="0" DisableShrink="true">
+                <NavMenu />
+            </StackItem>
+            <StackItem Grow="1">
+                <Stack>
+                    <StackItem Grow="0" VerticalFill="false">
+                      @*  <div class="top-row">*@
+                            <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
+                        @*</div>*@
+                    </StackItem>
+
+                    <StackItem Grow="1">
+                        @*<div class="content">*@
+                            @Body
+                        @*</div>*@
+                    </StackItem>
+                </Stack>
+            </StackItem>
+        </Stack>
+    </ResponsiveLayoutItem>
+
+</ResponsiveLayout>
+
+
+@*<div class="sidebar">
+        <WidthAdjustingWrapper>
+            <NavMenu />
+        </WidthAdjustingWrapper>
+    </div>
+
+    <div class="main">
+        <Stack VerticalFill="true">
+            <StackItem Grow="0" VerticalFill="false">
+                <div class="top-row px-4">
+                    <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
+                </div>
+            </StackItem>
+
+            <StackItem Grow="1">
+                <div class="content px-4">
+                    @Body
+                </div>
+            </StackItem>
+        </Stack>
+    </div>*@
+
+@code {
+    private bool isMenuCollapsed = true;
+    private bool isPanelOpen = false;
+
+    void ShowMenu()
+    {
+        isPanelOpen = true;
+    }
+
+    void HideMenu()
+    {
+        isPanelOpen = false;
+    }
+
+    void OnNavLinkClick(NavFabricLinkBase linkBase)
+    {
+        isPanelOpen = false;
+    }
+
+
+}

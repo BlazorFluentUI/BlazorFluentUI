@@ -399,20 +399,26 @@ namespace BlazorFabric
 
         public async void Dispose()
         {
-            //if (_scrollerEventId != null)
-            //{
-            //    foreach (var id in _scrollerEventId)
-            //    {
-            //        await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", id);
-            //    }
-            //    _scrollerEventId.Clear();
-            //}
+            if (_scrollerEventId != null)
+            {
+                foreach (var id in _scrollerEventId)
+                {
+                    Debug.WriteLine("Removing scrollerEvent");
+                    await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", id);
+                }
+                _scrollerEventId.Clear();
+            }
 
-            //if (_resizeId != -1)
-            //    await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", _resizeId);
-
-            //if (_mouseDownId != -1)
-            //    await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", _mouseDownId);
+            if (_resizeId != -1)
+            {
+                Debug.WriteLine("Removing resizeEvent");
+                await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", _resizeId);
+            }
+            if (_mouseDownId != -1)
+            {
+                Debug.WriteLine("Removing mouseDownEvent");
+                await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", _mouseDownId);
+            }
         }
     }
 }

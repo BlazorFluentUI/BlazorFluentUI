@@ -64,7 +64,7 @@ app {
         top: -2px;
     }
 
-.nav-item {
+/*.nav-item {
     font-size: 0.9rem;
     padding-bottom: 0.5rem;
 }
@@ -94,7 +94,7 @@ app {
         .nav-item a:hover {
             background-color: rgba(255,255,255,0.1);
             color: white;
-        }
+        }*/
 
 .content {
     /*padding-top: 1.1rem;*/

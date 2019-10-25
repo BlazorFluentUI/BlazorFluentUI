@@ -23,9 +23,9 @@ namespace BlazorFabric
             string style = "";
 
             if (Tokens.Margin != null)
-                style += $"margin:{Tokens.Margin.AsPixels};";
+                style += $"margin:{Tokens.Margin.AsLength};";
             if (Tokens.Padding != null)
-                style += $"padding:{Tokens.Padding.AsPixels};";
+                style += $"padding:{Tokens.Padding.AsLength};";
             style += $"height:{(VerticalFill ? "100%" : "auto")};";
             style += "width:auto;";
 

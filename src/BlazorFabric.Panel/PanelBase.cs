@@ -304,9 +304,7 @@ namespace BlazorFabric
             if (firstRender)
             {
                 
-                _resizeId = await JSRuntime.InvokeAsync<int>("BlazorFabricPanel.registerSizeHandler", DotNetObjectReference.Create(this));
-                //listen for lightdismiss
-
+                
                 if (ShouldListenForOuterClick())
                 {
                     _mouseDownId = await JSRuntime.InvokeAsync<int>("BlazorFabricPanel.registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
@@ -328,6 +326,15 @@ namespace BlazorFabric
                 await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", _mouseDownId);
             }
 
+            if (IsOpen && _resizeId == -1)
+            {
+                _resizeId = await JSRuntime.InvokeAsync<int>("BlazorFabricPanel.registerSizeHandler", DotNetObjectReference.Create(this));
+                //listen for lightdismiss
+            }
+            else if (!IsOpen && _resizeId != -1)
+            {
+                await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", _resizeId);
+            }
 
             if (IsOpen && !_scrollerRegistered)
             {

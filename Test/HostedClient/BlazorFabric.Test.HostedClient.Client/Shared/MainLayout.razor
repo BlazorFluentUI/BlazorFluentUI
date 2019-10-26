@@ -4,26 +4,27 @@
 <ResponsiveLayout>
     <ResponsiveLayoutItem>
         
-        <Stack VerticalFill="true">
+        <Stack VerticalFill="true" Style="width:100%;">
             <StackItem Grow="0" VerticalFill="false">
                 <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu
-                            ClassName="hamburgerButton" />
+                            />
                 @*<div class="top-row">*@
-                    <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
+                    @*<a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>*@
                 @*</div>*@
             </StackItem>
 
-            <StackItem Grow="1">
-                @*<div class="content">*@
+            <StackItem Grow="1" Style="overflow:hidden;">
+                <div class="content">
                     @Body
-                @*</div>*@
+                </div>
             </StackItem>
         </Stack>
 
-        <Panel Type=@PanelType.SmallFixedNear OnDismiss=@HideMenu IsOpen=@isPanelOpen ClassName="hiddenMenu">
+        <Panel Type=@PanelType.SmallFixedNear OnDismiss=@HideMenu IsOpen=@isPanelOpen IsLightDismiss="true">
             <NavigationTemplate>
                 <IconButton IconName="GlobalNavButton" OnClick=@HideMenu
-                            ClassName="hamburgerButton" />
+                            />
+                <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
             </NavigationTemplate>
             <ChildContent>
                 <NavMenu OnLinkClicked=@OnNavLinkClick />
@@ -32,22 +33,22 @@
     </ResponsiveLayoutItem>
 
     <ResponsiveLayoutItem MinWidth="768">
-        <Stack Horizontal="true">
+        <Stack Horizontal="true" Style="width:100%;">
             <StackItem Grow="0" DisableShrink="true">
                 <NavMenu />
             </StackItem>
             <StackItem Grow="1">
-                <Stack>
+                <Stack VerticalFill="true">
                     <StackItem Grow="0" VerticalFill="false">
-                      @*  <div class="top-row">*@
+                        <div class="top-row">
                             <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
-                        @*</div>*@
+                        </div>
                     </StackItem>
 
-                    <StackItem Grow="1">
-                        @*<div class="content">*@
+                    <StackItem Grow="1" Style="overflow:hidden;">
+                        <div class="content">
                             @Body
-                        @*</div>*@
+                        </div>
                     </StackItem>
                 </Stack>
             </StackItem>

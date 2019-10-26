@@ -8,9 +8,6 @@
             <StackItem Grow="0" VerticalFill="false">
                 <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu
                             />
-                @*<div class="top-row">*@
-                    @*<a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>*@
-                @*</div>*@
             </StackItem>
 
             <StackItem Grow="1" Style="overflow:hidden;">
@@ -34,7 +31,7 @@
 
     <ResponsiveLayoutItem MinWidth="768">
         <Stack Horizontal="true" Style="width:100%;">
-            <StackItem Grow="0" DisableShrink="true">
+            <StackItem Grow="0" DisableShrink="true" Style="height:100%;overflow:hidden;">
                 <NavMenu />
             </StackItem>
             <StackItem Grow="1">

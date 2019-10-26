@@ -1,16 +1,16 @@
 ﻿@using Microsoft.AspNetCore.Components
 
     <Stack Horizontal="false" VerticalFill="true" Style="overflow:hidden;">
-        <StackItem Grow="0">
+        <StackItem Grow="0" VerticalFill="false">
             <div class="top-row pl-4 navbar navbar-dark">
-                <a class="navbar-brand" href="">BlazorFabric.Test.HostedClient</a>
+                <a class="navbar-brand" href=""><b>BlazorFabric Demo</b></a>
                 @*<button class="navbar-toggler" @onclick="@ToggleNavMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>*@
             </div>
         </StackItem>
 
-        <StackItem VerticalFill="true">
+        <StackItem VerticalFill="true" Style="overflow-y:auto;">
             <Nav>
                 <NavLinkGroup Name="Basic Controls" CollapseByDefault="false">
                     <NavFabricLink Name="Basic" Url="/" Id="/" Icon="ButtonControl" OnClick=@OnLinkClicked />

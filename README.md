@@ -5,7 +5,7 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
-- upcoming
+- v1.3.2
 	- Added `Spinner`
 	- Added `Persona`
 	- Added `Image`

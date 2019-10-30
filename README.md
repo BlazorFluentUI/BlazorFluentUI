@@ -5,14 +5,15 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
+- upcoming
+	- Added `ResponsiveLayout` <- *not a Fabric control, but made so you don't have to use CSS media queries!*
+	- Changed the demo's layout to use `ResponsiveLayout` and `Stack`, slowly removing CSS!
 - v1.3.2
 	- Added `Spinner`
 	- Added `Persona`
 	- Added `Image`
 	- Added `Tooltip`
 	- Added `Stack` <- *awesome abstraction of flexbox... the Fabric guys don't give this one enough credit*
-	- Added `ResponsiveLayout` <- *not a Fabric control, but made so you don't have to use CSS media queries!*
-	- Changed the demo's layout to use `ResponsiveLayout` and `Stack`, slowly removing CSS!
 - v1.2.6 *(aspnetcore-3.0 out of preview!)*
 	- Fixed `Overlay` so that it blocks body scrolling
 	- Added `Panel`

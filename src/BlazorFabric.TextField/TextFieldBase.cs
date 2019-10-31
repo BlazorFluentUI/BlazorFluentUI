@@ -14,6 +14,7 @@ namespace BlazorFabric
 
         [Parameter] public bool Required { get; set; }
         [Parameter] public bool Multiline { get; set; }
+        [Parameter] public bool Password { get; set; }
         [Parameter] public bool Resizable { get; set; } = true;
         [Parameter] public bool AutoAdjustHeight { get; set; }
         [Parameter] public bool Underlined { get; set; }

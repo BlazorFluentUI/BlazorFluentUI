@@ -28,7 +28,7 @@
                           class="mediumFont ms-TextField-field"
                           aria-label=@this.AriaLabel
                           aria-describedby=@this.descriptionId
-                          aria-invalid=@(this.ErrorMessage != null ? true: false)
+                          aria-invalid=@(this.ErrorMessage != null ? true : false)
                           readOnly=@this.ReadOnly
                           placeholder=@this.Placeholder
                           disabled=@this.Disabled
@@ -38,6 +38,26 @@
                           @onkeypress=@OnKeyPress
                           @onfocus=@OnFocus
                           @onblur=@OnBlur />
+            }
+            else if (this.Password)
+            {
+                <input type="password"
+                       id=@this.id
+                       value=@currentValue
+                       @oninput=@InputHandler
+                       @onchange=@ChangeHandler
+                       class="mediumFont ms-TextField-field"
+                       aria-label=@this.AriaLabel
+                       aria-describedby=@this.descriptionId
+                       aria-invalid=@(this.ErrorMessage != null ? true : false)
+                       readOnly=@this.ReadOnly
+                       placeholder=@this.Placeholder
+                       disabled=@this.Disabled
+                       @onkeydown=@OnKeyDown
+                       @onkeyup=@OnKeyUp
+                       @onkeypress=@OnKeyPress
+                       @onfocus=@OnFocus
+                       @onblur=@OnBlur />
             }
             else
             {
@@ -49,7 +69,7 @@
                        class="mediumFont ms-TextField-field"
                        aria-label=@this.AriaLabel
                        aria-describedby=@this.descriptionId
-                       aria-invalid=@(this.ErrorMessage != null ? true: false)
+                       aria-invalid=@(this.ErrorMessage != null ? true : false)
                        readOnly=@this.ReadOnly
                        placeholder=@this.Placeholder
                        disabled=@this.Disabled

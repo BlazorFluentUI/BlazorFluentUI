@@ -5,8 +5,10 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
-- upcoming
-	- Added `ResponsiveLayout` <- *not a Fabric control, but made so you don't have to use CSS media queries!*
+- v1.3.3
+	- Added `Toggle`
+	- Added password functionality to `TextField` (contributed by @Eweol)
+	- Added `ResponsiveLayout` <- *not a Fabric control, but made so you don't have to use CSS media queries!* 
 	- Changed the demo's layout to use `ResponsiveLayout` and `Stack`, slowly removing CSS!
 - v1.3.2
 	- Added `Spinner`

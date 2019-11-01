@@ -2,7 +2,7 @@
 @inherits TextFieldBase
 @using Microsoft.AspNetCore.Components.Web
 
-<div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(this.ErrorMessage != null ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.InputType==InputType.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(this.Label == null ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )}")
+<div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(this.ErrorMessage != null ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(this.Label == null ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )}")
      style=@Style
      @ref="RootElementReference">
     <div class="ms-TextField-wrapper">
@@ -17,7 +17,7 @@
                     <span style="padding-bottom: 1px;">@this.Prefix</span>
                 </div>
             }
-            @if (this.InputType == InputType.Multiline)
+            @if (this.Multiline)
             {
                 <textarea id=@this.id
                           @ref="textAreaRef"
@@ -39,29 +39,9 @@
                           @onfocus=@OnFocus
                           @onblur=@OnBlur />
             }
-            else if (this.InputType == InputType.Password)
-            {
-                <input type="password"
-                       id=@this.id
-                       value=@currentValue
-                       @oninput=@InputHandler
-                       @onchange=@ChangeHandler
-                       class="mediumFont ms-TextField-field"
-                       aria-label=@this.AriaLabel
-                       aria-describedby=@this.descriptionId
-                       aria-invalid=@(this.ErrorMessage != null ? true : false)
-                       readOnly=@this.ReadOnly
-                       placeholder=@this.Placeholder
-                       disabled=@this.Disabled
-                       @onkeydown=@OnKeyDown
-                       @onkeyup=@OnKeyUp
-                       @onkeypress=@OnKeyPress
-                       @onfocus=@OnFocus
-                       @onblur=@OnBlur />
-            }
             else
             {
-                <input type="text"
+                <input type="@TypeUtils.InputMap[this.InputType]"
                        id=@this.id
                        value=@currentValue
                        @oninput=@InputHandler

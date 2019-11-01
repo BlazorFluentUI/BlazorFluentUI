@@ -5,8 +5,10 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
-- upcoming
-	- Added `ResponsiveLayout` <- *not a Fabric control, but made so you don't have to use CSS media queries!*
+- v1.3.3
+	- Added `Toggle`
+	- Added password functionality to `TextField` (contributed by @Eweol)
+	- Added `ResponsiveLayout` <- *not a Fabric control, but made so you don't have to use CSS media queries!* 
 	- Changed the demo's layout to use `ResponsiveLayout` and `Stack`, slowly removing CSS!
 - v1.3.2
 	- Added `Spinner`
@@ -66,6 +68,10 @@ You can also use my helper VSIX extension: https://marketplace.visualstudio.com/
 3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.
 
 `<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/10.0.0/css/fabric.min.css" />`
+
+**OR**
+
+Use the tool here to generate your own MS font package: https://uifabricicons.azurewebsites.net/
 
 (Remember that the assets package has a more restrictive license.  You are required to use it with/for some type of Microsoft product.  However, one of their engineers said that using it hosted on Azure would be enough... but I'm not a lawyer, so use caution.)
 

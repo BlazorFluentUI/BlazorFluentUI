@@ -24,7 +24,7 @@ namespace BlazorFabric
         public bool Disabled { get; set; }
 
         [Parameter]
-        public string HtmlFor { get; set; }
+        public string HtmlFor { get; set; }  //not being used for anything.
 
     }
 }

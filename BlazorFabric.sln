@@ -79,7 +79,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Tooltip", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Stack", "src\BlazorFabric.Stack\BlazorFabric.Stack.csproj", "{8186F366-E32A-4BA6-B5E6-2FBDAA8D1E43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.ResponsiveLayout", "src\BlazorFabric.ResponsiveLayout\BlazorFabric.ResponsiveLayout.csproj", "{ABF0CD6D-4643-48D1-939A-6D551AF0838B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.ResponsiveLayout", "src\BlazorFabric.ResponsiveLayout\BlazorFabric.ResponsiveLayout.csproj", "{ABF0CD6D-4643-48D1-939A-6D551AF0838B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.Keytip", "src\BlazorFabric.Keytip\BlazorFabric.Keytip.csproj", "{F69F702F-48D6-455B-80A0-6D985D6A47E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.Toggle", "src\BlazorFabric.Toggle\BlazorFabric.Toggle.csproj", "{7BBD94DE-CB86-4846-A81A-FF187D9F573C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -215,6 +219,14 @@ Global
 		{ABF0CD6D-4643-48D1-939A-6D551AF0838B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABF0CD6D-4643-48D1-939A-6D551AF0838B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABF0CD6D-4643-48D1-939A-6D551AF0838B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F69F702F-48D6-455B-80A0-6D985D6A47E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F69F702F-48D6-455B-80A0-6D985D6A47E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F69F702F-48D6-455B-80A0-6D985D6A47E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F69F702F-48D6-455B-80A0-6D985D6A47E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BBD94DE-CB86-4846-A81A-FF187D9F573C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BBD94DE-CB86-4846-A81A-FF187D9F573C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BBD94DE-CB86-4846-A81A-FF187D9F573C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BBD94DE-CB86-4846-A81A-FF187D9F573C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -254,6 +266,8 @@ Global
 		{C91D462E-C98A-48B8-83BC-F61A51770281} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{8186F366-E32A-4BA6-B5E6-2FBDAA8D1E43} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{ABF0CD6D-4643-48D1-939A-6D551AF0838B} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{F69F702F-48D6-455B-80A0-6D985D6A47E3} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{7BBD94DE-CB86-4846-A81A-FF187D9F573C} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

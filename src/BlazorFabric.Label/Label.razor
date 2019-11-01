@@ -1,7 +1,9 @@
 ﻿@namespace BlazorFabric
 @inherits LabelBase
 
-<div class="@($"ms-Label mediumFont {(Disabled ? "ms-Label--disabled" : "")} {(Required ? "ms-Label--required" : "")}")"
+<label class="@($"ms-Label mediumFont {(Disabled ? "ms-Label--disabled" : "")} {(Required ? "ms-Label--required" : "")} {ClassName}")"
+     style=@Style
+       for=@HtmlFor
      @ref="RootElementReference">
     @ChildContent
-</div>
+</label>

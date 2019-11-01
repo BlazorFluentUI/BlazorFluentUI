@@ -28,7 +28,7 @@
                           class="mediumFont ms-TextField-field"
                           aria-label=@this.AriaLabel
                           aria-describedby=@this.descriptionId
-                          aria-invalid=@(this.ErrorMessage != null ? true: false)
+                          aria-invalid=@(this.ErrorMessage != null ? true : false)
                           readOnly=@this.ReadOnly
                           placeholder=@this.Placeholder
                           disabled=@this.Disabled
@@ -41,7 +41,7 @@
             }
             else
             {
-                <input type="text"
+                <input type="@TypeUtils.InputMap[this.InputType]"
                        id=@this.id
                        value=@currentValue
                        @oninput=@InputHandler
@@ -49,7 +49,7 @@
                        class="mediumFont ms-TextField-field"
                        aria-label=@this.AriaLabel
                        aria-describedby=@this.descriptionId
-                       aria-invalid=@(this.ErrorMessage != null ? true: false)
+                       aria-invalid=@(this.ErrorMessage != null ? true : false)
                        readOnly=@this.ReadOnly
                        placeholder=@this.Placeholder
                        disabled=@this.Disabled

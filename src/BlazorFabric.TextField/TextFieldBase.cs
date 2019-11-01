@@ -14,6 +14,7 @@ namespace BlazorFabric
 
         [Parameter] public bool Required { get; set; }
         [Parameter] public bool Multiline { get; set; }
+        [Parameter] public InputType InputType { get; set; } = InputType.Text;
         [Parameter] public bool Resizable { get; set; } = true;
         [Parameter] public bool AutoAdjustHeight { get; set; }
         [Parameter] public bool Underlined { get; set; }
@@ -118,7 +119,7 @@ namespace BlazorFabric
 
         private async Task AdjustInputHeightAsync()
         {
-            if (this.AutoAdjustHeight == true && this.Multiline==true)
+            if (this.AutoAdjustHeight == true && this.Multiline)
             {
                 var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFabricTextField.getScrollHeight", textAreaRef);
                 inlineTextAreaStyle = $"height: {scrollHeight}px"; 

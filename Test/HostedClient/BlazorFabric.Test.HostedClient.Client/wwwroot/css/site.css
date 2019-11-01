@@ -23,6 +23,9 @@ app {
 .modalContainerOverride {
     height: 80vh;
     width: 80vh;
+    display:flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
 }
 
 .top-row {

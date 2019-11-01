@@ -17,7 +17,9 @@
     <ProjectReference Include="..\..\src\BlazorFabric.ContextualMenu\BlazorFabric.ContextualMenu.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Dropdown\BlazorFabric.Dropdown.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.FocusTrapZone\BlazorFabric.FocusTrapZone.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Image\BlazorFabric.Image.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Layer\BlazorFabric.Layer.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.List\BlazorFabric.List.csproj" />
@@ -25,8 +27,15 @@
     <ProjectReference Include="..\..\src\BlazorFabric.Nav\BlazorFabric.Nav.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.OverflowSet\BlazorFabric.OverflowSet.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Overlay\BlazorFabric.Overlay.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Panel\BlazorFabric.Panel.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Persona\BlazorFabric.Persona.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.ResponsiveLayout\BlazorFabric.ResponsiveLayout.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Spinner\BlazorFabric.Spinner.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Stack\BlazorFabric.Stack.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.TextField\BlazorFabric.TextField.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Toggle\BlazorFabric.Toggle.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Tooltip\BlazorFabric.Tooltip.csproj" />
   </ItemGroup>
 
 </Project>

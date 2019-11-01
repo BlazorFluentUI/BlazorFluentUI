@@ -20,7 +20,7 @@ namespace BlazorFabric
         protected override async Task OnParametersSetAsync()
         {
             GenerateMediaQuery();
-            await CascadingResponsiveLayout.AddQueryAsync(this, mediaQuery);
+            CascadingResponsiveLayout.AddQuery(this, mediaQuery);
             await base.OnParametersSetAsync();
         }
 

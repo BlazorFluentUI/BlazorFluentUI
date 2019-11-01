@@ -1,33 +1,38 @@
-﻿@*
-    The Router component displays whichever component has a @page
-    directive matching the current URI.
-*@
-    <BlazorFabric.LayerHost Style="display:flex; flex-direction: row;width:100vw">
-        <Router AppAssembly="typeof(Startup).Assembly">
-            <Found Context="routeData">
-                <RouteView RouteData="routeData" />
-            </Found>
-            <NotFound>
-                <p>Page not found.</p>
-            </NotFound>
-        </Router>
-    </BlazorFabric.LayerHost>
-@functions
-{
-    //List<System.Reflection.Assembly> AssemblyList = new List<System.Reflection.Assembly>()
+﻿
+
+<LayerHost Style="display:flex; flex-direction: row;width:100vw;height:100vh;overflow:hidden;">
+    <Router AppAssembly="typeof(Program).Assembly" >
+        <Found Context="routeData">
+            <RouteView RouteData="routeData" />
+        </Found>
+        <NotFound>
+            <p>Page not found.</p>
+        </NotFound>
+    </Router>
+</LayerHost>
+
+@code{
+
+
+    //System.Collections.Generic.List<System.Reflection.Assembly> AssemblyList = new System.Collections.Generic.List<System.Reflection.Assembly>()
     //{
-    //    typeof(BlazorFabric.BaseComponent.CommonStyles).Assembly,
-    //    typeof(BlazorFabric.Button.PrimaryButton).Assembly,
-    //    typeof(BlazorFabric.Callout.Callout).Assembly,
-    //    typeof(BlazorFabric.Checkbox.Checkbox).Assembly,
-    //    typeof(BlazorFabric.ContextualMenu.ContextualMenu<>).Assembly,
-    //    typeof(BlazorFabric.Dropdown.Dropdown<>).Assembly,
-    //    typeof(BlazorFabric.Icon.Icon).Assembly,
-    //    typeof(BlazorFabric.Label.Label).Assembly,
-    //    typeof(BlazorFabric.Layer.Layer).Assembly,
-    //    typeof(BlazorFabric.List.List<>).Assembly,
-    //    typeof(BlazorFabric.Nav.Nav).Assembly,
-    //    typeof(BlazorFabric.TextField.TextField).Assembly,
+    //    typeof(BlazorFabric.CommonStyles).Assembly,
+    //    typeof(BlazorFabric.PrimaryButton).Assembly,
+    //    typeof(BlazorFabric.Callout).Assembly,
+    //    typeof(BlazorFabric.Checkbox).Assembly,
+    //    typeof(BlazorFabric.ContextualMenu).Assembly,
+    //    typeof(BlazorFabric.Dropdown<>).Assembly,
+    //    typeof(BlazorFabric.Icon).Assembly,
+    //    typeof(BlazorFabric.Label).Assembly,
+    //    typeof(BlazorFabric.Layer).Assembly,
+    //    typeof(BlazorFabric.List<>).Assembly,
+    //    typeof(BlazorFabric.Nav).Assembly,
+    //    typeof(BlazorFabric.TextField).Assembly,
     //};
 
+    protected override Task OnInitializedAsync()
+    {
+
+        return base.OnInitializedAsync();
+    }
 }

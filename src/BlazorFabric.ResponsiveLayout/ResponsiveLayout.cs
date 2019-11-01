@@ -59,7 +59,7 @@ namespace BlazorFabric
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        public async Task AddQueryAsync(ResponsiveLayoutItem item, string query)
+        public async void AddQuery(ResponsiveLayoutItem item, string query)
         {
             Debug.WriteLine($"waiting for semaphore: {query}");
             await _semaphore.WaitAsync();

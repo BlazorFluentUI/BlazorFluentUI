@@ -29,6 +29,9 @@ namespace BlazorFabric
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool ReadOnly { get; set; }
         [Parameter] public string ErrorMessage { get; set; }
+        [Parameter] public bool ValidateOnFocusIn { get; set; }
+        [Parameter] public bool ValidateOnFocusOut { get; set; }
+        [Parameter] public bool ValidateOnLoad { get; set; } = true;
         [Parameter] public string AriaLabel { get; set; }
         [Parameter] public bool AutoComplete { get; set; }
         [Parameter] public string Mask { get; set; }
@@ -42,6 +45,10 @@ namespace BlazorFabric
         public EventCallback<KeyboardEventArgs> OnKeyUp { get; set; }
         [Parameter]
         public EventCallback<KeyboardEventArgs> OnKeyPress { get; set; }
+        [Parameter]
+        public Func<string, string> OnGetErrorMessage { get; set; }
+        [Parameter]
+        public Action<string, string> OnNotifyValidationResult { get; set; }
 
         //[Parameter]
         //protected Func<UIChangeEventArgs, Task> OnChange { get; set; }
@@ -56,7 +63,20 @@ namespace BlazorFabric
         protected string descriptionId = Guid.NewGuid().ToString();
 
         private bool firstRendered = false;
-        protected string currentValue;
+        private string latestValidatedValue = "";
+        private string currentValue;
+        protected string CurrentValue
+        {
+            get => currentValue;
+            set
+            {
+                if (value == currentValue)
+                    return;
+                currentValue = value;
+                OnChange.InvokeAsync(value);
+            }
+        }
+
         protected ElementReference textAreaRef;
         protected string inlineTextAreaStyle = "";
         protected bool isFocused = false;
@@ -64,16 +84,25 @@ namespace BlazorFabric
         protected override Task OnParametersSetAsync()
         {
             if (DefaultValue != null)
-                currentValue = DefaultValue;
+                CurrentValue = DefaultValue;
 
             if (Value != null)
-                currentValue = Value;
+                CurrentValue = Value;
+
+            if (ValidateOnLoad && ValidateAllChanges())
+            {
+                Validate(CurrentValue);
+            }
 
             return base.OnParametersSetAsync();
         }
 
         protected async Task InputHandler(ChangeEventArgs args)
         {
+            if (ValidateAllChanges())
+            {
+                Validate((string)args.Value);
+            }
             await AdjustInputHeightAsync();
             await OnInput.InvokeAsync((string)args.Value);
             //await InputChanged.InvokeAsync((string)args.Value);
@@ -96,6 +125,10 @@ namespace BlazorFabric
         protected Task OnFocus(FocusEventArgs args)
         {
             isFocused = true;
+            if (ValidateOnFocusIn)
+            {
+                Validate(CurrentValue);
+            }
             //StateHasChanged();
             return Task.CompletedTask;
         }
@@ -103,6 +136,10 @@ namespace BlazorFabric
         protected Task OnBlur(FocusEventArgs args)
         {
             isFocused = false;
+            if (ValidateOnFocusOut)
+            {
+                Validate(CurrentValue);
+            }
             //StateHasChanged();
             return Task.CompletedTask;
         }
@@ -122,9 +159,27 @@ namespace BlazorFabric
             if (this.AutoAdjustHeight == true && this.Multiline)
             {
                 var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFabricTextField.getScrollHeight", textAreaRef);
-                inlineTextAreaStyle = $"height: {scrollHeight}px"; 
+                inlineTextAreaStyle = $"height: {scrollHeight}px";
             }
         }
 
+        private void Validate(string value)
+        {
+            if (string.IsNullOrEmpty(value) || latestValidatedValue == value)
+                return;
+
+            latestValidatedValue = value;
+            string errorMessage = OnGetErrorMessage?.Invoke(value);
+            if (errorMessage != null)
+            {
+                ErrorMessage = errorMessage;
+            }
+            OnNotifyValidationResult?.Invoke(errorMessage, value);
+        }
+
+        private bool ValidateAllChanges()
+        {
+            return !ValidateOnFocusIn && !ValidateOnFocusOut;
+        }
     }
 }

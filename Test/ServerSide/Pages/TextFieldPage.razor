@@ -110,31 +110,25 @@
     <TextField Label="String-based validation" OnGetErrorMessage="GetErrorMessage" />
 </div>
 <div class="textFieldDiv">
-    <TextField Label="Promise-based validation" Disabled="true" OnGetErrorMessage="GetErrorMessage" />
-</div>
-<div class="textFieldDiv">
     <TextField Label="String-based validation on render" DefaultValue="Shows an error message on render" OnGetErrorMessage="GetErrorMessage" />
 </div>
 <div class="textFieldDiv">
     <TextField Label="String-based validation only on change" DefaultValue="Validates only on input change, not on render" OnGetErrorMessage="GetErrorMessage" ValidateOnLoad="false" />
 </div>
 <div class="textFieldDiv">
-    <TextField Label="Promise-based validation" DefaultValue="Shows an error message 5 seconds after render" Disabled="true" OnGetErrorMessage="GetErrorMessage" ValidateOnLoad="false" />
-</div>
-<div class="textFieldDiv">
     <TextField Label="Both description and error message" DefaultValue="Shows description and error message on render" Description="Field description" OnGetErrorMessage="GetErrorMessage" />
 </div>
 <div class="textFieldDiv">
-    <TextField Label="Deferred string-based validation" DefaultValue="Validates after user stops typing for 2 seconds" Disabled="true" OnGetErrorMessage="GetErrorMessage" />
+    <TextField Label="Deferred string-based validation" Placeholder="Validates after user stops typing for 2 seconds" DeferredValidationTime="2000" OnGetErrorMessage="GetErrorMessage" />
 </div>
 <div class="textFieldDiv">
-    <TextField Label="Validates only on focus and blur" DefaultValue="Validates only on input focus and blur" ValidateOnFocusIn="true" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
+    <TextField Label="Validates only on focus and blur" Placeholder="Validates only on input focus and blur" ValidateOnFocusIn="true" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
 </div>
 <div class="textFieldDiv">
-    <TextField Label="Validates only on blur" DefaultValue="Validates only on blur" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
+    <TextField Label="Validates only on blur" Placeholder="Validates only on blur" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
 </div>
 <div class="textFieldDiv">
-    <TextField Label="Underlined field:" DefaultValue="This value is too long" Underlined="true" OnGetErrorMessage="GetErrorMessage" />
+    <TextField Label="Underlined field " DefaultValue="This value is too long" Underlined="true" OnGetErrorMessage="GetErrorMessage" />
 </div>
 <div class="textFieldDiv">
     <TextField Label="Uses the errorMessage property to set an error state" Placeholder="This field always has an error" ErrorMessage="This is a statically set error message" />
@@ -147,10 +141,5 @@
     public string GetErrorMessage(string value)
     {
         return value.Length < 3 ? "" : $"Input value length must be less than 3. Actual length is {value.Length}.";
-    }
-
-    public void Notify(string errormessage, string value)
-    {
-        Console.WriteLine($"{errormessage} | {value}");
     }
 }

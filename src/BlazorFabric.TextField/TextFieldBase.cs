@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,7 +34,7 @@ namespace BlazorFabric
         [Parameter] public bool ValidateOnLoad { get; set; } = true;
         [Parameter] public int DeferredValidationTime { get; set; } = 200;
         [Parameter] public string AriaLabel { get; set; }
-        [Parameter] public bool AutoComplete { get; set; }
+        [Parameter] public AutoComplete AutoComplete { get; set; } = AutoComplete.On;
         [Parameter] public string Mask { get; set; }
         [Parameter] public string MaskChar { get; set; }
         [Parameter] public string MaskFormat { get; set; }
@@ -139,11 +140,6 @@ namespace BlazorFabric
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
             await OnChange.InvokeAsync((string)args.Value);
-            //await ChangeChanged.InvokeAsync((string)args.Value);
-            //if (this.OnChange != null)
-            //{
-            //    await this.OnChange.Invoke(args);
-            //}
         }
 
         protected Task OnFocus(FocusEventArgs args)
@@ -153,7 +149,6 @@ namespace BlazorFabric
             {
                 Validate(CurrentValue);
             }
-            //StateHasChanged();
             return Task.CompletedTask;
         }
 
@@ -164,7 +159,6 @@ namespace BlazorFabric
             {
                 Validate(CurrentValue);
             }
-            //StateHasChanged();
             return Task.CompletedTask;
         }
 
@@ -185,6 +179,24 @@ namespace BlazorFabric
                 var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFabricTextField.getScrollHeight", textAreaRef);
                 inlineTextAreaStyle = $"height: {scrollHeight}px";
             }
+        }
+
+        protected string GetAutoCompleteString()
+        {
+            var value = AutoComplete.ToString();
+            value = Char.ToLowerInvariant(value[0]) + value.Substring(1);
+            string result = "";
+            foreach (var c in value.ToCharArray())
+            {
+                if (Char.IsUpper(c))
+                {
+                    result += "-";
+                    result += Char.ToLowerInvariant(c);
+                }
+                else
+                    result += c;
+            }
+            return result;
         }
 
         private void Validate(string value)

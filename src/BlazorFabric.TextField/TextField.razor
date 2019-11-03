@@ -45,6 +45,7 @@
                        id=@this.id
                        @bind-value=@CurrentValue
                        @oninput=@InputHandler
+                       autocomplete=@GetAutoCompleteString()
                        class="mediumFont ms-TextField-field"
                        aria-label=@this.AriaLabel
                        aria-describedby=@this.descriptionId

@@ -63,6 +63,7 @@ namespace BlazorFabric
         protected string descriptionId = Guid.NewGuid().ToString();
 
         private bool firstRendered = false;
+        private int deferredValidationTime;
         private bool defaultErrorMessageIsSet;
         private string latestValidatedValue = "";
         private string currentValue;
@@ -91,8 +92,9 @@ namespace BlazorFabric
                 defaultErrorMessageIsSet = true;
             }
 
-            if (OnNotifyValidationResult != null)
-                Console.WriteLine("is Not null");
+            // to prevent changes after initialisation
+            deferredValidationTime = DeferredValidationTime;
+            
 
             return base.OnInitializedAsync();
         }
@@ -225,7 +227,7 @@ namespace BlazorFabric
             cancellationTokenSource = new CancellationTokenSource();
             DeferredValidationTask = Task.Run(async () =>
             {
-                await Task.Delay(DeferredValidationTime, cancellationTokenSource.Token);
+                await Task.Delay(deferredValidationTime, cancellationTokenSource.Token);
                 if (cancellationTokenSource.IsCancellationRequested)
                 {
                     return;

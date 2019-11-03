@@ -38,6 +38,7 @@ namespace BlazorFabric
         [Parameter] public string MaskChar { get; set; }
         [Parameter] public string MaskFormat { get; set; }
         [Parameter] public string Placeholder { get; set; }
+        [Parameter] public string IconName { get; set; }
 
         [Parameter]
         public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }

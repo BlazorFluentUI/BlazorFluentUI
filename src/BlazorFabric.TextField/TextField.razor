@@ -70,7 +70,7 @@
     @if (!string.IsNullOrWhiteSpace(this.Description) || !string.IsNullOrWhiteSpace(this.ErrorMessage))
     {
         <span id="descriptionId">
-            <span class="description">@this.Description</span>
+            <span style="font-size:10px; color:rgb(96,94,92)">@this.Description</span>
             @if (!string.IsNullOrWhiteSpace(this.ErrorMessage))
             {
                 <div role="alert">

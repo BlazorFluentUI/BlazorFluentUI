@@ -56,7 +56,8 @@ namespace BlazorFabric
         {            
             // only render if they are the active item from ResponsiveLayout
             if (CascadingResponsiveLayout != null && CascadingResponsiveLayout.ActiveItems.Contains(this))
-            {               
+            {
+                Debug.WriteLine($"Rendering item ({Id})");
                 IsCurrentActive = true;
                 builder.AddContent(0, ChildContent);
             }

@@ -23,6 +23,8 @@ namespace BlazorFabric
         private bool _jsAvailable = false;
         private OrderedDictionary<ResponsiveLayoutItem, string> _mediaQueries = new OrderedDictionary<ResponsiveLayoutItem, string>();
         private Dictionary<ResponsiveLayoutItem, double> _handlers = new Dictionary<ResponsiveLayoutItem, double>();
+        private bool _jsInvoke;
+
         //private SemaphoreSlim _semaphore = new SemaphoreSlim(0, 1);
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -102,6 +104,8 @@ namespace BlazorFabric
                 changeItem.NotifyStateChange();
             foreach (var changeItem in itemsToAdd)
                 changeItem.NotifyStateChange();
+
+            
             //if (ActiveItems.Count() != activeItems.Count() || ActiveItems.Except(activeItems).Any() || activeItems.Except(ActiveItems).Any())
             //{
             //    ActiveItems = activeItems;
@@ -109,6 +113,7 @@ namespace BlazorFabric
             //    StateHasChanged();
             //}
         }
+
 
         //private void SetActiveQuery(string query)
         //{

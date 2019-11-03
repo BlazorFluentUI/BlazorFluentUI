@@ -92,6 +92,7 @@ namespace BlazorFabric
         public PanelType Type { get; set; } = PanelType.SmallFixedFar;
 
         protected bool isAnimating = false;
+        private bool animationRenderStart = false;
         
         protected EventCallback ThrowawayCallback;
 
@@ -190,6 +191,7 @@ namespace BlazorFabric
             _onTransitionComplete = async () =>
             {
                 isAnimating = false;
+                //StateHasChanged();
                 await UpdateFooterPositionAsync();
 
                 if (currentVisibility == PanelVisibilityState.Open)
@@ -391,7 +393,7 @@ namespace BlazorFabric
                 currentVisibility = PanelVisibilityState.AnimatingClosed;
             }
 
-            Debug.WriteLine(currentVisibility);
+            Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
 
             if (_jsAvailable)
             {
@@ -402,11 +404,13 @@ namespace BlazorFabric
                     if (currentVisibility == PanelVisibilityState.AnimatingOpen)
                     {
                         isAnimating = true;
+                        animationRenderStart = true;
                         _animateTo(PanelVisibilityState.Open);
                     }
                     else if (currentVisibility == PanelVisibilityState.AnimatingClosed)
                     {
                         isAnimating = true;
+                        //animationRenderStart = true;
                         _animateTo(PanelVisibilityState.Closed);
                     }
                 }
@@ -416,6 +420,18 @@ namespace BlazorFabric
             
 
             await base.OnParametersSetAsync();
+        }
+
+        protected override bool ShouldRender()
+        {
+            if (isAnimating && !animationRenderStart)
+                return false;
+            else
+            {
+                animationRenderStart = false;
+                return true;
+            }
+            //return base.ShouldRender();
         }
 
         private bool IsActive()

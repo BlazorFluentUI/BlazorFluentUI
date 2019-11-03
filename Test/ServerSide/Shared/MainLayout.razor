@@ -1,81 +1,55 @@
 ﻿@using Microsoft.AspNetCore.Components
 @inherits LayoutComponentBase
 
-<ResponsiveLayout>
-    <ResponsiveLayoutItem>
-        
-        <Stack VerticalFill="true" Style="width:100%;">
-            <StackItem Grow="0" VerticalFill="false">
-                <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu
-                            />
-            </StackItem>
+    <ResponsiveLayout>
 
-            <StackItem Grow="1" Style="overflow:hidden;">
-                <div class="content">
-                    @Body
-                </div>
-            </StackItem>
-        </Stack>
-
-        <Panel Type=@PanelType.SmallFixedNear OnDismiss=@HideMenu IsOpen=@isPanelOpen IsLightDismiss="true">
-            <NavigationTemplate>
-                <IconButton IconName="GlobalNavButton" OnClick=@HideMenu
-                            />
-                <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
-            </NavigationTemplate>
-            <ChildContent>
-                <NavMenu OnLinkClicked=@OnNavLinkClick />
-            </ChildContent>
-        </Panel>
-    </ResponsiveLayoutItem>
-
-    <ResponsiveLayoutItem MinWidth="768">
         <Stack Horizontal="true" Style="width:100%;">
-            <StackItem Grow="0" DisableShrink="true" Style="height:100%;overflow:hidden;">
-                <NavMenu />
-            </StackItem>
+            <ResponsiveLayoutItem MinWidth="768" Id="Wide NavMenu">
+                <StackItem Grow="0" DisableShrink="true" Style="height:100%;overflow:hidden;">
+                    <NavMenu />
+                </StackItem>
+            </ResponsiveLayoutItem>
+            
+            
             <StackItem Grow="1">
-                <Stack VerticalFill="true">
-                    <StackItem Grow="0" VerticalFill="false">
-                        <div class="top-row">
-                            <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
-                        </div>
-                    </StackItem>
-
+                <Stack VerticalFill="true" Style="width:100%;">
+                    <ResponsiveLayoutItem MinWidth="0" MaxWidth="767" Id="Narrow Button">
+                        <StackItem Grow="0" VerticalFill="false">
+                            <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu />
+                        </StackItem>
+                    </ResponsiveLayoutItem>
+                    <ResponsiveLayoutItem MinWidth="768" Id="Wide Header">
+                        <StackItem Grow="0" VerticalFill="false">
+                            <div class="top-row">
+                                <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
+                            </div>
+                        </StackItem>
+                    </ResponsiveLayoutItem>
                     <StackItem Grow="1" Style="overflow:hidden;">
                         <div class="content">
                             @Body
                         </div>
                     </StackItem>
                 </Stack>
+
+                <ResponsiveLayoutItem MinWidth="0" MaxWidth="767" Id="Narrow Panel">
+                    <Panel Type=@PanelType.SmallFixedNear OnDismiss=@HideMenu IsOpen=@isPanelOpen IsLightDismiss="true">
+                        <NavigationTemplate>
+                            <IconButton IconName="GlobalNavButton" OnClick=@HideMenu />
+                            <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
+                        </NavigationTemplate>
+                        <ChildContent>
+                            <NavMenu OnLinkClicked=@OnNavLinkClick />
+                        </ChildContent>
+                    </Panel>
+                </ResponsiveLayoutItem>
             </StackItem>
+
+
         </Stack>
-    </ResponsiveLayoutItem>
+      
 
-</ResponsiveLayout>
-
-
-@*<div class="sidebar">
-        <WidthAdjustingWrapper>
-            <NavMenu />
-        </WidthAdjustingWrapper>
-    </div>
-
-    <div class="main">
-        <Stack VerticalFill="true">
-            <StackItem Grow="0" VerticalFill="false">
-                <div class="top-row px-4">
-                    <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
-                </div>
-            </StackItem>
-
-            <StackItem Grow="1">
-                <div class="content px-4">
-                    @Body
-                </div>
-            </StackItem>
-        </Stack>
-    </div>*@
+    </ResponsiveLayout>
 
 @code {
     private bool isMenuCollapsed = true;
@@ -83,16 +57,20 @@
 
     void ShowMenu()
     {
+        System.Diagnostics.Debug.WriteLine("Show Menu called");
         isPanelOpen = true;
     }
 
     void HideMenu()
     {
+        System.Diagnostics.Debug.WriteLine("Hide Menu called");
         isPanelOpen = false;
     }
 
     void OnNavLinkClick(NavFabricLinkBase linkBase)
     {
+        System.Diagnostics.Debug.WriteLine("Nav Link Clicked called");
+
         isPanelOpen = false;
     }
 

@@ -16,7 +16,6 @@ namespace BlazorFabric
         //internal LayerBase() { }
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
-        //[Inject] private IComponentContext ComponentContext { get; set; }
         
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -4,18 +4,32 @@
 
 <PrimaryButton Text="Open Panel" OnClick=@Click/>
 
+<PrimaryButton Text="Open Light Dismiss Panel" OnClick=@(() => lightDismissPanelOpen=true ) />
+
 <Panel IsOpen=@isOpen 
        OnDismiss=@PanelDismiss
        Type=@PanelType.Medium
+       IsLightDismiss="false"
        HeaderText="Panel Example">
     <p>
         Hey, there's some content in here.
     </p>
 </Panel>
 
+<Panel IsOpen=@lightDismissPanelOpen
+       OnDismiss=@(() => lightDismissPanelOpen = !lightDismissPanelOpen)
+       Type=@PanelType.Medium
+       IsLightDismiss="true"
+       HeaderText="Light Dismiss Panel">
+    <p>
+        This is a light dismiss panel...
+    </p>
+</Panel>
+
 @code {
 
     bool isOpen = false;
+    bool lightDismissPanelOpen = false;
 
     Task Click(MouseEventArgs args)
     {

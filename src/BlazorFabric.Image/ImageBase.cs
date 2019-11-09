@@ -42,8 +42,8 @@ namespace BlazorFabric
             parameters.TryGetValue("Src", out src);
             if (this.Src != src)
                 imageLoadState = ImageLoadState.NotLoaded;
-            else if (hasRenderedOnce)
-                await ComputeCoverStyleAsync();
+            //else if (hasRenderedOnce)
+            //    await ComputeCoverStyleAsync();
 
             await base.SetParametersAsync(parameters);
         }
@@ -61,6 +61,9 @@ namespace BlazorFabric
             _supportsObjectFit = await JSRuntime.InvokeAsync<bool>("BlazorFabricBaseComponent.supportsObjectFit");
             if (firstRender)
                 hasRenderedOnce = firstRender;
+            else
+                await ComputeCoverStyleAsync();
+
             await base.OnAfterRenderAsync(firstRender);
         }
 

@@ -8,9 +8,9 @@
 
 <h2>Checkboxes</h2>
 <Label>Checkbox is @(isChecked ? "checked" : "unchecked").</Label>
-<Checkbox Label="Regular Checkbox" @bind-Checked="isChecked" @bind-Checked:event="CheckedChanged" />
-<Checkbox Label="Disabled Checkbox" Disabled="true" />
-<Checkbox Label="Disabled Checked Checkbox" Checked="true" Disabled="true" />
+<Checkbox Style="margin-top:10px;" Label="Regular Checkbox" @bind-Checked="isChecked" @bind-Checked:event="CheckedChanged" />
+<Checkbox Style="margin-top:10px;" Label="Disabled Checkbox" Disabled="true" />
+<Checkbox Style="margin-top:10px;" Label="Disabled Checked Checkbox" Checked="true" Disabled="true" />
 
 <h2>Buttons</h2>
 <Label>Button Result: @buttonDebug</Label>

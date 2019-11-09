@@ -45,6 +45,7 @@
                        id=@this.id
                        @bind-value=@CurrentValue
                        @oninput=@InputHandler
+                       autocomplete=@GetAutoCompleteString()
                        class="mediumFont ms-TextField-field"
                        aria-label=@this.AriaLabel
                        aria-describedby=@this.descriptionId
@@ -58,7 +59,10 @@
                        @onfocus=@OnFocus
                        @onblur=@OnBlur />
             }
-            @*        {(iconClass || iconProps) && <Icon className={this._classNames.icon} {...iconProps} />}*@
+            @if (!string.IsNullOrWhiteSpace(IconName))
+            {
+                <Icon ClassName="ms-TextField-icon" IconName=@IconName />
+            }
             @if (this.Suffix != null)
             {
                 <div class="ms-TextField-suffix">
@@ -70,7 +74,7 @@
     @if (!string.IsNullOrWhiteSpace(this.Description) || !string.IsNullOrWhiteSpace(this.ErrorMessage))
     {
         <span id="descriptionId">
-            <span style="font-size:10px; color:rgb(96,94,92)">@this.Description</span>
+            <span class="ms-TextField-description">@this.Description</span>
             @if (!string.IsNullOrWhiteSpace(this.ErrorMessage))
             {
                 <div role="alert">

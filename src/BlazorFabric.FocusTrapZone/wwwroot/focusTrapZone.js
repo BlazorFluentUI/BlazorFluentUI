@@ -178,38 +178,6 @@ var BlazorFabricFocusTrapZone;
         }
     }
     BlazorFabricFocusTrapZone.focus = focus;
-    //export function setDisabledState(id: number, disabled:boolean): void {
-    //    let focusTrapZone = focusTrapZones[id];
-    //    if (focusTrapZone) {
-    //        focusTrapZone.setDisabled(disabled);
-    //    }
-    //}
-    //export function checkNotNull(targetElement: HTMLElement): boolean {
-    //    if (targetElement === undefined) {
-    //        return false;
-    //    } else {
-    //        return true;
-    //    }
-    //}
-    //export function getActiveElement(): HTMLElement {
-    //    return document.activeElement as HTMLElement;
-    //}
-    //export function getFirstFocusableChild(rootElement:HTMLElement, selectorClass: string): HTMLElement {
-    //    let child: HTMLElement = null;
-    //    if (selectorClass != null) {
-    //        child = rootElement.querySelector('.' + selectorClass);
-    //    }
-    //    if (!child) {
-    //        //fallback to first element
-    //        child = getNextElement(rootElement, rootElement.firstChild as HTMLElement, false, false, false, true);
-    //    }
-    //    return child;
-    //}
-    //export function focusIfNotBumper(elementToFocus: HTMLElement, firstBumper: HTMLElement, lastBumper: HTMLElement) {
-    //    if (!(elementToFocus === firstBumper || elementToFocus === lastBumper)) {
-    //        focusAsync(elementToFocus);
-    //    }
-    //}
     function elementContains(parent, child, allowVirtualParents) {
         if (allowVirtualParents === void 0) { allowVirtualParents = true; }
         var isContained = false;

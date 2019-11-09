@@ -2,20 +2,23 @@
 
 @using Models
 
-<BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
-<BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
-<BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
-<div style="height:400px;">
-    <BlazorFabric.List ItemsSource=@data TItem="DataItem">
-        <ItemTemplate>
-            <div style="display:flex; flex-direction:row; ">
-                <img src=@context.ImgUrl />
-                <em>@context.DisplayName</em>
+    <div style="display:flex; flex-direction:column; height: calc(100vh - 53.5px);">
+        <div style="display:flex;flex-direction:column;flex-grow:1;height:100%;">
+            <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
+            <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
+            <BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
+            <div style="overflow:hidden;flex-grow:1;">
+                <BlazorFabric.List ItemsSource=@data TItem="DataItem">
+                    <ItemTemplate>
+                        <div style="display:flex; flex-direction:row; ">
+                            <img src=@context.ImgUrl />
+                            <em>@context.DisplayName</em>
+                        </div>
+                    </ItemTemplate>
+                </BlazorFabric.List>
             </div>
-        </ItemTemplate>
-    </BlazorFabric.List>
-</div>
-
+        </div>
+    </div>
 @code {
     int count = 0;
     System.Collections.ObjectModel.ObservableCollection<DataItem> data;
@@ -32,7 +35,7 @@
         return Task.CompletedTask;
     }
 
-    Task ClickHandler2(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+     Task ClickHandler2(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
         System.Diagnostics.Debug.WriteLine("Clicked!");
         for (var i = 0; i < 5000; i++)

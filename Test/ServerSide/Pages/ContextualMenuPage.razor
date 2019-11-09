@@ -35,10 +35,11 @@
 <p>
     <em>@debugText</em>
 </p>
+<h3>Starting to look good.  Finish Header, Section, submenu, and wire up events properly</h3>
 
 
 @code {
-        System.Collections.Generic.List<IContextualMenuItem> contextualMenuItems;
+    System.Collections.Generic.List<IContextualMenuItem> contextualMenuItems;
 
     private System.Windows.Input.ICommand buttonCommand;
     private string debugText;
@@ -61,11 +62,8 @@
     {
         buttonCommand = new Utils.RelayCommand((p) =>
         {
-            InvokeAsync(() =>
-            {
-                debugText = $"{p.ToString()} button was clicked. {commandCount++}";
-                StateHasChanged();
-            });
+            debugText = $"{p.ToString()} button was clicked. {commandCount++}";
+            StateHasChanged();
         });
 
         contextualMenuItems = new System.Collections.Generic.List<IContextualMenuItem>()

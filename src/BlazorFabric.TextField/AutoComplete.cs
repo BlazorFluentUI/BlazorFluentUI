@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace BlazorFabric
+{
+    public enum AutoComplete
+    {
+        Off,
+        On,
+        Name,
+        HonorificPrefix,
+        GivenName,
+        AdditionalName,
+        FamilyName,
+        HonorificSuffix,
+        Nickname,
+        Email,
+        Username,
+        NewPassword,
+        CurrentPassword,
+        OneTimeCode,
+        OrganizationTitle,
+        Organization,
+        StreetAddress,
+        AddressLine1,
+        AddressLine2,
+        AddressLine3,
+        AddressLevel4,
+        AddressLevel3,
+        AddressLevel2,
+        AddressLevel1,
+        Country,
+        CountryName,
+        PostalCode,
+        CcName,
+        CcGivenName,
+        CcAdditionalName,
+        CcFamilyName,
+        CcNumber,
+        CcExp,
+        CcExpMonth,
+        CcExpYear,
+        CcCsc,
+        CcType,
+        TransactionCurrency,
+        TransactionAmount,
+        Language,
+        Bday,
+        BdayDay,
+        BdayMonth,
+        BdayYear,
+        Sex,
+        Tel,
+        TelCountryCode,
+        TelNational,
+        TelAreaCode,
+        TelLocal,
+        TelExtension,
+        Impp,
+        Url,
+        Photo
+
+    }
+}

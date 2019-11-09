@@ -1,69 +1,59 @@
-﻿@using Microsoft.AspNetCore.Components.Web
+﻿@using Microsoft.AspNetCore.Components
 
-<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">BlazorFabric.Test.HostedClient</a>
-    <button class="navbar-toggler" @onclick=@ToggleNavMenu>
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
+    <Stack Horizontal="false" VerticalFill="true" Style="overflow:hidden;">
+        <StackItem Grow="0" VerticalFill="false">
+            <div class="top-row pl-4 navbar navbar-dark">
+                <a class="navbar-brand" href=""><b>BlazorFabric Demo</b></a>
+                @*<button class="navbar-toggler" @onclick="@ToggleNavMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>*@
+            </div>
+        </StackItem>
 
-<Nav>
-    <NavLinkGroup Name="Basic Controls" CollapseByDefault="false">
-        <NavFabricLink Name="Basic" Url="/" Id="/" Icon="ButtonControl" />
-        <NavFabricLink Name="TextField" Url="/textFieldPage" Id="textFieldPage" Icon="TextField" />
-        <NavFabricLink Name="Dropdown" Url="/dropdownPage" Id="dropdownPage" Icon="Dropdown" />
-    </NavLinkGroup>
-    <NavLinkGroup Name="Items & Lists" CollapseByDefault="false">
-        <NavFabricLink Name="List" Url="/listPage" Id="listPage" Icon="List" />
-    </NavLinkGroup>
-    <NavLinkGroup Name="Commands, Menus & Navs" CollapseByDefault="false">
-        <NavFabricLink Name="CommandBar" Url="/commandBarPage" Id="commandBarPage" Icon="Bar" />
-        <NavFabricLink Name="ContextualMenu" Url="/contextualMenuPage" Id="contextualMenuPage" Icon="Menu" />
-        <NavFabricLink Name="Nav" Url="/navPage" Id="navPage" Icon="SecondaryNav" />
-        <NavFabricLink Name="OverflowSet" Url="/overflowSetPage" Id="overflowSetPage" Icon="More" />
-    </NavLinkGroup>
-    <NavLinkGroup Name="Surfaces" CollapseByDefault="false">
-        <NavFabricLink Name="Callout" Url="/calloutPage" Id="calloutPage" Icon="" />
-        <NavFabricLink Name="Dialog" Url="/dialogPage" Id="dialogPage" Icon="" />
-        <NavFabricLink Name="Modal" Url="/modalPage" Id="modalPage" Icon="" />
-    </NavLinkGroup>
-    <NavLinkGroup Name="Utilities" CollapseByDefault="false">
-        <NavFabricLink Name="Layer" Url="/layerPage" Id="layerPage" Icon="" />
-        <NavFabricLink Name="ResizeGroup" Url="/resizeGroupPage" Id="resizeGroupPage" Icon="Resize" />
-    </NavLinkGroup>
-</Nav>
+        <StackItem VerticalFill="true" Style="overflow-y:auto;">
+            <Nav>
+                <NavLinkGroup Name="Basic Controls" CollapseByDefault="false">
+                    <NavFabricLink Name="Basic" Url="/" Id="/" Icon="ButtonControl" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Button" Url="/buttonsPage" Id="/buttonsPage" Icon="ButtonControl" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="TextField" Url="/textFieldPage" Id="textFieldPage" Icon="TextField" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Dropdown" Url="/dropdownPage" Id="dropdownPage" Icon="Dropdown" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Toggle" Url="/togglePage" Id="togglePage" Icon="ToggleLeft" OnClick=@OnLinkClicked />
+                </NavLinkGroup>
+                <NavLinkGroup Name="Items & Lists" CollapseByDefault="false">
+                    <NavFabricLink Name="List" Url="/listPage" Id="listPage" Icon="List" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Persona" Url="/personaPage" Id="personaPage" Icon="Contact" OnClick=@OnLinkClicked />
+                </NavLinkGroup>
+                <NavLinkGroup Name="Commands, Menus & Navs" CollapseByDefault="false">
+                    <NavFabricLink Name="CommandBar" Url="/commandBarPage" Id="commandBarPage" Icon="Bar" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="ContextualMenu" Url="/contextualMenuPage" Id="contextualMenuPage" Icon="ContextMenu" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Nav" Url="/navPage" Id="navPage" Icon="SecondaryNav" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="OverflowSet" Url="/overflowSetPage" Id="overflowSetPage" Icon="More" OnClick=@OnLinkClicked />
+                </NavLinkGroup>
+                <NavLinkGroup Name="Progress" CollapseByDefault="false">
+                    <NavFabricLink Name="Spinner" Url="/spinnerPage" Id="spinnerPage" Icon="ProgressRingDots" OnClick=@OnLinkClicked />
+                </NavLinkGroup>
+                <NavLinkGroup Name="Surfaces" CollapseByDefault="false">
+                    <NavFabricLink Name="Callout" Url="/calloutPage" Id="calloutPage" Icon="TextCallout" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Dialog" Url="/dialogPage" Id="dialogPage" Icon="TextCallout" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Modal" Url="/modalPage" Id="modalPage" Icon="TextCallout" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Panel" Url="/panelPage" Id="panelPage" Icon="SidePanel" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Tooltip" Url="/tooltipPage" Id="tooltipPage" Icon="DiagnosticDataBarTooltip" OnClick=@OnLinkClicked />
+                </NavLinkGroup>
+                <NavLinkGroup Name="Utilities" CollapseByDefault="false">
+                    <NavFabricLink Name="Image" Url="/imagePage" Id="imagePage" Icon="ImagePixel" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Layer" Url="/layerPage" Id="layerPage" Icon="MapLayers" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="FocusTrapZone" Url="/focusTrapZonePage" Id="focusTrapZonePage" Icon="Focus" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="ResizeGroup" Url="/resizeGroupPage" Id="resizeGroupPage" Icon="Resize" OnClick=@OnLinkClicked />
+                    <NavFabricLink Name="Stack" Url="/stackPage" Id="stackPage" Icon="Stack" OnClick=@OnLinkClicked />
+                </NavLinkGroup>
+            </Nav>
+        </StackItem>
+    </Stack>
 
-@*<div class="@NavMenuCssClass" onclick="@ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Basic Controls
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="textFieldPage">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> TextField
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="navPage2">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Nav
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="listPage">
-                <span class="oi oi-plus" aria-hidden="true"></span> List
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-    </ul>
-</div>*@
+@code {
 
-@functions {
+    [Parameter] public EventCallback<NavFabricLinkBase> OnLinkClicked { get; set; }
+
     bool collapseNavMenu = true;
 
     string NavMenuCssClass => collapseNavMenu ? "collapse" : null;

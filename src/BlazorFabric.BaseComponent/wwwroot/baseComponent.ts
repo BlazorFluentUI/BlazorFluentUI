@@ -85,10 +85,14 @@
     // end
 
     export function getClientHeight(element: HTMLElement): number {
+        if (element == null)
+            return 0;
         return element.clientHeight;
     }
 
     export function getScrollHeight(element: HTMLElement): number {
+        if (element == null)
+            return 0;
         return element.scrollHeight;
     }
 

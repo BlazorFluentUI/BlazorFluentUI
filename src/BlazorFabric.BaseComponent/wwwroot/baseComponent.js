@@ -61,10 +61,14 @@ var BlazorFabricBaseComponent;
     };
     // end
     function getClientHeight(element) {
+        if (element == null)
+            return 0;
         return element.clientHeight;
     }
     BlazorFabricBaseComponent.getClientHeight = getClientHeight;
     function getScrollHeight(element) {
+        if (element == null)
+            return 0;
         return element.scrollHeight;
     }
     BlazorFabricBaseComponent.getScrollHeight = getScrollHeight;

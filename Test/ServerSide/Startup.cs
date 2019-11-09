@@ -19,7 +19,10 @@ namespace BlazorFabric.Test.ServerSide
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor(configure => 
+            {
+                configure.DetailedErrors = true;
+            });
             services.AddSingleton<WeatherForecastService>();
         }
 

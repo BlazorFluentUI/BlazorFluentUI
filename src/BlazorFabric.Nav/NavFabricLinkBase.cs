@@ -39,7 +39,7 @@ namespace BlazorFabric
        
         protected override Task OnInitializedAsync()
         {
-            System.Diagnostics.Debug.WriteLine("Initializing NavFabricLinkBase");
+            //System.Diagnostics.Debug.WriteLine("Initializing NavFabricLinkBase");
             ProcessUri(NavigationManager.Uri);
             NavigationManager.LocationChanged += UriHelper_OnLocationChanged;
             return base.OnInitializedAsync();

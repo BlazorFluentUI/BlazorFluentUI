@@ -1,27 +1,60 @@
 ﻿@namespace BlazorFabric
-@inherits  CalloutBase
+@inherits CalloutBase
 
-
-<BlazorFabric.Layer @ref="layerReference">
-    <div class="ms-Callout-container" @ref="RootElementReference" style=@($"{(this.Hidden ? "visibility: hidden;" : "")}")>
-        <div class=@($"ms-Callout mediumFont {GetAnimationStyle()} {CalloutPosition.TargetEdge.ToString()} {ClassName}")
-             @ref="calloutReference"
-             style=@($"{CalloutPosition.ElementRectangle.GetStyle()} {(CalloutWidth > 0 ? "width: " + CalloutWidth + "px":"")} {(CalloutMaxWidth > 0?"maxWidth: " + CalloutMaxWidth + "px":"")}")
-             tabindex="-1">
-            @if (this.IsBeakVisible)
-            {
-                <div class="ms-Callout-beak" style=@($"{CalloutPosition.BeakPosition.ElementRectangle.GetStyle()} width:{BeakWidth}px; height:{BeakWidth}px; {(BackgroundColor != null ? "background-color:"+BackgroundColor+";" : "")}") />
-                <div class="ms-Callout-beakCurtain" />
-            }
-            <BlazorFabric.Popup AriaLabel=@AriaLabel
-                                      AriaDescribedBy=@AriaDescribedBy
-                                      AriaLabelledBy=@AriaLabelledBy
-                                      ClassName="ms-Callout-main"
-                                      ShouldRestoreFocus="true"
-                                      Style=@($"max-height: {contentMaxHeight}px;{(overflowYHidden ? "overflow-y: hidden;" : "")} {(BackgroundColor != null ? "background-color:"+BackgroundColor+";" : "")}")>
-                @ChildContent
-            </BlazorFabric.Popup>
-        </div>
-    </div>
+@if (this.DoNotLayer)
+{
+    <CalloutContent AlignTargetEdge=@AlignTargetEdge
+                    AriaDescribedBy=@AriaDescribedBy
+                    AriaLabel=@AriaLabel
+                    AriaLabelledBy=@AriaLabelledBy
+                    BackgroundColor=@BackgroundColor
+                    BeakWidth=@BeakWidth
+                    Bounds=@Bounds
+                    CalloutMaxWidth=@CalloutMaxWidth
+                    CalloutWidth=@CalloutWidth
+                    ChildContent=@ChildContent
+                    ClassName=@ClassName
+                    CoverTarget=@CoverTarget
+                    DirectionalHint=@DirectionalHint
+                    DirectionalHintFixed=@DirectionalHintFixed
+                    DoNotLayer=@DoNotLayer
+                    FabricComponentTarget=@FabricComponentTarget
+                    GapSpace=@GapSpace
+                    HiddenChanged=@HiddenChanged
+                    IsBeakVisible=@IsBeakVisible
+                    MinPagePadding=@MinPagePadding
+                    OnDismiss=@OnDismiss
+                    PreventDismissOnLostFocus=@PreventDismissOnLostFocus
+                    PreventDismissOnResize=@PreventDismissOnResize
+                    PreventDismissOnScroll=@PreventDismissOnScroll
+                    />
+}
+else
+{
+<BlazorFabric.Layer>
+    <CalloutContent AlignTargetEdge=@AlignTargetEdge
+                    AriaDescribedBy=@AriaDescribedBy
+                    AriaLabel=@AriaLabel
+                    AriaLabelledBy=@AriaLabelledBy
+                    BackgroundColor=@BackgroundColor
+                    BeakWidth=@BeakWidth
+                    Bounds=@Bounds
+                    CalloutMaxWidth=@CalloutMaxWidth
+                    CalloutWidth=@CalloutWidth
+                    ChildContent=@ChildContent
+                    ClassName=@ClassName
+                    CoverTarget=@CoverTarget
+                    DirectionalHint=@DirectionalHint
+                    DirectionalHintFixed=@DirectionalHintFixed
+                    DoNotLayer=@DoNotLayer
+                    FabricComponentTarget=@FabricComponentTarget
+                    GapSpace=@GapSpace
+                    HiddenChanged=@HiddenChanged
+                    IsBeakVisible=@IsBeakVisible
+                    MinPagePadding=@MinPagePadding
+                    OnDismiss=@OnDismiss
+                    PreventDismissOnLostFocus=@PreventDismissOnLostFocus
+                    PreventDismissOnResize=@PreventDismissOnResize
+                    PreventDismissOnScroll=@PreventDismissOnScroll />
 </BlazorFabric.Layer>
-
+}

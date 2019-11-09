@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\src\BlazorFabric.Nav\BlazorFabric.Nav.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.OverflowSet\BlazorFabric.OverflowSet.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Overlay\BlazorFabric.Overlay.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Rating\BlazorFabric.Rating.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.TextField\BlazorFabric.TextField.csproj" />
   </ItemGroup>

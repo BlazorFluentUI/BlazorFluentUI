@@ -16,7 +16,7 @@ namespace BlazorFabric
                 
         protected override Task OnInitializedAsync()
         {
-            System.Diagnostics.Debug.WriteLine("Initializing NavBase");
+            //System.Diagnostics.Debug.WriteLine("Initializing NavBase");
             return base.OnInitializedAsync();
         }
 

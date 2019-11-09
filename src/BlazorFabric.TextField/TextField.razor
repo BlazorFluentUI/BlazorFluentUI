@@ -2,7 +2,7 @@
 @inherits TextFieldBase
 @using Microsoft.AspNetCore.Components.Web
 
-<div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(this.ErrorMessage != null ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(this.Label == null ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )}")
+<div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(this.Label == null ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )}")
      style=@Style
      @ref="RootElementReference">
     <div class="ms-TextField-wrapper">
@@ -22,13 +22,13 @@
                 <textarea id=@this.id
                           @ref="textAreaRef"
                           style=@inlineTextAreaStyle
-                          value=@currentValue
+                          value=@CurrentValue
                           @oninput=@InputHandler
                           @onchange=@ChangeHandler
                           class="mediumFont ms-TextField-field"
                           aria-label=@this.AriaLabel
                           aria-describedby=@this.descriptionId
-                          aria-invalid=@(this.ErrorMessage != null ? true : false)
+                          aria-invalid=@(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? true : false)
                           readOnly=@this.ReadOnly
                           placeholder=@this.Placeholder
                           disabled=@this.Disabled
@@ -43,13 +43,13 @@
             {
                 <input type="@TypeUtils.InputMap[this.InputType]"
                        id=@this.id
-                       value=@currentValue
+                       @bind-value=@CurrentValue
                        @oninput=@InputHandler
-                       @onchange=@ChangeHandler
+                       autocomplete=@GetAutoCompleteString()
                        class="mediumFont ms-TextField-field"
                        aria-label=@this.AriaLabel
                        aria-describedby=@this.descriptionId
-                       aria-invalid=@(this.ErrorMessage != null ? true : false)
+                       aria-invalid=@(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? true : false)
                        readOnly=@this.ReadOnly
                        placeholder=@this.Placeholder
                        disabled=@this.Disabled
@@ -59,7 +59,10 @@
                        @onfocus=@OnFocus
                        @onblur=@OnBlur />
             }
-            @*        {(iconClass || iconProps) && <Icon className={this._classNames.icon} {...iconProps} />}*@
+            @if (!string.IsNullOrWhiteSpace(IconName))
+            {
+                <Icon ClassName="ms-TextField-icon" IconName=@IconName />
+            }
             @if (this.Suffix != null)
             {
                 <div class="ms-TextField-suffix">
@@ -68,11 +71,11 @@
             }
         </div>
     </div>
-    @if (this.Description != null || this.ErrorMessage != null)
+    @if (!string.IsNullOrWhiteSpace(this.Description) || !string.IsNullOrWhiteSpace(this.ErrorMessage))
     {
         <span id="descriptionId">
-            <span class="description">@this.Description</span>
-            @if (this.ErrorMessage != null)
+            <span class="ms-TextField-description">@this.Description</span>
+            @if (!string.IsNullOrWhiteSpace(this.ErrorMessage))
             {
                 <div role="alert">
                     <BlazorFabric.DelayedRender Delay="100">

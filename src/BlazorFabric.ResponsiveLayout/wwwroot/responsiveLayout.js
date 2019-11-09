@@ -10,37 +10,36 @@ var BlazorFabricResponsiveLayout;
         var mql = window.matchMedia(query);
         var handler = Handler.addListener(mql, function (ev) {
             var result;
-            console.log("query triggered: " + ev.media);
             //var mql = window.matchMedia(query);
             if (ev.matches) {
+                console.log("query triggered: " + ev.media);
                 result = query;
+                responsiveLayout.invokeMethodAsync("QueryChanged", result);
             }
-            responsiveLayout.invokeMethodAsync("QueryChanged", result);
         });
         return handler;
     }
     BlazorFabricResponsiveLayout.registerMediaQueryWatcher = registerMediaQueryWatcher;
-    function registerMediaQueryWatchers(responsiveLayout, minWidthArray) {
-        var mqls = [];
-        var handlers = [];
-        for (var i = 0; i < minWidthArray.length; i++) {
-            var mql = window.matchMedia("(min-width:" + minWidthArray[i] + "px)");
-            var handler = Handler.addListener(mql, function (ev) {
-                var result = 0;
-                for (var i_1 = 0; i_1 < minWidthArray.length; i_1++) {
-                    var mql = window.matchMedia("(min-width:" + minWidthArray[i_1] + "px)");
-                    if (mql.matches) {
-                        result = minWidthArray[i_1];
-                    }
-                }
-                responsiveLayout.invokeMethodAsync("WidthChanged", result);
-            });
-            mqls.push(mql);
-            handlers.push(handler);
-        }
-        return handlers;
-    }
-    BlazorFabricResponsiveLayout.registerMediaQueryWatchers = registerMediaQueryWatchers;
+    //export function registerMediaQueryWatchers(responsiveLayout: DotNetReferenceType, minWidthArray: number[]): number[] {
+    //    var mqls: MediaQueryList[] = [];
+    //    var handlers: number[] = [];
+    //    for (let i = 0; i < minWidthArray.length; i++) {
+    //        var mql = window.matchMedia(`(min-width:${minWidthArray[i]}px)`);
+    //        var handler = Handler.addListener(mql, (ev) => {
+    //            var result: number = 0;
+    //            for (let i = 0; i < minWidthArray.length; i++) {
+    //                var mql = window.matchMedia(`(min-width:${minWidthArray[i]}px)`);
+    //                if (mql.matches) {
+    //                    result = minWidthArray[i];
+    //                }
+    //            }
+    //            responsiveLayout.invokeMethodAsync("WidthChanged", result);
+    //        });
+    //        mqls.push(mql);
+    //        handlers.push(handler);
+    //    }
+    //    return handlers;
+    //}
     function unregisterHandlers(ids) {
         for (var i = 0; i < ids.length; i++) {
             Handler.removeListener(ids[i]);

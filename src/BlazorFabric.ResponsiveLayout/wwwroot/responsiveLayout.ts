@@ -22,39 +22,40 @@ namespace BlazorFabricResponsiveLayout {
         var mql = window.matchMedia(query);
         var handler = Handler.addListener(mql, (ev : MediaQueryListEvent) => {
             var result: string;
-            console.log("query triggered: " + ev.media);
             //var mql = window.matchMedia(query);
             if (ev.matches) {
+                console.log("query triggered: " + ev.media);
                 result = query;
+                responsiveLayout.invokeMethodAsync("QueryChanged", result);
             }
 
-            responsiveLayout.invokeMethodAsync("QueryChanged", result);
+            
         });
         
         return handler;
     }
 
-    export function registerMediaQueryWatchers(responsiveLayout: DotNetReferenceType, minWidthArray: number[]): number[] {
-        var mqls: MediaQueryList[] = [];
-        var handlers: number[] = [];
-        for (let i = 0; i < minWidthArray.length; i++) {
-            var mql = window.matchMedia(`(min-width:${minWidthArray[i]}px)`);
-            var handler = Handler.addListener(mql, (ev) => {
-                var result: number = 0;
-                for (let i = 0; i < minWidthArray.length; i++) {
-                    var mql = window.matchMedia(`(min-width:${minWidthArray[i]}px)`);
-                    if (mql.matches) {
-                        result = minWidthArray[i];
-                    }
-                }
-                responsiveLayout.invokeMethodAsync("WidthChanged", result);
-            });
-            mqls.push(mql);
-            handlers.push(handler);
-        }
+    //export function registerMediaQueryWatchers(responsiveLayout: DotNetReferenceType, minWidthArray: number[]): number[] {
+    //    var mqls: MediaQueryList[] = [];
+    //    var handlers: number[] = [];
+    //    for (let i = 0; i < minWidthArray.length; i++) {
+    //        var mql = window.matchMedia(`(min-width:${minWidthArray[i]}px)`);
+    //        var handler = Handler.addListener(mql, (ev) => {
+    //            var result: number = 0;
+    //            for (let i = 0; i < minWidthArray.length; i++) {
+    //                var mql = window.matchMedia(`(min-width:${minWidthArray[i]}px)`);
+    //                if (mql.matches) {
+    //                    result = minWidthArray[i];
+    //                }
+    //            }
+    //            responsiveLayout.invokeMethodAsync("WidthChanged", result);
+    //        });
+    //        mqls.push(mql);
+    //        handlers.push(handler);
+    //    }
                
-        return handlers;
-    }
+    //    return handlers;
+    //}
 
 
     export function unregisterHandlers(ids: number[]): void {

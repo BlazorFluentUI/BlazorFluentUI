@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
@@ -29,12 +29,17 @@ namespace BlazorFabric
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool ReadOnly { get; set; }
         [Parameter] public string ErrorMessage { get; set; }
+        [Parameter] public bool ValidateOnFocusIn { get; set; }
+        [Parameter] public bool ValidateOnFocusOut { get; set; }
+        [Parameter] public bool ValidateOnLoad { get; set; } = true;
+        [Parameter] public int DeferredValidationTime { get; set; } = 200;
         [Parameter] public string AriaLabel { get; set; }
-        [Parameter] public bool AutoComplete { get; set; }
+        [Parameter] public AutoComplete AutoComplete { get; set; } = AutoComplete.On;
         [Parameter] public string Mask { get; set; }
         [Parameter] public string MaskChar { get; set; }
         [Parameter] public string MaskFormat { get; set; }
         [Parameter] public string Placeholder { get; set; }
+        [Parameter] public string IconName { get; set; }
 
         [Parameter]
         public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
@@ -42,6 +47,10 @@ namespace BlazorFabric
         public EventCallback<KeyboardEventArgs> OnKeyUp { get; set; }
         [Parameter]
         public EventCallback<KeyboardEventArgs> OnKeyPress { get; set; }
+        [Parameter]
+        public Func<string, string> OnGetErrorMessage { get; set; }
+        [Parameter]
+        public Action<string, string> OnNotifyValidationResult { get; set; }
 
         //[Parameter]
         //protected Func<UIChangeEventArgs, Task> OnChange { get; set; }
@@ -56,24 +65,69 @@ namespace BlazorFabric
         protected string descriptionId = Guid.NewGuid().ToString();
 
         private bool firstRendered = false;
-        protected string currentValue;
+        private int deferredValidationTime;
+        private bool defaultErrorMessageIsSet;
+        private string latestValidatedValue = "";
+        private string currentValue;
+        private Task DeferredValidationTask;
+        private CancellationTokenSource cancellationTokenSource;
+        protected string CurrentValue
+        {
+            get => currentValue;
+            set
+            {
+                if (value == currentValue)
+                    return;
+                currentValue = value;
+                ChangeHandler(new ChangeEventArgs() { Value = value }).ConfigureAwait(true);
+            }
+        }
+
         protected ElementReference textAreaRef;
         protected string inlineTextAreaStyle = "";
         protected bool isFocused = false;
 
+        protected override Task OnInitializedAsync()
+        {
+            if (!string.IsNullOrWhiteSpace(ErrorMessage))
+            {
+                defaultErrorMessageIsSet = true;
+            }
+
+            // to prevent changes after initialisation
+            deferredValidationTime = DeferredValidationTime;
+            
+
+            return base.OnInitializedAsync();
+        }
+
         protected override Task OnParametersSetAsync()
         {
             if (DefaultValue != null)
-                currentValue = DefaultValue;
+                CurrentValue = DefaultValue;
 
             if (Value != null)
-                currentValue = Value;
+                CurrentValue = Value;
+
+            if (ValidateOnLoad && ValidateAllChanges())
+            {
+                Validate(CurrentValue);
+            }
 
             return base.OnParametersSetAsync();
         }
 
         protected async Task InputHandler(ChangeEventArgs args)
         {
+            if (!defaultErrorMessageIsSet && OnGetErrorMessage != null && !string.IsNullOrWhiteSpace(ErrorMessage))
+            {
+                ErrorMessage = "";
+                StateHasChanged();
+            }
+            if (ValidateAllChanges())
+            {
+                await DeferredValidation((string)args.Value).ConfigureAwait(false);
+            }
             await AdjustInputHeightAsync();
             await OnInput.InvokeAsync((string)args.Value);
             //await InputChanged.InvokeAsync((string)args.Value);
@@ -86,24 +140,25 @@ namespace BlazorFabric
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
             await OnChange.InvokeAsync((string)args.Value);
-            //await ChangeChanged.InvokeAsync((string)args.Value);
-            //if (this.OnChange != null)
-            //{
-            //    await this.OnChange.Invoke(args);
-            //}
         }
 
         protected Task OnFocus(FocusEventArgs args)
         {
             isFocused = true;
-            //StateHasChanged();
+            if (ValidateOnFocusIn && !defaultErrorMessageIsSet)
+            {
+                Validate(CurrentValue);
+            }
             return Task.CompletedTask;
         }
 
         protected Task OnBlur(FocusEventArgs args)
         {
             isFocused = false;
-            //StateHasChanged();
+            if (ValidateOnFocusOut && !defaultErrorMessageIsSet)
+            {
+                Validate(CurrentValue);
+            }
             return Task.CompletedTask;
         }
 
@@ -122,9 +177,77 @@ namespace BlazorFabric
             if (this.AutoAdjustHeight == true && this.Multiline)
             {
                 var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFabricTextField.getScrollHeight", textAreaRef);
-                inlineTextAreaStyle = $"height: {scrollHeight}px"; 
+                inlineTextAreaStyle = $"height: {scrollHeight}px";
             }
         }
 
+        protected string GetAutoCompleteString()
+        {
+            var value = AutoComplete.ToString();
+            value = Char.ToLowerInvariant(value[0]) + value.Substring(1);
+            string result = "";
+            foreach (var c in value.ToCharArray())
+            {
+                if (Char.IsUpper(c))
+                {
+                    result += "-";
+                    result += Char.ToLowerInvariant(c);
+                }
+                else
+                    result += c;
+            }
+            return result;
+        }
+
+        private void Validate(string value)
+        {
+            if (value == null || latestValidatedValue == value)
+                return;
+
+            latestValidatedValue = value;
+            string errorMessage = OnGetErrorMessage?.Invoke(value);
+            if (errorMessage != null)
+            {
+                ErrorMessage = errorMessage;
+            }
+            OnNotifyValidationResult?.Invoke(errorMessage, value);
+        }
+
+        private bool ValidateAllChanges()
+        {
+            return OnGetErrorMessage != null && !defaultErrorMessageIsSet && !ValidateOnFocusIn && !ValidateOnFocusOut;
+        }
+
+        private async Task DeferredValidation(string value)
+        {
+            if (DeferredValidationTask != null)
+            {
+                cancellationTokenSource.Cancel();
+                try
+                {
+                    DeferredValidationTask.Wait();
+                }
+                catch
+                {
+                    
+                }
+                finally
+                {
+                    cancellationTokenSource.Dispose();
+                    DeferredValidationTask.Dispose();
+                }
+            }
+            cancellationTokenSource = new CancellationTokenSource();
+            DeferredValidationTask = Task.Run(async () =>
+            {
+                await Task.Delay(deferredValidationTime, cancellationTokenSource.Token);
+                if (cancellationTokenSource.IsCancellationRequested)
+                {
+                    return;
+                }
+                Validate(value);
+                StateHasChanged();
+            });
+        }
     }
 }

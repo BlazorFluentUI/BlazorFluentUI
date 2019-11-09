@@ -28,7 +28,7 @@ namespace BlazorFabric
 
         protected override Task OnInitializedAsync()
         {
-            System.Diagnostics.Debug.WriteLine("Initializing NavLinkGroupBase");
+            //System.Diagnostics.Debug.WriteLine("Initializing NavLinkGroupBase");
             return base.OnInitializedAsync();
         }
 

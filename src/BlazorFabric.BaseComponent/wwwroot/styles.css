@@ -189,17 +189,19 @@
 
 :root {
     --fontSize-Mini: 10px;
-    --fontSize-XSmall: 11px;
+    --fontSize-XSmall: 10px;
     --fontSize-Small: 12px;
-    --fontSize-SmallPlus: 13px;
+    --fontSize-SmallPlus: 12px;
     --fontSize-Medium: 14px;
-    --fontSize-MediumPlus: 15px;
+    --fontSize-MediumPlus: 16px;
     --fontSize-Icon: 16px;
-    --fontSize-Large: 17px;
-    --fontSize-XLarge: 21px;
+    --fontSize-Large: 18px;
+    --fontSize-XLarge: 20px;
+    --fontSize-XLargePlus: 24px;
     --fontSize-XxLarge: 28px;
+    --fontSize-XxLargePlus: 32px;
     --fontSize-SuperLarge: 42px;
-    --fontSize-Mega: 72px;
+    --fontSize-Mega: 68px;
     --fontWeight-Light: 100;
     --fontWeight-SemiLight: 300;
     --fontWeight-Regular: 400;

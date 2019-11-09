@@ -53,13 +53,13 @@ namespace BlazorFabric
         public bool IsBlocking { get; set; } = true;
 
         [Parameter]
-        public bool IsFooterAtBottom { get; set; }
+        public bool IsFooterAtBottom { get; set; } = false;
 
         [Parameter]
-        public bool IsHiddenOnDismiss { get; set; }
+        public bool IsHiddenOnDismiss { get; set; } = false;
 
         [Parameter]
-        public bool IsLightDismiss { get; set; }
+        public bool IsLightDismiss { get; set; } = false;
 
         [Parameter]
         public bool IsOpen { get; set; }
@@ -92,6 +92,7 @@ namespace BlazorFabric
         public PanelType Type { get; set; } = PanelType.SmallFixedFar;
 
         protected bool isAnimating = false;
+        private bool animationRenderStart = false;
         
         protected EventCallback ThrowawayCallback;
 
@@ -99,7 +100,7 @@ namespace BlazorFabric
         protected PanelVisibilityState currentVisibility = PanelVisibilityState.Closed;
         protected bool isFooterSticky = false;
 
-        protected Action<MouseEventArgs> onPanelClick;
+        protected Action onPanelClick;
         private Action dismiss;
         private List<int> _scrollerEventId = new List<int>();
         private int _resizeId = -1;
@@ -116,8 +117,11 @@ namespace BlazorFabric
 
         ElapsedEventHandler _handler = null;
 
+        private bool _jsAvailable = false;
+
         public PanelBase()
         {
+            Debug.WriteLine("Panel Created");
             _animationTimer = new Timer();
 
             HeaderTemplate = builder =>
@@ -141,11 +145,11 @@ namespace BlazorFabric
                 }
             };
 
-            onPanelClick = (ev) =>
+            onPanelClick = () =>
             {
                 this.dismiss();
             };
-
+                        
             dismiss = async () =>
             {
                 await OnDismiss.InvokeAsync(null);
@@ -171,7 +175,7 @@ namespace BlazorFabric
                 {
                     InvokeAsync(() =>
                     {
-                        Debug.WriteLine("Inside invokeAsync from animateTo timer elapsed");
+                        //Debug.WriteLine("Inside invokeAsync from animateTo timer elapsed");
                         _animationTimer.Elapsed -= _handler;
                         _animationTimer.Stop();
                         
@@ -187,6 +191,7 @@ namespace BlazorFabric
             _onTransitionComplete = async () =>
             {
                 isAnimating = false;
+                //StateHasChanged();
                 await UpdateFooterPositionAsync();
 
                 if (currentVisibility == PanelVisibilityState.Open)
@@ -202,10 +207,16 @@ namespace BlazorFabric
 
         }
 
+        //Task OnPanelClick()
+        //{
+        //    this.dismiss();
+        //    return Task.CompletedTask;
+        //}
+
         [JSInvokable]
         public async Task UpdateFooterPositionAsync()
         {
-            Debug.WriteLine("Calling UpdateFooterPositionAsync");
+            //Debug.WriteLine("Calling UpdateFooterPositionAsync");
             var clientHeight = await JSRuntime.InvokeAsync<double>("BlazorFabricBaseComponent.getClientHeight", scrollableContent);
             var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFabricBaseComponent.getScrollHeight", scrollableContent);
 
@@ -220,18 +231,28 @@ namespace BlazorFabric
         {
             if (IsActive())
             {
-                Debug.WriteLine("Calling DismissOnOuterClick");
+                //Debug.WriteLine("Calling DismissOnOuterClick");
                 //var contains = await JSRuntime.InvokeAsync<bool>("BlazorFabricFocusTrapZone.elementContains", panelElement, targetElement);
                 if (!contains)
                 {
-                    await OnOuterClick.InvokeAsync(null);
-                    //need to prevent default for bubbling maybe.  Test with lightdismiss ...
-                }
-                else
-                {
-                    dismiss();
+                    //Debug.WriteLine("Contains is false!");
+                    if (OnOuterClick.HasDelegate)
+                    {
+                        await OnOuterClick.InvokeAsync(null);
+                        //need to prevent default for bubbling maybe.  Test with lightdismiss ...
+                    }
+                    else
+                    {
+                        dismiss();
+                    }
                 }
             }
+        }
+
+        public override Task SetParametersAsync(ParameterView parameters)
+        {
+
+            return base.SetParametersAsync(parameters);
         }
 
         public void Open()
@@ -296,42 +317,30 @@ namespace BlazorFabric
             return "";
         }
 
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        private async Task SetRegistrationsAsync()
         {
-            Debug.WriteLine("OnAfterRenderAsync");
-
-            if (firstRender)
-            {
-                
-                
-                if (ShouldListenForOuterClick())
-                {
-                    _mouseDownId = await JSRuntime.InvokeAsync<int>("BlazorFabricPanel.registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
-                }
-
-                if (IsOpen)
-                {
-                    currentVisibility = PanelVisibilityState.AnimatingOpen;
-                }
-
-            }
-
+            //if (ShouldListenForOuterClick())
+            //{
+            //    _mouseDownId = await JSRuntime.InvokeAsync<int>("BlazorFabricPanel.registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
+            //}
+            
             if (ShouldListenForOuterClick() && _mouseDownId == -1)
             {
+                _mouseDownId = -2;
                 _mouseDownId = await JSRuntime.InvokeAsync<int>("BlazorFabricPanel.registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
             }
-            else if (!ShouldListenForOuterClick() && _mouseDownId != -1)
+            else if (!ShouldListenForOuterClick() && _mouseDownId > -1)
             {
                 await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", _mouseDownId);
             }
 
             if (IsOpen && _resizeId == -1)
             {
+                _resizeId = -2;
                 _resizeId = await JSRuntime.InvokeAsync<int>("BlazorFabricPanel.registerSizeHandler", DotNetObjectReference.Create(this));
                 //listen for lightdismiss
             }
-            else if (!IsOpen && _resizeId != -1)
+            else if (!IsOpen && _resizeId > -1)
             {
                 await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", _resizeId);
             }
@@ -339,7 +348,6 @@ namespace BlazorFabric
             if (IsOpen && !_scrollerRegistered)
             {
                 _scrollerRegistered = true;
-                Debug.WriteLine("Registering scrollableContent");
                 _scrollerEventId = await JSRuntime.InvokeAsync<List<int>>("BlazorFabricPanel.makeElementScrollAllower", scrollableContent);
             }
 
@@ -354,14 +362,28 @@ namespace BlazorFabric
                 }
                 _scrollerEventId.Clear();
             }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                _jsAvailable = true;
+            }
+            await SetRegistrationsAsync();
 
             await base.OnAfterRenderAsync(firstRender);
         }
 
         protected override async Task OnParametersSetAsync()
         {
-            Debug.WriteLine("OnParametersSetAsync");
             previousVisibility = currentVisibility;
+
+            if (!OnLightDismissClick.HasDelegate)
+            {
+                OnLightDismissClick = EventCallback.Factory.Create(this, onPanelClick);
+            }
+
             if (IsOpen && (currentVisibility == PanelVisibilityState.Closed || currentVisibility == PanelVisibilityState.AnimatingClosed))
             {
                 currentVisibility = PanelVisibilityState.AnimatingOpen;
@@ -371,27 +393,45 @@ namespace BlazorFabric
                 currentVisibility = PanelVisibilityState.AnimatingClosed;
             }
 
+            Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
 
-            if (currentVisibility != previousVisibility)
+            if (_jsAvailable)
             {
-                _clearExistingAnimationTimer();
-                if (currentVisibility == PanelVisibilityState.AnimatingOpen)
+                if (currentVisibility != previousVisibility)
                 {
-                    isAnimating = true;
-                    _animateTo(PanelVisibilityState.Open);
+                    Debug.WriteLine("Clearing animation timer");
+                    _clearExistingAnimationTimer();
+                    if (currentVisibility == PanelVisibilityState.AnimatingOpen)
+                    {
+                        isAnimating = true;
+                        animationRenderStart = true;
+                        _animateTo(PanelVisibilityState.Open);
+                    }
+                    else if (currentVisibility == PanelVisibilityState.AnimatingClosed)
+                    {
+                        isAnimating = true;
+                        //animationRenderStart = true;
+                        _animateTo(PanelVisibilityState.Closed);
+                    }
                 }
-                else if (currentVisibility == PanelVisibilityState.AnimatingClosed)
-                {
-                    Debug.WriteLine("setting isAnimating to true");
-                    isAnimating = true;
-                    Debug.WriteLine("invoking _animateTo(closed)");
-                    _animateTo(PanelVisibilityState.Closed);
-                }
-            }
 
+                //await SetRegistrationsAsync();
+            }
             
 
             await base.OnParametersSetAsync();
+        }
+
+        protected override bool ShouldRender()
+        {
+            if (isAnimating && !animationRenderStart)
+                return false;
+            else
+            {
+                animationRenderStart = false;
+                return true;
+            }
+            //return base.ShouldRender();
         }
 
         private bool IsActive()
@@ -406,11 +446,11 @@ namespace BlazorFabric
 
         public async void Dispose()
         {
+            _clearExistingAnimationTimer();
             if (_scrollerEventId != null)
             {
                 foreach (var id in _scrollerEventId)
-                {
-                    Debug.WriteLine("Removing scrollerEvent");
+                {                    
                     await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", id);
                 }
                 _scrollerEventId.Clear();
@@ -418,12 +458,10 @@ namespace BlazorFabric
 
             if (_resizeId != -1)
             {
-                Debug.WriteLine("Removing resizeEvent");
                 await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", _resizeId);
             }
             if (_mouseDownId != -1)
             {
-                Debug.WriteLine("Removing mouseDownEvent");
                 await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", _mouseDownId);
             }
         }

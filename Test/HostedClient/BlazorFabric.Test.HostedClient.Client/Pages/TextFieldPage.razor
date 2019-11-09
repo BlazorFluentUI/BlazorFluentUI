@@ -5,6 +5,9 @@
     <TextField Label="TextField" />
 </div>
 <div class="textFieldDiv">
+    <TextField Label="TextField with PostalCode autocomplete" AutoComplete="AutoComplete.PostalCode" />
+</div>
+<div class="textFieldDiv">
     <TextField Label="TextField Password" InputType="InputType.Password" />
 </div>
 <div class="textFieldDiv">
@@ -15,6 +18,9 @@
 </div>
 <div class="textFieldDiv">
     <TextField Label="TextField Required" Required="true" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="TextField w/ Icon" IconName="Home" />
 </div>
 <div class="textFieldDiv">
     <TextField Required="true" />
@@ -94,16 +100,52 @@
 <h2>Binding Mode</h2>
 
 <div class="textFieldDiv" style="display:flex; flex-direction: row">
-    <TextField Label="TextField OnInput 1"  @bind-Value=@onInputContent @bind-Value:event="OnInput" />
-    <TextField Label="TextField OnInput 2"  @bind-Value=@onInputContent @bind-Value:event="OnInput"/>
+    <TextField Label="TextField OnInput 1" @bind-Value=@onInputContent @bind-Value:event="OnInput" />
+    <TextField Label="TextField OnInput 2" @bind-Value=@onInputContent @bind-Value:event="OnInput" />
 </div>
 <div class="textFieldDiv" style="display:flex; flex-direction: row">
-    <TextField Label="TextField OnChange 1" @bind-Value=@onChangeContent @bind-Value:event="OnChange"/>
-    <TextField Label="TextField OnChange 2" @bind-Value=@onChangeContent @bind-Value:event="OnChange"/>
+    <TextField Label="TextField OnChange 1" @bind-Value=@onChangeContent @bind-Value:event="OnChange" />
+    <TextField Label="TextField OnChange 2" @bind-Value=@onChangeContent @bind-Value:event="OnChange" />
 </div>
 
-@functions {
+<h2>TextField error message variations</h2>
+
+<h4>Hint: the input length must be less than 3.</h4>
+
+<div class="textFieldDiv">
+    <TextField Label="String-based validation" OnGetErrorMessage="GetErrorMessage" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="String-based validation on render" DefaultValue="Shows an error message on render" OnGetErrorMessage="GetErrorMessage" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="String-based validation only on change" DefaultValue="Validates only on input change, not on render" OnGetErrorMessage="GetErrorMessage" ValidateOnLoad="false" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="Both description and error message" DefaultValue="Shows description and error message on render" Description="Field description" OnGetErrorMessage="GetErrorMessage" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="Deferred string-based validation" Placeholder="Validates after user stops typing for 2 seconds" DeferredValidationTime="2000" OnGetErrorMessage="GetErrorMessage" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="Validates only on focus and blur" Placeholder="Validates only on input focus and blur" ValidateOnFocusIn="true" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="Validates only on blur" Placeholder="Validates only on blur" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="Underlined field " DefaultValue="This value is too long" Underlined="true" OnGetErrorMessage="GetErrorMessage" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="Uses the errorMessage property to set an error state" Placeholder="This field always has an error" ErrorMessage="This is a statically set error message" />
+</div>
+
+@code {
     string onInputContent = "";
     string onChangeContent = "";
 
+    public string GetErrorMessage(string value)
+    {
+        return value.Length < 3 ? "" : $"Input value length must be less than 3. Actual length is {value.Length}.";
+    }
 }

@@ -243,7 +243,25 @@
 
 
 /* ICON */
-/*icon class stuff */
+.ms-TextField--multiline .ms-TextField-icon {
+    padding-right:24px;
+    padding-bottom:8px;
+    align-items:flex-end;
+}
+.ms-TextField-icon {
+    pointer-events:none;
+    position:absolute;
+    bottom:5px;
+    right:8px;
+    top:auto;
+    font-size:var(--fontSize-Medium);
+    line-height:18px;
+}
+
+.ms-TextField-description{
+    color: var(--semanticColors-BodySubtext);
+    font-size: var(--fontSize-XSmall);
+}
 
 /* ERROR MESSAGE */
 .ms-TextField--errorMessage{

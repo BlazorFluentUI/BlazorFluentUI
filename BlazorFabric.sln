@@ -81,9 +81,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Stack", "src\B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.ResponsiveLayout", "src\BlazorFabric.ResponsiveLayout\BlazorFabric.ResponsiveLayout.csproj", "{ABF0CD6D-4643-48D1-939A-6D551AF0838B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.Keytip", "src\BlazorFabric.Keytip\BlazorFabric.Keytip.csproj", "{F69F702F-48D6-455B-80A0-6D985D6A47E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Keytip", "src\BlazorFabric.Keytip\BlazorFabric.Keytip.csproj", "{F69F702F-48D6-455B-80A0-6D985D6A47E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.Toggle", "src\BlazorFabric.Toggle\BlazorFabric.Toggle.csproj", "{7BBD94DE-CB86-4846-A81A-FF187D9F573C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Toggle", "src\BlazorFabric.Toggle\BlazorFabric.Toggle.csproj", "{7BBD94DE-CB86-4846-A81A-FF187D9F573C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Rating", "src\BlazorFabric.Rating\BlazorFabric.Rating.csproj", "{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -227,6 +229,10 @@ Global
 		{7BBD94DE-CB86-4846-A81A-FF187D9F573C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BBD94DE-CB86-4846-A81A-FF187D9F573C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BBD94DE-CB86-4846-A81A-FF187D9F573C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -268,6 +274,7 @@ Global
 		{ABF0CD6D-4643-48D1-939A-6D551AF0838B} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{F69F702F-48D6-455B-80A0-6D985D6A47E3} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{7BBD94DE-CB86-4846-A81A-FF187D9F573C} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

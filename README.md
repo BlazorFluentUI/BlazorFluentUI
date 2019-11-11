@@ -8,6 +8,8 @@ https://blazorfabric.azurewebsites.net/
 - upcoming
 	- Custom NavigationTemplate close button inside `Panel` would not show the close animation, now it does.
 	- Fixed [#33](https://github.com/limefrogyank/BlazorFabric/issues/33)
+	- Fixed `Callout` positioning bug [#2](https://github.com/limefrogyank/BlazorFabric/issues/2)
+	- Added single string key binding to `Dropdown`, 
 - v1.3.5
 	- Added `Rating` (contributed by Eweol)
 	- Added autocomplete to `TextField` + style fixes include description field

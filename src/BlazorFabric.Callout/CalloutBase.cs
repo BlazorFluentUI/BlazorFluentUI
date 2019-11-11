@@ -26,6 +26,7 @@ namespace BlazorFabric
         [Parameter] public int GapSpace { get; set; } = 0;
         [Parameter] public int BeakWidth { get; set; } = 16;
         [Parameter] public int CalloutWidth { get; set; } = 0;
+        [Parameter] public int CalloutMaxHeight { get; set; } = 0;
         [Parameter] public int CalloutMaxWidth { get; set; } = 0;
         [Parameter] public string BackgroundColor { get; set; } = null;
         [Parameter] public Rectangle Bounds { get; set; }
@@ -39,6 +40,7 @@ namespace BlazorFabric
         [Parameter] public string AriaLabel { get; set; }
         [Parameter] public string AriaLabelledBy { get; set; }
         [Parameter] public string AriaDescribedBy { get; set; }
+        [Parameter] public bool HideOverflow { get; set; } = false;
 
         [Parameter] public EventCallback<bool> HiddenChanged { get; set; }
         [Parameter] public EventCallback OnDismiss { get; set; }

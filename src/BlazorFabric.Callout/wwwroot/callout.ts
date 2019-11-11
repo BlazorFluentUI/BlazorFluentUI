@@ -61,8 +61,7 @@ namespace BlazorFabricCallout {
         return [scrollId, resizeId, focusId, clickId, calloutDivId];
     }
 
-    export function unregisterHandlers(targetElement: HTMLElement, calloutRef: DotNetReferenceType, ids: number[]): void {
-        var window = targetElement.ownerDocument.defaultView;
+    export function unregisterHandlers(ids: number[]): void {
 
         Handler.removeCallout(ids[ids.length - 1]);
 

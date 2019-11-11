@@ -24,6 +24,7 @@ namespace BlazorFabric
         [Parameter] public int GapSpace { get; set; } = 0;
         [Parameter] public int BeakWidth { get; set; } = 16;
         [Parameter] public int CalloutWidth { get; set; } = 0;
+        [Parameter] public int CalloutMaxHeight { get; set; } = 0;
         [Parameter] public int CalloutMaxWidth { get; set; } = 0;
         [Parameter] public string BackgroundColor { get; set; } = null;
         [Parameter] public Rectangle Bounds { get; set; }
@@ -37,6 +38,7 @@ namespace BlazorFabric
         [Parameter] public string AriaLabel { get; set; }
         [Parameter] public string AriaLabelledBy { get; set; }
         [Parameter] public string AriaDescribedBy { get; set; }
+        [Parameter] public bool HideOverflow { get; set; } = false;
 
         //[Parameter] public Layer Layer { get; set; }
 
@@ -155,7 +157,7 @@ namespace BlazorFabric
         public async void Dispose()
         {
             if (eventHandlerIds != null)
-                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", this.FabricComponentTarget.RootElementReference, DotNetObjectReference.Create(this), eventHandlerIds);
+                await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", eventHandlerIds);
         }
 
 
@@ -175,11 +177,21 @@ namespace BlazorFabric
             {
                 //javascript to get screen bounds
                 maxBounds = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.getWindowRect");
+                maxBounds.top += MinPagePadding;
+                maxBounds.left += MinPagePadding;
+                maxBounds.bottom -= MinPagePadding;
+                maxBounds.right -= MinPagePadding;
+                maxBounds.width -= (2 * MinPagePadding);
+                maxBounds.height -= (2 * MinPagePadding);
             }
             var targetRect = await this.FabricComponentTarget.GetBoundsAsync();
             //Debug.WriteLine($"TargetRect: {targetRect.left}, {targetRect.top}, {targetRect.right}, {targetRect.bottom}");
 
             contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
+            if (CalloutMaxHeight > 0 && CalloutMaxHeight < contentMaxHeight)
+            {
+                contentMaxHeight = CalloutMaxHeight;
+            }
             StateHasChanged();
 
             this.CalloutPosition = await PositionCalloutAsync(targetRect, maxBounds);
@@ -195,8 +207,15 @@ namespace BlazorFabric
 
         private double GetMaxHeight(Rectangle targetRect, Rectangle maxBounds)
         {
-            var gap = GapSpace + BeakWidth + (1/*BORDER_WIDTH*/ * 2);
-            return GetMaxHeightFromTargetRectangle(targetRect, this.DirectionalHint, gap, maxBounds);
+            if (DirectionalHintFixed)
+            {
+                var gap = GapSpace + BeakWidth + (1/*BORDER_WIDTH*/ * 2);
+                return GetMaxHeightFromTargetRectangle(targetRect, this.DirectionalHint, gap, maxBounds);
+            }
+            else
+            {
+                return maxBounds.height;
+            }
         }
 
         private double GetMaxHeightFromTargetRectangle(Rectangle targetRect, DirectionalHint targetEdge, double gapSpace, Rectangle bounds)
@@ -392,13 +411,14 @@ namespace BlazorFabric
             //GetPositionData()
             PositionDirectionalHintData positionData = DirectionalDictionary[DirectionalHint];
             //PositionDirectionalHintData alignmentData = null;
-            //GetAlignmentData()
+            
+            // start GetAlignmentData()
             if (positionData.IsAuto)
             {
                 positionData.AlignmentEdge = GetClosestEdge(positionData.TargetEdge, targetRect, boundingRect);
             }
-
             positionData.AlignTargetEdge = AlignTargetEdge;
+            // end GetAlignmentData()
 
             //Now calculate positionedElement
             //GetRectangleFromElement()
@@ -483,9 +503,12 @@ namespace BlazorFabric
             var currentEdge = positionData.TargetEdge;
             var currentAlignment = positionData.AlignmentEdge;
             List<RectangleEdge> directions = new List<RectangleEdge> { RectangleEdge.Left, RectangleEdge.Right, RectangleEdge.Bottom, RectangleEdge.Top };
+
+            //RTL not implemented
+
             for (var i = 0; i < 4; i++)
             {
-                if (IsEdgeInBounds(currentEstimate, bounding, currentEdge))
+                if (!IsEdgeInBounds(currentEstimate, bounding, currentEdge))
                 {
                     directions.RemoveAt(directions.IndexOf(currentEdge));
                     if ((int)directions.IndexOf((RectangleEdge)((int)currentEdge * -1)) > -1)

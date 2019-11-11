@@ -41,8 +41,9 @@ namespace BlazorFabric
             {
                 Debug.WriteLine("FirstRender of responsiveLayout");
                 _jsAvailable = true;
+
             }
-            Debug.WriteLine("Secondary rebder of responsiveLayout");
+            Debug.WriteLine("Secondary render of responsiveLayout");
             await base.OnAfterRenderAsync(firstRender);
         }
 
@@ -73,7 +74,8 @@ namespace BlazorFabric
                 foreach (var changeItem in itemsToAdd)
                     changeItem.NotifyStateChange();
 
-
+                //Force a new render since we don't want the Default to stay on screen if it's not correct
+                StateHasChanged();
                 //if (ActiveItems.Except(activeItems).Any() || activeItems.Except(ActiveItems).Any())
                 //{
                 //    ActiveItems = activeItems;

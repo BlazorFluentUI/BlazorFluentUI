@@ -101,7 +101,7 @@ namespace BlazorFabric
         protected bool isFooterSticky = false;
 
         protected Action onPanelClick;
-        private Action dismiss;
+        private Action _dismiss;
         private List<int> _scrollerEventId = new List<int>();
         private int _resizeId = -1;
         private int _mouseDownId = -1;
@@ -147,10 +147,10 @@ namespace BlazorFabric
 
             onPanelClick = () =>
             {
-                this.dismiss();
+                this._dismiss();
             };
                         
-            dismiss = async () =>
+            _dismiss = async () =>
             {
                 await OnDismiss.InvokeAsync(null);
                 //normally, would check react synth events to see if event was interrupted from the OnDismiss callback before calling the following... 
@@ -243,7 +243,7 @@ namespace BlazorFabric
                     }
                     else
                     {
-                        dismiss();
+                        _dismiss();
                     }
                 }
             }
@@ -264,6 +264,7 @@ namespace BlazorFabric
 
         public void Close()
         {
+
             //ignore these calls if we have isOpen set... isOpen need to be nullable in this case... 
             // To Do
         }
@@ -391,6 +392,9 @@ namespace BlazorFabric
             if (!IsOpen && (currentVisibility == PanelVisibilityState.Open || currentVisibility == PanelVisibilityState.AnimatingOpen))
             {
                 currentVisibility = PanelVisibilityState.AnimatingClosed;
+                // This StateHasChanged call was added because using a custom close button in NavigationTemplate did not cause a state change to occur.
+                // The result was that the animation class would not get added and the close transition would not show.  This is a hack to make it work.
+                StateHasChanged();
             }
 
             Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");

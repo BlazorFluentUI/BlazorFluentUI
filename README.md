@@ -5,9 +5,12 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
+- upcoming
+	- Custom NavigationTemplate close button inside `Panel` would not show the close animation, now it does.
 - v1.3.5
 	- Added `Rating` (contributed by Eweol)
 	- Added autocomplete to `TextField` + style fixes include description field
+        - Added validation to `TextField` (contributed by Eweol) 
 	- Added `Keytip` placeholder... doesn't do anything yet.  But required internally for `Toggle`
 - v1.3.3
 	- Added `Toggle`

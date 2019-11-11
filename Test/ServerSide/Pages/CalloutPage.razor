@@ -3,8 +3,9 @@
 <h1>Callout</h1>
 
 <Dropdown TItem=@DirectionalHint 
+          Style="max-width:300px;"
           ItemsSource=@(Enum.GetValues(typeof(DirectionalHint)).Cast<DirectionalHint>().ToList())
-          SelectedKeysChanged=@SelectedKeyChanged
+          @bind-SelectedKey=@SelectedDirection
           >
     <ItemTemplate>
         <DropdownItem TItem=@DirectionalHint ItemKey=@context.ToString() Text=@context.ToString() />
@@ -21,7 +22,7 @@
 @if (!calloutHidden)
 {
 <Callout FabricComponentTarget=@calloutTarget         
-         DirectionalHint=@SelectedDirection
+         DirectionalHint=@((DirectionalHint)Enum.Parse(typeof(DirectionalHint),SelectedDirection))
          OnDismiss=@DismissHandler
          >
     <div Style="max-width:300px; padding:20px;">
@@ -41,7 +42,7 @@
 
     FabricComponentBase calloutTarget;
 
-    DirectionalHint SelectedDirection = DirectionalHint.LeftCenter;
+    string SelectedDirection = DirectionalHint.BottomLeftEdge.ToString();
 
     Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
@@ -53,16 +54,6 @@
     protected Task DismissHandler()
     {
         calloutHidden = true;
-        return Task.CompletedTask;
-    }
-
-    Task SelectedKeyChanged(System.Collections.Generic.List<string> selectedKeys)
-    {
-        if (selectedKeys.Count > 0)
-        {
-            SelectedDirection = (DirectionalHint)Enum.Parse(typeof(DirectionalHint),selectedKeys.First());
-
-        }
         return Task.CompletedTask;
     }
 }

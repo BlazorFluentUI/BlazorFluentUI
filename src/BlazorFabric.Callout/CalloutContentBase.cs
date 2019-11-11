@@ -511,16 +511,20 @@ namespace BlazorFabric
                 if (!IsEdgeInBounds(currentEstimate, bounding, currentEdge))
                 {
                     directions.RemoveAt(directions.IndexOf(currentEdge));
-                    if ((int)directions.IndexOf((RectangleEdge)((int)currentEdge * -1)) > -1)
+                    if (directions.Count > 0)
                     {
-                        currentEdge = (RectangleEdge)((int)currentEdge * -1);
+                        if ((int)directions.IndexOf((RectangleEdge)((int)currentEdge * -1)) > -1)
+                        {
+                            currentEdge = (RectangleEdge)((int)currentEdge * -1);
+                        }
+                        else
+                        {
+                            currentAlignment = currentEdge;
+                            currentEdge = directions[0];
+                        }
+
+                        currentEstimate = EstimatePosition(rect, target, new PositionDirectionalHintData(currentEdge, currentAlignment), gap);
                     }
-                    else
-                    {
-                        currentAlignment = currentEdge;
-                        currentEdge = directions[0];
-                    }
-                    currentEstimate = EstimatePosition(rect, target, new PositionDirectionalHintData(currentEdge, currentAlignment), gap);
                 }
                 else
                 {

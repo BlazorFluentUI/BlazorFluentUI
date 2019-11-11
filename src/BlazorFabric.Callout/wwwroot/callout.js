@@ -42,8 +42,7 @@ var BlazorFabricCallout;
         return [scrollId, resizeId, focusId, clickId, calloutDivId];
     }
     BlazorFabricCallout.registerHandlers = registerHandlers;
-    function unregisterHandlers(targetElement, calloutRef, ids) {
-        var window = targetElement.ownerDocument.defaultView;
+    function unregisterHandlers(ids) {
         Handler.removeCallout(ids[ids.length - 1]);
         var handlerIds = ids.slice(0, ids.length - 1);
         for (var _i = 0, handlerIds_1 = handlerIds; _i < handlerIds_1.length; _i++) {

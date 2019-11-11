@@ -38,29 +38,35 @@ namespace BlazorFabric
             await base.OnParametersSetAsync();
         }
 
-        public override Task SetParametersAsync(ParameterView parameters)
-        {
-            parameters.TryGetValue("Id", out string id);
-            if (!string.IsNullOrEmpty(id) && id == "Narrow Panel")
-            {
-                foreach (var p in parameters.ToDictionary())
-                {
-                    Debug.WriteLine($"{p.Key}: {p.Value}");
-                }
-            }
-            return base.SetParametersAsync(parameters);
-        }
+        //public override Task SetParametersAsync(ParameterView parameters)
+        //{
+        //    parameters.TryGetValue("Id", out string id);
+        //    if (!string.IsNullOrEmpty(id) && id == "Narrow Panel")
+        //    {
+        //        foreach (var p in parameters.ToDictionary())
+        //        {
+        //            Debug.WriteLine($"{p.Key}: {p.Value}");
+        //        }
+        //    }
+        //    return base.SetParametersAsync(parameters);
+        //}
 
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {            
             // only render if they are the active item from ResponsiveLayout
-            if (CascadingResponsiveLayout != null && CascadingResponsiveLayout.ActiveItems.Contains(this))
+            if (CascadingResponsiveLayout != null && (CascadingResponsiveLayout.ActiveItems.Contains(this) || (!CascadingResponsiveLayout.ActiveItems.Any() && this.Default == true) ))
             {
                 Debug.WriteLine($"Rendering item ({Id})");
                 IsCurrentActive = true;
                 builder.AddContent(0, ChildContent);
             }
+            //else if (CascadingResponsiveLayout == null && Default==true)
+            //{
+            //    Debug.WriteLine($"Rendering DEFAULT item ({Id})");
+            //    IsCurrentActive = true;
+            //    builder.AddContent(0, ChildContent);
+            //}
             else
             {
                 IsCurrentActive = false;

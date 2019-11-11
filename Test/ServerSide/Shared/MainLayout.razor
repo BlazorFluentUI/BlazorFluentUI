@@ -4,7 +4,7 @@
     <ResponsiveLayout>
 
         <Stack Horizontal="true" Style="width:100%;">
-            <ResponsiveLayoutItem MinWidth="768" Id="Wide NavMenu">
+            <ResponsiveLayoutItem MinWidth="768" Default="true" Id="Wide NavMenu">
                 <StackItem Grow="0" DisableShrink="true" Style="height:100%;overflow:hidden;">
                     <NavMenu />
                 </StackItem>
@@ -18,7 +18,7 @@
                             <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu />
                         </StackItem>
                     </ResponsiveLayoutItem>
-                    <ResponsiveLayoutItem MinWidth="768" Id="Wide Header">
+                    <ResponsiveLayoutItem MinWidth="768" Default="true"  Id="Wide Header">
                         <StackItem Grow="0" VerticalFill="false">
                             <div class="top-row">
                                 <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
@@ -33,9 +33,9 @@
                 </Stack>
 
                 <ResponsiveLayoutItem MinWidth="0" MaxWidth="767" Id="Narrow Panel">
-                    <Panel Type=@PanelType.SmallFixedNear OnDismiss=@HideMenu IsOpen=@isPanelOpen IsLightDismiss="true">
+                    <Panel Type=@PanelType.SmallFixedNear OnDismiss=@(()=>isPanelOpen = false) IsOpen=@isPanelOpen IsLightDismiss="true">
                         <NavigationTemplate>
-                            <IconButton IconName="GlobalNavButton" OnClick=@HideMenu />
+                            <IconButton IconName="GlobalNavButton" OnClick=@(()=> InvokeAsync(()=> isPanelOpen = false)) />
                             <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
                         </NavigationTemplate>
                         <ChildContent>
@@ -65,6 +65,7 @@
     {
         System.Diagnostics.Debug.WriteLine("Hide Menu called");
         isPanelOpen = false;
+        StateHasChanged();
     }
 
     void OnNavLinkClick(NavFabricLinkBase linkBase)

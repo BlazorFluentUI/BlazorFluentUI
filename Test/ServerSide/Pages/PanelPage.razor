@@ -1,12 +1,15 @@
 ﻿@page  "/panelPage"
 
-<h3>PanelPage</h3>
+<h3>Panel</h3>
 
-<PrimaryButton Text="Open Panel" OnClick=@Click/>
+<PrimaryButton Text="Open Panel" OnClick=@Click />
 
 <PrimaryButton Text="Open Light Dismiss Panel" OnClick=@(() => lightDismissPanelOpen=true ) />
 
-<Panel IsOpen=@isOpen 
+<PrimaryButton Text="Open Custom Nav Panel" OnClick=@(() => customNavPanelOpen=true ) />
+
+
+<Panel IsOpen=@isOpen
        OnDismiss=@PanelDismiss
        Type=@PanelType.Medium
        IsLightDismiss="false"
@@ -26,10 +29,27 @@
     </p>
 </Panel>
 
+<Panel IsOpen=@customNavPanelOpen
+       OnDismiss=@(() => customNavPanelOpen = !customNavPanelOpen)
+       Type=@PanelType.Medium
+       IsLightDismiss="false"
+       HeaderText="Custom Nav Panel">
+    <NavigationTemplate>
+        <IconButton OnClick=@(() => customNavPanelOpen = false)
+                    IconName="GlobalNavButton" />
+    </NavigationTemplate>
+    <ChildContent>
+        <p>
+            This is a panel with a completely custom nav area (at the top)...
+        </p>
+    </ChildContent>
+</Panel>
+
 @code {
 
     bool isOpen = false;
     bool lightDismissPanelOpen = false;
+    bool customNavPanelOpen = false;
 
     Task Click(MouseEventArgs args)
     {

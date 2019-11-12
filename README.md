@@ -68,6 +68,7 @@ https://blazorfabric.azurewebsites.net/
 - Persona - done?
 - Image - done!
 - Spinner - done!
+- Toggle - done!
 - ProgressIndicator - done!
 
 ## Info

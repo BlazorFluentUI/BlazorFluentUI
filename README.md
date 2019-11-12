@@ -9,7 +9,8 @@ https://blazorfabric.azurewebsites.net/
 	- Custom NavigationTemplate close button inside `Panel` would not show the close animation, now it does.
 	- Fixed [#33](https://github.com/limefrogyank/BlazorFabric/issues/33)
 	- Fixed `Callout` positioning bug [#2](https://github.com/limefrogyank/BlazorFabric/issues/2)
-	- Added single string key binding to `Dropdown`, 
+	- Added single string key binding to `Dropdown`
+	- Added `ProgressIndicator`
 - v1.3.5
 	- Added `Rating` (contributed by Eweol)
 	- Added autocomplete to `TextField` + style fixes include description field
@@ -52,10 +53,10 @@ https://blazorfabric.azurewebsites.net/
 - TextField -done, except for icons and masking
 - Icon, only MS icons 
 - Nav -done!
-- ContextualMenu - done! (except for Callout positioning bug)
-- Callout (part of ContextMenu) -working, not positioning perfectly
-- Layer (part of Callout) -done?  only layers at root window right now.
-- Dropdown -done? working well, but affected by Callout positioning bug
+- ContextualMenu - done! 
+- Callout (part of ContextMenu) - done!
+- Layer (part of Callout, Panel, etc) -done?  only layers at root window right now.
+- Dropdown -done!
 - Modal -done!, no modeless version
 - CommandBar - done!
 - ResizeGroup - done!
@@ -67,6 +68,8 @@ https://blazorfabric.azurewebsites.net/
 - Persona - done?
 - Image - done!
 - Spinner - done!
+- Toggle - done!
+- ProgressIndicator - done!
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 

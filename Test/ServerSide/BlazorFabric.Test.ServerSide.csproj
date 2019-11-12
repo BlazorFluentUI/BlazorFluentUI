@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\src\BlazorFabric.Overlay\BlazorFabric.Overlay.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Panel\BlazorFabric.Panel.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Persona\BlazorFabric.Persona.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.ProgressIndicator\BlazorFabric.ProgressIndicator.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Rating\BlazorFabric.Rating.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.ResponsiveLayout\BlazorFabric.ResponsiveLayout.csproj" />

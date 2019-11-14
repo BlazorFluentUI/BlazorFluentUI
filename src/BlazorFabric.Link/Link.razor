@@ -1,0 +1,16 @@
+﻿@namespace BlazorFabric
+@inherits LinkBase
+
+
+@if (!string.IsNullOrWhiteSpace(Href))
+{
+    <a href="@Href" class=@($"ms-Link {(Disabled ? "isDisabled" : "")}")>
+        @ChildContent
+    </a>
+}
+else
+{
+    <button type="button" class=@($"ms-Link isButton {(Disabled ? "isDisabled" : "")}")>
+        @ChildContent
+    </button>
+}

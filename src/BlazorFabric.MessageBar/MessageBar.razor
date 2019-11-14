@@ -1,0 +1,20 @@
+﻿@namespace BlazorFabric
+@inherits MessageBarBase
+
+
+<div style="background: rgb(255, 255, 255);">
+    <div class=@($"ms-MessageBar {MessageBarType.ToString().ToLower()} {(IsMultiline ? "isMultiline" : "")}")>
+        <div class="ms-MessageBar-content">
+            <div class=@($"ms-MessageBar-icon {MessageBarType.ToString().ToLower()}") aria-hidden="true">
+                <Icon IconName=@MessageBarIcon.IconMap[MessageBarType] />
+            </div>
+            <div class="ms-MessageBar-text text-310" id="MessageBar910" role="status" aria-live="polite">
+                <span class=@($"ms-MessageBar-innerText {(IsMultiline ? "isMultiline" : "")}")>
+                    <span>
+                        @ChildContent
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

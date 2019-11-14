@@ -1,0 +1,137 @@
+﻿.ms-MessageBar {
+    background: var(--palette-NeutralLighter);
+    color: var(--palette-NeutralPrimary);
+    min-height: 32px;
+    width: 100%;
+    display: flex;
+    word-break: break-word,
+}
+
+    .ms-MessageBar.error, .ms-MessageBar.blocked {
+        background: var(--semanticColors-ErrorBackground);
+    }
+
+    .ms-MessageBar.severewarning {
+        background: var(--semanticColors-BlockingBackground);
+    }
+
+    .ms-MessageBar.success {
+        background: var(--semanticColors-SuccessBackground);
+    }
+
+    .ms-MessageBar.warning {
+        background: var(--semanticColors-WarningBackground);
+    }
+
+    .ms-MessageBar .ms-Link {
+        color: var(--palette-ThemeDark);
+        /*@extend: .smallFont;*/
+        font-size: var(--fontSize-Small);
+        font-weight: var(--fontWeight-Regular);
+    }
+
+    .ms-MessageBar.isMultiline {
+        flex-direction: column;
+    }
+
+
+.ms-MessageBar-singleline {
+    background: var(--palette-NeutralLighter);
+    color: var(--palette-NeutralPrimary);
+    min-height: 32px;
+    width: 100%;
+    display: flex;
+    word-break: break-word,
+}
+
+.ms-MessageBar-dismissalSingleLine {
+    background: var(--palette-NeutralLighter);
+    color: var(--palette-NeutralPrimary);
+    min-height: 32px;
+    width: 100%;
+    display: flex;
+    word-break: break-word,
+}
+
+.ms-MessageBar-expandingSingleLine {
+    background: var(--palette-NeutralLighter);
+    color: var(--palette-NeutralPrimary);
+    min-height: 32px;
+    width: 100%;
+    display: flex;
+    word-break: break-word,
+}
+
+.ms-MessageBar-content {
+    display: flex;
+    width: 100%;
+    line-height: normal;
+}
+
+.ms-MessageBar-icon {
+    font-size: 16px; /* IconFonSizes.Medium*/
+    min-width: 16px;
+    min-height: 16px;
+    display: flex;
+    flex-shrink: 0;
+    margin: 8px 0 8px 12px;
+}
+
+    .ms-MessageBar-icon .ms-Icon {
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-MessageBar-icon.error .ms-Icon, .ms-MessageBar-icon.blocked .ms-Icon, .ms-MessageBar-icon.severewarning .ms-Icon {
+        color: var(--semanticColors-ErrorText);
+    }
+
+    .ms-MessageBar-icon.success .ms-Icon {
+        color: var(--palette-Green);
+    }
+
+    .ms-MessageBar-icon.warning .ms-Icon {
+        color: var(--semanticColors-WarningText);
+    }
+
+
+.ms-MessageBar-text {
+    min-width: 0;
+    display: flex;
+    flex-grow: 1;
+    margin: 8px;
+    /*@extend: .smallFont;*/
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+}
+
+.ms-MessageBar-innerText {
+    line-height: 16px;
+}
+
+    .ms-MessageBar-innerText span, a {
+        padding-left: 4px;
+    }
+
+    .ms-MessageBar-innerText:not(.isMultiline) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+.ms-MessageBar-dismissSingleLine {
+}
+
+.ms-MessageBar-expandSingleLine {
+}
+
+.ms-MessageBar-dismissal {
+}
+
+.ms-MessageBar-expand {
+}
+
+.ms-MessageBar-actions {
+}
+
+.ms-MessageBar-actionsSingleLine {
+}

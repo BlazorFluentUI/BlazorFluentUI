@@ -195,7 +195,7 @@ namespace BlazorFabric
                 }
                 else if (!isFirstRender)
                 {
-                    if (averagePageHeight != 0  && ((x.height - averagePageHeight) / averagePageHeight > thresholdChangePercent))
+                    if (averagePageHeight != 0  && ((x.height - averagePageHeight) / averagePageHeight - 1 > thresholdChangePercent))
                     {
                         averagePageHeight = x.height;
 

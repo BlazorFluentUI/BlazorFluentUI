@@ -5,6 +5,7 @@
     <div style="display:flex; flex-direction:column; height: calc(100vh - 53.5px);">
         <div style="display:flex;flex-direction:column;flex-grow:1;height:100%;">
             <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
+            <BlazorFabric.PrimaryButton Text="Add 2 items" OnClick="@ClickHandler3" />
             <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
             <BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
             <div style="overflow:hidden;flex-grow:1;">
@@ -35,10 +36,22 @@
         return Task.CompletedTask;
     }
 
-     Task ClickHandler2(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    Task ClickHandler2(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
         System.Diagnostics.Debug.WriteLine("Clicked!");
         for (var i = 0; i < 5000; i++)
+        {
+            count++;
+            data.Add(new DataItem(count));
+        }
+        System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
+        return Task.CompletedTask;
+    }
+
+    Task ClickHandler3(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        System.Diagnostics.Debug.WriteLine("Clicked!");
+        for (var i = 0; i < 2; i++)
         {
             count++;
             data.Add(new DataItem(count));

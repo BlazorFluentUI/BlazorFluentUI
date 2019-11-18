@@ -43,6 +43,7 @@ namespace BlazorFabric
         [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
         [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
         [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
+        [Parameter] public bool ItemFocusable { get; set; } = false;
 
         protected RenderFragment ItemPagesRender { get; set; }
 
@@ -100,7 +101,7 @@ namespace BlazorFabric
                   builder.AddAttribute(1, "Height", averagePageHeight * startPage);
                   builder.CloseComponent();
 
-                  const int lineCount = 8;
+                  const int lineCount = 9;
                   for (var i = 0; i <= totalPages; i++)
                   {
                       //Debug.WriteLine($"Drawing page {i}");
@@ -113,7 +114,8 @@ namespace BlazorFabric
                           builder.AddAttribute(i * lineCount + 6, "PageMeasureSubject", pageMeasureSubject);
                           builder.AddAttribute(i * lineCount + 7, "ItemClicked", (Func<object, MouseEventArgs, Task>)OnItemClick);
                           builder.AddAttribute(i * lineCount + 8, "SelectedItems", selectedItems);
-                          builder.AddComponentReferenceCapture(i * lineCount + 9, (comp) => renderedPages.Add((ListPage<TItem>)comp));
+                          builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode.None ? true : ItemFocusable);
+                          builder.AddComponentReferenceCapture(i * lineCount + 10, (comp) => renderedPages.Add((ListPage<TItem>)comp));
                           builder.CloseComponent();
                       }
                   }

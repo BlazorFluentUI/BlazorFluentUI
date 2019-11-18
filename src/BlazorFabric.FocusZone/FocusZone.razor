@@ -1,0 +1,18 @@
+﻿@namespace BlazorFabric
+@inherits FocusZoneBase
+
+<style>
+    .ms-FocusZone:focus{
+        outline:none;
+    }
+</style>
+
+<div class="ms-FocusZone"
+     style=@Style
+     aria-labelledby=""
+     aria-describedby=""
+     @ref=@RootElementReference
+     data-focuszone-id=@Id
+     >
+    @ChildContent
+</div>

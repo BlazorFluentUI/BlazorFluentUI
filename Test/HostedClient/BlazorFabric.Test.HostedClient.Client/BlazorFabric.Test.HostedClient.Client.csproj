@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\..\src\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Dropdown\BlazorFabric.Dropdown.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.FocusTrapZone\BlazorFabric.FocusTrapZone.csproj" />
+    <ProjectReference Include="..\..\..\src\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Image\BlazorFabric.Image.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />

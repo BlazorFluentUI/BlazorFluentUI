@@ -4,6 +4,8 @@
 
 <div @ref="RootElementReference"
      role="listitem"
+     style=@GetListItemStyle()
+     data-is-focusable=@(ItemFocusable ? "true" : "false")
      class=@($"ms-List-cell {(IsActive ? "is-active" : "")}")
      @onclick="@(e=>OnItemClick(e))">
     @ChildContent
@@ -17,6 +19,8 @@
     [Parameter] public int IndexPosition { get; set; }
     [Parameter] public bool IsActive { get; set; }
     [Parameter] public object Item { get; set; }
+    [Parameter] public bool ItemFocusable { get; set; }
+
 
     [Parameter]
     public Func<object, MouseEventArgs, Task> ItemClicked { get; set; }
@@ -24,5 +28,12 @@
     private Task OnItemClick(MouseEventArgs e)
     {
         return ItemClicked.Invoke(this.Item, e);
+    }
+
+    protected string GetListItemStyle()
+    {
+        string style = "";
+        
+        return style;
     }
 }

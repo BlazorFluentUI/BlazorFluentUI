@@ -32,5 +32,10 @@
     </None>
   </ItemGroup>
   
+  <!--<ItemGroup Condition="$(ProjectName.Contains('BaseComponent')) == false" > 
+    <Content Include="..\BlazorFabric.BaseComponent\tsconfig.json">
+
+    </Content>
+  </ItemGroup>-->
 
 </Project>

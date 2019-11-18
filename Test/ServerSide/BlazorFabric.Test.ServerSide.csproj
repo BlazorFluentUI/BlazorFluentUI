@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlazorEmbedLibrary" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
@@ -18,6 +14,7 @@
     <ProjectReference Include="..\..\src\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Dropdown\BlazorFabric.Dropdown.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.FocusTrapZone\BlazorFabric.FocusTrapZone.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Image\BlazorFabric.Image.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />

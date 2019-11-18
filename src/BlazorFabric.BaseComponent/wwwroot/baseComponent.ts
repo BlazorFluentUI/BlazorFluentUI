@@ -1,9 +1,21 @@
 ﻿namespace BlazorFabricBaseComponent {
+    const test = 1111;
+    const DATA_IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+    const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
+    const DATA_IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
+    const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
+    const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
+    const IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
 
     interface DotNetReferenceType {
 
         invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
         invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
+    }
+
+    interface ElementReferenceResult {
+        element: HTMLElement | undefined;
+        isNull: boolean;
     }
 
     export function initializeFocusRects(): void {
@@ -14,8 +26,6 @@
         }
     }
 
-    const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
-    const IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
 
     function _onFocusRectMouseDown(ev: MouseEvent) {
         if (window.document.body.classList.contains(IsFocusVisibleClassName)) {
@@ -201,19 +211,340 @@
         }
     }
 
+    export function findElementRecursive(element: HTMLElement | null, matchFunction: (element: HTMLElement) => boolean): HTMLElement | null {
+        if (!element || element === document.body) {
+            return null;
+        }
+        return matchFunction(element) ? element : findElementRecursive(getParent(element), matchFunction);
+    }
+
+    export function elementContainsAttribute(element: HTMLElement, attribute: string): string | null {
+        let elementMatch = findElementRecursive(element, (testElement: HTMLElement) => testElement.hasAttribute(attribute));
+        return elementMatch && elementMatch.getAttribute(attribute);
+    }
+
 
 /* Focus stuff */
+
+    export function shouldWrapFocus(element: HTMLElement, noWrapDataAttribute: 'data-no-vertical-wrap' | 'data-no-horizontal-wrap'): boolean {
+        return elementContainsAttribute(element, noWrapDataAttribute) === 'true' ? false : true;
+    }
+
+    export function getFocusableByIndexPath(parent: HTMLElement, path: number[]): ElementReferenceResult {
+        let element = parent;
+        for (const index of path) {
+            const nextChild = element.children[Math.min(index, element.children.length - 1)] as HTMLElement;
+            if (!nextChild) {
+                break;
+            }
+            element = nextChild;
+        }
+        element = isElementTabbable(element) && isElementVisible(element) ? element : getNextElement(parent, element, true) || getPreviousElement(parent, element);
+
+        return { element: element as HTMLElement, isNull: !element };
+    }
+
+    export function isElementTabbable(element: HTMLElement, checkTabIndex?: boolean): boolean {
+        // If this element is null or is disabled, it is not considered tabbable.
+        if (!element || (element as HTMLButtonElement).disabled) {
+            return false;
+        }
+
+        let tabIndex = 0;
+        let tabIndexAttributeValue = null;
+
+        if (element && element.getAttribute) {
+            tabIndexAttributeValue = element.getAttribute('tabIndex');
+
+            if (tabIndexAttributeValue) {
+                tabIndex = parseInt(tabIndexAttributeValue, 10);
+            }
+        }
+
+        let isFocusableAttribute = element.getAttribute ? element.getAttribute(DATA_IS_FOCUSABLE_ATTRIBUTE) : null;
+        let isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
+
+        const result =
+            !!element &&
+            isFocusableAttribute !== 'false' &&
+            (element.tagName === 'A' ||
+                element.tagName === 'BUTTON' ||
+                element.tagName === 'INPUT' ||
+                element.tagName === 'TEXTAREA' ||
+                isFocusableAttribute === 'true' ||
+                isTabIndexSet);
+
+        return checkTabIndex ? tabIndex !== -1 && result : result;
+    }
+
+    export function isElementVisible(element: HTMLElement | undefined | null): boolean {
+        // If the element is not valid, return false.
+        if (!element || !element.getAttribute) {
+            return false;
+        }
+
+        const visibilityAttribute = element.getAttribute(DATA_IS_VISIBLE_ATTRIBUTE);
+
+        // If the element is explicitly marked with the visibility attribute, return that value as boolean.
+        if (visibilityAttribute !== null && visibilityAttribute !== undefined) {
+            return visibilityAttribute === 'true';
+        }
+
+        // Fallback to other methods of determining actual visibility.
+        return (
+            element.offsetHeight !== 0 ||
+            element.offsetParent !== null ||
+            // tslint:disable-next-line:no-any
+            (element as any).isVisible === true
+        ); // used as a workaround for testing.
+    }
 
     export function focusFirstChild(rootElement: HTMLElement): boolean {
 
         return false;
     }
 
-    function getNextElement(rootElement: HTMLElement){
-
+    export function getParent(child: HTMLElement, allowVirtualParents: boolean = true): HTMLElement | null {
+        return child && (child.parentNode && (child.parentNode as HTMLElement));
     }
 
+    export function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {
+        let isContained = false;
+        if (parent && child) {
+            if (allowVirtualParents) {
+                isContained = false;
+                while (child) {
+                    let nextParent: HTMLElement | null = getParent(child);
+                    console.log("NextParent: " + nextParent);
+                    if (nextParent === parent) {
+                        isContained = true;
+                        break;
+                    }
+                    child = nextParent;
+                }
+            } else if (parent.contains) {
+                isContained = parent.contains(child);
+            }
+        }
+        return isContained;
+    }
 
+    export function getNextElement(rootElement: HTMLElement, currentElement: HTMLElement|null, checkNode?:boolean, suppressParentTraversal?:boolean, suppressChildTraversal?:boolean, includeElementsInFocusZones?:boolean, allowFocusRoot?:boolean, tabbable?:boolean) : HTMLElement | null {
+        if (!currentElement || (currentElement === rootElement && suppressChildTraversal && !allowFocusRoot)) {
+            return null;
+        }
+
+        let isCurrentElementVisible = isElementVisible(currentElement);
+
+        // Check the current node, if it's not the first traversal.
+        if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
+            return currentElement;
+        }
+
+        // Check its children.
+        if (
+            !suppressChildTraversal &&
+            isCurrentElementVisible &&
+            (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))
+        ) {
+            const childMatch = getNextElement(
+                rootElement,
+                currentElement.firstElementChild as HTMLElement,
+                true,
+                true,
+                false,
+                includeElementsInFocusZones,
+                allowFocusRoot,
+                tabbable
+            );
+
+            if (childMatch) {
+                return childMatch;
+            }
+        }
+
+        if (currentElement === rootElement) {
+            return null;
+        }
+
+        // Check its sibling.
+        const siblingMatch = getNextElement(
+            rootElement,
+            currentElement.nextElementSibling as HTMLElement,
+            true,
+            true,
+            false,
+            includeElementsInFocusZones,
+            allowFocusRoot,
+            tabbable
+        );
+
+        if (siblingMatch) {
+            return siblingMatch;
+        }
+
+        if (!suppressParentTraversal) {
+            return getNextElement(
+                rootElement,
+                currentElement.parentElement,
+                false,
+                false,
+                true,
+                includeElementsInFocusZones,
+                allowFocusRoot,
+                tabbable
+            );
+        }
+
+        return null;
+    }
+
+    export function getPreviousElement(rootElement: HTMLElement, currentElement: HTMLElement | null, checkNode?: boolean, suppressParentTraversal?: boolean, traverseChildren?: boolean, includeElementsInFocusZones?: boolean, allowFocusRoot?: boolean, tabbable?: boolean): HTMLElement | null {
+        if (!currentElement || (!allowFocusRoot && currentElement === rootElement)) {
+            return null;
+        }
+
+        let isCurrentElementVisible = isElementVisible(currentElement);
+
+        // Check its children.
+        if (
+            traverseChildren &&
+            isCurrentElementVisible &&
+            (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))
+        ) {
+            const childMatch = getPreviousElement(
+                rootElement,
+                currentElement.lastElementChild as HTMLElement,
+                true,
+                true,
+                true,
+                includeElementsInFocusZones,
+                allowFocusRoot,
+                tabbable
+            );
+
+            if (childMatch) {
+                if ((tabbable && isElementTabbable(childMatch, true)) || !tabbable) {
+                    return childMatch;
+                }
+
+                const childMatchSiblingMatch = getPreviousElement(
+                    rootElement,
+                    childMatch.previousElementSibling as HTMLElement,
+                    true,
+                    true,
+                    true,
+                    includeElementsInFocusZones,
+                    allowFocusRoot,
+                    tabbable
+                );
+                if (childMatchSiblingMatch) {
+                    return childMatchSiblingMatch;
+                }
+
+                let childMatchParent = childMatch.parentElement;
+
+                // At this point if we have not found any potential matches
+                // start looking at the rest of the subtree under the currentParent.
+                // NOTE: We do not want to recurse here because doing so could
+                // cause elements to get skipped.
+                while (childMatchParent && childMatchParent !== currentElement) {
+                    const childMatchParentMatch = getPreviousElement(
+                        rootElement,
+                        childMatchParent.previousElementSibling as HTMLElement,
+                        true,
+                        true,
+                        true,
+                        includeElementsInFocusZones,
+                        allowFocusRoot,
+                        tabbable
+                    );
+
+                    if (childMatchParentMatch) {
+                        return childMatchParentMatch;
+                    }
+
+                    childMatchParent = childMatchParent.parentElement;
+                }
+            }
+        }
+
+        // Check the current node, if it's not the first traversal.
+        if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
+            return currentElement;
+        }
+
+        // Check its previous sibling.
+        const siblingMatch = getPreviousElement(
+            rootElement,
+            currentElement.previousElementSibling as HTMLElement,
+            true,
+            true,
+            true,
+            includeElementsInFocusZones,
+            allowFocusRoot,
+            tabbable
+        );
+
+        if (siblingMatch) {
+            return siblingMatch;
+        }
+
+        // Check its parent.
+        if (!suppressParentTraversal) {
+            return getPreviousElement(
+                rootElement,
+                currentElement.parentElement,
+                true,
+                false,
+                false,
+                includeElementsInFocusZones,
+                allowFocusRoot,
+                tabbable
+            );
+        }
+
+        return null;
+    }
+
+    export interface IPoint {
+        x: number;
+        y: number;
+    }
+
+    /** Raises a click event. */
+    export function raiseClick(target: Element): void {
+        const event = createNewEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        target.dispatchEvent(event);
+    }
+
+    function createNewEvent(eventName: string): Event {
+        let event;
+        if (typeof Event === 'function') {
+            // Chrome, Opera, Firefox
+            event = new Event(eventName);
+        } else {
+            // IE
+            event = document.createEvent('Event');
+            event.initEvent(eventName, true, true);
+        }
+        return event;
+    }
+
+    export function isElementFocusZone(element?: HTMLElement): boolean {
+        return !!(element && element.getAttribute && !!element.getAttribute(FOCUSZONE_ID_ATTRIBUTE));
+    }
+
+    export function isElementFocusSubZone(element?: HTMLElement): boolean {
+        return !!(element && element.getAttribute && element.getAttribute(FOCUSZONE_SUB_ATTRIBUTE) === 'true');
+    }
+
+    export function on(element: Element | Window, eventName: string, callback: (ev: Event) => void, options?: boolean): () => void {
+        element.addEventListener(eventName, callback, options);
+
+        return () => element.removeEventListener(eventName, callback, options);
+    }
 
     function _expandRect(rect: IRectangle, pagesBefore: number, pagesAfter: number): IRectangle {
         const top = rect.top - pagesBefore * rect.height;
@@ -382,7 +713,7 @@
         pending: () => boolean;
     };
 
-    const enum KeyCodes {
+    export const enum KeyCodes {
         backspace = 8,
         tab = 9,
         enter = 13,
@@ -484,13 +815,74 @@
         singleQuote = 222
     }
 
+    const RTL_LOCAL_STORAGE_KEY = 'isRTL';
+    let _isRTL: boolean | undefined;
+
+    export function getRTL(): boolean {
+        if (_isRTL === undefined) {
+            // Fabric supports persisting the RTL setting between page refreshes via session storage
+            let savedRTL = getItem(RTL_LOCAL_STORAGE_KEY);
+            if (savedRTL !== null) {
+                _isRTL = savedRTL === '1';
+                setRTL(_isRTL);
+            }
+
+            let doc = document;
+            if (_isRTL === undefined && doc) {
+                _isRTL = ((doc.body && doc.body.getAttribute('dir')) || doc.documentElement.getAttribute('dir')) === 'rtl';
+                //mergeStylesSetRTL(_isRTL);
+            }
+        }
+
+        return !!_isRTL;
+    }
+
+    export function setRTL(isRTL: boolean, persistSetting: boolean = false): void {
+        let doc = document;
+        if (doc) {
+            doc.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+        }
+
+        if (persistSetting) {
+            setItem(RTL_LOCAL_STORAGE_KEY, isRTL ? '1' : '0');
+        }
+
+        _isRTL = isRTL;
+        //mergeStylesSetRTL(_isRTL);
+    }
+
+    export function getItem(key: string): string | null {
+        let result = null;
+        try {
+            result = window.sessionStorage.getItem(key);
+        } catch (e) {
+            /* Eat the exception */
+        }
+        return result;
+    }
+
+    export function setItem(key: string, data: string): void {
+        try {
+            window.sessionStorage.setItem(key, data);
+        } catch (e) {
+            /* Eat the exception */
+        }
+    }
+
 
    
 
 }
 
+//declare global {
+    interface Window {
+        BlazorFabricBaseComponent: typeof BlazorFabricBaseComponent
+    }
+//}
 
+window.BlazorFabricBaseComponent = BlazorFabricBaseComponent;
 
+//window.BlazorFabricBaseComponent
 
-(<any>window)['BlazorFabricBaseComponent'] = BlazorFabricBaseComponent || {};
+//(<any>window)['BlazorFabricBaseComponent'] = BlazorFabricBaseComponent || {};
 

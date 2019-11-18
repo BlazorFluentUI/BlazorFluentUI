@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +12,12 @@ namespace BlazorFabric
 {
     public class RatingBase : FabricComponentBase
     {
+        [Inject]
+        private IJSRuntime jsRuntime { get; set; }
+
         private double rating = -1;
+
+        protected ElementReference[] starReferences { get; set; }
 
         [Parameter]
         public bool AllowZeroStars { get; set; }
@@ -55,6 +63,20 @@ namespace BlazorFabric
             return base.OnInitializedAsync();
         }
 
+        protected override Task OnParametersSetAsync()
+        {
+            if (starReferences == null)
+            {
+                starReferences = new ElementReference[Max];
+            }
+            else if (Max != starReferences.Length)
+            {
+                starReferences = new ElementReference[Max];
+            }
+
+            return base.OnParametersSetAsync();
+        }
+
         protected Task OnFocus(ChangeEventArgs args)
         {
             Console.WriteLine("Focused");
@@ -71,6 +93,20 @@ namespace BlazorFabric
             Rating = value;
             return Task.CompletedTask;
         }
+
+        //protected async Task<string> GetDefaultRatingStarId()
+        //{
+        //    string id = null;
+        //    if (Rating >= 0 && Rating < Max)
+        //    {
+        //        var index = (int)Math.Max(0, Math.Ceiling(Rating) - 1);
+        //        var starReference = starReferences[index];
+        //        await 
+        //    }
+        //    Rating != -1 && starReferences.Length == Max ? (starReferences[).Id : ""
+
+        //    return id;
+        //}
 
         private double GetRatingSecure()
         {

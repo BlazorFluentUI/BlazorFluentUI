@@ -31,7 +31,7 @@ namespace BlazorFabricFocusZone {
     interface FocusZoneProps {
         allowFocusRoot: boolean,
         checkForNoWrap: boolean,
-        defaultActiveElement: string,
+        defaultActiveElement: HTMLElement,
         direction: FocusZoneDirection,
         disabled: boolean,
         doNotAllowFocusEventToPropagate: boolean,
@@ -183,7 +183,7 @@ namespace BlazorFabricFocusZone {
                 this._updateTabIndexes();
 
                 if (this._focusZoneProps.defaultActiveElement) {
-                    this._activeElement = document.querySelector(this._focusZoneProps.defaultActiveElement) as HTMLElement;
+                    this._activeElement = this._focusZoneProps.defaultActiveElement;
                     this.focus();
                 }
             }
@@ -214,7 +214,7 @@ namespace BlazorFabricFocusZone {
             this._updateTabIndexes();
 
             if (this._focusZoneProps.defaultActiveElement) {
-                this._activeElement = document.querySelector(this._focusZoneProps.defaultActiveElement) as HTMLElement;
+                this._activeElement = this._focusZoneProps.defaultActiveElement;
                 this.focus();
             }
         }

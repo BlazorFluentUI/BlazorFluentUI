@@ -1,5 +1,5 @@
 ﻿namespace BlazorFabricBaseComponent {
-    const test = 1111;
+    const test = 12333;
     const DATA_IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
     const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
     const DATA_IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
@@ -36,7 +36,7 @@
         if (isDirectionalKeyCode(ev.which) && !window.document.body.classList.contains(IsFocusVisibleClassName)) {
             window.document.body.classList.add(IsFocusVisibleClassName);
         }
-    };
+    }
 
     const DirectionalKeyCodes: { [key: number]: number } = {
         [KeyCodes.up]: 1,
@@ -145,7 +145,7 @@
             right: element.scrollLeft + element.clientWidth,
         }
         return rect;
-    };
+    }
 
     interface IScrollDimensions {
         scrollHeight: number;
@@ -158,11 +158,11 @@
             scrollWidth: element.scrollWidth,
         }
         return dimensions;
-    };
+    }
 
     export function measureElementRect(element: HTMLElement): IRectangle {
         return element.getBoundingClientRect();
-    };
+    }
 
     export function getWindow(element: HTMLElement): Window {
         return element.ownerDocument.defaultView;
@@ -176,7 +176,14 @@
             left: 0
         }
         return rect;
-    };
+    }
+
+    export function getElementId(element: HTMLElement): string {
+        if (element !== undefined) {
+            return element.id;
+        }
+        return null;
+    }
 
     interface Map<T> {
         [K: string]: T;

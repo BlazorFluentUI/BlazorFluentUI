@@ -1,7 +1,7 @@
 var BlazorFabricBaseComponent;
 (function (BlazorFabricBaseComponent) {
     var _a;
-    var test = 1111;
+    var test = 12333;
     var DATA_IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
     var DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
     var DATA_IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
@@ -26,7 +26,6 @@ var BlazorFabricBaseComponent;
             window.document.body.classList.add(IsFocusVisibleClassName);
         }
     }
-    ;
     var DirectionalKeyCodes = (_a = {},
         _a[38 /* up */] = 1,
         _a[40 /* down */] = 1,
@@ -117,7 +116,6 @@ var BlazorFabricBaseComponent;
         return rect;
     }
     BlazorFabricBaseComponent.measureScrollWindow = measureScrollWindow;
-    ;
     function measureScrollDimensions(element) {
         var dimensions = {
             scrollHeight: element.scrollHeight,
@@ -126,12 +124,10 @@ var BlazorFabricBaseComponent;
         return dimensions;
     }
     BlazorFabricBaseComponent.measureScrollDimensions = measureScrollDimensions;
-    ;
     function measureElementRect(element) {
         return element.getBoundingClientRect();
     }
     BlazorFabricBaseComponent.measureElementRect = measureElementRect;
-    ;
     function getWindow(element) {
         return element.ownerDocument.defaultView;
     }
@@ -146,7 +142,13 @@ var BlazorFabricBaseComponent;
         return rect;
     }
     BlazorFabricBaseComponent.getWindowRect = getWindowRect;
-    ;
+    function getElementId(element) {
+        if (element !== undefined) {
+            return element.id;
+        }
+        return null;
+    }
+    BlazorFabricBaseComponent.getElementId = getElementId;
     var eventRegister = {};
     function registerResizeEvent(dotnetRef, functionName) {
         var guid = Guid.newGuid();

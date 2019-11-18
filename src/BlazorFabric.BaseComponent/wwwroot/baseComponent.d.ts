@@ -33,6 +33,7 @@ declare namespace BlazorFabricBaseComponent {
     export function measureElementRect(element: HTMLElement): IRectangle;
     export function getWindow(element: HTMLElement): Window;
     export function getWindowRect(): IRectangle;
+    export function getElementId(element: HTMLElement): string;
     export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string): string;
     export function deregisterResizeEvent(guid: number): void;
     export function findElementRecursive(element: HTMLElement | null, matchFunction: (element: HTMLElement) => boolean): HTMLElement | null;

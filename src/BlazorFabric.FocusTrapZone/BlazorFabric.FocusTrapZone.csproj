@@ -19,11 +19,4 @@
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <TypeScriptCompile Include="..\BlazorFabric.BaseComponent\wwwroot\baseComponent.d.ts">
-      <Link>wwwroot\baseComponent.d.ts</Link>
-    </TypeScriptCompile>
-  </ItemGroup>
-
 </Project>

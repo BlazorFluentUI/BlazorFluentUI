@@ -14,7 +14,7 @@ namespace BlazorFabric
         public bool CheckForNoWrap { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("defaultActiveElement")]
-        public string DefaultActiveElement { get; set; }
+        public ElementReference DefaultActiveElement { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("direction")]
         public FocusZoneDirection Direction { get; set; }

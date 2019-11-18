@@ -2,8 +2,11 @@
 @inherits RatingBase
 @using Microsoft.AspNetCore.Components.Web
 
-<div class=@($"{(Disabled || ReadOnly ? "" : "ms-RatingStar-root")} {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")>
-    <div class=@($"ms-Rating-focuszone {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")>
+<div class=@($"{(Disabled || ReadOnly ? "" : "ms-RatingStar-root")} {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
+     @ref=@RootElementReference>
+    <FocusZone ClassName=@($"ms-Rating-focuszone {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
+               Direction="FocusZoneDirection.Horizontal"
+               DefaultActiveElement=@(Rating != -1 && starReferences.Length == Max ? (starReferences[(int)Math.Max(0, Math.Ceiling(Rating)-1)]) : default(ElementReference))>
         @for (int i = 1; i <= Max; i++)
         {
             var percantage = GetPercentageOf(i);
@@ -13,6 +16,7 @@
                     class=@($"{(Disabled || ReadOnly ? "ms-Rating-button--disabled" : "ms-Rating-button")} {(this.Size == RatingSize.Large ? "ms-Rating--large": "ms-Rating--small")}")
                     data-is-current=@(i == GetFullRating() ? "true" : "false" )
                     role="presentation"
+                    @ref=@starReferences[value-1]
                     type="button"
                     @onclick="(() =>OnClick(value))">
                 <span class="ms-Rating-labelText">Select @value of 5 stars</span>
@@ -25,5 +29,5 @@
                 </div>
             </button>
         }
-    </div>
+    </FocusZone>
 </div>

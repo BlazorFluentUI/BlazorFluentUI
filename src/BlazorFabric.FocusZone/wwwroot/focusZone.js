@@ -290,7 +290,7 @@ var BlazorFabricFocusZone;
                 // Assign initial tab indexes so that we can set initial focus as appropriate.
                 this._updateTabIndexes();
                 if (this._focusZoneProps.defaultActiveElement) {
-                    this._activeElement = document.querySelector(this._focusZoneProps.defaultActiveElement);
+                    this._activeElement = this._focusZoneProps.defaultActiveElement;
                     this.focus();
                 }
             }
@@ -315,7 +315,7 @@ var BlazorFabricFocusZone;
             // Assign initial tab indexes so that we can set initial focus as appropriate.
             this._updateTabIndexes();
             if (this._focusZoneProps.defaultActiveElement) {
-                this._activeElement = document.querySelector(this._focusZoneProps.defaultActiveElement);
+                this._activeElement = this._focusZoneProps.defaultActiveElement;
                 this.focus();
             }
         };

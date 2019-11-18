@@ -31,11 +31,11 @@ namespace BlazorFabric
         [System.Text.Json.Serialization.JsonPropertyName("id")]
         public string Id { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("innerZoneKeystrokeTriggers")]
+        public List<ConsoleKey> InnerZoneKeystrokeTriggers { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("isCircularNavigation")]
         public bool IsCircularNavigation { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("isInnerZoneKeystrokeExists")]
-        public bool IsInnerZoneKeystrokeExists { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("onBeforeFocusExists")]
         public bool OnBeforeFocusExists { get; set; }
@@ -58,8 +58,8 @@ namespace BlazorFabric
                 DoNotAllowFocusEventToPropagate=focusZone.DoNotAllowFocusEventToPropagate,
                 HandleTabKey = focusZone.HandleTabKey,
                 Id = id,
-                IsCircularNavigation=focusZone.IsCircularNavigation,
-                IsInnerZoneKeystrokeExists = focusZone.IsInnerZoneKeystroke != null,
+                InnerZoneKeystrokeTriggers = focusZone.InnerZoneKeystrokeTriggers,
+                IsCircularNavigation =focusZone.IsCircularNavigation,
                 OnBeforeFocusExists = focusZone.OnBeforeFocus != null,
                 Root = root,
                 ShouldInputLoseFocusOnArrowKeyExists = focusZone.ShouldInputLoseFocusOnArrowKey != null

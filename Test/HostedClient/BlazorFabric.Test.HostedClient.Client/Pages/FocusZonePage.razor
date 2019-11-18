@@ -2,6 +2,8 @@
 
 <h3>FocusZone</h3>
 
+<h4>FocusZone with Bidirectional movement</h4>
+
 <div style="padding: 50px; background-color:yellow;">
     <FocusZone Direction="FocusZoneDirection.Horizontal">
         <DefaultButton Text="First Button" OnClick=@OnInnerClick />
@@ -11,6 +13,8 @@
 </div>
 
 <DefaultButton Text="Outside Button" OnClick=@OnOuterClick />
+
+<h4>FocusZone with vertical &amp; circular movement</h4>
 
 <FocusZone Direction="FocusZoneDirection.Vertical" IsCircularNavigation="true">
     <List ItemsSource=@items ItemFocusable="true">
@@ -47,6 +51,7 @@
             }
 </style>
 
+<h4>FocusZone with bidirectional movement</h4>
 <FocusZone Direction="FocusZoneDirection.Bidirectional"
            Style="display:inline-block;border:1px solid var(--palette-NeutralTertiary);padding:10px;line-height:0;overflow:hidden;">
     @for (var i = 0; i < photos.Count; i++)

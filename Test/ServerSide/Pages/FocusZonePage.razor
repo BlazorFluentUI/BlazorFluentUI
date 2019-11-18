@@ -2,15 +2,19 @@
 
 <h3>FocusZone</h3>
 
+<h4>FocusZone with Bidirectional movement</h4>
+
 <div style="padding: 50px; background-color:yellow;">
     <FocusZone Direction="FocusZoneDirection.Horizontal">
-        <DefaultButton Text="First Button" OnClick=@OnInnerClick/>
-        <DefaultButton Text="Second Button" OnClick=@OnInnerClick/>
-        <DefaultButton Text="Third Button" OnClick=@OnInnerClick/>
+        <DefaultButton Text="First Button" OnClick=@OnInnerClick />
+        <DefaultButton Text="Second Button" OnClick=@OnInnerClick />
+        <DefaultButton Text="Third Button" OnClick=@OnInnerClick />
     </FocusZone>
 </div>
 
-<DefaultButton Text="Outside Button" OnClick=@OnOuterClick/>
+<DefaultButton Text="Outside Button" OnClick=@OnOuterClick />
+
+<h4>FocusZone with vertical &amp; circular movement</h4>
 
 <FocusZone Direction="FocusZoneDirection.Vertical" IsCircularNavigation="true">
     <List ItemsSource=@items ItemFocusable="true">
@@ -24,39 +28,40 @@
 </FocusZone>
 
 <style>
-    .photoCell{
-        position:relative;
-        display:inline-block;
-        padding:2px;
-        box-sizing:border-box;
+    .photoCell {
+        position: relative;
+        display: inline-block;
+        padding: 2px;
+        box-sizing: border-box;
     }
-    .photoCell:focus{
-        outline:none;
-    }
-    .photoCell:focus:after{
-        content:"";
-        position:absolute;
-        right:4px;
-        left:4px;
-        top:4px;
-        bottom:4px;
-        border:1px solid var(--palette-White);
-        outline:2px solid var(--palette-ThemePrimary);
-    }
+
+        .photoCell:focus {
+            outline: none;
+        }
+
+            .photoCell:focus:after {
+                content: "";
+                position: absolute;
+                right: 4px;
+                left: 4px;
+                top: 4px;
+                bottom: 4px;
+                border: 1px solid var(--palette-White);
+                outline: 2px solid var(--palette-ThemePrimary);
+            }
 </style>
 
+<h4>FocusZone with bidirectional movement</h4>
 <FocusZone Direction="FocusZoneDirection.Bidirectional"
            Style="display:inline-block;border:1px solid var(--palette-NeutralTertiary);padding:10px;line-height:0;overflow:hidden;">
-    @for (var i=0; i < photos.Count; i++)
+    @for (var i = 0; i < photos.Count; i++)
     {
         <li @key=@i
             data-is-focusable="true"
-            class="photoCell"
-            >
+            class="photoCell">
             <Image Src=@photos[i].Url
                    Width=@photos[i].Width
-                   Height=@photos[i].Height
-                   />
+                   Height=@photos[i].Height />
         </li>
     }
 </FocusZone>
@@ -78,14 +83,14 @@
 
     override protected Task OnInitializedAsync()
     {
-        for (int i=0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
         {
             items.Add(i.ToString());
         }
 
         var random = new Random();
 
-        for (int i=0; i < 20; i++)
+        for (int i = 0; i < 20; i++)
         {
             var randomWidth = 50 + Math.Floor(random.NextDouble() * 150);
             photos.Add(new Photo() { Url = $"http://placehold.it/{randomWidth}x100", Height = 100, Width = randomWidth });

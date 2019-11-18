@@ -73,7 +73,7 @@ var BlazorFabricFocusZone;
                     // If the event target is inside a portal do not process the event.
                     return;
                 }
-                var _a = _this._focusZoneProps, direction = _a.direction, disabled = _a.disabled, isInnerZoneKeystrokeExists = _a.isInnerZoneKeystrokeExists;
+                var _a = _this._focusZoneProps, direction = _a.direction, disabled = _a.disabled, innerZoneKeystrokeTriggers = _a.innerZoneKeystrokeTriggers;
                 if (disabled) {
                     return;
                 }
@@ -89,7 +89,7 @@ var BlazorFabricFocusZone;
                     // Ignore the keystroke.
                     return;
                 }
-                if (isInnerZoneKeystrokeExists && _this._dotNetRef.invokeMethod("JSIsInnerZoneKeystroke", ev) && _this._isImmediateDescendantOfZone(ev.target)) {
+                if (innerZoneKeystrokeTriggers && (innerZoneKeystrokeTriggers.indexOf(ev.keyCode) != -1) && _this._isImmediateDescendantOfZone(ev.target)) {
                     // Try to focus
                     var innerZone = _this._getFirstInnerZone();
                     if (innerZone) {
@@ -193,7 +193,7 @@ var BlazorFabricFocusZone;
                 var doNotAllowFocusEventToPropagate = _this._focusZoneProps.doNotAllowFocusEventToPropagate;
                 var isImmediateDescendant = _this._isImmediateDescendantOfZone(ev.target);
                 var newActiveElement;
-                _this._dotNetRef.invokeMethod("JSOnFocusNotification");
+                _this._dotNetRef.invokeMethodAsync("JSOnFocusNotification");
                 if (isImmediateDescendant) {
                     newActiveElement = ev.target;
                 }
@@ -219,7 +219,7 @@ var BlazorFabricFocusZone;
                         _this._updateTabIndexes();
                     }
                 }
-                _this._dotNetRef.invokeMethod("JSOnActiveElementChanged", _this._activeElement);
+                _this._dotNetRef.invokeMethodAsync("JSOnActiveElementChanged", _this._activeElement);
                 if (doNotAllowFocusEventToPropagate) {
                     ev.stopPropagation();
                 }
@@ -263,7 +263,7 @@ var BlazorFabricFocusZone;
                 y: 0
             };
             this._root.addEventListener("keydown", this._onKeyDown, false);
-            this._root.addEventListener("focus", this._onFocus, false);
+            this._root.addEventListener("focusin", this._onFocus, false);
             this._root.addEventListener("mousedown", this._onMouseDown, false);
             this.initialized();
         }
@@ -387,7 +387,7 @@ var BlazorFabricFocusZone;
         };
         FocusZoneInternal.prototype.focusElement = function (element) {
             var onBeforeFocusExists = this._focusZoneProps.onBeforeFocusExists;
-            if (onBeforeFocusExists && !this._dotNetRef.invokeMethod("JSOnBeforeFocus", element)) {
+            if (onBeforeFocusExists && !this._dotNetRef.invokeMethodAsync("JSOnBeforeFocus", element)) {
                 return false;
             }
             if (element) {
@@ -578,7 +578,7 @@ var BlazorFabricFocusZone;
                 if (isRangeSelected ||
                     (selectionStart > 0 && !isForward) ||
                     (selectionStart !== inputValue.length && isForward) ||
-                    (!!this._focusZoneProps.handleTabKey && !(this._focusZoneProps.shouldInputLoseFocusOnArrowKeyExists && this._dotNetRef.invokeMethod("JSShouldInputLoseFocusOnArrowKey", element)))) {
+                    (!!this._focusZoneProps.handleTabKey && !(this._focusZoneProps.shouldInputLoseFocusOnArrowKeyExists && this._dotNetRef.invokeMethodAsync("JSShouldInputLoseFocusOnArrowKey", element)))) {
                     return false;
                 }
             }

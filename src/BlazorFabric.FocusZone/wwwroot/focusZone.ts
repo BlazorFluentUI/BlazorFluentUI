@@ -38,7 +38,7 @@ namespace BlazorFabricFocusZone {
         handleTabKey: FocusZoneTabbableElements,
         id:string,
         isCircularNavigation: boolean,
-        isInnerZoneKeystrokeExists: boolean,
+        innerZoneKeystrokeTriggers: BlazorFabricBaseComponent.KeyCodes[],
         onBeforeFocusExists: boolean,
         root: HTMLElement,
         shouldInputLoseFocusOnArrowKeyExists: boolean
@@ -129,7 +129,7 @@ namespace BlazorFabricFocusZone {
         
         /** The child element with tabindex=0. */
         private _defaultFocusElement: HTMLElement | null;
-        private _focusAlignment: any; //BlazorFabricBaseComponent.IPoint;
+        private _focusAlignment: BlazorFabricBaseComponent.IPoint;
         private _isInnerZone: boolean;
         private _parkedTabIndex: string | null | undefined;
         private _processingTabKey: boolean;
@@ -146,7 +146,7 @@ namespace BlazorFabricFocusZone {
                 };
                         
             this._root.addEventListener("keydown", this._onKeyDown, false);
-            this._root.addEventListener("focus", this._onFocus, false);
+            this._root.addEventListener("focusin", this._onFocus, false);
             this._root.addEventListener("mousedown", this._onMouseDown, false);
 
             this.initialized();
@@ -259,7 +259,7 @@ namespace BlazorFabricFocusZone {
                 return;
             }
 
-            const { direction, disabled, isInnerZoneKeystrokeExists } = this._focusZoneProps;
+            const { direction, disabled, innerZoneKeystrokeTriggers } = this._focusZoneProps;
 
             if (disabled) {
                 return;
@@ -280,7 +280,7 @@ namespace BlazorFabricFocusZone {
                 return;
             }
 
-            if (isInnerZoneKeystrokeExists && this._dotNetRef.invokeMethod("JSIsInnerZoneKeystroke", ev) && this._isImmediateDescendantOfZone(ev.target as HTMLElement)) {
+            if (innerZoneKeystrokeTriggers && (innerZoneKeystrokeTriggers.indexOf(ev.keyCode) != -1) && this._isImmediateDescendantOfZone(ev.target as HTMLElement)) {
                 // Try to focus
                 const innerZone = this._getFirstInnerZone();
 
@@ -404,7 +404,7 @@ namespace BlazorFabricFocusZone {
             const isImmediateDescendant = this._isImmediateDescendantOfZone(ev.target as HTMLElement);
             let newActiveElement: HTMLElement | undefined;
 
-            this._dotNetRef.invokeMethod("JSOnFocusNotification");
+            this._dotNetRef.invokeMethodAsync("JSOnFocusNotification");
 
             if (isImmediateDescendant) {
                 newActiveElement = ev.target as HTMLElement;
@@ -436,7 +436,7 @@ namespace BlazorFabricFocusZone {
                 }
             }
 
-            this._dotNetRef.invokeMethod("JSOnActiveElementChanged", this._activeElement);
+            this._dotNetRef.invokeMethodAsync("JSOnActiveElementChanged", this._activeElement);
 
             if (doNotAllowFocusEventToPropagate) {
                 ev.stopPropagation();
@@ -534,7 +534,7 @@ namespace BlazorFabricFocusZone {
         public focusElement(element: HTMLElement): boolean {
             const { onBeforeFocusExists } = this._focusZoneProps;
 
-            if (onBeforeFocusExists && ! this._dotNetRef.invokeMethod("JSOnBeforeFocus", element)) {
+            if (onBeforeFocusExists && ! this._dotNetRef.invokeMethodAsync("JSOnBeforeFocus", element)) {
                 return false;
             }
 
@@ -767,7 +767,7 @@ namespace BlazorFabricFocusZone {
                     isRangeSelected ||
                     (selectionStart! > 0 && !isForward) ||
                     (selectionStart !== inputValue.length && isForward) ||
-                    (!!this._focusZoneProps.handleTabKey && !(this._focusZoneProps.shouldInputLoseFocusOnArrowKeyExists && this._dotNetRef.invokeMethod("JSShouldInputLoseFocusOnArrowKey", element)))
+                    (!!this._focusZoneProps.handleTabKey && !(this._focusZoneProps.shouldInputLoseFocusOnArrowKeyExists && this._dotNetRef.invokeMethodAsync<boolean>("JSShouldInputLoseFocusOnArrowKey", element)))
                 ) {
                     return false;
                 }

@@ -1,7 +1,8 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 
 
-namespace BlazorFabricFocusTrapZone {
+namespace BlazorFabricFocusTrapZone { 
+
 
     interface DotNetReferenceType {
 
@@ -10,6 +11,7 @@ namespace BlazorFabricFocusTrapZone {
     }
 
     const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+    const d = 445;
     const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
     const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
     const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
@@ -246,7 +248,7 @@ namespace BlazorFabricFocusTrapZone {
         let focusTrapZone = focusTrapZones[id];
         if (focusTrapZone) {
             focusTrapZone.focus();
-        }
+        } 
     }
 
    
@@ -272,7 +274,7 @@ namespace BlazorFabricFocusTrapZone {
         return isContained;
     }
 
-    function getParent(child: HTMLElement): HTMLElement | null {
+    export function getParent(child: HTMLElement, allowVirtualParents: boolean = true): HTMLElement | null {
         return child && (child.parentNode && (child.parentNode as HTMLElement));
     }
 

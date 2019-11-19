@@ -1,0 +1,36 @@
+﻿@namespace BlazorFabric
+@inherits ProgressIndicatorBase
+
+<div class=@($"mediumFont ms-ProgressIndicator {ClassName}") style=@Style>
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <div class="ms-ProgressIndicator-itemName">@Label</div>
+    }
+    @if (!ProgressHidden)
+    {
+        @if(RenderProgressTemplate != null)
+        {
+            @RenderProgressTemplate(PercentComplete)
+        }
+        else
+        {
+            <div class="ms-ProgressIndicator-itemProgress"
+                 style=@GetBarHeightStyles()>
+                <div class="ms-ProgressIndicator-progressTrack"
+                     style=@GetBarHeightStyles()/>
+                <div class="ms-ProgressIndicator-progressBar"
+                     style=@GetProgressBarStyles()
+                     role="progressbar"
+                     aria-valuemin=@AriaValueMin
+                     aria-valuemax=@AriaValueMax
+                     aria-valuenow=@AriaValueNow
+                     aria-valuetext=@AriaValueText
+                     />
+            </div>
+        }
+    }
+    @if (!string.IsNullOrWhiteSpace(Description))
+    {
+        <div class="ms-ProgressIndicator-itemDescription">@Description</div>
+    }
+</div>

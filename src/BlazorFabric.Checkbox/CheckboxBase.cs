@@ -34,14 +34,14 @@ namespace BlazorFabric
         /// <summary>
         /// Accessible label for the checkbox.
         /// </summary>
-        [Parameter]
-        public string AriaLabel { get; set; }
+        //[Parameter]
+        //public string AriaLabel { get; set; }
 
-        [Parameter]
-        public string AriaLabelledBy { get; set; }
+        //[Parameter]
+        //public string AriaLabelledBy { get; set; }
 
-        [Parameter]
-        public string AriaDescribedBy { get; set; }
+        //[Parameter]
+        //public string AriaDescribedBy { get; set; }
 
         [Parameter]
         public int? AriaPositionInSet { get; set; }

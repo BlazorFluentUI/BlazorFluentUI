@@ -4,7 +4,9 @@
 
     @typeparam TItem
 
-    <div class="ms-Dropdown-root" @ref=@RootElementReference>
+    <div class="ms-Dropdown-root"
+         style=@Style
+         @ref=@RootElementReference>
         @if (this.Label != null)
         {
             <BlazorFabric.Label ClassName="ms-Dropdown-label" HtmlFor=@id Required=@Required>
@@ -30,6 +32,10 @@
                 @if (SelectedKeys.Count > 0)
                 {
                     <span>@String.Join(", ", SelectedKeys)</span>
+                }
+                else if (SelectedKey != null)
+                {
+                    <span>@SelectedKey</span>
                 }
                 else
                 {

@@ -1,6 +1,13 @@
 var BlazorFabricBaseComponent;
 (function (BlazorFabricBaseComponent) {
     var _a;
+    var test = 12333;
+    var DATA_IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+    var DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
+    var DATA_IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
+    var FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
+    var FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
+    var IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
     function initializeFocusRects() {
         if (!window.__hasInitializeFocusRects__) {
             window.__hasInitializeFocusRects__ = true;
@@ -9,8 +16,6 @@ var BlazorFabricBaseComponent;
         }
     }
     BlazorFabricBaseComponent.initializeFocusRects = initializeFocusRects;
-    var DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
-    var IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
     function _onFocusRectMouseDown(ev) {
         if (window.document.body.classList.contains(IsFocusVisibleClassName)) {
             window.document.body.classList.remove(IsFocusVisibleClassName);
@@ -21,7 +26,6 @@ var BlazorFabricBaseComponent;
             window.document.body.classList.add(IsFocusVisibleClassName);
         }
     }
-    ;
     var DirectionalKeyCodes = (_a = {},
         _a[38 /* up */] = 1,
         _a[40 /* down */] = 1,
@@ -112,7 +116,6 @@ var BlazorFabricBaseComponent;
         return rect;
     }
     BlazorFabricBaseComponent.measureScrollWindow = measureScrollWindow;
-    ;
     function measureScrollDimensions(element) {
         var dimensions = {
             scrollHeight: element.scrollHeight,
@@ -121,12 +124,10 @@ var BlazorFabricBaseComponent;
         return dimensions;
     }
     BlazorFabricBaseComponent.measureScrollDimensions = measureScrollDimensions;
-    ;
     function measureElementRect(element) {
         return element.getBoundingClientRect();
     }
     BlazorFabricBaseComponent.measureElementRect = measureElementRect;
-    ;
     function getWindow(element) {
         return element.ownerDocument.defaultView;
     }
@@ -141,7 +142,13 @@ var BlazorFabricBaseComponent;
         return rect;
     }
     BlazorFabricBaseComponent.getWindowRect = getWindowRect;
-    ;
+    function getElementId(element) {
+        if (element !== undefined) {
+            return element.id;
+        }
+        return null;
+    }
+    BlazorFabricBaseComponent.getElementId = getElementId;
     var eventRegister = {};
     function registerResizeEvent(dotnetRef, functionName) {
         var guid = Guid.newGuid();
@@ -169,13 +176,225 @@ var BlazorFabricBaseComponent;
         };
         return Guid;
     }());
+    function findElementRecursive(element, matchFunction) {
+        if (!element || element === document.body) {
+            return null;
+        }
+        return matchFunction(element) ? element : findElementRecursive(getParent(element), matchFunction);
+    }
+    BlazorFabricBaseComponent.findElementRecursive = findElementRecursive;
+    function elementContainsAttribute(element, attribute) {
+        var elementMatch = findElementRecursive(element, function (testElement) { return testElement.hasAttribute(attribute); });
+        return elementMatch && elementMatch.getAttribute(attribute);
+    }
+    BlazorFabricBaseComponent.elementContainsAttribute = elementContainsAttribute;
     /* Focus stuff */
+    function shouldWrapFocus(element, noWrapDataAttribute) {
+        return elementContainsAttribute(element, noWrapDataAttribute) === 'true' ? false : true;
+    }
+    BlazorFabricBaseComponent.shouldWrapFocus = shouldWrapFocus;
+    function getFocusableByIndexPath(parent, path) {
+        var element = parent;
+        for (var _i = 0, path_1 = path; _i < path_1.length; _i++) {
+            var index = path_1[_i];
+            var nextChild = element.children[Math.min(index, element.children.length - 1)];
+            if (!nextChild) {
+                break;
+            }
+            element = nextChild;
+        }
+        element = isElementTabbable(element) && isElementVisible(element) ? element : getNextElement(parent, element, true) || getPreviousElement(parent, element);
+        return { element: element, isNull: !element };
+    }
+    BlazorFabricBaseComponent.getFocusableByIndexPath = getFocusableByIndexPath;
+    function isElementTabbable(element, checkTabIndex) {
+        // If this element is null or is disabled, it is not considered tabbable.
+        if (!element || element.disabled) {
+            return false;
+        }
+        var tabIndex = 0;
+        var tabIndexAttributeValue = null;
+        if (element && element.getAttribute) {
+            tabIndexAttributeValue = element.getAttribute('tabIndex');
+            if (tabIndexAttributeValue) {
+                tabIndex = parseInt(tabIndexAttributeValue, 10);
+            }
+        }
+        var isFocusableAttribute = element.getAttribute ? element.getAttribute(DATA_IS_FOCUSABLE_ATTRIBUTE) : null;
+        var isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
+        var result = !!element &&
+            isFocusableAttribute !== 'false' &&
+            (element.tagName === 'A' ||
+                element.tagName === 'BUTTON' ||
+                element.tagName === 'INPUT' ||
+                element.tagName === 'TEXTAREA' ||
+                isFocusableAttribute === 'true' ||
+                isTabIndexSet);
+        return checkTabIndex ? tabIndex !== -1 && result : result;
+    }
+    BlazorFabricBaseComponent.isElementTabbable = isElementTabbable;
+    function isElementVisible(element) {
+        // If the element is not valid, return false.
+        if (!element || !element.getAttribute) {
+            return false;
+        }
+        var visibilityAttribute = element.getAttribute(DATA_IS_VISIBLE_ATTRIBUTE);
+        // If the element is explicitly marked with the visibility attribute, return that value as boolean.
+        if (visibilityAttribute !== null && visibilityAttribute !== undefined) {
+            return visibilityAttribute === 'true';
+        }
+        // Fallback to other methods of determining actual visibility.
+        return (element.offsetHeight !== 0 ||
+            element.offsetParent !== null ||
+            // tslint:disable-next-line:no-any
+            element.isVisible === true); // used as a workaround for testing.
+    }
+    BlazorFabricBaseComponent.isElementVisible = isElementVisible;
     function focusFirstChild(rootElement) {
         return false;
     }
     BlazorFabricBaseComponent.focusFirstChild = focusFirstChild;
-    function getNextElement(rootElement) {
+    function getParent(child, allowVirtualParents) {
+        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
+        return child && (child.parentNode && child.parentNode);
     }
+    BlazorFabricBaseComponent.getParent = getParent;
+    function elementContains(parent, child, allowVirtualParents) {
+        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
+        var isContained = false;
+        if (parent && child) {
+            if (allowVirtualParents) {
+                isContained = false;
+                while (child) {
+                    var nextParent = getParent(child);
+                    console.log("NextParent: " + nextParent);
+                    if (nextParent === parent) {
+                        isContained = true;
+                        break;
+                    }
+                    child = nextParent;
+                }
+            }
+            else if (parent.contains) {
+                isContained = parent.contains(child);
+            }
+        }
+        return isContained;
+    }
+    BlazorFabricBaseComponent.elementContains = elementContains;
+    function getNextElement(rootElement, currentElement, checkNode, suppressParentTraversal, suppressChildTraversal, includeElementsInFocusZones, allowFocusRoot, tabbable) {
+        if (!currentElement || (currentElement === rootElement && suppressChildTraversal && !allowFocusRoot)) {
+            return null;
+        }
+        var isCurrentElementVisible = isElementVisible(currentElement);
+        // Check the current node, if it's not the first traversal.
+        if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
+            return currentElement;
+        }
+        // Check its children.
+        if (!suppressChildTraversal &&
+            isCurrentElementVisible &&
+            (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
+            var childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            if (childMatch) {
+                return childMatch;
+            }
+        }
+        if (currentElement === rootElement) {
+            return null;
+        }
+        // Check its sibling.
+        var siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        if (siblingMatch) {
+            return siblingMatch;
+        }
+        if (!suppressParentTraversal) {
+            return getNextElement(rootElement, currentElement.parentElement, false, false, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        }
+        return null;
+    }
+    BlazorFabricBaseComponent.getNextElement = getNextElement;
+    function getPreviousElement(rootElement, currentElement, checkNode, suppressParentTraversal, traverseChildren, includeElementsInFocusZones, allowFocusRoot, tabbable) {
+        if (!currentElement || (!allowFocusRoot && currentElement === rootElement)) {
+            return null;
+        }
+        var isCurrentElementVisible = isElementVisible(currentElement);
+        // Check its children.
+        if (traverseChildren &&
+            isCurrentElementVisible &&
+            (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
+            var childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            if (childMatch) {
+                if ((tabbable && isElementTabbable(childMatch, true)) || !tabbable) {
+                    return childMatch;
+                }
+                var childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                if (childMatchSiblingMatch) {
+                    return childMatchSiblingMatch;
+                }
+                var childMatchParent = childMatch.parentElement;
+                // At this point if we have not found any potential matches
+                // start looking at the rest of the subtree under the currentParent.
+                // NOTE: We do not want to recurse here because doing so could
+                // cause elements to get skipped.
+                while (childMatchParent && childMatchParent !== currentElement) {
+                    var childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                    if (childMatchParentMatch) {
+                        return childMatchParentMatch;
+                    }
+                    childMatchParent = childMatchParent.parentElement;
+                }
+            }
+        }
+        // Check the current node, if it's not the first traversal.
+        if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
+            return currentElement;
+        }
+        // Check its previous sibling.
+        var siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        if (siblingMatch) {
+            return siblingMatch;
+        }
+        // Check its parent.
+        if (!suppressParentTraversal) {
+            return getPreviousElement(rootElement, currentElement.parentElement, true, false, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        }
+        return null;
+    }
+    BlazorFabricBaseComponent.getPreviousElement = getPreviousElement;
+    /** Raises a click event. */
+    function raiseClick(target) {
+        var event = createNewEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        target.dispatchEvent(event);
+    }
+    BlazorFabricBaseComponent.raiseClick = raiseClick;
+    function createNewEvent(eventName) {
+        var event;
+        if (typeof Event === 'function') {
+            // Chrome, Opera, Firefox
+            event = new Event(eventName);
+        }
+        else {
+            // IE
+            event = document.createEvent('Event');
+            event.initEvent(eventName, true, true);
+        }
+        return event;
+    }
+    function isElementFocusZone(element) {
+        return !!(element && element.getAttribute && !!element.getAttribute(FOCUSZONE_ID_ATTRIBUTE));
+    }
+    BlazorFabricBaseComponent.isElementFocusZone = isElementFocusZone;
+    function isElementFocusSubZone(element) {
+        return !!(element && element.getAttribute && element.getAttribute(FOCUSZONE_SUB_ATTRIBUTE) === 'true');
+    }
+    BlazorFabricBaseComponent.isElementFocusSubZone = isElementFocusSubZone;
+    function on(element, eventName, callback, options) {
+        element.addEventListener(eventName, callback, options);
+        return function () { return element.removeEventListener(eventName, callback, options); };
+    }
+    BlazorFabricBaseComponent.on = on;
     function _expandRect(rect, pagesBefore, pagesAfter) {
         var top = rect.top - pagesBefore * rect.height;
         var height = rect.height + (pagesBefore + pagesAfter) * rect.height;
@@ -307,6 +526,61 @@ var BlazorFabricBaseComponent;
         resultFunction.pending = pending;
         return resultFunction;
     }
+    var RTL_LOCAL_STORAGE_KEY = 'isRTL';
+    var _isRTL;
+    function getRTL() {
+        if (_isRTL === undefined) {
+            // Fabric supports persisting the RTL setting between page refreshes via session storage
+            var savedRTL = getItem(RTL_LOCAL_STORAGE_KEY);
+            if (savedRTL !== null) {
+                _isRTL = savedRTL === '1';
+                setRTL(_isRTL);
+            }
+            var doc = document;
+            if (_isRTL === undefined && doc) {
+                _isRTL = ((doc.body && doc.body.getAttribute('dir')) || doc.documentElement.getAttribute('dir')) === 'rtl';
+                //mergeStylesSetRTL(_isRTL);
+            }
+        }
+        return !!_isRTL;
+    }
+    BlazorFabricBaseComponent.getRTL = getRTL;
+    function setRTL(isRTL, persistSetting) {
+        if (persistSetting === void 0) { persistSetting = false; }
+        var doc = document;
+        if (doc) {
+            doc.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+        }
+        if (persistSetting) {
+            setItem(RTL_LOCAL_STORAGE_KEY, isRTL ? '1' : '0');
+        }
+        _isRTL = isRTL;
+        //mergeStylesSetRTL(_isRTL);
+    }
+    BlazorFabricBaseComponent.setRTL = setRTL;
+    function getItem(key) {
+        var result = null;
+        try {
+            result = window.sessionStorage.getItem(key);
+        }
+        catch (e) {
+            /* Eat the exception */
+        }
+        return result;
+    }
+    BlazorFabricBaseComponent.getItem = getItem;
+    function setItem(key, data) {
+        try {
+            window.sessionStorage.setItem(key, data);
+        }
+        catch (e) {
+            /* Eat the exception */
+        }
+    }
+    BlazorFabricBaseComponent.setItem = setItem;
 })(BlazorFabricBaseComponent || (BlazorFabricBaseComponent = {}));
-window['BlazorFabricBaseComponent'] = BlazorFabricBaseComponent || {};
+//}
+window.BlazorFabricBaseComponent = BlazorFabricBaseComponent;
+//window.BlazorFabricBaseComponent
+//(<any>window)['BlazorFabricBaseComponent'] = BlazorFabricBaseComponent || {};
 //# sourceMappingURL=baseComponent.js.map

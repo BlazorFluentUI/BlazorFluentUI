@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,11 +34,11 @@ namespace BlazorFabric
         [Parameter] public bool ValidateOnFocusOut { get; set; }
         [Parameter] public bool ValidateOnLoad { get; set; } = true;
         [Parameter] public int DeferredValidationTime { get; set; } = 200;
-        [Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public AutoComplete AutoComplete { get; set; } = AutoComplete.On;
-        [Parameter] public string Mask { get; set; }
-        [Parameter] public string MaskChar { get; set; }
-        [Parameter] public string MaskFormat { get; set; }
+        //[Parameter] public string Mask { get; set; }
+        //[Parameter] public string MaskChar { get; set; }
+        //[Parameter] public string MaskFormat { get; set; }
         [Parameter] public string Placeholder { get; set; }
         [Parameter] public string IconName { get; set; }
 
@@ -69,8 +70,8 @@ namespace BlazorFabric
         private bool defaultErrorMessageIsSet;
         private string latestValidatedValue = "";
         private string currentValue;
-        private Task DeferredValidationTask;
-        private CancellationTokenSource cancellationTokenSource;
+        private ICollection<Task> DeferredValidationTasks = new List<Task>();
+
         protected string CurrentValue
         {
             get => currentValue;
@@ -96,7 +97,7 @@ namespace BlazorFabric
 
             // to prevent changes after initialisation
             deferredValidationTime = DeferredValidationTime;
-            
+
 
             return base.OnInitializedAsync();
         }
@@ -220,34 +221,20 @@ namespace BlazorFabric
 
         private async Task DeferredValidation(string value)
         {
-            if (DeferredValidationTask != null)
+            DeferredValidationTasks.Add(Task.Run(async () =>
             {
-                cancellationTokenSource.Cancel();
-                try
-                {
-                    DeferredValidationTask.Wait();
-                }
-                catch
-                {
-                    
-                }
-                finally
-                {
-                    cancellationTokenSource.Dispose();
-                    DeferredValidationTask.Dispose();
-                }
+                await Task.Delay(deferredValidationTime);
+            }));
+            var TaskCount = DeferredValidationTasks.Count();
+            await Task.WhenAll(DeferredValidationTasks.ToArray());
+            if (TaskCount == DeferredValidationTasks.Count())
+            {
+                _ = Task.Run(() =>
+                  {
+                      Validate(value);
+                      StateHasChanged();
+                  }).ConfigureAwait(false);
             }
-            cancellationTokenSource = new CancellationTokenSource();
-            DeferredValidationTask = Task.Run(async () =>
-            {
-                await Task.Delay(deferredValidationTime, cancellationTokenSource.Token);
-                if (cancellationTokenSource.IsCancellationRequested)
-                {
-                    return;
-                }
-                Validate(value);
-                StateHasChanged();
-            });
         }
     }
 }

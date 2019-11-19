@@ -16,6 +16,6 @@ namespace BlazorFabric.Test.ServerSide.Models
             DisplayName = text;
         }
         public string DisplayName { get; set; }
-        public string ImgUrl => "/background.png";
+        public string ImgUrl => "redArrow.jpg";
     }
 }

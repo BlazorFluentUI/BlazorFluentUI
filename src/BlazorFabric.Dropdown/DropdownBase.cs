@@ -9,7 +9,7 @@ namespace BlazorFabric
 {
     public class DropdownBase<TItem> : FabricComponentBase
     {
-        [Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public IEnumerable<string> DefaultSelectedKeys { get; set; }
         [Parameter] public bool Disabled { get; set; }
@@ -23,11 +23,10 @@ namespace BlazorFabric
         [Parameter] public string Placeholder { get; set; }
         [Parameter] public bool Required { get; set; }
         [Parameter] public ResponsiveMode ResponsiveMode { get; set; }
+        [Parameter] public string SelectedKey { get; set; }
+        [Parameter] public EventCallback<string> SelectedKeyChanged { get; set; }
         [Parameter] public List<string> SelectedKeys { get; set; } = new List<string>();
         [Parameter] public EventCallback<List<string>> SelectedKeysChanged { get; set; }
-
-
-
 
 
         protected bool isOpen { get; set; }
@@ -36,47 +35,83 @@ namespace BlazorFabric
         protected bool isSmall = false;
         protected Rectangle dropDownBounds = new Rectangle();
         //private bool firstRender = true;
-
-
+        
         public void ResetSelection()
         {
             SelectedKeys.Clear();
+            SelectedKey = null;
 
-            if (SelectedKeysChanged.HasDelegate)
-                SelectedKeysChanged.InvokeAsync(SelectedKeys);
-
+            if (MultiSelect)
+            {
+                if (SelectedKeysChanged.HasDelegate)
+                    SelectedKeysChanged.InvokeAsync(SelectedKeys);
+            }
+            else
+            {
+                if (SelectedKeyChanged.HasDelegate)
+                    SelectedKeyChanged.InvokeAsync(SelectedKey);
+            }
             StateHasChanged();
         }
+
         public void AddSelection(string key)
         {
-            if (SelectedKeys.Contains(key))
-                throw new Exception("This key was already selected.");
+            if (MultiSelect)
+            {
+                if (SelectedKeys.Contains(key))
+                    throw new Exception("This key was already selected.");
 
-            if (OnChange.HasDelegate)
-                OnChange.InvokeAsync((key, true));
-                        
-            SelectedKeys.Add(key);
+                if (OnChange.HasDelegate)
+                    OnChange.InvokeAsync((key, true));
 
-            if (SelectedKeysChanged.HasDelegate)
-                SelectedKeysChanged.InvokeAsync(SelectedKeys);
+                SelectedKeys.Add(key);
 
-            if (!this.MultiSelect)
+                if (SelectedKeysChanged.HasDelegate)
+                    SelectedKeysChanged.InvokeAsync(SelectedKeys);
+            }
+            else
+            {
+                if (SelectedKey!= key)
+                {
+                    SelectedKey = key;
+                    if (OnChange.HasDelegate)
+                        OnChange.InvokeAsync((key, true));
+                    if (SelectedKeyChanged.HasDelegate)
+                        SelectedKeyChanged.InvokeAsync(SelectedKey);
+                }
                 isOpen = false;
-
+            }
             StateHasChanged();
         }
+
         public void RemoveSelection(string key)
         {
-            if (!SelectedKeys.Contains(key))
-                throw new Exception("This key was not already selected.");
+            if (MultiSelect)
+            {
+                if (!SelectedKeys.Contains(key))
+                    throw new Exception("This key was not already selected.");
 
-            if (OnChange.HasDelegate)
-                OnChange.InvokeAsync((key, false));
+                if (OnChange.HasDelegate)
+                    OnChange.InvokeAsync((key, false));
 
-            if (SelectedKeysChanged.HasDelegate)
-                SelectedKeysChanged.InvokeAsync(SelectedKeys);
+                SelectedKeys.Remove(key);  //this used to be following the next command.  A bug?  I moved it here...
 
-            SelectedKeys.Remove(key);
+                if (SelectedKeysChanged.HasDelegate)
+                    SelectedKeysChanged.InvokeAsync(SelectedKeys);
+
+            }
+            else
+            {
+                if (SelectedKey != null)
+                {
+                    SelectedKey = null;
+                    if (OnChange.HasDelegate)
+                        OnChange.InvokeAsync((key, false));
+
+                    if (SelectedKeyChanged.HasDelegate)
+                        SelectedKeyChanged.InvokeAsync(SelectedKey);
+                }
+            }
             StateHasChanged();
         }
 

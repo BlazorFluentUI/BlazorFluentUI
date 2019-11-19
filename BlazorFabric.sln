@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.28917.182
+VisualStudioVersion = 16.0.29411.138
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Test.ServerSide", "Test\ServerSide\BlazorFabric.Test.ServerSide.csproj", "{6FAAF245-D389-428E-A1F4-C5BC5779C5CE}"
 EndProject
@@ -86,6 +86,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Toggle", "src\BlazorFabric.Toggle\BlazorFabric.Toggle.csproj", "{7BBD94DE-CB86-4846-A81A-FF187D9F573C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Rating", "src\BlazorFabric.Rating\BlazorFabric.Rating.csproj", "{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.ProgressIndicator", "src\BlazorFabric.ProgressIndicator\BlazorFabric.ProgressIndicator.csproj", "{5944607F-C675-4C79-B74E-CC7A0534895E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.FocusZone", "src\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj", "{4AB7EB15-1021-4A6A-88D2-D1745F4FF1BD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4F61DC73-0306-4E84-B0AD-96DA696538BD} = {4F61DC73-0306-4E84-B0AD-96DA696538BD}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Link", "src\BlazorFabric.Link\BlazorFabric.Link.csproj", "{FB7DDD7B-578E-44BC-86F3-7FE684ED35C7}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -240,6 +247,14 @@ Global
 		{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5944607F-C675-4C79-B74E-CC7A0534895E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5944607F-C675-4C79-B74E-CC7A0534895E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5944607F-C675-4C79-B74E-CC7A0534895E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5944607F-C675-4C79-B74E-CC7A0534895E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB7EB15-1021-4A6A-88D2-D1745F4FF1BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB7EB15-1021-4A6A-88D2-D1745F4FF1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB7EB15-1021-4A6A-88D2-D1745F4FF1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB7EB15-1021-4A6A-88D2-D1745F4FF1BD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB7DDD7B-578E-44BC-86F3-7FE684ED35C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB7DDD7B-578E-44BC-86F3-7FE684ED35C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB7DDD7B-578E-44BC-86F3-7FE684ED35C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -290,6 +305,8 @@ Global
 		{F69F702F-48D6-455B-80A0-6D985D6A47E3} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{7BBD94DE-CB86-4846-A81A-FF187D9F573C} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{5944607F-C675-4C79-B74E-CC7A0534895E} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{4AB7EB15-1021-4A6A-88D2-D1745F4FF1BD} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{FB7DDD7B-578E-44BC-86F3-7FE684ED35C7} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{2D14A6D0-A08B-4B6F-B2CE-A667E7E9A024} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection

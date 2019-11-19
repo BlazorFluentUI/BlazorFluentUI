@@ -46,6 +46,9 @@
     border: none;
     outline: none;
     cursor: pointer;
+
+    outline: transparent;
+    position: relative;
 }
 
 .ms-Rating-button--disabled {
@@ -55,6 +58,7 @@
     margin: 0;
     border: none;
     cursor: default;
+
 }
 
     /*.ms-Rating-button:hover ~ .ms-RatingStar-back, .ms-RatingStar-front {
@@ -68,6 +72,32 @@
     .ms-Rating-button:hover .ms-RatingStar-front {
         color: var(--palette-ThemeDark);
     }
+
+    .ms-Rating-button::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-Rating-button:focus:after {
+    content: "";
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid transparent;
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zindex-FocusStyle);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible .ms-Rating-button:focus:after {
+        left: -2px;
+        top: -2px;
+        bottom: -2px;
+        right: -2px;
+        border: none;
+        outline-color: ButtonText;
+    }
+}
 
 .ms-Rating--small {
     font-size: 16px;
@@ -92,9 +122,39 @@
 
 .ms-Rating-focuszone {
     /* hotfix for space between buttons should be inline-block*/
-    display: flex;
+    /* switched back to inline-block, perhaps the focusStyles (position:relative) fixes the spacing */
+    display: inline-block;
+
+    outline: transparent;
+    position: relative;
 }
+    .ms-Rating-focuszone::-moz-focus-inner {
+        border: 0;
+    }
 
     .ms-Rating-focuszone:before .ms-Rating-focuszone:after{
         box-sizing:inherit;
     }
+
+.ms-Fabric--isFocusVisible .ms-Rating-focuszone:focus:after {
+    content: "";
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid transparent;
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zindex-FocusStyle);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible .ms-Rating-button:focus:after {
+        left: -2px;
+        top: -2px;
+        bottom: -2px;
+        right: -2px;
+        border: none;
+        outline-color: ButtonText;
+    }
+}

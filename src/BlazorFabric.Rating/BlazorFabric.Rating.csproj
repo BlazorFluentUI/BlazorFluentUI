@@ -12,7 +12,7 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <Authors>Lee McPherson</Authors>
     <Product></Product>
-    <Description>TextField from Blazor port of Office Fabric UI</Description>
+    <Description>Rating from Blazor port of Office Fabric UI</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
     <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>

@@ -9,7 +9,7 @@ namespace BlazorFabric
 {
     public class DropdownBase<TItem> : FabricComponentBase
     {
-        [Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public IEnumerable<string> DefaultSelectedKeys { get; set; }
         [Parameter] public bool Disabled { get; set; }

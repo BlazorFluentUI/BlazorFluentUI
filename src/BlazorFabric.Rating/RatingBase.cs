@@ -11,10 +11,7 @@ using System.Threading.Tasks;
 namespace BlazorFabric
 {
     public class RatingBase : FabricComponentBase
-    {
-        [Inject]
-        private IJSRuntime jsRuntime { get; set; }
-
+    {      
         private double rating = -1;
 
         protected ElementReference[] starReferences { get; set; }
@@ -48,8 +45,8 @@ namespace BlazorFabric
         public RatingSize Size { get; set; } = RatingSize.Small;
         [Parameter]
         public string UnselectedIcon { get; set; } = "FavoriteStar";
-        //[Parameter]
-        //public Func<string, double, double> GetAriaLabel { get; set; }
+        [Parameter]
+        public Func<double, double, string> GetAriaLabel { get; set; }
         [Parameter]
         public EventCallback<double> RatingChanged { get; set; }
         [Parameter]
@@ -93,20 +90,6 @@ namespace BlazorFabric
             Rating = value;
             return Task.CompletedTask;
         }
-
-        //protected async Task<string> GetDefaultRatingStarId()
-        //{
-        //    string id = null;
-        //    if (Rating >= 0 && Rating < Max)
-        //    {
-        //        var index = (int)Math.Max(0, Math.Ceiling(Rating) - 1);
-        //        var starReference = starReferences[index];
-        //        await 
-        //    }
-        //    Rating != -1 && starReferences.Length == Max ? (starReferences[).Id : ""
-
-        //    return id;
-        //}
 
         private double GetRatingSecure()
         {

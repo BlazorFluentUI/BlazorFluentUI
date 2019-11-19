@@ -13,7 +13,7 @@ namespace BlazorFabric
         
         [Parameter] public RenderFragment ChildContent { get; set; }  //LINKS
 
-        [Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool ForceAnchor { get; set; }
         [Parameter] public string Icon { get; set; }

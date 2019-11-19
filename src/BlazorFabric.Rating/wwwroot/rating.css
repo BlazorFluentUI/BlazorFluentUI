@@ -122,7 +122,8 @@
 
 .ms-Rating-focuszone {
     /* hotfix for space between buttons should be inline-block*/
-    display: flex;
+    /* switched back to inline-block, perhaps the focusStyles (position:relative) fixes the spacing */
+    display: inline-block;
 
     outline: transparent;
     position: relative;

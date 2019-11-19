@@ -7,12 +7,16 @@
     }
 </style>
 
-<div class="ms-FocusZone"
+<div class=@($"ms-FocusZone {ClassName}")
      style=@Style
-     aria-labelledby=""
-     aria-describedby=""
+     data-is-focusable=@(IsFocusable ? "true" : "false")
+     tabindex=@(IsFocusable ? 0 : -1)
+     aria-labelledby=@AriaLabelledBy
+     aria-describedby=@AriaDescribedBy
      @ref=@RootElementReference
      data-focuszone-id=@Id
+     aria-readonly=@AriaReadonly
+     aria-label=@AriaLabel
      >
     @ChildContent
 </div>

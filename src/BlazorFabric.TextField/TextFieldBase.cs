@@ -34,7 +34,7 @@ namespace BlazorFabric
         [Parameter] public bool ValidateOnFocusOut { get; set; }
         [Parameter] public bool ValidateOnLoad { get; set; } = true;
         [Parameter] public int DeferredValidationTime { get; set; } = 200;
-        [Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public AutoComplete AutoComplete { get; set; } = AutoComplete.On;
         //[Parameter] public string Mask { get; set; }
         //[Parameter] public string MaskChar { get; set; }

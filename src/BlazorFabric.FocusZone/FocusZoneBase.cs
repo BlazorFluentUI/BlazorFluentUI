@@ -29,6 +29,8 @@ namespace BlazorFabric
         [Parameter] public Func<object, bool> OnBeforeFocus { get; set; }  // This is likely not having an effect because of asynchronous code allowing the event to propagate.
         [Parameter] public EventCallback OnFocusNotification { get; set; }
         [Parameter] public Func<object, bool> ShouldInputLoseFocusOnArrowKey { get; set; } // This is likely not having an effect because of asynchronous code allowing the event to propagate.
+        
+        [Parameter] public bool IsFocusable { get; set; }
 
         protected string Id = Guid.NewGuid().ToString();
         //private int[] _lastIndexPath;

@@ -15,7 +15,7 @@ namespace BlazorFabric
 
 
         [Parameter] public bool AlignTargetEdge { get; set; }
-        [Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public int BeakWidth { get; set; } = 16;
         [Parameter] public Rectangle Bounds { get; set; }
         //[Parameter] public RenderFragment ChildContent { get; set; }

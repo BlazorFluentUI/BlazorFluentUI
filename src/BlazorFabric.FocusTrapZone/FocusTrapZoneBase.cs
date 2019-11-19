@@ -72,12 +72,6 @@ namespace BlazorFabric
                 await jsRuntime.InvokeVoidAsync("BlazorFabricFocusTrapZone.updateProps", _id, props);
             }
 
-            //if (_prevDisabled != Disabled)
-            //{
-            //    await jsRuntime.InvokeVoidAsync("BlazorFabricFocusTrapZone.setDisabledState", _id, Disabled);
-            //}
-            //_prevDisabled = Disabled;
-
             await base.OnParametersSetAsync();
         }
 

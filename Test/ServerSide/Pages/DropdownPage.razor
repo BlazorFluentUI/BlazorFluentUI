@@ -27,7 +27,7 @@
 <h3>Controlled Single Selection</h3>
 <BlazorFabric.Label>Selected: @string.Join(", ", controlledSingleSelectionResult)</BlazorFabric.Label>
 <div style="max-width:300px;">
-    <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" @bind-SelectedKeys=@controlledSingleSelectionResult @bind-SelectedKeys:event="SelectedKeysChanged">
+    <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" @bind-SelectedKey=@controlledSingleSelectionResult>
         <ItemTemplate>
             <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
         </ItemTemplate>
@@ -55,7 +55,7 @@
 
 <h3>Disabled with Selected</h3>
 <div style="max-width:300px;">
-    <Dropdown ItemsSource=@items TItem="DataItem" Disabled="true" Placeholder="Select an option" @bind-SelectedKeys=@controlledSingleSelectionResult @bind-SelectedKeys:event="SelectedKeysChanged">
+    <Dropdown ItemsSource=@items TItem="DataItem" Disabled="true" Placeholder="Select an option" @bind-SelectedKey=@controlledSingleSelectionResult >
         <ItemTemplate>
             <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
         </ItemTemplate>
@@ -68,7 +68,7 @@
     string uncontrolledSingleSelectionResult;
     System.Collections.Generic.List<string> uncontrolledMultiSelectionResult = new System.Collections.Generic.List<string>();
 
-    System.Collections.Generic.List<string> controlledSingleSelectionResult = new System.Collections.Generic.List<string> { "Third" };
+    string controlledSingleSelectionResult = "Third";
     System.Collections.Generic.List<string> controlledMultiSelectionResult = new System.Collections.Generic.List<string> { "Second", "Third" };
 
     System.Collections.Generic.List<DataItem> items;

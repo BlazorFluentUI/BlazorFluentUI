@@ -27,9 +27,9 @@ namespace BlazorFabric
         [Parameter] public bool AllowDisabledFocus { get; set; }
         [Parameter] public bool PrimaryDisabled { get; set; }
         [Parameter] public bool? Checked { get; set; }
-        [Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public string AriaDescripton { get; set; }
-        [Parameter] public bool AriaHidden { get; set; }
+        //[Parameter] public bool AriaHidden { get; set; }
         [Parameter] public string Text { get; set; }
         [Parameter] public string SecondaryText { get; set; }
         [Parameter] public bool Toggle { get; set; }

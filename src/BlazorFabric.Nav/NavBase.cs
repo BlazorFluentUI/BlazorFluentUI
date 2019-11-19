@@ -9,7 +9,7 @@ namespace BlazorFabric
     public class NavBase: FabricComponentBase
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
-        [Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public string ExpandButtonAriaLabel { get; set; }
 
         [Parameter] public bool IsOnTop { get; set; }

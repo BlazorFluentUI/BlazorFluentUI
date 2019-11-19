@@ -22,7 +22,7 @@
         border:0;
     }
 
-.ms-Fabric--isFocusVisible .ms-Button:focus::after{
+.ms-Fabric--isFocusVisible .ms-Button:focus:after{
     content: "";
     position: absolute;
     left: 2px;
@@ -34,7 +34,7 @@
     z-index: var(--zindex-FocusStyle);
 }
 @media screen and (-ms-high-contrast: active) {
-    .ms-Fabric--isFocusVisible .ms-Button:focus::after {
+    .ms-Fabric--isFocusVisible .ms-Button:focus:after {
         left: -2px;
         top: -2px;
         bottom: -2px;

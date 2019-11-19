@@ -2,6 +2,7 @@
 var BlazorFabricFocusTrapZone;
 (function (BlazorFabricFocusTrapZone) {
     var IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+    var d = 445;
     var IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
     var FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
     var FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
@@ -201,9 +202,11 @@ var BlazorFabricFocusTrapZone;
         return isContained;
     }
     BlazorFabricFocusTrapZone.elementContains = elementContains;
-    function getParent(child) {
+    function getParent(child, allowVirtualParents) {
+        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
         return child && (child.parentNode && child.parentNode);
     }
+    BlazorFabricFocusTrapZone.getParent = getParent;
     var targetToFocusOnNextRepaint = undefined;
     function focusAsync(element) {
         if (element) {

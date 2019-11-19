@@ -1,15 +1,20 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
     public class RatingBase : FabricComponentBase
-    {
+    {      
         private double rating = -1;
+
+        protected ElementReference[] starReferences { get; set; }
 
         [Parameter]
         public bool AllowZeroStars { get; set; }
@@ -40,8 +45,8 @@ namespace BlazorFabric
         public RatingSize Size { get; set; } = RatingSize.Small;
         [Parameter]
         public string UnselectedIcon { get; set; } = "FavoriteStar";
-        //[Parameter]
-        //public Func<string, double, double> GetAriaLabel { get; set; }
+        [Parameter]
+        public Func<double, double, string> GetAriaLabel { get; set; }
         [Parameter]
         public EventCallback<double> RatingChanged { get; set; }
         [Parameter]
@@ -53,6 +58,20 @@ namespace BlazorFabric
             Rating = GetRatingSecure();
 
             return base.OnInitializedAsync();
+        }
+
+        protected override Task OnParametersSetAsync()
+        {
+            if (starReferences == null)
+            {
+                starReferences = new ElementReference[Max];
+            }
+            else if (Max != starReferences.Length)
+            {
+                starReferences = new ElementReference[Max];
+            }
+
+            return base.OnParametersSetAsync();
         }
 
         protected Task OnFocus(ChangeEventArgs args)

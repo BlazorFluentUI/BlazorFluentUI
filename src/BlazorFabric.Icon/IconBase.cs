@@ -10,7 +10,7 @@ namespace BlazorFabric
     public class IconBase : FabricComponentBase
     {
         [Parameter] public string IconName { get; set; }
-        [Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public IconType IconType { get; set; }
         //[Parameter] protected bool IsPlaceholder { get; set; }
 

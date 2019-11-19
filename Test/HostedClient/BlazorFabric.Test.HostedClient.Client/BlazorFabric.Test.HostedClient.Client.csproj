@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\..\src\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Dropdown\BlazorFabric.Dropdown.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.FocusTrapZone\BlazorFabric.FocusTrapZone.csproj" />
+    <ProjectReference Include="..\..\..\src\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Image\BlazorFabric.Image.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />
@@ -35,6 +36,7 @@
     <ProjectReference Include="..\..\..\src\BlazorFabric.OverflowSet\BlazorFabric.OverflowSet.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Panel\BlazorFabric.Panel.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Persona\BlazorFabric.Persona.csproj" />
+    <ProjectReference Include="..\..\..\src\BlazorFabric.ProgressIndicator\BlazorFabric.ProgressIndicator.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Rating\BlazorFabric.Rating.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.ResponsiveLayout\BlazorFabric.ResponsiveLayout.csproj" />

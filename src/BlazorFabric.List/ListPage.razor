@@ -15,7 +15,7 @@
         var index = StartIndex;
         foreach (var item in this.ItemsSource)
         {
-            <ListItem IndexPosition=@index Item=@item ItemClicked=@ItemClicked IsActive=@(this.SelectedItems.Contains(item))>
+            <ListItem IndexPosition=@index Item=@item ItemClicked=@ItemClicked IsActive=@(this.SelectedItems.Contains(item)) ItemFocusable=@ItemFocusable>
                 @ItemTemplate(item)
             </ListItem>
             index++;
@@ -34,6 +34,7 @@
     [Parameter] public ISubject<(int index, double height)> PageMeasureSubject { get; set; }
     [Parameter] public IEnumerable<TItem> SelectedItems { get; set; }
     [Parameter] public int StartIndex { get; set; }
+    [Parameter] public bool ItemFocusable { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

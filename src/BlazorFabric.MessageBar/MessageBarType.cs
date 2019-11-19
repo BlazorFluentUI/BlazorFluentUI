@@ -27,4 +27,17 @@ namespace BlazorFabric
         };
     }
 
+    public static partial class CssClass
+    {
+        public static Dictionary<MessageBarType, string> MessageBarClass = new Dictionary<MessageBarType, string>
+        {
+            [MessageBarType.Info] = "",
+            [MessageBarType.Warning] = "ms-MessageBar--warning",
+            [MessageBarType.Error] = "ms-MessageBar--error",
+            [MessageBarType.Blocked] = "ms-MessageBar--blocked",
+            [MessageBarType.SevereWarning] = "ms-MessageBar--severeWarning",
+            [MessageBarType.Success] = "ms-MessageBar--success"
+        };
+    }
+
 }

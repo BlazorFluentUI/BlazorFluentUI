@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
     <ProjectReference Include="..\BlazorFabric.Button\BlazorFabric.Button.csproj" />
+    <ProjectReference Include="..\BlazorFabric.DelayedRender\BlazorFabric.DelayedRender.csproj" />
     <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
   </ItemGroup>
 

@@ -131,6 +131,12 @@
     --semanticColors-DisabledBodySubtext: var(--palette-NeutralQuaternary);
     --semanticColors-FocusBorder: var(--palette-Black);
     --semanticColors-ErrorText: var(--palette-RedDark);
+    --semanticColors-WarningText: #333333;
+    --semanticColors-ErrorBackground: rgba(245,135,145,0.2); /*rgba(232,17,35,0.2);*/
+    --semanticColors-BlockingBackground: rgba(250,65,0,0.2); /*rgba(234,67,0,0.2);*/
+    --semanticColors-WarningBackground: rgba(255, 200, 10, .2); /*rgba(255,185,0,0.2);*/
+    --semanticColors-WarningHighlight: #ffb900;
+    --semanticColors-SuccessBackground: rgba(95,210,85,0.2); /*rgba(186,216,10,0.2);*/
     /*ErrorText = !isInverted ? RedDark : "#ff5f5f";
     WarningText = !isInverted ? "#333333" : "#ffffff";
     ErrorBackground = !isInverted ? "rgba(232; 17; 35; .2)" : "rgba(232; 17; 35; .5)";

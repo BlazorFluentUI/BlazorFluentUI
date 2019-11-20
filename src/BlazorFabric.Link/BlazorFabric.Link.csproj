@@ -17,20 +17,22 @@
     <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
     <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RootNamespace>BlazorFabric</RootNamespace>
   </PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\rating.css" />
+    <None Include="wwwroot\link.css" />
   </ItemGroup>
-  
+
+
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
-    <ProjectReference Include="..\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
-    <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Keytip\BlazorFabric.Keytip.csproj" />
   </ItemGroup>
 
 </Project>

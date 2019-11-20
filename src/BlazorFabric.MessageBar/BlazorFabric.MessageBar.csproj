@@ -12,24 +12,28 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <Authors>Lee McPherson</Authors>
     <Product></Product>
-    <Description>Rating from Blazor port of Office Fabric UI</Description>
+    <Description>MessageBar from Blazor port of Office Fabric UI</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
     <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RootNamespace>BlazorFabric</RootNamespace>
   </PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\rating.css" />
+    <None Include="wwwroot\messageBar.css" />
   </ItemGroup>
-  
+
+
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
-    <ProjectReference Include="..\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Button\BlazorFabric.Button.csproj" />
+    <ProjectReference Include="..\BlazorFabric.DelayedRender\BlazorFabric.DelayedRender.csproj" />
     <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
   </ItemGroup>
 

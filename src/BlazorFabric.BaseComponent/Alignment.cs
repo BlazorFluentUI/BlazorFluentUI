@@ -18,7 +18,7 @@ namespace BlazorFabric
         End
     }
 
-    public static class CssUtils
+    public static partial class CssUtils
     {
         public static Dictionary<Alignment, string> AlignMap = new Dictionary<Alignment, string>
         {

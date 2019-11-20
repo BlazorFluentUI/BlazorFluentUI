@@ -19,7 +19,9 @@
     <ProjectReference Include="..\..\src\BlazorFabric.Image\BlazorFabric.Image.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Layer\BlazorFabric.Layer.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Link\BlazorFabric.Link.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.List\BlazorFabric.List.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.MessageBar\BlazorFabric.MessageBar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Modal\BlazorFabric.Modal.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Nav\BlazorFabric.Nav.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.OverflowSet\BlazorFabric.OverflowSet.csproj" />

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BlazorFabric
 {
@@ -26,18 +24,4 @@ namespace BlazorFabric
             [MessageBarType.Success] = "Completed"
         };
     }
-
-    public static partial class CssClass
-    {
-        public static Dictionary<MessageBarType, string> MessageBarClass = new Dictionary<MessageBarType, string>
-        {
-            [MessageBarType.Info] = "",
-            [MessageBarType.Warning] = "ms-MessageBar--warning",
-            [MessageBarType.Error] = "ms-MessageBar--error",
-            [MessageBarType.Blocked] = "ms-MessageBar--blocked",
-            [MessageBarType.SevereWarning] = "ms-MessageBar--severeWarning",
-            [MessageBarType.Success] = "ms-MessageBar--success"
-        };
-    }
-
 }

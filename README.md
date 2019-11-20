@@ -11,6 +11,8 @@ https://blazorfabric.azurewebsites.net/
 	- Fixed `Callout` positioning bug [#2](https://github.com/limefrogyank/BlazorFabric/issues/2)
 	- Added single string key binding to `Dropdown`
 	- Added `ProgressIndicator`
+	- Added `MessageBar`
+	- Added `Link`
 - v1.3.5
 	- Added `Rating` (contributed by Eweol)
 	- Added autocomplete to `TextField` + style fixes include description field

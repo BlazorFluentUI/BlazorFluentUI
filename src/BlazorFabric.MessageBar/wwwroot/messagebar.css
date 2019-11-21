@@ -192,10 +192,6 @@
     margin: 0 12px 8px 8px;
 }
 
-    .ms-MessageBar-actions .ms-Button {
-        font-weight: 600;
-    }
-
     .ms-MessageBar-actions button:nth-child(n+2) {
         margin-left: 8px;
     }
@@ -210,10 +206,6 @@
     margin: 0 12px 0 8px;
 }
 
-    /* should be not needed */
-    .ms-MessageBar-actionsSingleLine .ms-Button {
-        font-weight: 600;
-    }
     .ms-MessageBar-actionsSingleLine button:nth-child(n+2) {
         margin-left: 8px;
     }

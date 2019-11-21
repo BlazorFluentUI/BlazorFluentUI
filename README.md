@@ -12,6 +12,7 @@ https://blazorfabric.azurewebsites.net/
 	- Added single string key binding to `Dropdown`
 	- Added `ProgressIndicator`
 	- Added `MessageBar`
+	- Fixed [#50](https://github.com/limefrogyank/BlazorFabric/issues/50)
 	- Added `Link`
 - v1.3.5
 	- Added `Rating` (contributed by Eweol)

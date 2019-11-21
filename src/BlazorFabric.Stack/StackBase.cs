@@ -64,10 +64,10 @@ namespace BlazorFabric
             if(Wrap)
             {
                 style += "flex-wrap:wrap;";
-                if (!double.IsNaN(Tokens.MaxWidth))
-                    style += $"max-width:{Tokens.MaxWidth};";
-                if (!double.IsNaN(Tokens.MaxHeight))
-                    style += $"max-height:{Tokens.MaxHeight};";
+                if (Tokens.MaxWidth != null)
+                    style += $"max-width:{Tokens.MaxWidth.AsLength};";
+                if (Tokens.MaxHeight != null)
+                    style += $"max-height:{Tokens.MaxHeight.AsLength};";
                 style += "width:auto;";
                 style += "overflow:visible;";
                 style += "height:100%;";
@@ -89,10 +89,10 @@ namespace BlazorFabric
                 style += "flex-wrap:nowrap;";
                 style += "width:auto;";
                 style += $"height:{(VerticalFill ? "100%" : "auto")};";
-                if (!double.IsNaN(Tokens.MaxWidth))
-                    style += $"max-width:{Tokens.MaxWidth};";
-                if (!double.IsNaN(Tokens.MaxHeight))
-                    style += $"max-height:{Tokens.MaxHeight};";
+                if (Tokens.MaxWidth != null)
+                    style += $"max-width:{Tokens.MaxWidth.AsLength};";
+                if (Tokens.MaxHeight != null)
+                    style += $"max-height:{Tokens.MaxHeight.AsLength};";
                 style += $"padding:{Tokens.Padding?.AsLength};";
                 style += "box-sizing:border-box;";
 
@@ -121,7 +121,8 @@ namespace BlazorFabric
                 style += $"margin-bottom:{verticalMargin};";
                 style += "overflow:visible;";
                 style += "box-sizing:border-box;";
-                style += $"padding:{Tokens.Padding?.AsLength};";
+                if (Tokens.Padding != null)
+                    style += $"padding:{Tokens.Padding.AsLength};";
                 style += $"width:{(columnGap==0 ? "100%" : $"calc(100% + {columnGap}px)")};";
                 style += "max-width:100vw;";
 
@@ -140,10 +141,10 @@ namespace BlazorFabric
                     style += $"height:calc(100% - {rowGap}px);";
                 }
 
-                if (!double.IsNaN(Tokens.MaxWidth))
-                    style += $"max-width:{Tokens.MaxWidth};";
-                if (!double.IsNaN(Tokens.MaxHeight))
-                    style += $"max-height:{Tokens.MaxHeight};";
+                if (Tokens.MaxWidth != null)
+                    style += $"max-width:{Tokens.MaxWidth.AsLength};";
+                if (Tokens.MaxHeight != null)
+                    style += $"max-height:{Tokens.MaxHeight.AsLength};";
                 style += "width:auto;";
                 style += "overflow:visible;";
                 style += "height:100%;";

@@ -37,9 +37,9 @@ namespace BlazorFabric
         [Parameter] public bool CoverTarget { get; set; } = false;
         [Parameter] public bool AlignTargetEdge { get; set; } = false;
         [Parameter] public string Role { get; set; }
-        [Parameter] public string AriaLabel { get; set; }
-        [Parameter] public string AriaLabelledBy { get; set; }
-        [Parameter] public string AriaDescribedBy { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabelledBy { get; set; }
+        //[Parameter] public string AriaDescribedBy { get; set; }
         [Parameter] public bool HideOverflow { get; set; } = false;
 
         [Parameter] public EventCallback<bool> HiddenChanged { get; set; }

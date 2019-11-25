@@ -33,7 +33,7 @@ namespace BlazorFabric
         [Parameter] public string AriaKeyShortcuts { get; set; }
         [Parameter] public string AriaLabel { get; set; }
         [Parameter] public string AriaLabelledBy { get; set; }
-        [Parameter] public string AriaLive { get; set; }
+        [Parameter] public AriaLive AriaLive { get; set; } = AriaLive.Polite;
         [Parameter] public string AriaOwns { get; set; }
         [Parameter] public bool AriaReadonly { get; set; }  //not universal
         [Parameter] public string AriaRelevant { get; set; }

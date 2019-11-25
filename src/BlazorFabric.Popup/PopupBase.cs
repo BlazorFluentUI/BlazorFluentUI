@@ -17,9 +17,9 @@ namespace BlazorFabric
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         [Parameter] public string Role { get; set; }
-        [Parameter] public string AriaLabel { get; set; }
-        [Parameter] public string AriaLabelledBy { get; set; }
-        [Parameter] public string AriaDescribedBy { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabelledBy { get; set; }
+        //[Parameter] public string AriaDescribedBy { get; set; }
         [Parameter] public bool ShouldRestoreFocus { get; set; } = true;  //THIS DOES NOTHING AT THE MOMENT.  
 
         [Parameter] public EventCallback<EventArgs> OnDismiss { get; set; }

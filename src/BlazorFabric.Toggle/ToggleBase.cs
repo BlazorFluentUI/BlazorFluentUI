@@ -10,7 +10,7 @@ namespace BlazorFabric
 {
     public class ToggleBase : FabricComponentBase
     {
-        [Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public bool? Checked { get; set; }
         [Parameter] public bool DefaultChecked { get; set; }
         [Parameter] public bool Disabled { get; set; }

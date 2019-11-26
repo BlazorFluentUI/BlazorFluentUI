@@ -18,17 +18,17 @@ namespace BlazorFabric
         //[Parameter] public FabricComponentBase As { get; set; }
         [Parameter] public bool CheckForNoWrap { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
-        [Parameter] public ElementReference DefaultActiveElement { get; set; }
+        [Parameter] public string DefaultActiveElement { get; set; }
         [Parameter] public FocusZoneDirection Direction { get; set; } = FocusZoneDirection.Bidirectional;
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool DoNotAllowFocusEventToPropagate { get; set; }
         [Parameter] public FocusZoneTabbableElements HandleTabKey { get; set; }
         [Parameter] public bool IsCircularNavigation { get; set; }
         [Parameter] public List<ConsoleKey> InnerZoneKeystrokeTriggers { get; set; }
-        [Parameter] public EventCallback<ElementReference> OnActiveElementChanged { get; set; }
-        [Parameter] public Func<object, bool> OnBeforeFocus { get; set; }  // This is likely not having an effect because of asynchronous code allowing the event to propagate.
+        [Parameter] public EventCallback OnActiveElementChanged { get; set; }
+        [Parameter] public Func<bool> OnBeforeFocus { get; set; }  // This is likely not having an effect because of asynchronous code allowing the event to propagate.
         [Parameter] public EventCallback OnFocusNotification { get; set; }
-        [Parameter] public Func<object, bool> ShouldInputLoseFocusOnArrowKey { get; set; } // This is likely not having an effect because of asynchronous code allowing the event to propagate.
+        [Parameter] public Func<bool> ShouldInputLoseFocusOnArrowKey { get; set; } // This is likely not having an effect because of asynchronous code allowing the event to propagate.
         
         [Parameter] public bool IsFocusable { get; set; }
 
@@ -37,6 +37,7 @@ namespace BlazorFabric
         private bool _jsAvailable;
         private int _registrationId = -1;
 
+        private Task<int> _registrationTask = null;
         
         protected override Task OnInitializedAsync()
         {
@@ -48,15 +49,23 @@ namespace BlazorFabric
         {
             if (firstRender)
             {
-                if (_registrationId == -1)
+                if (_registrationTask == null)
                 {
-                    _registrationId = await RegisterFocusZoneAsync();
+                    _registrationTask = RegisterFocusZoneAsync();
+                    _registrationId = await _registrationTask;
+                }
+                else if (!_registrationTask.IsCompleted)
+                {
+                    await _registrationTask;
                 }
                 _jsAvailable = true;
             }
             else
             {
                 //update focusZone
+                if (_registrationTask != null && !_registrationTask.IsCompleted)
+                    await _registrationTask;
+
                 await UpdateFocusZoneAsync();
                 
             }
@@ -74,7 +83,6 @@ namespace BlazorFabric
 
         private async Task UpdateFocusZoneAsync()
         {
-            Debug.WriteLine("Focuszone updating...");
             var props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
             await jsRuntime.InvokeVoidAsync("BlazorFabricFocusZone.updateFocusZone", _registrationId, props);
         }
@@ -92,9 +100,9 @@ namespace BlazorFabric
         }
 
         [JSInvokable]
-        public bool JSOnBeforeFocus(ElementReference element)
+        public bool JSOnBeforeFocus()
         {
-            return OnBeforeFocus(element);
+            return OnBeforeFocus();
         }
 
         //[JSInvokable]
@@ -104,9 +112,9 @@ namespace BlazorFabric
         //}
 
         [JSInvokable]
-        public bool JSShouldInputLoseFocusOnArrowKey(ElementReference element)
+        public bool JSShouldInputLoseFocusOnArrowKey()
         {
-            return ShouldInputLoseFocusOnArrowKey(element);
+            return ShouldInputLoseFocusOnArrowKey();
         }
 
         [JSInvokable]
@@ -116,9 +124,9 @@ namespace BlazorFabric
         }
 
         [JSInvokable]
-        public void JSOnActiveElementChanged(ElementReference element)
+        public void JSOnActiveElementChanged()
         {
-            OnActiveElementChanged.InvokeAsync(element);
+            OnActiveElementChanged.InvokeAsync(null);
         }
 
 

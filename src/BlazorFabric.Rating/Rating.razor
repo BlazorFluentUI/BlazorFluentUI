@@ -6,7 +6,7 @@
      @ref=@RootElementReference>
     <FocusZone ClassName=@($"ms-Rating-focuszone {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
                Direction="FocusZoneDirection.Horizontal"
-               DefaultActiveElement=@(Rating != -1 && starReferences.Length == Max ? (starReferences[(int)Math.Max(0, Math.Ceiling(Rating)-1)]) : default(ElementReference))
+               DefaultActiveElement=@(Rating != -1 && starReferences.Length == Max ? (starReferences[(int)Math.Max(0, Math.Ceiling(Rating)-1)]).Id : "")
                AriaLabel=@(ReadOnly ? (GetAriaLabel != null ? GetAriaLabel(Rating != -1 ? Rating : 0, Max) : null) : null)
                AriaReadonly=@ReadOnly
                IsFocusable=@ReadOnly

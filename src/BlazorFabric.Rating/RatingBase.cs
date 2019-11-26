@@ -74,6 +74,17 @@ namespace BlazorFabric
             return base.OnParametersSetAsync();
         }
 
+        protected override Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                StateHasChanged();
+            }
+
+            return base.OnAfterRenderAsync(firstRender);
+
+        }
+
         protected Task OnFocus(ChangeEventArgs args)
         {
             Console.WriteLine("Focused");

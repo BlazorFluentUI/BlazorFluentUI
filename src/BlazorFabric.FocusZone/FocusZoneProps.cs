@@ -52,7 +52,7 @@ namespace BlazorFabric
             {
                 AllowFocusRoot = focusZone.AllowFocusRoot,
                 CheckForNoWrap = focusZone.CheckForNoWrap,
-                DefaultActiveElement = focusZone.DefaultActiveElement,
+                DefaultActiveElement = new ElementReference(focusZone.DefaultActiveElement),
                 Direction = focusZone.Direction,
                 Disabled=focusZone.Disabled,
                 DoNotAllowFocusEventToPropagate=focusZone.DoNotAllowFocusEventToPropagate,

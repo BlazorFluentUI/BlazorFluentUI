@@ -56,6 +56,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB2D25EA-CCF8-4754-9CA8-46ED8134D0D9}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		nugetInfo.txt = nugetInfo.txt
 		NugetKey.txt = NugetKey.txt
 	EndProjectSection
 EndProject

@@ -358,3 +358,4 @@ healthchecksdb
 /src/BlazorFabric.Nav/assetPrefs.xml
 /src/BlazorFabric.Modal/assetPrefs.xml
 /NugetKey.txt
+/nugetInfo.txt

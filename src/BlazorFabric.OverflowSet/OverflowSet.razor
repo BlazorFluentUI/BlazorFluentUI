@@ -3,19 +3,43 @@
 @typeparam TItem
 @using Microsoft.AspNetCore.Components.Web
 
-<div class=@($"{ClassName} ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")}")>
-    @if (ItemTemplate != null && Items != null)
-    {
-        foreach (var item in Items)
+@if (DoNotContainWithinFocusZone)
+{
+    <div class=@($"{ClassName} ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")}")>
+        @if (ItemTemplate != null && Items != null)
         {
-            <div @key=(GetKey(item)) class="ms-OverflowSet-item">@ItemTemplate(item)</div>
+            foreach (var item in Items)
+            {
+                <div @key=(GetKey(item)) class="ms-OverflowSet-item">@ItemTemplate(item)</div>
+            }
         }
-    }
-    @if (OverflowTemplate != null && OverflowItems != null && OverflowItems.Count() > 0)
-    {
-        <div class="ms-OverflowSet-overflowButton">
-            @OverflowTemplate(this.OverflowItems)
-        </div>
+        @if (OverflowTemplate != null && OverflowItems != null && OverflowItems.Count() > 0)
+        {
+            <div class="ms-OverflowSet-overflowButton">
+                @OverflowTemplate(this.OverflowItems)
+            </div>
 
-    }
-</div>
+        }
+    </div>
+}
+else
+{
+    <FocusZone ClassName=@($"{ClassName} ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")}")
+               Direction=@(Vertical ? FocusZoneDirection.Vertical : FocusZoneDirection.Horizontal)
+               @ref=@focusZoneComponent>
+        @if (ItemTemplate != null && Items != null)
+        {
+            foreach (var item in Items)
+            {
+                <div @key=(GetKey(item)) class="ms-OverflowSet-item">@ItemTemplate(item)</div>
+            }
+        }
+        @if (OverflowTemplate != null && OverflowItems != null && OverflowItems.Count() > 0)
+        {
+            <div class="ms-OverflowSet-overflowButton">
+                @OverflowTemplate(this.OverflowItems)
+            </div>
+
+        }
+    </FocusZone>
+}

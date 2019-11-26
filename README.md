@@ -5,7 +5,7 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
-- upcoming
+- v1.3.6
 	- Custom NavigationTemplate close button inside `Panel` would not show the close animation, now it does.
 	- Fixed [#33](https://github.com/limefrogyank/BlazorFabric/issues/33)
 	- Fixed `Callout` positioning bug [#2](https://github.com/limefrogyank/BlazorFabric/issues/2)
@@ -14,6 +14,8 @@ https://blazorfabric.azurewebsites.net/
 	- Added `MessageBar`
 	- Fixed [#50](https://github.com/limefrogyank/BlazorFabric/issues/50)
 	- Added `Link`
+	- Added `FocusZone`
+	- Enhanced `Rating` with `FocusZone`
 - v1.3.5
 	- Added `Rating` (contributed by Eweol)
 	- Added autocomplete to `TextField` + style fixes include description field

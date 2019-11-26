@@ -93,7 +93,8 @@ namespace BlazorFabric
                     style += $"max-width:{Tokens.MaxWidth.AsLength};";
                 if (Tokens.MaxHeight != null)
                     style += $"max-height:{Tokens.MaxHeight.AsLength};";
-                style += $"padding:{Tokens.Padding?.AsLength};";
+                if (Tokens.Padding != null)
+                    style += $"padding:{Tokens.Padding?.AsLength};";
                 style += "box-sizing:border-box;";
 
                 if (Grow != null)

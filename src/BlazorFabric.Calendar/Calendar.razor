@@ -1,0 +1,54 @@
+﻿@namespace BlazorFabric
+@inherits CalendarBase
+
+<div class="ms-Calendar" role="application">
+    <div class="ms-DatePicker-picker ms-DatePicker-picker--opened ms-DatePicker-picker--focused">
+        <div class="ms-DatePicker-holder ms-slideDownIn10"
+             @onkeydown="OnDatePickerPopupKeyDown">
+            <div class="ms-DatePicker--frame">
+                <div class="ms-DatePicker-wrap">
+                    <CalendarDay SelectedDate=@SelectedDate
+                                 NavigatedDate=@NavigatedDayDate
+                                 Today=@Today
+                                 OnSelectDate=@OnSelectDateInternal
+                                 OnNavigateDate=@OnNavigateDayDate
+                                 OnDismiss=@OnDismiss
+                                 FirstDayOfWeek=@FirstDayOfWeek
+                                 DateRangeType=@DateRangeType
+                                 AutoNavigateOnSelection=@AutoNavigateOnSelection
+                                 OnHeaderSelect=@(args => { if (ShowMonthPickerAsOverlay) { OnHeaderSelect(args); } })
+                                 ShowWeekNumbers=@ShowWeekNumbers
+                                 FirstWeekOfYear=@FirstWeekOfYear
+                                 DateTimeFormatter=@DateTimeFormatter
+                                 ShowSixWeeksByDefault=@ShowSixWeeksByDefault
+                                 MinDate=@MinDate
+                                 MaxDate=@MaxDate
+                                 RestrictedDates=@RestrictedDates
+                                 WorkWeekDays=@WorkWeekDays
+                                 ShowCloseButton=@ShowCloseButton
+                                 AllFocusable=@AllFocusable
+                                 />
+                    @if (IsDayPickerVisibleInternal && IsMonthPickerVisibleInternal)
+                    {
+                        <div class="ms-DatePicker-divider"/>
+                    }
+                    @if (IsMonthPickerVisibleInternal)
+                    {
+                        <CalendarMonth NavigatedDate=@NavigatedMonthDate
+                                       SelectedDate=@NavigatedDayDate
+                                       OnNavigateDate=@OnNavigateMonthDate
+                                       Today=@Today
+                                       HighlightCurrentMonth=@HighlightCurrentMonth
+                                       HighlightSelectedMonth=@HighlightSelectedMonth
+                                       OnHeaderSelect=@OnHeaderSelect
+                                       DateTimeFormatter=@DateTimeFormatter
+                                       MinDate=@MinDate
+                                       MaxDate=@MaxDate
+                                       YearPickerHidden=@(YearPickerHidden || ShowMonthPickerAsOverlay)
+                                       />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

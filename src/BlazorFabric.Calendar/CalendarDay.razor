@@ -1,0 +1,146 @@
+﻿@namespace BlazorFabric
+@inherits CalendarDayBase
+
+<div class="ms-DatePicker-dayPicker"
+     id=@DayPickerId>
+    <div class="ms-DatePicker-header">
+        <div aria-live="polite" aria-relevant="text" aria-atomic="true"
+             id=@MonthAndYearId
+             class="####">
+            @if (OnHeaderSelect.HasDelegate)
+            {
+                <div class="ms-DatePicker-monthAndYear js-showMonthPicker"
+                     @onclick="OnHeaderSelectInternal"
+                     aria-label=@DateTimeFormatter.FormatMonthYear(NavigatedDate)
+                     role="button"
+                     tabindex="0">
+                    @DateTimeFormatter.FormatMonthYear(NavigatedDate)
+                </div>
+            }
+            else
+            {
+                <div class="ms-DatePicker-monthAndYear">
+                    @DateTimeFormatter.FormatMonthYear(NavigatedDate)
+                </div>
+            }
+        </div>
+        <div class="ms-DatePicker-monthComponents">
+            <div class="ms-DatePicker-navContainer">
+                <TooltipHost>
+                    <TooltipContent>
+                        @(PreviousMonthAriaLabel + " " + NavigatedDate.AddMonths(-1).ToString("MMMM"))
+                    </TooltipContent>
+                    <ChildContent>
+                        <IconButton IconName="Up"
+                                    AriaDisabled=@(!PrevMonthInBounds)
+                                    Disabled=@(!PrevMonthInBounds)
+                                    AriaControls=@DayPickerId
+                                    OnClick=@(args => { if (PrevMonthInBounds) OnSelectPrevMonth(); }) />
+                    </ChildContent>
+                </TooltipHost>
+                <TooltipHost>
+                    <TooltipContent>
+                        @(NextMonthAriaLabel + " " + NavigatedDate.AddMonths(1).ToString("MMMM"))
+                    </TooltipContent>
+                    <ChildContent>
+                        <IconButton IconName="Down"
+                                    AriaDisabled=@(!NextMonthInBounds)
+                                    Disabled=@(!NextMonthInBounds)
+                                    AriaControls=@DayPickerId
+                                    OnClick=@(args => { if (NextMonthInBounds) OnSelectNextMonth(); }) />
+                    </ChildContent>
+                </TooltipHost>
+                @if (ShowCloseButton)
+                {
+                    <TooltipHost>
+                        <TooltipContent>
+                            @(NextMonthAriaLabel + " " + NavigatedDate.AddMonths(1).ToString("MMMM"))
+                        </TooltipContent>
+                        <ChildContent>
+                            <IconButton IconName="Cancel"
+                                        OnClick=@OnClose />
+                        </ChildContent>
+                    </TooltipHost>
+                }
+
+            </div>
+        </div>
+    </div>
+    <FocusZone>
+        <table class="ms-DatePicker-table"
+               aria-readonly="true"
+               aria-multiselectable="false"
+               aria-labelledby=@MonthAndYearId
+               aria-activedescendant="#####"
+               role="grid">
+            <thead>
+                <tr>
+                    @if (ShowWeekNumbers)
+                    {
+                        <th class="ms-DatePicker-weekday" />
+                        for (var i = 0; i < 7; i++)
+                        {
+                            <th class="ms-DatePicker-weekday"
+                                role="columnheader"
+                                scope="col"
+                                @key=@i
+                                title=@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName((DayOfWeek)((i + (int)FirstDayOfWeek) % 7))
+                                aria-label=@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName((DayOfWeek)((i + (int)FirstDayOfWeek) % 7))
+                                data-is-focusable=@AllFocusable
+                                >
+                                @System.Globalization.DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName((DayOfWeek)((i + (int)FirstDayOfWeek) % 7))
+                            </th>
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody @onmouseleave=@((args) => { if (DateRangeType != DateRangeType.Day) OnTableMouseLeave(args); })
+                   @onmouseup=@((args) => { if (DateRangeType != DateRangeType.Day) OnTableMouseUp(args); }) >
+                   @for (var weekIndex=0; weekIndex < Weeks.Count; weekIndex++)
+                    {
+                    <tr @key=@(WeekNumbers != null ? WeekNumbers[weekIndex] : weekIndex)>
+                        @if (ShowWeekNumbers && WeekNumbers != null)
+                        {
+                            <th class="ms-DatePicker-weekNumbers"
+                                @key=@weekIndex
+                                title=@(WeekNumbers != null ? String.Format(WeekNumberFormatString, WeekNumbers[weekIndex]) : "")
+                                aria-label=@(WeekNumbers != null ? String.Format(WeekNumberFormatString, WeekNumbers[weekIndex]) : "")
+                                scope="row">
+                                <div class="ms-DatePicker-day">
+                                    <span>@WeekNumbers[weekIndex]</span>
+                                </div>
+                            </th>
+                        }
+                        @for (var dayIndex = 0; dayIndex < Weeks[weekIndex].Count; dayIndex++)
+                        {
+                            var week = Weeks[weekIndex];
+                            var day = week[dayIndex];
+                            var isNavigatedDate = DateTime.Compare(NavigatedDate.Date, day.OriginalDate) == 0;
+                            <td @key=@day.Key
+                                @onclick=@day.OnSelected
+                                class="ms-DatePicker-day"
+                                @onmouseover=@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseOver(args); })
+                                @onmouseleave=@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseLeave(args); })
+                                @onmousedown=@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseDown(args); })
+                                @onmouseup=@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseUp(args); })
+                                role="gridcell">
+                                <CalendarDateButton @key=@(day.Key + "button")
+                                                    OnClick=@(day.IsInBounds ? day.OnSelected : null)
+                                                    ClassName="ms-DatePicker-day-button"
+                                                    Disabled="false"
+                                                    AriaLabel=@(DateTimeFormatter.FormatMonthDayYear(day.OriginalDate))
+                                                    AriaReadonly="true"
+                                                    AriaSelected=@day.IsSelected
+                                                    Text=@(DateTimeFormatter.FormatDay(day.OriginalDate))
+                                                    />
+                            </td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </FocusZone>
+
+</div>

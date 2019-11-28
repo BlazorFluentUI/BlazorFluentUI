@@ -44,6 +44,7 @@ namespace BlazorFabric
 
         [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+        [Parameter] public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
         [Parameter] public ICommand Command { get; set; }
         [Parameter] public object CommandParameter { get; set; }
 
@@ -166,7 +167,7 @@ namespace BlazorFabric
             builder.CloseElement();
         }
                
-        protected void AddContent(RenderTreeBuilder builder, string buttonClassName)
+        protected virtual void AddContent(RenderTreeBuilder builder, string buttonClassName)
         {
             if (this.Href == null)
             {
@@ -196,8 +197,8 @@ namespace BlazorFabric
             //    builder.CloseElement();
             //}
             //skipping KeytipData component
-            builder.OpenElement(28, "div");
-            builder.AddAttribute(29, "class", "ms-Button-flexContainer");
+            builder.OpenElement(29, "div");
+            builder.AddAttribute(30, "class", "ms-Button-flexContainer");
 
             if (this.IconName != null)
             {

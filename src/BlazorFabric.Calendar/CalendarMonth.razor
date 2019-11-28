@@ -1,0 +1,94 @@
+﻿@namespace BlazorFabric
+@inherits CalendarMonthBase
+
+@if (IsYearPickerVisible)
+{
+
+}
+else
+{
+    <div class="ms-DatePicker-monthPicker">
+        <div class="ms-DatePicker-header">
+            @if (OnHeaderSelect.HasDelegate || !YearPickerHidden)
+            {
+                <div class="ms-DatePicker-currentYear js-showYearPicker"
+                     @onclick=@OnHeaderSelectInternal
+                     aria-label=@DateTimeFormatter.FormatYear(NavigatedDate)
+                     role="button"
+                     aria-atomic="true"
+                     aria-live="polite"
+                     tabindex="0">
+                    @DateTimeFormatter.FormatYear(NavigatedDate)
+                </div>
+            }
+            else
+            {
+                <div class="ms-DatePicker-currentYear js-showYearPicker">
+                    @DateTimeFormatter.FormatYear(NavigatedDate)
+                </div> 
+            }
+            <div class="ms-DatePicker-yearComponents">
+                <div class="ms-DatePicker-navContainer">
+                    <TooltipHost>
+                        <TooltipContent>
+                            @(PreviousYearAriaLabel + " " + NavigatedDate.AddYears(-1).ToString("yyy"))
+                        </TooltipContent>
+                        <ChildContent>
+                            <IconButton IconName="Up"
+                                        AriaDisabled=@(!IsPrevYearInBounds)
+                                        Disabled=@(!IsPrevYearInBounds)
+                                        AriaControls=@MonthPickerId
+                                        OnClick=@(args => { if (IsPrevYearInBounds) OnSelectPrevYear(); }) />
+                        </ChildContent>
+                    </TooltipHost>
+                    <TooltipHost>
+                        <TooltipContent>
+                            @(NextYearAriaLabel + " " + NavigatedDate.AddYears(1).ToString("yyy"))
+                        </TooltipContent>
+                        <ChildContent>
+                            <IconButton IconName="Down"
+                                        AriaDisabled=@(!IsNextYearInBounds)
+                                        Disabled=@(!IsNextYearInBounds)
+                                        AriaControls=@MonthPickerId
+                                        OnClick=@(args => { if (IsNextYearInBounds) OnSelectNextYear(); }) />
+                        </ChildContent>
+                    </TooltipHost>
+                </div>
+            </div>
+        </div>
+        <FocusZone>
+            <div class="ms-DatePicker-optionGrid" role="grid" aria-readonly="true">
+                
+                @foreach (var rowNum in RowIndexes)
+                {
+                    var monthsForRow = ShortMonthNames.Skip(rowNum * 4).Take(4).ToArray();
+                    <div @key=@($"monthRow_{rowNum}") role="row">
+                        @for (var i=0; i<monthsForRow.Length; i++)
+                        {
+                            var month = monthsForRow[i];
+                            var monthIndex = rowNum * 4 + i;
+                            var indexedMonth = NavigatedDate.AddMonths(NavigatedDate.Month - (monthIndex + 1));
+                            var isCurrentMonth = (monthIndex + 1 == Today.Month && NavigatedDate.Year == Today.Year);
+                            var isNavigatedMonth = NavigatedDate.Month == (monthIndex + 1);
+                            var isSelectedMonth = SelectedDate.Month == (monthIndex + 1);
+                            var isSelectedYear = SelectedDate.Year == NavigatedDate.Year;
+
+                            var firstDayOfIndexedMonth = new DateTime(indexedMonth.Year, indexedMonth.Month, 1);
+                            var isInBounds = (DateTime.Compare(MinDate, firstDayOfIndexedMonth) < 1) &&
+                                (DateTime.Compare(firstDayOfIndexedMonth.AddMonths(1).AddDays(-1), MaxDate) < 1);
+                            
+                            <CalendarDateButton ClassName="ms-DatePicker-monthOption"
+                                                Disabled=@(!isInBounds)
+                                                @key=@monthIndex
+                                                OnClick=@(args=> { if (isInBounds) { SelectMonthCallbacks[i](); } })
+                                                AriaLabel=@DateTimeFormatter.FormatMonthYear(indexedMonth)
+                                                AriaSelected=@isNavigatedMonth
+                                                Text=@month
+                                                />
+                        }
+                    </div>
+                }
+            </div>
+        </FocusZone>
+    </div>
+}

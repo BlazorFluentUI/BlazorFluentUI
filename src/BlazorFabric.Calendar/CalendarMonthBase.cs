@@ -86,14 +86,14 @@ namespace BlazorFabric
             if (navYear != selectedYear)
             {
                 var newNavDate = new DateTime(NavigatedDate.Year, NavigatedDate.Month, NavigatedDate.Day);
-                newNavDate.AddYears(selectedYear - newNavDate.Year);
+                newNavDate = newNavDate.AddYears(selectedYear - newNavDate.Year);
                 if (newNavDate > MaxDate)
                 {
-                    newNavDate.AddMonths(MaxDate.Month - newNavDate.Month);
+                    newNavDate = newNavDate.AddMonths(MaxDate.Month - newNavDate.Month);
                 }
                 else if (newNavDate < MinDate)
                 {
-                    newNavDate.AddMonths(MinDate.Month - newNavDate.Month);
+                    newNavDate = newNavDate.AddMonths(MinDate.Month - newNavDate.Month);
                 }
                 OnNavigateDate.InvokeAsync(new NavigatedDateResult { Date = newNavDate, FocusOnNavigatedDay = true });
             }
@@ -125,7 +125,7 @@ namespace BlazorFabric
             if ((HighlightCurrentMonth || HighlightSelectedMonth) && isSelectedMonth && isSelectedYear)
                 classNames += " ms-Calendar-day--highlighted ms-Calendar-monthIsHighlighted";
             if (!isInBounds)
-                ClassName += " ms-Calendar-monthOption--disabled ms-Calendar-monthOptionIsDisabled";
+                classNames += " ms-Calendar-monthOption--disabled ms-Calendar-monthOptionIsDisabled";
             return classNames;
         }
 

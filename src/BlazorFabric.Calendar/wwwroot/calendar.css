@@ -757,6 +757,14 @@
     color: var(--palette-NeutralDark);
 }
 
+.ms-Calendar-yearIsHighlighted{
+    background-color: var(--palette-NeutralLight);
+    color: var(--palette-NeutralDark);
+}
+.ms-Calendar-yearIsHighlighted.ms-Calendar-yearOption:hover{
+    background-color: var(--palette-NeutralLighter);
+}
+
 .ms-Calendar-yearIsCurrentYear {
     color: var(--palette-White);
     background-color: var(--palette-NeutralLight);

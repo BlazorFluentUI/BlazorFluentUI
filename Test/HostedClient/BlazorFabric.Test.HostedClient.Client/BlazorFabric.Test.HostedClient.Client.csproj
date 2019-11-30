@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
+    <ProjectReference Include="..\..\..\src\BlazorFabric.Calendar\BlazorFabric.Calendar.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.CommandBar\BlazorFabric.CommandBar.csproj" />

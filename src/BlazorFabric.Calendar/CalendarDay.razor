@@ -120,7 +120,7 @@
                 @onmousedown =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseDown(args); })
                 @onmouseup =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseUp(args); })*@
                 <td @key=@day.Key
-                    @onclick=@day.OnSelected
+                   
                     class=@GetDayClasses(day)
                     @onmouseenter=@(args => {
                                         if (DateRangeType != DateRangeType.Day && day.IsInBounds)

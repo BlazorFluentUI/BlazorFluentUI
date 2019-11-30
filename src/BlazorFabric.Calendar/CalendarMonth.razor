@@ -10,7 +10,8 @@
                   OnHeaderSelect=@(focus => { focusOnUpdate = focus; IsYearPickerVisible = false; })
                   OnSelectYear=@OnSelectYear
                   SelectedYear=@(NavigatedDate.Year)
-                  
+                  NavigatedYear=@(NavigatedDate.Year)
+
                   />
 }
 else
@@ -70,17 +71,17 @@ else
                         @for (var i=0; i<monthsForRow.Length; i++)
                         {
                             var index = i;
-                            var month = monthsForRow[i];
-                            var monthIndex = rowNum * 4 + i;
-                            var indexedMonth = NavigatedDate.AddMonths(NavigatedDate.Month - (monthIndex + 1));
+                            var month = monthsForRow[index];
+                            var monthIndex = rowNum * 4 + index;
+                            var indexedMonth = NavigatedDate.AddMonths((monthIndex + 1) - NavigatedDate.Month );
                             //var isCurrentMonth = (monthIndex + 1 == Today.Month && NavigatedDate.Year == Today.Year);
                             var isNavigatedMonth = NavigatedDate.Month == (monthIndex + 1);
                             //var isSelectedMonth = SelectedDate.Month == (monthIndex + 1);
                             //var isSelectedYear = SelectedDate.Year == NavigatedDate.Year;
 
                             var firstDayOfIndexedMonth = new DateTime(indexedMonth.Year, indexedMonth.Month, 1);
-                            var isInBounds = (DateTime.Compare(MinDate, firstDayOfIndexedMonth) < 1) &&
-                                (DateTime.Compare(firstDayOfIndexedMonth.AddMonths(1).AddDays(-1), MaxDate) < 1);
+                            var isInBounds = (DateTime.Compare(MinDate, firstDayOfIndexedMonth.AddMonths(1).AddDays(-1)) < 1) &&
+                                (DateTime.Compare(firstDayOfIndexedMonth, MaxDate) < 1);
 
                             <button class=@(GetMonthClasses(monthIndex, isInBounds))
                                     disabled=@(!isInBounds)

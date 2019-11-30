@@ -23,6 +23,8 @@ namespace BlazorFabric
         [Parameter] public DateTime MinDate { get; set; } = DateTime.MinValue;
         [Parameter] public EventCallback OnDismiss { get; set; }
         [Parameter] public EventCallback<SelectedDateResult> OnSelectDate { get; set; }
+        [Parameter] public List<DateTime> Range { get; set; }  // readonly value!  meant to supplement binding 
+        [Parameter] public EventCallback<List<DateTime>> RangeChanged { get; set; }  // complement to Range readonly value!  meant to supplement binding 
         [Parameter] public List<DateTime> RestrictedDates { get; set; }
         [Parameter] public bool SelectDateOnClick { get; set; } = false;
         [Parameter] public bool ShowCloseButton { get; set; } = false;
@@ -31,7 +33,8 @@ namespace BlazorFabric
         [Parameter] public bool ShowSixWeeksByDefault { get; set; } = false;
         [Parameter] public bool ShowWeekNumbers { get; set; } = false;
         [Parameter] public DateTime Today { get; set; } = DateTime.Now.Date;
-        [Parameter] public DateTime? Value { get; set; }
+        [Parameter] public DateTime Value { get; set; } = DateTime.MinValue;
+        [Parameter] public EventCallback<DateTime> ValueChanged { get; set; }
         [Parameter] public List<DayOfWeek> WorkWeekDays { get; set; } = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
         [Parameter] public bool YearPickerHidden { get; set; } = false;
 
@@ -55,9 +58,9 @@ namespace BlazorFabric
         {
             if (!isLoaded)
             {
-                if (Value.HasValue)
+                if (Value != DateTime.MinValue)
                 {
-                    CurrentDate = Value.Value;
+                    CurrentDate = Value;
                 }
                 else
                 {
@@ -90,23 +93,23 @@ namespace BlazorFabric
         {
             bool valuesDifferent = false;
 
-            DateTime? nextValue = null;
+            DateTime nextValue;
             parameters.TryGetValue("Value", out nextValue);
-            if (nextValue.HasValue && !Value.HasValue)
+            if (nextValue != DateTime.MinValue && Value == DateTime.MinValue)
             {
                 valuesDifferent = true;
             }
-            else if (nextValue.HasValue && Value.HasValue && DateTime.Compare(nextValue.Value.Date, Value.Value.Date) != 0)
+            else if (nextValue != DateTime.MinValue && Value != DateTime.MinValue && DateTime.Compare(nextValue.Date, Value.Date) != 0)
             {
                 valuesDifferent = true;
             }
 
             if (valuesDifferent)
             {
-                NavigatedDayDate = nextValue.Value;
-                NavigatedMonthDate = nextValue.Value;
+                NavigatedDayDate = nextValue;
+                NavigatedMonthDate = nextValue;
             }
-            SelectedDate = nextValue.HasValue ? nextValue.Value : Today;
+            SelectedDate = nextValue != DateTime.MinValue ? nextValue : Today;
 
             return base.SetParametersAsync(parameters);
         }
@@ -132,10 +135,12 @@ namespace BlazorFabric
             return Task.CompletedTask;
         }
 
-        protected Task OnSelectDateInternal(SelectedDateResult result)
+        protected async Task OnSelectDateInternal(SelectedDateResult result)
         {
             SelectedDate = result.Date;
-            return OnSelectDate.InvokeAsync(result);
+            await OnSelectDate.InvokeAsync(result);
+            await ValueChanged.InvokeAsync(result.Date);
+            await RangeChanged.InvokeAsync(result.SelectedDateRange);
         }
 
         protected Task OnNavigateDayDate(NavigatedDateResult result)

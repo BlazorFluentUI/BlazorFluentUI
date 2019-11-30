@@ -37,13 +37,14 @@ namespace BlazorFabric
 
         protected List<Action> SelectMonthCallbacks = new List<Action>();
 
-        private bool focusOnUpdate;
+        protected bool focusOnUpdate;
 
         protected override Task OnInitializedAsync()
         {
             for (var i=0; i< ShortMonthNames.Length; i++)
             {
-                SelectMonthCallbacks.Add(() => OnSelectMonth(i + 1));
+                var index = i;
+                SelectMonthCallbacks.Add(() => OnSelectMonth(index + 1));
             }
 
             return base.OnInitializedAsync();
@@ -78,14 +79,54 @@ namespace BlazorFabric
             return Task.CompletedTask;
         }
 
+        protected Task OnSelectYear(int selectedYear)
+        {
+            focusOnUpdate = true;
+            var navYear = NavigatedDate.Year;
+            if (navYear != selectedYear)
+            {
+                var newNavDate = new DateTime(NavigatedDate.Year, NavigatedDate.Month, NavigatedDate.Day);
+                newNavDate.AddYears(selectedYear - newNavDate.Year);
+                if (newNavDate > MaxDate)
+                {
+                    newNavDate.AddMonths(MaxDate.Month - newNavDate.Month);
+                }
+                else if (newNavDate < MinDate)
+                {
+                    newNavDate.AddMonths(MinDate.Month - newNavDate.Month);
+                }
+                OnNavigateDate.InvokeAsync(new NavigatedDateResult { Date = newNavDate, FocusOnNavigatedDay = true });
+            }
+            IsYearPickerVisible = false;
+            return Task.CompletedTask;
+        }
+
         protected Task OnSelectPrevYear()
         {
-            return Task.CompletedTask;
+            return OnNavigateDate.InvokeAsync(new NavigatedDateResult { Date = NavigatedDate.AddYears(-1), FocusOnNavigatedDay = false });
         }
 
         protected Task OnSelectNextYear()
         {
-            return Task.CompletedTask;
+            return OnNavigateDate.InvokeAsync(new NavigatedDateResult { Date = NavigatedDate.AddYears(+1), FocusOnNavigatedDay = false });
+        }
+
+        protected string GetMonthClasses(int monthIndex, bool isInBounds)
+        {
+            var isCurrentMonth = (monthIndex + 1 == Today.Month && NavigatedDate.Year == Today.Year);
+            var isNavigatedMonth = NavigatedDate.Month == (monthIndex + 1);
+            var isSelectedMonth = SelectedDate.Month == (monthIndex + 1);
+            var isSelectedYear = SelectedDate.Year == NavigatedDate.Year;
+
+            string classNames = "";
+            classNames += "smallFont ms-Calendar-monthOption";
+            if (HighlightCurrentMonth && isCurrentMonth)
+                classNames += " ms-Calendar-day--today ms-Calendar-monthIsCurrentMonth";
+            if ((HighlightCurrentMonth || HighlightSelectedMonth) && isSelectedMonth && isSelectedYear)
+                classNames += " ms-Calendar-day--highlighted ms-Calendar-monthIsHighlighted";
+            if (!isInBounds)
+                ClassName += " ms-Calendar-monthOption--disabled ms-Calendar-monthOptionIsDisabled";
+            return classNames;
         }
 
         private void OnSelectMonth(int newMonth) {
@@ -94,8 +135,9 @@ namespace BlazorFabric
 
                 OnHeaderSelect.InvokeAsync(true);
             }
-            OnNavigateDate.InvokeAsync(new NavigatedDateResult() { Date = NavigatedDate.AddMonths(NavigatedDate.Month - newMonth), FocusOnNavigatedDay = true });
+            OnNavigateDate.InvokeAsync(new NavigatedDateResult() { Date = NavigatedDate.AddMonths(-1 * (NavigatedDate.Month - newMonth)), FocusOnNavigatedDay = true });
         }
+
 
     }
 }

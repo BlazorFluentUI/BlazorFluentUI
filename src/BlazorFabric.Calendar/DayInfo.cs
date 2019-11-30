@@ -15,5 +15,6 @@ namespace BlazorFabric
         public bool IsSelected { get; set; }
         public bool IsInBounds { get; set; }
         public Action OnSelected { get; set; }
+        public int WeekIndex { get; set; }
     }
 }

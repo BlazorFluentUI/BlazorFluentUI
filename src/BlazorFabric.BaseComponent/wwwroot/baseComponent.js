@@ -267,7 +267,7 @@ var BlazorFabricBaseComponent;
                 isContained = false;
                 while (child) {
                     var nextParent = getParent(child);
-                    console.log("NextParent: " + nextParent);
+                    // console.log("NextParent: " + nextParent);
                     if (nextParent === parent) {
                         isContained = true;
                         break;

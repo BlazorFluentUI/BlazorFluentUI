@@ -45,6 +45,12 @@ namespace BlazorFabric
 
         protected List<List<DayInfo>> Weeks;
         protected List<int> WeekNumbers;
+        protected Dictionary<string, string> WeekCornersStyled;
+
+        protected int HoverWeek = -1;
+        protected int HoverMonth = -1;
+        protected int PressWeek = -1;
+        protected int PressMonth = -1;
 
         protected override Task OnParametersSetAsync()
         {
@@ -52,10 +58,12 @@ namespace BlazorFabric
 
             if (ShowWeekNumbers)
             {
-                WeekNumbers = GetWeekNumbersInMonth(Weeks.Count, FirstDayOfWeek, FirstWeekOfYear, NavigatedDate);
+                WeekNumbers = DateUtilities.GetWeekNumbersInMonth(Weeks.Count, FirstDayOfWeek, FirstWeekOfYear, NavigatedDate);
             }
             else
                 WeekNumbers = null;
+
+            WeekCornersStyled = CreateWeekCornerStyles();
 
             // determine if previous/next months are in bounds
 
@@ -100,28 +108,148 @@ namespace BlazorFabric
         }
 
 
-        protected Task OnDayMouseOver(MouseEventArgs eventArgs)
+        //protected Task OnDayMouseOver(MouseEventArgs eventArgs)
+        //{
+        //    return Task.CompletedTask;
+        //}
+        //protected Task OnDayMouseLeave(EventArgs eventArgs)
+        //{
+        //    return Task.CompletedTask;
+        //}
+        //protected Task OnDayMouseDown(MouseEventArgs eventArgs)
+        //{
+        //    return Task.CompletedTask;
+        //}
+        //protected Task OnDayMouseUp(MouseEventArgs eventArgs)
+        //{
+        //    return Task.CompletedTask;
+        //}
+
+
+        protected string GetDayClasses(DayInfo day)
         {
-            return Task.CompletedTask;
+            string classNames = "";
+            classNames += "ms-Calendar-dayWrapper";
+            if (WeekCornersStyled.ContainsKey(day.WeekIndex + "_" + (day.OriginalDate.Day - 1)))
+            {
+                classNames += WeekCornersStyled[day.WeekIndex + "_" + (day.OriginalDate.Day - 1)];
+            }
+            if (day.IsSelected && (DateRangeType == DateRangeType.Week || DateRangeType == DateRangeType.WorkWeek))
+                classNames += " ms-Calendar-weekBackground";
+            if (day.IsSelected && DateRangeType == DateRangeType.Day)
+                classNames += " ms-Calendar-dayBackground";
+            if (day.IsSelected && DateRangeType == DateRangeType.Day)
+                classNames += " ms-Calendar-day--highlighted ms-Calendar-dayIsHighlighted";
+            if (day.IsInBounds && day.IsInMonth)
+                classNames += " ms-Calendar-dayIsFocused";
+            if (day.IsInBounds && !day.IsInMonth)
+                classNames += " ms-Calendar-dayUnFocused";
+            switch (DateRangeType)
+            {
+                case DateRangeType.Day:
+                    classNames += " ms-Calendar-daySelection";
+                    break;
+                case DateRangeType.Week:
+                case DateRangeType.WorkWeek:
+                    classNames += " ms-Calendar-weekSelection";
+                    if (HoverWeek == day.WeekIndex)
+                        classNames += " ms-Calendar-dayHover";
+                    if (PressWeek == day.WeekIndex)
+                        classNames += " ms-Calendar-dayPress";
+                    break;
+                case DateRangeType.Month:
+                    classNames += " ms-Calendar-monthSelection";
+                    if (HoverMonth == day.OriginalDate.Month)
+                        classNames += " ms-Calendar-dayHover";
+                    if (PressMonth == day.OriginalDate.Month)
+                        classNames += " ms-Calendar-dayPress";
+                    break;
+            }
+            return classNames;
         }
-        protected Task OnDayMouseLeave(EventArgs eventArgs)
+
+        private Dictionary<string,string> CreateWeekCornerStyles()
         {
-            return Task.CompletedTask;
-        }
-        protected Task OnDayMouseDown(MouseEventArgs eventArgs)
-        {
-            return Task.CompletedTask;
-        }
-        protected Task OnDayMouseUp(MouseEventArgs eventArgs)
-        {
-            return Task.CompletedTask;
+            var weekCornersStyled = new Dictionary<string, string>();
+
+            switch (DateRangeType)
+            {
+                case DateRangeType.Month:
+                    for (var weekIndex = 0; weekIndex < Weeks.Count; weekIndex++)
+                    {
+                        var week = Weeks[weekIndex];
+                        for (var dayIndex=0; dayIndex < week.Count; dayIndex++)
+                        {
+                            bool above = false, below = false, left = false, right = false;
+                            var day = week[dayIndex];
+                            if (weekIndex - 1 >= 0 && dayIndex < Weeks[weekIndex - 1].Count)
+                            {
+                                above = Weeks[weekIndex - 1][dayIndex].OriginalDate.Month == Weeks[weekIndex][dayIndex].OriginalDate.Month;
+                            }
+                            if (weekIndex + 1 < Weeks.Count && dayIndex < Weeks[weekIndex + 1].Count)
+                            {
+                                below = Weeks[weekIndex + 1][dayIndex].OriginalDate.Month == Weeks[weekIndex][dayIndex].OriginalDate.Month;
+                            }
+                            if (dayIndex - 1 >= 0)
+                            {
+                                left = Weeks[weekIndex][dayIndex - 1].OriginalDate.Month == Weeks[weekIndex][dayIndex].OriginalDate.Month;
+                            }
+                            if (dayIndex + 1 < Weeks[weekIndex].Count)
+                            {
+                                right = Weeks[weekIndex][dayIndex + 1].OriginalDate.Month == Weeks[weekIndex][dayIndex].OriginalDate.Month;
+                            }
+
+                            var roundedTopLeft = !above && !left;
+                            var roundedTopRight = !above && !right;
+                            var roundedBottomLeft = !below && !left;
+                            var roundedBottomRight = !below && !right;
+
+                            string classNames = "";
+                            if (roundedTopLeft)
+                                classNames += " ms-Calendar-topLeftCornerDate";
+                            if (roundedTopRight)
+                                classNames += " ms-Calendar-topRightCornerDate";
+                            if (roundedBottomLeft)
+                                classNames += " ms-Calendar-bottomLeftCornerDate";
+                            if (roundedBottomRight)
+                                classNames += " ms-Calendar-bottomRightCornerDate";
+
+                            if (!above)
+                                classNames += " ms-Calendar-topDate";
+                            if (!below)
+                                classNames += " ms-Calendar-bottomDate";
+                            if (!right)
+                                classNames += " ms-Calendar-rightDate";
+                            if (!left)
+                                classNames += " ms-Calendar-leftDate";
+
+                            weekCornersStyled.Add(weekIndex + "_" + dayIndex, classNames);
+                        }
+                    }
+                    break;
+                case DateRangeType.Week:
+                case DateRangeType.WorkWeek:
+                    for (var weekIndex=0; weekIndex < Weeks.Count; weekIndex++)
+                    {
+                        var minIndex = Weeks[weekIndex].IndexOf(Weeks[weekIndex].First(x => x.IsInBounds));
+                        var maxIndex = Weeks[weekIndex].IndexOf(Weeks[weekIndex].Last(x => x.IsInBounds));
+
+                        var leftStyle = " ms-Calendar-topLeftCornerDate ms-Calendar-bottomLeftCornerDate";
+                        var rightStyle = " ms-Calendar-topRightCornerDate ms-Calendar-bottomRightCornerDate";
+                        weekCornersStyled.Add(weekIndex + "_" + minIndex, leftStyle);
+                        weekCornersStyled.Add(weekIndex + "_" + maxIndex, rightStyle);
+                    }
+                    break;
+            }
+
+            return weekCornersStyled;
         }
 
         private void OnSelectDateInternal(DateTime selectedDate)
         {
             // stop propagation - needed?
 
-            var dateRange = GetDateRangeArray(selectedDate, DateRangeType, FirstDayOfWeek, WorkWeekDays);
+            var dateRange = DateUtilities.GetDateRangeArray(selectedDate, DateRangeType, FirstDayOfWeek, WorkWeekDays);
             if (DateRangeType != DateRangeType.Day)
                 dateRange = GetBoundedDateRange(dateRange, MinDate, MaxDate);
             dateRange = dateRange.Where(d => !GetIsRestrictedDate(d)).ToList();
@@ -156,7 +284,7 @@ namespace BlazorFabric
 
             // in work week view we want to select the whole week
             var selecteDateRangeType = DateRangeType == DateRangeType.WorkWeek ? DateRangeType.Week : DateRangeType;
-            var selectedDates = GetDateRangeArray(SelectedDate, selecteDateRangeType, FirstDayOfWeek, WorkWeekDays);
+            var selectedDates = DateUtilities.GetDateRangeArray(SelectedDate, selecteDateRangeType, FirstDayOfWeek, WorkWeekDays);
             if (DateRangeType != DateRangeType.Day)
             {
                 selectedDates = GetBoundedDateRange(selectedDates, MinDate, MaxDate);
@@ -176,6 +304,7 @@ namespace BlazorFabric
                         Key = date.ToString(),
                         Date = date.Date.ToString("D"),
                         OriginalDate = originalDate,
+                        WeekIndex = weekIndex,
                         IsInMonth = date.Month == NavigatedDate.Month,
                         IsToday = DateTime.Compare(DateTime.Now.Date, originalDate) == 0,
                         IsSelected = IsInDateRangeArray(date, selectedDates),
@@ -234,149 +363,6 @@ namespace BlazorFabric
             return boundedDateRange;
         }
 
-        private List<DateTime> GetDateRangeArray(DateTime date, DateRangeType dateRangeType, DayOfWeek firstDayOfWeek, List<DayOfWeek> workWeekDays, int daysToSelectInDayView = 1) 
-        {
-            var datesArray = new List<DateTime>();
-            DateTime startDate;
-            DateTime endDate;
-
-            if (workWeekDays == null) {
-                workWeekDays = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
-            }
-
-            daysToSelectInDayView = Math.Max(daysToSelectInDayView, 1);
-
-            switch (dateRangeType) {
-                case DateRangeType.Day:
-                    startDate = date.Date;
-                    endDate = startDate.AddDays(daysToSelectInDayView);
-                    break;
-
-                case DateRangeType.Week:
-                case DateRangeType.WorkWeek:
-                    startDate = GetStartDateOfWeek(date.Date, firstDayOfWeek);
-                    endDate = startDate.AddDays(7);
-                    break;
-
-                case DateRangeType.Month:
-                    startDate = new DateTime(date.Year, date.Month, 1);
-                    endDate = startDate.AddMonths(1);
-                    break;
-
-                default:
-                    throw new Exception("This should never be reached.");
-            }
-
-            // Populate the dates array with the dates in range
-            var nextDate = startDate;
-
-            do
-            {
-                if (dateRangeType != DateRangeType.WorkWeek)
-                {
-                    // push all days not in work week view
-                    datesArray.Add(nextDate);
-                }
-                else if (workWeekDays.IndexOf(nextDate.DayOfWeek) != -1)
-                {
-                    datesArray.Add(nextDate);
-                }
-                nextDate = nextDate.AddDays(1);
-            } while (nextDate != endDate);
-
-            return datesArray;
-        }
-
-        private DateTime GetStartDateOfWeek(DateTime date, DayOfWeek firstDayOfWeek)
-        {
-            var daysOffset = firstDayOfWeek - date.DayOfWeek;
-            if (daysOffset > 0) {
-                // If first day of week is > date, go 1 week back, to ensure resulting date is in the past.
-                daysOffset -= 7;
-            }
-            return date.AddDays(daysOffset);
-        }
-
-
-private List<int> GetWeekNumbersInMonth(int weeksInMonth, DayOfWeek firstDayOfWeek, FirstWeekOfYear firstWeekOfYear, DateTime navigatedDate)
-        {
-            var selectedYear = navigatedDate.Year;
-            var selectedMonth = navigatedDate.Month;
-            int dayOfMonth = 1;
-            var fistDayOfMonth = new DateTime(selectedYear, selectedMonth, dayOfMonth);
-            var endOfFirstWeek = dayOfMonth + (firstDayOfWeek + 7 - 1) - AdjustWeekDay(firstDayOfWeek, fistDayOfMonth.DayOfWeek);
-            var endOfWeekRange = new DateTime(selectedYear, selectedMonth, (int)endOfFirstWeek);
-            dayOfMonth = endOfWeekRange.Day;
-            var weeksArray = new List<int>();
-            for (var i = 0; i < weeksInMonth; i++)
-            {
-                // Get week number for end of week
-                weeksArray.Add(GetWeekNumber(endOfWeekRange, firstDayOfWeek, firstWeekOfYear));
-                dayOfMonth += 7;
-                endOfWeekRange = new DateTime(selectedYear, selectedMonth, dayOfMonth);
-            }
-            return weeksArray;
-        }
-
-        private int AdjustWeekDay(DayOfWeek firstDayOfWeek, DayOfWeek dateWeekDay)
-        {
-            return firstDayOfWeek != DayOfWeek.Sunday && dateWeekDay < firstDayOfWeek ? (int)dateWeekDay + 7 : (int)dateWeekDay;
-        }
-
-        private int GetWeekNumber(DateTime date, DayOfWeek firstDayOfWeek, FirstWeekOfYear firstWeekOfYear) {
-            // First four-day week of the year - minumum days count
-            int fourDayWeek = 4;
-
-            switch (firstWeekOfYear)
-            {
-                case FirstWeekOfYear.FirstFullWeek:
-                    return GetWeekOfYearFullDays(date, firstDayOfWeek, 7);
-
-                case FirstWeekOfYear.FirstFourDayWeek:
-                    return GetWeekOfYearFullDays(date, firstDayOfWeek, fourDayWeek);
-
-                default:
-                    return GetFirstDayWeekOfYear(date, firstDayOfWeek);
-            }
-        }
-
-        private int GetFirstDayWeekOfYear(DateTime date, DayOfWeek firstDayOfWeek) {
-            var num = date.DayOfYear - 1;
-            var num2 = date.DayOfWeek - (num % 7);
-            var num3 = ((int)num2 - (int)firstDayOfWeek + 2 * 7) % 7;
-
-            return (num + num3) / 7 + 1;
-        }
-
-        private int GetWeekOfYearFullDays(DateTime date, DayOfWeek firstDayOfWeek, int numberOfFullDays)
-        {
-            var dayOfYear = date.DayOfYear - 1;
-            var num = date.DayOfWeek - (dayOfYear % 7);
-
-            var lastDayOfPrevYear = new DateTime(date.Year, 12, 31); 
-            var daysInYear = lastDayOfPrevYear.DayOfYear - 1;
-
-            var num2 = (firstDayOfWeek - num + 2 * 7) % 7;
-            if (num2 != 0 && num2 >= numberOfFullDays) 
-            {
-                num2 -= 7;
-            }
-
-            var num3 = dayOfYear - num2;
-            if (num3 < 0) 
-            {
-                num -= daysInYear % 7;
-                num2 = (firstDayOfWeek - num + 2 * 7) % 7;
-                if (num2 != 0 && num2 + 1 >= numberOfFullDays) 
-                {
-                    num2 -= 7;
-                }
-
-                num3 = daysInYear - num2;
-            }
-
-            return num3 / 7 + 1;
-        }
-
+        
 }
 }

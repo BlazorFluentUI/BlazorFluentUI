@@ -238,6 +238,10 @@
     --ScreenWidthMaxXXLarge: 1919px;
 }
 
+.smallPlusFont {
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+}
 .smallFont {
     font-size: var(--fontSize-Small);
     font-weight: var(--fontWeight-Regular);

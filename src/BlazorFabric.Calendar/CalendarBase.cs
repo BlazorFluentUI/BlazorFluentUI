@@ -9,14 +9,14 @@ namespace BlazorFabric
 {
     public class CalendarBase : FabricComponentBase
     {
-        [Parameter] public bool AllFocusable { get; set; }
-        [Parameter] public bool AutoNavigateOnSelection { get; set; } = true;
-        [Parameter] public DateRangeType DateRangeType { get; set; }
+        [Parameter] public bool AllFocusable { get; set; } = false;
+        [Parameter] public bool AutoNavigateOnSelection { get; set; } = false;
+        [Parameter] public DateRangeType DateRangeType { get; set; } = DateRangeType.Day;
         [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; } = new DateTimeFormatter();
-        [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
-        [Parameter] public FirstWeekOfYear FirstWeekOfYear { get; set; }
-        [Parameter] public bool HighlightCurrentMonth { get; set; }
-        [Parameter] public bool HighlightSelectedMonth { get; set; }
+        [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
+        [Parameter] public FirstWeekOfYear FirstWeekOfYear { get; set; } = FirstWeekOfYear.FirstDay;
+        [Parameter] public bool HighlightCurrentMonth { get; set; } = false;
+        [Parameter] public bool HighlightSelectedMonth { get; set; } = true;
         [Parameter] public bool IsDayPickerVisible { get; set; } = true;
         [Parameter] public bool IsMonthPickerVisible { get; set; } = true;
         [Parameter] public DateTime MaxDate { get; set; } = DateTime.MaxValue;
@@ -24,14 +24,16 @@ namespace BlazorFabric
         [Parameter] public EventCallback OnDismiss { get; set; }
         [Parameter] public EventCallback<SelectedDateResult> OnSelectDate { get; set; }
         [Parameter] public List<DateTime> RestrictedDates { get; set; }
-        [Parameter] public bool ShowCloseButton { get; set; }
-        [Parameter] public bool ShowMonthPickerAsOverlay { get; set; }
-        [Parameter] public bool ShowSixWeeksByDefault { get; set; }
-        [Parameter] public bool ShowWeekNumbers { get; set; }
+        [Parameter] public bool SelectDateOnClick { get; set; } = false;
+        [Parameter] public bool ShowCloseButton { get; set; } = false;
+        [Parameter] public bool ShowGoToToday { get; set; } = true;
+        [Parameter] public bool ShowMonthPickerAsOverlay { get; set; } = false;
+        [Parameter] public bool ShowSixWeeksByDefault { get; set; } = false;
+        [Parameter] public bool ShowWeekNumbers { get; set; } = false;
         [Parameter] public DateTime Today { get; set; } = DateTime.Now.Date;
         [Parameter] public DateTime? Value { get; set; }
         [Parameter] public List<DayOfWeek> WorkWeekDays { get; set; } = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
-        [Parameter] public bool YearPickerHidden { get; set; }
+        [Parameter] public bool YearPickerHidden { get; set; } = false;
 
         protected DateTime CurrentDate;
 
@@ -42,9 +44,13 @@ namespace BlazorFabric
         protected bool IsDayPickerVisibleInternal;
         protected bool IsMonthPickerVisibleInternal;
 
+        protected bool GoTodayEnabled;
+        protected string GoToTodayString = "Go to today";  // needs to be localized!
+
         private bool isLoaded = false;
         private bool focusOnUpdate = false;
 
+        
         protected override Task OnParametersSetAsync()
         {
             if (!isLoaded)
@@ -64,6 +70,15 @@ namespace BlazorFabric
 
                 IsMonthPickerVisibleInternal = ShowMonthPickerAsOverlay ? false : IsMonthPickerVisible;
                 IsDayPickerVisibleInternal = ShowMonthPickerAsOverlay ? true : IsDayPickerVisible;
+
+                GoTodayEnabled = ShowGoToToday;
+                if (GoTodayEnabled)
+                {
+                    GoTodayEnabled = NavigatedDayDate.Year != Today.Year ||
+                        NavigatedDayDate.Month != Today.Month ||
+                        NavigatedMonthDate.Year != Today.Year ||
+                        NavigatedMonthDate.Month != Today.Month;
+                }
 
                 isLoaded = true;
             }
@@ -96,7 +111,23 @@ namespace BlazorFabric
             return base.SetParametersAsync(parameters);
         }
 
-        protected Task OnDatePickerPopupKeyDown(KeyboardEventArgs keyboardEventArgs)
+        protected void OnGotoToday(MouseEventArgs args) {
+            
+            if (SelectDateOnClick) {
+                // When using Defaultprops, TypeScript doesn't know that React is going to inject defaults
+                // so we use exclamation mark as a hint to the type checker (see link below)
+                // https://decembersoft.com/posts/error-ts2532-optional-react-component-props-in-typescript/
+                var dates = DateUtilities.GetDateRangeArray(Today, DateRangeType, FirstDayOfWeek, WorkWeekDays);
+
+                OnSelectDateInternal(new SelectedDateResult() { Date = Today, SelectedDateRange = dates });
+            }
+
+            NavigateDayPickerDay(Today);
+            GoTodayEnabled = false;
+            focusOnUpdate = true;
+        }
+
+    protected Task OnDatePickerPopupKeyDown(KeyboardEventArgs keyboardEventArgs)
         {
             return Task.CompletedTask;
         }
@@ -127,6 +158,14 @@ namespace BlazorFabric
                 OnSelectDateInternal(new SelectedDateResult() { Date = result.Date });
 
             NavigateDayPickerDay(result.Date);
+
+
+            GoTodayEnabled = NavigatedDayDate.Year != Today.Year ||
+                NavigatedDayDate.Month != Today.Month ||
+                NavigatedMonthDate.Year != Today.Year ||
+                NavigatedMonthDate.Month != Today.Month;
+
+            //StateHasChanged();
 
             return Task.CompletedTask;
         }

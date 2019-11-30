@@ -1,12 +1,11 @@
 ﻿@namespace BlazorFabric
 @inherits CalendarBase
 
-<div class="ms-Calendar" role="application">
-    <div class="ms-DatePicker-picker ms-DatePicker-picker--opened ms-DatePicker-picker--focused">
-        <div class="ms-DatePicker-holder ms-slideDownIn10"
-             @onkeydown="OnDatePickerPopupKeyDown">
-            <div class="ms-DatePicker--frame">
-                <div class="ms-DatePicker-wrap">
+<div class="ms-Calendar" role="application" @ref="RootElementReference">
+    <div class=@($"ms-Calendar-picker ms-Calendar-pickerIsOpened ms-Calendar-pickerIsFocused{(IsMonthPickerVisibleInternal ? " ms-Calendar-monthPickerVisible" : "")}{(IsMonthPickerVisibleInternal && IsDayPickerVisibleInternal ? " ms-Calendar-calendarsInline" : "")}{(!ShowMonthPickerAsOverlay && !IsDayPickerVisibleInternal ? " ms-Calendar-monthPickerOnly" : "")}{(ShowMonthPickerAsOverlay ? " ms-Calendar-monthPickerAsOverlay" : "")}")>
+        <div class="ms-Calendar-holder ms-slideDownIn10">
+            <div class="ms-Calendar--frame">
+                <div class="ms-Calendar-wrap">
                     <CalendarDay SelectedDate=@SelectedDate
                                  NavigatedDate=@NavigatedDayDate
                                  Today=@Today
@@ -30,7 +29,7 @@
                                  />
                     @if (IsDayPickerVisibleInternal && IsMonthPickerVisibleInternal)
                     {
-                        <div class="ms-DatePicker-divider"/>
+                        <div class="ms-Calendar-divider"/>
                     }
                     @if (IsMonthPickerVisibleInternal)
                     {
@@ -40,12 +39,24 @@
                                        Today=@Today
                                        HighlightCurrentMonth=@HighlightCurrentMonth
                                        HighlightSelectedMonth=@HighlightSelectedMonth
-                                       OnHeaderSelect=@OnHeaderSelect
+                                       OnHeaderSelect=@(args => { if (ShowMonthPickerAsOverlay) { OnHeaderSelect(args); } })
                                        DateTimeFormatter=@DateTimeFormatter
                                        MinDate=@MinDate
                                        MaxDate=@MaxDate
                                        YearPickerHidden=@(YearPickerHidden || ShowMonthPickerAsOverlay)
                                        />
+                    }
+                    @if (ShowGoToToday)
+                    {
+                        <button role="button"
+                                class=@($"ms-Calendar-goToday{(IsMonthPickerVisibleInternal ? " ms-Calendar-goTodayInlineMonth":"")}{(!GoTodayEnabled ? " ms-Calendar-goToTodayIsDisabled":"")}")
+                                @onclick=@(args => OnGotoToday(args))
+                                tabindex="0"
+                                disabled=@(!GoTodayEnabled)
+                                type="button"
+                                >
+                            @GoToTodayString
+                        </button>
                     }
                 </div>
             </div>

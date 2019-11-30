@@ -20,7 +20,7 @@ namespace BlazorFabric
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             base.BuildRenderTree(builder);
-            StartRoot(builder, "ms-Button--icon");
+            StartRoot(builder, "ms-Button--calendarDate");
             
         }
 
@@ -28,7 +28,7 @@ namespace BlazorFabric
         {
             builder.OpenElement(21, "button");
 
-            builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
+            builder.AddAttribute(23, "class", $"mediumFont ms-Button {buttonClassName} {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")} {this.ClassName}");
             builder.AddAttribute(24, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
             builder.AddAttribute(25, "disabled", this.Disabled && !this.AllowDisabledFocus);
             builder.AddAttribute(26, "data-is-focusable", this.Disabled || this.Split ? false : true);

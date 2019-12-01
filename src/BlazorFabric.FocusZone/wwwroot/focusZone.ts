@@ -182,7 +182,8 @@ namespace BlazorFabricFocusZone {
                 // Assign initial tab indexes so that we can set initial focus as appropriate.
                 this._updateTabIndexes();
 
-                if (this._focusZoneProps.defaultActiveElement) {
+                // using a hack to detect whether the passed in HTMLElement is valid (came from a legitimate .NET ElementReference)
+                if ((<any>(this._focusZoneProps.defaultActiveElement)).__internalId !== null) {
                     this._activeElement = this._focusZoneProps.defaultActiveElement;
                     this.focus();
                 }
@@ -213,7 +214,8 @@ namespace BlazorFabricFocusZone {
             // Assign initial tab indexes so that we can set initial focus as appropriate.
             this._updateTabIndexes();
 
-            if (this._focusZoneProps.defaultActiveElement) {
+            // using a hack to detect whether the passed in HTMLElement is valid (came from a legitimate .NET ElementReference)
+            if ((<any>(this._focusZoneProps.defaultActiveElement)).__internalId !== null) {
                 this._activeElement = this._focusZoneProps.defaultActiveElement;
                 this.focus();
             }

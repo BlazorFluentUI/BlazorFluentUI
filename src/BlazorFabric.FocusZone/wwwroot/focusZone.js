@@ -289,7 +289,8 @@ var BlazorFabricFocusZone;
                 this._disposables.push(window.BlazorFabricBaseComponent.on(this._root, 'blur', this._onBlur, true));
                 // Assign initial tab indexes so that we can set initial focus as appropriate.
                 this._updateTabIndexes();
-                if (this._focusZoneProps.defaultActiveElement) {
+                // using a hack to detect whether the passed in HTMLElement is valid (came from a legitimate .NET ElementReference)
+                if ((this._focusZoneProps.defaultActiveElement).__internalId !== null) {
                     this._activeElement = this._focusZoneProps.defaultActiveElement;
                     this.focus();
                 }
@@ -314,7 +315,8 @@ var BlazorFabricFocusZone;
             this._disposables.push(window.BlazorFabricBaseComponent.on(this._root, 'blur', this._onBlur, true));
             // Assign initial tab indexes so that we can set initial focus as appropriate.
             this._updateTabIndexes();
-            if (this._focusZoneProps.defaultActiveElement) {
+            // using a hack to detect whether the passed in HTMLElement is valid (came from a legitimate .NET ElementReference)
+            if ((this._focusZoneProps.defaultActiveElement).__internalId !== null) {
                 this._activeElement = this._focusZoneProps.defaultActiveElement;
                 this.focus();
             }

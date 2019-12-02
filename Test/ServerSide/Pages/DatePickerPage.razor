@@ -1,0 +1,18 @@
+﻿@page "/datePickerPage"
+
+<h3>DatePicker</h3>
+
+<DatePicker AllowTextInput="true"
+            @bind-Value="selectedDate1"
+            Placeholder="Select a date..." />
+
+<DatePicker AllowTextInput="true"
+            IsRequired="true"
+            @bind-Value="selectedDate2"
+            Placeholder="Select a date..." />
+
+
+@code {
+    DateTime selectedDate1;
+    DateTime selectedDate2;
+}

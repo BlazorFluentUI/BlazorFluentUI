@@ -659,14 +659,18 @@
     }
 
     .ms-Calendar-monthPickerOnly .ms-Calendar-wrap{
-        padding-bottom:28px;
-        margin-bottom:6px;
+        padding:12px;
     }
-    .ms-Calendar-monthPickerOnly .ms-Calendar-holder {
+
+    .ms-Calendar-monthPickerAsOverlay .ms-Calendar-wrap {
+        padding-bottom: 28px;
+        margin-bottom: 6px;
+    }
+    .ms-Calendar-monthPickerAsOverlay .ms-Calendar-holder {
         height: 240px;
         min-height: 240px;
     }
-    .ms-Calendar-monthPickerOnly .ms-Calendar-holderWithButton {
+    .ms-Calendar-monthPickerAsOverlay .ms-Calendar-holderWithButton {
         padding-top: 6px;
         height: auto;
     }

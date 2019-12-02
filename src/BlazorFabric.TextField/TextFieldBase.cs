@@ -53,6 +53,13 @@ namespace BlazorFabric
         [Parameter]
         public Action<string, string> OnNotifyValidationResult { get; set; }
 
+        [Parameter]
+        public EventCallback<MouseEventArgs> OnClick { get; set; }  // expose click event for Combobox and pickers
+        [Parameter]
+        public EventCallback<FocusEventArgs> OnBlur { get; set; }
+        [Parameter]
+        public EventCallback<FocusEventArgs> OnFocus { get; set; }
+
         //[Parameter]
         //protected Func<UIChangeEventArgs, Task> OnChange { get; set; }
         //[Parameter]
@@ -143,24 +150,30 @@ namespace BlazorFabric
             await OnChange.InvokeAsync((string)args.Value);
         }
 
-        protected Task OnFocus(FocusEventArgs args)
+        protected async Task OnFocusInternal(FocusEventArgs args)
         {
+            if (OnFocus.HasDelegate)
+                await OnFocus.InvokeAsync(args);
+
             isFocused = true;
             if (ValidateOnFocusIn && !defaultErrorMessageIsSet)
             {
                 Validate(CurrentValue);
             }
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
 
-        protected Task OnBlur(FocusEventArgs args)
+        protected async Task OnBlurInternal(FocusEventArgs args)
         {
+            if (OnBlur.HasDelegate)
+                await OnBlur.InvokeAsync(args);
+
             isFocused = false;
             if (ValidateOnFocusOut && !defaultErrorMessageIsSet)
             {
                 Validate(CurrentValue);
             }
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -232,7 +245,7 @@ namespace BlazorFabric
                 _ = Task.Run(() =>
                   {
                       Validate(value);
-                      StateHasChanged();
+                      InvokeAsync(()=>StateHasChanged());  //invokeasync required for serverside
                   }).ConfigureAwait(false);
             }
         }

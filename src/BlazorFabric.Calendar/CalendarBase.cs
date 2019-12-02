@@ -32,7 +32,7 @@ namespace BlazorFabric
         [Parameter] public bool ShowMonthPickerAsOverlay { get; set; } = false;
         [Parameter] public bool ShowSixWeeksByDefault { get; set; } = false;
         [Parameter] public bool ShowWeekNumbers { get; set; } = false;
-        [Parameter] public DateTime Today { get; set; } = DateTime.Now.Date;
+        [Parameter] public DateTime Today { get; set; } = DateTimeOffset.Now.Date;
         [Parameter] public DateTime Value { get; set; } = DateTime.MinValue;
         [Parameter] public EventCallback<DateTime> ValueChanged { get; set; }
         [Parameter] public List<DayOfWeek> WorkWeekDays { get; set; } = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
@@ -114,7 +114,7 @@ namespace BlazorFabric
             return base.SetParametersAsync(parameters);
         }
 
-        protected void OnGotoToday(MouseEventArgs args) {
+        protected async void OnGotoToday(MouseEventArgs args) {
             
             if (SelectDateOnClick) {
                 // When using Defaultprops, TypeScript doesn't know that React is going to inject defaults
@@ -122,7 +122,7 @@ namespace BlazorFabric
                 // https://decembersoft.com/posts/error-ts2532-optional-react-component-props-in-typescript/
                 var dates = DateUtilities.GetDateRangeArray(Today, DateRangeType, FirstDayOfWeek, WorkWeekDays);
 
-                OnSelectDateInternal(new SelectedDateResult() { Date = Today, SelectedDateRange = dates });
+                await OnSelectDateInternal(new SelectedDateResult() { Date = Today, SelectedDateRange = dates });
             }
 
             NavigateDayPickerDay(Today);
@@ -147,10 +147,17 @@ namespace BlazorFabric
         {
             NavigateDayPickerDay(result.Date);
             focusOnUpdate = result.FocusOnNavigatedDay;
+
+            GoTodayEnabled = NavigatedDayDate.Year != Today.Year ||
+               NavigatedDayDate.Month != Today.Month ||
+               NavigatedMonthDate.Year != Today.Year ||
+               NavigatedMonthDate.Month != Today.Month;
+
+
             return Task.CompletedTask;
         }
 
-        protected Task OnNavigateMonthDate(NavigatedDateResult result)
+        protected async Task OnNavigateMonthDate(NavigatedDateResult result)
         {
             if (!result.FocusOnNavigatedDay)
             {
@@ -160,7 +167,7 @@ namespace BlazorFabric
             var monthPickerOnly = !ShowMonthPickerAsOverlay && !IsDayPickerVisible;
 
             if (monthPickerOnly)
-                OnSelectDateInternal(new SelectedDateResult() { Date = result.Date });
+                await OnSelectDateInternal(new SelectedDateResult() { Date = result.Date });
 
             NavigateDayPickerDay(result.Date);
 
@@ -172,7 +179,7 @@ namespace BlazorFabric
 
             //StateHasChanged();
 
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
 
         protected Task OnHeaderSelect(bool focus)

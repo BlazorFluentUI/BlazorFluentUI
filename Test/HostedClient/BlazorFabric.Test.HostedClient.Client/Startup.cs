@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace BlazorFabric.Test.HostedClient.Client
 {
@@ -11,6 +12,7 @@ namespace BlazorFabric.Test.HostedClient.Client
 
         public void Configure(IComponentsApplicationBuilder app)
         {
+            app.UseLocalTimeZone();
             app.AddComponent<App>("app");
         }
     }

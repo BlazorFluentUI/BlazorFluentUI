@@ -107,6 +107,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Calendar", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.DatePicker", "src\BlazorFabric.DatePicker\BlazorFabric.DatePicker.csproj", "{EB377F06-1430-4E77-98C8-B8651BDED2B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.Pivot", "src\BlazorFabric.Pivot\BlazorFabric.Pivot.csproj", "{BEB13581-C0F5-46F2-A05F-1A5447171989}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -277,6 +279,10 @@ Global
 		{EB377F06-1430-4E77-98C8-B8651BDED2B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB377F06-1430-4E77-98C8-B8651BDED2B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB377F06-1430-4E77-98C8-B8651BDED2B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEB13581-C0F5-46F2-A05F-1A5447171989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB13581-C0F5-46F2-A05F-1A5447171989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB13581-C0F5-46F2-A05F-1A5447171989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB13581-C0F5-46F2-A05F-1A5447171989}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -325,6 +331,7 @@ Global
 		{2D14A6D0-A08B-4B6F-B2CE-A667E7E9A024} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{C86B034B-954B-4F5F-BB5A-A7AB28F0C7E2} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{EB377F06-1430-4E77-98C8-B8651BDED2B2} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{BEB13581-C0F5-46F2-A05F-1A5447171989} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

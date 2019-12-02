@@ -1,7 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits DatePickerBase
 
-<div class=@($"ms-DatePicker {ClassName}")>
+<div class=@($"mediumFont ms-DatePicker{(IsDatePickerShown ? " ms-DatePicker--is-open" : "" )} {ClassName}")
+     style=@Style>
     <div aria-haspopup="true"
          aria-owns=@(IsDatePickerShown ? calloutId : "")
          @ref="datePickerDiv"

@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\..\src\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.CommandBar\BlazorFabric.CommandBar.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.ContextualMenu\BlazorFabric.ContextualMenu.csproj" />
+    <ProjectReference Include="..\..\..\src\BlazorFabric.DatePicker\BlazorFabric.DatePicker.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Dropdown\BlazorFabric.Dropdown.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.FocusTrapZone\BlazorFabric.FocusTrapZone.csproj" />

@@ -70,22 +70,26 @@ namespace BlazorFabric
 
             DateTime nextMinDate, nextMaxDate, nextValue, nextInitialPickerDate;
             bool nextIsRequired;
-            Func<string, DateTime> nextFormatDate;
+            Func<DateTime, string> nextFormatDate;
             if (!parameters.TryGetValue("MinDate", out nextMinDate))
                 nextMinDate = MinDate;
             if (!parameters.TryGetValue("MaxDate", out nextMaxDate))
                 nextMaxDate = MaxDate;
-            parameters.TryGetValue("Value", out nextValue);
-            parameters.TryGetValue("InitialPickerDate", out nextInitialPickerDate);
-            parameters.TryGetValue("IsRequired", out nextIsRequired);
-            parameters.TryGetValue("FormatDate", out nextFormatDate);
+            if (!parameters.TryGetValue("Value", out nextValue))
+                nextValue = Value;
+            if (!parameters.TryGetValue("InitialPickerDate", out nextInitialPickerDate))
+                nextInitialPickerDate = InitialPickerDate;
+            if (!parameters.TryGetValue("IsRequired", out nextIsRequired))
+                nextIsRequired = IsRequired;
+            if (!parameters.TryGetValue("FormatDate", out nextFormatDate))
+                nextFormatDate = FormatDate;
 
             if (DateTime.Compare(MinDate, nextMinDate) == 0 &&
                 DateTime.Compare(MaxDate, nextMaxDate) == 0 &&
                 IsRequired == nextIsRequired &&
-                DateTime.Compare(SelectedDate, nextMaxDate) == 0 &&
+                DateTime.Compare(SelectedDate, nextValue) == 0 &&
                 FormatDate != null && 
-                FormatDate.Equals(nextFormatDate))
+                (FormatDate.Equals(nextFormatDate) || nextFormatDate == null))  //since FormatDate may not be set as a parameter, it's ok for nextFormatDate to be null
             {
                 return base.SetParametersAsync(parameters);
             }
@@ -93,12 +97,12 @@ namespace BlazorFabric
             this.SetErrorMessage(true, nextIsRequired, nextValue, nextMinDate, nextMaxDate, nextInitialPickerDate);
 
             var oldValue = SelectedDate;
-            if (DateTime.Compare(oldValue,nextValue) != 0 || (FormatDate != null && !FormatDate.Equals(nextFormatDate)))
+            if (DateTime.Compare(oldValue, nextValue) != 0 || (FormatDate != null && nextFormatDate != null && (FormatDate(nextValue) != nextFormatDate(nextValue))))
             {
                 SelectedDate = nextValue;
                 FormattedDate = FormatDateInternal(nextValue);
             }
-            
+
             return base.SetParametersAsync(parameters);
         }
 
@@ -145,10 +149,10 @@ namespace BlazorFabric
             if (IsDatePickerShown)
             {
                 IsDatePickerShown = false;
-                InvokeAsync(() =>
-                {
+                //InvokeAsync(() =>
+                //{
                     ValidateTextInput();
-                });
+                //});
                 //StateHasChanged();
             }
         }
@@ -165,6 +169,8 @@ namespace BlazorFabric
 
             SelectedDate = selectedDateResult.Date;
             FormattedDate = FormatDateInternal(selectedDateResult.Date);
+            ErrorMessage = "";
+
 
             OnSelectDate.InvokeAsync(selectedDateResult.Date);
             ValueChanged.InvokeAsync(selectedDateResult.Date);
@@ -197,9 +203,11 @@ namespace BlazorFabric
                     DismissDatePickerPopup();
             }
 
-            ErrorMessage = IsRequired && (Value == DateTime.MinValue) ? IsRequiredErrorMessage : null;
-            FormattedDate = text;
-
+            if (FormattedDate != text)
+            {
+                ErrorMessage = IsRequired && (Value == DateTime.MinValue) ? IsRequiredErrorMessage : null;
+                FormattedDate = text;
+            }
             // skip TextField OnChange callback ... not implemented through DatePicker
         }
 
@@ -210,7 +218,7 @@ namespace BlazorFabric
                 case "Enter":
                     //preventDefault
                     //stopPropagation
-                    if (IsDatePickerShown)
+                    if (!IsDatePickerShown)
                     {
                         ValidateTextInput();
                         ShowDatePickerPopup();
@@ -263,7 +271,7 @@ namespace BlazorFabric
                                 FormattedDate = FormatDateInternal(date);
                             }
                             ErrorMessage = InvalidInputErrorMessage;
-                            StateHasChanged();
+                            //StateHasChanged();
                         }
                         else
                         {
@@ -271,7 +279,7 @@ namespace BlazorFabric
                             if (IsDateOutOfBounds(date, MinDate, MaxDate))
                             {
                                 ErrorMessage = IsOutOfBoundsErrorMessage;
-                                StateHasChanged();
+                                //StateHasChanged();
                             }
                             else
                             {
@@ -294,6 +302,7 @@ namespace BlazorFabric
                 }
                 
                 OnSelectDate.InvokeAsync(date);
+                ValueChanged.InvokeAsync(date);
             }
             else if (IsRequired && string.IsNullOrWhiteSpace(inputValue))
             {

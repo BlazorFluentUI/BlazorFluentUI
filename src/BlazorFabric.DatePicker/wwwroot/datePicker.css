@@ -1,11 +1,24 @@
-﻿/*
-    This file is to show how CSS and other static resources (such as images) can be
-    used from a library project/package.
-*/
+﻿.ms-DatePicker{
 
-.my-component {
-    border: 2px dashed red;
-    padding: 1em;
-    margin: 1em 0;
-    background-image: url('background.png');
 }
+
+.ms-DatePicker-textField{
+    position:relative;
+}
+
+    .ms-DatePicker-textField input[readonly] {
+        cursor: pointer;
+    }
+
+    .ms-DatePicker-textField input::-ms-clear {
+        display:none;
+    }
+
+    .ms-DatePicker--disabled .ms-DatePicker-textField input[readonly]{
+        cursor:default;
+    }
+
+.ms-DatePicker-callout {
+    box-shadow: var(--effects-Elevation8);
+}
+

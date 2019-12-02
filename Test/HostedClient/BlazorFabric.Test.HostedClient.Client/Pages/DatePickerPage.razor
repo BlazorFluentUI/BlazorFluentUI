@@ -7,12 +7,12 @@
 <DatePicker AllowTextInput="false"
             Style="max-width:300px; margin:0 0 15px 0;"
             @bind-Value="selectedDate1"
-            Placeholder="Select a date..." 
-            FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeek))/>
-<Dropdown ItemsSource=@DaysOfWeek 
+            Placeholder="Select a date..."
+            FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeek)) />
+<Dropdown ItemsSource=@DaysOfWeek
           Style="max-width:300px; margin:0 0 15px 0;"
-          TItem="DayOfWeek" 
-          Placeholder="Select an option" 
+          TItem="DayOfWeek"
+          Placeholder="Select an option"
           @bind-SelectedKey=@selectedDayOfWeek
           Label="Select the first day of the week">
     <ItemTemplate>
@@ -42,8 +42,10 @@
             Placeholder="Select a date..." />
 
 <h4>DatePicker allows input date string</h4>
-<p>Text input is parsed using .NET's (mono's) <span style="font-family:Courier">DateTime.TryParse</span> method.  It is region-aware so should be able to identify many date string inputs.
-    String input is intended to be accomplished through keyboard navigation as mouse-clicking will open the picker.</p>
+<p>
+    Text input is parsed using .NET's (mono's) <span style="font-family:Courier">DateTime.TryParse</span> method.  It is region-aware so should be able to identify many date string inputs.
+    String input is intended to be accomplished through keyboard navigation as mouse-clicking will open the picker.
+</p>
 <DatePicker AllowTextInput="true"
             Style="max-width:300px; margin:0 0 15px 0;"
             Label="DatePicker with string date input"

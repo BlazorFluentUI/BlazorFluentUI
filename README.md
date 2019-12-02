@@ -5,6 +5,9 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
+- upcoming
+	- Added `Calendar`
+	- Added `DatePicker`
 - v1.3.6
 	- Custom NavigationTemplate close button inside `Panel` would not show the close animation, now it does.
 	- Fixed [#33](https://github.com/limefrogyank/BlazorFabric/issues/33)

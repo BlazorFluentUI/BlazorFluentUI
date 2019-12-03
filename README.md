@@ -88,7 +88,7 @@ There are no MergeStyles in this port.  It's just each control packaged into its
 You can also use my helper VSIX extension: https://marketplace.visualstudio.com/items?itemName=LeeMcPherson.BlazorLibraryAssetHelper&ssr=false#overview
 3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.
 
-`<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/10.0.0/css/fabric.min.css" />`
+`<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />`
 
 **OR**
 

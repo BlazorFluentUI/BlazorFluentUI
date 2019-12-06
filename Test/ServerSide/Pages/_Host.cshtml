@@ -91,7 +91,8 @@
 
 </head>
 <body class="ms-Fabric">
-    <app>@(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))</app>
+    @*<app>@(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))</app>*@
+    <app><component type="typeof(App)" render-mode="ServerPrerendered" /></app>
 
     <script src="_framework/blazor.server.js"></script>
 </body>

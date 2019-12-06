@@ -86,6 +86,7 @@
     <app>Loading...</app>
 
     <script>
+        // This changes all .dll files to .blazor files in an attempt to get past some firewalls.  May have unintended consequences...
         XMLHttpRequest.prototype.open_before = XMLHttpRequest.prototype.open;
 
         XMLHttpRequest.prototype.open = function (method, url, async) {

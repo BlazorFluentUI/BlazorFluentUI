@@ -5,7 +5,8 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
-- upcoming
+- v2.0.0
+	- Upgraded entire project to aspnetcore 3.1 (enables partial classes, stopProgation, preventDefault, and others)
 	- Added `Calendar`
 	- Added `DatePicker`
 - v1.3.6

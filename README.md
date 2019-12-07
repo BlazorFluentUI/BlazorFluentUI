@@ -7,6 +7,7 @@ https://blazorfabric.azurewebsites.net/
 ## Release Notes
 - v2.0.0
 	- Upgraded entire project to aspnetcore 3.1 (enables partial classes, stopProgation, preventDefault, and others)
+	- Upgraded demos to aspnetcore 3.1 and netstandard 2.1
 	- Added `Calendar`
 	- Added `DatePicker`
 - v1.3.6

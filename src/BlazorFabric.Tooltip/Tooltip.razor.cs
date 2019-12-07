@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public class TooltipBase : FabricComponentBase
+    public partial class Tooltip : FabricComponentBase
     {
         [Parameter] public int BeakWidth { get; set; } = 16;
         [Parameter] public RenderFragment ChildContent { get; set; }

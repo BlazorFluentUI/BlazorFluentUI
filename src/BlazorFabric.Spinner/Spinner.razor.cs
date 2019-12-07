@@ -5,10 +5,8 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public class SpinnerBase : FabricComponentBase
+    public partial class Spinner : FabricComponentBase
     {
-        //[Parameter] public string AriaLabel { get; set; }
-        //[Parameter] public AriaLive AriaLive { get; set; } = AriaLive.Polite;
         [Parameter] public string Label { get; set; }
         [Parameter] public SpinnerLabelPosition LabelPosition { get; set; } = SpinnerLabelPosition.Bottom;
         [Parameter] public SpinnerSize Size { get; set; } = SpinnerSize.Medium;

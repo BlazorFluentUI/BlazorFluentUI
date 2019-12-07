@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class ResizeGroupBase<TObject> : FabricComponentBase
+    public partial class ResizeGroup<TObject> : FabricComponentBase
     {
         [Inject] IJSRuntime jSRuntime { get; set; }
 

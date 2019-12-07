@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class NavFabricLinkBase : FabricComponentBase
+    public partial class NavFabricLink : FabricComponentBase
     { 
         [Inject] protected NavigationManager NavigationManager { get; set; }
         
@@ -26,7 +26,7 @@ namespace BlazorFabric
 
         [Parameter] public int NestedDepth { get; set; }
 
-        [Parameter] public EventCallback<NavFabricLinkBase> OnClick { get; set; }
+        [Parameter] public EventCallback<NavFabricLink> OnClick { get; set; }
 
         [CascadingParameter(Name="ClearSelectionAction")] Action ClearSelectionAction { get; set; }
 

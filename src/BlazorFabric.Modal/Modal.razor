@@ -1,14 +1,13 @@
 ﻿@namespace BlazorFabric
-@inherits ModalBase
+@inherits FabricComponentBase
 
-@*@if (IsOpen)
-{*@
-<BlazorFabric.Layer Style="ms-Modal-Layer">
+<BlazorFabric.Layer ClassName="ms-Modal-Layer">
     <BlazorFabric.Popup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
                               AriaLabelledBy=@TitleAriaId
                               AriaDescribedBy=@SubtitleAriaId
                               OnDismiss=@OnDismiss>
-        <div class=@($"mediumFont ms-Modal{(IsOpen ? " isOpen" : "")}{(IsModeless ? " isModeless" : "")}{(TopOffsetFixed ? " topOffsetFixed" : "")}")>
+        <div class=@($"mediumFont ms-Modal{(IsOpen ? " isOpen" : "")}{(IsModeless ? " isModeless" : "")}{(TopOffsetFixed ? " topOffsetFixed" : "")} {ClassName}")
+             style=@Style>
             @if (!IsModeless)
             {
                 if (IsBlocking)
@@ -38,4 +37,3 @@
         </div>
     </BlazorFabric.Popup>
 </BlazorFabric.Layer>
-@*}*@

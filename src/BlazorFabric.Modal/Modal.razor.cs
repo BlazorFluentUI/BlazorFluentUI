@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public class ModalBase: FabricComponentBase
+    public partial class Modal : FabricComponentBase
     {
         [Parameter]
         public string ContainerClass { get; set; }

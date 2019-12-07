@@ -1,16 +1,16 @@
 ﻿@namespace BlazorFabric
-@inherits LinkBase
+@inherits FabricComponentBase
 
 
 @if ((Type != null && Type == LinkType.Anchor) || (Type == null && !string.IsNullOrWhiteSpace(Href)))
 {
-    <a href=@(Disabled ? "" : Href) target=@Target class=@($"ms-Link {(Disabled ? "isDisabled" : "")}") aria-disabled=@Disabled>
+    <a href=@(Disabled ? "" : Href) target=@Target class=@($"ms-Link {(Disabled ? "isDisabled" : "")} {ClassName}") aria-disabled=@Disabled style=@Style>
         @ChildContent
     </a>
 }
 else
 {
-    <button type="button" class=@($"ms-Link isButton {(Disabled ? "isDisabled" : "")}") disabled=@Disabled aria-disabled=@Disabled>
+    <button type="button" class=@($"ms-Link isButton {(Disabled ? "isDisabled" : "")} {ClassName}") disabled=@Disabled aria-disabled=@Disabled style=@Style>
         @ChildContent
     </button>
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class MessageBarBase : FabricComponentBase
+    public partial class MessageBar : FabricComponentBase
     {
         [Parameter]
         public bool IsMultiline { get; set; } = true;

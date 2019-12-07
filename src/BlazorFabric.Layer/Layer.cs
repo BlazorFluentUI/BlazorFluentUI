@@ -12,9 +12,7 @@ namespace BlazorFabric
     // to send the LayerHost to anywhere in the app and render items to it.
 
     public class Layer : FabricComponentBase, IDisposable
-    {
-        //internal LayerBase() { }
-
+    {        
         [Inject] private IJSRuntime JSRuntime { get; set; }
         
         [Parameter] public RenderFragment ChildContent { get; set; }

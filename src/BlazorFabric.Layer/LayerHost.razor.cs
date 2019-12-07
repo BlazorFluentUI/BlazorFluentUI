@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class LayerHostBase : FabricComponentBase
+    public partial class LayerHost : FabricComponentBase
     {
-        internal LayerHostBase() { }
-               
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         [Parameter] public RenderFragment HostedContent { get; set; }

@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFabric
-@inherits PanelBase
+@inherits FabricComponentBase
 
 @if (!IsOpen && !isAnimating && !IsHiddenOnDismiss)
 {
@@ -13,6 +13,7 @@ else
            ClassName=@(!IsOpen && !isAnimating && IsHiddenOnDismiss ? "ms-Panel-hiddenPanel" : "")>
         <div aria-hidden=@(!IsOpen && isAnimating)
              @ref="panelElement"
+             style=@Style
              class=@($"mediumFont ms-Panel{(HasCloseButton?" ms-Panel--hasCloseButton":"")}{GetTypeCss()} {this.ClassName}")>
             @if (IsBlocking && IsOpen)
             {

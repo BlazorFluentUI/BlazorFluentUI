@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class NavBase: FabricComponentBase
+    public partial class Nav: FabricComponentBase
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
         //[Parameter] public string AriaLabel { get; set; }

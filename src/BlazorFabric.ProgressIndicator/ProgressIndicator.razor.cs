@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class ProgressIndicatorBase : FabricComponentBase
+    public partial class ProgressIndicator : FabricComponentBase
     {
         // if the percentComplete is near 0, don't animate it.
         // This prevents animations on reset to 0 scenarios

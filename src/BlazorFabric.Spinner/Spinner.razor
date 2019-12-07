@@ -1,8 +1,8 @@
 ﻿@namespace BlazorFabric
 
-@inherits SpinnerBase
+@inherits FabricComponentBase
 
-    <div class=@($"{ClassName} ms-Spinner{GetPositionStyle()}")>
+    <div class=@($"{ClassName} ms-Spinner{GetPositionStyle()}") style=@Style>
         <div class=@($"ms-Spinner-circle{GetSpinnerSizeStyle()}") />
         @if (Label != null)
         {

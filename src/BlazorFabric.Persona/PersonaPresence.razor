@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFabric
-@inherits PersonaPresenceBase
+@inherits FabricComponentBase
 
-    <div class="ms-Persona-presence"
+    <div class=@($"ms-Persona-presence {ClassName}")
          style=@GetSizeStyle()
          title=@PresenceTitle>
         @if (RenderIcon)

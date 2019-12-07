@@ -46,7 +46,7 @@ namespace BlazorFabric
         [System.Text.Json.Serialization.JsonPropertyName("shouldInputLoseFocusOnArrowKeyExists")]
         public bool ShouldInputLoseFocusOnArrowKeyExists { get; set; }
 
-        public static FocusZoneProps GenerateProps(FocusZoneBase focusZone, string id, ElementReference root)
+        public static FocusZoneProps GenerateProps(FocusZone focusZone, string id, ElementReference root)
         {
             var props = new FocusZoneProps()
             {

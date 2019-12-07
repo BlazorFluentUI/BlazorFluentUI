@@ -9,14 +9,14 @@ using System.Timers;
 
 namespace BlazorFabric
 {
-    public class TooltipHostBase : FabricComponentBase, IDisposable
+    public partial class TooltipHost : FabricComponentBase, IDisposable
     {
-        private static TooltipHostBase CurrentVisibleTooltip { get; set; }
+        private static TooltipHost CurrentVisibleTooltip { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public double CloseDelay { get; set; } = double.NaN;
         [Parameter] public TooltipDelay Delay { get; set; } = TooltipDelay.Medium;
-        [Parameter] public DirectionalHint DirectionalHint { get; set; }
+        [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.TopCenter;
         //[Parameter] public FabricComponentBase FabricComponentTarget { get; set; }
         [Parameter] public string HostClassName { get; set; }
         [Parameter] public EventCallback<bool> OnTooltipToggle { get; set; }
@@ -34,7 +34,7 @@ namespace BlazorFabric
         private Timer _openTimer;
         private Timer _dismissTimer;
 
-        public TooltipHostBase()
+        public TooltipHost()
         {
             _openTimer = new Timer();
             _openTimer.Elapsed += _openTimer_Elapsed;
@@ -73,10 +73,10 @@ namespace BlazorFabric
         protected Task OnTooltipMouseEnter(EventArgs args)
         {
             Debug.WriteLine("OnMouseEnter");
-            if (TooltipHostBase.CurrentVisibleTooltip != null && TooltipHostBase.CurrentVisibleTooltip != this)
-                TooltipHostBase.CurrentVisibleTooltip.Dismiss();
+            if (TooltipHost.CurrentVisibleTooltip != null && TooltipHost.CurrentVisibleTooltip != this)
+                TooltipHost.CurrentVisibleTooltip.Dismiss();
 
-            TooltipHostBase.CurrentVisibleTooltip = this;
+            TooltipHost.CurrentVisibleTooltip = this;
 
             if (OverflowMode != TooltipOverflowMode.None)
             {
@@ -123,9 +123,9 @@ namespace BlazorFabric
                 ToggleTooltip(false);
             }
 
-            if (TooltipHostBase.CurrentVisibleTooltip == this)
+            if (TooltipHost.CurrentVisibleTooltip == this)
             {
-                TooltipHostBase.CurrentVisibleTooltip = null;
+                TooltipHost.CurrentVisibleTooltip = null;
             }
 
             return Task.CompletedTask;
@@ -180,8 +180,8 @@ namespace BlazorFabric
 
         public void Dispose()
         {
-            if (TooltipHostBase.CurrentVisibleTooltip == this)
-                TooltipHostBase.CurrentVisibleTooltip = null;
+            if (TooltipHost.CurrentVisibleTooltip == this)
+                TooltipHost.CurrentVisibleTooltip = null;
         }
     }
 }

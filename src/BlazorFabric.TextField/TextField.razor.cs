@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class TextFieldBase : FabricComponentBase
+    public partial class TextField : FabricComponentBase
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class PersonaPresenceBase : FabricComponentBase
+    public partial class PersonaPresence : FabricComponentBase
     {
         [Parameter] public int CoinSize { get; set; }
         [Parameter] public bool IsOutOfOffice { get; set; }
@@ -45,10 +45,10 @@ namespace BlazorFabric
         {
             if (CoinSize != -1)
             {
-                return $"width:{_presenceHeightWidth}px;height:{_presenceHeightWidth}px;";
+                return $"width:{_presenceHeightWidth}px;height:{_presenceHeightWidth}px;{Style}";
             }
             else
-                return "";
+                return Style;
         }
 
         protected string GetIconStyle()

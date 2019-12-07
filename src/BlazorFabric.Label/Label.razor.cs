@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class LabelBase : FabricComponentBase
+    public partial class Label : FabricComponentBase
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }

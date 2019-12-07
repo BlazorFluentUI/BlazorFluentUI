@@ -9,11 +9,8 @@ using System.Windows.Input;
 
 namespace BlazorFabric
 {
-    public class ContextualMenuBase : FabricComponentBase, IDisposable
-    {
-        internal ContextualMenuBase() { }
-
-
+    public partial class ContextualMenu : FabricComponentBase, IDisposable
+    {      
         [Parameter] public bool AlignTargetEdge { get; set; }
         //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public int BeakWidth { get; set; } = 16;
@@ -37,8 +34,8 @@ namespace BlazorFabric
         [Parameter] public bool UseTargetAsMinWidth { get; set; } = false;
 
         [Parameter] public EventCallback<bool> OnDismiss { get; set; }
-        [Parameter] public EventCallback<ContextualMenuBase> OnMenuDismissed { get; set; }
-        [Parameter] public EventCallback<ContextualMenuBase> OnMenuOpened { get; set; }
+        [Parameter] public EventCallback<ContextualMenu> OnMenuDismissed { get; set; }
+        [Parameter] public EventCallback<ContextualMenu> OnMenuOpened { get; set; }
 
         [Parameter] public bool IsSubMenu { get; set; } = false;
 

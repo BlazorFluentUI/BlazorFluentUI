@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class IconBase : FabricComponentBase
+    public partial class Icon : FabricComponentBase
     {
         [Parameter] public string IconName { get; set; }
         //[Parameter] public string AriaLabel { get; set; }

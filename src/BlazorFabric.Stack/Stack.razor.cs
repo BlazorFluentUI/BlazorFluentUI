@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class StackBase : FabricComponentBase
+    public partial class Stack : FabricComponentBase
     {
         protected double rowGap;
         protected double columnGap;

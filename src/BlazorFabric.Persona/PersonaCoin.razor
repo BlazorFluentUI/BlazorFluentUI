@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFabric
-@inherits PersonaCoinBase
+@inherits FabricComponentBase
 
-<div class=@($"{ClassName} mediumFont ms-Persona-coin")>
+<div class=@($"{ClassName} mediumFont ms-Persona-coin") style=@Style>
     @if(Size != PersonaSize.Size8)
     {
     <div class="ms-Persona-imageArea" style=@GetImageAreaStyle()>

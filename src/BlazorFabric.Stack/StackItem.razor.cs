@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public class StackItemBase : FabricComponentBase
+    public partial class StackItem : FabricComponentBase
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
 

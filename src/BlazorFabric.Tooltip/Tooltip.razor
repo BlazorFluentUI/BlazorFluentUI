@@ -1,11 +1,11 @@
 ﻿@namespace BlazorFabric
-@inherits TooltipBase
+@inherits FabricComponentBase
 
 
-<Callout ClassName="mediumFont fadeIn200 ms-Tooltip"
+<Callout ClassName=@($"mediumFont fadeIn200 ms-Tooltip {ClassName}")
          FabricComponentTarget=@FabricComponentTarget
          DirectionalHint=@DirectionalHint
-         Style=@($"max-width:{MaxWidth}px;")
+         Style=@($"max-width:{MaxWidth}px;{Style}")
          BeakWidth=@BeakWidth
          GapSpace="0"
          DoNotLayer="false"

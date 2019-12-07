@@ -11,7 +11,7 @@ using System.Timers;
 
 namespace BlazorFabric
 {
-    public class PanelBase : FabricComponentBase, IDisposable
+    public partial class Panel : FabricComponentBase, IDisposable
     {
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
@@ -119,7 +119,7 @@ namespace BlazorFabric
 
         private bool _jsAvailable = false;
 
-        public PanelBase()
+        public Panel()
         {
             Debug.WriteLine("Panel Created");
             _animationTimer = new Timer();

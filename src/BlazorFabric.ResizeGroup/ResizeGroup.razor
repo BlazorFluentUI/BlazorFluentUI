@@ -1,10 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Components.Web
 @using Microsoft.JSInterop
 @namespace BlazorFabric
-@inherits ResizeGroupBase<TItem>
-@typeparam TItem 
+@inherits FabricComponentBase
+@typeparam TObject 
 
-<div class="ms-ResizeGroup" @ref="RootElementReference">
+<div class=@($"ms-ResizeGroup {ClassName}")
+     style=@Style
+     @ref="RootElementReference">
     <div style=@hiddenParentStyles>
         @if (_dataNeedsMeasuring && !_isInitialMeasure)
         {

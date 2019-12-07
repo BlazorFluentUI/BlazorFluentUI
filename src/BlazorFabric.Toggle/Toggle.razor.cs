@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class ToggleBase : FabricComponentBase
+    public partial class Toggle : FabricComponentBase
     {
         //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public bool? Checked { get; set; }
@@ -54,6 +54,7 @@ namespace BlazorFabric
             if (onOffMissing)
                 classNames += " ms-Toggle--onOffMissing";
 
+            classNames += $" {ClassName}";
 
             return classNames;
         }

@@ -1,9 +1,10 @@
 ﻿@namespace BlazorFabric
-@inherits NavFabricLinkBase
+@inherits FabricComponentBase
 @using Microsoft.AspNetCore.Components.Web
 
 <li role="listitem"
-    class="ms-Nav-navItem"
+    class=@($"ms-Nav-navItem {ClassName}")
+    style=@Style
     @ref="RootElementReference">
     <div class=@($"ms-Nav-compositeLink {(isExpanded?"is-expanded":"")} {(Disabled?"is-disabled":"")} {(isSelected?"is-selected":"")} {(IsButton?"is-button":"")} {depthClass}")>
         @if (this.ChildContent != null)

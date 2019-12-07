@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class ImageBase : FabricComponentBase
+    public partial class Image : FabricComponentBase
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
 

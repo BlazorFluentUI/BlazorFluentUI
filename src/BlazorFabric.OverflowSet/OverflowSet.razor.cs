@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class OverflowSetBase<TItem> : FabricComponentBase 
+    public partial class OverflowSet<TItem> : FabricComponentBase
     {
         [Parameter] public bool Vertical { get; set; }
         [Parameter] public IEnumerable<TItem> Items { get; set; }
@@ -25,7 +25,7 @@ namespace BlazorFabric
         //protected System.Collections.Generic.List<TItem> calculatedItems;
         //protected System.Collections.Generic.List<TItem> calculatedOverflowItems;
 
-        protected FocusZoneBase focusZoneComponent;
+        protected FocusZone focusZoneComponent;
 
         protected override Task OnParametersSetAsync()
         {

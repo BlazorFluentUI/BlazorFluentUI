@@ -1,15 +1,16 @@
 ﻿@namespace BlazorFabric
-@inherits TooltipHostBase
+@inherits FabricComponentBase
 
 
-<div class="ms-TooltipHost"
+<div class=@($"ms-TooltipHost {ClassName}")
+     style=@Style
      @ref=@RootElementReference
      @onfocus=@(ev => OnTooltipMouseEnter(null))
      @onblur=@(ev => OnTooltipMouseLeave(null))
      @onmouseenter=@OnTooltipMouseEnter
      @onmouseleave=@OnTooltipMouseLeave
      @onkeydown=@OnTooltipKeyDown>
- 
+
     @ChildContent
 
     @if (IsTooltipVisible)

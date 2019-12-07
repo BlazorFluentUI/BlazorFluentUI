@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BlazorFabric
 {
 
-    public class FocusZoneBase : FabricComponentBase, IDisposable
+    public partial class FocusZone : FabricComponentBase, IDisposable
     {
         [Inject] private IJSRuntime jsRuntime { get; set; }
 

@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorFabric
 {
-    public class ListBase<TItem> : FabricComponentBase, IDisposable
+    public partial class List<TItem> : FabricComponentBase, IDisposable
     {
         protected bool firstRender = false;
 

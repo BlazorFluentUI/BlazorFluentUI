@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class FocusTrapZoneBase : FabricComponentBase, IDisposable
+    public partial class FocusTrapZone : FabricComponentBase, IDisposable
     {
-        protected static Stack<FocusTrapZoneBase> _focusStack = new Stack<FocusTrapZoneBase>();
+        protected static Stack<FocusTrapZone> _focusStack = new Stack<FocusTrapZone>();
 
         [Inject]
         private IJSRuntime jsRuntime { get; set; }

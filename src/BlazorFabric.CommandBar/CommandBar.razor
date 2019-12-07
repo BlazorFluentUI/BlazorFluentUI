@@ -1,10 +1,13 @@
 ﻿@namespace BlazorFabric
-@inherits CommandBarBase
+@inherits FabricComponentBase
 
 
 <ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
-                Data=@_currentData
-                GetCacheKey=@(x => x.CacheKey)>
+             Data=@_currentData
+             GetCacheKey=@(x => x.CacheKey)
+             ClassName=@ClassName
+             Style=@Style
+             >
     <DataTemplate Context="data">
         <div class="mediumFont ms-CommandBar" role="menubar">
             @*Primary*@

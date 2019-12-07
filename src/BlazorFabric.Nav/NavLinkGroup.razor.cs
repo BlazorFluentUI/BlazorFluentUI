@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class NavLinkGroupBase: FabricComponentBase
+    public partial class NavLinkGroup : FabricComponentBase
     {
         [Parameter] public bool CollapseByDefault { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -15,7 +15,7 @@ namespace BlazorFabric
 
         [CascadingParameter] protected string ExpandButtonAriaLabel { get; set; }
 
-        [Parameter] public EventCallback<NavLinkGroupBase> OnClick { get; set; }
+        [Parameter] public EventCallback<NavLinkGroup> OnClick { get; set; }
 
         protected bool isExpanded = true;
 

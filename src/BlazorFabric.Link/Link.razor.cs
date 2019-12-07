@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class LinkBase : FabricComponentBase
+    public partial class Link : FabricComponentBase
     {
         [Parameter]
         public LinkType? Type { get; set; }

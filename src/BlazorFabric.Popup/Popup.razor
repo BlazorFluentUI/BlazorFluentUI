@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFabric
-@inherits PopupBase
+@inherits FabricComponentBase
 @using Microsoft.AspNetCore.Components.Web
 
 <div class=@ClassName
@@ -8,7 +8,7 @@
      aria-labelledby=@AriaLabelledBy
      aria-describedby=@AriaDescribedBy
      @onkeydown=@KeyDownHandler
-     style=@($"{this.Style}outline: none")
+     style=@($"outline: none;{this.Style}")
      @ref="RootElementReference">
     @ChildContent
 </div>

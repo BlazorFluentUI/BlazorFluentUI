@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace BlazorFabric
 {
-    public class PersonaBase : FabricComponentBase
+    public partial class Persona : FabricComponentBase
     {
         [Parameter] public bool AllowPhoneInitials { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }

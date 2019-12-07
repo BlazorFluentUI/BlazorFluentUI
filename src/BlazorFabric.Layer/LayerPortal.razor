@@ -1,15 +1,5 @@
 ﻿@namespace BlazorFabric
-@inherits LayerPortalBase
-@*@foreach (var pair in fragments)
-    {
-        <span @key=pair.Key
-              class=@($"ms-Layer mediumFont {(pair.Value.isFixed ? "ms-Layer--fixed" : "")}")
-              >
-            <div class="ms-Layer-content" ref="RootElementRef">
-                @pair.Value.fragment
-            </div>
-        </span>
-    }*@
+@inherits FabricComponentBase
 
 <CascadingValue Name="PortalId" Value=@Id>
     <span class=@($"ms-Layer mediumFont {this.Style}{(this.IsFixed ? " ms-Layer--fixed" : "")}")>

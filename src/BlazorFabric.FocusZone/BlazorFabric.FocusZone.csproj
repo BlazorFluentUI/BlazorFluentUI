@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="src\baseComponent.d.ts" />
+    <Compile Remove="src\**" />
+    <Content Remove="src\**" />
+    <EmbeddedResource Remove="src\**" />
+    <None Remove="src\**" />
+    <TypeScriptCompile Remove="src\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,11 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="src\" />
   </ItemGroup>
 
 

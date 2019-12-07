@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public class LayerPortalBase : FabricComponentBase, IDisposable
+    public partial class LayerPortal : FabricComponentBase, IDisposable
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public string Id { get; set; }

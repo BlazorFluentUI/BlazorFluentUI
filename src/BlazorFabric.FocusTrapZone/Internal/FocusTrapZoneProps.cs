@@ -20,7 +20,7 @@ namespace BlazorFabric.FocusTrapZoneInternal
         public ElementReference FirstBumper { get; set; }
         public ElementReference LastBumper { get; set; }
 
-        public FocusTrapZoneProps(FocusTrapZoneBase focusTrapZone, ElementReference firstBumper, ElementReference lastBumper)
+        public FocusTrapZoneProps(FocusTrapZone focusTrapZone, ElementReference firstBumper, ElementReference lastBumper)
         {
             Disabled = focusTrapZone.Disabled;
             DisableFirstFocus = focusTrapZone.DisableFirstFocus;

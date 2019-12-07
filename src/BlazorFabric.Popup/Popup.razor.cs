@@ -10,10 +10,8 @@ namespace BlazorFabric
     /**
      * This adds accessibility to Dialog and Panel controls
      */
-    public class PopupBase : FabricComponentBase
+    public partial class Popup : FabricComponentBase
     {
-        internal PopupBase() { }
-
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         [Parameter] public string Role { get; set; }

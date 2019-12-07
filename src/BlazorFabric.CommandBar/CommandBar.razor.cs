@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class CommandBarBase : ComponentBase
+    public partial class CommandBar : FabricComponentBase
     {
 
         [Parameter] public System.Collections.Generic.IEnumerable<ICommandBarItem> Items { get; set; }

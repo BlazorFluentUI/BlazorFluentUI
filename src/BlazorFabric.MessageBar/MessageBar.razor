@@ -1,9 +1,9 @@
 ﻿@namespace BlazorFabric
-@inherits MessageBarBase
+@inherits FabricComponentBase
 
 @if (IsMultiline)
 {
-    <div class="ms-MessageBar--root">
+    <div class=@($"ms-MessageBar--root {ClassName}") style=@Style>
         <div class=@($"ms-MessageBar ms-MessageBar-multiline {GetTypeCss()}")>
             <div class="ms-MessageBar-content">
 
@@ -39,7 +39,7 @@
 }
 else
 {
-    <div class="ms-MessageBar--root">
+    <div class=@($"ms-MessageBar--root {ClassName}") style=@Style>
         <div class=@($"ms-MessageBar ms-MessageBar-singleline {GetTypeCss()} {(Truncated ? "ms-MessageBar-expandingSingleLine" : "")} {(HasDismiss ? "ms-MessageBar-dismissalSingleLine" : "")}")>
             <div class="ms-MessageBar-content">
 

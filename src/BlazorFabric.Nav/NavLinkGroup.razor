@@ -1,9 +1,10 @@
 ﻿@namespace BlazorFabric
-@inherits NavLinkGroupBase
+@inherits FabricComponentBase
 @using Microsoft.AspNetCore.Components.Web
 
 <div key={groupIndex}
-     class=@($"ms-Nav-group {(this.isExpanded ? "is-expanded":"")}")
+     class=@($"ms-Nav-group {(this.isExpanded ? "is-expanded":"")} {ClassName}")
+     style=@Style
      @ref="RootElementReference">
     @if (Name != null)
     {

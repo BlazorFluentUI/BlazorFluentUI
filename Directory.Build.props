@@ -3,7 +3,7 @@
 <Project>
 
   <PropertyGroup>
-    <Authors>Lee McPherson</Authors>
+    <Authors>Multiple authors (see github repo)</Authors>
     <Owners>Lee McPherson</Owners>
     <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
     <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class CalloutContentBase : FabricComponentBase, IDisposable
+    public partial class CalloutContent : FabricComponentBase, IDisposable
     {
-        internal CalloutContentBase() { }
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
 

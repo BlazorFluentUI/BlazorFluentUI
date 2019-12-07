@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class CheckboxBase : FabricComponentBase
+    public partial class Checkbox : FabricComponentBase
     {
         [Parameter]
         public bool? Checked { get; set; }

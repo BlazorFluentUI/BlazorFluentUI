@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class CalendarBase : FabricComponentBase
+    public partial class Calendar : FabricComponentBase
     {
         [Parameter] public bool AllFocusable { get; set; } = false;
         [Parameter] public bool AutoNavigateOnSelection { get; set; } = false;

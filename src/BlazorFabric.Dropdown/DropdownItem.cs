@@ -18,7 +18,7 @@ namespace BlazorFabric
         [Parameter] public string Text { get; set; }
         [Parameter] public string Title { get; set; }
 
-        [CascadingParameter] protected DropdownBase<TItem> Dropdown { get; set; }
+        [CascadingParameter] protected Dropdown<TItem> Dropdown { get; set; }
 
         private bool isSelected = false;
 

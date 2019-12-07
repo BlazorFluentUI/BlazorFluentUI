@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class CalendarYearBase : FabricComponentBase
+    public partial class CalendarYear : FabricComponentBase
     {
         [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; }
         [Parameter] public int MaxYear { get; set; }

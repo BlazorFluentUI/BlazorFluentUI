@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFabric
-@inherits CalendarMonthBase
+@inherits FabricComponentBase
 
 @if (IsYearPickerVisible)
 {
@@ -10,9 +10,7 @@
                   OnHeaderSelect=@(focus => { focusOnUpdate = focus; IsYearPickerVisible = false; })
                   OnSelectYear=@OnSelectYear
                   SelectedYear=@(NavigatedDate.Year)
-                  NavigatedYear=@(NavigatedDate.Year)
-
-                  />
+                  NavigatedYear=@(NavigatedDate.Year) />
 }
 else
 {
@@ -34,7 +32,7 @@ else
             {
                 <div class="mediumFont ms-Calendar-currentYear">
                     @DateTimeFormatter.FormatYear(NavigatedDate)
-                </div> 
+                </div>
             }
             <div class="ms-Calendar-yearComponents">
                 <div class="ms-Calendar-navContainer">
@@ -46,13 +44,13 @@ else
                             title=@(PreviousYearAriaLabel + " " + NavigatedDate.AddYears(-1).ToString("yyy"))
                             role="button"
                             type="button">
-                        <Icon IconName="Up"/>
+                        <Icon IconName="Up" />
                     </button>
                     <button class=@($"ms-Calendar-nextYear {(!IsNextYearInBounds ? "ms-Calendar-nextYearIsDisabled" : "")}")
                             aria-disabled=@(!IsNextYearInBounds)
                             disabled=@(!IsNextYearInBounds)
                             aria-controls=@MonthPickerId
-                            @onclick=@(args => { if (IsNextYearInBounds) OnSelectNextYear(); }) 
+                            @onclick=@(args => { if (IsNextYearInBounds) OnSelectNextYear(); })
                             title=@(NextYearAriaLabel + " " + NavigatedDate.AddYears(1).ToString("yyy"))
                             role="button"
                             type="button">
@@ -63,17 +61,17 @@ else
         </div>
         <FocusZone>
             <div class="ms-Calendar-optionGrid" role="grid" aria-readonly="true">
-                
+
                 @foreach (var rowNum in RowIndexes)
                 {
                     var monthsForRow = ShortMonthNames.Skip(rowNum * 4).Take(4).ToArray();
                     <div @key=@($"monthRow_{rowNum}") role="row">
-                        @for (var i=0; i<monthsForRow.Length; i++)
+                        @for (var i = 0; i < monthsForRow.Length; i++)
                         {
                             var index = i;
                             var month = monthsForRow[index];
                             var monthIndex = rowNum * 4 + index;
-                            var indexedMonth = NavigatedDate.AddMonths((monthIndex + 1) - NavigatedDate.Month );
+                            var indexedMonth = NavigatedDate.AddMonths((monthIndex + 1) - NavigatedDate.Month);
                             //var isCurrentMonth = (monthIndex + 1 == Today.Month && NavigatedDate.Year == Today.Year);
                             var isNavigatedMonth = NavigatedDate.Month == (monthIndex + 1);
                             //var isSelectedMonth = SelectedDate.Month == (monthIndex + 1);

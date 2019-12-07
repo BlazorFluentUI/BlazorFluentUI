@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class CalloutBase : FabricComponentBase
+    public partial class Callout : FabricComponentBase
     {
-        internal CalloutBase() { }
-
         //[Inject] private IComponentContext ComponentContext { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
 

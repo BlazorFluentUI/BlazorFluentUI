@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class CalendarDayBase : FabricComponentBase
+    public partial class CalendarDay : FabricComponentBase
     {
         [Parameter] public bool AllFocusable { get; set; }
         [Parameter] public bool AutoNavigateOnSelection { get; set; }

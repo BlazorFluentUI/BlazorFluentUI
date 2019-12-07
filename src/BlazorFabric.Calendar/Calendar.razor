@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFabric
-@inherits CalendarBase
+@inherits FabricComponentBase
 
 <div class=@($"ms-Calendar {ClassName}") role="application" @ref="RootElementReference" style=@Style>
     <div class=@($"ms-Calendar-picker ms-Calendar-pickerIsOpened ms-Calendar-pickerIsFocused{(IsMonthPickerVisibleInternal ? " ms-Calendar-monthPickerVisible" : "")}{(IsMonthPickerVisibleInternal && IsDayPickerVisibleInternal ? " ms-Calendar-calendarsInline" : "")}{(!ShowMonthPickerAsOverlay && !IsDayPickerVisibleInternal ? " ms-Calendar-monthPickerOnly" : "")}{(ShowMonthPickerAsOverlay ? " ms-Calendar-monthPickerAsOverlay" : "")}")>

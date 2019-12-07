@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class DatePickerBase : FabricComponentBase
+    public partial class DatePicker : FabricComponentBase
     {
         [Parameter] public bool AllFocusable { get; set; } = false;
         [Parameter] public bool AllowTextInput { get; set; } = false;

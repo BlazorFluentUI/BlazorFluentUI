@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFabric
-@inherits CalloutContentBase
+@inherits FabricComponentBase
 
 <div class="ms-Callout-container" @ref="RootElementReference" style=@($"{(this.Hidden ? "visibility: hidden;" : "" )}")>
     <div class=@($"ms-Callout mediumFont {GetAnimationStyle()} {CalloutPosition.TargetEdge.ToString()} {ClassName}")
@@ -22,6 +22,3 @@
     </div>
 </div>
 
-@code {
-
-    }

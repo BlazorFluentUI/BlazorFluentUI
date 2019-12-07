@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class DropdownBase<TItem> : FabricComponentBase
+    public partial class Dropdown<TItem> : FabricComponentBase
     {
         //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }

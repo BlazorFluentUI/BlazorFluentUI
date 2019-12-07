@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFabric
-@inherits CalendarYearBase
+@inherits FabricComponentBase
 
 <div class="ms-Calendar-yearPicker">
     <div class="ms-Calendar-header">
@@ -44,7 +44,7 @@
     </div>
     <FocusZone>
         <div class="ms-Calendar-optionGrid"
-                role="grid">
+             role="grid">
             <div role="row">
                 @for (var year = FromYear; year < FromYear + 12; year++)
                 {

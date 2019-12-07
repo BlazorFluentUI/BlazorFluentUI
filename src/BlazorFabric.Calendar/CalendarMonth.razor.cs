@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class CalendarMonthBase : FabricComponentBase
+    public partial class CalendarMonth : FabricComponentBase
     {
         [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; }
         [Parameter] public bool HighlightCurrentMonth { get; set; }

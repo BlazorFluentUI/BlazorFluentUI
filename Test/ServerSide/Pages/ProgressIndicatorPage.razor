@@ -5,7 +5,7 @@
 <ProgressIndicator PercentComplete=@progressValue
                    Style="margin:15px;"
                    Description="Sample Description"
-                   Label="Progress Indicator with PercentComplete value" />
+                   Label="Progress Indicator with PercentComplete" />
 
 <ProgressIndicator Description="Sample Description"
                    Indeterminate="true"
@@ -14,8 +14,8 @@
 
 @code {
 
-    double progressValue = 0;
-    const double INTERVAL_INCREMENT = 0.01;
+    decimal progressValue = 0;
+    const decimal INTERVAL_INCREMENT = 0.01M;
     System.Timers.Timer timer;
 
     override protected Task OnInitializedAsync()
@@ -40,7 +40,7 @@
         InvokeAsync(() =>
         {
             progressValue += INTERVAL_INCREMENT;
-            if (progressValue >= 1.0)
+            if (progressValue > 1)
             {
                 progressValue = 0;
             }

@@ -1,0 +1,25 @@
+﻿/*
+    This file is to show how CSS and other static resources (such as images) can be
+    used from a library project/package.
+*/
+
+.ms-text {
+    display: inline;
+    font-family: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+    .ms-text.ms-text--nowrap {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .ms-text.ms-text--block {
+        display: block;
+    }
+
+    .ms-text.ms-text--table {
+        display: table-cell;
+    }

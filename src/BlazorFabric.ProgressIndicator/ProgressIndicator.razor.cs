@@ -10,15 +10,15 @@ namespace BlazorFabric
     {
         // if the percentComplete is near 0, don't animate it.
         // This prevents animations on reset to 0 scenarios
-        const double ZERO_THRESHOLD = 0.01;
+        const decimal ZERO_THRESHOLD = 0.01M;
 
         [Parameter] public string AriaValueText { get; set; }
         [Parameter] public double BarHeight { get; set; } = 2;
         [Parameter] public string Description { get; set; }
         [Parameter] public bool Indeterminate { get; set; } = false;
         [Parameter] public string Label { get; set; }
-        [Parameter] public RenderFragment<double> RenderProgressTemplate { get; set; }
-        [Parameter] public double PercentComplete { get; set; }
+        [Parameter] public RenderFragment<decimal> RenderProgressTemplate { get; set; }
+        [Parameter] public decimal PercentComplete { get; set; } = -1;
         [Parameter] public bool ProgressHidden { get; set; }
 
         protected string AriaValueMin;
@@ -26,23 +26,23 @@ namespace BlazorFabric
         protected string AriaValueNow;
 
 
-        private double _percent = double.NaN;
+        private decimal _percent = -1;
 
         protected override Task OnParametersSetAsync()
         {
-            if (!double.IsNaN(PercentComplete))
+            if (PercentComplete >= 0)
             {
                 _percent = Math.Min(100, Math.Max(0, PercentComplete * 100));
             }
             else
             {
-                _percent = double.NaN;
+                _percent = -1;
             }
 
 
-            AriaValueMin = double.IsNaN(_percent) ? null : "0";
-            AriaValueMax = double.IsNaN(_percent) ? null : "100";
-            AriaValueNow = double.IsNaN(_percent) ? null : Math.Floor(_percent).ToString();
+            AriaValueMin = _percent >= 0 ? null : "0";
+            AriaValueMax = _percent >= 0 ? null : "100";
+            AriaValueNow = _percent >= 0 ? null : _percent.ToString();
 
             return base.OnParametersSetAsync();
         }
@@ -59,9 +59,10 @@ namespace BlazorFabric
         {
             string styles = "";
 
-            if (!double.IsNaN(_percent))
+            if (_percent >= 0)
             {
-                styles += $"width: {_percent}%;";
+                // Replace ',' with '.' to support also comma seperated percatage values and prevent jump back to 0
+                styles += $"width: {_percent.ToString().Replace(',','.')}%;";
                 if (PercentComplete < ZERO_THRESHOLD)
                 {
                     styles += "transition: none;";

@@ -146,7 +146,7 @@ https://blazorfabric.azurewebsites.net/
 | Selection        |    ToDo     |                                       |
 | Separator        |    ToDo     |                                       |
 | Stack            |    Done     |                                       |
-| Text             |    ToDo     |                                       |
+| Text             |    Done     | only MS Styles work                   |
 | Themes           |    ToDo     |                                       |
  
 

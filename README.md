@@ -56,30 +56,99 @@ https://blazorfabric.azurewebsites.net/
     - Breaking changes: Changed all namespaces to `BlazorFabric`.  No more sub-namespaces using the control's name.
 
 ## Status of Controls
-- Label -done
-- DefaultButton, PrimaryButton, ActionButton, IconButton, CommandButton -working
-- Checkbox -done, except for icons
-- List -supports `INotifyCollectionChanged`, works!
-- TextField -done, except for icons and masking
-- Icon, only MS icons 
-- Nav -done!
-- ContextualMenu - done! 
-- Callout (part of ContextMenu) - done!
-- Layer (part of Callout, Panel, etc) -done?  only layers at root window right now.
-- Dropdown -done!
-- Modal -done!, no modeless version
-- CommandBar - done!
-- ResizeGroup - done!
-- OverflowSet - done!
-- FocusTrapZone - done!
-- Panel - done!
-- Spinner - done!
-- Tooltip - limited functionality.  will show, but can't interact with it yet, doesn't respond to overflow yet.
-- Persona - done?
-- Image - done!
-- Spinner - done!
-- Toggle - done!
-- ProgressIndicator - done!
+
+### Basic Inputs
+| Control     | State | Information      |
+| :---------- | :---: | :--------------- |
+| Button      | Done  |                  |
+| Checkbox    | Done  | except for icons |
+| ChoiceGroup | ToDo  |                  |
+| ComboBox    | ToDo  |                  |
+| Dropdown    | Done  |                  |
+| Label       | Done  |                  |
+| Link        | Done  |                  |
+| Rating      | Done  |                  |
+| SearchBox   | ToDo  |                  |
+| Slider      | ToDo  |                  |
+| SpinButton  | ToDo  |                  |
+| TextField   | Done  | except masking   |
+| Toggle      | Done  |                  |
+
+### Galleries & Pickers
+| Control           | State | Information |
+| :---------------- | :---: | :---------- |
+| Calendar          | Done  |             |
+| ColorPicker       | ToDo  |             |
+| DatePicker        | Done  |             |
+| PeoplePicker      | ToDo  |             |
+| Pickers           | ToDo  |             |
+| SwatchColorPicker | ToDo  |             |
+
+### Items & Lists
+| Control      | State | Information                         |
+| :----------- | :---: | :---------------------------------- |
+| ActivityItem | ToDo  |                                     |
+| DetailsList  | ToDo  |                                     |
+| DocumentCard | ToDo  |                                     |
+| Facepile     | ToDo  |                                     |
+| GroupedList  | ToDo  |                                     |
+| HoverCard    | ToDo  |                                     |
+| List         | Done  | supports `INotifyCollectionChanged` |
+| Persona      | Done  |                                     |
+
+### Commands, Menus & Navs
+| Control        | State | Information |
+| :------------- | :---: | :---------- |
+| Breadcrumb     | ToDo  |             |
+| CommandBar     | Done  |             |
+| ContextualMenu | Done  |             |
+| Nav            | Done  |             |
+| OverflowSet    | Done  |             |
+| Pivot          | ToDo  |             |
+
+### Notification & Engagement
+| Control        | State | Information |
+| :------------- | :---: | :---------- |
+| Coachmark      | ToDo  |             |
+| MessageBar     | Done  |             |
+| TeachingBubble | ToDo  |             |
+
+### Progress
+| Control           | State | Information |
+| :---------------- | :---: | :---------- |
+| ProgressIndicator | Done  |             |
+| Shimmer           | ToDo  |             |
+| Spinner           | Done  |             |
+
+### Surfaces
+| Control        |    State    | Information                                                                                         |
+| :------------- | :---------: | :-------------------------------------------------------------------------------------------------- |
+| Callout        |    Done     |                                                                                                     |
+| Dialog         |    ToDo     |                                                                                                     |
+| Modal          |    Done     | no modeless version                                                                                 |
+| Panel          |    Done     |                                                                                                     |
+| ScrollablePane |    ToDo     |                                                                                                     |
+| Tooltip        | In Progress | limited functionality.  will show, but can't interact with it yet, doesn't respond to overflow yet. |
+
+### Utilities
+| Control          |    State    | Information                           |
+| :--------------- | :---------: | :------------------------------------ |
+| Announced        |    ToDo     |                                       |
+| FocusTrapZone    |    Done     |                                       |
+| FocusZone        |    Done     |                                       |
+| Icon             |    Done     | only MS icons                         |
+| Image            |    Done     |                                       |
+| Keytips          |    ToDo     |                                       |
+| Layer            | In Progress | only layers at root window right now. |
+| MarqueeSelection |    ToDo     |                                       |
+| Overlay          |    ToDo     |                                       |
+| ResizeGroup      |    Done     |                                       |
+| Selection        |    ToDo     |                                       |
+| Separator        |    ToDo     |                                       |
+| Stack            |    Done     |                                       |
+| Text             |    ToDo     |                                       |
+| Themes           |    ToDo     |                                       |
+ 
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 

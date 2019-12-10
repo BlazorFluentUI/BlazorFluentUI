@@ -17,7 +17,7 @@ namespace BlazorFabric
             //base.BuildRenderTree(builder);
 
             builder.OpenElement(0, As);
-            builder.AddAttribute(1, "class", $"ms-text {(Block ? (As == "td" ? "ms-text--table" : "ms-text--block") : "")} {(NoWrap ? "ms-text--nowrap" : "")}" );
+            builder.AddAttribute(1, "class", $"ms-text {(Block ? (As == "td" ? "ms-text--table" : "ms-text--block") : "")} {(NoWrap ? "ms-text--nowrap" : "")} {(Variant != TextType.None ? "ms-text--" + CssUtils.TextTypeMap[Variant] : "")}" );
             builder.AddContent(2, ChildContent);
             builder.CloseElement();
         }

@@ -4,9 +4,6 @@
         <StackItem Grow="0" VerticalFill="false">
             <div class="top-row pl-4 navbar navbar-dark">
                 <a class="navbar-brand" href=""><b>BlazorFabric Demo</b></a>
-                @*<button class="navbar-toggler" @onclick="@ToggleNavMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>*@
             </div>
         </StackItem>
 
@@ -63,7 +60,7 @@
 
 @code {
 
-    [Parameter] public EventCallback<NavFabricLinkBase> OnLinkClicked { get; set; }
+    [Parameter] public EventCallback<NavFabricLink> OnLinkClicked { get; set; }
 
     bool collapseNavMenu = true;
 

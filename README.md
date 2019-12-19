@@ -5,6 +5,9 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
+- upcoming
+	- Added `Text`
+	- Upgraded `TextField` with PrefixContent and SuffixContent for non-text-only content
 - v2.0.0
 	- Upgraded entire project to aspnetcore 3.1 (enables partial classes, stopProgation, preventDefault, and others)
 	- Upgraded demos to aspnetcore 3.1 and netstandard 2.1

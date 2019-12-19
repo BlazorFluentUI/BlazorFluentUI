@@ -2,7 +2,7 @@
 
 <h2>Basic TextField</h2>
 <div class="textFieldDiv">
-    <TextField Label="TextField" Description="Field description"/>
+    <TextField Label="TextField" />
 </div>
 <div class="textFieldDiv">
     <TextField Label="TextField with PostalCode autocomplete" AutoComplete="AutoComplete.PostalCode" />
@@ -29,8 +29,8 @@
     <TextField Label="With Error" ErrorMessage="there is an error" />
 </div>
 @*<div class="textFieldDiv">
-    <TextField Label="With Input Mask" MaskChar="+" />
-</div>*@
+        <TextField Label="With Input Mask" MaskChar="+" />
+    </div>*@
 <div class="textFieldDiv">
     <TextField Label="With Placeholder" Placeholder="placeholder text" />
 </div>
@@ -41,10 +41,24 @@
     <TextField Label="Disabled Placeholder" Placeholder="placeholder text" Disabled="true" />
 </div>
 <div class="textFieldDiv">
-    <TextField Label="With Prefix" Prefix="https://" />
+    <TextField Label="With Prefix (text only)" Prefix="https://" />
 </div>
 <div class="textFieldDiv">
-    <TextField Label="With Suffix" Suffix="bananas" />
+    <TextField Label="With PrefixContent (custom content)">
+        <PrefixContent>
+            <Icon IconName="Add" />
+        </PrefixContent>
+    </TextField>
+</div>
+<div class="textFieldDiv">
+    <TextField Label="With Suffix (text only)" Suffix="bananas" />
+</div>
+<div class="textFieldDiv">
+    <TextField Label="With SuffixContent (custom content)">
+        <SuffixContent>
+            <Icon IconName="Home" />
+        </SuffixContent>
+    </TextField>
 </div>
 <div class="textFieldDiv">
     <TextField Label="With Prefix & Suffix" Prefix="Dr." Suffix="Esquire" />

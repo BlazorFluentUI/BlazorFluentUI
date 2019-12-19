@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29411.138
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Test.ServerSide", "Test\ServerSide\BlazorFabric.Test.ServerSide.csproj", "{6FAAF245-D389-428E-A1F4-C5BC5779C5CE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D1AA4FD9-DC30-46D9-9CEB-368396C01954} = {D1AA4FD9-DC30-46D9-9CEB-368396C01954}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{ACA6BA0A-2438-4FA1-AD35-B6C176EB4993}"
 EndProject
@@ -107,6 +110,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.DatePicker", "src\BlazorFabric.DatePicker\BlazorFabric.DatePicker.csproj", "{EB377F06-1430-4E77-98C8-B8651BDED2B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Pivot", "src\BlazorFabric.Pivot\BlazorFabric.Pivot.csproj", "{BEB13581-C0F5-46F2-A05F-1A5447171989}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.Text", "src\BlazorFabric.Text\BlazorFabric.Text.csproj", "{D1AA4FD9-DC30-46D9-9CEB-368396C01954}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -282,6 +287,10 @@ Global
 		{BEB13581-C0F5-46F2-A05F-1A5447171989}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEB13581-C0F5-46F2-A05F-1A5447171989}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEB13581-C0F5-46F2-A05F-1A5447171989}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1AA4FD9-DC30-46D9-9CEB-368396C01954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1AA4FD9-DC30-46D9-9CEB-368396C01954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1AA4FD9-DC30-46D9-9CEB-368396C01954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1AA4FD9-DC30-46D9-9CEB-368396C01954}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -331,6 +340,7 @@ Global
 		{C86B034B-954B-4F5F-BB5A-A7AB28F0C7E2} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{EB377F06-1430-4E77-98C8-B8651BDED2B2} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{BEB13581-C0F5-46F2-A05F-1A5447171989} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{D1AA4FD9-DC30-46D9-9CEB-368396C01954} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

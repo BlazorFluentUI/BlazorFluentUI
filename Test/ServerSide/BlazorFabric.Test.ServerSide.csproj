@@ -37,6 +37,7 @@
     <ProjectReference Include="..\..\src\BlazorFabric.Spinner\BlazorFabric.Spinner.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Stack\BlazorFabric.Stack.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.TextField\BlazorFabric.TextField.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.Text\BlazorFabric.Text.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Toggle\BlazorFabric.Toggle.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Tooltip\BlazorFabric.Tooltip.csproj" />
   </ItemGroup>

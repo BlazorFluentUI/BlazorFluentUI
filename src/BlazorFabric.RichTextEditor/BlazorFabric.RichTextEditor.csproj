@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\quill.d.ts" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.0" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.7.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFabric.CommandBar\BlazorFabric.CommandBar.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="src\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\richTextEditor.js" />
+  </ItemGroup>
+
+</Project>

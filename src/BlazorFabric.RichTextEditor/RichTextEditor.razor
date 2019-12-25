@@ -1,0 +1,13 @@
+﻿@namespace BlazorFabric
+@inherits FabricComponentBase
+
+    <div class=@($"bf-richTextEditor {this.ClassName}{(Disabled ? " is-disabled" : "")}")
+         style=@Style>
+        <CommandBar Items=@items ClassName="bf-richTextEditor-commandBar"/>
+        <div @ref=@RootElementReference
+             @onkeydown=@UpdateFormatStateAsync
+             @onmousedown=@UpdateFormatStateAsync
+             class="bf-richTextEditor-editor">
+
+        </div>
+    </div>

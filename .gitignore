@@ -359,3 +359,4 @@ healthchecksdb
 /src/BlazorFabric.Modal/assetPrefs.xml
 /NugetKey.txt
 /nugetInfo.txt
+/src/BlazorFabric.RichTextEditor/src/quill-1.3.7

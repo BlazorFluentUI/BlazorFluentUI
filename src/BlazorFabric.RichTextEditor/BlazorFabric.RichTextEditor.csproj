@@ -27,11 +27,6 @@
 
 
   <ItemGroup>
-    <Folder Include="src\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <TypeScriptCompile Include="wwwroot\richTextEditor.js" />
   </ItemGroup>
 

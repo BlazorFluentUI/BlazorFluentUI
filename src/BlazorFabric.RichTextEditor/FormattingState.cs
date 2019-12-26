@@ -21,5 +21,6 @@ namespace BlazorFabric
 
         [JsonPropertyName("subscript")]
         public bool Subscript { get; set; }
+
     }
 }

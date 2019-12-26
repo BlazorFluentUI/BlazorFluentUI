@@ -21,9 +21,4 @@
     <ProjectReference Include="..\BlazorFabric.CommandBar\BlazorFabric.CommandBar.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\richTextEditor.js" />
-  </ItemGroup>
-
 </Project>

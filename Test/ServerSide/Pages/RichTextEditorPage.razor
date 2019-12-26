@@ -2,8 +2,11 @@
 
 <h3>RichTextEditor</h3>
 
-<RichTextEditor />
+<RichTextEditor @bind-RichText=@htmlContents/>
+
+@htmlContents
 
 @code {
 
+    string htmlContents = "";
 }

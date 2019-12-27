@@ -6,9 +6,11 @@ https://blazorfabric.azurewebsites.net/
 
 ## Release Notes
 - upcoming
-	- Added `Text`
+	- Added `Text` (including custom styling)
 	- Upgraded `TextField` with PrefixContent and SuffixContent for non-text-only content
 	- Added non-Fabric `RichTextEditor` that uses Fabric controls (more functions TBA)
+	- Added `Dialog`
+	- Added non-Fabric `ComponentStyle` that uses unique css-class names for styles special for components and .Net-Classes to create css-classes to be more flexible in component-styling
 - v2.0.0
 	- Upgraded entire project to aspnetcore 3.1 (enables partial classes, stopProgation, preventDefault, and others)
 	- Upgraded demos to aspnetcore 3.1 and netstandard 2.1
@@ -152,7 +154,13 @@ https://blazorfabric.azurewebsites.net/
 | Stack            |    Done     |                                       |
 | Text             |    Done     | only MS Styles work                   |
 | Themes           |    ToDo     |                                       |
- 
+
+### Non-Fabric-Component
+| Control          |    State    | Information                           |
+| :--------------- | :---------: | :------------------------------------ |
+| ResponsiveLayout |    Done     |                                       |
+| RichTextEditor   | In Progress |                                       |
+| ComponentStyle   | In Progress |                                       |
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 
@@ -178,3 +186,8 @@ Use the tool here to generate your own MS font package: https://uifabricicons.az
 </BlazorFabric.Layer.LayerHost>
 ```
 
+5. Add "AddBlazorFabric" to Startup.cs in Service-Configuration-Method
+
+```
+	services.AddBlazorFabric();
+```

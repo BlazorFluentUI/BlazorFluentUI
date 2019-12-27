@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFabric.ComponentStyle\BlazorFabric.ComponentStyle.csproj" />
   </ItemGroup>
 
 </Project>

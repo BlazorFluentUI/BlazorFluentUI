@@ -10,12 +10,26 @@
         This area can have other components.
     </ChildContent>
     <FooterTemplate>
-        This is the footer area.
-        <DefaultButton Text="Cancel" />
-        <PrimaryButton Text="OK" />
+        <DefaultButton Text="Cancel" OnClick=@(args=> dialogOpen=false) />
+        <PrimaryButton Text="OK" OnClick=@(args=> dialogOpen=false) />
+    </FooterTemplate>
+</Dialog>
+
+<DefaultButton Text="Open Large Dialog" OnClick=@(args=> largeDialogOpen=true) />
+<Dialog Title="This is a large dialog menu."
+        IsOpen=@largeDialogOpen
+        DialogType=@DialogType.LargeHeader
+        OnDismiss=@(args=> largeDialogOpen=false )>
+    <ChildContent>
+        This area can have other components.
+    </ChildContent>
+    <FooterTemplate>
+        <DefaultButton Text="Cancel" OnClick=@(args=> largeDialogOpen=false) />
+        <PrimaryButton Text="OK" OnClick=@(args=> largeDialogOpen=false) />
     </FooterTemplate>
 </Dialog>
 
 @code {
     bool dialogOpen = false;
+        bool largeDialogOpen = false;
 }

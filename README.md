@@ -9,6 +9,7 @@ https://blazorfabric.azurewebsites.net/
 	- Added `Text`
 	- Upgraded `TextField` with PrefixContent and SuffixContent for non-text-only content
 	- Added non-Fabric `RichTextEditor` that uses Fabric controls (more functions TBA)
+	- Added `Dialog`
 - v2.0.0
 	- Upgraded entire project to aspnetcore 3.1 (enables partial classes, stopProgation, preventDefault, and others)
 	- Upgraded demos to aspnetcore 3.1 and netstandard 2.1

@@ -133,7 +133,7 @@ https://t.me/blazorfabric
 | Control        |    State    | Information                                                                                         |
 | :------------- | :---------: | :-------------------------------------------------------------------------------------------------- |
 | Callout        |    Done     |                                                                                                     |
-| Dialog         |    ToDo     |                                                                                                     |
+| Dialog         |    Done     | can't drag                                                                                          |
 | Modal          |    Done     | no modeless version                                                                                 |
 | Panel          |    Done     |                                                                                                     |
 | ScrollablePane |    ToDo     |                                                                                                     |

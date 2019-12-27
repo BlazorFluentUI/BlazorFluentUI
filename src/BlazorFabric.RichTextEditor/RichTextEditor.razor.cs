@@ -42,13 +42,25 @@ namespace BlazorFabric
                 var item = items.FirstOrDefault(x => x.Key == p.ToString());
                 if (item != null)
                 {
-                    if (!item.Checked)
-                        await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant());
+                    if (item.CanCheck)
+                    {
+                        if (!item.Checked)
+                            await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant());
+                        else
+                            await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant(), false);
+                        item.Checked = !item.Checked;
+                    }
                     else
-                        await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant(), false);
+                    {
+                        switch (item.Key)
+                        {
+                            case "Image":
 
+                                //await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, "image", "";
+                                break;
+                        }
 
-                    item.Checked = !item.Checked;
+                    }
                 }
                 StateHasChanged();
             });
@@ -95,7 +107,9 @@ namespace BlazorFabric
                 new CommandBarItem() {Text= "Italic", CanCheck=true, IconOnly=true, IconName="Italic", Key="Italic", Command=buttonCommand, CommandParameter="Italic"},
                 new CommandBarItem() {Text= "Underline", CanCheck=true, IconOnly=true, IconName="Underline", Key="Underline", Command=buttonCommand, CommandParameter="Underline"},
                 new CommandBarItem() {Text= "Superscript", CanCheck=true, IconOnly=true, IconName="Superscript", Key="Superscript", Command=buttonCommand, CommandParameter="Superscript"},
-                new CommandBarItem() {Text= "Subscript", CanCheck=true, IconOnly=true, IconName="Subscript", Key="Subscript", Command=buttonCommand, CommandParameter="Subscript"}
+                new CommandBarItem() {Text= "Subscript", CanCheck=true, IconOnly=true, IconName="Subscript", Key="Subscript", Command=buttonCommand, CommandParameter="Subscript"},
+
+                new CommandBarItem() {Text= "Insert Image", CanCheck=false, IconOnly=true, IconName="ImagePixel", Key="Image", Command=buttonCommand, CommandParameter="Image"}
             };
         }
 

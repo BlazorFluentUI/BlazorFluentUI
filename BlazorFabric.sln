@@ -113,7 +113,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Pivot", "src\B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Text", "src\BlazorFabric.Text\BlazorFabric.Text.csproj", "{D1AA4FD9-DC30-46D9-9CEB-368396C01954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.RichTextEditor", "src\BlazorFabric.RichTextEditor\BlazorFabric.RichTextEditor.csproj", "{6A5D3904-E052-4EC6-A932-8E97C4B00BAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.RichTextEditor", "src\BlazorFabric.RichTextEditor\BlazorFabric.RichTextEditor.csproj", "{6A5D3904-E052-4EC6-A932-8E97C4B00BAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

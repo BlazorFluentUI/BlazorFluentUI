@@ -1,9 +1,21 @@
 ﻿@page "/dialogPage"
 
-<h3>DialogPage</h3>
+<h3>Dialog</h3>
 
-Not ready yet.
+<DefaultButton Text="Open Dialog" OnClick=@(args=> dialogOpen=true) />
+<Dialog Title="This is a dialog menu."
+        IsOpen=@dialogOpen
+        OnDismiss=@(args=> dialogOpen=false )>
+    <ChildContent>
+        This area can have other components.
+    </ChildContent>
+    <FooterTemplate>
+        This is the footer area.
+        <DefaultButton Text="Cancel" />
+        <PrimaryButton Text="OK" />
+    </FooterTemplate>
+</Dialog>
 
 @code {
-
+    bool dialogOpen = false;
 }

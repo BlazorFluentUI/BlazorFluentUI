@@ -224,6 +224,7 @@
 }
 
 :root {
+    /*Can't be used in media queries!*/
     --ScreenWidthMinSmall: 320px;
     --ScreenWidthMinMedium: 480px;
     --ScreenWidthMinLarge: 640px;
@@ -237,6 +238,7 @@
     --ScreenWidthMaxXLarge: 1365px;
     --ScreenWidthMaxXXLarge: 1919px;
 }
+
 
 .smallPlusFont {
     font-size: var(--fontSize-Small);
@@ -252,11 +254,11 @@
 }
 .largeFont {
     font-size: var(--fontSize-Large);
-    font-weight: var(--fontWeight-SemiLight);
+    font-weight: var(--fontWeight-Regular);
 }
 .xlargeFont {
     font-size: var(--fontSize-XLarge);
-    font-weight: var(--fontWeight-Light);
+    font-weight: var(--fontWeight-SemiBold);
 }
 
 :root {

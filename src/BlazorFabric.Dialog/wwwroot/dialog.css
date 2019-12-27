@@ -99,7 +99,7 @@
 }
 
 
-@media screen and (-ms-high-contrast: active) {
+@media (min-width: 320px) {
     .ms-Dialog-main {
         width: auto;
         max-width: 340px;
@@ -107,7 +107,7 @@
     }
 }
 
-@media (min-width: var(--ScreenWidthMinSmall)) and (max-width: var(--ScreenWidthMaxSmall)) {
+@media (min-width: 320px) and (max-width: 479px) {
     .ms-Dialog-inner {
         padding: 0 16px 16px;
     }

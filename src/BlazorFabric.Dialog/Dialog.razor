@@ -1,4 +1,33 @@
 ﻿@namespace BlazorFabric
-<div class="my-component">
-    This Blazor component is defined in the <strong>RazorClassLibrary-CSharp</strong> package.
-</div>
+@inherits FabricComponentBase
+
+<Modal ClassName=@($"ms-Dialog {this.ClassName}") 
+       Style=@Style
+       ElementToFocusOnDismiss=@ElementToFocusOnDismiss
+       FirstFocusableSelector=@FirstFocusableSelector
+       ForceFocusInsideTrap=@ForceFocusInsideTrap
+       IgnoreExternalFocusing=@IgnoreExternalFocusing
+       IsClickableOutsideFocusTrap=@IsClickableOutsideFocusTrap
+       IsDarkOverlay=@IsDarkOverlay
+       IsBlocking=@IsBlocking
+       IsOpen=IsOpen
+       ContainerClass="ms-Dialog-main"
+       OnDismiss=@OnDismiss
+       SubtitleAriaId=@(AriaDescribedBy != null ? AriaDescribedBy : SubText)
+       TitleAriaId=@(AriaLabelledBy != null ? AriaLabelledBy : Title)
+       >
+    <DialogContent TitleId=@DefaultTitleTextId
+                   SubTextId=@DefaultSubTextId
+                   Title=@Title
+                   SubText=@SubText
+                   ShowCloseButton=@(!IsBlocking)
+                   DialogType=@DialogType
+                   OnDismiss=@OnDismiss
+                   ClassName=@ContentClass
+                   ContentTemplate=@ChildContent
+                   FooterTemplate=@FooterTemplate
+                   DraggableHeaderClassName=@DraggableHeaderClassName
+                   IsMultiline=@IsMultiline
+                   />
+
+</Modal>

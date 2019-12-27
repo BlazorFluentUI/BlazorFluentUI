@@ -26,6 +26,12 @@
 //Quill.register(ItalicBlot);
 //Quill.register(UnderlineBlot);
 
+function preventZoom(event) {
+    if (event.ctrlKey === true && (event.which === 61 || event.which === 107 || event.which === 173 || event.which === 109 || event.which === 187 || event.which === 189)) {
+        event.preventDefault();
+    }
+}
+
 var BlazorFabricRichTextEditor = {
 
     //interface Map<T> {
@@ -39,21 +45,65 @@ var BlazorFabricRichTextEditor = {
 
     count: 0,
     allInstances: {},
+    zoomPrevented: false,
 
     register: function(editorWindow, richTextEditorRef) {
         let currentId = this.count++;
         let quill = new Quill(editorWindow);
+        let that = this;
+        quill.on('editor-change', function (eventName, ...args) {
+            if (eventName === "text-change")
+                richTextEditorRef.invokeMethodAsync("TextChangedAsync", { html: quill.root.innerHTML, source: args[2] });
+            else if (eventName === "selection-change") {
+                if (args[2] !== "silent") {
+                    richTextEditorRef.invokeMethodAsync("SelectionChangedAsync", that.getFormat(currentId));
+                }
+            }
+        });
 
         this.allInstances[currentId] = quill;
         return currentId;
     },
 
     unregister: function(id) {
-        let richTextEditor = this.allInstances[id];
+        let quill = this.allInstances[id];
         //if (richTextEditor) {
         //    richTextEditor.unRegister();
         //}
         delete this.allInstances[id];
+    },
+    preventZoomEnable: function (enable) {
+        if (!this.zoomPrevented && enable) {
+            this.zoomPrevented = true;
+            document.onkeydown = preventZoom;
+        }
+        else if (this.zoomPrevented && !enable) {
+            this.zoomPrevented = false;
+            document.onkeydown = null;
+        }
+    },
+
+
+    setHtmlContent: function (id, contents) {
+        let quill = this.allInstances[id];
+        var sel = quill.getSelection();
+        if (quill.root.innerHTML !== contents) {
+            quill.root.innerHTML = contents;
+            this.setEditorSelection(quill, sel);
+        }
+    },
+    setEditorSelection: function (editor, range) {
+        if (range) {
+            // Validate bounds before applying.
+            var length = editor.getLength();
+            range.index = Math.max(0, Math.min(range.index, length - 1));
+            range.length = Math.max(0, Math.min(range.length, (length - 1) - range.index));
+        }
+        editor.setSelection(range);
+    },
+    getHtmlContent: function (id) {
+        let quill = this.allInstances[id];
+        return quill.root.innerHTML;
     },
 
     setFormat: function(id, formatString, turnOn=true) {
@@ -73,14 +123,18 @@ var BlazorFabricRichTextEditor = {
         let quill = this.allInstances[id];
         if (quill === null)
             return null;
-        var format = quill.getFormat();
-        if (format.script !== undefined) {
-            if (format.script === "super")
-                format.superscript = true;
-            else if (format.script === "sub")
-                format.subscript = true;
+        try {
+            var format = quill.getFormat();
+            if (format.script !== undefined) {
+                if (format.script === "super")
+                    format.superscript = true;
+                else if (format.script === "sub")
+                    format.subscript = true;
+            }
+            return format;
+        } catch {
+            return null;
         }
-        return format;
     }
 
 };

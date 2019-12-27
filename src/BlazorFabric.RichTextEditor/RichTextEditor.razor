@@ -5,8 +5,10 @@
          style=@Style>
         <CommandBar Items=@items ClassName="bf-richTextEditor-commandBar"/>
         <div @ref=@RootElementReference
-             @onkeydown=@UpdateFormatStateAsync
-             @onmousedown=@UpdateFormatStateAsync
+             @onkeydown=@InterceptKeyPressAsync
+             
+             @onfocusin=@OnFocusAsync
+             @onfocusout=@OnBlurAsync
              class="bf-richTextEditor-editor">
 
         </div>

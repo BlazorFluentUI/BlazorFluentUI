@@ -4,6 +4,9 @@ Simple port of Office Fabric React components and style to Blazor
 ## Demo
 https://blazorfabric.azurewebsites.net/
 
+## Telegram channel
+https://t.me/blazorfabric
+
 ## Release Notes
 - upcoming
 	- Added `Text` (including custom styling)

@@ -161,7 +161,10 @@
     }
 
     export function measureElementRect(element: HTMLElement): IRectangle {
-        return element.getBoundingClientRect();
+        if (element !== undefined && element !== null)
+            return element.getBoundingClientRect();
+        else
+            return { height: 0, width: 0, left: 0, right: 0, top: 0, bottom: 0 };
     }
 
     export function getWindow(element: HTMLElement): Window {

@@ -2,6 +2,7 @@
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,6 +57,7 @@ namespace BlazorFabric
 
         public void Dispose()
         {
+            Debug.WriteLine($"Layer disposed: {this.id}");
             LayerHost.RemoveHostedContent(this.id);
             addedToHost = false;
         }

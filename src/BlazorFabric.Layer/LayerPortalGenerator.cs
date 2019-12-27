@@ -61,7 +61,7 @@ namespace BlazorFabric
 
         public void RemoveHostedContent(string layerId)
         {
-            System.Diagnostics.Debug.WriteLine($"Disposing layer: {layerId}");
+            System.Diagnostics.Debug.WriteLine($"Disposing layer contents: {layerId}");
             portalFragments.Remove(portalFragments.First(x => x.id == layerId));
             if (portals.ContainsKey(layerId))
                 portals.Remove(layerId);

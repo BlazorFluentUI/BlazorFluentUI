@@ -125,7 +125,10 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.measureScrollDimensions = measureScrollDimensions;
     function measureElementRect(element) {
-        return element.getBoundingClientRect();
+        if (element !== undefined && element !== null)
+            return element.getBoundingClientRect();
+        else
+            return { height: 0, width: 0, left: 0, right: 0, top: 0, bottom: 0 };
     }
     BlazorFabricBaseComponent.measureElementRect = measureElementRect;
     function getWindow(element) {

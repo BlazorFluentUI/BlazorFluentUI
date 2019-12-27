@@ -36,22 +36,34 @@ namespace BlazorFabric
 
         public TooltipHost()
         {
+            
+        }
+
+        protected override void OnInitialized()
+        {
             _openTimer = new Timer();
             _openTimer.Elapsed += _openTimer_Elapsed;
             _dismissTimer = new Timer();
             _dismissTimer.Elapsed += _dismissTimer_Elapsed;
+            base.OnInitialized();
         }
 
         private void _openTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            _openTimer.Stop();
-            ToggleTooltip(true);
+            InvokeAsync(() =>
+            {
+                _openTimer.Stop();
+                ToggleTooltip(true);
+            });
         }
 
         private void _dismissTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            _dismissTimer.Stop();
-            ToggleTooltip(false);
+            InvokeAsync(() =>
+            {
+                _dismissTimer.Stop();
+                ToggleTooltip(false);
+            });
         }
 
         public void Show()
@@ -146,15 +158,14 @@ namespace BlazorFabric
         private void ToggleTooltip(bool isOpen)
         {
             Debug.WriteLine($"Toggling tooltip: {isOpen}");
-            InvokeAsync(() =>
-            {
-                IsTooltipVisible = isOpen;
-                IsAriaPlaceholderRendered = false;
-                StateHasChanged();
-                Debug.WriteLine($"Toggling statehaschanged");
 
-                OnTooltipToggle.InvokeAsync(isOpen);
-            });
+            IsTooltipVisible = isOpen;
+            IsAriaPlaceholderRendered = false;
+            StateHasChanged();
+            Debug.WriteLine($"Toggling statehaschanged");
+
+            OnTooltipToggle.InvokeAsync(isOpen);
+
         }
 
         private void DetermineTargetElement()
@@ -180,6 +191,13 @@ namespace BlazorFabric
 
         public void Dispose()
         {
+            _dismissTimer.Stop();
+            _openTimer.Stop();
+            _dismissTimer = null;
+            _openTimer = null;
+
+
+
             if (TooltipHost.CurrentVisibleTooltip == this)
                 TooltipHost.CurrentVisibleTooltip = null;
         }

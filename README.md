@@ -186,3 +186,8 @@ Use the tool here to generate your own MS font package: https://uifabricicons.az
 </BlazorFabric.Layer.LayerHost>
 ```
 
+5. Add "AddBlazorFabric" to Startup.cs in Service-Configuration-Method
+
+```
+	services.AddBlazorFabric();
+```

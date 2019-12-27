@@ -8,6 +8,7 @@ namespace BlazorFabric.Test.HostedClient.Client
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddBlazorFabric();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

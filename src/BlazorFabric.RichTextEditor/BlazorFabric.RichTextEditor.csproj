@@ -23,7 +23,8 @@
 
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\richTextEditor.js" />
+    <None Include="wwwroot\richTextEditor.js" />
+    <!--<TypeScriptCompile Include="wwwroot\richTextEditor.js" />-->
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ Simple port of Office Fabric React components and style to Blazor
 https://blazorfabric.azurewebsites.net/
 
 ## Telegram dev channel
-https://t.me/blazorfabric-chat
+https://t.me/blazorfabric
 
 ## Release Notes
 - upcoming

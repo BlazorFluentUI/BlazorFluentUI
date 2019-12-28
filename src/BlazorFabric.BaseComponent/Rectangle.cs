@@ -33,7 +33,7 @@ namespace BlazorFabric
 
         public string GetStyle()
         {
-            return (top.HasValue ? $"top:{top.Value}px;" : "") + (left.HasValue ? $"left:{left.Value}px;" : "") + (bottom.HasValue ? $"bottom:{bottom.Value}px;" : "") + (right.HasValue ? $"right:{right.Value}px;" : "");
+            return (top.HasValue ? $"top:{top.Value.ToString().Replace(',', '.')}px;" : "") + (left.HasValue ? $"left:{left.Value.ToString().Replace(',', '.')}px;" : "") + (bottom.HasValue ? $"bottom:{bottom.Value.ToString().Replace(',', '.')}px;" : "") + (right.HasValue ? $"right:{right.Value.ToString().Replace(',', '.')}px;" : "");
         }
     }
 }

@@ -8,7 +8,7 @@ https://blazorfabric.azurewebsites.net/
 https://t.me/blazorfabric
 
 ## Release Notes
-- upcoming
+- v2.1.0
 	- Added `Text` (including custom styling)
 	- Upgraded `TextField` with PrefixContent and SuffixContent for non-text-only content
 	- Added non-Fabric `RichTextEditor` that uses Fabric controls (more functions TBA)

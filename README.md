@@ -8,7 +8,9 @@ https://blazorfabric.azurewebsites.net/
 https://t.me/blazorfabric
 
 ## Release Notes
-- upcoming
+- upcomming
+	- Fix #78 positioning problems with `Callout`
+- v2.1.0
 	- Added `Text` (including custom styling)
 	- Upgraded `TextField` with PrefixContent and SuffixContent for non-text-only content
 	- Added non-Fabric `RichTextEditor` that uses Fabric controls (more functions TBA)
@@ -155,7 +157,7 @@ https://t.me/blazorfabric
 | Selection        |    ToDo     |                                       |
 | Separator        |    ToDo     |                                       |
 | Stack            |    Done     |                                       |
-| Text             |    Done     | only MS Styles work                   |
+| Text             |    Done     |                                       |
 | Themes           |    ToDo     |                                       |
 
 ### Non-Fabric-Component

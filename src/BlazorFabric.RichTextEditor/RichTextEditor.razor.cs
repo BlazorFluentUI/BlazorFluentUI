@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,8 +23,17 @@ namespace BlazorFabric
 
         [Parameter] public EventCallback<string> RichTextChanged { get; set; }
                
-        protected System.Collections.Generic.List<CommandBarItem> items;
-        protected bool hasFocus = false;
+        private System.Collections.Generic.List<CommandBarItem> items;
+        private bool hasFocus = false;
+
+        private bool isDialogOpen = false;
+        private string dialogTitle = "";
+        private string dialogText = "";
+
+        private string imageUrl = "";
+        private string imageHeight = "";
+        private string imageWidth = "";
+
 
         private RelayCommand buttonCommand;
         private int quillId;
@@ -55,7 +63,7 @@ namespace BlazorFabric
                         switch (item.Key)
                         {
                             case "Image":
-
+                                isDialogOpen = true;
                                 //await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, "image", "";
                                 break;
                         }
@@ -163,7 +171,7 @@ namespace BlazorFabric
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        protected async Task UpdateFormatStateAsync()
+        private async Task UpdateFormatStateAsync()
         {
             var formatState = await jsRuntime.InvokeAsync<FormattingState>("window.BlazorFabricRichTextEditor.getFormat", quillId);
             if (formatState != null)
@@ -186,7 +194,7 @@ namespace BlazorFabric
             //return Task.CompletedTask;
         }
 
-        protected async Task InterceptKeyPressAsync(KeyboardEventArgs keyboardEventArgs)
+        private async Task InterceptKeyPressAsync(KeyboardEventArgs keyboardEventArgs)
         {
             if (keyboardEventArgs.CtrlKey && keyboardEventArgs.Key == "+")
             {
@@ -219,15 +227,19 @@ namespace BlazorFabric
             //await UpdateFormatStateAsync();
         }
 
-        protected async Task OnFocusAsync()
+        private async Task OnFocusAsync()
         {
             await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.preventZoomEnable", true);
         }
 
-        protected async Task OnBlurAsync()
+        private async Task OnBlurAsync()
         {
             await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.preventZoomEnable", false);
         }
 
+        private void InsertImage()
+        {
+
+        }
     }
 }

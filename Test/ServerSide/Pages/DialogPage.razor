@@ -5,12 +5,13 @@
 <Checkbox Label="Is Blocking Dialog" @bind-Checked=@isBlocking />
 <DefaultButton Text="Open Dialog" OnClick=@(args=> dialogOpen=true) />
 <Dialog Title="This is a dialog menu."
+        SubText="This is the subtext area.  Below is the ChildContent area for components."
         IsOpen=@dialogOpen
         IsBlocking=@isBlocking
         OnDismiss=@(args=> dialogOpen=false )>
     <ChildContent>
         <p>
-            This area can have other components besides Dropdown.
+            <TextField Label="Sample TextField" />
         </p>
         <p>
             <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler>
@@ -28,13 +29,14 @@
 
 <DefaultButton Text="Open Large Dialog" OnClick=@(args=> largeDialogOpen=true) />
 <Dialog Title="This is a large dialog menu."
+        SubText="This is the subtext area.  Below is the ChildContent area for components."
         IsOpen=@largeDialogOpen
         IsBlocking=@isBlocking
         DialogType=@DialogType.LargeHeader
         OnDismiss=@(args=> largeDialogOpen=false )>
     <ChildContent>
         <p>
-            This area can have other components besides Dropdown.
+            <TextField Label="Sample TextField" />
         </p>
         <p>
             <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler>
@@ -61,7 +63,7 @@
     protected override Task OnInitializedAsync()
     {
         items = new System.Collections.Generic.List<DataItem>
-        {
+{
             new DataItem("First"),
             new DataItem("Second"),
             new DataItem("Third"),

@@ -5,11 +5,28 @@
          style=@Style>
         <CommandBar Items=@items ClassName="bf-richTextEditor-commandBar"/>
         <div @ref=@RootElementReference
-             @onkeydown=@InterceptKeyPressAsync
+             @onkeydown=@InterceptKeyPressAsync             
              
-             @onfocusin=@OnFocusAsync
-             @onfocusout=@OnBlurAsync
              class="bf-richTextEditor-editor">
-
         </div>
     </div>
+
+<Dialog IsOpen=@isDialogOpen
+        Title=@dialogTitle
+        ForceFocusInsideTrap="true"
+        OnDismiss=@(args => isDialogOpen=false)
+        >
+    <ChildContent>
+        <Stack>
+            <TextField Label="Image Link" @bind-Value=@imageUrl @bind-Value:event="OnInput"/>
+            <Stack Horizontal="true">
+                <TextField Label="Horizontal Size (auto if empty)" @bind-Value=@imageWidth @bind-Value:event="OnInput"/>
+                <TextField Label="Vertical Size (auto if empty)" @bind-Value=@imageHeight @bind-Value:event="OnInput"/>
+            </Stack>
+        </Stack>
+    </ChildContent>
+    <FooterTemplate>
+        <DefaultButton Text="Cancel" OnClick=@(args=> isDialogOpen=false)/>
+        <PrimaryButton Text="Insert" OnClick=@(args=> InsertImage()) />
+    </FooterTemplate>
+</Dialog>

@@ -121,25 +121,27 @@ namespace BlazorFabric
 
         protected Task OnTooltipMouseLeave(EventArgs args)
         {
-            Debug.WriteLine("OnMouseLeave");
-            _dismissTimer.Stop();
-            _openTimer.Stop();
-
-            if (!double.IsNaN(CloseDelay))
+            if (_dismissTimer != null)  // component can be disposed already and still return this event 
             {
-                _dismissTimer.Interval = CloseDelay;
-                _dismissTimer.Start();
-            }
-            else
-            {
-                ToggleTooltip(false);
-            }
+                Debug.WriteLine("OnMouseLeave");
+                _dismissTimer.Stop();
+                _openTimer.Stop();
 
-            if (TooltipHost.CurrentVisibleTooltip == this)
-            {
-                TooltipHost.CurrentVisibleTooltip = null;
-            }
+                if (!double.IsNaN(CloseDelay))
+                {
+                    _dismissTimer.Interval = CloseDelay;
+                    _dismissTimer.Start();
+                }
+                else
+                {
+                    ToggleTooltip(false);
+                }
 
+                if (TooltipHost.CurrentVisibleTooltip == this)
+                {
+                    TooltipHost.CurrentVisibleTooltip = null;
+                }
+            }
             return Task.CompletedTask;
         }
 

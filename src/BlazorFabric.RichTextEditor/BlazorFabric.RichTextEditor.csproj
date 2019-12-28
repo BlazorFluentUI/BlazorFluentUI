@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -19,6 +19,9 @@
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
     <ProjectReference Include="..\BlazorFabric.CommandBar\BlazorFabric.CommandBar.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Dialog\BlazorFabric.Dialog.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Stack\BlazorFabric.Stack.csproj" />
+    <ProjectReference Include="..\BlazorFabric.TextField\BlazorFabric.TextField.csproj" />
   </ItemGroup>
 
 </Project>

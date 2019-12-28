@@ -14,7 +14,7 @@ namespace BlazorFabric
         [Parameter] public string DraggableHeaderClassName { get; set; }
         [Parameter] public RenderFragment FooterTemplate { get; set; }
         [Parameter] public bool IsBlocking { get; set; }
-        [Parameter] public bool IsDarkOverlay { get; set; } = true;
+        [Parameter] public bool IsDarkOverlay { get; set; } = false;
         [Parameter] public bool IsMultiline { get; set; }
         [Parameter] public bool IsOpen { get; set; }
         [Parameter] public bool IsModeless { get; set; }

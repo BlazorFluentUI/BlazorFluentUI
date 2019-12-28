@@ -91,16 +91,16 @@ namespace BlazorFabric
         [Parameter]
         public PanelType Type { get; set; } = PanelType.SmallFixedFar;
 
-        protected bool isAnimating = false;
+        private bool isAnimating = false;
         private bool animationRenderStart = false;
-        
-        protected EventCallback ThrowawayCallback;
+
+        private EventCallback ThrowawayCallback;
 
         private PanelVisibilityState previousVisibility = PanelVisibilityState.Closed;
-        protected PanelVisibilityState currentVisibility = PanelVisibilityState.Closed;
-        protected bool isFooterSticky = false;
+        private PanelVisibilityState currentVisibility = PanelVisibilityState.Closed;
+        private bool isFooterSticky = false;
 
-        protected Action onPanelClick;
+        private Action onPanelClick;
         private Action _dismiss;
         private List<int> _scrollerEventId = new List<int>();
         private int _resizeId = -1;
@@ -111,11 +111,11 @@ namespace BlazorFabric
         private Action<PanelVisibilityState> _animateTo;
         private Action _onTransitionComplete;
 
-        protected ElementReference panelElement;
-        protected ElementReference scrollableContent;
+        private ElementReference panelElement;
+        private ElementReference scrollableContent;
         private bool _scrollerRegistered;
 
-        ElapsedEventHandler _handler = null;
+        private ElapsedEventHandler _handler = null;
 
         private bool _jsAvailable = false;
 
@@ -269,7 +269,7 @@ namespace BlazorFabric
             // To Do
         }
 
-        protected string GetTypeCss()
+        private string GetTypeCss()
         {
             switch (Type)
             {

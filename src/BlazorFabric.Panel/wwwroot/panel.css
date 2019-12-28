@@ -29,7 +29,7 @@
     flex-direction:column;
     overflow-x:hidden;
     overflow-y:auto;
-    WebkitOverflowScrolling: touch;
+    -webkit-overflow-scrolling: touch;
     bottom:0;
     top: 0;
     /*

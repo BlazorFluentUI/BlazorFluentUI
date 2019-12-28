@@ -1,39 +1,50 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<BlazorFabric.Layer ClassName="ms-Modal-Layer">
-    <BlazorFabric.Popup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
-                              AriaLabelledBy=@TitleAriaId
-                              AriaDescribedBy=@SubtitleAriaId
-                              OnDismiss=@OnDismiss>
-        <div class=@($"mediumFont ms-Modal{(IsOpen ? " isOpen" : "")}{(IsModeless ? " isModeless" : "")}{(TopOffsetFixed ? " topOffsetFixed" : "")} {ClassName}")
-             style=@Style>
-            @if (!IsModeless)
-            {
-                if (IsBlocking)
+@if (!IsOpen && !isAnimating)
+{
+
+}
+else
+{
+    <Layer ClassName="ms-Modal-Layer">
+        <Popup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
+                            ClassName=@(!IsOpen && !isAnimating ? "ms-Modal-hiddenModal" : "")
+                            AriaLabelledBy=@TitleAriaId
+                            AriaDescribedBy=@SubtitleAriaId
+                            OnDismiss=@OnDismiss>
+            <div class=@($"mediumFont ms-Modal{(isAnimating ? (IsOpen ? " fadeIn100" : " fadeOut200") : "")}{(IsOpen ? " isOpen" : "")}{(IsModeless ? " isModeless" : "")}{(TopOffsetFixed ? " topOffsetFixed" : "")} {ClassName}")
+                 aria-hidden=@(!IsOpen && isAnimating)
+                 style=@(Style)>
+                @if (!IsModeless)
                 {
-                    <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay />
+                    if (IsBlocking)
+                    {
+                        <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay 
+                                              />
+                    }
+                    else
+                    {
+                        <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay 
+                                              OnClick=@((ev) => OnDismiss.InvokeAsync(ev))
+                                              />
+                    }
                 }
-                else
-                {
-                    <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay OnClick=@((ev) => OnDismiss.InvokeAsync(ev)) />
-                }
-            }
-            <FocusTrapZone ClassName=@($"ms-Modal-main {ContainerClass}")
-                           Disabled=@(!IsOpen)
-                           ElementToFocusOnDismiss=@ElementToFocusOnDismiss
-                           IsClickableOutsideFocusTrap=@(IsModeless || IsClickableOutsideFocusTrap || !IsBlocking)
-                           IgnoreExternalFocusing=@IgnoreExternalFocusing
-                           ForceFocusInsideTrap=@(IsModeless ? !IsModeless : ForceFocusInsideTrap)
-                           FirstFocusableSelector=@FirstFocusableSelector
-                           FocusPreviouslyFocusedInnerElement="true"
-                           >
-                <div @ref="allowScrollOnModal"
-                     class="ms-Modal-scrollableContent"
-                     data-is-scrollable=true>
-                    @ChildContent
-                </div>
-            </FocusTrapZone>
-        </div>
-    </BlazorFabric.Popup>
-</BlazorFabric.Layer>
+                <FocusTrapZone ClassName=@($"ms-Modal-main {ContainerClass}")
+                               Disabled=@(!IsOpen)
+                               ElementToFocusOnDismiss=@ElementToFocusOnDismiss
+                               IsClickableOutsideFocusTrap=@(IsModeless || IsClickableOutsideFocusTrap || !IsBlocking)
+                               IgnoreExternalFocusing=@IgnoreExternalFocusing
+                               ForceFocusInsideTrap=@(IsModeless ? !IsModeless : ForceFocusInsideTrap)
+                               FirstFocusableSelector=@FirstFocusableSelector
+                               FocusPreviouslyFocusedInnerElement="true">
+                    <div @ref="allowScrollOnModal"
+                         class="ms-Modal-scrollableContent"
+                         data-is-scrollable=true>
+                        @ChildContent
+                    </div>
+                </FocusTrapZone>
+            </div>
+        </Popup>
+    </Layer>
+}

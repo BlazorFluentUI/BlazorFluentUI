@@ -46,6 +46,7 @@ var BlazorFabricRichTextEditor = {
     count: 0,
     allInstances: {},
     zoomPrevented: false,
+    lastSelection: null,
 
     register: function(editorWindow, richTextEditorRef) {
         let currentId = this.count++;
@@ -55,8 +56,18 @@ var BlazorFabricRichTextEditor = {
             if (eventName === "text-change")
                 richTextEditorRef.invokeMethodAsync("TextChangedAsync", { html: quill.root.innerHTML, source: args[2] });
             else if (eventName === "selection-change") {
-                if (args[2] !== "silent") {
-                    richTextEditorRef.invokeMethodAsync("SelectionChangedAsync", that.getFormat(currentId));
+                if (args[1] !== "silent") {
+                    if (args[0] === null) {
+                        //this is a blur event.  Store old selection so that focus can restore selection.
+                        this.lastSelection = args[1];
+                    //} else if (args[1] === null && args[2] !== "user") {
+                    //    //this is probably a focus event that was made from setting formatting... restore last selection if not null
+                    //    if (this.lastSelection !== null) {
+                    //        quill.
+                    //    }
+                    } else {
+                        richTextEditorRef.invokeMethodAsync("SelectionChangedAsync", that.getFormat(currentId));
+                    }
                 }
             }
         });

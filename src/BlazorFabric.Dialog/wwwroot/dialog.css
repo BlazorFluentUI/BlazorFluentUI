@@ -89,7 +89,8 @@
 
 .ms-Dialog-actionsRight {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
+    justify-content: flex-end;
     margin-right: -4px;
     font-size: 0;
 }

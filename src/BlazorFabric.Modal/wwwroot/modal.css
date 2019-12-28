@@ -6,9 +6,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
+    /*opacity: 0;*/
     pointer-events: none;
-    transition: opacity 0.267s ease 0s
+    /*transition: opacity 0.267s ease 0s;*/  /*converted to baseComponent animation class*/
+}
+
+.ms-Modal-hiddenModal {
+    visibility: hidden;
 }
 
 .ms-Modal.isModeless {
@@ -20,7 +24,7 @@
 }
 
 .ms-Modal.isOpen {
-    opacity: 1;
+    /*opacity: 1;*/
     pointer-events: auto;
 }
 

@@ -427,6 +427,9 @@
 .fadeIn200 {
     animation: Fade_in var(--animation-DURATION_2) var(--animation-EASING_FUNCTION_2);
 }
+.fadeOut200 {
+    animation: Fade_out var(--animation-DURATION_2) var(--animation-EASING_FUNCTION_2);
+}
 
 .fadeIn400 {
     animation: Fade_in var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_2);

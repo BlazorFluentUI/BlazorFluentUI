@@ -21,10 +21,36 @@
 //}
 //UnderlineBlot.blotName = 'underline';
 //UnderlineBlot.tagName = 'span';
+let BlockEmbed = Quill.import('blots/block/embed');
+
+class ImageBlot extends BlockEmbed {
+    static create(value) {
+        let node = super.create();
+        node.setAttribute('alt', value.alt);
+        node.setAttribute('src', value.src);
+        if (value.width !== undefined && value.width !== null)
+            node.setAttribute('width', value.width);
+        if (value.height !== undefined && value.height !== null)
+            node.setAttribute('height', value.height);
+        return node;
+    }
+
+    static value(node) {
+        return {
+            alt: node.getAttribute('alt'),
+            url: node.getAttribute('src'),
+            width: node.getAttribute('width'),
+            height: node.getAttribute('height')
+        };
+    }
+}
+ImageBlot.blotName = 'image';
+ImageBlot.tagName = 'img';
 
 //Quill.register(BoldBlot);
 //Quill.register(ItalicBlot);
 //Quill.register(UnderlineBlot);
+Quill.register(ImageBlot);
 
 function preventZoom(event) {
     if (event.ctrlKey === true && (event.which === 61 || event.which === 107 || event.which === 173 || event.which === 109 || event.which === 187 || event.which === 189)) {
@@ -56,10 +82,14 @@ var BlazorFabricRichTextEditor = {
             if (eventName === "text-change")
                 richTextEditorRef.invokeMethodAsync("TextChangedAsync", { html: quill.root.innerHTML, source: args[2] });
             else if (eventName === "selection-change") {
+                if (args[0] !== null && args[0] !== undefined) {
+                    that.lastSelection = args[0];
+                    console.log(that.lastSelection);
+                }
                 if (args[1] !== "silent") {
                     if (args[0] === null) {
                         //this is a blur event.  Store old selection so that focus can restore selection.
-                        this.lastSelection = args[1];
+                        //this.lastSelection = args[1];
                     //} else if (args[1] === null && args[2] !== "user") {
                     //    //this is probably a focus event that was made from setting formatting... restore last selection if not null
                     //    if (this.lastSelection !== null) {
@@ -93,7 +123,13 @@ var BlazorFabricRichTextEditor = {
             document.onkeydown = null;
         }
     },
-
+    setReadonly: function (id, setReadonly) {
+        let quill = this.allInstances[id];
+        if (setReadonly)
+            quill.disable();
+        else
+            quill.enable();
+    },
 
     setHtmlContent: function (id, contents) {
         let quill = this.allInstances[id];
@@ -146,6 +182,11 @@ var BlazorFabricRichTextEditor = {
         } catch {
             return null;
         }
+    },
+    insertImage: function (id, imageUrl, imageAlt, imageWidth, imageHeight) {
+        let quill = this.allInstances[id];
+        //var sel = quill.getSelection();
+        quill.insertEmbed(this.lastSelection.index, "image", { src: imageUrl, alt: imageAlt, width: imageWidth !== null ? imageWidth : undefined, height: imageHeight !== null ? imageHeight : undefined });
     }
 
 };

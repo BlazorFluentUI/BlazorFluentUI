@@ -2,11 +2,13 @@
 
 <h3>RichTextEditor</h3>
 
-<RichTextEditor @bind-RichText=@htmlContents/>
+<Toggle Label="Readonly" @bind-Checked=@isReadonly/>
+<RichTextEditor @bind-RichText=@htmlContents
+                ReadOnly=@isReadonly/>
 
 @htmlContents
 
 @code {
-
+    bool isReadonly = false;
     string htmlContents = "";
 }

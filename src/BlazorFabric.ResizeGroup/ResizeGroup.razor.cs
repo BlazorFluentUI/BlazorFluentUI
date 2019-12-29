@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class ResizeGroup<TObject> : FabricComponentBase
+    public partial class ResizeGroup<TObject> : FabricComponentBase, IDisposable
     {
         [Inject] IJSRuntime jSRuntime { get; set; }
 
@@ -41,7 +41,10 @@ namespace BlazorFabric
         protected TObject _dataToMeasure;
         protected bool _measureContainer;
         protected ResizeDirection _resizeDirection = ResizeDirection.None;
+        private bool _jsAvailable;
         private string _resizeEventToken;
+
+        private ValueTask<string> _resizeEventTokenTask;  // WARNING - can only await this ONCE
 
         protected override Task OnInitializedAsync()
         {
@@ -89,7 +92,8 @@ namespace BlazorFabric
         {
             if (firstRender)
             {
-                _resizeEventToken = await jSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerResizeEvent", DotNetObjectReference.Create(new ResizeGroupInternal.InteropHelper(SetMeasureContainer)), "ResizeHappenedAsync");
+                _jsAvailable = true;
+                _resizeEventTokenTask = jSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerResizeEvent", DotNetObjectReference.Create(new ResizeGroupInternal.InteropHelper(SetMeasureContainer)), "ResizeHappenedAsync");
             }
 
             if (_renderedData != null)
@@ -262,7 +266,17 @@ namespace BlazorFabric
 
         }
 
-
+        public async void Dispose()
+        {
+            if (_jsAvailable)
+            {
+                if (_resizeEventTokenTask != null && _resizeEventTokenTask.IsCompleted)
+                {
+                    _resizeEventToken = await _resizeEventTokenTask;
+                    await jSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.deregisterResizeEvent", _resizeEventToken);
+                } 
+            }
+        }
     }
 
 

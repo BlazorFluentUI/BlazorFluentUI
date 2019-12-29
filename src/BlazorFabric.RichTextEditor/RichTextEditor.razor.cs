@@ -19,6 +19,8 @@ namespace BlazorFabric
 
         [Parameter] public bool Disabled { get; set; }
 
+        [Parameter] public bool ReadOnly { get; set; }
+
         [Parameter] public string RichText { get; set; }
 
         [Parameter] public EventCallback<string> RichTextChanged { get; set; }
@@ -26,13 +28,12 @@ namespace BlazorFabric
         private System.Collections.Generic.List<CommandBarItem> items;
         private bool hasFocus = false;
 
-        private bool isDialogOpen = false;
-        private string dialogTitle = "";
-        private string dialogText = "";
+        private bool isImageDialogOpen = false;
 
         private string imageUrl = "";
         private string imageHeight = "";
         private string imageWidth = "";
+        private string imageAlt = "";
 
 
         private RelayCommand buttonCommand;
@@ -42,6 +43,7 @@ namespace BlazorFabric
         private string _waitingText;
         private Timer _debounceSelectionTimer;
         private FormattingState _waitingFormattingState;
+        private bool _readonlySet;
 
         public RichTextEditor()
         {
@@ -63,7 +65,7 @@ namespace BlazorFabric
                         switch (item.Key)
                         {
                             case "Image":
-                                isDialogOpen = true;
+                                isImageDialogOpen = true;
                                 //await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, "image", "";
                                 break;
                         }
@@ -112,12 +114,12 @@ namespace BlazorFabric
 
             items = new System.Collections.Generic.List<CommandBarItem> {
                 new CommandBarItem() { Text= "Bold", CanCheck=true, IconOnly=true, IconName="Bold", Key="Bold", Command=buttonCommand, CommandParameter="Bold"},
-                new CommandBarItem() {Text= "Italic", CanCheck=true, IconOnly=true, IconName="Italic", Key="Italic", Command=buttonCommand, CommandParameter="Italic"},
-                new CommandBarItem() {Text= "Underline", CanCheck=true, IconOnly=true, IconName="Underline", Key="Underline", Command=buttonCommand, CommandParameter="Underline"},
-                new CommandBarItem() {Text= "Superscript", CanCheck=true, IconOnly=true, IconName="Superscript", Key="Superscript", Command=buttonCommand, CommandParameter="Superscript"},
-                new CommandBarItem() {Text= "Subscript", CanCheck=true, IconOnly=true, IconName="Subscript", Key="Subscript", Command=buttonCommand, CommandParameter="Subscript"},
+                new CommandBarItem() { Text= "Italic", CanCheck=true, IconOnly=true, IconName="Italic", Key="Italic", Command=buttonCommand, CommandParameter="Italic"},
+                new CommandBarItem() { Text= "Underline", CanCheck=true, IconOnly=true, IconName="Underline", Key="Underline", Command=buttonCommand, CommandParameter="Underline"},
+                new CommandBarItem() { Text= "Superscript", CanCheck=true, IconOnly=true, IconName="Superscript", Key="Superscript", Command=buttonCommand, CommandParameter="Superscript"},
+                new CommandBarItem() { Text= "Subscript", CanCheck=true, IconOnly=true, IconName="Subscript", Key="Subscript", Command=buttonCommand, CommandParameter="Subscript"},
 
-                new CommandBarItem() {Text= "Insert Image", CanCheck=false, IconOnly=true, IconName="ImagePixel", Key="Image", Command=buttonCommand, CommandParameter="Image"}
+                new CommandBarItem() { Text= "Insert Image", CanCheck=false, IconOnly=true, IconName="ImagePixel", Key="Image", Command=buttonCommand, CommandParameter="Image"}
             };
         }
 
@@ -155,6 +157,16 @@ namespace BlazorFabric
             if (_renderedOnce)
             {               
                 await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setHtmlContent", quillId, RichText);
+                if (ReadOnly && !_readonlySet)
+                {
+                    await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setReadonly", quillId, true);
+                    _readonlySet = true;
+                }
+                else if (!ReadOnly && _readonlySet)
+                {
+                    await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setReadonly", quillId, false);
+                    _readonlySet = false;
+                }
             }
             await base.OnParametersSetAsync();
         }
@@ -165,12 +177,18 @@ namespace BlazorFabric
             {
                 quillId = await jsRuntime.InvokeAsync<int>("window.BlazorFabricRichTextEditor.register", RootElementReference, DotNetObjectReference.Create(this));
                 await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setHtmlContent", quillId, RichText);
+                if (ReadOnly)
+                {
+                    await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setReadonly", quillId, true);
+                    _readonlySet = true;
+                }
                 _renderedOnce = true;
 
             }
             await base.OnAfterRenderAsync(firstRender);
         }
 
+        
         private async Task UpdateFormatStateAsync()
         {
             var formatState = await jsRuntime.InvokeAsync<FormattingState>("window.BlazorFabricRichTextEditor.getFormat", quillId);
@@ -237,9 +255,15 @@ namespace BlazorFabric
             await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.preventZoomEnable", false);
         }
 
-        private void InsertImage()
+        private async Task InsertImageAsync()
         {
-
+            await jsRuntime.InvokeVoidAsync(
+                "window.BlazorFabricRichTextEditor.insertImage", 
+                quillId, 
+                imageUrl, 
+                imageAlt, 
+                string.IsNullOrWhiteSpace(imageWidth) ? null : imageWidth,
+                string.IsNullOrWhiteSpace(imageHeight) ? null : imageHeight);
         }
     }
 }

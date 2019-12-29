@@ -35,6 +35,7 @@ namespace BlazorFabric
         private string imageWidth = "";
         private string imageAlt = "";
 
+        private string internalRichText = "";  //keeps track of changes so we know when we have to update the quilljs contents.
 
         private RelayCommand buttonCommand;
         private int quillId;
@@ -131,6 +132,8 @@ namespace BlazorFabric
                 if (_debounceTextTimer.Enabled)
                     _debounceTextTimer.Stop();
 
+                internalRichText = args.Html;
+
                 if (args.Html != this.RichText)
                 {
                     _waitingText = args.Html;
@@ -156,7 +159,8 @@ namespace BlazorFabric
         {
             if (_renderedOnce)
             {               
-                await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setHtmlContent", quillId, RichText);
+                if (RichText != internalRichText)
+                    await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setHtmlContent", quillId, RichText);
                 if (ReadOnly && !_readonlySet)
                 {
                     await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setReadonly", quillId, true);

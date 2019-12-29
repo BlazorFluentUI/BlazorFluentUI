@@ -1,0 +1,32 @@
+﻿/* 
+count: 'ms-Pivot-count',
+icon: 'ms-Pivot-icon',
+linkIsSelected: 'is-selected',
+link: 'ms-Pivot-link',
+linkContent: 'ms-Pivot-linkContent',
+root: 'ms-Pivot',
+rootIsLarge: 'ms-Pivot--large',
+rootIsTabs: 'ms-Pivot--tabs',
+text: 'ms-Pivot-text' 
+*/
+
+
+.ms-Pivot{
+    position: relative;
+    color: var(--semanticColors-Link);
+    white-space: nowrap;
+}
+
+.ms-Pivot-linkContent{
+    flex: 0 1 100%;
+}
+
+.ms-Pivot-text{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ms-Pivot-count{
+    display: inline-block;
+    vertical-align: top;
+}

@@ -61,8 +61,7 @@ namespace BlazorFabric
 
             if (_percent >= 0)
             {
-                // Replace ',' with '.' to support also comma percatage values and prevent jump back to 0
-                styles += $"width: {_percent.ToString().Replace(',','.')}%;";
+                styles += $"width: {_percent.ToCssValue()}%;";
                 if (PercentComplete < ZERO_THRESHOLD)
                 {
                     styles += "transition: none;";

@@ -2,7 +2,7 @@
 Simple port of Office Fabric React components and style to Blazor
 
 ## Client-side Demo (web assembly)
-<a href="https://limefrogyank.github.io/BlazorFabric/index.html" target="_blank">https://limefrogyank.github.io/BlazorFabric/index.html</a>
+[link](https://limefrogyank.github.io/BlazorFabric/index.html){:target="_blank"}
 
 ## Server-side Demo (SignalR)
 

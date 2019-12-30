@@ -117,6 +117,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.RichTextEditor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.ComponentStyle", "src\BlazorFabric.ComponentStyle\BlazorFabric.ComponentStyle.csproj", "{2358EE4C-82F7-44D3-97F4-897C676E42AE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientSide", "ClientSide", "{93D4755C-B4E6-44DE-8488-ADA4C3AB8E21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.Test.ClientSide", "Test\BlazorFabric.Test.ClientSide\BlazorFabric.Test.ClientSide.csproj", "{B3E162E0-F8C4-4DAD-A672-42663763E256}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -303,6 +307,10 @@ Global
 		{2358EE4C-82F7-44D3-97F4-897C676E42AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2358EE4C-82F7-44D3-97F4-897C676E42AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2358EE4C-82F7-44D3-97F4-897C676E42AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3E162E0-F8C4-4DAD-A672-42663763E256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3E162E0-F8C4-4DAD-A672-42663763E256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3E162E0-F8C4-4DAD-A672-42663763E256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3E162E0-F8C4-4DAD-A672-42663763E256}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -355,6 +363,8 @@ Global
 		{D1AA4FD9-DC30-46D9-9CEB-368396C01954} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{6A5D3904-E052-4EC6-A932-8E97C4B00BAB} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{2358EE4C-82F7-44D3-97F4-897C676E42AE} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{93D4755C-B4E6-44DE-8488-ADA4C3AB8E21} = {ACA6BA0A-2438-4FA1-AD35-B6C176EB4993}
+		{B3E162E0-F8C4-4DAD-A672-42663763E256} = {93D4755C-B4E6-44DE-8488-ADA4C3AB8E21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

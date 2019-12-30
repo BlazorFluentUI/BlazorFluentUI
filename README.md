@@ -6,7 +6,7 @@ https://limefrogyank.github.io/BlazorFabric/index.html
 
 ## Server-side Demo (SignalR)
 
-Coming soon... <a href="https://blazorfabric.azurewebsites.net/" target="_blank">https://blazorfabric.azurewebsites.net/</a> 
+https://blazorfabric.azurewebsites.net/ 
 
 ## Telegram dev channel
 https://t.me/blazorfabric

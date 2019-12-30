@@ -192,6 +192,11 @@
     text-align:left;
 }
 
+    .ms-Dropdown-item.ms-Button {
+        /* hack for specificity */
+        padding: 0 8px;
+    }
+
     .ms-Dropdown-item:not(.ms-Checkbox-checkbox):hover {
         color: var(--palette-NeutralDark);
         background-color: var(--palette-NeutralLighter);

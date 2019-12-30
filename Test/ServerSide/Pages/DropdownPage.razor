@@ -9,7 +9,7 @@
 <div style="max-width:300px;">
     <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler>
         <ItemTemplate>
-            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
         </ItemTemplate>
     </Dropdown>
 </div>
@@ -19,7 +19,7 @@
 <div style="max-width:300px;">
     <Dropdown ItemsSource=@items TItem="DataItem" MultiSelect="true" Placeholder="Select options..." OnChange=@UncontrolledMultiChangeHandler>
         <ItemTemplate>
-            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
         </ItemTemplate>
     </Dropdown>
 </div>
@@ -29,7 +29,7 @@
 <div style="max-width:300px;">
     <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" @bind-SelectedKey=@controlledSingleSelectionResult>
         <ItemTemplate>
-            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
         </ItemTemplate>
     </Dropdown>
 </div>
@@ -39,25 +39,25 @@
 <div style="max-width:300px;">
     <Dropdown ItemsSource=@items TItem="DataItem" MultiSelect="true" Placeholder="Select options..." @bind-SelectedKeys=@controlledMultiSelectionResult @bind-SelectedKeys:event="SelectedKeysChanged">
         <ItemTemplate>
-            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
         </ItemTemplate>
     </Dropdown>
 </div>
 
 <h3>Disabled</h3>
 <div style="max-width:300px;">
-    <Dropdown ItemsSource=@items TItem="DataItem" Disabled="true" Placeholder="Select an option" >
+    <Dropdown ItemsSource=@items TItem="DataItem" Disabled="true" Placeholder="Select an option">
         <ItemTemplate>
-            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
         </ItemTemplate>
     </Dropdown>
 </div>
 
 <h3>Disabled with Selected</h3>
 <div style="max-width:300px;">
-    <Dropdown ItemsSource=@items TItem="DataItem" Disabled="true" Placeholder="Select an option" @bind-SelectedKey=@controlledSingleSelectionResult >
+    <Dropdown ItemsSource=@items TItem="DataItem" Disabled="true" Placeholder="Select an option" @bind-SelectedKey=@controlledSingleSelectionResult>
         <ItemTemplate>
-            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+            <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
         </ItemTemplate>
     </Dropdown>
 </div>
@@ -68,8 +68,8 @@
     string uncontrolledSingleSelectionResult;
     System.Collections.Generic.List<string> uncontrolledMultiSelectionResult = new System.Collections.Generic.List<string>();
 
-    string controlledSingleSelectionResult = "Third";
-    System.Collections.Generic.List<string> controlledMultiSelectionResult = new System.Collections.Generic.List<string> { "Second", "Third" };
+    string controlledSingleSelectionResult = "Banana";
+    System.Collections.Generic.List<string> controlledMultiSelectionResult = new System.Collections.Generic.List<string> { "Banana", "Orange" };
 
     System.Collections.Generic.List<DataItem> items;
 
@@ -77,11 +77,16 @@
     {
         items = new System.Collections.Generic.List<DataItem>
 {
-            new DataItem("First"),
-            new DataItem("Second"),
-            new DataItem("Third"),
-            new DataItem("Fourth"),
-            new DataItem("Fifth")
+            new DataItem("Fruits", SelectableOptionMenuItemType.Header),
+            new DataItem("Apple"),
+            new DataItem("Banana"),
+            new DataItem("Orange"),
+            new DataItem("Grape"),
+            new DataItem("divider1", SelectableOptionMenuItemType.Divider),
+            new DataItem("Vegetables", SelectableOptionMenuItemType.Header),
+            new DataItem("Broccoli"),
+            new DataItem("Carrot"),
+            new DataItem("Lettuce")
         };
         return base.OnInitializedAsync();
     }

@@ -16,7 +16,15 @@ namespace BlazorFabric.Test.HostedClient.Client.Models
         {
             DisplayName = text;
         }
+
+        public DataItem(string text, SelectableOptionMenuItemType selectableOptionMenuItemType)
+        {
+            DisplayName = text;
+            Type = selectableOptionMenuItemType;
+        }
         public string DisplayName { get; set; }
         public string ImgUrl => "/background.png";
+
+        public SelectableOptionMenuItemType Type { get; set; }
     }
 }

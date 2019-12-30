@@ -1,0 +1,18 @@
+{
+  "runtimeOptions": {
+    "tfm": "netcoreapp3.1",
+    "includedFrameworks": [
+      {
+        "name": "Microsoft.NETCore.App",
+        "version": "3.1.0"
+      },
+      {
+        "name": "Microsoft.AspNetCore.App",
+        "version": "3.1.0"
+      }
+    ],
+    "configProperties": {
+      "System.GC.Server": true
+    }
+  }
+}

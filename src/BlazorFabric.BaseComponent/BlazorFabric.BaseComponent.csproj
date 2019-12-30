@@ -57,6 +57,10 @@
     <Folder Include="src\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorFabric.ComponentStyle\BlazorFabric.ComponentStyle.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>

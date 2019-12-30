@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.Test.HostedClient.Client\BlazorFabric.Test.HostedClient.Client.csproj" />
-    <ProjectReference Include="..\BlazorFabric.Test.HostedClient.Shared\BlazorFabric.Test.HostedClient.Shared.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

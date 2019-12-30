@@ -1,24 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <OutputType>Exe</OutputType>
-    <RestoreAdditionalProjectSources>
-      https://dotnet.myget.org/F/aspnetcore-dev/api/v3/index.json;
-      https://dotnet.myget.org/F/blazor-dev/api/v3/index.json;
-    </RestoreAdditionalProjectSources>
-    <LangVersion>7.3</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
+    <RootNamespace>BlazorFabric.Demo.Shared</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview4.19579.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.1.0-preview4.19579.2" PrivateAssets="all" />
-    <PackageReference Include="Toolbelt.Blazor.TimeZoneKit" Version="5.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Demo\Shared\BlazorFabric.Demo.Shared\BlazorFabric.Demo.Shared.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Calendar\BlazorFabric.Calendar.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
@@ -46,7 +39,6 @@
     <ProjectReference Include="..\..\..\src\BlazorFabric.Rating\BlazorFabric.Rating.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.ResponsiveLayout\BlazorFabric.ResponsiveLayout.csproj" />
-    <ProjectReference Include="..\..\..\src\BlazorFabric.RichTextEditor\BlazorFabric.RichTextEditor.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Spinner\BlazorFabric.Spinner.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.Stack\BlazorFabric.Stack.csproj" />
     <ProjectReference Include="..\..\..\src\BlazorFabric.TextField\BlazorFabric.TextField.csproj" />

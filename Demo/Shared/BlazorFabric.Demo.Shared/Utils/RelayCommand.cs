@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace BlazorFabric.Test.HostedClient.Client.Utils
+namespace BlazorFabric.Demo.Shared.Utils
 {
     public class RelayCommand : ICommand
     {

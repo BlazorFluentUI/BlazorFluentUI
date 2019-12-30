@@ -8,6 +8,8 @@ namespace BlazorFabric
     {
         public double top {get;set;}
         public double left { get; set; }
+        //public double width { get; set; }
+        //public double height { get; set; }
         public double width { get { return right - left; } set { right = left + value; } }
         public double height { get { return bottom - top; } set { bottom = top + value; } }
         public double right { get; set; }
@@ -21,6 +23,8 @@ namespace BlazorFabric
             this.width = width;
             this.top = top;
             this.height = height;
+            //this.right = left + width;
+            //this.bottom = top + height;
         }
     }
 

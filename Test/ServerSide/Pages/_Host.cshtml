@@ -100,6 +100,15 @@
     @*<app>@(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))</app>*@
     <app><component type="typeof(App)" render-mode="ServerPrerendered" /></app>
 
+    <!-- Polyfill to make server-side work with IE11 -->
+    <script type="text/javascript">
+        if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+            document.write('<script src="blazor.polyfill.min.js"><\/script>');
+        }
+    </script>
+    <script type="text/javascript" src="blazor.polyfill.min.js"></script>
+
+
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

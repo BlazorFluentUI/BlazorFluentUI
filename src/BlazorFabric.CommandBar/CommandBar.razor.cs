@@ -90,8 +90,8 @@ namespace BlazorFabric
         private string ComputeCacheKey(CommandBarData data)
         {
             var primaryKey = data.PrimaryItems.Aggregate("", (acc, item) => acc + item.CacheKey);
-            var farKey = data.PrimaryItems.Aggregate("", (acc, item) => acc + item.CacheKey);
-            var overflowKey = data.PrimaryItems.Aggregate("", (acc, item) => acc + item.CacheKey);
+            var farKey = data.FarItems.Aggregate("", (acc, item) => acc + item.CacheKey);
+            var overflowKey = data.OverflowItems.Aggregate("", (acc, item) => acc + item.CacheKey);
             return string.Join(" ", primaryKey, farKey, overflowKey);
         }
 

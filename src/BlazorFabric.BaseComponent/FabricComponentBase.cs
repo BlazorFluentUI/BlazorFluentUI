@@ -3,6 +3,7 @@ using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
@@ -54,7 +55,33 @@ namespace BlazorFabric
                 var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", RootElementReference);
                 return rectangle;
             }
-            catch
+            catch (JSException ex)
+            {
+                return new Rectangle();
+            }
+        }
+
+        public async Task<Rectangle> GetBoundsAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", cancellationToken, RootElementReference);
+                return rectangle;
+            }
+            catch (JSException ex)
+            {
+                return new Rectangle();
+            }
+        }
+
+        public async Task<Rectangle> GetBoundsAsync(ElementReference elementReference, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", cancellationToken, elementReference);
+                return rectangle;
+            }
+            catch (JSException ex)
             {
                 return new Rectangle();
             }
@@ -67,7 +94,7 @@ namespace BlazorFabric
                 var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", elementReference);
                 return rectangle;
             }
-            catch
+            catch (JSException ex)
             {
                 return new Rectangle();
             }

@@ -268,6 +268,11 @@ namespace BlazorFabric
                 imageAlt, 
                 string.IsNullOrWhiteSpace(imageWidth) ? null : imageWidth,
                 string.IsNullOrWhiteSpace(imageHeight) ? null : imageHeight);
+            imageUrl = "";
+            imageAlt = "";
+            imageWidth = "";
+            imageHeight = "";
+            isImageDialogOpen = false;
         }
     }
 }

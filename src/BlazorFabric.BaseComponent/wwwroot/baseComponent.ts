@@ -198,7 +198,7 @@
         var guid = Guid.newGuid();
         eventRegister[guid] = debounce((ev: UIEvent) => {
             dotnetRef.invokeMethodAsync(functionName);
-        }, 16, { leading: true });
+        }, 100, { leading: true });
         window.addEventListener("resize", eventRegister[guid]);
         return guid;
     }

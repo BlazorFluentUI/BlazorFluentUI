@@ -157,7 +157,7 @@ var BlazorFabricBaseComponent;
         var guid = Guid.newGuid();
         eventRegister[guid] = debounce(function (ev) {
             dotnetRef.invokeMethodAsync(functionName);
-        }, 16, { leading: true });
+        }, 100, { leading: true });
         window.addEventListener("resize", eventRegister[guid]);
         return guid;
     }

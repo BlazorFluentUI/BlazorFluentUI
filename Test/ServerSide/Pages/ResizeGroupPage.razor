@@ -8,7 +8,7 @@
              GetCacheKey=@getCacheKey
 >
     <DataTemplate Context="data">
-        <OverflowSet Items=@data.Items OverflowItems=@data.OverflowItems GetKey=@(x=> x.Key)>
+        <OverflowSet Items=@data.Items OverflowItems=@data.OverflowItems GetKey=@(x => x.Key)>
             <ItemTemplate>
                 <CommandBarButton IconName="Add" Text=@context.Name />
             </ItemTemplate>
@@ -22,8 +22,9 @@
     </DataTemplate>
 </ResizeGroup>
 
-
 @code {
+    bool isShown = true;
+
     System.Collections.Generic.List<OverflowItem> items = new System.Collections.Generic.List<OverflowItem>();
     System.Collections.Generic.List<OverflowItem> overflowItems = new System.Collections.Generic.List<OverflowItem>();
 
@@ -31,22 +32,22 @@
     Func<ResizeGroupData<OverflowItem>, ResizeGroupData<OverflowItem>>  onReduceData;
 
     Func<IEnumerable<OverflowItem>, IEnumerable<IContextualMenuItem>> itemTransform => (items) =>
-        {
-            var menuItems = new System.Collections.Generic.List<IContextualMenuItem>();
-            if (items == null)
-                return menuItems;
-            foreach (var item in items)
-            {
-                var menuItem = new ContextualMenuItem()
-                {
-                    Key = item.Key,
-                    Text = item.Name,
-                    IconName = "Add"
-                };
-                menuItems.Add(menuItem);
-            }
+    {
+        var menuItems = new System.Collections.Generic.List<IContextualMenuItem>();
+        if (items == null)
             return menuItems;
-        };
+        foreach (var item in items)
+        {
+            var menuItem = new ContextualMenuItem()
+            {
+                Key = item.Key,
+                Text = item.Name,
+                IconName = "Add"
+            };
+            menuItems.Add(menuItem);
+        }
+        return menuItems;
+    };
 
     @*Func<(IEnumerable<OverflowItem> primary, IEnumerable<OverflowItem> overflow, string cacheKey), RenderFragment> onRenderData = data =>@<OverflowSet Items=@data.primary OverflowItems=@data.overflow>
     <ItemTemplate>

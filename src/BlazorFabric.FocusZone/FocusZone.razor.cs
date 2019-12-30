@@ -83,8 +83,15 @@ namespace BlazorFabric
 
         private async Task UpdateFocusZoneAsync()
         {
-            var props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
-            await jsRuntime.InvokeVoidAsync("BlazorFabricFocusZone.updateFocusZone", _registrationId, props);
+            try
+            {
+                var props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
+                await jsRuntime.InvokeVoidAsync("BlazorFabricFocusZone.updateFocusZone", _registrationId, props);
+            }
+            catch (TaskCanceledException ex)
+            {
+
+            }
         }
 
 
@@ -96,7 +103,14 @@ namespace BlazorFabric
 
         private async Task UnregisterFocusZoneAsync()
         {
-            await jsRuntime.InvokeVoidAsync("BlazorFabricFocusZone.unregister", _registrationId);
+            try
+            {
+                await jsRuntime.InvokeVoidAsync("BlazorFabricFocusZone.unregister", _registrationId);
+            }
+            catch (TaskCanceledException ex)
+            {
+                var i = ex;
+            }
         }
 
         [JSInvokable]
@@ -104,12 +118,6 @@ namespace BlazorFabric
         {
             return OnBeforeFocus();
         }
-
-        //[JSInvokable]
-        //public bool JSIsInnerZoneKeystroke(KeyboardEventArgs args)
-        //{
-        //    return IsInnerZoneKeystroke(args);
-        //}
 
         [JSInvokable]
         public bool JSShouldInputLoseFocusOnArrowKey()
@@ -130,13 +138,13 @@ namespace BlazorFabric
         }
 
 
-        public void Dispose()
+        public async void Dispose()
         {
             if (_registrationId != -1)
             {
                 _registrationId = -1;
                 Debug.WriteLine("Trying to unregister focuszone");
-                _ = UnregisterFocusZoneAsync();
+                await UnregisterFocusZoneAsync();
             }
         }
     }

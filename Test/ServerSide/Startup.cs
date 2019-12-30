@@ -7,14 +7,17 @@ namespace BlazorFabric.Test.ServerSide
 {
     public class Startup
     {
+        private IWebHostEnvironment _env;
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
             services.AddServerSideBlazor(configure => 
-            {
-                configure.DetailedErrors = true;
+            {                
+                if (_env.IsDevelopment())
+                    configure.DetailedErrors = true;
             });
             services.AddBlazorFabric();
         }
@@ -22,6 +25,7 @@ namespace BlazorFabric.Test.ServerSide
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            _env = env;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

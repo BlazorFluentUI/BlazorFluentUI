@@ -84,7 +84,7 @@ var BlazorFabricRichTextEditor = {
             else if (eventName === "selection-change") {
                 if (args[0] !== null && args[0] !== undefined) {
                     that.lastSelection = args[0];
-                    console.log(that.lastSelection);
+                    //console.log(that.lastSelection);
                 }
                 if (args[1] !== "silent") {
                     if (args[0] === null) {

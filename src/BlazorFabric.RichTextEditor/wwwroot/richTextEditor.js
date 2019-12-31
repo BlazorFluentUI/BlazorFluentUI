@@ -179,7 +179,7 @@ var BlazorFabricRichTextEditor = {
                     format.subscript = true;
             }
             return format;
-        } catch {
+        } catch(ex) {
             return null;
         }
     },

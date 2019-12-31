@@ -11,6 +11,7 @@
     background: var(--semanticColors-InputBackground);
     cursor: text;
     /*padding: 6px 8px;*/
+    margin-top: 0.1px; /* Odd rendering issue with hover for EdgeHTML */
     min-height: 60px;
     height: auto;
 }

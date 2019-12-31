@@ -56,9 +56,9 @@ namespace BlazorFabric
                     if (item.CanCheck)
                     {
                         if (!item.Checked)
-                            await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant());
+                            await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant());
                         else
-                            await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant(), false);
+                            await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant(), false);
                         item.Checked = !item.Checked;
                     }
                     else
@@ -160,15 +160,15 @@ namespace BlazorFabric
             if (_renderedOnce)
             {               
                 if (RichText != internalRichText)
-                    await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setHtmlContent", quillId, RichText);
+                    await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.setHtmlContent", quillId, RichText);
                 if (ReadOnly && !_readonlySet)
                 {
-                    await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setReadonly", quillId, true);
+                    await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.setReadonly", quillId, true);
                     _readonlySet = true;
                 }
                 else if (!ReadOnly && _readonlySet)
                 {
-                    await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setReadonly", quillId, false);
+                    await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.setReadonly", quillId, false);
                     _readonlySet = false;
                 }
             }
@@ -179,8 +179,8 @@ namespace BlazorFabric
         {
             if (firstRender)
             {
-                quillId = await jsRuntime.InvokeAsync<int>("window.BlazorFabricRichTextEditor.register", RootElementReference, DotNetObjectReference.Create(this));
-                await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setHtmlContent", quillId, RichText);
+                quillId = await jsRuntime.InvokeAsync<int>("BlazorFabricRichTextEditor.register", RootElementReference, DotNetObjectReference.Create(this));
+                await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.setHtmlContent", quillId, RichText);
                 if (ReadOnly)
                 {
                     await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setReadonly", quillId, true);
@@ -195,7 +195,7 @@ namespace BlazorFabric
         
         private async Task UpdateFormatStateAsync()
         {
-            var formatState = await jsRuntime.InvokeAsync<FormattingState>("window.BlazorFabricRichTextEditor.getFormat", quillId);
+            var formatState = await jsRuntime.InvokeAsync<FormattingState>("BlazorFabricRichTextEditor.getFormat", quillId);
             if (formatState != null)
             {
                 var stateNeedsChanging = false;
@@ -224,9 +224,9 @@ namespace BlazorFabric
                 if (item != null)
                 {
                     if (!item.Checked)
-                        await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, "superscript");
+                        await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.setFormat", quillId, "superscript");
                     else
-                        await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, "superscript", false);
+                        await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.setFormat", quillId, "superscript", false);
 
 
                     item.Checked = !item.Checked;
@@ -238,9 +238,9 @@ namespace BlazorFabric
                 if (item != null)
                 {
                     if (!item.Checked)
-                        await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, "subscript");
+                        await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.setFormat", quillId, "subscript");
                     else
-                        await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.setFormat", quillId, "subscript", false);
+                        await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.setFormat", quillId, "subscript", false);
 
 
                     item.Checked = !item.Checked;
@@ -251,18 +251,18 @@ namespace BlazorFabric
 
         private async Task OnFocusAsync()
         {
-            await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.preventZoomEnable", true);
+            await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.preventZoomEnable", true);
         }
 
         private async Task OnBlurAsync()
         {
-            await jsRuntime.InvokeVoidAsync("window.BlazorFabricRichTextEditor.preventZoomEnable", false);
+            await jsRuntime.InvokeVoidAsync("BlazorFabricRichTextEditor.preventZoomEnable", false);
         }
 
         private async Task InsertImageAsync()
         {
             await jsRuntime.InvokeVoidAsync(
-                "window.BlazorFabricRichTextEditor.insertImage", 
+                "BlazorFabricRichTextEditor.insertImage", 
                 quillId, 
                 imageUrl, 
                 imageAlt, 

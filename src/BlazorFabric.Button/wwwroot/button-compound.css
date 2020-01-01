@@ -34,3 +34,33 @@
     .ms-Button.ms-Button--compound .ms-Button-description {
         line-height: 100%;
     }
+
+    .ms-Button--default.ms-Button--compound .ms-Button-description {
+        color: var(--palette-NeutralSecondary)
+    }
+
+    .ms-Button--default.ms-Button--compound .ms-Button-description:hover {
+        color: var(--palette-NeutralDark);
+    }
+
+    .ms-Button--default.ms-Button--compound.is-checked .ms-Button-description{
+        color: inherit;
+    }
+    .ms-Button--default.ms-Button--compound.is-disabled .ms-Button-description{
+        color: inherit;
+    }
+
+    .ms-Button--primary.ms-Button--compound .ms-Button-description {
+        color: var(--palette-White)
+    }
+
+    .ms-Button--primary.ms-Button--compound .ms-Button-description:hover {
+        color: var(--palette-White);
+    }
+
+    .ms-Button--primary.ms-Button--compound.is-checked .ms-Button-description{
+        color: inherit;
+    }
+    .ms-Button--primary.ms-Button--compound.is-disabled .ms-Button-description{
+        color: inherit;
+    }

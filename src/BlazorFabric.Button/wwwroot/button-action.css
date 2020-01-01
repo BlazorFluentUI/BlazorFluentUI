@@ -46,6 +46,9 @@
         flex-grow: 0;
     }
 
+    .ms-Button.ms-Button--action .ms-Button-label {
+        font-weight: var(--fontWeight-Regular);
+    }
 
 @media screen and (-ms-high-contrast: active) {
     .ms-Button.ms-Button--action:hover {

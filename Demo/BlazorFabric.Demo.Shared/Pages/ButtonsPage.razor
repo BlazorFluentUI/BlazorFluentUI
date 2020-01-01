@@ -35,34 +35,34 @@
 </Stack>
 
 @*<h4>Split Button</h4>
-    <Stack Horizontal="true" Wrap="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
-        <DefaultButton Text="Standard"
-                       Split="true"
-                       MenuItems="MenuProperties"
-                       OnClick=@(() => OnClickHandler("Standart Split"))
-                       Disabled=Disabled
-                       Checked=Checked />
-        <DefaultButton Text="Primary"
-                       Primary="true"
-                       Split="true"
-                       MenuItems="MenuProperties"
-                       OnClick=@(() => OnClickHandler("Primary Split"))
-                       Disabled=Disabled
-                       Checked=Checked />
-        <DefaultButton Text="Main action disabled"
-                       PrimaryDisabled="true"
-                       Split="true"
-                       MenuItems="MenuProperties"
-                       OnClick=@(() => OnClickHandler("Main Action Disabled Split"))
-                       Disabled=Disabled
-                       Checked=Checked />
-        <DefaultButton Text="Disabled"
-                       Disabled="true"
-                       Split="true"
-                       MenuItems="MenuProperties"
-                       OnClick=@(() => OnClickHandler("Disabled Split"))
-                       Checked=Checked />
-    </Stack>*@
+<Stack Horizontal="true" Wrap="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
+    <DefaultButton Text="Standard"
+                   Split="true"
+                   MenuItems="MenuProperties"
+                   OnClick=@(() => OnClickHandler("Standart Split"))
+                   Disabled=Disabled
+                   Checked=Checked />
+    <DefaultButton Text="Primary"
+                   Primary="true"
+                   Split="true"
+                   MenuItems="MenuProperties"
+                   OnClick=@(() => OnClickHandler("Primary Split"))
+                   Disabled=Disabled
+                   Checked=Checked />
+    <DefaultButton Text="Main action disabled"
+                   PrimaryDisabled="true"
+                   Split="true"
+                   MenuItems="MenuProperties"
+                   OnClick=@(() => OnClickHandler("Main Action Disabled Split"))
+                   Disabled=Disabled
+                   Checked=Checked />
+    <DefaultButton Text="Disabled"
+                   Disabled="true"
+                   Split="true"
+                   MenuItems="MenuProperties"
+                   OnClick=@(() => OnClickHandler("Disabled Split"))
+                   Checked=Checked />
+</Stack>*@
 
 <h4>Icon Button</h4>
 <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 8.0 } })>

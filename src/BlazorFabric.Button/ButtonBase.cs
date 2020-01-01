@@ -31,7 +31,6 @@ namespace BlazorFabric
         [Parameter] public string AriaDescripton { get; set; }
         //[Parameter] public bool AriaHidden { get; set; }
         [Parameter] public string Text { get; set; }
-        [Parameter] public string SecondaryText { get; set; }
         [Parameter] public bool Toggle { get; set; }
         [Parameter] public bool Split { get; set; }
         [Parameter] public string IconName { get; set; }
@@ -56,6 +55,8 @@ namespace BlazorFabric
         protected bool isChecked = false;
 
         private bool contextMenuShown = false;
+
+        private bool isCompoundButton = false;
 
         protected override Task OnParametersSetAsync()
         {
@@ -144,7 +145,7 @@ namespace BlazorFabric
             {
                 AddContent(builder, buttonClassName);
             }
-         
+
         }
 
         protected void AddSplit(RenderTreeBuilder builder, string buttonClassName)
@@ -166,9 +167,10 @@ namespace BlazorFabric
             builder.CloseElement();
             builder.CloseElement();
         }
-               
+
         protected virtual void AddContent(RenderTreeBuilder builder, string buttonClassName)
         {
+            isCompoundButton = this.GetType() == typeof(CompoundButton);
             if (this.Href == null)
             {
                 builder.OpenElement(21, "button");
@@ -180,7 +182,14 @@ namespace BlazorFabric
                 builder.AddAttribute(22, "href", this.Href);
 
             }
-
+            if (Primary)
+            {
+                buttonClassName += " ms-Button--primary";
+            }
+            else
+            {
+                buttonClassName += " ms-Button--default";
+            }
             builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
             builder.AddAttribute(24, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
             builder.AddAttribute(25, "disabled", this.Disabled && !this.AllowDisabledFocus);
@@ -207,19 +216,19 @@ namespace BlazorFabric
                 builder.AddAttribute(42, "IconName", this.IconName);
                 builder.CloseComponent();
             }
-            if (this.Text != null)
+            if (this.Text != null || (isCompoundButton && (this as CompoundButton).SecondaryText != null))
             {
                 builder.OpenElement(51, "div");
                 builder.AddAttribute(52, "class", "ms-Button-textContainer");
                 builder.OpenElement(53, "div");
                 builder.AddAttribute(54, "class", "ms-Button-label");
-                builder.AddContent(55, this.Text);
+                builder.AddContent(55, this.Text ?? "");
                 builder.CloseElement();
-                if (this.SecondaryText != null)
+                if (isCompoundButton && (this as CompoundButton).SecondaryText != null)
                 {
                     builder.OpenElement(61, "div");
-                    builder.AddAttribute(62, "class", "ms-Button-description");
-                    builder.AddContent(63, this.SecondaryText);
+                    builder.AddAttribute(62, "class", "ms-Button-description smallFont");
+                    builder.AddContent(63, (this as CompoundButton).SecondaryText);
                     builder.CloseElement();
                 }
                 builder.CloseElement();
@@ -253,7 +262,7 @@ namespace BlazorFabric
             //    //builder.CloseComponent();
             //}
             if (MenuItems != null && contextMenuShown)
-            {                
+            {
                 builder.OpenComponent<ContextualMenu>(29);
                 builder.AddAttribute(101, "FabricComponentTarget", this);
                 builder.AddAttribute(102, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { contextMenuShown = false; }));

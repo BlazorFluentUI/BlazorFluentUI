@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 
 namespace BlazorFabric
 {
-    public class ActionButton: ButtonBase
+    public class ActionButton : ButtonBase
     {
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {

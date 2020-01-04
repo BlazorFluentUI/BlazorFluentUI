@@ -59,16 +59,7 @@ namespace BlazorFabric
 
         protected override Task OnParametersSetAsync()
         {
-            showMenu = this.MenuItems != null;// || this.ContextualMenuItemsSource != null;
-            //if (MenuContent == null)
-            //{
-            //    Debug.WriteLine("MenuContent is null");
-            //}
-            //else
-            //{
-            //    Debug.WriteLine("MenuContent is NOT null");
-
-            //}
+            showMenu = this.MenuItems != null;
 
             if (Command == null && command != null)
             {
@@ -82,6 +73,7 @@ namespace BlazorFabric
                     command.CanExecuteChanged -= Command_CanExecuteChanged;
                 }
                 command = Command;
+                commandDisabled = !command.CanExecute(CommandParameter);
                 Command.CanExecuteChanged += Command_CanExecuteChanged;
             }
 
@@ -95,7 +87,8 @@ namespace BlazorFabric
 
         private void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            commandDisabled = Command.CanExecute(CommandParameter);
+            commandDisabled = !Command.CanExecute(CommandParameter);
+            InvokeAsync(StateHasChanged);
         }
 
         protected async void ClickHandler(MouseEventArgs args)
@@ -151,7 +144,7 @@ namespace BlazorFabric
         {
             builder.OpenElement(11, "div");
             builder.AddAttribute(12, "class", $"ms-Button-splitContainer");
-            if (!Disabled)
+            if (!Disabled && !commandDisabled)
             {
                 builder.AddAttribute(13, "tabindex", 0);
             }
@@ -181,10 +174,10 @@ namespace BlazorFabric
 
             }
 
-            builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
+            builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled || commandDisabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
             builder.AddAttribute(24, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
-            builder.AddAttribute(25, "disabled", this.Disabled && !this.AllowDisabledFocus);
-            builder.AddAttribute(26, "data-is-focusable", this.Disabled || this.Split ? false : true);
+            builder.AddAttribute(25, "disabled", (this.Disabled || commandDisabled) && !this.AllowDisabledFocus);
+            builder.AddAttribute(26, "data-is-focusable", this.Disabled || commandDisabled || this.Split ? false : true);
             builder.AddAttribute(27, "style", this.Style);
 
             builder.AddElementReferenceCapture(28, (elementRef) => { RootElementReference = elementRef; });

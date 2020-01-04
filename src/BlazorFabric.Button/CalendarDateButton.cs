@@ -13,7 +13,6 @@ namespace BlazorFabric
 
         protected override void OnParametersSet()
         {
-            this.SecondaryText = null;
             base.OnParametersSet();
         }
 
@@ -21,7 +20,7 @@ namespace BlazorFabric
         {
             base.BuildRenderTree(builder);
             StartRoot(builder, "ms-Button--calendarDate");
-            
+
         }
 
         protected override void AddContent(RenderTreeBuilder builder, string buttonClassName)
@@ -38,7 +37,7 @@ namespace BlazorFabric
             builder.AddAttribute(29, "aria-label", this.AriaLabel);
 
             builder.AddElementReferenceCapture(30, (elementRef) => { RootElementReference = elementRef; });
-        
+
             //skipping KeytipData component
             builder.OpenElement(40, "div");
             builder.AddAttribute(41, "class", "ms-Button-flexContainer");

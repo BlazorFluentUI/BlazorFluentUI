@@ -17,7 +17,6 @@ namespace BlazorFabric
         protected override void OnParametersSet()
         {
             this.Text = null;
-            this.SecondaryText = null;
             base.OnParametersSet();
         }
 

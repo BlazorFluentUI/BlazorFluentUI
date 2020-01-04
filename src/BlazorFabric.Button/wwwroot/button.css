@@ -3,7 +3,6 @@
     outline: transparent;
     position: relative;
     /* end */
-
     box-sizing: border-box;
     border-width: 1px;
     border-style: solid;
@@ -18,11 +17,12 @@
     height: 32px;
     border-radius: var(--effects-RoundedCorner2);
 }
-    .ms-Button::-moz-focus-inner{
-        border:0;
+
+    .ms-Button::-moz-focus-inner {
+        border: 0;
     }
 
-.ms-Fabric--isFocusVisible .ms-Button:focus:after{
+.ms-Fabric--isFocusVisible .ms-Button:focus:after {
     content: "";
     position: absolute;
     left: 2px;
@@ -33,13 +33,14 @@
     outline: 1px solid var(--palette-NeutralSecondary);
     z-index: var(--zindex-FocusStyle);
 }
+
 @media screen and (-ms-high-contrast: active) {
     .ms-Fabric--isFocusVisible .ms-Button:focus:after {
         left: -2px;
         top: -2px;
         bottom: -2px;
         right: -2px;
-        border: none; 
+        border: none;
         outline-color: ButtonText;
     }
 }
@@ -51,30 +52,34 @@
     top: 0;
 }
 
-    .ms-Button.is-disabled {
-        background-color: var(--semanticColors-DisabledBackground);
-        color: var(--semanticColors-DisabledText);
-        cursor: default;
-        pointer-events: none;
-    }
+.ms-Button.is-disabled {
+    background-color: var(--semanticColors-DisabledBackground);
+    color: var(--semanticColors-DisabledText);
+    cursor: default;
+    pointer-events: none;
+}
 
-    .ms-Button:hover {
-        text-decoration: none;
-        outline: 0;
-    }
-    .ms-Button:focus {
-        text-decoration: none;
-        outline: 0;
-    }
-    .ms-Button:link {
-        text-decoration:none;
-    }
-    .ms-Button:visited {
-        text-decoration: none;
-    }
-    .ms-Button:active {
-        text-decoration: none;
-    }
+.ms-Button:hover {
+    text-decoration: none;
+    outline: 0;
+}
+
+.ms-Button:focus {
+    text-decoration: none;
+    outline: 0;
+}
+
+.ms-Button:link {
+    text-decoration: none;
+}
+
+.ms-Button:visited {
+    text-decoration: none;
+}
+
+.ms-Button:active {
+    text-decoration: none;
+}
 
 @media screen and (-ms-high-contrast: active) {
     .ms-Button {
@@ -86,6 +91,7 @@
 .ms-Button.is-disabled .ms-Button-icon {
     color: var(--semanticColors-DisabledText);
 }
+
 .ms-Button.is-disabled .ms-Button-menuIcon {
     color: var(--semanticColors-DisabledText);
 }
@@ -100,6 +106,11 @@
 
 .ms-Button-textContainer {
     flex-grow: 1;
+    display: block;
+}
+
+.ms-Button-description {
+    display: block;
 }
 
 .ms-Button-icon {
@@ -114,14 +125,19 @@
 
 .ms-Button-menuIcon {
     font-size: var(--fontSize-Small);
-    margin-left:4px;
-    margin-right:4px;
+    margin: 0px 4px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+    flex-shrink: 0;
 }
 
 .ms-Button-label {
     font-weight: var(--fontWeight-SemiBold);
     margin: 0px 4px;
     line-height: 100%;
+    display: block;
 }
 
 .ms-Button-screenReaderText {

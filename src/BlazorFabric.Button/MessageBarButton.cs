@@ -9,7 +9,7 @@ namespace BlazorFabric
         {
             base.BuildRenderTree(builder);
 
-            StartRoot(builder, "ms-Button--default ms-Button--messageBar");
+            StartRoot(builder, "ms-Button--messageBar");
 
         }
 

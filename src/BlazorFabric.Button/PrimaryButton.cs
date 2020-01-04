@@ -16,8 +16,9 @@ namespace BlazorFabric
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
+            Primary = true;
             base.BuildRenderTree(builder);
-            StartRoot(builder, "ms-Button--primary");
+            StartRoot(builder, "");
         }
 
     }

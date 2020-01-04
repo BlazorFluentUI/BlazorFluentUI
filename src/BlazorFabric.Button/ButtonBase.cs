@@ -31,7 +31,6 @@ namespace BlazorFabric
         [Parameter] public string AriaDescripton { get; set; }
         //[Parameter] public bool AriaHidden { get; set; }
         [Parameter] public string Text { get; set; }
-        [Parameter] public string SecondaryText { get; set; }
         [Parameter] public bool Toggle { get; set; }
         [Parameter] public bool Split { get; set; }
         [Parameter] public string IconName { get; set; }
@@ -57,9 +56,21 @@ namespace BlazorFabric
 
         private bool contextMenuShown = false;
 
+        private bool isCompoundButton = false;
+        private bool isSplitButton = false;
+
         protected override Task OnParametersSetAsync()
         {
-            showMenu = this.MenuItems != null;
+            showMenu = this.MenuItems != null;// || this.ContextualMenuItemsSource != null;
+            //if (MenuContent == null)
+            //{
+            //    Debug.WriteLine("MenuContent is null");
+            //}
+            //else
+            //{
+            //    Debug.WriteLine("MenuContent is NOT null");
+
+            //}
 
             if (Command == null && command != null)
             {
@@ -73,7 +84,6 @@ namespace BlazorFabric
                     command.CanExecuteChanged -= Command_CanExecuteChanged;
                 }
                 command = Command;
-                commandDisabled = !command.CanExecute(CommandParameter);
                 Command.CanExecuteChanged += Command_CanExecuteChanged;
             }
 
@@ -87,8 +97,7 @@ namespace BlazorFabric
 
         private void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            commandDisabled = !Command.CanExecute(CommandParameter);
-            InvokeAsync(StateHasChanged);
+            commandDisabled = Command.CanExecute(CommandParameter);
         }
 
         protected async void ClickHandler(MouseEventArgs args)
@@ -129,7 +138,9 @@ namespace BlazorFabric
 
         protected void StartRoot(RenderTreeBuilder builder, string buttonClassName)
         {
-            if (Split)
+            isSplitButton = (Split && OnClick.HasDelegate && MenuItems != null);
+            isCompoundButton = this.GetType() == typeof(CompoundButton);
+            if (isSplitButton)
             {
                 AddSplit(builder, buttonClassName);
             }
@@ -137,14 +148,14 @@ namespace BlazorFabric
             {
                 AddContent(builder, buttonClassName);
             }
-         
+
         }
 
         protected void AddSplit(RenderTreeBuilder builder, string buttonClassName)
         {
             builder.OpenElement(11, "div");
             builder.AddAttribute(12, "class", $"ms-Button-splitContainer");
-            if (!Disabled && !commandDisabled)
+            if (!Disabled)
             {
                 builder.AddAttribute(13, "tabindex", 0);
             }
@@ -159,7 +170,7 @@ namespace BlazorFabric
             builder.CloseElement();
             builder.CloseElement();
         }
-               
+
         protected virtual void AddContent(RenderTreeBuilder builder, string buttonClassName)
         {
             if (this.Href == null)
@@ -174,10 +185,19 @@ namespace BlazorFabric
 
             }
 
-            builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled || commandDisabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
+            if (Primary)
+            {
+                buttonClassName += " ms-Button--primary";
+            }
+            else
+            {
+                buttonClassName += " ms-Button--default";
+            }
+
+            builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
             builder.AddAttribute(24, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
-            builder.AddAttribute(25, "disabled", (this.Disabled || commandDisabled) && !this.AllowDisabledFocus);
-            builder.AddAttribute(26, "data-is-focusable", this.Disabled || commandDisabled || this.Split ? false : true);
+            builder.AddAttribute(25, "disabled", this.Disabled && !this.AllowDisabledFocus);
+            builder.AddAttribute(26, "data-is-focusable", this.Disabled || isSplitButton ? false : true);
             builder.AddAttribute(27, "style", this.Style);
 
             builder.AddElementReferenceCapture(28, (elementRef) => { RootElementReference = elementRef; });
@@ -200,19 +220,19 @@ namespace BlazorFabric
                 builder.AddAttribute(42, "IconName", this.IconName);
                 builder.CloseComponent();
             }
-            if (this.Text != null)
+            if (this.Text != null || (isCompoundButton && (this as CompoundButton).SecondaryText != null))
             {
                 builder.OpenElement(51, "div");
                 builder.AddAttribute(52, "class", "ms-Button-textContainer");
                 builder.OpenElement(53, "div");
                 builder.AddAttribute(54, "class", "ms-Button-label");
-                builder.AddContent(55, this.Text);
+                builder.AddContent(55, this.Text ?? "");
                 builder.CloseElement();
-                if (this.SecondaryText != null)
+                if (isCompoundButton && (this as CompoundButton).SecondaryText != null)
                 {
                     builder.OpenElement(61, "div");
-                    builder.AddAttribute(62, "class", "ms-Button-description");
-                    builder.AddContent(63, this.SecondaryText);
+                    builder.AddAttribute(62, "class", "ms-Button-description smallFont");
+                    builder.AddContent(63, (this as CompoundButton).SecondaryText);
                     builder.CloseElement();
                 }
                 builder.CloseElement();
@@ -228,33 +248,22 @@ namespace BlazorFabric
             {
                 builder.AddContent(81, this.ChildContent);
             }
-            if (!this.Split && this.MenuItems != null && !this.HideChevron)
+            if (!isSplitButton && this.MenuItems != null && !this.HideChevron)
             {
                 builder.OpenComponent<BlazorFabric.Icon>(26);
                 builder.AddAttribute(91, "IconName", "ChevronDown");
                 builder.AddAttribute(92, "ClassName", "ms-Button-menuIcon");
                 builder.CloseComponent();
             }
-            //menu here!
-            //if (MenuItems != null && contextMenuShown)
-            //{
-            //    //builder.OpenElement(0, "div");
-            //    //builder.AddAttribute(1, "style", "display:inline-block;");
-            //    //AddContent(builder, buttonClassName);
-            //    ////builder.AddContent(50, ;
-            //    //builder.AddAttribute(51, "ChildContent", MenuContent);
-            //    //builder.CloseComponent();
-            //}
+            // ToDo -> on Small Screens there should be an Callout instead of an ContextMenu
             if (MenuItems != null && contextMenuShown)
-            {                
+            {
                 builder.OpenComponent<ContextualMenu>(29);
                 builder.AddAttribute(101, "FabricComponentTarget", this);
                 builder.AddAttribute(102, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { contextMenuShown = false; }));
                 builder.AddAttribute(103, "Items", MenuItems);
                 builder.CloseComponent();
             }
-
-
 
             builder.CloseElement();
 
@@ -273,7 +282,10 @@ namespace BlazorFabric
 
         protected void AddSplitButtonMenu(RenderTreeBuilder builder, string buttonClassName)
         {
-
+            builder.OpenComponent<BlazorFabric.Icon>(105);
+            builder.AddAttribute(106, "IconName", "ChevronDown");
+            builder.AddAttribute(107, "ClassName", "ms-Button-menuIcon");
+            builder.CloseComponent();
 
         }
 

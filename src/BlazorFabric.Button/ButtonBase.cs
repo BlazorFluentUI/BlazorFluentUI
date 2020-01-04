@@ -61,16 +61,7 @@ namespace BlazorFabric
 
         protected override Task OnParametersSetAsync()
         {
-            showMenu = this.MenuItems != null;// || this.ContextualMenuItemsSource != null;
-            //if (MenuContent == null)
-            //{
-            //    Debug.WriteLine("MenuContent is null");
-            //}
-            //else
-            //{
-            //    Debug.WriteLine("MenuContent is NOT null");
-
-            //}
+            showMenu = this.MenuItems != null;
 
             if (Command == null && command != null)
             {
@@ -84,6 +75,7 @@ namespace BlazorFabric
                     command.CanExecuteChanged -= Command_CanExecuteChanged;
                 }
                 command = Command;
+                commandDisabled = !command.CanExecute(CommandParameter);
                 Command.CanExecuteChanged += Command_CanExecuteChanged;
             }
 
@@ -97,7 +89,8 @@ namespace BlazorFabric
 
         private void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            commandDisabled = Command.CanExecute(CommandParameter);
+            commandDisabled = !Command.CanExecute(CommandParameter);
+            InvokeAsync(StateHasChanged);
         }
 
         protected async void ClickHandler(MouseEventArgs args)
@@ -110,10 +103,7 @@ namespace BlazorFabric
             contextMenuShown = !contextMenuShown;
 
             await OnClick.InvokeAsync(args);
-            //if (Clicked != null)
-            //{
-            //    await Clicked.Invoke(this, args);
-            //}
+
             if (Command != null)
             {
                 Command.Execute(CommandParameter);

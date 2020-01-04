@@ -145,7 +145,7 @@ namespace BlazorFabric
         {
             builder.OpenElement(11, "div");
             builder.AddAttribute(12, "class", $"ms-Button-splitContainer");
-            if (!Disabled)
+            if (!Disabled && !commandDisabled)
             {
                 builder.AddAttribute(13, "tabindex", 0);
             }
@@ -170,7 +170,6 @@ namespace BlazorFabric
             else
             {
                 builder.OpenElement(21, "a");
-                //builder.AddElementReferenceCapture(3, (elementRef) => { RootElementReference = elementRef; });
                 builder.AddAttribute(22, "href", this.Href);
 
             }
@@ -184,10 +183,10 @@ namespace BlazorFabric
                 buttonClassName += " ms-Button--default";
             }
 
-            builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
+            builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled || commandDisabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
             builder.AddAttribute(24, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
-            builder.AddAttribute(25, "disabled", this.Disabled && !this.AllowDisabledFocus);
-            builder.AddAttribute(26, "data-is-focusable", this.Disabled || isSplitButton ? false : true);
+            builder.AddAttribute(25, "disabled", (this.Disabled || commandDisabled) && !this.AllowDisabledFocus);
+            builder.AddAttribute(26, "data-is-focusable", this.Disabled || commandDisabled || isSplitButton ? false : true);
             builder.AddAttribute(27, "style", this.Style);
 
             builder.AddElementReferenceCapture(28, (elementRef) => { RootElementReference = elementRef; });

@@ -46,6 +46,7 @@ namespace BlazorFabric
         [Parameter] public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
         [Parameter] public ICommand Command { get; set; }
         [Parameter] public object CommandParameter { get; set; }
+        [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> UnknownProperties { get; set; }
 
         protected bool showMenu = false;
 
@@ -188,8 +189,9 @@ namespace BlazorFabric
             builder.AddAttribute(25, "disabled", (this.Disabled || commandDisabled) && !this.AllowDisabledFocus);
             builder.AddAttribute(26, "data-is-focusable", this.Disabled || commandDisabled || isSplitButton ? false : true);
             builder.AddAttribute(27, "style", this.Style);
+            builder.AddMultipleAttributes(28, UnknownProperties);
 
-            builder.AddElementReferenceCapture(28, (elementRef) => { RootElementReference = elementRef; });
+            builder.AddElementReferenceCapture(29, (elementRef) => { RootElementReference = elementRef; });
 
             //if (MenuContent != null) // menu!
             //{
@@ -199,8 +201,8 @@ namespace BlazorFabric
             //    builder.CloseElement();
             //}
             //skipping KeytipData component
-            builder.OpenElement(29, "div");
-            builder.AddAttribute(30, "class", "ms-Button-flexContainer");
+            builder.OpenElement(30, "div");
+            builder.AddAttribute(31, "class", "ms-Button-flexContainer");
 
             if (this.IconName != null)
             {
@@ -247,7 +249,7 @@ namespace BlazorFabric
             // ToDo -> on Small Screens there should be an Callout instead of an ContextMenu
             if (MenuItems != null && contextMenuShown)
             {
-                builder.OpenComponent<ContextualMenu>(29);
+                builder.OpenComponent<ContextualMenu>(32);
                 builder.AddAttribute(101, "FabricComponentTarget", this);
                 builder.AddAttribute(102, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { contextMenuShown = false; }));
                 builder.AddAttribute(103, "Items", MenuItems);

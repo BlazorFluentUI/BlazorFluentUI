@@ -17,6 +17,7 @@
     <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
     <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RootNamespace>BlazorFabric</RootNamespace>
   </PropertyGroup>
 
 
@@ -31,6 +32,9 @@
   
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Button\BlazorFabric.Button.csproj" />
+    <ProjectReference Include="..\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
   </ItemGroup>
 
 </Project>

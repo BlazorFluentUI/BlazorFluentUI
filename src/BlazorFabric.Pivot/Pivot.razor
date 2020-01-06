@@ -1,6 +1,18 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<div class="my-component">
-    This Blazor component is defined in the <strong>BlazorFabric.Pivot</strong> package.
+<div role="tablist" aria-label=@AriaLabel>
+    <FocusZone Direction=FocusZoneDirection.Horizontal>
+        <CascadingValue Name="Pivot" Value="@this">
+            <div class=@($"ms-Pivot mediumFont normalize{(LinkFormat == PivotLinkFormat.Tabs ? " ms-Pivot--tabs" : "")}{(LinkSize == PivotLinkSize.Large ? " ms-Pivot--large" : "")}")>
+                @ChildContent
+            </div>
+        </CascadingValue>
+    </FocusZone>
+    @if (!HeadersOnly && !(Selected == null))
+    {
+        <div role="tabpanel">
+            @Selected.ChildContent
+        </div>
+    }
 </div>

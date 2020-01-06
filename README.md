@@ -13,7 +13,7 @@ https://t.me/blazorfabric
 
 ## Release Notes
 - upcomming
-        - Added `Pivot`
+	- Added `Pivot`
 	- Fix #78 positioning problems with `Callout`
 - v2.1.0
 	- Added `Text` (including custom styling)

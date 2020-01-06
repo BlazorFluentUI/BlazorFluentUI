@@ -13,6 +13,7 @@ https://t.me/blazorfabric
 
 ## Release Notes
 - upcomming
+        - Added `Pivot`
 	- Fix #78 positioning problems with `Callout`
 - v2.1.0
 	- Added `Text` (including custom styling)
@@ -119,7 +120,7 @@ https://t.me/blazorfabric
 | ContextualMenu | Done  |             |
 | Nav            | Done  |             |
 | OverflowSet    | Done  |             |
-| Pivot          | ToDo  |             |
+| Pivot          | Done  |             |
 
 ### Notification & Engagement
 | Control        | State | Information |

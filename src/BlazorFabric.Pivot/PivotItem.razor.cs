@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using System;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
@@ -7,7 +8,7 @@ namespace BlazorFabric
 
     // ToDo Test KeyTip
     // ToDo Add OnRenderItemLink
-    public partial class PivotItem : FabricComponentBase
+    public partial class PivotItem : FabricComponentBase, IDisposable
     {
         [Parameter] public string HeaderText { get; set; }
         [Parameter] public string ItemKey { get; set; }
@@ -37,6 +38,12 @@ namespace BlazorFabric
                 ParentPivot.OnLinkClick.Invoke(this, ev);
             }
             return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            ParentPivot.PivotItems.Remove(this);
+            return;
         }
     }
 }

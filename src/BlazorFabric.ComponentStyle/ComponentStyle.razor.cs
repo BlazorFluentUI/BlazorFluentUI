@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using System.Linq;
 using System.Reflection;
-using System.ComponentModel.DataAnnotations;
 using System;
 
 namespace BlazorFabric
@@ -75,10 +74,16 @@ namespace BlazorFabric
                 {
                     string cssProperty = "";
                     string cssValue = "";
-                    var attribute = property.GetCustomAttribute(typeof(DisplayAttribute));
+                    Attribute attribute = null;
+                    //Catch Ignore Propertie
+                    attribute = property.GetCustomAttribute(typeof(CsIgnoreAttribute));
+                    if (attribute != null)
+                        continue;
+                    
+                    attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
                     if (attribute != null)
                     {
-                        cssProperty = (attribute as DisplayAttribute).GetName();
+                        cssProperty = (attribute as CsPropertyAttribute).PropertyName;
                     }
                     else
                     {
@@ -86,9 +91,9 @@ namespace BlazorFabric
                     }
 
                     cssValue = property.GetValue(rule.Properties)?.ToString();
-                    if (!string.IsNullOrWhiteSpace(cssValue))
+                    if (cssValue != null)
                     {
-                        css += $"{cssProperty.ToLower()}:{cssValue};";
+                        css += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
                     }
                 }
                 css += "}";

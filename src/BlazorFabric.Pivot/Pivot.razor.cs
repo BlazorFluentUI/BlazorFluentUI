@@ -59,10 +59,10 @@ namespace BlazorFabric
         private RenderFragment _oldChildContent;
         private int _oldIndex = 0;
 
-                protected override void OnInitialized()
+        protected override void OnInitialized()
         {
             PivotItems = new List<PivotItem>();
-            if (DefaultSelectedIndex == null && DefaultSelectedKey == null)
+            if (SelectedKey != null)
             {
                 _isControlled = true;
             }
@@ -89,12 +89,12 @@ namespace BlazorFabric
             {
                 SetSelection(firstRender);
             }
-            base.OnAfterRender(firstRender);
             if (_redraw && !HeadersOnly)
             {
                 _redraw = false;
                 StateHasChanged();
             }
+            base.OnAfterRender(firstRender);
 
         }
 
@@ -104,27 +104,51 @@ namespace BlazorFabric
             {
                 if (!string.IsNullOrWhiteSpace(DefaultSelectedKey) && PivotItems.FirstOrDefault(item => item.ItemKey == DefaultSelectedKey) != null)
                 {
-                    Selected = PivotItems.FirstOrDefault(item => item.ItemKey == DefaultSelectedKey);
+                    _selected = PivotItems.FirstOrDefault(item => item.ItemKey == DefaultSelectedKey);
                 }
                 else if (DefaultSelectedIndex.HasValue && DefaultSelectedIndex < PivotItems.Count())
                 {
-                    Selected = PivotItems.ElementAt(DefaultSelectedIndex.Value);
+                    _selected = PivotItems.ElementAt(DefaultSelectedIndex.Value);
                 }
                 else
                 {
-                    Selected = PivotItems.FirstOrDefault();
+                    _selected = PivotItems.FirstOrDefault();
                 }
+                _oldIndex = PivotItems.IndexOf(_selected);
+                _oldChildContent = _selected?.ChildContent;
+                StateHasChanged();
             }
             else if (_isControlled)
             {
                 if (!string.IsNullOrWhiteSpace(SelectedKey) && PivotItems.FirstOrDefault(item => item.ItemKey == SelectedKey) != null)
                 {
-                    Selected = PivotItems.FirstOrDefault(item => item.ItemKey == SelectedKey);
+                    if (firstRender)
+                    {
+                        _selected = PivotItems.FirstOrDefault(item => item.ItemKey == SelectedKey);
+                        _oldIndex = PivotItems.IndexOf(_selected);
+                        _oldChildContent = _selected?.ChildContent;
+                        StateHasChanged();
+                    }
+                    else
+                    {
+                        Selected = PivotItems.FirstOrDefault(item => item.ItemKey == SelectedKey);
+                    }
                 }
                 else
                 {
-                    Selected = PivotItems.FirstOrDefault();
+                    if (firstRender)
+                    {
+                        _selected = PivotItems.FirstOrDefault();
+                        _oldIndex = PivotItems.IndexOf(_selected);
+                        _oldChildContent = _selected?.ChildContent;
+                        StateHasChanged();
+                    }
+                    else
+                    {
+                        Selected = PivotItems.FirstOrDefault();
+                    }
                 }
+
             }
             return;
         }

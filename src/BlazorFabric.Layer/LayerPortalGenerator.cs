@@ -66,7 +66,7 @@ namespace BlazorFabric
             if (portals.ContainsKey(layerId))
                 portals.Remove(layerId);
             portalSequenceStarts.Remove(layerId);
-            StateHasChanged();
+            InvokeAsync(StateHasChanged);
         }
 
 

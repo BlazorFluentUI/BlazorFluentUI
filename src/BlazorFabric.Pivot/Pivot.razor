@@ -10,7 +10,13 @@
             </CascadingValue>
         </FocusZone>
 
-        @if (!HeadersOnly && !(Selected == null) && !_redraw)
+        @if (!HeadersOnly && !(Selected == null) && PivotItems.IndexOf(Selected) == _oldIndex)
+        {
+            <div role="tabpanel">
+                @_oldChildContent
+            </div>
+        }
+        else if (!HeadersOnly && !(Selected == null) && !_redraw)
         {
             <div role="tabpanel" class="@($"{(PivotItems.IndexOf(Selected) > _oldIndex ? "slideLeftIn40" : "slideRightIn40")}")">
                 @Selected.ChildContent
@@ -19,7 +25,7 @@
         else if (!HeadersOnly && !(Selected == null) && _redraw)
         {
             @*
-                Is needed for itemContent animation
+            Is needed for itemContent animation
             *@
             <div role="tabpanel">
                 @_oldChildContent

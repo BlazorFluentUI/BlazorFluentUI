@@ -12,7 +12,7 @@
 .ms-Nav {
     overflow-y: auto;
     user-select: none;
-    WebkitOverflowScrolling: touch;
+    -webkit-overflow-scrolling: touch;
 }
 .ms-Nav.is-on-top {
     position:absolute;

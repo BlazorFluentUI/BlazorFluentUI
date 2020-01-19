@@ -54,7 +54,7 @@ namespace BlazorFabric
             {
                 System.Diagnostics.Debug.WriteLine($"Adding new layer: {layerId}, {portalFragments.Count} layer(s) in host currently.");
                 portalFragments.Add((layerId, renderFragment, style)); //should render the first time and not after unless explicitly set.
-                StateHasChanged();
+                InvokeAsync(StateHasChanged);
             }
            
         }

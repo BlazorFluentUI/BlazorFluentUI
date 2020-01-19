@@ -1,0 +1,14 @@
+﻿<style>
+    @GenerateCSSMediaQuery()
+    @*@("#" + _id) {
+        display:none;
+    }
+    @@media ( @GenerateMediaQuery()) {
+        @("#" + _id) {
+            display:block;
+        }
+    }*@
+</style>
+<div id=@_id>
+    @ChildContent
+</div>

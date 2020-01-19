@@ -29,7 +29,7 @@ namespace BlazorFabric
         public void Rerender()
         {
             shouldRender = true;
-            StateHasChanged();
+            InvokeAsync(StateHasChanged);
         }
 
         //public void SetChildContent(string layerId, RenderFragment renderFragment, bool isFixed)

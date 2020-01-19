@@ -122,8 +122,7 @@ namespace BlazorFabric
         public Panel()
         {
             Debug.WriteLine("Panel Created");
-            _animationTimer = new Timer();
-
+            
             HeaderTemplate = builder =>
             {
                 if (HeaderText != null)
@@ -150,60 +149,15 @@ namespace BlazorFabric
                 this._dismiss();
             };
                         
-            _dismiss = async () =>
+            _dismiss = () =>
             {
-                await OnDismiss.InvokeAsync(null);
+                OnDismiss.InvokeAsync(null);
                 //normally, would check react synth events to see if event was interrupted from the OnDismiss callback before calling the following... 
                 // To Do
                 this.Close();
             };
 
-            _clearExistingAnimationTimer = () =>
-            {
-                if (_animationTimer.Enabled)
-                {
-                    _animationTimer.Stop();
-                    _animationTimer.Elapsed -= _handler;
-                }
-            };
-
-            _animateTo = (animationState) =>
-            {
-                _animationTimer.Interval = 200;
-                _handler = null;
-                _handler = (s, e) =>
-                {
-                    InvokeAsync(() =>
-                    {
-                        //Debug.WriteLine("Inside invokeAsync from animateTo timer elapsed");
-                        _animationTimer.Elapsed -= _handler;
-                        _animationTimer.Stop();
-                        
-                        previousVisibility = currentVisibility;
-                        currentVisibility = animationState;
-                        _onTransitionComplete();
-                    });
-                };
-                _animationTimer.Elapsed += _handler;
-                _animationTimer.Start();
-            };
-
-            _onTransitionComplete = async () =>
-            {
-                isAnimating = false;
-                //StateHasChanged();
-                await UpdateFooterPositionAsync();
-
-                if (currentVisibility == PanelVisibilityState.Open)
-                {
-                    await OnOpened.InvokeAsync(null);
-                }
-                if (currentVisibility == PanelVisibilityState.Closed)
-                {
-                    await OnDismissed.InvokeAsync(null);
-                }
-                StateHasChanged();
-            };
+            
 
         }
 
@@ -370,11 +324,61 @@ namespace BlazorFabric
             if (firstRender)
             {
                 _jsAvailable = true;
+                // register timers here so that pre-rendered Panels don't have timers running.
+                _animationTimer = new Timer();
+
+                _clearExistingAnimationTimer = () =>
+                {
+                    if (_animationTimer.Enabled)
+                    {
+                        _animationTimer.Stop();
+                        _animationTimer.Elapsed -= _handler;
+                    }
+                };
+
+                _animateTo = (animationState) =>
+                {
+                    Debug.WriteLine($"Animating to {animationState}");
+                    _animationTimer.Interval = 200;
+                    _handler = null;
+                    _handler = (s, e) =>
+                    {
+                        _animationTimer.Stop();
+                        _animationTimer.Elapsed -= _handler;
+                        Debug.WriteLine($"Inside invokeAsync from animateTo timer elapsed.");
+                        //InvokeAsync(() =>
+                        //{
+                        previousVisibility = currentVisibility;
+                        currentVisibility = animationState;
+                        _onTransitionComplete();
+                        //});
+                    };
+                    _animationTimer.Elapsed += _handler;
+                    _animationTimer.Start();
+                };
+
+                _onTransitionComplete = async () =>
+                {
+                    isAnimating = false;
+                    //StateHasChanged();
+                    await UpdateFooterPositionAsync();
+
+                    if (currentVisibility == PanelVisibilityState.Open)
+                    {
+                        await OnOpened.InvokeAsync(null);
+                    }
+                    if (currentVisibility == PanelVisibilityState.Closed)
+                    {
+                        await OnDismissed.InvokeAsync(null);
+                    }
+                    InvokeAsync(StateHasChanged);
+                };
             }
             await SetRegistrationsAsync();
 
             await base.OnAfterRenderAsync(firstRender);
         }
+
 
         protected override async Task OnParametersSetAsync()
         {
@@ -382,7 +386,7 @@ namespace BlazorFabric
 
             if (!OnLightDismissClick.HasDelegate)
             {
-                OnLightDismissClick = EventCallback.Factory.Create(this, onPanelClick);
+                OnLightDismissClick = OnDismiss; //OnLightDismissClick. //= EventCallback.Factory.Create(this, onPanelClick);
             }
 
             if (IsOpen && (currentVisibility == PanelVisibilityState.Closed || currentVisibility == PanelVisibilityState.AnimatingClosed))
@@ -394,7 +398,7 @@ namespace BlazorFabric
                 currentVisibility = PanelVisibilityState.AnimatingClosed;
                 // This StateHasChanged call was added because using a custom close button in NavigationTemplate did not cause a state change to occur.
                 // The result was that the animation class would not get added and the close transition would not show.  This is a hack to make it work.
-                StateHasChanged();
+                InvokeAsync(StateHasChanged);
             }
 
             Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
@@ -450,7 +454,7 @@ namespace BlazorFabric
 
         public async void Dispose()
         {
-            _clearExistingAnimationTimer();
+            _clearExistingAnimationTimer?.Invoke();
             if (_scrollerEventId != null)
             {
                 foreach (var id in _scrollerEventId)

@@ -32,14 +32,14 @@ namespace BlazorFabric
                 }
                 Debug.WriteLine($"ResponsiveMode: {CurrentMode}");
 
-                _resizeRegistration = await jSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHappened");
+                _resizeRegistration = await jSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
                 StateHasChanged();  // we will never have window size until after first render, so re-render after this to update the component with ResponsiveMode info.
             }
             await base.OnAfterRenderAsync(firstRender);
         }
 
         [JSInvokable]
-        public void ResizeHappened(double windowWidth, double windowHeight)
+        public virtual Task OnResizedAsync(double windowWidth, double windowHeight)
         {
             var oldMode = CurrentMode;
             foreach (var item in Enum.GetValues(typeof(ResponsiveMode)))
@@ -56,6 +56,7 @@ namespace BlazorFabric
                 Debug.WriteLine($"ResponsiveMode: {CurrentMode}");
                 StateHasChanged();
             }
+            return Task.CompletedTask;
         }
 
         public virtual async void Dispose()

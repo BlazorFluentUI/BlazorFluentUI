@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class Dropdown<TItem> : FabricComponentBase
+    public partial class Dropdown<TItem> : ResponsiveFabricComponentBase
     {
-        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public IEnumerable<string> DefaultSelectedKeys { get; set; }
         [Parameter] public bool Disabled { get; set; }
@@ -115,6 +115,16 @@ namespace BlazorFabric
             StateHasChanged();
         }
 
+        [JSInvokable]
+        public override async Task OnResizedAsync(double windowWidth, double windowHeight)
+        {
+            var oldBounds = dropDownBounds;
+            dropDownBounds = await this.GetBoundsAsync();
+            if (oldBounds.width != dropDownBounds.width)
+                StateHasChanged();
+            await base.OnResizedAsync(windowWidth, windowHeight);
+        }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -126,14 +136,14 @@ namespace BlazorFabric
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        protected override Task OnParametersSetAsync()
+        protected override async Task OnParametersSetAsync()
         {
+            await base.OnParametersSetAsync();
             if (this.DefaultSelectedKeys != null)
             {
                 foreach (var key in this.DefaultSelectedKeys)
                     AddSelection(key);
             }
-            return base.OnParametersSetAsync();
         }
 
 

@@ -159,7 +159,7 @@ var BlazorFabricBaseComponent;
     function registerResizeEvent(dotnetRef, functionName) {
         var guid = Guid.newGuid();
         eventRegister[guid] = debounce(function (ev) {
-            dotnetRef.invokeMethodAsync(functionName);
+            dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
         }, 100, { leading: true });
         window.addEventListener("resize", eventRegister[guid]);
         return guid;

@@ -27,21 +27,25 @@
                 </StackItem>
             </ResponsiveLayout>
 
-            <ResponsiveLayout MinWidth="0" MaxWidth="767">
+            @*<ResponsiveLayout MinWidth="0" MaxWidth="767">
                 <StackItem Grow="1" Tokens="new StackItemTokens { Padding = 5 }" Style="overflow:hidden;">
                     <div class="content">
                         @Body
                     </div>
                 </StackItem>
-            </ResponsiveLayout>
+            </ResponsiveLayout>*@
 
-            <ResponsiveLayout MinWidth="768">
-                <StackItem Grow="1" Style="overflow:hidden;">
+            @*<ResponsiveLayout MinWidth="768">*@
+       @* <ResponsiveWrapper>*@
+            @*<ChildContent Context="CurrentMode">*@
+                <StackItem Grow="1" Tokens="new StackItemTokens { Padding = ((int)CurrentMode <= (int)ResponsiveMode.Medium ? 10 : 0) }" Style="overflow:hidden;">
                     <div class="content">
                         @Body
                     </div>
                 </StackItem>
-            </ResponsiveLayout>
+            @*</ChildContent>*@
+        @*</ResponsiveWrapper>*@
+            @*</ResponsiveLayout>*@
 
         </Stack>
 
@@ -64,6 +68,8 @@
 @code {
     private bool isMenuCollapsed = true;
     private bool isPanelOpen = false;
+
+    [CascadingParameter] public ResponsiveMode CurrentMode { get; set; }
 
     void ShowMenu()
     {

@@ -200,7 +200,7 @@
     export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string) : string {
         var guid = Guid.newGuid();
         eventRegister[guid] = debounce((ev: UIEvent) => {
-            dotnetRef.invokeMethodAsync(functionName);
+            dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
         }, 100, { leading: true });
         window.addEventListener("resize", eventRegister[guid]);
         return guid;

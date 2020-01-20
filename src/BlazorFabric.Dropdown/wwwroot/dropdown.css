@@ -248,5 +248,5 @@
     display: inline-block;
 }
 .ms-Dropdown .ms-Panel-content{
-    padding:0;
+    padding: 0 0 20px;
 }

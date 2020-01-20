@@ -261,6 +261,34 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.elementContainsAttribute = elementContainsAttribute;
     /* Focus stuff */
+    /* Since elements can be stored in Blazor and we don't want to create more js files, this will hold last focused elements for restoring focus later. */
+    var _lastFocus = {};
+    function storeLastFocusedElement() {
+        var element = document.activeElement;
+        var htmlElement = element;
+        if (htmlElement) {
+            var guid = Guid.newGuid();
+            _lastFocus[guid] = htmlElement;
+            return guid;
+        }
+        return null;
+    }
+    BlazorFabricBaseComponent.storeLastFocusedElement = storeLastFocusedElement;
+    function restoreLastFocus(guid, restoreFocus) {
+        if (restoreFocus === void 0) { restoreFocus = true; }
+        var htmlElement = _lastFocus[guid];
+        if (htmlElement != null) {
+            if (restoreFocus) {
+                htmlElement.focus();
+            }
+            delete _lastFocus[guid];
+        }
+    }
+    BlazorFabricBaseComponent.restoreLastFocus = restoreLastFocus;
+    function getActiveElement() {
+        return document.activeElement;
+    }
+    BlazorFabricBaseComponent.getActiveElement = getActiveElement;
     function focusElement(element) {
         element.focus();
     }

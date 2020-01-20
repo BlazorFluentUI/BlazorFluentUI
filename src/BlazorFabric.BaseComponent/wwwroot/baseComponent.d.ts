@@ -42,6 +42,9 @@ declare namespace BlazorFabricBaseComponent {
     export function deregisterResizeEvent(guid: number): void;
     export function findElementRecursive(element: HTMLElement | null, matchFunction: (element: HTMLElement) => boolean): HTMLElement | null;
     export function elementContainsAttribute(element: HTMLElement, attribute: string): string | null;
+    export function storeLastFocusedElement(): string;
+    export function restoreLastFocus(guid: string, restoreFocus?: boolean): void;
+    export function getActiveElement(): Element;
     export function focusElement(element: HTMLElement): void;
     export function focusFirstElementChild(element: HTMLElement): void;
     export function shouldWrapFocus(element: HTMLElement, noWrapDataAttribute: 'data-no-vertical-wrap' | 'data-no-horizontal-wrap'): boolean;

@@ -302,6 +302,35 @@
 
 /* Focus stuff */
 
+    /* Since elements can be stored in Blazor and we don't want to create more js files, this will hold last focused elements for restoring focus later. */
+    var _lastFocus: Map<HTMLElement> = {};
+
+    export function storeLastFocusedElement(): string {
+        let element = document.activeElement;
+        let htmlElement = <HTMLElement>element;
+        if (htmlElement) {
+            let guid = Guid.newGuid();
+            _lastFocus[guid] = htmlElement;
+            return guid;
+        }
+        return null;
+    }
+
+    export function restoreLastFocus(guid: string, restoreFocus: boolean = true) {
+        var htmlElement = _lastFocus[guid];
+        if (htmlElement != null) {
+            if (restoreFocus) {
+                htmlElement.focus();
+            }
+            delete _lastFocus[guid];
+        }
+    }
+
+
+    export function getActiveElement(): Element {
+        return document.activeElement;
+    }
+
     export function focusElement(element: HTMLElement) {
         element.focus();
     }

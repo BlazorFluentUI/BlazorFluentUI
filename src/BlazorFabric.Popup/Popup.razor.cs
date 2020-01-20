@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace BlazorFabric
     /**
      * This adds accessibility to Dialog and Panel controls
      */
-    public partial class Popup : FabricComponentBase
+    public partial class Popup : FabricComponentBase, IDisposable
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
 
@@ -22,14 +23,26 @@ namespace BlazorFabric
 
         [Parameter] public EventCallback<EventArgs> OnDismiss { get; set; }
 
-
+     
         // Come back to this later if needed!
         // Line needed on razor page:
         // style=@("overflowY: {(needsVerticalScrollBar ? "scroll" : "hidden")}; outline: none")
-        protected bool needsVerticalScrollBar = false;
+        private bool needsVerticalScrollBar = false;
 
+        private string _handleToLastFocusedElement;
 
-        protected async Task KeyDownHandler(KeyboardEventArgs args)
+        [Inject] private IJSRuntime jSRuntime { get; set; }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                _handleToLastFocusedElement = await jSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.storeLastFocusedElement");
+            }
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
+        private async Task KeyDownHandler(KeyboardEventArgs args)
         {
             switch (args.Key)
             {
@@ -39,6 +52,14 @@ namespace BlazorFabric
             }
 
             //return Task.CompletedTask;
+        }
+
+        public async void Dispose()
+        {
+            if (_handleToLastFocusedElement != null)
+            {
+                await jSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.restoreLastFocus", _handleToLastFocusedElement, ShouldRestoreFocus);
+            }
         }
     }
 }

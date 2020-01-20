@@ -3,7 +3,7 @@
 
    
 <Stack Horizontal="true" Style="width:100%;">
-    <ResponsiveLayout MinWidth="768">
+    <ResponsiveLayout MinWidth="ResponsiveMode.Medium.ToMinCssValue()">
         <StackItem Grow="0" DisableShrink="true" Style="height:100%;overflow:hidden;">
             <NavMenu />
         </StackItem>
@@ -13,13 +13,13 @@
     <StackItem Grow="1" Style="overflow:hidden">
         <Stack VerticalFill="true" Style="width:100%;">
 
-            <ResponsiveLayout MinWidth="0" MaxWidth="767">
+            <ResponsiveLayout MaxWidth="ResponsiveMode.Medium.ToMaxCssValue()">
                 <StackItem Grow="0" VerticalFill="false">
                     <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu />
                 </StackItem>
             </ResponsiveLayout>
 
-            <ResponsiveLayout MinWidth="768">
+            <ResponsiveLayout MinWidth="ResponsiveMode.Medium.ToMinCssValue()">
                 <StackItem Grow="0" VerticalFill="false">
                     <div class="top-row">
                         <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
@@ -38,10 +38,10 @@
             @*<ResponsiveLayout MinWidth="768">*@
        @* <ResponsiveWrapper>*@
             @*<ChildContent Context="CurrentMode">*@
-                <StackItem Grow="1" Tokens="new StackItemTokens { Padding = ((int)CurrentMode <= (int)ResponsiveMode.Medium ? 10 : 0) }" Style="overflow:hidden;">
-                    <div class="content">
+                <StackItem Grow="1" Tokens="new StackItemTokens { Padding = ((int)CurrentMode <= (int)ResponsiveMode.Medium ? 10 : 0) }" Style="overflow-y:auto;">
+                    @*<div class="content">*@
                         @Body
-                    </div>
+                    @*</div>*@
                 </StackItem>
             @*</ChildContent>*@
         @*</ResponsiveWrapper>*@
@@ -49,7 +49,7 @@
 
         </Stack>
 
-        <ResponsiveLayout MinWidth="0" MaxWidth="767">
+        <ResponsiveLayout MaxWidth="ResponsiveMode.Medium.ToMaxCssValue()">
             <Panel Type=@PanelType.SmallFixedNear OnDismiss=@(()=>isPanelOpen = false) IsOpen=@isPanelOpen IsLightDismiss="true">
                 <NavigationTemplate>
                     <IconButton IconName="GlobalNavButton" OnClick=@(()=> isPanelOpen = false) />

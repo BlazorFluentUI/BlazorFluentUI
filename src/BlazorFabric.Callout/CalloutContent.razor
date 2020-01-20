@@ -16,6 +16,7 @@
                             AriaLabelledBy=@AriaLabelledBy
                             ClassName="ms-Callout-main"
                             ShouldRestoreFocus="true"
+                            OnDismiss=@OnDismiss
                             Style=@($"max-height: {contentMaxHeight}px;{(overflowYHidden ? "overflow-y: hidden;" : "")} {(BackgroundColor != null ? "background-color:"+BackgroundColor+";" : "")}")>
             @ChildContent
         </BlazorFabric.Popup>

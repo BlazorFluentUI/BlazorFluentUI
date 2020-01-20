@@ -191,10 +191,33 @@ namespace BlazorFabric
             calloutFocusZone.FocusFirstElement();
         }
 
-        protected async Task ClickHandler(MouseEventArgs args)
+        private Task KeydownHandler(KeyboardEventArgs args)
+        {
+            bool containsExpandCollapseModifier = args.AltKey || args.MetaKey;
+            switch (args.Key)
+            {
+                case "Enter":
+                case " ":
+                    isOpen = !isOpen;
+                    break;
+                case "Escape":
+                    isOpen = false;
+                    break;
+                case "ArrowDown":
+                    if (containsExpandCollapseModifier)
+                    {
+                        isOpen = true;
+                    }
+                    break;
+            }
+            return Task.CompletedTask;
+        }
+
+        protected Task ClickHandler(MouseEventArgs args)
         {
             if (!this.Disabled)
                 isOpen = !isOpen;  //There is a problem here.  Clicking when open causes automatic dismissal (light dismiss) so this just opens it again.
+            return Task.CompletedTask;
         }
         protected Task FocusHandler(FocusEventArgs args)
         {

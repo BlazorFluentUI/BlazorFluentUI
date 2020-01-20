@@ -12,42 +12,47 @@
             @Label
         </BlazorFabric.Label>
     }
-    @*KeyTipData*@
-    <div tabindex=@(Disabled ? -1 : 0)
-         aria-expanded=@(isOpen ? "true" : "false")
-         aria-label=@AriaLabel
-         aria-labelledby=@(Label != null ? id+"-label" : null)
-         aria-describedby="?"
-         aria-activedescendant="?"
-         aria-disabled=@Disabled
-         aria-owns=@(isOpen ? id + "-list" : null)
-         @onclick=@ClickHandler
-         @onfocus=@FocusHandler
-         class=@($"ms-Dropdown mediumFont {(isOpen?"is-open":"")} {(this.Label!=null ? "has-label" : "")} {(Disabled?"is-disabled":"")} {(Required?"is-required":"")} {(SelectedKeys.Count == 0 ?"has-placeholder":"")} {(ErrorMessage != null ?"has-error":"")}")>
-        <span id=@($"{id}-option")
-              class="ms-Dropdown-title"
-              aria-atomic="true"
-              role="menuitem">
-            @if (SelectedKeys.Count > 0)
-            {
-                <span>@String.Join(", ", SelectedKeys)</span>
-            }
-            else if (SelectedKey != null)
-            {
-                <span>@SelectedKey</span>
-            }
-            else
-            {
-                if (this.Placeholder != null)
+    <KeytipData Disabled=@Disabled>
+        <div tabindex=@(Disabled ? -1 : 0)
+             id=@id
+             data-is-focusable="true"
+             aria-expanded=@(isOpen ? "true" : "false")
+             aria-label=@AriaLabel
+             aria-labelledby=@(Label != null ? id+"-label" : null)
+             aria-describedby="?"
+             aria-activedescendant="?"
+             aria-required=@Required
+             aria-disabled=@Disabled
+             aria-owns=@(isOpen ? id + "-list" : null)
+             @onclick=@ClickHandler
+             @onkeydown=@KeydownHandler
+             @onfocus=@FocusHandler
+             class=@($"ms-Dropdown mediumFont {(isOpen?"is-open":"")} {(this.Label!=null ? "has-label" : "")} {(Disabled?"is-disabled":"")} {(Required?"is-required":"")} {(SelectedKeys.Count == 0 ?"has-placeholder":"")} {(ErrorMessage != null ?"has-error":"")}")>
+            <span id=@($"{id}-option")
+                  class="ms-Dropdown-title"
+                  aria-atomic="true"
+                  role="menuitem">
+                @if (SelectedKeys.Count > 0)
                 {
-                    <span>@this.Placeholder</span>
+                    <span>@String.Join(", ", SelectedKeys)</span>
                 }
-            }
-        </span>
-        <span class="ms-Dropdown-caretDownWrapper">
-            <BlazorFabric.Icon IconName="ChevronDown" ClassName="ms-Dropdown-caretDown" />
-        </span>
-    </div>
+                else if (SelectedKey != null)
+                {
+                    <span>@SelectedKey</span>
+                }
+                else
+                {
+                    if (this.Placeholder != null)
+                    {
+                        <span>@this.Placeholder</span>
+                    }
+                }
+            </span>
+            <span class="ms-Dropdown-caretDownWrapper">
+                <BlazorFabric.Icon IconName="ChevronDown" ClassName="ms-Dropdown-caretDown" />
+            </span>
+        </div>
+    </KeytipData>
     @if (isOpen)
     {
         //render container

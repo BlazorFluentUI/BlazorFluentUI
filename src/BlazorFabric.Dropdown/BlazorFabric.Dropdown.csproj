@@ -22,6 +22,7 @@
     <ProjectReference Include="..\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
     <ProjectReference Include="..\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
     <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Keytip\BlazorFabric.Keytip.csproj" />
     <ProjectReference Include="..\BlazorFabric.Label\BlazorFabric.Label.csproj" />
     <ProjectReference Include="..\BlazorFabric.Panel\BlazorFabric.Panel.csproj" />
   </ItemGroup>

@@ -69,7 +69,7 @@ namespace BlazorFabric
             css = "";
             foreach (var rule in rules)
             {
-                css += $"{rule.Selector.ToString()}{{";
+                css += $"{rule.Selector.GetSelectorAsString()}{{";
                 foreach (var property in rule.Properties.GetType().GetProperties())
                 {
                     string cssProperty = "";
@@ -83,6 +83,12 @@ namespace BlazorFabric
                     attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
                     if (attribute != null)
                     {
+                        if ((attribute as CsPropertyAttribute).IsCssStringProperty)
+                        {
+                            css += property.GetValue(rule.Properties)?.ToString();
+                            continue;
+                        }
+
                         cssProperty = (attribute as CsPropertyAttribute).PropertyName;
                     }
                     else

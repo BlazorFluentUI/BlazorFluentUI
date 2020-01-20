@@ -32,6 +32,16 @@ namespace BlazorFabric
         
         [Parameter] public bool IsFocusable { get; set; }
 
+        public async void Focus()
+        {
+            await jsRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.focusElement", RootElementReference);
+        }
+
+        public async void FocusFirstElement()
+        {
+            await jsRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.focusFirstElementChild", RootElementReference);
+        }
+
         protected string Id = Guid.NewGuid().ToString();
         //private int[] _lastIndexPath;
         private bool _jsAvailable;

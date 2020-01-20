@@ -197,6 +197,52 @@
 
     var eventRegister: Map<(ev: UIEvent) => void> = {};
 
+    var eventElementRegister: Map<[HTMLElement, (ev: UIEvent) => void]> = {};
+
+    /* Function for Dropdown, but could apply to focusing on any element after onkeydown outside of list containing is-element-focusable items */
+    export function registerKeyEventsForList(element: HTMLElement): string {
+        if (element instanceof HTMLElement) {
+            var guid = Guid.newGuid();
+            eventElementRegister[guid] = [element, (ev: KeyboardEvent) => {
+                let elementToFocus: HTMLElement;
+                const containsExpandCollapseModifier = ev.altKey || ev.metaKey;
+                switch (ev.keyCode) {
+                    case KeyCodes.up:
+                        if (containsExpandCollapseModifier) {
+                            //should send a close window or something, maybe let Blazor handle it.
+                        } else {
+                            elementToFocus = getLastFocusable(element, element.lastChild as HTMLElement, true);
+                        }
+                        break;
+                    case KeyCodes.down:
+                        if (!containsExpandCollapseModifier) {
+                            elementToFocus = getFirstFocusable(element, element.firstChild as HTMLElement, true);
+                        }
+                        break;
+                    default:
+                        return;
+                }
+                if (elementToFocus) {
+                    elementToFocus.focus();
+                }
+            }];
+            element.addEventListener("keydown", eventElementRegister[guid][1]);
+            return guid;
+        } else {
+            return null;
+        }
+    }
+    export function deregisterKeyEventsForList(guid: number) {
+        var tuple = eventElementRegister[guid];
+        if (tuple) {
+            var element = tuple[0];
+            var func = tuple[1];
+            element.removeEventListener("keydown", func);
+            eventElementRegister[guid] = null;
+        }
+    }
+
+
     export function registerWindowKeyDownEvent(dotnetRef: DotNetReferenceType, keyCode:string, functionName: string): string {
         var guid = Guid.newGuid();
         eventRegister[guid] = (ev: KeyboardEvent) => {
@@ -256,6 +302,19 @@
 
 /* Focus stuff */
 
+    export function focusElement(element: HTMLElement) {
+        element.focus();
+    }
+
+    export function focusFirstElementChild(element: HTMLElement){
+        let child = this.getFirstFocusable(element);
+        if (child) {
+            child.focus();
+        } else {
+            element.focus();
+        }
+    }
+
     export function shouldWrapFocus(element: HTMLElement, noWrapDataAttribute: 'data-no-vertical-wrap' | 'data-no-horizontal-wrap'): boolean {
         return elementContainsAttribute(element, noWrapDataAttribute) === 'true' ? false : true;
     }
@@ -272,6 +331,28 @@
         element = isElementTabbable(element) && isElementVisible(element) ? element : getNextElement(parent, element, true) || getPreviousElement(parent, element);
 
         return { element: element as HTMLElement, isNull: !element };
+    }
+
+    export function getFirstFocusable(rootElement: HTMLElement, currentElement: HTMLElement, includeElementsInFocusZones?: boolean) {
+        return getNextElement(
+            rootElement,
+            currentElement,
+            true /*checkNode*/,
+            false /*suppressParentTraversal*/,
+            false /*suppressChildTraversal*/,
+            includeElementsInFocusZones
+        );
+    }
+
+    export function getLastFocusable(rootElement: HTMLElement, currentElement: HTMLElement, includeElementsInFocusZones?: boolean) {
+        return getPreviousElement(
+            rootElement,
+            currentElement,
+            true /*checkNode*/,
+            false /*suppressParentTraversal*/,
+            true /*suppressChildTraversal*/,
+            includeElementsInFocusZones
+        );
     }
 
     export function isElementTabbable(element: HTMLElement, checkTabIndex?: boolean): boolean {

@@ -156,6 +156,53 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.getElementId = getElementId;
     var eventRegister = {};
+    var eventElementRegister = {};
+    /* Function for Dropdown, but could apply to focusing on any element after onkeydown outside of list containing is-element-focusable items */
+    function registerKeyEventsForList(element) {
+        if (element instanceof HTMLElement) {
+            var guid = Guid.newGuid();
+            eventElementRegister[guid] = [element, function (ev) {
+                    var elementToFocus;
+                    var containsExpandCollapseModifier = ev.altKey || ev.metaKey;
+                    switch (ev.keyCode) {
+                        case 38 /* up */:
+                            if (containsExpandCollapseModifier) {
+                                //should send a close window or something, maybe let Blazor handle it.
+                            }
+                            else {
+                                elementToFocus = getLastFocusable(element, element.lastChild, true);
+                            }
+                            break;
+                        case 40 /* down */:
+                            if (!containsExpandCollapseModifier) {
+                                elementToFocus = getFirstFocusable(element, element.firstChild, true);
+                            }
+                            break;
+                        default:
+                            return;
+                    }
+                    if (elementToFocus) {
+                        elementToFocus.focus();
+                    }
+                }];
+            element.addEventListener("keydown", eventElementRegister[guid][1]);
+            return guid;
+        }
+        else {
+            return null;
+        }
+    }
+    BlazorFabricBaseComponent.registerKeyEventsForList = registerKeyEventsForList;
+    function deregisterKeyEventsForList(guid) {
+        var tuple = eventElementRegister[guid];
+        if (tuple) {
+            var element = tuple[0];
+            var func = tuple[1];
+            element.removeEventListener("keydown", func);
+            eventElementRegister[guid] = null;
+        }
+    }
+    BlazorFabricBaseComponent.deregisterKeyEventsForList = deregisterKeyEventsForList;
     function registerWindowKeyDownEvent(dotnetRef, keyCode, functionName) {
         var guid = Guid.newGuid();
         eventRegister[guid] = function (ev) {
@@ -214,6 +261,20 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.elementContainsAttribute = elementContainsAttribute;
     /* Focus stuff */
+    function focusElement(element) {
+        element.focus();
+    }
+    BlazorFabricBaseComponent.focusElement = focusElement;
+    function focusFirstElementChild(element) {
+        var child = this.getFirstFocusable(element);
+        if (child) {
+            child.focus();
+        }
+        else {
+            element.focus();
+        }
+    }
+    BlazorFabricBaseComponent.focusFirstElementChild = focusFirstElementChild;
     function shouldWrapFocus(element, noWrapDataAttribute) {
         return elementContainsAttribute(element, noWrapDataAttribute) === 'true' ? false : true;
     }
@@ -232,6 +293,14 @@ var BlazorFabricBaseComponent;
         return { element: element, isNull: !element };
     }
     BlazorFabricBaseComponent.getFocusableByIndexPath = getFocusableByIndexPath;
+    function getFirstFocusable(rootElement, currentElement, includeElementsInFocusZones) {
+        return getNextElement(rootElement, currentElement, true /*checkNode*/, false /*suppressParentTraversal*/, false /*suppressChildTraversal*/, includeElementsInFocusZones);
+    }
+    BlazorFabricBaseComponent.getFirstFocusable = getFirstFocusable;
+    function getLastFocusable(rootElement, currentElement, includeElementsInFocusZones) {
+        return getPreviousElement(rootElement, currentElement, true /*checkNode*/, false /*suppressParentTraversal*/, true /*suppressChildTraversal*/, includeElementsInFocusZones);
+    }
+    BlazorFabricBaseComponent.getLastFocusable = getLastFocusable;
     function isElementTabbable(element, checkTabIndex) {
         // If this element is null or is disabled, it is not considered tabbable.
         if (!element || element.disabled) {

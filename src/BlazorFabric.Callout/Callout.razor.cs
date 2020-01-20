@@ -42,7 +42,7 @@ namespace BlazorFabric
 
         [Parameter] public EventCallback<bool> HiddenChanged { get; set; }
         [Parameter] public EventCallback OnDismiss { get; set; }
-
+        [Parameter] public EventCallback OnPositioned { get; set; }
         //protected Layer layerReference;
     }
 }

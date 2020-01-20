@@ -76,7 +76,7 @@ namespace BlazorFabric
             }
             else
             {
-                builder.OpenComponent<ActionButton>(i);
+                builder.OpenComponent<CommandButton>(i);
                 //builder.AddAttribute(i + 1, "Key", this.Key);
                 builder.AddAttribute(i + 2, "Disabled", Disabled);
                 builder.AddAttribute(i + 3, "ClassName", $"ms-Dropdown-item {(Disabled ? "is-disabled" : "")} {(Hidden ? "is-hidden" : "")}  {(isSelected ? "selected" : "")}");

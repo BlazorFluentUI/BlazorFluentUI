@@ -28,14 +28,24 @@ namespace BlazorFabric
         [Parameter] public List<string> SelectedKeys { get; set; } = new List<string>();
         [Parameter] public EventCallback<List<string>> SelectedKeysChanged { get; set; }
 
+        [Inject]
+        private IJSRuntime jSRuntime { get; set; }
 
         protected bool isOpen { get; set; }
 
         protected string id = Guid.NewGuid().ToString();
         protected bool isSmall = false;
         protected Rectangle dropDownBounds = new Rectangle();
+
+        private ElementReference calloutReference;
+        private ElementReference panelReference;
+        private ElementReference _chosenReference;
+        private string _registrationToken;
+
+        private FocusZone calloutFocusZone;
+
         //private bool firstRender = true;
-        
+
         public void ResetSelection()
         {
             SelectedKeys.Clear();
@@ -121,7 +131,9 @@ namespace BlazorFabric
             var oldBounds = dropDownBounds;
             dropDownBounds = await this.GetBoundsAsync();
             if (oldBounds.width != dropDownBounds.width)
+            {
                 StateHasChanged();
+            }
             await base.OnResizedAsync(windowWidth, windowHeight);
         }
 
@@ -133,6 +145,12 @@ namespace BlazorFabric
                 //firstRender = false;
                 StateHasChanged();
             }
+            if (isOpen && _registrationToken == null)
+                await RegisterListFocusAsync();
+
+            if (!isOpen && _registrationToken != null)
+                await DeregisterListFocusAsync();
+
             await base.OnAfterRenderAsync(firstRender);
         }
 
@@ -146,12 +164,37 @@ namespace BlazorFabric
             }
         }
 
+        private async Task RegisterListFocusAsync()
+        {
+            if (_registrationToken != null)
+            {
+                await DeregisterListFocusAsync();
+            }
+            if ((int)CurrentMode <= (int)ResponsiveMode.Medium)
+                _chosenReference = panelReference;
+            else
+                _chosenReference = calloutReference;
+            _registrationToken = await jSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerKeyEventsForList", _chosenReference);
+        }
 
-        protected Task ClickHandler(MouseEventArgs args)
+        private async Task DeregisterListFocusAsync()
+        {
+            if (_registrationToken != null)
+            {
+                await jSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.deregisterKeyEventsForList", _registrationToken);
+                _registrationToken = null;
+            }
+        }
+
+        private void OnPositioned()
+        {
+            calloutFocusZone.FocusFirstElement();
+        }
+
+        protected async Task ClickHandler(MouseEventArgs args)
         {
             if (!this.Disabled)
-                isOpen = !isOpen;
-            return Task.CompletedTask;
+                isOpen = !isOpen;  //There is a problem here.  Clicking when open causes automatic dismissal (light dismiss) so this just opens it again.
         }
         protected Task FocusHandler(FocusEventArgs args)
         {
@@ -160,11 +203,12 @@ namespace BlazorFabric
             return Task.CompletedTask;
         }
 
-        protected Task DismissHandler()
+        protected async Task DismissHandler()
         {
             isOpen = false;
-            return Task.CompletedTask;
         }
+
+      
 
     }
 }

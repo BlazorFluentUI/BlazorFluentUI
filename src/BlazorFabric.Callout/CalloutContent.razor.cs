@@ -48,6 +48,8 @@ namespace BlazorFabric
 
         [Parameter] public EventCallback OnDismiss { get; set; }
 
+        [Parameter] public EventCallback OnPositioned { get; set; }
+
         protected Rectangle Position { get; set; } = new Rectangle();
 
         protected CalloutPositionedInfo CalloutPosition { get; set; } = new CalloutPositionedInfo();
@@ -198,6 +200,9 @@ namespace BlazorFabric
             //Debug.WriteLine($"CalloutPosition: {CalloutPosition.ElementRectangle.left}, {CalloutPosition.ElementRectangle.top}, {CalloutPosition.ElementRectangle.right}, {CalloutPosition.ElementRectangle.bottom}");
 
             //this.Position = this.CalloutPosition.ElementRectangle;
+
+            // May have to limit this...
+            await OnPositioned.InvokeAsync(null);
 
             isMeasured = true;
             Hidden = false;

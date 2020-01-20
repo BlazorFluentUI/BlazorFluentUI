@@ -55,6 +55,7 @@
         {
             <Panel IsOpen="true" IsLightDismiss="true" OnDismiss=@DismissHandler HasCloseButton="false">
                 <div class="ms-Dropdown-itemsWrapper"
+                     @ref="panelReference"
                      tabindex="0">
                     @*FocusZone has no Role=listbox *@
                     <FocusZone Direction="FocusZoneDirection.Vertical"
@@ -89,11 +90,14 @@
                                   ClassName="ms-Dropdown-callout"
                                   FabricComponentTarget=@this
                                   OnDismiss=@DismissHandler
+                                  OnPositioned=@OnPositioned
                                   CalloutWidth=@(DropdownWidth == 0 ? (int)dropDownBounds.width : DropdownWidth)>
                 <div class="ms-Dropdown-itemsWrapper"
+                     @ref="calloutReference"
                      tabindex="0">
 
                     <FocusZone Direction="FocusZoneDirection.Vertical"
+                               @ref="calloutFocusZone"
                                ClassName="ms-Dropdown-dropdownItems"
                                AriaLabel=@($"{id}-label")>
                         <CascadingValue Value=@this>

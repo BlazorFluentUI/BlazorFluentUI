@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace BlazorFabric
 {
-    public partial class ContextualMenu : FabricComponentBase, IDisposable
+    public partial class ContextualMenu : ResponsiveFabricComponentBase, IDisposable
     {      
         [Parameter] public bool AlignTargetEdge { get; set; }
         //[Parameter] public string AriaLabel { get; set; }
@@ -24,7 +24,7 @@ namespace BlazorFabric
         [Parameter] public bool DirectionalHintFixed { get; set; }
         [Parameter] public FabricComponentBase FabricComponentTarget { get; set; }
         [Parameter] public int GapSpace { get; set; } = 0;
-        [Parameter] public bool IsBeakVisible { get; set; }
+        [Parameter] public bool IsBeakVisible { get; set; } = false;
         
         //[Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
         [Parameter] public RenderFragment<IContextualMenuItem> ItemTemplate { get; set; }
@@ -42,10 +42,10 @@ namespace BlazorFabric
         // for debugging only
         [CascadingParameter(Name ="PortalId")] public string PortalId { get; set; }
 
-        protected bool isOpen = false;
+        private bool isOpen = false;
 
-        protected bool HasIcons = false; //needed to shift margins and make space for all 
-        protected bool HasCheckables = false;
+        private bool HasIcons = false; //needed to shift margins and make space for all 
+        private bool HasCheckables = false;
 
         public string SubmenuActiveKey { get; set; }
         public void SetSubmenuActiveKey(string key)
@@ -88,27 +88,16 @@ namespace BlazorFabric
         {
             this.SubmenuActiveKey = key;
         };
-
-        //protected void DismissHandler(bool isDismissed)
-        //{
-        //    System.Diagnostics.Debug.WriteLine($"ContextualMenu {PortalId} tried dismiss from {this.DirectionalHint} with SubmenuActiveKey = {SubmenuActiveKey}");
-
-
-        //    if (string.IsNullOrEmpty(SubmenuActiveKey))
-        //    {
-        //        System.Diagnostics.Debug.WriteLine($"ContextualMenu dismiss successful!  {this.DirectionalHint} with SubmenuActiveKey = {SubmenuActiveKey}");
-        //        OnDismiss.InvokeAsync(true);
-        //    }
-        //}
-
+               
         protected override Task OnInitializedAsync()
         {
             System.Diagnostics.Debug.WriteLine("Creating ContextualMenu");
             return base.OnInitializedAsync();
         }
 
-        protected override Task OnParametersSetAsync()
+        protected override async Task OnParametersSetAsync()
         {
+            await base.OnParametersSetAsync();
             if (this.Items!= null)
             {
                 if (this.Items.Count(x => x.IconName != null) > 0)
@@ -116,7 +105,6 @@ namespace BlazorFabric
                 if (this.Items.Count(x => x.CanCheck == true) > 0)
                     HasCheckables = true;
             }
-            return base.OnParametersSetAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -130,14 +118,13 @@ namespace BlazorFabric
 
         private async Task OnMenuOpenedAsync()
         {
-
             await this.OnMenuOpened.InvokeAsync(this);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             this.OnMenuDismissed.InvokeAsync(this);
-
+            base.Dispose();
         }
     }
 }

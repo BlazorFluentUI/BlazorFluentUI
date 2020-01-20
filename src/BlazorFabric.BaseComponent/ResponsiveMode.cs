@@ -13,12 +13,22 @@ namespace BlazorFabric
         Large = 2,
         XLarge = 3,
         XXLarge = 4,
-        XXXLarge = 5
+        XXXLarge = 5,
+        Unknown = 9999
     }
 
     public static class ResponsiveModeUtils
     {
-        readonly static List<int> RESPONSIVE_MAX_CONSTRAINT = new List<int> { 479, 639, 1023, 1365, 1919, 99999999 };
+        public static CssValue ToMaxCssValue(this ResponsiveMode responsiveMode)
+        {
+            return RESPONSIVE_MAX_CONSTRAINT[(int)responsiveMode];
+        }
+        public static CssValue ToMinCssValue(this ResponsiveMode responsiveMode)
+        {
+            return RESPONSIVE_MAX_CONSTRAINT[(int)responsiveMode] + 1;
+        }
+
+        public readonly static List<int> RESPONSIVE_MAX_CONSTRAINT = new List<int> { 479, 639, 1023, 1365, 1919, 99999999 };
 
         public static async Task<ResponsiveMode> GetResponsiveModeAsync(IJSRuntime jSRuntime)
         {

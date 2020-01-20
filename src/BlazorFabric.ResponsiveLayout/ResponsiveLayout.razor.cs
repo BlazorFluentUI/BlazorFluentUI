@@ -20,32 +20,32 @@ namespace BlazorFabric
         [Parameter]
         public CssValue MinWidth { get; set; }
 
-        bool IsCurrentActive = false;
-        bool jsAvailable = false;
+        //[Parameter]
+        //public ResponsiveMode ResponsiveMode { get; set; } = ResponsiveMode.Unknown;
 
-        private string _mediaQuery = "";
+        //public static readonly int[] Responsive_Max_Constraint = { 479, 639, 1023, 1365, 1919, 99999999 };
 
         private string _id = "B" + Guid.NewGuid().ToString();
 
-        private string GenerateMediaQuery()
-        {
-            var mediaQuery = "";
-            if (MinWidth != null)
-                mediaQuery = $"(min-width: {MinWidth.AsLength})";
-            if (MaxWidth != null)
-            {
-                if (string.IsNullOrWhiteSpace(mediaQuery))
-                {
-                    mediaQuery = $"(min-width: {MinWidth.AsLength})";
-                }
-                else
-                {
-                    mediaQuery += $" and (max-width: {MaxWidth.AsLength})";
-                }
-            }
+        //private string GenerateMediaQuery()
+        //{
+        //    var mediaQuery = "";
+        //    if (MinWidth != null)
+        //        mediaQuery = $"(min-width: {MinWidth.AsLength})";
+        //    if (MaxWidth != null)
+        //    {
+        //        if (string.IsNullOrWhiteSpace(mediaQuery))
+        //        {
+        //            mediaQuery = $"(min-width: {MinWidth.AsLength})";
+        //        }
+        //        else
+        //        {
+        //            mediaQuery += $" and (max-width: {MaxWidth.AsLength})";
+        //        }
+        //    }
 
-            return mediaQuery;
-        }
+        //    return mediaQuery;
+        //}
 
         private string GenerateCSSMediaQuery()
         {
@@ -54,15 +54,19 @@ namespace BlazorFabric
                 mediaQuery = $"(min-width: {MinWidth.AsLength})";
             if (MaxWidth != null)
             {
-                if (string.IsNullOrWhiteSpace(mediaQuery))
+                if (MinWidth == null)
                 {
-                    mediaQuery = $"(min-width: {MinWidth.AsLength})";
+                    mediaQuery = $"(max-width: {MaxWidth.AsLength})";
                 }
                 else
                 {
                     mediaQuery += $" and (max-width: {MaxWidth.AsLength})";
                 }
             }
+            //if (MinWidth == null && MaxWidth == null)
+            //{
+            //    mediaQuery = $"(max-width: {ResponsiveModeUtils.RESPONSIVE_MAX_CONSTRAINT[(int)ResponsiveMode]}px)";
+            //}
 
             var css = "#" + _id + "{display: none;}";
             css += "@media " + mediaQuery + " {" + "#" + _id + "{display:block;}}";

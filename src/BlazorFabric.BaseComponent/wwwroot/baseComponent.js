@@ -156,6 +156,25 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.getElementId = getElementId;
     var eventRegister = {};
+    function registerWindowKeyDownEvent(dotnetRef, keyCode, functionName) {
+        var guid = Guid.newGuid();
+        eventRegister[guid] = function (ev) {
+            if (ev.code == keyCode) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                dotnetRef.invokeMethodAsync(functionName, ev.code);
+            }
+        };
+        window.addEventListener("keydown", eventRegister[guid]);
+        return guid;
+    }
+    BlazorFabricBaseComponent.registerWindowKeyDownEvent = registerWindowKeyDownEvent;
+    function deregisterWindowKeyDownEvent(guid) {
+        var func = eventRegister[guid];
+        window.removeEventListener("keydown", func);
+        eventRegister[guid] = null;
+    }
+    BlazorFabricBaseComponent.deregisterWindowKeyDownEvent = deregisterWindowKeyDownEvent;
     function registerResizeEvent(dotnetRef, functionName) {
         var guid = Guid.newGuid();
         eventRegister[guid] = debounce(function (ev) {

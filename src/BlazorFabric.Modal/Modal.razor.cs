@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -63,6 +64,9 @@ namespace BlazorFabric
 
         private ElementReference allowScrollOnModal;
 
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
+
         private bool isAnimating = false;
         private bool animationRenderStart = false;
         private ModalVisibilityState previousVisibility = ModalVisibilityState.Closed;
@@ -73,6 +77,7 @@ namespace BlazorFabric
         private Action _onTransitionComplete;
         private ElapsedEventHandler _handler = null;
         private bool _jsAvailable;
+        private string _keydownRegistration;
 
         public Modal()
         {
@@ -92,12 +97,11 @@ namespace BlazorFabric
                 _handler = null;
                 _handler = (s, e) =>
                 {
+                    _animationTimer.Elapsed -= _handler;
+                    _animationTimer.Stop();
                     InvokeAsync(() =>
                     {
                         //Debug.WriteLine("Inside invokeAsync from animateTo timer elapsed");
-                        _animationTimer.Elapsed -= _handler;
-                        _animationTimer.Stop();
-
                         previousVisibility = currentVisibility;
                         currentVisibility = animationState;
                         _onTransitionComplete();
@@ -160,11 +164,19 @@ namespace BlazorFabric
             if (firstRender)
             {
                 _jsAvailable = true;
+                // 27 is Escape code
+                _keydownRegistration = await JSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerWindowKeyDownEvent", DotNetObjectReference.Create(this), "27", "ProcessKeyDown");
             }
             
             await base.OnAfterRenderAsync(firstRender);
         }
 
+        [JSInvokable]
+        public void ProcessKeyDown(string keyCode)
+        {
+            if (keyCode == "27")
+                OnDismiss.InvokeAsync(null);
+        }
 
         protected override bool ShouldRender()
         {
@@ -187,9 +199,14 @@ namespace BlazorFabric
              return IsOpen;
         }
 
-        public void Dispose()
+        public async void Dispose()
         {
             _clearExistingAnimationTimer();
+            if (_keydownRegistration != null)
+            {
+                await JSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.deregisterWindowKeyDownEvent", _keydownRegistration);
+                _keydownRegistration = null;
+            }
         }
     }
 }

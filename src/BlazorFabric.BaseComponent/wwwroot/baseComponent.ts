@@ -197,6 +197,25 @@
 
     var eventRegister: Map<(ev: UIEvent) => void> = {};
 
+    export function registerWindowKeyDownEvent(dotnetRef: DotNetReferenceType, keyCode:string, functionName: string): string {
+        var guid = Guid.newGuid();
+        eventRegister[guid] = (ev: KeyboardEvent) => {
+            if (ev.code == keyCode) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                dotnetRef.invokeMethodAsync(functionName, ev.code);
+            }
+        };
+        window.addEventListener("keydown", eventRegister[guid]);
+        return guid;
+    }
+
+    export function deregisterWindowKeyDownEvent(guid: number) {
+        var func = eventRegister[guid];
+        window.removeEventListener("keydown", func);
+        eventRegister[guid] = null;
+    }
+
     export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string) : string {
         var guid = Guid.newGuid();
         eventRegister[guid] = debounce((ev: UIEvent) => {
@@ -205,8 +224,6 @@
         window.addEventListener("resize", eventRegister[guid]);
         return guid;
     }
-
-
 
     export function deregisterResizeEvent(guid: number) {
         var func = eventRegister[guid];

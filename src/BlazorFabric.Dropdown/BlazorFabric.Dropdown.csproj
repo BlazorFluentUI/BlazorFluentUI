@@ -20,6 +20,7 @@
     <ProjectReference Include="..\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
     <ProjectReference Include="..\BlazorFabric.Checkbox\BlazorFabric.Checkbox.csproj" />
+    <ProjectReference Include="..\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
     <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
     <ProjectReference Include="..\BlazorFabric.Label\BlazorFabric.Label.csproj" />
     <ProjectReference Include="..\BlazorFabric.Panel\BlazorFabric.Panel.csproj" />

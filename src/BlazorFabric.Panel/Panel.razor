@@ -9,6 +9,7 @@ else
 {
     <Layer>
         <Popup Role="dialog" AriaLabelledBy=@HeaderText
+               OnDismiss="OnDismiss"
                ClassName=@(!IsOpen && !isAnimating && IsHiddenOnDismiss ? "ms-Panel-hiddenPanel" : "")>
             <div aria-hidden=@(!IsOpen && isAnimating)
                  @ref="panelElement"

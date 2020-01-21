@@ -45,8 +45,8 @@ namespace BlazorFabric
                     rowGap = Tokens.ChildrenGap[0];
                     columnGap = Tokens.ChildrenGap[1];
                 }
-                horizontalMargin = (columnGap * 0.5).ToString() + "px";
-                verticalMargin = (rowGap * 0.5).ToString() + "px";
+                horizontalMargin = (columnGap * (-0.5)).ToString() + "px";
+                verticalMargin = (rowGap * (-0.5)).ToString() + "px";
             }
             else
             {

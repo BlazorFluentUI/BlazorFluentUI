@@ -23,14 +23,6 @@
     <CompoundButton Text="Primary" Primary="true" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Primary")) Disabled=Disabled Checked=Checked />
 </Stack>
 
-<h4>Split Button</h4>
-<Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
-    <DefaultButton Split="true" Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) MenuItems="MenuProperties" Disabled="Disabled" Checked="Checked" />
-    <PrimaryButton Split="true" Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) MenuItems="MenuProperties" Disabled="Disabled" Checked="Checked" />
-    <DefaultButton Split="true" Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) MenuItems="MenuProperties" PrimaryDisabled="true" Checked="Checked" />
-    <PrimaryButton Split="true" Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) MenuItems="MenuProperties" Disabled="true" PrimaryDisabled="true" Checked="Checked" />
-</Stack>
-
 <h4>Command Bar Button</h4>
 <Stack Horizontal="true" Style=@("height:44px")>
     <CommandBarButton IconName="Add"
@@ -42,6 +34,14 @@
 </Stack>
 
 @*<h4>Split Button</h4>
+<Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
+    <DefaultButton Split="true" Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) MenuItems="MenuProperties" Disabled="Disabled" Checked="Checked" />
+    <PrimaryButton Split="true" Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) MenuItems="MenuProperties" Disabled="Disabled" Checked="Checked" />
+    <DefaultButton Split="true" Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) MenuItems="MenuProperties" Disabled="Disabled" PrimaryDisabled="true" Checked="Checked" />
+    <PrimaryButton Split="true" Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) MenuItems="MenuProperties" Disabled="true" PrimaryDisabled="true" Checked="Checked" />
+</Stack>*@
+
+<h4>Split Button</h4>
     <Stack Horizontal="true" Wrap="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
         <DefaultButton Text="Standard"
                        Split="true"
@@ -49,8 +49,7 @@
                        OnClick=@(() => OnClickHandler("Standart Split"))
                        Disabled=Disabled
                        Checked=Checked />
-        <DefaultButton Text="Primary"
-                       Primary="true"
+        <PrimaryButton Text="Primary"
                        Split="true"
                        MenuItems="MenuProperties"
                        OnClick=@(() => OnClickHandler("Primary Split"))
@@ -63,13 +62,13 @@
                        OnClick=@(() => OnClickHandler("Main Action Disabled Split"))
                        Disabled=Disabled
                        Checked=Checked />
-        <DefaultButton Text="Disabled"
+        <PrimaryButton Text="Disabled"
                        Disabled="true"
                        Split="true"
                        MenuItems="MenuProperties"
                        OnClick=@(() => OnClickHandler("Disabled Split"))
                        Checked=Checked />
-    </Stack>*@
+    </Stack>
 
 <h4>Icon Button</h4>
 <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 8.0 } })>
@@ -99,7 +98,7 @@
 
 <h4>Using Command &amp; CommandParameter with Button</h4>
 <Stack Tokens=@(new StackTokens { ChildrenGap = new double[] { 5 } })>
-    <Checkbox Label="Enable Button" @bind-Checked="CommandEnabled" Style="max-width:200px;"/>
+    <Checkbox Label="Enable Button" @bind-Checked="CommandEnabled" Style="max-width:200px;" />
     <StackItem>
         <PrimaryButton Command="buttonCommand" CommandParameter=@((Func<bool>)(() => CommandEnabled)) Text="Trigger ICommand" />
     </StackItem>

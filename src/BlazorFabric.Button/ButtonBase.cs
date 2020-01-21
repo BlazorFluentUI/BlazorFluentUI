@@ -154,7 +154,7 @@ namespace BlazorFabric
         {
             builder.OpenElement(11, "div");
             builder.AddAttribute(12, "class", $"ms-Button-splitContainer");
-            if (!PrimaryDisabled && !commandDisabled)
+            if (!Disabled && !PrimaryDisabled && !commandDisabled)
             {
                 builder.AddAttribute(13, "tabindex", 0);
             }
@@ -193,8 +193,8 @@ namespace BlazorFabric
             }
             if (Split)
             {
-                builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(PrimaryDisabled || commandDisabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
-                builder.AddAttribute(24, "disabled", (this.PrimaryDisabled || commandDisabled) && !this.AllowDisabledFocus);
+                builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled || PrimaryDisabled || commandDisabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
+                builder.AddAttribute(24, "disabled", (Disabled || PrimaryDisabled || commandDisabled) && !this.AllowDisabledFocus);
             }
             else
             {
@@ -203,7 +203,7 @@ namespace BlazorFabric
             }
             builder.AddAttribute(25, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
             
-            builder.AddAttribute(26, "data-is-focusable", this.Disabled || commandDisabled || isSplitButton ? false : true);
+            builder.AddAttribute(26, "data-is-focusable", this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? false : true);
             builder.AddAttribute(27, "style", this.Style);
             builder.AddMultipleAttributes(28, UnknownProperties);
 
@@ -293,7 +293,7 @@ namespace BlazorFabric
             {
                 builder.OpenComponent<BlazorFabric.PrimaryButton>(105);
                 builder.AddAttribute(106, "IconName", "ChevronDown");
-                builder.AddAttribute(107, "ClassName", "ms-Button-menuIcon");
+                builder.AddAttribute(107, "ClassName", $"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}");
                 builder.AddAttribute(108, "OnClick", EventCallback.Factory.Create(this, MenuClickHandler));
                 builder.AddAttribute(109, "Disabled", Disabled);
                 builder.CloseComponent();
@@ -302,7 +302,7 @@ namespace BlazorFabric
             {
                 builder.OpenComponent<BlazorFabric.DefaultButton>(105);
                 builder.AddAttribute(106, "IconName", "ChevronDown");
-                builder.AddAttribute(107, "ClassName", "ms-Button-menuIcon");
+                builder.AddAttribute(107, "ClassName", $"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}");
                 builder.AddAttribute(108, "OnClick", EventCallback.Factory.Create(this, MenuClickHandler));
                 builder.AddAttribute(109, "Disabled", Disabled);
                 builder.CloseComponent();

@@ -26,9 +26,9 @@
 @if (Wrap)
 {
     <div id=@Id class=@($"ms-Stack {ClassName}") style=@(GetStyles() + " " + Style)>
-        <Stack ClassName="ms-Stack-inner" Style=@GetInnerStyles()>
+        <div class="ms-Stack-inner" style=@GetInnerStyles()>
             @ChildContent
-        </Stack>
+        </div>
     </div>
 }
 else

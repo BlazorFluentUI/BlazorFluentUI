@@ -13,7 +13,7 @@
                 <CommandBarButton IconName="Add" Text=@context.Name />
             </ItemTemplate>
             <OverflowTemplate>
-                <IconButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch; height: auto;" IconName="More" MenuItems=@(itemTransform(context)) />
+                <CommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@(itemTransform(context)) />
             </OverflowTemplate>
             @*<OverflowItemTemplate>
                 <ContextualMenuItem Text=@context.Name Key=@context.Key />

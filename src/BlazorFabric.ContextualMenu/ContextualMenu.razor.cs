@@ -75,7 +75,7 @@ namespace BlazorFabric
             //    if (this.IsSubMenu)
             //        this.OnNotifyCalloutDismiss();
             //    else
-                    this.OnDismiss.InvokeAsync(true);
+            Dismiss(true);
             //}
         };
 

@@ -101,7 +101,7 @@ namespace BlazorFabric
                 this.isChecked = !this.isChecked;
                 await this.CheckedChanged.InvokeAsync(this.isChecked);
             }
-            if (!isSplitButton)
+            if (!isSplitButton && MenuItems != null)
             {
                 contextMenuShown = !contextMenuShown;
             }
@@ -191,14 +191,14 @@ namespace BlazorFabric
             {
                 buttonClassName += " ms-Button--default";
             }
-            if (Split)
+            if (isSplitButton)
             {
                 builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled || PrimaryDisabled || commandDisabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
                 builder.AddAttribute(24, "disabled", (Disabled || PrimaryDisabled || commandDisabled) && !this.AllowDisabledFocus);
             }
             else
             {
-                builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled || commandDisabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
+                builder.AddAttribute(23, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont{(Disabled || commandDisabled ? " is-disabled" : "")}{(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}");
                 builder.AddAttribute(24, "disabled", (this.Disabled || commandDisabled) && !this.AllowDisabledFocus);
             }
             builder.AddAttribute(25, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
@@ -266,7 +266,10 @@ namespace BlazorFabric
             {
                 builder.OpenComponent<ContextualMenu>(32);
                 builder.AddAttribute(101, "FabricComponentTarget", this);
-                builder.AddAttribute(102, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => { contextMenuShown = false; }));
+                builder.AddAttribute(102, "OnDismiss", EventCallback.Factory.Create<bool>(this, (isDismissed) => 
+                { 
+                    contextMenuShown = false;
+                }));
                 builder.AddAttribute(103, "Items", MenuItems);
                 builder.AddAttribute(104, "DirectionalHint", DirectionalHint.BottomLeftEdge);
                 builder.CloseComponent();
@@ -293,7 +296,7 @@ namespace BlazorFabric
             {
                 builder.OpenComponent<BlazorFabric.PrimaryButton>(105);
                 builder.AddAttribute(106, "IconName", "ChevronDown");
-                builder.AddAttribute(107, "ClassName", $"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}");
+                builder.AddAttribute(107, "ClassName", $"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}");
                 builder.AddAttribute(108, "OnClick", EventCallback.Factory.Create(this, MenuClickHandler));
                 builder.AddAttribute(109, "Disabled", Disabled);
                 builder.CloseComponent();
@@ -302,7 +305,7 @@ namespace BlazorFabric
             {
                 builder.OpenComponent<BlazorFabric.DefaultButton>(105);
                 builder.AddAttribute(106, "IconName", "ChevronDown");
-                builder.AddAttribute(107, "ClassName", $"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}");
+                builder.AddAttribute(107, "ClassName", $"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}");
                 builder.AddAttribute(108, "OnClick", EventCallback.Factory.Create(this, MenuClickHandler));
                 builder.AddAttribute(109, "Disabled", Disabled);
                 builder.CloseComponent();

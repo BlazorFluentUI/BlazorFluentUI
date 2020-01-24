@@ -1,11 +1,21 @@
-//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
+/// <reference path="baseComponent.d.ts" />
 var BlazorFabricContextualMenu;
 (function (BlazorFabricContextualMenu) {
     function registerHandlers(targetElement, contextualMenuItem) {
         var window = targetElement.ownerDocument.defaultView;
         var mouseClickId = Handler.addListener(targetElement, "click", function (ev) { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("ClickHandler"); }, false);
+        var keyDownId = Handler.addListener(targetElement, "keydown", function (ev) {
+            if (ev.keyCode === 39 /* right */) {
+                ev.preventDefault();
+                contextualMenuItem.invokeMethodAsync("KeyDownHandler", true);
+            }
+            else if (ev.keyCode === 37 /* left */) {
+                ev.preventDefault();
+                contextualMenuItem.invokeMethodAsync("KeyDownHandler", false);
+            }
+        }, false);
         var mouseEnterId = Handler.addListener(targetElement, "mouseenter", function (ev) { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("MouseEnterHandler"); }, false);
-        return [mouseClickId, mouseEnterId];
+        return [mouseClickId, keyDownId, mouseEnterId];
     }
     BlazorFabricContextualMenu.registerHandlers = registerHandlers;
     function unregisterHandlers(ids) {

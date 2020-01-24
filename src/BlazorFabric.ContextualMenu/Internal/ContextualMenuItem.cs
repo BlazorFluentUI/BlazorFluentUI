@@ -34,6 +34,7 @@ namespace BlazorFabric.ContextualMenuInternal
         [Parameter] public bool Split { get; set; }
 
         [Parameter] public EventCallback<ItemClickedArgs> OnClick { get; set; }
+        [Parameter] public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
 
         [Parameter] public ICommand Command { get; set; }
         [Parameter] public object CommandParameter { get; set; }
@@ -127,7 +128,24 @@ namespace BlazorFabric.ContextualMenuInternal
             return base.OnInitializedAsync();
         }
 
-        [JSInvokable] public async void ClickHandler()
+        [JSInvokable]
+        public void KeyDownHandler(bool isRight)
+        {
+            //OnKeyDown.InvokeAsync(args);
+            //if (args.Key == "RightArrow" && !isSubMenuOpen)
+            if (isRight && !isSubMenuOpen)
+            {
+                SetSubmenu.InvokeAsync(this.Key);
+            }
+            //else if (args.Key == "LeftArrow" && isSubMenuOpen)
+            else if (!isRight && isSubMenuOpen)
+            {
+                SetSubmenu.InvokeAsync(null);
+            }
+        }
+
+        [JSInvokable] 
+        public async void ClickHandler()
         {
             System.Diagnostics.Debug.WriteLine($"ContextualMenuItem called click: {this.Key}");
 
@@ -235,6 +253,7 @@ namespace BlazorFabric.ContextualMenuInternal
             //skip KeytipData
             builder.OpenElement(21, "a");
             builder.AddAttribute(22, "href", this.Href);
+            //builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, this.KeyDownHandler));
             //builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, this.OnClick));
             builder.AddAttribute(24, "role", "menuitem");
             builder.AddAttribute(25, "class", "ms-ContextualMenu-link mediumFont");
@@ -250,10 +269,11 @@ namespace BlazorFabric.ContextualMenuInternal
             builder.OpenElement(20, "div");
             //skip KeytipData
             builder.OpenElement(21, "button");
+            //builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, this.KeyDownHandler));
             //builder.AddAttribute(22, "onclick", ClickHandler);
-            builder.AddAttribute(23, "role", "menuitem");
-            builder.AddAttribute(24, "class", "ms-ContextualMenu-link mediumFont");
-            builder.AddElementReferenceCapture(25, (linkElement) => linkElementReference = linkElement);  //need this to register mouse events in javascript (not available in Blazor)
+            builder.AddAttribute(24, "role", "menuitem");
+            builder.AddAttribute(25, "class", "ms-ContextualMenu-link mediumFont");
+            builder.AddElementReferenceCapture(26, (linkElement) => linkElementReference = linkElement);  //need this to register mouse events in javascript (not available in Blazor)
 
             RenderMenuItemContent(builder);
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -65,6 +66,11 @@ namespace BlazorFabric
         private void OnCalloutPositioned()
         {
             _focusZoneReference.FocusFirstElement();
+        }
+
+        private void KeyDownHandler(KeyboardEventArgs args)
+        {
+
         }
 
         protected Action OnNotifyCalloutDismiss => () =>

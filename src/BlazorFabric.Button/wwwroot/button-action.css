@@ -35,7 +35,7 @@
         background-color: transparent;
     }
 
-    .ms-Button.ms-Button--action:not(.ms-Pivot-link).is-checked {
+    .ms-Button.ms-Button--action:not(.ms-Pivot-link).is-checked:not(.is-disabled) {
         color: var(--palette-Black);
     }
 

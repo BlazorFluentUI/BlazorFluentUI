@@ -12,6 +12,8 @@
                         Bounds=@Bounds
                         DirectionalHintFixed=@DirectionalHintFixed
                         AlignTargetEdge=@AlignTargetEdge
+                        SetInitialFocus=@ShouldFocusOnMount
+                      OnPositioned=@OnCalloutPositioned
                         OnDismiss=@OnCalloutDismiss>
     @*TabIndex set to -1 so it is focusable, ignoring option to focus on "container??"*@
     <div aria-label=@AriaLabel
@@ -26,7 +28,10 @@
         }
         @if (Items != null && Items.Count() > 0)
         {
-            <div class=@($"ms-ContextualMenu mediumFont")>
+            <FocusZone ClassName=@($"ms-ContextualMenu mediumFont")
+                       @ref="_focusZoneReference"
+                       IsCircularNavigation="true"
+                       HandleTabKey="FocusZoneTabbableElements.All">
                 <ul class="ms-ContextualMenu-list" role="menu">
                     @foreach (var item in Items)
                     {
@@ -48,7 +53,7 @@
                         }
                     }
                 </ul>
-            </div>
+            </FocusZone>
         }
     </div>
 

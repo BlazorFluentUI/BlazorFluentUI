@@ -7,7 +7,3 @@
 @import "button-messageBar.css";
 @import "button-primary.css";
 @import "button-split.css";
-
-/* These load css for dependencies in case user forgets to include them. */
-@import "../../_content/BlazorFabric.ContextualMenu/contextualMenu.css";
-@import "../../_content/BlazorFabric.Icon/icon.css";

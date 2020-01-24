@@ -294,7 +294,7 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.focusElement = focusElement;
     function focusFirstElementChild(element) {
-        var child = this.getFirstFocusable(element);
+        var child = this.getFirstFocusable(element, element, true);
         if (child) {
             child.focus();
         }

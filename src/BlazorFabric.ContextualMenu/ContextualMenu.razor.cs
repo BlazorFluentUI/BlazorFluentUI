@@ -39,6 +39,8 @@ namespace BlazorFabric
 
         [Parameter] public bool IsSubMenu { get; set; } = false;
 
+        [Parameter] public bool ShouldFocusOnMount { get; set; }
+
         // for debugging only
         [CascadingParameter(Name ="PortalId")] public string PortalId { get; set; }
 
@@ -46,6 +48,8 @@ namespace BlazorFabric
 
         private bool HasIcons = false; //needed to shift margins and make space for all 
         private bool HasCheckables = false;
+
+        private FocusZone _focusZoneReference;
 
         public string SubmenuActiveKey { get; set; }
         public void SetSubmenuActiveKey(string key)
@@ -58,11 +62,17 @@ namespace BlazorFabric
             StateHasChanged();
         }
 
+        private void OnCalloutPositioned()
+        {
+            _focusZoneReference.FocusFirstElement();
+        }
+
         protected Action OnNotifyCalloutDismiss => () =>
         {
 
         };
 
+       
         protected void Dismiss(bool dismissAll = false)
         {
             this.OnDismiss.InvokeAsync(dismissAll);

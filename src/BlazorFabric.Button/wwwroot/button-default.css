@@ -14,7 +14,7 @@
         background-color: var(--palette-NeutralLight);
     }
 
-    .ms-Button--default.is-checked {
+    .ms-Button--default.is-checked:not(.is-disabled) {
         color: var(--semanticColors-ButtonTextChecked);
         background-color: var(--palette-NeutralLight);
     }

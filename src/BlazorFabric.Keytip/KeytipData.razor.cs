@@ -6,20 +6,12 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public class KeytipData : FabricComponentBase
+    public partial class KeytipData : FabricComponentBase
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }
 
         [Parameter]
         public bool Disabled { get; set; }
-
-
-
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            builder.AddContent(0, ChildContent);
-            //base.BuildRenderTree(builder);
-        }
     }
 }

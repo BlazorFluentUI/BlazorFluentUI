@@ -1,13 +1,12 @@
 @page "/dropdownPage"
 
-@using Models
-
 <h1>Dropdown</h1>
 
 <h3>Uncontrolled Single Selection</h3>
-<BlazorFabric.Label>Selected: @uncontrolledSingleSelectionResult</BlazorFabric.Label>
+@*<BlazorFabric.Label>Selected: @uncontrolledSingleSelectionResult</BlazorFabric.Label>*@
 <div style="max-width:300px;">
-    <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler>
+    <Dropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler
+              Label=@($"Selected: {uncontrolledSingleSelectionResult}")>
         <ItemTemplate>
             <DropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
         </ItemTemplate>

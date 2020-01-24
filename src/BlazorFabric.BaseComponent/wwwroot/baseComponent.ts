@@ -335,8 +335,8 @@
         element.focus();
     }
 
-    export function focusFirstElementChild(element: HTMLElement){
-        let child = this.getFirstFocusable(element);
+    export function focusFirstElementChild(element: HTMLElement, ){
+        let child = this.getFirstFocusable(element,element, true );
         if (child) {
             child.focus();
         } else {

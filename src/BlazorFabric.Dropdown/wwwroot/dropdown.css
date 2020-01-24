@@ -66,7 +66,7 @@
     color: var(--semanticColors-MenuItemTextHovered);
 }
 
-.ms-Dropdown:focus:after{
+.ms-Dropdown:focus::after{
     pointer-events:none;
     content: "";
     position:absolute;
@@ -78,7 +78,7 @@
     border:none;
     border-radius:2px;
 }
-.ms-Dropdown:focus:after:not(.is_disabled) {
+.ms-Dropdown:not(.is_disabled):focus::after {
     border: 2px solid var(--palette-ThemePrimary);
 }
 

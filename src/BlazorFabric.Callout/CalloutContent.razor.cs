@@ -39,7 +39,7 @@ namespace BlazorFabric
         //[Parameter] public string AriaDescribedBy { get; set; }
         [Parameter] public bool HideOverflow { get; set; } = false;
 
-        //[Parameter] public Layer Layer { get; set; }
+        [Parameter] public bool SetInitialFocus { get; set; }
 
         // This is no longer available to use publicly.  Need this to hide control when calculating position otherwise it blinks into the top corner.
         protected bool Hidden { get; set; } = true;
@@ -55,6 +55,8 @@ namespace BlazorFabric
         protected CalloutPositionedInfo CalloutPosition { get; set; } = new CalloutPositionedInfo();
 
         [CascadingParameter(Name = "PortalId")] private string PortalId { get; set; }
+
+        [Inject] private IJSRuntime jSRuntime { get; set; }
 
         protected double contentMaxHeight = 0;
         protected bool overflowYHidden = false;
@@ -89,10 +91,26 @@ namespace BlazorFabric
                 {
                     await CalculateCalloutPositionAsync();
                 }
+                
             }
+
+            if (isRenderedOnce && isMeasured && !_finalPositionAnnounced)
+            {
+                _finalPositionAnnounced = true;
+                // May have to limit this... 
+                await OnPositioned.InvokeAsync(null);
+            }
+
             isRenderedOnce = true;
 
+            //FocusFirstElement();
+
             await base.OnAfterRenderAsync(firstRender);
+        }
+        
+        private async void FocusFirstElement()
+        {
+            //await jSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.focusFirstElementChild", RootElementReference);
         }
 
         [JSInvokable]
@@ -147,6 +165,7 @@ namespace BlazorFabric
         {
             if (this.FabricComponentTarget != null && !isMeasured && isRenderedOnce)
             {
+                _finalPositionAnnounced = false;
                 //this will never get called initially because the target won't be rendered yet.  Shouldn't be called after due to isMeasured  
                 await CalculateCalloutPositionAsync();
 
@@ -193,7 +212,7 @@ namespace BlazorFabric
             {
                 contentMaxHeight = CalloutMaxHeight;
             }
-            StateHasChanged();
+            //StateHasChanged();
 
             this.CalloutPosition = await PositionCalloutAsync(targetRect, maxBounds);
             //this.CalloutPosition = calloutPositioning;
@@ -201,9 +220,7 @@ namespace BlazorFabric
 
             //this.Position = this.CalloutPosition.ElementRectangle;
 
-            // May have to limit this...
-            await OnPositioned.InvokeAsync(null);
-
+            
             isMeasured = true;
             Hidden = false;
             StateHasChanged();
@@ -722,6 +739,6 @@ namespace BlazorFabric
             {DirectionalHint.RightCenter, new PositionDirectionalHintData(RectangleEdge.Right, RectangleEdge.None) },
             {DirectionalHint.RightBottomEdge, new PositionDirectionalHintData(RectangleEdge.Right, RectangleEdge.Bottom) },
         };
-
+        private bool _finalPositionAnnounced;
     }
 }

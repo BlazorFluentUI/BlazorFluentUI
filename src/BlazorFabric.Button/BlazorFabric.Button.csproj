@@ -10,6 +10,7 @@
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
     <ProjectReference Include="..\BlazorFabric.ContextualMenu\BlazorFabric.ContextualMenu.csproj" />
     <ProjectReference Include="..\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Keytip\BlazorFabric.Keytip.csproj" />
   </ItemGroup>
 
 

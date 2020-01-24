@@ -59,10 +59,7 @@ namespace BlazorFabric
                 builder.AddContent(73, this.AriaDescripton);
                 builder.CloseElement();
             }
-            //if (this.Text == null && this.ChildContent != null)
-            //{
-            //    builder.AddContent(81, this.ChildContent);
-            //}
+
 
             builder.CloseElement();
             builder.CloseElement();

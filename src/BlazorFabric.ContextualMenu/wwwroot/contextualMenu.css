@@ -42,10 +42,39 @@
 }
 
 
-.ms-ContextualMenu-item{
+.ms-ContextualMenu-item {
+    /* focusStyles */
+    outline: transparent;
+    /* end */
     color: var(--semanticColors-BodyText);
-    position:relative;
-    box-sizing:border-box;
+    position: relative;
+    box-sizing: border-box;
+}
+    .ms-ContextualMenu-item::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-ContextualMenu-link:focus:after {
+    content: "";
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid transparent;
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zindex-FocusStyle);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible .ms-ContextualMenu-link:focus:after {
+        left: -2px;
+        top: -2px;
+        bottom: -2px;
+        right: -2px;
+        border: none;
+        outline-color: ButtonText;
+    }
 }
 
 .ms-ContextualMenu-divider{

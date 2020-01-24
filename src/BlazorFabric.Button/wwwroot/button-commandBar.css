@@ -30,14 +30,14 @@
             color: var(--palette-NeutralPrimary);
         }
 
-    .ms-Button.ms-Button--commandBar.is-checked {
+    .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled) {
         background-color: var(--palette-NeutralLight);
         color: var(--palette-NeutralDark);
     }
-        .ms-Button.ms-Button--commandBar.is-checked .ms-Button-icon {
+        .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled) .ms-Button-icon {
             color: var(--palette-ThemeDark);
         }
-        .ms-Button.ms-Button--commandBar.is-checked .ms-Button-menuIcon {
+        .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled) .ms-Button-menuIcon {
             color: var(--palette-NeutralPrimary);
         }
 

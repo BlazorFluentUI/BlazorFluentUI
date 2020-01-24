@@ -17,7 +17,7 @@
         background-color: var(--palette-NeutralLight);
     }
 
-    .ms-Button.ms-Button--icon.is-checked {
+    .ms-Button.ms-Button--icon.is-checked:not(.is-disabled) {
         color: var(--palette-ThemeDark);
         background-color: var(--palette-NeutralLight);
     }

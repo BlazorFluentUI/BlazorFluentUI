@@ -20,7 +20,7 @@
         background-color: var(--palette-ThemeDark);
     }
 
-    .ms-Button--primary.is-checked {
+    .ms-Button--primary.is-checked:not(.is-disabled) {
         color: var(--palette-White);
         background-color: var(--palette-ThemeDark);
         border: none;

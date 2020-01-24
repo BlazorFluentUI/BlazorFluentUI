@@ -128,22 +128,27 @@ namespace BlazorFabric.ContextualMenuInternal
             return base.OnInitializedAsync();
         }
 
-        [JSInvokable]
-        public void KeyDownHandler(bool isRight)
+        private async void DismissSubMenu(bool dismissAll)
         {
-            //OnKeyDown.InvokeAsync(args);
-            //if (args.Key == "RightArrow" && !isSubMenuOpen)
-            if (isRight && !isSubMenuOpen)
+            await SetSubmenu.InvokeAsync(null);
+            if (dismissAll)
             {
-                SetSubmenu.InvokeAsync(this.Key);
-            }
-            //else if (args.Key == "LeftArrow" && isSubMenuOpen)
-            else if (!isRight && isSubMenuOpen)
-            {
-                SetSubmenu.InvokeAsync(null);
-            }
+                await DismissMenu.InvokeAsync(true);
+            }    
         }
 
+        private async void KeyDownHandler(KeyboardEventArgs args)
+        {
+            // check for a right key press so we can open the submenu if it exists
+            if (args.Key == "ArrowRight" && !isSubMenuOpen)
+            {
+                await SetSubmenu.InvokeAsync(this.Key);
+            }
+
+            // send it to the parent ContextualMenu so we can use a left key press to close the menu.
+            await OnKeyDown.InvokeAsync(args);
+        }
+        
         [JSInvokable] 
         public async void ClickHandler()
         {
@@ -253,7 +258,7 @@ namespace BlazorFabric.ContextualMenuInternal
             //skip KeytipData
             builder.OpenElement(21, "a");
             builder.AddAttribute(22, "href", this.Href);
-            //builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, this.KeyDownHandler));
+            builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, KeyDownHandler));
             //builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, this.OnClick));
             builder.AddAttribute(24, "role", "menuitem");
             builder.AddAttribute(25, "class", "ms-ContextualMenu-link mediumFont");
@@ -269,7 +274,7 @@ namespace BlazorFabric.ContextualMenuInternal
             builder.OpenElement(20, "div");
             //skip KeytipData
             builder.OpenElement(21, "button");
-            //builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, this.KeyDownHandler));
+            builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, KeyDownHandler));
             //builder.AddAttribute(22, "onclick", ClickHandler);
             builder.AddAttribute(24, "role", "menuitem");
             builder.AddAttribute(25, "class", "ms-ContextualMenu-link mediumFont");
@@ -349,7 +354,7 @@ namespace BlazorFabric.ContextualMenuInternal
         {
             builder.OpenComponent<ContextualMenu>(70);
             builder.AddAttribute(71, "FabricComponentTarget", this);
-            builder.AddAttribute(72, "OnDismiss", DismissMenu);//EventCallback.Factory.Create<bool>(this, (isDismissed) => { ParentContextualMenu.SetSubmenuActiveKey(""); ParentContextualMenu.OnDismiss.InvokeAsync(true); }));
+            builder.AddAttribute(72, "OnDismiss", EventCallback.Factory.Create<bool>(this, DismissSubMenu));//EventCallback.Factory.Create<bool>(this, (isDismissed) => { ParentContextualMenu.SetSubmenuActiveKey(""); ParentContextualMenu.OnDismiss.InvokeAsync(true); }));
             //builder.AddAttribute(73, "IsOpen", ParentContextualMenu.SubmenuActiveKey == Key);
             builder.AddAttribute(74, "DirectionalHint", DirectionalHint.RightTopEdge);
             builder.AddAttribute(75, "Items", Items);

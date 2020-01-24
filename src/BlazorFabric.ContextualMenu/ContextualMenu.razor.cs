@@ -53,26 +53,29 @@ namespace BlazorFabric
         private FocusZone _focusZoneReference;
 
         public string SubmenuActiveKey { get; set; }
-        public void SetSubmenuActiveKey(string key)
+        //public void SetSubmenuActiveKey(string key)
+        //{
+
+        //    if (string.IsNullOrWhiteSpace(key) && string.IsNullOrWhiteSpace(SubmenuActiveKey))
+        //        return;
+        //    System.Diagnostics.Debug.WriteLine($"SetSubmenuActiveKey(\"{key}\") from {this.DirectionalHint}");
+        //    SubmenuActiveKey = key;
+        //    StateHasChanged();
+        //}
+        private void KeyDownHandler(KeyboardEventArgs args)
         {
-            
-            if (string.IsNullOrWhiteSpace(key) && string.IsNullOrWhiteSpace(SubmenuActiveKey))
-                return;
-            System.Diagnostics.Debug.WriteLine($"SetSubmenuActiveKey(\"{key}\") from {this.DirectionalHint}");
-            SubmenuActiveKey = key;
-            StateHasChanged();
+            if (args.Key == "ArrowLeft" && IsSubMenu)
+            {
+                Dismiss(false);
+            }
         }
+
 
         private void OnCalloutPositioned()
         {
             _focusZoneReference.FocusFirstElement();
         }
-
-        private void KeyDownHandler(KeyboardEventArgs args)
-        {
-
-        }
-
+                
         protected Action OnNotifyCalloutDismiss => () =>
         {
 

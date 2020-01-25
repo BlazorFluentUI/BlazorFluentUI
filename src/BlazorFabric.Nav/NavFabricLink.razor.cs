@@ -25,6 +25,7 @@ namespace BlazorFabric
         [Parameter] public string Url { get; set; }
 
         [Parameter] public int NestedDepth { get; set; }
+        [Parameter] public NavMatchType NavMatchType { get; set; } = NavMatchType.RelativeLinkOnly;
 
         [Parameter] public EventCallback<NavFabricLink> OnClick { get; set; }
 
@@ -53,12 +54,43 @@ namespace BlazorFabric
 
         private void ProcessUri(string uri)
         {
-            if (uri.EndsWith(this.Id) && !isSelected)
+            string processedUri = null;
+            switch (NavMatchType)
+            {
+                case NavMatchType.RelativeLinkOnly:
+                    processedUri = uri.Split('?', '#')[0];
+                    break;
+                case NavMatchType.AnchorIncluded:
+                    var split = uri.Split('?');
+                    processedUri = split[0];
+                    if (split.Length > 1)
+                    {
+                        var anchorSplit = split[1].Split('#');
+                        if (anchorSplit.Length > 1)
+                            processedUri += "#" + anchorSplit[1];
+                    }
+                    else
+                    {
+                        var anchorSplit = split[0].Split('#');
+                        if (anchorSplit.Length > 1)
+                            processedUri += "#" + anchorSplit[1];
+                    }
+                    break;
+                case NavMatchType.AnchorOnly:
+                    var split2 = uri.Split('#');
+                    if (split2.Length > 1)
+                        processedUri = "#" + split2[1];
+                    else
+                        processedUri = "#";
+                    break;
+            }
+
+            if ( processedUri.EndsWith(this.Id) && !isSelected)
             {
                 isSelected = true;
                 StateHasChanged();
             }
-            else if (!uri.EndsWith(this.Id) && isSelected)
+            else if (!processedUri.EndsWith(this.Id) && isSelected)
             {
                 isSelected = false;
                 StateHasChanged();

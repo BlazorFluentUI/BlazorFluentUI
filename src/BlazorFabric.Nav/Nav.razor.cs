@@ -13,7 +13,7 @@ namespace BlazorFabric
         [Parameter] public string ExpandButtonAriaLabel { get; set; }
 
         [Parameter] public bool IsOnTop { get; set; }
-                
+
         protected override Task OnInitializedAsync()
         {
             //System.Diagnostics.Debug.WriteLine("Initializing NavBase");

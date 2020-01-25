@@ -15,6 +15,7 @@ https://t.me/blazorfabric
 - upcomming
 	- Added `Pivot`
 	- Fix #78 positioning problems with `Callout`
+	- Heavy focus on keyboard-navigation.  Fixes to `ContextualMenu`, `Dropdown`
 - v2.1.0
 	- Added `Text` (including custom styling)
 	- Upgraded `TextField` with PrefixContent and SuffixContent for non-text-only content

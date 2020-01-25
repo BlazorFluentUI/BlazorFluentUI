@@ -118,13 +118,16 @@
     }
 
     export function getNaturalBounds(image: HTMLImageElement): IRectangle {
-        var rect: IRectangle = {
-            width: image.naturalWidth,
-            height: image.naturalHeight,
-            left: 0,
-            top: 0
+        if (image && image !== null) {
+            var rect: IRectangle = {
+                width: image.naturalWidth,
+                height: image.naturalHeight,
+                left: 0,
+                top: 0
+            }
+            return rect;
         }
-        return rect;
+        return null;
     }
 
     export function supportsObjectFit(): boolean {

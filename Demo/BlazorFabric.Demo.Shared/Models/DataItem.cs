@@ -18,7 +18,7 @@
             Type = selectableOptionMenuItemType;
         }
         public string DisplayName { get; set; }
-        public string ImgUrl => "/background.png";
+        public string ImgUrl => "redArrow.jpg";
 
         public SelectableOptionMenuItemType Type { get; set; }
     }

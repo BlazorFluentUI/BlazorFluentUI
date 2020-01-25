@@ -87,13 +87,16 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.measureElement = measureElement;
     function getNaturalBounds(image) {
-        var rect = {
-            width: image.naturalWidth,
-            height: image.naturalHeight,
-            left: 0,
-            top: 0
-        };
-        return rect;
+        if (image && image !== null) {
+            var rect = {
+                width: image.naturalWidth,
+                height: image.naturalHeight,
+                left: 0,
+                top: 0
+            };
+            return rect;
+        }
+        return null;
     }
     BlazorFabricBaseComponent.getNaturalBounds = getNaturalBounds;
     function supportsObjectFit() {

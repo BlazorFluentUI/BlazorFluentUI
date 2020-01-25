@@ -17,7 +17,7 @@ namespace BlazorFabric
 {
     public partial class List<TItem> : FabricComponentBase, IDisposable
     {
-        protected bool firstRender = false;
+        //protected bool firstRender = false;
 
         protected const int DEFAULT_ITEMS_PER_PAGE = 10;
         protected const int DEFAULT_RENDERED_WINDOWS_BEHIND = 2;
@@ -45,6 +45,8 @@ namespace BlazorFabric
         [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
         [Parameter] public bool ItemFocusable { get; set; } = false;
 
+        private IEnumerable<TItem> _itemsSource;
+
         protected RenderFragment ItemPagesRender { get; set; }
 
         private ISubject<(int index, double height)> pageMeasureSubject = new Subject<(int index, double height)>();
@@ -54,6 +56,7 @@ namespace BlazorFabric
         private System.Collections.Generic.List<ListPage<TItem>> renderedPages = new System.Collections.Generic.List<ListPage<TItem>>();
 
         private System.Collections.Generic.List<TItem> selectedItems = new System.Collections.Generic.List<TItem>();
+        private string _resizeRegistration;
 
         protected override Task OnInitializedAsync()
         {
@@ -63,18 +66,30 @@ namespace BlazorFabric
 
         protected override Task OnParametersSetAsync()
         {
-            if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
+            if (_itemsSource == null && ItemsSource != null)
             {
-                (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
+                if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
+                {
+                    (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
+                }
+            }
+            else if (_itemsSource != null && ItemsSource != _itemsSource)
+            {
+                if (this._itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
+                {
+                    (this._itemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged -= ListBase_CollectionChanged;
+                }
+                if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
+                {
+                    (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
+                }
             }
             return base.OnParametersSetAsync();
         }
 
 
         private void ListBase_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            //Debug.WriteLine($"Collection has changed.  Action: {e.Action}  New: {e.NewItems?.Count}   Old: {e.OldItems?.Count}");
-            //Debug.WriteLine($"ItemsSource details.  {this.ItemsSource?.Count()}");
+        {            
             shouldRender = true;
             InvokeAsync(StateHasChanged);
         }
@@ -169,9 +184,21 @@ namespace BlazorFabric
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            if (firstRender)
+            {
+                _resizeRegistration = await JSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHandler");
+
+                await MeasureContainerAsync();
+            }
+
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
+        private async Task MeasureContainerAsync()
+        {
             var surfaceRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", this.surfaceDiv);
             _height = surfaceRect.height;
-            
+
             if (heightSub != null)
             {
                 heightSub.Dispose();
@@ -195,7 +222,7 @@ namespace BlazorFabric
                 }
                 else if (!isFirstRender)
                 {
-                    if (averagePageHeight != 0  && ((x.height - averagePageHeight) / averagePageHeight - 1 > thresholdChangePercent))
+                    if (averagePageHeight != 0 && ((x.height - averagePageHeight) / averagePageHeight - 1 > thresholdChangePercent))
                     {
                         averagePageHeight = x.height;
 
@@ -209,8 +236,12 @@ namespace BlazorFabric
                     }
                 }
             });
+        }
 
-            await base.OnAfterRenderAsync(firstRender);
+        [JSInvokable]
+        public async void ResizeHandler(double width, double height)
+        {
+            await MeasureContainerAsync();
         }
 
 
@@ -219,9 +250,6 @@ namespace BlazorFabric
             try
             {
                 var scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureScrollWindow", this.surfaceDiv);
-                //Debug.WriteLine(scrollRect.ToString());
-                //Debug.WriteLine(_height);
-                //Debug.WriteLine(averagePageHeight);
 
                 var rearSpace = _height * DEFAULT_RENDERED_WINDOWS_BEHIND;
                 var aheadSpace = _height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
@@ -251,13 +279,17 @@ namespace BlazorFabric
 
         }
 
-        public void Dispose()
-        {
-            Debug.WriteLine("List was disposed");
-            if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
+        public async void Dispose()
+        {            
+            if (_itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
             {
-                (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged -= ListBase_CollectionChanged;
+                (_itemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged -= ListBase_CollectionChanged;
             }
+            if (_resizeRegistration != null)
+            {
+                await JSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.deregisterResizeEvent", _resizeRegistration);
+            }
+            Debug.WriteLine("List was disposed");
         }
     }
 }

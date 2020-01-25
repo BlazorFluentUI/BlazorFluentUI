@@ -178,6 +178,11 @@ namespace BlazorFabric
                 var rootBounds = await GetBoundsAsync();
                 var imageNaturalBounds = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.getNaturalBounds", imageRef);
 
+                if (imageNaturalBounds== null)
+                {
+                    return;
+                }
+
                 double desiredRatio = 0;
                 if (!double.IsNaN(Width) && !double.IsNaN(Height))
                 {

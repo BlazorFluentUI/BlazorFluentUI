@@ -11,10 +11,16 @@
             <div style="overflow:hidden;flex-grow:1;">
                 <BlazorFabric.List ItemsSource=@data TItem="DataItem">
                     <ItemTemplate>
-                        <div style="display:flex; flex-direction:row; ">
+                        <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
+                            <Image Src=@context.ImgUrl ImageFit="ImageFit.CenterContain" Width="50" Height="50"/>
+                            <Text Variant="TextType.Large" Block="true">
+                                This is item #@(context.DisplayName).
+                            </Text>
+                        </Stack>
+                        @*<div style="display:flex; flex-direction:row; ">
                             <img height="50" width="50" src=@context.ImgUrl />
                             <em>@context.DisplayName</em>
-                        </div>
+                        </div>*@
                     </ItemTemplate>
                 </BlazorFabric.List>
             </div>

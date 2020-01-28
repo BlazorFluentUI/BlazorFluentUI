@@ -2,6 +2,11 @@
 {
     public class DataItem
     {
+        public DataItem()
+        {
+
+        }
+
         public DataItem(int num)
         {
             DisplayName = num.ToString();

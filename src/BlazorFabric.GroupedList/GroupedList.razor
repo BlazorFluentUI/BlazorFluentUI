@@ -1,0 +1,35 @@
+﻿@namespace BlazorFabric
+@inherits FabricComponentBase
+@typeparam TItem
+
+<div class=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}") 
+     data-automationid="GroupedList" 
+     data-is-scrollable="false" 
+     role="presentation"
+     style="height:500px;">
+    @if (isGrouped)
+    {
+        <List ItemsSource=@ItemsSource>
+            <ItemTemplate>
+                <GroupedListSection TItem=@TItem
+                                    Compact=@Compact
+                                    ItemTemplate=@ItemTemplate
+                                    GroupKeySelector=@GroupKeySelector
+                                    SubGroupSelector=@SubGroupSelector
+                                    Items=@(SubGroupSelector.Invoke(context))
+                                    Name=@(GroupKeySelector.Invoke(context).ToString())
+                                    SelectionMode=@SelectionMode />
+            </ItemTemplate>
+        </List>
+        
+    }
+    else
+    {
+        <BasicList ItemsSource=@ItemsSource
+              ItemTemplate=@ItemTemplate
+              SelectionMode=@SelectionMode
+              GetItemCountForPage=@((a,b)=> 1)
+              />
+    }
+
+</div>

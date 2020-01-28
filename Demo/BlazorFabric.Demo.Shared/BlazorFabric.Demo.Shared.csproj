@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\BlazorFabric.BasicList\BlazorFabric.BasicList.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Calendar\BlazorFabric.Calendar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />
@@ -23,6 +24,7 @@
     <ProjectReference Include="..\..\src\BlazorFabric.Dropdown\BlazorFabric.Dropdown.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.FocusTrapZone\BlazorFabric.FocusTrapZone.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.GroupedList\BlazorFabric.GroupedList.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Icon\BlazorFabric.Icon.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Image\BlazorFabric.Image.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Label\BlazorFabric.Label.csproj" />

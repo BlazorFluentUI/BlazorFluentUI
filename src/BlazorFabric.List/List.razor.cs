@@ -34,15 +34,16 @@ namespace BlazorFabric
 
         private int minRenderedPage;
         private int maxRenderedPage;
-
+        private Rectangle surfaceRect;
         private double _height;
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
-        [Parameter] public Func<TItem, MouseEventArgs, Task> ItemClicked { get; set; }
+        [Parameter] public Func<int, Rectangle, int> GetItemCountForPage { get; set; }
+        [Parameter] public EventCallback<TItem> ItemClicked { get; set; }
         [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
         [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
-        [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
+        [Parameter] public SelectionMode2 SelectionMode { get; set; } = SelectionMode2.Single;
         [Parameter] public bool ItemFocusable { get; set; } = false;
 
         private IEnumerable<TItem> _itemsSource;
@@ -84,6 +85,7 @@ namespace BlazorFabric
                     (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
                 }
             }
+
             return base.OnParametersSetAsync();
         }
 
@@ -124,12 +126,20 @@ namespace BlazorFabric
                       {
                           builder.OpenComponent(i * lineCount + 2, typeof(ListPage<TItem>));
                           builder.AddAttribute(i * lineCount + 3, "ItemTemplate", ItemTemplate);
-                          builder.AddAttribute(i * lineCount + 4, "ItemsSource", ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE));//(ItemsSource.Count() > 0 ? ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE) : ItemsSource));
-                          builder.AddAttribute(i * lineCount + 5, "StartIndex", i * DEFAULT_ITEMS_PER_PAGE);
+                          if (GetItemCountForPage != null)
+                          {
+                              builder.AddAttribute(i * lineCount + 4, "ItemsSource", ItemsSource.Skip(i * GetItemCountForPage(i,surfaceRect)).Take(GetItemCountForPage(i, surfaceRect)));//(ItemsSource.Count() > 0 ? ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE) : ItemsSource));
+                              builder.AddAttribute(i * lineCount + 5, "StartIndex", i * GetItemCountForPage(i, surfaceRect));
+                          }
+                          else
+                          {
+                              builder.AddAttribute(i * lineCount + 4, "ItemsSource", ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE));//(ItemsSource.Count() > 0 ? ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE) : ItemsSource));
+                              builder.AddAttribute(i * lineCount + 5, "StartIndex", i * DEFAULT_ITEMS_PER_PAGE);
+                          }
                           builder.AddAttribute(i * lineCount + 6, "PageMeasureSubject", pageMeasureSubject);
-                          builder.AddAttribute(i * lineCount + 7, "ItemClicked", (Func<object, MouseEventArgs, Task>)OnItemClick);
+                          builder.AddAttribute(i * lineCount + 7, "ItemClicked", EventCallback.Factory.Create<object>(this, OnItemClick));
                           builder.AddAttribute(i * lineCount + 8, "SelectedItems", selectedItems);
-                          builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode.None ? true : ItemFocusable);
+                          builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode2.None ? true : ItemFocusable);
                           builder.AddComponentReferenceCapture(i * lineCount + 10, (comp) => renderedPages.Add((ListPage<TItem>)comp));
                           builder.CloseComponent();
                       }
@@ -146,19 +156,19 @@ namespace BlazorFabric
 
           };
 
-        protected Task OnItemClick(object item, MouseEventArgs e)
+        protected Task OnItemClick(object item)
         {
             var castItem = (TItem)item;
             switch (SelectionMode)
             {
-                case SelectionMode.Multiple:
+                case SelectionMode2.Multiple:
                     if (selectedItems.Contains(castItem))
                         selectedItems.Remove(castItem);
                     else
                         selectedItems.Add(castItem);
                     shouldRender = true;
                     break;
-                case SelectionMode.Single:
+                case SelectionMode2.Single:
                     if (selectedItems.Contains(castItem))
                         selectedItems.Remove(castItem);
                     else
@@ -168,12 +178,12 @@ namespace BlazorFabric
                     }
                     shouldRender = true;
                     break;
-                case SelectionMode.None:
+                case SelectionMode2.None:
                     break;
 
             }
 
-            ItemClicked?.Invoke(castItem, e);
+            ItemClicked.InvokeAsync(castItem);
 
 
             if (shouldRender == true)
@@ -196,7 +206,8 @@ namespace BlazorFabric
 
         private async Task MeasureContainerAsync()
         {
-            var surfaceRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", this.surfaceDiv);
+            var rect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", this.surfaceDiv);
+            surfaceRect = new Rectangle(rect.left, rect.width, rect.top, rect.height);
             _height = surfaceRect.height;
 
             if (heightSub != null)

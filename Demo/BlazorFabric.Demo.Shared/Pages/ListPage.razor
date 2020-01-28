@@ -1,34 +1,37 @@
 ﻿@page "/listPage"
 
-@using Models
-
-    <div style="display:flex; flex-direction:column; height: calc(100vh - 53.5px);">
+    <div style="height:20px;">
+        @DebugText
+    </div>
+    <div style="display:flex; flex-direction:column; height: calc(100vh - 73.5px);">
         <div style="display:flex;flex-direction:column;flex-grow:1;height:100%;">
             <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
             <BlazorFabric.PrimaryButton Text="Add 2 items" OnClick="@ClickHandler3" />
             <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
-            <BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
-            <div style="overflow:hidden;flex-grow:1;">
-                <BlazorFabric.List ItemsSource=@data TItem="DataItem">
+            <BlazorFabric.PrimaryButton Text="Start with 5000 items" OnClick="@ClickHandler2" />
+            
+            <div style="overflow-y:auto;">
+                <BlazorFabric.BasicList ItemsSource=@data TItem="DataItem" ItemClicked=@((item)=> DebugText = item.DisplayName + " clicked")>
                     <ItemTemplate>
-                        <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
-                            <Image Src=@context.ImgUrl ImageFit="ImageFit.CenterContain" Width="50" Height="50"/>
-                            <Text Variant="TextType.Large" Block="true">
-                                This is item #@(context.DisplayName).
-                            </Text>
-                        </Stack>
-                        @*<div style="display:flex; flex-direction:row; ">
+                        @*<Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
+                    <Image Src=@context.ImgUrl ImageFit="ImageFit.CenterContain" Width="50" Height="50" CoverStyle="ImageCoverStyle.Portrait"/>
+                    <Text Variant="TextType.Large" Block="true">
+                        This is item #@(context.DisplayName).
+                    </Text>
+                </Stack>*@
+                        <div style="display:flex; flex-direction:row; ">
                             <img height="50" width="50" src=@context.ImgUrl />
-                            <em>@context.DisplayName</em>
-                        </div>*@
+                            <em>This is item #@context.DisplayName.</em>
+                        </div>
                     </ItemTemplate>
-                </BlazorFabric.List>
+                </BlazorFabric.BasicList>
             </div>
         </div>
     </div>
 @code {
     int count = 0;
     System.Collections.ObjectModel.ObservableCollection<DataItem> data;
+    string DebugText = "";
 
     Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
@@ -42,19 +45,22 @@
         return Task.CompletedTask;
     }
 
-     Task ClickHandler2(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    Task ClickHandler2(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
+        var tempData = new System.Collections.Generic.List<DataItem>();
         System.Diagnostics.Debug.WriteLine("Clicked!");
         for (var i = 0; i < 5000; i++)
         {
             count++;
-            data.Add(new DataItem(count));
+            
+            tempData.Add(new DataItem(count));
         }
+        data = new System.Collections.ObjectModel.ObservableCollection<DataItem>(tempData);
         System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
         return Task.CompletedTask;
     }
 
- Task ClickHandler3(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    Task ClickHandler3(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
         System.Diagnostics.Debug.WriteLine("Clicked!");
         for (var i = 0; i < 2; i++)

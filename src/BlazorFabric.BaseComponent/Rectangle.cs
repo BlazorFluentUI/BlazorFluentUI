@@ -26,6 +26,12 @@ namespace BlazorFabric
             //this.right = left + width;
             //this.bottom = top + height;
         }
+
+        public static Rectangle EmptyRect()
+        {
+            var rect = new Rectangle { left = -1, right = -1, top = -1, bottom = -1 };
+            return rect;
+        }
     }
 
     public class PartialRectangle

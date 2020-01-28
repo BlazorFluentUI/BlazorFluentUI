@@ -1,0 +1,38 @@
+﻿@namespace BlazorFabric
+@inherits FabricComponentBase
+@typeparam TItem
+
+    <div role="presentation"
+         class="ms-GroupedList ms-GroupedList-group">
+        <GroupHeader Compact=@Compact
+                     @bind-IsCollapsed="isCollapsed"
+                     SelectionMode=@SelectionMode
+                     Name=@Name />
+        @if (!isCollapsed)
+        {
+            @if (itemsHaveGroups != null && itemsHaveGroups.Count() > 0)
+            {
+                <List ItemsSource=@itemsHaveGroups>
+                    <ItemTemplate>
+                        <GroupedListSection TItem=@TItem
+                                            Compact=@Compact
+                                            ItemTemplate=@ItemTemplate
+                                            GroupKeySelector=@GroupKeySelector
+                                            SubGroupSelector=@SubGroupSelector
+                                            Items=@(SubGroupSelector.Invoke(context))
+                                            Name=@(GroupKeySelector.Invoke(context).ToString())
+                                            SelectionMode=@SelectionMode />
+                    </ItemTemplate>
+                </List>
+            }
+            @if (itemsWithoutGroups != null && itemsWithoutGroups.Count() > 0)
+            {
+                <List ItemsSource=@itemsWithoutGroups
+                      GetItemCountForPage=@((a,b)=> 1)>
+                    <ItemTemplate>
+                        @ItemTemplate(context)
+                    </ItemTemplate>
+                </List>
+            }
+        }
+    </div>

@@ -183,7 +183,7 @@ declare namespace BlazorFabricBaseComponent {
     export function setRTL(isRTL: boolean, persistSetting?: boolean): void;
     export function getItem(key: string): string | null;
     export function setItem(key: string, data: string): void;
-    export {};
+    export { };
 }
 interface Window {
     BlazorFabricBaseComponent: typeof BlazorFabricBaseComponent;

@@ -9,8 +9,8 @@ namespace BlazorFabric
 {
     public partial class ComponentStyle : ComponentBase, IComponentStyleSheet
     {
-        [Inject]
-        public IComponentStyleSheets ComponentStyleSheets { get; set; }
+        public static ICollection<IComponentStyleSheet> CStyleSheets { get; set; } = new HashSet<IComponentStyleSheet>();
+
         private string css;
         private ICollection<UniqueRule> rules;
 
@@ -32,7 +32,7 @@ namespace BlazorFabric
 
         protected override async Task OnInitializedAsync()
         {
-            ComponentStyleSheets.CStyleSheets.Add(this);
+            CStyleSheets.Add(this);
             SetSelectorNames();
             await base.OnInitializedAsync();
         }
@@ -54,11 +54,11 @@ namespace BlazorFabric
                     continue;
                 if (string.IsNullOrWhiteSpace(rule.Selector.SelectorName))
                 {
-                    rule.Selector.SelectorName = $"css-{ComponentStyleSheets.CStyleSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
+                    rule.Selector.SelectorName = $"css-{CStyleSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
                 }
                 else
                 {
-                    rule.Selector.SelectorName = $"{rule.Selector.SelectorName}-{ComponentStyleSheets.CStyleSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
+                    rule.Selector.SelectorName = $"{rule.Selector.SelectorName}-{CStyleSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
                 }
             }
             RulesChanged.InvokeAsync(rules);
@@ -75,11 +75,12 @@ namespace BlazorFabric
                     string cssProperty = "";
                     string cssValue = "";
                     Attribute attribute = null;
+
                     //Catch Ignore Propertie
                     attribute = property.GetCustomAttribute(typeof(CsIgnoreAttribute));
                     if (attribute != null)
                         continue;
-                    
+
                     attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
                     if (attribute != null)
                     {

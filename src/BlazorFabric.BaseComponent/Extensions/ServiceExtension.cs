@@ -6,7 +6,6 @@ namespace BlazorFabric
     {
         public static void AddBlazorFabric(this IServiceCollection services)
         {
-            services.AddSingleton<IComponentStyleSheets, ComponentStyleSheets>();
         }
     }
 }

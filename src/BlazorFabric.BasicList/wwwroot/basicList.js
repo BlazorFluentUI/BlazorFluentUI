@@ -28,7 +28,7 @@ var BlazorFabricBasicList;
     var BasicListInternal = /** @class */ (function () {
         function BasicListInternal(basicList, rootElement) {
             var _this = this;
-            this.debouncedScroll = function () {
+            this.debouncedScroll = function (ev) {
                 //BlazorFabricBaseComponent.debounce((ev: UIEvent) => {
                 _this._dotNetRef.invokeMethodAsync("ScrollHandler");
                 //}, 100, { leading: true });
@@ -47,7 +47,7 @@ var BlazorFabricBasicList;
         };
         BasicListInternal.prototype.getScrollDimensions = function () {
             if (this._scrollElement) {
-                return { height: this._scrollElement.scrollHeight, top: this._scrollElement.scrollTop, left: 0, width: 0 };
+                return { height: this._scrollElement.scrollHeight, top: this._scrollElement.scrollTop ? this._scrollElement.scrollTop : 0, left: 0, width: 0 };
             }
             return null;
         };

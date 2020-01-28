@@ -43,13 +43,13 @@ namespace BlazorFabric
 
         private int minRenderedPage;
         private int maxRenderedPage;
-        private Rectangle _surfaceRect = null;
+        private ManualRectangle _surfaceRect = null;
         private double _height;
 
-        private Rectangle _requiredRect = null;
-        private Rectangle _allowedRect = null;
-        private Rectangle _visibleRect = null;
-        private Rectangle _materializedRect = null;
+        private ManualRectangle _requiredRect = null;
+        private ManualRectangle _allowedRect = null;
+        private ManualRectangle _visibleRect = null;
+        private ManualRectangle _materializedRect = null;
         private bool _jsAvailable;
         private int _listRegistration = -1;
         private string _resizeRegistration;
@@ -78,9 +78,9 @@ namespace BlazorFabric
         
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
-        [Parameter] public Func<int, Rectangle, int> GetItemCountForPage { get; set; }
-        [Parameter] public Func<int, Rectangle, int, int> GetPageHeight { get; set; }
-        [Parameter] public Func<int, Rectangle, PageSpecification> GetPageSpecification { get; set; }
+        [Parameter] public Func<int, ManualRectangle, int> GetItemCountForPage { get; set; }
+        [Parameter] public Func<int, ManualRectangle, int, int> GetPageHeight { get; set; }
+        [Parameter] public Func<int, ManualRectangle, PageSpecification> GetPageSpecification { get; set; }
         [Parameter] public EventCallback<TItem> ItemClicked { get; set; }
         [Parameter] public bool ItemFocusable { get; set; } = false;
         [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
@@ -119,22 +119,23 @@ namespace BlazorFabric
 
         public BasicList()
         {
-            _idleAsyncSubscription = _idleAsyncSubject.Throttle(TimeSpan.FromMilliseconds(IDLE_DEBOUNCE_DELAY)).Do(async _=>
-            {
-                var windowsAhead = Math.Min(RenderedWindowsAhead, _requiredWindowsAhead + 1);
-                var windowsBehind = Math.Min(RenderedWindowsBehind, _requiredWindowsBehind + 1);
-
-                if (windowsAhead != _requiredWindowsAhead || windowsBehind != _requiredWindowsBehind)
+            _idleAsyncSubscription = _idleAsyncSubject.SampleFirst(TimeSpan.FromMilliseconds(IDLE_DEBOUNCE_DELAY))
+                .Do(async _=>
                 {
-                    this._requiredWindowsAhead = windowsAhead;
-                    this._requiredWindowsBehind = windowsBehind;
-                    await UpdateRenderRectsAsync();
-                    await InvokeAsync(UpdatePagesAsync);
-                }
+                    var windowsAhead = Math.Min(RenderedWindowsAhead, _requiredWindowsAhead + 1);
+                    var windowsBehind = Math.Min(RenderedWindowsBehind, _requiredWindowsBehind + 1);
 
-                if (RenderedWindowsAhead > windowsAhead || RenderedWindowsBehind > windowsBehind)
-                    _idleAsyncSubject.OnNext(Unit.Default);
-            }).Subscribe();
+                    if (windowsAhead != _requiredWindowsAhead || windowsBehind != _requiredWindowsBehind)
+                    {
+                        this._requiredWindowsAhead = windowsAhead;
+                        this._requiredWindowsBehind = windowsBehind;
+                        await UpdateRenderRectsAsync();
+                        await InvokeAsync(UpdatePagesAsync);
+                    }
+
+                    if (RenderedWindowsAhead > windowsAhead || RenderedWindowsBehind > windowsBehind)
+                        _idleAsyncSubject.OnNext(Unit.Default);
+                }).Subscribe();
 
             _scrollSubscription = _scrollSubject.SampleFirst(TimeSpan.FromMilliseconds(100))
                 .Do(_ =>
@@ -146,11 +147,11 @@ namespace BlazorFabric
                     }
                     ResetRequiredWindows();
                     _scrollingDoneSubject.OnNext(Unit.Default);
-                    _asyncScrollSubject.OnNext(Unit.Default);
+                    //_asyncScrollSubject.OnNext(Unit.Default);
                 })
                 .Subscribe();
 
-            _asyncScrollSubscription = _asyncScrollSubject.Throttle(TimeSpan.FromMilliseconds(MIN_SCROLL_UPDATE_DELAY))
+            _asyncScrollSubscription = _asyncScrollSubject.SampleFirst(TimeSpan.FromMilliseconds(MIN_SCROLL_UPDATE_DELAY))
                 .Do(async _ =>
                 {
                     await UpdateRenderRectsAsync();
@@ -167,7 +168,7 @@ namespace BlazorFabric
                 })
                 .Subscribe();
 
-            _scrollingDoneSubscription = _scrollingDoneSubject.Throttle(TimeSpan.FromMilliseconds(DONE_SCROLLING_WAIT))
+            _scrollingDoneSubscription = _scrollingDoneSubject.SampleFirst(TimeSpan.FromMilliseconds(DONE_SCROLLING_WAIT))
                 .Do(_ =>
                 {
                     _isScrolling = false;
@@ -237,7 +238,7 @@ namespace BlazorFabric
 
                 //await MeasureContainerAsync();
                 await UpdatePagesAsync();
-                StateHasChanged();
+                //StateHasChanged();
             }
 
             if (GetPageHeight == null)
@@ -274,6 +275,7 @@ namespace BlazorFabric
         public void ScrollHandler()
         {
             _scrollSubject.OnNext(Unit.Default);
+            _asyncScrollSubject.OnNext(Unit.Default);
         }
 
         [JSInvokable]
@@ -293,7 +295,7 @@ namespace BlazorFabric
             _pages = newState.Item1;
             _measureVersion = newState.Item2; //this might not be doing much...
 
-            //StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
 
         private async Task UpdateRenderRectsAsync(bool forceUpdate = false)
@@ -301,10 +303,10 @@ namespace BlazorFabric
             if (!OnShouldVirtualize())
                 return;
 
-            var surfaceRect = _surfaceRect != null ? _surfaceRect : Rectangle.EmptyRect();
+            var surfaceRect = _surfaceRect != null ? _surfaceRect : ManualRectangle.EmptyRect();
 
             // contains scrollHeight + scrollTop
-            var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBasicList.getScrollDimensions", _listRegistration);
+            var rectangle = await JSRuntime.InvokeAsync<ManualRectangle>("BlazorFabricBasicList.getScrollDimensions", _listRegistration);
             
             var scrollHeight = rectangle.height;
             var scrollTop = rectangle.top;
@@ -312,18 +314,19 @@ namespace BlazorFabric
 
             if (forceUpdate || 
                 _pages != null || 
-                double.IsNaN(scrollHeight) || 
-                double.IsNaN(scrollTop) ||
+                double.IsNaN(scrollHeight) || scrollHeight != 0 || 
+                double.IsNaN(scrollTop) || scrollTop != 0 ||
                 scrollHeight != _scrollHeight ||
                 Math.Abs(_scrollTop - scrollTop) > _estimatedPageHeight / 3)
             {
                 _surfaceRect = await this.JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", this.surfaceDiv);
+                surfaceRect = _surfaceRect;
                 _scrollTop = scrollTop;
             }
 
             // If the scroll height has changed, something in the container likely resized and
             // we should redo the page heights incase their content resized.
-            if (forceUpdate || double.IsNaN(scrollHeight) || scrollHeight != this._scrollHeight)
+            if (forceUpdate || double.IsNaN(scrollHeight) || scrollHeight == 0 || scrollHeight != this._scrollHeight)
             {
                 this._measureVersion++;
             }
@@ -334,9 +337,17 @@ namespace BlazorFabric
             // render return empty rect.
             // The first time the list gets rendered we need to calculate the rectangle. The width of the list is
             // used to calculate the width of the list items.
-            var windowDimensions = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.getWindowRect");
+            var windowDimensions = await JSRuntime.InvokeAsync<ManualRectangle>("BlazorFabricBaseComponent.getWindowRect");
             var visibleTop = Math.Max(0, -surfaceRect.top);
-            var visibleRect = new Rectangle(surfaceRect.left, surfaceRect.width, visibleTop, windowDimensions.height);
+            var visibleRect = new ManualRectangle
+            {
+                top = visibleTop,
+                left = surfaceRect.left,
+                bottom = visibleTop + windowDimensions.height,
+                right=surfaceRect.right,
+                width=surfaceRect.width,
+                height=windowDimensions.height
+            };
 
             // The required/allowed rects are adjusted versions of the visible rect.
             this._requiredRect = ExpandRect(visibleRect, this._requiredWindowsBehind, this._requiredWindowsAhead);
@@ -388,17 +399,25 @@ namespace BlazorFabric
             return hasChangedHeight;
         }
 
-        private Rectangle ExpandRect(Rectangle rect, int pagesBefore, int pagesAfter)
+        private ManualRectangle ExpandRect(ManualRectangle rect, int pagesBefore, int pagesAfter)
         {
             var top = rect.top - pagesBefore * rect.height;
             var height = rect.height + (pagesBefore + pagesAfter) * rect.height;
 
-            return new Rectangle(rect.left, rect.width, top, height);
+            return new ManualRectangle
+            {
+                top = top,
+                bottom = top + height,
+                height = height,
+                left = rect.left,
+                right = rect.right,
+                width = rect.width
+            };
         }
 
         private (IEnumerable<Page<TItem>>, int) BuildPages()
         {
-            var materializedRect = Rectangle.EmptyRect();
+            var materializedRect = ManualRectangle.EmptyRect();
             var pages = new List<Page<TItem>>();
             var renderCount = (ItemsSource != null && RenderCount == -1) ? ItemsSource.Count() - StartIndex : RenderCount;
             int itemsPerPage = 1;
@@ -461,7 +480,17 @@ namespace BlazorFabric
 
                     if (isPageInRequiredRange && this._allowedRect != null)
                     {
-                        materializedRect = MergeRect(materializedRect, new Rectangle(allowedRect.left, allowedRect.width, pageTop, pageSpecification.Height));
+                        materializedRect = MergeRect(
+                            materializedRect, 
+                            new ManualRectangle
+                            {
+                                top = pageTop,
+                                bottom = pageBottom,
+                                height = pageSpecification.Height,
+                                left = allowedRect.left,
+                                right = allowedRect.right,
+                                width = allowedRect.width
+                            });
                     }
 
                 }
@@ -514,18 +543,18 @@ namespace BlazorFabric
                 };
         }
 
-        private Rectangle MergeRect(Rectangle targetRect, Rectangle newRect)
+        private ManualRectangle MergeRect(ManualRectangle targetRect, ManualRectangle newRect)
         {
             targetRect.top = newRect.top < targetRect.top || targetRect.top == -1 ? newRect.top : targetRect.top;
             targetRect.left = newRect.left < targetRect.left || targetRect.left == -1 ? newRect.left : targetRect.left;
-            targetRect.bottom = newRect.bottom! > targetRect.bottom! || targetRect.bottom == -1 ? newRect.bottom : targetRect.bottom;
-            targetRect.right = newRect.right! > targetRect.right! || targetRect.right == -1 ? newRect.right : targetRect.right;
-            targetRect.width = targetRect.right! - targetRect.left + 1;
-            targetRect.height = targetRect.bottom! - targetRect.top + 1;
+            targetRect.bottom = newRect.bottom > targetRect.bottom! || targetRect.bottom == -1 ? newRect.bottom : targetRect.bottom;
+            targetRect.right = newRect.right > targetRect.right! || targetRect.right == -1 ? newRect.right : targetRect.right;
+            targetRect.width = targetRect.right - targetRect.left + 1;
+            targetRect.height = targetRect.bottom - targetRect.top + 1;
             return targetRect;
         }
 
-        private PageSpecification GetPageSpecificationInternal(int itemIndex, Rectangle visibleRect)
+        private PageSpecification GetPageSpecificationInternal(int itemIndex, ManualRectangle visibleRect)
         {
             if (GetPageSpecification != null)
             {
@@ -542,7 +571,7 @@ namespace BlazorFabric
             }
         }
 
-        private double GetPageHeightInternal(int itemIndex, Rectangle visibleRect, int itemCount)
+        private double GetPageHeightInternal(int itemIndex, ManualRectangle visibleRect, int itemCount)
         {
             if (GetPageHeight != null)
                 return GetPageHeight(itemIndex, visibleRect, itemCount);
@@ -567,7 +596,7 @@ namespace BlazorFabric
             _requiredWindowsBehind = 0;
         }
 
-        private bool IsContainedWithin(Rectangle innerRect, Rectangle outerRect)
+        private bool IsContainedWithin(ManualRectangle innerRect, ManualRectangle outerRect)
         {
             return (
               innerRect.top >= outerRect.top &&

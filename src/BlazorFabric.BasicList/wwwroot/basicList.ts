@@ -68,7 +68,7 @@ namespace BlazorFabricBasicList {
             }
         }
 
-        private debouncedScroll = () => {
+        private debouncedScroll = (ev : UIEvent) => {
             //BlazorFabricBaseComponent.debounce((ev: UIEvent) => {
                 this._dotNetRef.invokeMethodAsync("ScrollHandler");
             //}, 100, { leading: true });
@@ -76,7 +76,7 @@ namespace BlazorFabricBasicList {
 
         public getScrollDimensions(): IRectangle {
             if (this._scrollElement) {
-                return { height: this._scrollElement.scrollHeight, top: this._scrollElement.scrollTop, left:0,width:0 };
+                return { height: this._scrollElement.scrollHeight, top: this._scrollElement.scrollTop ? this._scrollElement.scrollTop : 0, left:0,width:0 };
             }
             return null;
         }

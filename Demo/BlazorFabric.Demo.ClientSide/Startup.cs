@@ -15,6 +15,7 @@ namespace BlazorFabric.Demo.ClientSide
         {
             app.UseLocalTimeZone();
             app.AddComponent<App>("app");
+            app.AddComponent<GlobalRules>("#staticcs");
         }
     }
 }

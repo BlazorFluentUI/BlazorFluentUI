@@ -16,14 +16,14 @@ namespace BlazorFabric
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         private MsText TextStyle;
-        private ICollection<UniqueRule> CssRules = new HashSet<UniqueRule>();
-        private UniqueRule msTextRule;
+        private ICollection<DynamicRule> CssRules = new HashSet<DynamicRule>();
+        private DynamicRule msTextRule;
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             //base.BuildRenderTree(builder);
 
-            builder.OpenComponent<ComponentStyle>(0);
+            builder.OpenComponent<DynamicCS>(0);
             builder.AddAttribute(1, "Rules", CssRules);
             builder.AddAttribute(2, "RulesChanged", EventCallback.Factory.Create(this, RuntimeHelpers.CreateInferredEventCallback(this, __value => CssRules = __value, CssRules)));
             builder.CloseComponent();
@@ -39,7 +39,7 @@ namespace BlazorFabric
 
             CreateTextStyle();
 
-            msTextRule = new UniqueRule()
+            msTextRule = new DynamicRule()
             {
                 Selector = new ClassSelector() { SelectorName = "ms-text", UniqueName = true },
                 Properties = TextStyle

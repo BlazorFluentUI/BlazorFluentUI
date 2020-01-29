@@ -1,4 +1,4 @@
-﻿.ms-Link {
+﻿/*.ms-Link {
     color: var(--semanticColors-Link);
     outline: none;
     font-size: inherit;
@@ -40,4 +40,4 @@
 
     .ms-Link:not(.isDisabled):focus {
         color: var(--semanticColors-Link)
-    }
+    }*/

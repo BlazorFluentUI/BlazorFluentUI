@@ -7,15 +7,13 @@ using System;
 
 namespace BlazorFabric
 {
-    public partial class ComponentStyle : ComponentBase, IComponentStyleSheet
+    public partial class DynamicCS : ComponentBase, IComponentStyleSheet
     {
-        public static ICollection<IComponentStyleSheet> CStyleSheets { get; set; } = new HashSet<IComponentStyleSheet>();
-
         private string css;
-        private ICollection<UniqueRule> rules;
+        private ICollection<DynamicRule> rules;
 
         [Parameter]
-        public ICollection<UniqueRule> Rules
+        public ICollection<DynamicRule> Rules
         {
             get => rules;
             set
@@ -28,11 +26,12 @@ namespace BlazorFabric
                 RulesChanged.InvokeAsync(value);
             }
         }
-        [Parameter] public EventCallback<ICollection<UniqueRule>> RulesChanged { get; set; }
+
+        [Parameter] public EventCallback<ICollection<DynamicRule>> RulesChanged { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            CStyleSheets.Add(this);
+            ComponentStyle.UniqueCSSheets.Add(this);
             SetSelectorNames();
             await base.OnInitializedAsync();
         }
@@ -54,11 +53,11 @@ namespace BlazorFabric
                     continue;
                 if (string.IsNullOrWhiteSpace(rule.Selector.SelectorName))
                 {
-                    rule.Selector.SelectorName = $"css-{CStyleSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
+                    rule.Selector.SelectorName = $"css-{ComponentStyle.UniqueCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
                 }
                 else
                 {
-                    rule.Selector.SelectorName = $"{rule.Selector.SelectorName}-{CStyleSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
+                    rule.Selector.SelectorName = $"{rule.Selector.SelectorName}-{ComponentStyle.UniqueCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
                 }
             }
             RulesChanged.InvokeAsync(rules);

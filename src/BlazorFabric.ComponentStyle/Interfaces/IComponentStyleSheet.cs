@@ -4,6 +4,6 @@ namespace BlazorFabric
 {
     public interface IComponentStyleSheet
     {
-        ICollection<UniqueRule> Rules { get; set; }
+        ICollection<DynamicRule> Rules { get; set; }
     }
 }

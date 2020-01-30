@@ -7,10 +7,13 @@ using System;
 
 namespace BlazorFabric
 {
-    public partial class DynamicCS : ComponentBase, IComponentStyleSheet
+    public partial class DynamicCS : ComponentBase, IDynamicCSSheet
     {
         private string css;
         private ICollection<DynamicRule> rules;
+
+        [Inject]
+        public IComponentStyle ComponentStyle { get; set; }
 
         [Parameter]
         public ICollection<DynamicRule> Rules
@@ -31,14 +34,18 @@ namespace BlazorFabric
 
         protected override async Task OnInitializedAsync()
         {
-            ComponentStyle.UniqueCSSheets.Add(this);
+            ComponentStyle.DynamicCSSheets.Add(this);
             SetSelectorNames();
             await base.OnInitializedAsync();
         }
 
         protected override void OnParametersSet()
         {
-            PrintRules();
+            css = "";
+            foreach(var rule in rules)
+            {
+                css += PrintRule(rule);
+            }
             base.OnParametersSet();
 
         }
@@ -53,57 +60,55 @@ namespace BlazorFabric
                     continue;
                 if (string.IsNullOrWhiteSpace(rule.Selector.SelectorName))
                 {
-                    rule.Selector.SelectorName = $"css-{ComponentStyle.UniqueCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
+                    rule.Selector.SelectorName = $"css-{ComponentStyle.DynamicCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
                 }
                 else
                 {
-                    rule.Selector.SelectorName = $"{rule.Selector.SelectorName}-{ComponentStyle.UniqueCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
+                    rule.Selector.SelectorName = $"{rule.Selector.SelectorName}-{ComponentStyle.DynamicCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
                 }
             }
             RulesChanged.InvokeAsync(rules);
         }
 
-        private void PrintRules()
+        public string PrintRule(DynamicRule rule)
         {
-            css = "";
-            foreach (var rule in rules)
+            var ruleAsString = "";
+            ruleAsString += $"{rule.Selector.GetSelectorAsString()}{{";
+            foreach (var property in rule.Properties.GetType().GetProperties())
             {
-                css += $"{rule.Selector.GetSelectorAsString()}{{";
-                foreach (var property in rule.Properties.GetType().GetProperties())
+                string cssProperty = "";
+                string cssValue = "";
+                Attribute attribute = null;
+
+                //Catch Ignore Propertie
+                attribute = property.GetCustomAttribute(typeof(CsIgnoreAttribute));
+                if (attribute != null)
+                    continue;
+
+                attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
+                if (attribute != null)
                 {
-                    string cssProperty = "";
-                    string cssValue = "";
-                    Attribute attribute = null;
-
-                    //Catch Ignore Propertie
-                    attribute = property.GetCustomAttribute(typeof(CsIgnoreAttribute));
-                    if (attribute != null)
+                    if ((attribute as CsPropertyAttribute).IsCssStringProperty)
+                    {
+                        ruleAsString += property.GetValue(rule.Properties)?.ToString();
                         continue;
-
-                    attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
-                    if (attribute != null)
-                    {
-                        if ((attribute as CsPropertyAttribute).IsCssStringProperty)
-                        {
-                            css += property.GetValue(rule.Properties)?.ToString();
-                            continue;
-                        }
-
-                        cssProperty = (attribute as CsPropertyAttribute).PropertyName;
-                    }
-                    else
-                    {
-                        cssProperty = property.Name;
                     }
 
-                    cssValue = property.GetValue(rule.Properties)?.ToString();
-                    if (cssValue != null)
-                    {
-                        css += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
-                    }
+                    cssProperty = (attribute as CsPropertyAttribute).PropertyName;
                 }
-                css += "}";
+                else
+                {
+                    cssProperty = property.Name;
+                }
+
+                cssValue = property.GetValue(rule.Properties)?.ToString();
+                if (cssValue != null)
+                {
+                    ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
+                }
             }
+            ruleAsString += "}";
+            return ruleAsString;
         }
     }
 }

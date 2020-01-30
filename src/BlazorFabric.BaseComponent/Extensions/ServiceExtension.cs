@@ -6,7 +6,7 @@ namespace BlazorFabric
     {
         public static void AddBlazorFabric(this IServiceCollection services)
         {
-            //services.AddSingleton<IGlobalRules, GlobalRules>();
+            services.AddSingleton<IComponentStyle, ComponentStyle>();
         }
     }
 }

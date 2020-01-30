@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class StaticCS : ComponentBase
+    public class StaticCS : ComponentBase, IStaticCSSheet, IDisposable
     {
         private ICollection<Rule> rules;
+
+        [Inject]
+        public IComponentStyle ComponentStyle { get; set; }
 
         [Parameter]
         public ICollection<Rule> Rules
@@ -26,64 +29,20 @@ namespace BlazorFabric
             }
         }
 
+        public void Dispose()
+        {
+            ComponentStyle.StaticCSSheets.Remove(this);
+            ComponentStyle.UpdateSubscribers();
+        }
+
         protected override Task OnInitializedAsync()
         {
-            var rulesUpdated = false;
-            foreach (var rule in rules)
-            {
-                var ruleAsString = PrintRule(rule);
-                var key = Convert.ToBase64String(Encoding.Unicode.GetBytes(ruleAsString));
-                if (!ComponentStyle.GlobalCSRules.ContainsKey(key))
-                {
-                    ComponentStyle.GlobalCSRules.TryAdd(key, ruleAsString);
-                    rulesUpdated = true;
-                }
-            }
-            if(rulesUpdated)
-                ComponentStyle.GlobalRules.Update();
+            ComponentStyle.StaticCSSheets.Add(this);
+            ComponentStyle.UpdateSubscribers();
             return base.OnInitializedAsync();
         }
 
-        private string PrintRule(Rule rule)
-        {
-            var ruleAsString = "";
-            ruleAsString += $"{rule.Selector.GetSelectorAsString()}{{";
-            foreach (var property in rule.Properties.GetType().GetProperties())
-            {
-                string cssProperty = "";
-                string cssValue = "";
-                Attribute attribute = null;
-
-                //Catch Ignore Propertie
-                attribute = property.GetCustomAttribute(typeof(CsIgnoreAttribute));
-                if (attribute != null)
-                    continue;
-
-                attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
-                if (attribute != null)
-                {
-                    if ((attribute as CsPropertyAttribute).IsCssStringProperty)
-                    {
-                        ruleAsString += property.GetValue(rule.Properties)?.ToString();
-                        continue;
-                    }
-
-                    cssProperty = (attribute as CsPropertyAttribute).PropertyName;
-                }
-                else
-                {
-                    cssProperty = property.Name;
-                }
-
-                cssValue = property.GetValue(rule.Properties)?.ToString();
-                if (cssValue != null)
-                {
-                    ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
-                }
-            }
-            ruleAsString += "}";
-            return ruleAsString;
-        }
+        
     }
 }
 

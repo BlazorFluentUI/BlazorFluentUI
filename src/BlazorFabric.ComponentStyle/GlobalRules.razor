@@ -1,5 +1,5 @@
 ﻿<style>
-@foreach(var rule in ComponentStyle.GlobalCSRules)
+@foreach(var rule in ComponentStyle.GetGlobalCSRules())
 {
     <CSS @key="rule.Key" Value="@rule.Value" />
 }

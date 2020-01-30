@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,9 @@ namespace BlazorFabric
 {
     public partial class GlobalRules : IGlobalRules
     {
+        [Inject]
+        public IComponentStyle ComponentStyle { get; set; }
+
         private bool isRendered;
         public void Update()
         {
@@ -16,7 +20,7 @@ namespace BlazorFabric
 
         protected override Task OnInitializedAsync()
         {
-            ComponentStyle.GlobalRules = this;
+            ComponentStyle.Subscribe(this);
             return base.OnInitializedAsync();
         }
 

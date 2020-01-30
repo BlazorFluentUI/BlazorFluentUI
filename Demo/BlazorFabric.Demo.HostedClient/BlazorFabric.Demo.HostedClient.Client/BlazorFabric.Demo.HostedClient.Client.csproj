@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\BlazorFabric.Theme\BlazorFabric.FabricTheme.csproj" />
     <ProjectReference Include="..\..\BlazorFabric.Demo.Shared\BlazorFabric.Demo.Shared.csproj" />
   </ItemGroup>
 

@@ -120,6 +120,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Demo.ServerSid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Demo.HostedClient.Server", "Demo\BlazorFabric.Demo.HostedClient\BlazorFabric.Demo.HostedClient.Server\BlazorFabric.Demo.HostedClient.Server.csproj", "{E660BF5C-F688-40CB-AAC0-1B4C0004D3ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.FabricTheme", "src\BlazorFabric.Theme\BlazorFabric.FabricTheme.csproj", "{9C060E23-B2BA-40D0-83E5-23CF07B22DFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -310,6 +312,10 @@ Global
 		{E660BF5C-F688-40CB-AAC0-1B4C0004D3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E660BF5C-F688-40CB-AAC0-1B4C0004D3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E660BF5C-F688-40CB-AAC0-1B4C0004D3ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C060E23-B2BA-40D0-83E5-23CF07B22DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C060E23-B2BA-40D0-83E5-23CF07B22DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C060E23-B2BA-40D0-83E5-23CF07B22DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C060E23-B2BA-40D0-83E5-23CF07B22DFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -365,6 +371,7 @@ Global
 		{B3E162E0-F8C4-4DAD-A672-42663763E256} = {93D4755C-B4E6-44DE-8488-ADA4C3AB8E21}
 		{DBB167DF-0D7F-4D40-997C-60A4B5351DAB} = {138B8CC9-BD89-40A9-8BFD-C1B4794C64C7}
 		{E660BF5C-F688-40CB-AAC0-1B4C0004D3ED} = {BF862BBB-D3F1-49F6-BCC8-6C3DB36B84C1}
+		{9C060E23-B2BA-40D0-83E5-23CF07B22DFD} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

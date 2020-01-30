@@ -1,0 +1,13 @@
+﻿<CascadingValue Value="Theme" Name="Theme">
+    @ChildContent
+</CascadingValue>
+
+@code {
+
+    [Parameter]
+    public ITheme Theme { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+}

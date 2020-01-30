@@ -71,7 +71,7 @@ namespace BlazorFabric
         //private Dictionary<string, (Page<TItem>, ListPage<TItem>)> _pageCache = new Dictionary<string, (Page<TItem>, ListPage<TItem>)>();
 
         //state
-        private IEnumerable<Page<TItem>> _pages;
+        private IEnumerable<Page<TItem>> _pages = new List<Page<TItem>>();
         private int _measureVersion = 0;
         private bool _isScrolling = false;
         
@@ -119,62 +119,7 @@ namespace BlazorFabric
 
         public BasicList()
         {
-            _idleAsyncSubscription = _idleAsyncSubject.SampleFirst(TimeSpan.FromMilliseconds(IDLE_DEBOUNCE_DELAY))
-                .Do(async _=>
-                {
-                    var windowsAhead = Math.Min(RenderedWindowsAhead, _requiredWindowsAhead + 1);
-                    var windowsBehind = Math.Min(RenderedWindowsBehind, _requiredWindowsBehind + 1);
-
-                    if (windowsAhead != _requiredWindowsAhead || windowsBehind != _requiredWindowsBehind)
-                    {
-                        this._requiredWindowsAhead = windowsAhead;
-                        this._requiredWindowsBehind = windowsBehind;
-                        await UpdateRenderRectsAsync();
-                        await InvokeAsync(UpdatePagesAsync);
-                    }
-
-                    if (RenderedWindowsAhead > windowsAhead || RenderedWindowsBehind > windowsBehind)
-                        _idleAsyncSubject.OnNext(Unit.Default);
-                }).Subscribe();
-
-            _scrollSubscription = _scrollSubject.SampleFirst(TimeSpan.FromMilliseconds(100))
-                .Do(_ =>
-                {
-                    if (!_isScrolling)
-                    {
-                        _isScrolling = true;
-                        InvokeAsync(StateHasChanged);
-                    }
-                    ResetRequiredWindows();
-                    _scrollingDoneSubject.OnNext(Unit.Default);
-                    //_asyncScrollSubject.OnNext(Unit.Default);
-                })
-                .Subscribe();
-
-            _asyncScrollSubscription = _asyncScrollSubject.SampleFirst(TimeSpan.FromMilliseconds(MIN_SCROLL_UPDATE_DELAY))
-                .Do(async _ =>
-                {
-                    await UpdateRenderRectsAsync();
-                    // Only update pages when the visible rect falls outside of the materialized rect.
-                    if (_materializedRect == null || !IsContainedWithin(this._requiredRect, this._materializedRect))
-                    {
-                        await InvokeAsync(UpdatePagesAsync);
-
-                    }
-                    else
-                    {
-                        // console.log('requiredRect contained in materialized', this._requiredRect, this._materializedRect);
-                    }
-                })
-                .Subscribe();
-
-            _scrollingDoneSubscription = _scrollingDoneSubject.SampleFirst(TimeSpan.FromMilliseconds(DONE_SCROLLING_WAIT))
-                .Do(_ =>
-                {
-                    _isScrolling = false;
-                    InvokeAsync(StateHasChanged);
-                })
-                .Subscribe();
+            
         }
 
         protected override Task OnInitializedAsync()
@@ -218,27 +163,101 @@ namespace BlazorFabric
             }
         }
 
-        //protected override bool ShouldRender()
-        //{
-        //    if (shouldRender)
-        //    {
-        //        shouldRender = false;
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        protected override bool ShouldRender()
+        {
+            return base.ShouldRender();
+        }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
                 _jsAvailable = true;
+                _idleAsyncSubscription = _idleAsyncSubject.Throttle(TimeSpan.FromMilliseconds(IDLE_DEBOUNCE_DELAY))
+                .Do(async _ =>
+                {
+                    await InvokeAsync(async () =>
+                    {
+                        var requiredWindowsAhead = _requiredWindowsAhead;
+                        var requiredWindowsBehind = _requiredWindowsBehind;
+                        Debug.WriteLine("IdleAsync called");
+                        var windowsAhead = Math.Min(RenderedWindowsAhead, requiredWindowsAhead + 1);
+                        var windowsBehind = Math.Min(RenderedWindowsBehind, requiredWindowsBehind + 1);
+
+                        if (windowsAhead != requiredWindowsAhead || windowsBehind != requiredWindowsBehind)
+                        {
+                            this._requiredWindowsAhead = windowsAhead;
+                            this._requiredWindowsBehind = windowsBehind;
+                       
+                                await UpdateRenderRectsAsync();
+                                await UpdatePagesAsync();
+                        
+                        }
+
+                        if (RenderedWindowsAhead > windowsAhead || RenderedWindowsBehind > windowsBehind)
+                            _idleAsyncSubject.OnNext(Unit.Default);
+                    });
+                }).Subscribe();
+
+                _scrollSubscription = _scrollSubject.Throttle(TimeSpan.FromMilliseconds(100))
+                    .Do(async _ =>
+                    {
+                        await InvokeAsync(async () =>
+                        {
+                            Debug.WriteLine("Scroll called");
+                            if (!_isScrolling)
+                            {
+                                Debug.WriteLine("Setting isScrolling to TRUE");
+                                _isScrolling = true;
+                                StateHasChanged();
+                            }
+                            ResetRequiredWindows();
+                            _scrollingDoneSubject.OnNext(Unit.Default);
+                        });
+                    })
+                    .Subscribe();
+
+                _asyncScrollSubscription = _asyncScrollSubject.Throttle(TimeSpan.FromMilliseconds(MIN_SCROLL_UPDATE_DELAY))
+                    .Do(async _ =>
+                    {
+                        await InvokeAsync(async () =>
+                        {
+                            Debug.WriteLine("AsyncScroll called");
+
+                            await UpdateRenderRectsAsync();
+                            // Only update pages when the visible rect falls outside of the materialized rect.
+                            if (_materializedRect == null || !IsContainedWithin(this._requiredRect != null ? _requiredRect : new ManualRectangle(), this._materializedRect))
+                            {
+                                await UpdatePagesAsync();
+
+                            }
+                            else
+                            {
+                                // console.log('requiredRect contained in materialized', this._requiredRect, this._materializedRect);
+                            }
+                        });
+                    })
+                    .Subscribe();
+
+                _scrollingDoneSubscription = _scrollingDoneSubject.Throttle(TimeSpan.FromMilliseconds(DONE_SCROLLING_WAIT))
+                    .Do(_ =>
+                    {
+                        Debug.WriteLine("Scrolling Done called");
+
+                        if (_isScrolling)
+                        {
+                            _isScrolling = false;
+                            InvokeAsync(StateHasChanged);
+                        }
+                    })
+                    .Subscribe();
+
                 _listRegistration = await JSRuntime.InvokeAsync<int>("BlazorFabricBasicList.register", DotNetObjectReference.Create(this), RootElementReference);
                 _resizeRegistration = await JSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHandler");
 
-                //await MeasureContainerAsync();
+                // only update after first render
                 await UpdatePagesAsync();
-                //StateHasChanged();
+
             }
 
             if (GetPageHeight == null)
@@ -251,7 +270,6 @@ namespace BlazorFabric
                     {
                         _hasCompletedFirstRender = true;
                         await UpdatePagesAsync();
-                        StateHasChanged();
                     }
                     else
                     {
@@ -292,10 +310,36 @@ namespace BlazorFabric
             var newState = BuildPages();
             //can notify page changes here for future implementation
 
-            _pages = newState.Item1;
-            _measureVersion = newState.Item2; //this might not be doing much...
+            if (_measureVersion != newState.Item2)
+            {
+                _pages = newState.Item1;
+                _measureVersion = newState.Item2;
+                await InvokeAsync(StateHasChanged);
+            }
+            else
+            {
+                if (_pages?.Count() == newState.Item1.Count())
+                {
+                    for (var i = 0; i < _pages.Count(); i++)
+                    {
+                        if (_pages.ElementAt(i).Key != newState.Item1.ElementAt(i).Key || _pages.ElementAt(i).ItemCount != newState.Item1.ElementAt(i).ItemCount)
+                        {
+                            _pages = newState.Item1;
+                            _measureVersion = newState.Item2;
+                            await InvokeAsync(StateHasChanged);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    _pages = newState.Item1;
+                    _measureVersion = newState.Item2;
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
 
-            await InvokeAsync(StateHasChanged);
+            //await InvokeAsync(StateHasChanged);
         }
 
         private async Task UpdateRenderRectsAsync(bool forceUpdate = false)
@@ -329,6 +373,8 @@ namespace BlazorFabric
             if (forceUpdate || double.IsNaN(scrollHeight) || scrollHeight == 0 || scrollHeight != this._scrollHeight)
             {
                 this._measureVersion++;
+                if (_jsAvailable)
+                    StateHasChanged();
             }
 
             this._scrollHeight = scrollHeight;
@@ -547,8 +593,8 @@ namespace BlazorFabric
         {
             targetRect.top = newRect.top < targetRect.top || targetRect.top == -1 ? newRect.top : targetRect.top;
             targetRect.left = newRect.left < targetRect.left || targetRect.left == -1 ? newRect.left : targetRect.left;
-            targetRect.bottom = newRect.bottom > targetRect.bottom! || targetRect.bottom == -1 ? newRect.bottom : targetRect.bottom;
-            targetRect.right = newRect.right > targetRect.right! || targetRect.right == -1 ? newRect.right : targetRect.right;
+            targetRect.bottom = newRect.bottom > targetRect.bottom || targetRect.bottom == -1 ? newRect.bottom : targetRect.bottom;
+            targetRect.right = newRect.right > targetRect.right || targetRect.right == -1 ? newRect.right : targetRect.right;
             targetRect.width = targetRect.right - targetRect.left + 1;
             targetRect.height = targetRect.bottom - targetRect.top + 1;
             return targetRect;
@@ -567,7 +613,7 @@ namespace BlazorFabric
             {
                 var itemCount = GetItemCountForPage != null ? GetItemCountForPage(itemIndex, visibleRect) : DEFAULT_ITEMS_PER_PAGE;
                 var height = GetPageHeightInternal(itemIndex, visibleRect, itemCount);
-                return new PageSpecification() { ItemCount = itemCount, Height = height, Key=Guid.NewGuid().ToString() };
+                return new PageSpecification() { ItemCount = itemCount, Height = height, Key=itemIndex.ToString() };
             }
         }
 
@@ -601,8 +647,8 @@ namespace BlazorFabric
             return (
               innerRect.top >= outerRect.top &&
               innerRect.left >= outerRect.left &&
-              innerRect.bottom! <= outerRect.bottom! &&
-              innerRect.right! <= outerRect.right!
+              innerRect.bottom <= outerRect.bottom &&
+              innerRect.right <= outerRect.right
             );
         }
 

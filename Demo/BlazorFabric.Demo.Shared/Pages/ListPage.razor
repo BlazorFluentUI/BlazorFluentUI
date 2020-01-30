@@ -11,7 +11,10 @@
             <BlazorFabric.PrimaryButton Text="Start with 5000 items" OnClick="@ClickHandler2" />
             
             <div style="overflow-y:auto;">
-                <BlazorFabric.BasicList ItemsSource=@data TItem="DataItem" ItemClicked=@((item)=> DebugText = item.DisplayName + " clicked")>
+                <BlazorFabric.BasicList ItemsSource=@data 
+                                        TItem="DataItem" 
+                                        OnShouldVirtualize="()=>true"
+                                        ItemClicked=@((item)=> DebugText = item.DisplayName + " clicked")>
                     <ItemTemplate>
                         @*<Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
                     <Image Src=@context.ImgUrl ImageFit="ImageFit.CenterContain" Width="50" Height="50" CoverStyle="ImageCoverStyle.Portrait"/>

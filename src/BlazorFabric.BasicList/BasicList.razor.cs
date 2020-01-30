@@ -117,6 +117,9 @@ namespace BlazorFabric
         private Subject<Unit> _scrollingDoneSubject = new Subject<Unit>();
         private IDisposable _scrollingDoneSubscription;
 
+        private Subject<(double width, double height)> _resizeSubject = new Subject<(double width, double height)>();
+        private IDisposable _resizeSubjectSubscription;
+
         public BasicList()
         {
             
@@ -124,11 +127,10 @@ namespace BlazorFabric
 
         protected override Task OnInitializedAsync()
         {
-            //ItemPagesRender = RenderPages(0, 0);
             return base.OnInitializedAsync();
         }
 
-        protected override Task OnParametersSetAsync()
+        protected override async Task OnParametersSetAsync()
         {
             if (_itemsSource == null && ItemsSource != null)
             {
@@ -136,6 +138,9 @@ namespace BlazorFabric
                 {
                     (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
                 }
+                if (_jsAvailable)
+                    // collection was added, so update pages
+                    await UpdatePagesAsync();
             }
             else if (_itemsSource != null && ItemsSource != _itemsSource)
             {
@@ -147,9 +152,12 @@ namespace BlazorFabric
                 {
                     (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
                 }
+                if (_jsAvailable)
+                    // collection was replaced, so update pages
+                    await UpdatePagesAsync();
             }
                         
-            return base.OnParametersSetAsync();
+            await base.OnParametersSetAsync();
         }
 
 
@@ -202,7 +210,7 @@ namespace BlazorFabric
                 _scrollSubscription = _scrollSubject.Sample(TimeSpan.FromMilliseconds(30))
                     .Do(async _ =>
                     {
-                        await InvokeAsync(async () =>
+                        await InvokeAsync(() =>
                         {
                             Debug.WriteLine("Scroll called");
                             if (!_isScrolling)
@@ -252,6 +260,13 @@ namespace BlazorFabric
                     })
                     .Subscribe();
 
+                _resizeSubjectSubscription = _resizeSubject.Throttle(TimeSpan.FromMilliseconds(RESIZE_DELAY))
+                    .Do(_ =>
+                    {
+                        InvokeAsync(this.ForceUpdateAsync);
+                    })
+                    .Subscribe();
+
                 _listRegistration = await JSRuntime.InvokeAsync<int>("BlazorFabricBasicList.register", DotNetObjectReference.Create(this), RootElementReference);
                 _resizeRegistration = await JSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHandler");
 
@@ -297,9 +312,140 @@ namespace BlazorFabric
         }
 
         [JSInvokable]
-        public async void ResizeHandler(double width, double height)
+        public void ResizeHandler(double width, double height)
         {
-            //await MeasureContainerAsync();
+            _resizeSubject.OnNext((width, height));
+        }
+
+        public async Task ScrollToIndexAsync(int index, ScrollToMode scrollToMode = ScrollToMode.Auto, Func<int,double> measureItem = null)
+        {
+            var renderCount = (ItemsSource != null && RenderCount == -1) ? ItemsSource.Count() - StartIndex : RenderCount;
+            var endIndex = StartIndex + renderCount;
+            double scrollTop = 0;
+            var itemsPerPage = 1;
+            
+            for (var itemIndex = StartIndex; itemIndex < endIndex; itemIndex += itemsPerPage)
+            {
+                var pageSpecification = GetPageSpecificationInternal(itemIndex, _allowedRect);
+                itemsPerPage = pageSpecification.ItemCount;
+
+                var requestedIndexIsInPage = itemIndex <= index && itemIndex + itemsPerPage > index;
+                if (requestedIndexIsInPage)
+                {
+                    // We have found the page. If the user provided a way to measure an individual item, we will try to scroll in just
+                    // the given item, otherwise we'll only bring the page into view
+                    if (measureItem != null && _listRegistration != -1) // && scrollElement != null // except we can't check for null references
+                    {
+                        var scrollRect = await JSRuntime.InvokeAsync<ManualRectangle>("BlazorFabricBasicList.getScrollDimensions", _listRegistration);
+                        var scrollWindowTop = scrollRect.top;
+                        var scrollWindowBottom = scrollRect.top + scrollRect.height;
+
+                        // Adjust for actual item position within page
+                        var itemPositionWithinPage = index - itemIndex;
+                        for (var itemIndexInPage = 0; itemIndexInPage < itemPositionWithinPage; ++itemIndexInPage)
+                        {
+                            scrollTop += measureItem(itemIndex + itemIndexInPage);
+                        }
+                        var scrollBottom = scrollTop + measureItem(index);
+
+                        // If scrollToMode is set to something other than auto, we always want to
+                        // scroll the item into a specific position on the page.
+                        switch (scrollToMode)
+                        {
+                            case ScrollToMode.Top:
+                                await JSRuntime.InvokeVoidAsync("BlazorFabricBasicList.setScrollTop", _listRegistration, scrollTop);
+                                return;
+                            case ScrollToMode.Bottom:
+                                await JSRuntime.InvokeVoidAsync("BlazorFabricBasicList.setScrollTop", _listRegistration, scrollBottom - scrollRect.height);
+                                return;
+                            case ScrollToMode.Center:
+                                await JSRuntime.InvokeVoidAsync("BlazorFabricBasicList.setScrollTop", _listRegistration, (scrollTop + scrollBottom - scrollRect.height) / 2);
+                                return;
+                            case ScrollToMode.Auto:
+                            default:
+                                break;
+                        }
+
+                        var itemIsFullyVisible = scrollTop >= scrollWindowTop && scrollBottom <= scrollWindowBottom;
+                        if (itemIsFullyVisible)
+                        {
+                            // Item is already visible, do nothing.
+                            return;
+                        }
+
+                        var itemIsPartiallyAbove = scrollTop < scrollWindowTop;
+                        var itemIsPartiallyBelow = scrollBottom > scrollWindowBottom;
+
+                        if (itemIsPartiallyAbove)
+                        {
+                            //  We will just scroll to 'scrollTop'
+                            //  .------.   - scrollTop
+                            //  |Item  |
+                            //  | .----|-. - scrollWindow.top
+                            //  '------' |
+                            //    |      |
+                            //    '------'
+                        }
+                        else if (itemIsPartiallyBelow)
+                        {
+                            //  Adjust scrollTop position to just bring in the element
+                            // .------.  - scrollTop
+                            // |      |
+                            // | .------.
+                            // '-|----' | - scrollWindow.bottom
+                            //   | Item |
+                            //   '------' - scrollBottom
+                            scrollTop = scrollBottom - scrollRect.height;
+                        }
+                    }
+                    await JSRuntime.InvokeVoidAsync("BlazorFabricBasicList.setScrollTop", _listRegistration, scrollTop);
+                    return;
+                }
+
+                scrollTop += pageSpecification.Height;
+            }
+        }
+
+        public async Task<int> GetStartItemIndexInViewAsync(Func<int,double> measureItem)
+        {
+            foreach (var page in _pages)
+            {
+                var scrollRect = await JSRuntime.InvokeAsync<ManualRectangle>("BlazorFabricBasicList.getScrollDimensions", _listRegistration);
+                var isPageVisible = !page.IsSpacer && scrollRect.top >= page.Top && scrollRect.top <= page.Top + page.Height;
+                if (isPageVisible)
+                {
+                    if (measureItem == null)
+                    {
+                        var rowHeight = Math.Floor(page.Height / page.ItemCount);
+                        return page.StartIndex + (int)Math.Floor((scrollRect.top - page.Top) / rowHeight);
+                    }
+                    else
+                    {
+                        double totalRowHeight = 0;
+                        for (var itemIndex = page.StartIndex; itemIndex < page.StartIndex + page.ItemCount; itemIndex++)
+                        {
+                            var rowHeight = measureItem(itemIndex);
+                            if (page.Top + totalRowHeight <= scrollRect.top && scrollRect.top < page.Top + totalRowHeight + rowHeight)
+                            {
+                                return itemIndex;
+                            }
+                            else
+                            {
+                                totalRowHeight += rowHeight;
+                            }
+                        }
+                    }
+                }
+            }
+            return 0;
+        }
+
+
+        private async Task ForceUpdateAsync()
+        {
+            await UpdateRenderRectsAsync();
+            await UpdatePagesAsync();
+            _measureVersion++;
         }
 
         private async Task UpdatePagesAsync()
@@ -652,59 +798,6 @@ namespace BlazorFabric
             );
         }
 
-//private RenderFragment RenderPages(int startPage, int endPage, double leadingPadding = 0) => async builder =>
-//  {
-//      if (_requiredRect == null)
-//          await UpdateRenderRectsAsync();
-
-//      //really should build pages, compare with old, and notify new pages created and old pages removed
-
-//      try
-//      {
-//          renderedPages.Clear();
-//          var totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)DEFAULT_ITEMS_PER_PAGE);
-
-//          builder.OpenComponent(0, typeof(ListVirtualizationSpacer));
-//          builder.AddAttribute(1, "Height", averagePageHeight * startPage);
-//          builder.CloseComponent();
-
-//          const int lineCount = 9;
-//          for (var i = 0; i <= totalPages; i++)
-//          {
-//              //Debug.WriteLine($"Drawing page {i}");
-//              if (startPage <= i && endPage >= i)
-//              {
-//                  builder.OpenComponent(i * lineCount + 2, typeof(ListPage<TItem>));
-//                  builder.AddAttribute(i * lineCount + 3, "ItemTemplate", ItemTemplate);
-//                  if (GetItemCountForPage != null)
-//                  {
-//                      builder.AddAttribute(i * lineCount + 4, "ItemsSource", ItemsSource.Skip(i * GetItemCountForPage(i,_surfaceRect)).Take(GetItemCountForPage(i, _surfaceRect)));//(ItemsSource.Count() > 0 ? ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE) : ItemsSource));
-//                      builder.AddAttribute(i * lineCount + 5, "StartIndex", i * GetItemCountForPage(i, _surfaceRect));
-//                  }
-//                  else
-//                  {
-//                      builder.AddAttribute(i * lineCount + 4, "ItemsSource", ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE));//(ItemsSource.Count() > 0 ? ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE) : ItemsSource));
-//                      builder.AddAttribute(i * lineCount + 5, "StartIndex", i * DEFAULT_ITEMS_PER_PAGE);
-//                  }
-//                  builder.AddAttribute(i * lineCount + 6, "PageMeasureSubject", pageMeasureSubject);
-//                  builder.AddAttribute(i * lineCount + 7, "ItemClicked", EventCallback.Factory.Create<object>(this, OnItemClick));
-//                  builder.AddAttribute(i * lineCount + 8, "SelectedItems", selectedItems);
-//                  builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode.None ? true : ItemFocusable);
-//                  builder.AddComponentReferenceCapture(i * lineCount + 10, (comp) => renderedPages.Add((ListPage<TItem>)comp));
-//                  builder.CloseComponent();
-//              }
-//          }
-
-//          builder.OpenComponent(totalPages * lineCount, typeof(ListVirtualizationSpacer));
-//          builder.AddAttribute(totalPages * lineCount + 1, "Height", averagePageHeight * (totalPages - endPage - 1));
-//          builder.CloseComponent();
-//      }
-//      catch (Exception ex)
-//      {
-//          Debug.WriteLine(ex.ToString());
-//      }
-
-//  };
 
         protected Task OnItemClick(object item)
         {
@@ -742,89 +835,6 @@ namespace BlazorFabric
             return Task.CompletedTask;
         }
 
-       
-
-        //private async Task MeasureContainerAsync()
-        //{
-        //    var rect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", this.surfaceDiv);
-        //    _surfaceRect = new Rectangle(rect.left, rect.width, rect.top, rect.height);
-        //    _height = _surfaceRect.height;
-
-        //    if (heightSub != null)
-        //    {
-        //        heightSub.Dispose();
-        //        heightSub = null;
-        //    }
-
-        //    heightSub = pageMeasureSubject.Subscribe(x =>
-        //    {
-        //        if (isFirstRender && x.index == 0)
-        //        {
-        //            averagePageHeight = x.height;
-        //            var aheadSpace = _surfaceRect.height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
-        //            minRenderedPage = 0;
-        //            if (averagePageHeight != 0)
-        //                maxRenderedPage = (int)Math.Ceiling(aheadSpace / averagePageHeight);
-
-        //            isFirstRender = false;
-        //            shouldRender = true;
-        //            ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
-        //            this.StateHasChanged();
-        //        }
-        //        else if (!isFirstRender)
-        //        {
-        //            if (averagePageHeight != 0 && ((x.height - averagePageHeight) / averagePageHeight - 1 > thresholdChangePercent))
-        //            {
-        //                averagePageHeight = x.height;
-
-        //                shouldRender = true;
-        //                ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
-        //                this.StateHasChanged();
-        //            }
-        //            else
-        //            {
-        //                averagePageHeight = (averagePageHeight + x.height) / 2;
-        //            }
-        //        }
-        //    });
-        //}
-
-        
-
-        //public async Task OnScroll(EventArgs args)
-        //{
-        //    try
-        //    {
-        //        var scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureScrollWindow", this.surfaceDiv);
-
-        //        var rearSpace = _height * DEFAULT_RENDERED_WINDOWS_BEHIND;
-        //        var aheadSpace = _height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
-        //        var totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)DEFAULT_ITEMS_PER_PAGE);
-        //        var currentPage = (int)Math.Floor(scrollRect.top / averagePageHeight);
-
-
-        //        var minPage = Math.Max(0, (int)Math.Ceiling((scrollRect.top - rearSpace) / averagePageHeight) - 1);
-
-        //        var maxPage = Math.Min(Math.Max(totalPages - 1, 0), Math.Max((int)Math.Ceiling((scrollRect.top + aheadSpace) / averagePageHeight) - 1, 0));
-
-        //        if (minRenderedPage != minPage || maxRenderedPage != maxPage)
-        //        {
-        //            minRenderedPage = minPage;
-        //            maxRenderedPage = maxPage;
-                                        
-        //            shouldRender = true;
-        //            Debug.WriteLine($"Scroll causing pages {minPage} to {maxPage} to rerender.");
-        //            ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
-        //            this.StateHasChanged();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine(ex.ToString());
-        //    }
-
-        //}
-
         public async void Dispose()
         {            
             if (_itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
@@ -833,9 +843,10 @@ namespace BlazorFabric
             }
 
             _idleAsyncSubscription.Dispose();
-            _asyncScrollSubject.Dispose();
-            _scrollSubject.Dispose();
-            _scrollingDoneSubject.Dispose();
+            _asyncScrollSubscription.Dispose();
+            _scrollSubscription.Dispose();
+            _scrollingDoneSubscription.Dispose();
+            _resizeSubjectSubscription.Dispose();
 
             _listItemReferences.Clear();
             _pages = null;

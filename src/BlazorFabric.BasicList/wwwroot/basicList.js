@@ -25,6 +25,13 @@ var BlazorFabricBasicList;
         return null;
     }
     BlazorFabricBasicList.getScrollDimensions = getScrollDimensions;
+    function setScrollTop(id, top) {
+        var basicList = allInstances[id];
+        if (basicList != null) {
+            basicList.setScrollTop(top);
+        }
+    }
+    BlazorFabricBasicList.setScrollTop = setScrollTop;
     var BasicListInternal = /** @class */ (function () {
         function BasicListInternal(basicList, rootElement) {
             var _this = this;
@@ -50,6 +57,11 @@ var BlazorFabricBasicList;
                 return { height: this._scrollElement.scrollHeight, top: this._scrollElement.scrollTop ? this._scrollElement.scrollTop : 0, left: 0, width: 0 };
             }
             return null;
+        };
+        BasicListInternal.prototype.setScrollTop = function (top) {
+            if (this._scrollElement) {
+                this._scrollElement.scrollTop = top;
+            }
         };
         return BasicListInternal;
     }());

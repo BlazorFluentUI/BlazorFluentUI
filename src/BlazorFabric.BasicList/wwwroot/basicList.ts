@@ -44,6 +44,12 @@ namespace BlazorFabricBasicList {
         return null;
     }
 
+    export function setScrollTop(id: number, top: number): void {
+        let basicList = <BasicListInternal>allInstances[id];
+        if (basicList != null) {
+            basicList.setScrollTop(top);
+        }
+    }
     
 
     class BasicListInternal {
@@ -79,6 +85,12 @@ namespace BlazorFabricBasicList {
                 return { height: this._scrollElement.scrollHeight, top: this._scrollElement.scrollTop ? this._scrollElement.scrollTop : 0, left:0,width:0 };
             }
             return null;
+        }
+
+        public setScrollTop(top: number): void {
+            if (this._scrollElement) {
+                this._scrollElement.scrollTop = top;
+            }
         }
 
     }

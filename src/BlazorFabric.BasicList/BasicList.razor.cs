@@ -199,7 +199,7 @@ namespace BlazorFabric
                     });
                 }).Subscribe();
 
-                _scrollSubscription = _scrollSubject.Throttle(TimeSpan.FromMilliseconds(100))
+                _scrollSubscription = _scrollSubject.Sample(TimeSpan.FromMilliseconds(30))
                     .Do(async _ =>
                     {
                         await InvokeAsync(async () =>

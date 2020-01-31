@@ -2,7 +2,9 @@
     <Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }">
         <Found Context="routeData">
             <ResponsiveCascader>
-                <RouteView RouteData="routeData" DefaultLayout="@typeof(MainLayout)" />
+                <FabricTheme Theme="@(new TestTheme())">
+                    <RouteView RouteData="routeData" DefaultLayout="@typeof(MainLayout)" />
+                </FabricTheme>
             </ResponsiveCascader>
         </Found>
         <NotFound>

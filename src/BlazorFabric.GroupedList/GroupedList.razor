@@ -5,30 +5,42 @@
 <div class=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}") 
      data-automationid="GroupedList" 
      data-is-scrollable="false" 
-     role="presentation"
-     style="height:500px;">
-    @if (isGrouped)
+     role="presentation">
+    @if (_isGrouped)
     {
-        <List ItemsSource=@ItemsSource>
+        <BasicList ItemsSource=@_groups
+                   @ref="_mainList"
+                   GetItemCountForPage="(i,r) => 1"
+                   GetPageHeight="GetPageHeight"
+                   GetPageSpecification="GetPageSpecification"
+                   OnShouldVirtualize=@OnShouldVirtualize
+                   >
             <ItemTemplate>
                 <GroupedListSection TItem=@TItem
+                                    ClassName=@GetGroupKey(context, context.StartIndex)
+                                    @key=@GetGroupKey(context, context.StartIndex)
                                     Compact=@Compact
                                     ItemTemplate=@ItemTemplate
                                     GroupKeySelector=@GroupKeySelector
                                     SubGroupSelector=@SubGroupSelector
-                                    Items=@(SubGroupSelector.Invoke(context))
-                                    Name=@(GroupKeySelector.Invoke(context).ToString())
-                                    SelectionMode=@SelectionMode />
+                                    Group=@context
+                                    OnShouldVirtualize=@OnShouldVirtualize
+                                    SelectionMode=@SelectionMode 
+                                    OnScrollExternalObservable=@_mainList?.OnScrollPublishedObservable                                
+                                    ExternalProvidedScrollDimensions=@(_mainList?.LastMeasuredScrollRect)
+                                    />
             </ItemTemplate>
-        </List>
+        </BasicList>
         
     }
     else
     {
         <BasicList ItemsSource=@ItemsSource
-              ItemTemplate=@ItemTemplate
-              SelectionMode=@SelectionMode
-              GetItemCountForPage=@((a,b)=> 1)
+                   ItemTemplate=@ItemTemplate
+                   SelectionMode=@SelectionMode
+                   GetItemCountForPage=@((a,b)=> 1)
+                   GetPageHeight="GetPageHeight"
+                   OnShouldVirtualize=@OnShouldVirtualize
               />
     }
 

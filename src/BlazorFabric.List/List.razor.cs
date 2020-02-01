@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorFabric
 {
+    [Obsolete]
     public partial class List<TItem> : FabricComponentBase, IDisposable
     {
         //protected bool firstRender = false;
@@ -37,6 +38,8 @@ namespace BlazorFabric
         private Rectangle surfaceRect;
         private double _height;
 
+        private object _lastVersion = null;
+
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
         [Parameter] public Func<int, Rectangle, int> GetItemCountForPage { get; set; }
@@ -44,6 +47,7 @@ namespace BlazorFabric
         [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
         [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
         [Parameter] public SelectionMode2 SelectionMode { get; set; } = SelectionMode2.Single;
+        [Parameter] public object Version { get; set; }
         [Parameter] public bool ItemFocusable { get; set; } = false;
 
         private IEnumerable<TItem> _itemsSource;

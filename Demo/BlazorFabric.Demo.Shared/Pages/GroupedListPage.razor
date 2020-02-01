@@ -6,18 +6,17 @@
         <BlazorFabric.PrimaryButton Text="Add 2 items" OnClick="@ClickHandler3" />
         <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
         <BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
-        <div style="overflow:hidden;flex-grow:1;">
-            <BlazorFabric.GroupedList ItemsSource=@groupedData 
+        <div style="overflow-y:auto;">
+            <BlazorFabric.GroupedList ItemsSource=@groupedData
+                                      OnShouldVirtualize=@(()=> false)
                                       TItem="GroupedDataItem"
                                       GroupKeySelector=@(x=>x.DisplayName)
                                       SubGroupSelector=@(x=>x.Data)>
                 <ItemTemplate>
-                    <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
-                        <Image Src=@context.ImgUrl ImageFit="ImageFit.CenterContain" Width="50" Height="50" />
-                        <Text Variant="TextType.Large" Block="true">
-                            This is item #@(context.DisplayName).
-                        </Text>
-                    </Stack>
+                    <div style="display:flex; flex-direction:row; ">
+                        <img height="50" width="50" src=@context.ImgUrl />
+                        <em>This is item #@context.DisplayName.</em>
+                    </div>
                 </ItemTemplate>
             </BlazorFabric.GroupedList>
         </div>
@@ -69,21 +68,16 @@
     {
         data = new System.Collections.Generic.List<DataItem>();
 
-        for (var i = 0; i < 5000; i++)
+        for (var i = 0; i < 1000; i++)
         {
             count++;
             data.Add(new DataItem(count));
         }
 
-        //for (var i = 0; i < 10; i++)
-        //{
-        //    count++;
-        //    data.Add(new DataItem(i));
-        //}
         groupedData = data.GroupBy(x =>
         {
             var number = int.Parse(x.DisplayName);
-            int group = number / 100;
+            int group = number / 10;
             return group;
         }).Select(x =>
         {

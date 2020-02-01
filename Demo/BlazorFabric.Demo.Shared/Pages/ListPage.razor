@@ -13,6 +13,10 @@
             <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
             <BlazorFabric.PrimaryButton Text="Start with 5000 items" OnClick="@ClickHandler2" />
             
+            <div style="overflow-y:auto;" >
+                <div style="background: linear-gradient(to top, #013567 0%, #0195FA 100%);height:3000px;"></div>
+            </div>
+
             <div style="overflow-y:auto;">
                 <BlazorFabric.BasicList ItemsSource=@data 
                                         @ref="basicList1"

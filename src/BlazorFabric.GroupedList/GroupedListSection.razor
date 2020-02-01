@@ -3,36 +3,46 @@
 @typeparam TItem
 
     <div role="presentation"
-         class="ms-GroupedList ms-GroupedList-group">
+         class=@($"ms-GroupedList ms-GroupedList-group {ClassName}")>
         <GroupHeader Compact=@Compact
-                     @bind-IsCollapsed="isCollapsed"
+                     @bind-IsCollapsed="Group.IsCollapsed"
                      SelectionMode=@SelectionMode
-                     Name=@Name />
-        @if (!isCollapsed)
+                     Name=@(Group.Name) />
+        @if (!Group.IsCollapsed)
         {
-            @if (itemsHaveGroups != null && itemsHaveGroups.Count() > 0)
-            {
-                <List ItemsSource=@itemsHaveGroups>
+            @if (_itemsHaveGroups != null && _itemsHaveGroups.Count() > 0)
+            {                
+                <BasicList ItemsSource=@_itemsHaveGroups
+                           GetItemCountForPage="(i,r) => 1">
                     <ItemTemplate>
                         <GroupedListSection TItem=@TItem
                                             Compact=@Compact
+                                            @key="GetGroupKey(Group,context.StartIndex)"
                                             ItemTemplate=@ItemTemplate
                                             GroupKeySelector=@GroupKeySelector
                                             SubGroupSelector=@SubGroupSelector
-                                            Items=@(SubGroupSelector.Invoke(context))
-                                            Name=@(GroupKeySelector.Invoke(context).ToString())
+                                            Group=@context
+                                            GroupIndex=@context.StartIndex
+                                            OnShouldVirtualize=@OnShouldVirtualize
                                             SelectionMode=@SelectionMode />
                     </ItemTemplate>
-                </List>
+                </BasicList>
             }
-            @if (itemsWithoutGroups != null && itemsWithoutGroups.Count() > 0)
+            @if (_itemsWithoutGroups != null && _itemsWithoutGroups.Count() > 0)
             {
-                <List ItemsSource=@itemsWithoutGroups
-                      GetItemCountForPage=@((a,b)=> 1)>
+                <BasicList ItemsSource=@_itemsWithoutGroups
+                           @key="GetGroupKey(Group,Group.StartIndex)"
+                           GetItemCountForPage="(i,r) => 1"
+                           OnShouldVirtualize=@OnShouldVirtualize
+                           OnScrollExternalObservable=@OnScrollExternalObservable
+                           ExternalProvidedScrollDimensions=@ExternalProvidedScrollDimensions
+                           >
                     <ItemTemplate>
-                        @ItemTemplate(context)
+                        <div @key=@(context.StartIndex)>
+                            @ItemTemplate(context.Item)
+                        </div>
                     </ItemTemplate>
-                </List>
+                </BasicList>
             }
         }
     </div>

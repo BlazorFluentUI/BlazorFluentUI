@@ -1,5 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
+
+<GlobalCS Rules="@ToggleRules" />
+
 <div class=@($"mediumFont ms-Toggle {GetClassExtras()}") style=@Style>
     @if (!string.IsNullOrWhiteSpace(Label))
     {

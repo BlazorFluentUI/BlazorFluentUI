@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace BlazorFabric
 {
-    public interface IStaticCSSheet
+    public interface IGlobalCSSheet
     {
         ICollection<Rule> Rules { get; set; }
     }

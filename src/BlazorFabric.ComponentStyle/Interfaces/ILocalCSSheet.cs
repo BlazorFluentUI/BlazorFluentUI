@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace BlazorFabric
 {
-    public interface IDynamicCSSheet
+    public interface ILocalCSSheet
     {
         ICollection<DynamicRule> Rules { get; set; }
     }

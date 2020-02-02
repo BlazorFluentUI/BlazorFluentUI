@@ -6,9 +6,9 @@ namespace BlazorFabric
 {
     public interface IComponentStyle
     {
-        ICollection<IDynamicCSSheet> DynamicCSSheets { get; set; }
+        ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
 
-        ICollection<IStaticCSSheet> StaticCSSheets { get; set; }
+        ICollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
 
         IDictionary<string, string> GetGlobalCSRules();
         

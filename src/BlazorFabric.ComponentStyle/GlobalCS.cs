@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class StaticCS : ComponentBase, IStaticCSSheet, IDisposable
+    public class GlobalCS : ComponentBase, IGlobalCSSheet, IDisposable
     {
         private ICollection<Rule> rules;
 
@@ -31,18 +31,22 @@ namespace BlazorFabric
 
         public void Dispose()
         {
-            ComponentStyle.StaticCSSheets.Remove(this);
+            ComponentStyle.GlobalCSSheets.Remove(this);
             ComponentStyle.UpdateSubscribers();
         }
 
         protected override Task OnInitializedAsync()
         {
-            ComponentStyle.StaticCSSheets.Add(this);
-            ComponentStyle.UpdateSubscribers();
+            ComponentStyle.GlobalCSSheets.Add(this);
             return base.OnInitializedAsync();
         }
 
-        
+        protected override void OnAfterRender(bool firstRender)
+        {
+            ComponentStyle.UpdateSubscribers();
+            base.OnAfterRender(firstRender);
+        }
+
     }
 }
 

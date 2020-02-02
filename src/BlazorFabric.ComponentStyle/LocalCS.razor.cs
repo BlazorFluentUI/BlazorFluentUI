@@ -7,7 +7,7 @@ using System;
 
 namespace BlazorFabric
 {
-    public partial class DynamicCS : ComponentBase, IDynamicCSSheet
+    public partial class LocalCS : ComponentBase, ILocalCSSheet
     {
         private string css;
         private ICollection<DynamicRule> rules;
@@ -34,7 +34,7 @@ namespace BlazorFabric
 
         protected override async Task OnInitializedAsync()
         {
-            ComponentStyle.DynamicCSSheets.Add(this);
+            ComponentStyle.LocalCSSheets.Add(this);
             SetSelectorNames();
             await base.OnInitializedAsync();
         }
@@ -60,11 +60,11 @@ namespace BlazorFabric
                     continue;
                 if (string.IsNullOrWhiteSpace(rule.Selector.SelectorName))
                 {
-                    rule.Selector.SelectorName = $"css-{ComponentStyle.DynamicCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
+                    rule.Selector.SelectorName = $"css-{ComponentStyle.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
                 }
                 else
                 {
-                    rule.Selector.SelectorName = $"{rule.Selector.SelectorName}-{ComponentStyle.DynamicCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
+                    rule.Selector.SelectorName = $"{rule.Selector.SelectorName}-{ComponentStyle.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
                 }
             }
             RulesChanged.InvokeAsync(rules);

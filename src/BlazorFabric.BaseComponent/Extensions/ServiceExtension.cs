@@ -7,6 +7,7 @@ namespace BlazorFabric
         public static void AddBlazorFabric(this IServiceCollection services)
         {
             services.AddSingleton<IComponentStyle, ComponentStyle>();
+            services.AddSingleton<ThemeProvider>();
         }
     }
 }

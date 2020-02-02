@@ -7,22 +7,22 @@ namespace BlazorFabric
 {
     public class ComponentStyle : IComponentStyle
     {
-        public ICollection<IDynamicCSSheet> DynamicCSSheets { get; set; }
-        public ICollection<IStaticCSSheet> StaticCSSheets { get; set; }
+        public ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
+        public ICollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
 
         public ICollection<IGlobalRules> SubscribedGlobalRules { get; set; }
 
         public ComponentStyle()
         {
-            DynamicCSSheets = new HashSet<IDynamicCSSheet>();
-            StaticCSSheets = new HashSet<IStaticCSSheet>();
+            LocalCSSheets = new HashSet<ILocalCSSheet>();
+            GlobalCSSheets = new HashSet<IGlobalCSSheet>();
             SubscribedGlobalRules = new HashSet<IGlobalRules>();
         }
 
         public IDictionary<string, string> GetGlobalCSRules()
         {
             var globalCSRules = new Dictionary<string, string>();
-            foreach(var styleSheet in StaticCSSheets)
+            foreach(var styleSheet in GlobalCSSheets)
             {
                 foreach(var rule in styleSheet.Rules)
                 {

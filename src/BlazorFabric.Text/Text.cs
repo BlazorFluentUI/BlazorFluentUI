@@ -8,6 +8,8 @@ namespace BlazorFabric
 {
     public class Text : FabricComponentBase
     {
+        [CascadingParameter(Name = "Theme")]
+        public ITheme Theme { get; set; }
         [Parameter] public string As { get; set; } = "span";
         [Parameter] public bool Block { get; set; }
         [Parameter] public bool NoWrap { get; set; }
@@ -23,7 +25,7 @@ namespace BlazorFabric
         {
             //base.BuildRenderTree(builder);
 
-            builder.OpenComponent<DynamicCS>(0);
+            builder.OpenComponent<LocalCS>(0);
             builder.AddAttribute(1, "Rules", CssRules);
             builder.AddAttribute(2, "RulesChanged", EventCallback.Factory.Create(this, RuntimeHelpers.CreateInferredEventCallback(this, __value => CssRules = __value, CssRules)));
             builder.CloseComponent();
@@ -58,7 +60,7 @@ namespace BlazorFabric
             TextStyle.WebkitFontSmoothing = CustomVariant?.WebkitFontSmoothing ?? "antialiased";
             TextStyle.MozOsxFontSmoothing = CustomVariant?.MozOsxFontSmoothing ?? "grayscale";
             TextStyle.FontFamily = CustomVariant?.FontFamily ?? "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif";
-            TextStyle.FontWeight = CustomVariant?.FontWeight ?? ((int)Variant > (int)TextType.Large ? "600" : "400");
+            TextStyle.FontWeight = CustomVariant?.FontWeight ?? ((int)Variant > (int)TextType.Large ? Theme.FontStyle.FontWeight.SemiBold.ToString() : Theme.FontStyle.FontWeight.Regular.ToString());
             TextStyle.FontSize = CustomVariant?.FontSize ?? (Variant == TextType.None ? "inherit" : TextSizeMapper.TextSizeMap[Variant]);
             if (NoWrap)
             {

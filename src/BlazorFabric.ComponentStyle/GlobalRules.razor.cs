@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class GlobalRules : IGlobalRules
+    public partial class GlobalRules : IGlobalRules, IDisposable
     {
         [Inject]
         public IComponentStyle ComponentStyle { get; set; }
 
         private bool isRendered;
+        private bool isDisposed;
+
         public void Update()
         {
-            if(isRendered)
-                StateHasChanged();
+            if(isRendered && !isDisposed)
+                InvokeAsync(() => StateHasChanged());
         }
 
         protected override Task OnInitializedAsync()
@@ -29,6 +31,11 @@ namespace BlazorFabric
             if (firstRender)
                 isRendered = true;
             base.OnAfterRender(firstRender);
+        }
+
+        public void Dispose()
+        {
+            isDisposed = true;
         }
     }
 }

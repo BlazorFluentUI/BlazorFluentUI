@@ -17,6 +17,7 @@
     <ProjectReference Include="..\BlazorFabric.BasicList\BlazorFabric.BasicList.csproj" />
     <ProjectReference Include="..\BlazorFabric.Check\BlazorFabric.Check.csproj" />
     <ProjectReference Include="..\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
+    <ProjectReference Include="..\BlazorFabric.List\BlazorFabric.List.csproj" />
     <ProjectReference Include="..\BlazorFabric.Spinner\BlazorFabric.Spinner.csproj" />
   </ItemGroup>
 

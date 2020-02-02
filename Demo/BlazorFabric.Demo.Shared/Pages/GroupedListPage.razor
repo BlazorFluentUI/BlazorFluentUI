@@ -1,29 +1,30 @@
 ﻿@page "/groupedListPage"
 
-<div style="display:flex; flex-direction:column; height: calc(100vh - 53.5px);">
-    <div style="display:flex;flex-direction:column;flex-grow:1;height:100%;">
-        <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
-        <BlazorFabric.PrimaryButton Text="Add 2 items" OnClick="@ClickHandler3" />
-        <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
-        <BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
-        <div style="overflow-y:auto;">
-            <BlazorFabric.GroupedList ItemsSource=@groupedData
-                                      OnShouldVirtualize=@(()=> false)
-                                      TItem="GroupedDataItem"
-                                      GroupKeySelector=@(x=>x.DisplayName)
-                                      SubGroupSelector=@(x=>x.Data)>
-                <ItemTemplate>
-                    <div style="display:flex; flex-direction:row; ">
-                        <img height="50" width="50" src=@context.ImgUrl />
-                        <em>This is item #@context.DisplayName.</em>
-                    </div>
-                </ItemTemplate>
-            </BlazorFabric.GroupedList>
-        </div>
-    </div>
+<div style="height:20px;">
+    @DebugText
 </div>
+<Stack Style="height:calc(100% - 20px);">
+    <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
+    <BlazorFabric.PrimaryButton Text="Add 2 items" OnClick="@ClickHandler3" />
+    <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
+    <BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
+
+    <BlazorFabric.GroupedList ItemsSource=@groupedData
+                              OnShouldVirtualize=@(()=> false)
+                              TItem="GroupedDataItem"
+                              GroupKeySelector=@(x=>x.DisplayName)
+                              SubGroupSelector=@(x=>x.Data)>
+        <ItemTemplate>
+            <div style="display:flex; flex-direction:row; ">
+                <img height="50" width="50" src=@context.ImgUrl />
+                <em>This is item #@context.DisplayName.</em>
+            </div>
+        </ItemTemplate>
+    </BlazorFabric.GroupedList>
+</Stack>
 
 @code {
+    string DebugText = "";
     int count = 0;
     System.Collections.Generic.List<DataItem> data;
     IEnumerable<GroupedDataItem> groupedData;
@@ -77,7 +78,7 @@
         groupedData = data.GroupBy(x =>
         {
             var number = int.Parse(x.DisplayName);
-            int group = number / 10;
+            int group = (number - 1) / 10;
             return group;
         }).Select(x =>
         {

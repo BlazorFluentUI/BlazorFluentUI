@@ -30,19 +30,19 @@
             }
             @if (_itemsWithoutGroups != null && _itemsWithoutGroups.Count() > 0)
             {
-                <BasicList ItemsSource=@_itemsWithoutGroups
-                           @key="GetGroupKey(Group,Group.StartIndex)"
-                           GetItemCountForPage="(i,r) => 1"
-                           OnShouldVirtualize=@OnShouldVirtualize
-                           OnScrollExternalObservable=@OnScrollExternalObservable
-                           ExternalProvidedScrollDimensions=@ExternalProvidedScrollDimensions
+                <List ItemsSource=@_itemsWithoutGroups
+                      UseInternalScrolling="false"
+                      Data=@Group.GroupIndex
+                      OnListScrollerHeightChanged=@HandleListScrollerHeightChanged
+                      @key="GetGroupKey(Group,Group.StartIndex)"
+
                            >
                     <ItemTemplate>
                         <div @key=@(context.StartIndex)>
                             @ItemTemplate(context.Item)
                         </div>
                     </ItemTemplate>
-                </BasicList>
+                </List>
             }
         }
     </div>

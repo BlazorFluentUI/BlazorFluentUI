@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Text;
@@ -41,6 +42,9 @@ namespace BlazorFabric
         [Parameter]
         public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
 
+        [Parameter]
+        public EventCallback<double> OnHeightChanged { get; set; }
+
         //[Parameter]
         //public IEnumerable<IGrouping<object, TItem>> Groups { get; set; }
 
@@ -70,6 +74,12 @@ namespace BlazorFabric
                 //groups = Items.Select(SubGroupSelector);
             }
             return base.OnParametersSetAsync();
+        }
+
+        private void HandleListScrollerHeightChanged((double, object) details)
+        {
+            Debug.WriteLine($"Height changed: {details.Item1} for {(int)details.Item2}");
+            OnHeightChanged.InvokeAsync(details.Item1);
         }
 
         private string GetGroupKey(Group<TItem> group, int index)

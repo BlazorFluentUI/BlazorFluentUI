@@ -17,7 +17,7 @@ namespace BlazorFabric
 
         //no isSelected ... controlled by store
 
-        public bool IsCollapsed { get; set; } = true;
+        public bool IsCollapsed { get; set; } = false;
         public bool IsShowingAll { get; set; }
         public bool IsDropEnabled { get; set; }
         public object Data { get; set; }
@@ -41,10 +41,12 @@ namespace BlazorFabric
         {
             if (items != null)
             {
-                List<Group<TItem>> groups = new List<Group<TItem>>();
+                System.Collections.Generic.List<Group<TItem>> groups = new System.Collections.Generic.List<Group<TItem>>();
+                var groupIndex = 0;
                 foreach (var item in items)
                 {
                     var group = new Group<TItem>(item, groupKeySelector, subGroupSelector, ref index, level);
+                    group.GroupIndex = groupIndex++;
                     groups.Add(group);
                 }
                 return groups;

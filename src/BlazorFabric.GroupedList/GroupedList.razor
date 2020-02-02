@@ -5,15 +5,13 @@
 <div class=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}") 
      data-automationid="GroupedList" 
      data-is-scrollable="false" 
-     role="presentation">
+     role="presentation"
+     style=@($"{Style}height:100%;overflow-y:hidden;")>
     @if (_isGrouped)
     {
-        <BasicList ItemsSource=@_groups
-                   @ref="_mainList"
-                   GetItemCountForPage="(i,r) => 1"
-                   GetPageHeight="GetPageHeight"
-                   GetPageSpecification="GetPageSpecification"
-                   OnShouldVirtualize=@OnShouldVirtualize
+        <List ItemsSource=@_groups
+              @ref="_mainList"
+              GetItemCountForPage=@((a,b)=> 1)
                    >
             <ItemTemplate>
                 <GroupedListSection TItem=@TItem
@@ -24,23 +22,21 @@
                                     GroupKeySelector=@GroupKeySelector
                                     SubGroupSelector=@SubGroupSelector
                                     Group=@context
+                                    GroupIndex=@(context.GroupIndex)
                                     OnShouldVirtualize=@OnShouldVirtualize
                                     SelectionMode=@SelectionMode 
-                                    OnScrollExternalObservable=@_mainList?.OnScrollPublishedObservable                                
-                                    ExternalProvidedScrollDimensions=@(_mainList?.LastMeasuredScrollRect)
+                                    OnHeightChanged=@HandleSectionHeightChanged
                                     />
             </ItemTemplate>
-        </BasicList>
+        </List>
         
     }
     else
     {
-        <BasicList ItemsSource=@ItemsSource
+        <List ItemsSource=@ItemsSource
                    ItemTemplate=@ItemTemplate
-                   SelectionMode=@SelectionMode
+                   SelectionMode=@SelectionMode2.None
                    GetItemCountForPage=@((a,b)=> 1)
-                   GetPageHeight="GetPageHeight"
-                   OnShouldVirtualize=@OnShouldVirtualize
               />
     }
 

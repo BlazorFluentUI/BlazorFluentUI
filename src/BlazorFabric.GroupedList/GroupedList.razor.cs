@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace BlazorFabric
         private const double COMPACT_ROW_HEIGHT = 32;
         private const double ROW_HEIGHT = 42;
 
-        private BasicList<Group<TItem>> _mainList;
+        private List<Group<TItem>> _mainList;
 
         [Parameter]
         public bool Compact { get; set; }
@@ -72,9 +73,19 @@ namespace BlazorFabric
             return base.OnParametersSetAsync();
         }
 
+        //private void HandleListScrollerHeightChanged((double, object) details)
+        //{
+        //    Debug.WriteLine($"Height changed: {details.Item1} for {(int)details.Item2}");
+            
+        //}
+
+        private void HandleSectionHeightChanged(double height)
+        {
+            _mainList.TriggerRemeasure();
+        }
 
 
-       
+
 
         private double GetPageHeight(int itemIndex, ManualRectangle visibleRectangle, int itemCount)
         {

@@ -39,10 +39,16 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var rect = await JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", RootElementReference);
-        this.Width = rect.width; // result["width"];
-        this.Height = rect.height;//,10); // result["height"];
 
-        this.PageMeasureSubject.OnNext((this.StartIndex, this.Height));
+        this.Width = rect.width; // result["width"];
+
+        if (this.Height != rect.height)
+        {
+            this.Height = rect.height;//,10); // result["height"];
+
+            this.PageMeasureSubject.OnNext((this.StartIndex, this.Height));
+        }
+
         await base.OnAfterRenderAsync(firstRender);
     }
 }

@@ -1,27 +1,40 @@
 ﻿@page "/groupedListPage"
 @using DynamicData
 
-<Toggle OffText="Normal" OnText="Compact" Label="Enable compact mode" @bind-Checked="isCompact" />
-<Stack Style="height:calc(100% - 20px);">
-    <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
-    <BlazorFabric.PrimaryButton Text="Add 2 items" OnClick="@ClickHandler3" />
-    <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
-    <BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
 
-    <BlazorFabric.GroupedList RootGroup=@rootGroup
-                              Compact=@isCompact
-                              OnShouldVirtualize=@(()=> false)
-                              TItem="GroupedDataItem"
-                              GroupTitleSelector=@(x=>x.DisplayName)
-                              SubGroupSelector=@(x=>x.Data)>
-        <ItemTemplate>
-            <div style="display:flex; flex-direction:row; ">
-                <img height="50" width="50" src=@context.ImgUrl />
-                <em>This is item #@context.DisplayName.</em>
-            </div>
-        </ItemTemplate>
-    </BlazorFabric.GroupedList>
-</Stack>
+    <Stack Style="height:calc(100% - 0px);">
+        <Toggle OffText="Normal" OnText="Compact" Label="Enable compact mode" @bind-Checked="isCompact" />
+        <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
+        <BlazorFabric.PrimaryButton Text="Add 2 items" OnClick="@ClickHandler3" />
+        <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
+        <BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
+
+        <BlazorFabric.GroupedList RootGroup=@rootGroup
+                                  Compact=@isCompact
+                                  OnShouldVirtualize=@(()=> false)
+                                  TItem="GroupedDataItem"
+                                  GroupTitleSelector=@(x=>x.DisplayName)
+                                  SubGroupSelector=@(x=>x.Data)>
+            <ItemTemplate>
+                @{
+                    var d = context;
+                    <DetailsRow Item=@context.Item
+                                Columns=@columns
+                                Compact=@isCompact
+                                GroupNestingDepth=@context.Depth />
+                    @*<div style="display:flex;flex-direction:row;">
+                        <GroupSpacer Count=@context.Depth />
+                        <div style="flex-grow:1;">
+                            <div style="display:flex; flex-direction:row; ">
+                                <img height="50" width="50" src=@context.Item.ImgUrl />
+                                <em>This is item #@context.Item.DisplayName.</em>
+                            </div>
+                        </div>
+                    </div>*@
+                }
+            </ItemTemplate>
+        </BlazorFabric.GroupedList>
+    </Stack>
 
 @code {
     string DebugText = "";
@@ -30,6 +43,8 @@
     GroupedDataItem rootGroup;
     System.Collections.Generic.List<DataItem> data;
     System.Collections.Generic.List<GroupedDataItem> groupedData;
+
+    System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>> columns;
 
     Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
@@ -69,6 +84,9 @@
 
     protected override Task OnInitializedAsync()
     {
+        columns = new System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>>();
+        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.DisplayName, Name = "Name" });
+
         data = new System.Collections.Generic.List<DataItem>();
 
         for (var i = 0; i < 100; i++)

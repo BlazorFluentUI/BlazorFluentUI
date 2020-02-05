@@ -49,7 +49,7 @@ namespace BlazorFabric
         public TItem RootGroup { get; set; }
 
         [Parameter]
-        public RenderFragment<TItem> ItemTemplate { get; set; }
+        public RenderFragment<GroupedListItem<TItem>> ItemTemplate { get; set; }
 
         [Parameter]
         public EventCallback<bool> OnGroupExpandedChanged { get; set; }

@@ -5,7 +5,7 @@
 <FocusZone Direction=@FocusZoneDirection.Horizontal
            AriaLabel=@AriaLabel
            AriaDescribedBy=@AriaDescribedBy
-           ClassName="ms-DetailsRow"
+           ClassName=@($"fadeIn400 smallFont {(Compact ? "is-compact " : "")}{(IsCheckVisible ? "is-check-visible " : "")}ms-DetailsRow")
            AllowFocusRoot="true">
     
     @if(showCheckbox)
@@ -28,7 +28,8 @@
             <span role="presentation" class="ms-DetailsRow-cellMeasurer ms-DetailsRow-cell">
                 <DetailsRowFields Item=@Item
                                   ItemIndex=@ItemIndex
-                                  ColumnStartIndex=@((showCheckbox ? 1 : 0) + Columns.Length) />
+                                  Columns=@Columns
+                                  ColumnStartIndex=@((showCheckbox ? 1 : 0) + Columns.Count()) />
             </span>
         }
     }

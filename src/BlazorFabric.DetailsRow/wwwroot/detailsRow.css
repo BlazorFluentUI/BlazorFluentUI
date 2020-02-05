@@ -1,0 +1,27 @@
+﻿.ms-DetailsRow{
+    /*APPLY FOCUS STYLES!!*/
+
+    border-bottom: 1px solid var(--palette-NeutralLighter);
+    background: var(--palette-White);
+    color: var(--palette-palette-NeutralSecondary);
+    display:inline-flex;
+    min-width:100%;
+    min-height: 42px;
+    white-space:nowrap;
+    padding:0;
+    box-sizing:border-box;
+    vertical-align:top;
+    text-align:left;
+}
+
+.ms-DetailsRow.is-compact{
+    min-height:32px;
+}
+
+.ms-DetailsRow:hover{
+    background: var(--palette-NeutralLighter);
+    color: var(--palette-NeutralPrimary);
+}
+    .ms-DetailsRow:hover .is-row-header{
+        color:  var(--palette-NeutralDark);
+    }

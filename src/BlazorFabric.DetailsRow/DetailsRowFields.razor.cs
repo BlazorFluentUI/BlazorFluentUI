@@ -17,14 +17,16 @@ namespace BlazorFabric
         public int ColumnStartIndex { get; set; }
 
         [Parameter]
-        public object[] Columns { get; set; }
+        public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
 
         [Parameter]
+        public bool EnableUpdateAnimations { get; set; }
+
+        [Parameter]
         public string RowClassNames { get; set; }
 
-        private bool enableUpdateAnimations;
     }
 }

@@ -17,7 +17,7 @@ namespace BlazorFabric
         public bool CanSelect { get; set; }
 
         [Parameter]
-        public object[] Columns { get; set; }
+        public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
@@ -29,7 +29,7 @@ namespace BlazorFabric
         public int GroupNestingDepth { get; set; }
 
         [Parameter]
-        public double IndentWidth { get; set; }
+        public double IndentWidth { get; set; } = 36;
 
         [Parameter]
         public bool IsCheckVisible { get; set; }

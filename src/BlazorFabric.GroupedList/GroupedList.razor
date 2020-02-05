@@ -12,15 +12,12 @@
                 @if (context is HeaderItem<TItem>)
                 {
                     var header = (HeaderItem<TItem>)context;
-                    <GroupHeader @bind-IsOpen=@header.IsOpen Count=@header.Depth Name=@header.Name Compact=@Compact />
+                    <GroupHeader @key=@(header.Depth + "-" + header.Index) @bind-IsOpen=@header.IsOpen Count=@header.Depth Name=@header.Name Compact=@Compact />
                 }
                 else
                 {
-                    <div style="display:flex;flex-direction:row;">
-                        <GroupSpacer Count=@context.Depth />
-                        <div style="flex-grow:1;">
-                            @ItemTemplate(context.Item)
-                        </div>
+                    <div @key=@(context.Depth + "-" + context.Index)>
+                        @ItemTemplate(context)
                     </div>
                 }
         </ItemTemplate>

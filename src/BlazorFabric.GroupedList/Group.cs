@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
+using DynamicData;
+using DynamicData.Cache;
+
 namespace BlazorFabric
 {
     public class Group<TItem>
@@ -24,13 +27,13 @@ namespace BlazorFabric
         public string AriaLabel { get; set; }
         public bool HasMoreData { get; set; }
 
-        public delegate IEnumerable<Group<TItem>> CreateGroupsDelegate(
-            IEnumerable<TItem> items,
-            Func<TItem, object> groupKeySelector,
-            Func<TItem, IEnumerable<TItem>> subGroupSelector,
-            CreateGroupsDelegate createGroups,
-            ref int index, 
-            int currentLevel);
+        //public delegate IEnumerable<Group<TItem>> CreateGroupsDelegate(
+        //    IEnumerable<TItem> items,
+        //    Func<TItem, object> groupKeySelector,
+        //    Func<TItem, IEnumerable<TItem>> subGroupSelector,
+        //    CreateGroupsDelegate createGroups,
+        //    ref int index, 
+        //    int currentLevel);
 
         public static IEnumerable<Group<TItem>> CreateGroups(
            IEnumerable<TItem> items,

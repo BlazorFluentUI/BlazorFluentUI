@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<div class=@($"mediumFont ms-GroupHeader{(Compact ? " ms-GroupHeader--compact" : "")}{(IsCollapsed ? " is-collapsed" : "")}{(CurrentlySelected ? " is-selected": "")}{(string.IsNullOrEmpty(ClassName) ? "":" " + ClassName)}")>
+<div class=@($"mediumFont ms-GroupHeader{(Compact ? " ms-GroupHeader--compact" : "")}{(!IsOpen ? " is-collapsed" : "")}{(CurrentlySelected ? " is-selected": "")}{(string.IsNullOrEmpty(ClassName) ? "":" " + ClassName)}")>
     <FocusZone ClassName="ms-GroupHeader-groupHeaderContainer"
                Direction="FocusZoneDirection.Horizontal">
         @if (IsSelectionCheckVisible)
@@ -23,13 +23,12 @@
         </div>
         <button type="button"
                 class="ms-GroupHeader-expand"
-                @onclick=@OnToggleCollapse
+                @onclick=@OnToggleOpen
                 aria-expanded=""
                 aria-controls=""
                 >
             <Icon ClassName="ms-GroupHeader-expandIsCollapsed" IconName="ChevronRightMed"/>
         </button>
-
             <div class="ms-GroupHeader-title">
                 <span>@Name</span>
                 <span class="ms-GroupHeader-headerCount">

@@ -1,0 +1,38 @@
+﻿@namespace BlazorFabric
+@inherits FabricComponentBase
+@typeparam TItem
+
+<FocusZone Direction=@FocusZoneDirection.Horizontal
+           AriaLabel=@AriaLabel
+           AriaDescribedBy=@AriaDescribedBy
+           ClassName="ms-DetailsRow"
+           AllowFocusRoot="true">
+    
+    @if(showCheckbox)
+    {
+        <div role="gridcell" aria-colindex="1" data-selection-toggle="true" class="ms-DetailsRow-checkCell">
+            <DetailsRowCheck IsVisible=@(this.CheckboxVisibility == CheckboxVisibility.Always)
+                             Compact=@Compact
+                             UseFastIcons="true"
+                             />
+        </div>
+    }
+
+    <GroupSpacer IndentWidth=@IndentWidth
+                 Count=@GroupNestingDepth />
+
+    @if (Item != null)
+    {
+        @if (columnMeasureInfo)
+        {
+            <span role="presentation" class="ms-DetailsRow-cellMeasurer ms-DetailsRow-cell">
+                <DetailsRowFields Item=@Item
+                                  ItemIndex=@ItemIndex
+                                  ColumnStartIndex=@((showCheckbox ? 1 : 0) + Columns.Length) />
+            </span>
+        }
+    }
+
+    <span role="checkbox" class="ms-DetailsRow-checkCover" aria-checked=@IsSelected data-selection-toggle="true" />
+
+</FocusZone>

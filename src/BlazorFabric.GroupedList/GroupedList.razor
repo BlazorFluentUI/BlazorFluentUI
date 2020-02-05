@@ -2,42 +2,45 @@
 @inherits FabricComponentBase
 @typeparam TItem
 
-<div class=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}") 
+@*<div class=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}") 
      data-automationid="GroupedList" 
      data-is-scrollable="false" 
      role="presentation"
-     style=@($"{Style}height:100%;overflow-y:hidden;")>
-    @if (_isGrouped)
+     style=@($"{Style}height:100%;overflow-y:hidden;")>*@
+    @if (dataItems != null)
     {
-        <List ItemsSource=@_groups
-              @ref="_mainList"
-              GetItemCountForPage=@((a,b)=> 1)
+        <List TItem="GroupedListItem<TItem>"
+              ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
+              ItemsSource=@dataItems
                    >
             <ItemTemplate>
-                <GroupedListSection TItem=@TItem
-                                    ClassName=@GetGroupKey(context, context.StartIndex)
-                                    @key=@GetGroupKey(context, context.StartIndex)
-                                    Compact=@Compact
-                                    ItemTemplate=@ItemTemplate
-                                    GroupKeySelector=@GroupKeySelector
-                                    SubGroupSelector=@SubGroupSelector
-                                    Group=@context
-                                    GroupIndex=@(context.GroupIndex)
-                                    OnShouldVirtualize=@OnShouldVirtualize
-                                    SelectionMode=@SelectionMode 
-                                    OnHeightChanged=@HandleSectionHeightChanged
-                                    />
+                    @if (context is HeaderItem<TItem>)
+                    {
+                        var header = (HeaderItem<TItem>)context;
+                        <GroupHeader @bind-IsOpen=@header.IsOpen Count=@header.Depth Name=@header.Name Compact=@Compact />
+                        @*<div>header: @header.Name</div>
+                        <div>depth: @header.Depth</div>*@
+                    }
+                    else
+                    {
+                        <div style="display:flex;flex-direction:row;">
+                            <GroupSpacer Count=@context.Depth />
+                            <div style="flex-grow:1;">
+                                @ItemTemplate(context.Item)
+                            </div>
+                        </div>
+                    }
             </ItemTemplate>
         </List>
         
     }
-    else
+    @*else
     {
         <List ItemsSource=@ItemsSource
                    ItemTemplate=@ItemTemplate
                    SelectionMode=@SelectionMode2.None
                    GetItemCountForPage=@((a,b)=> 1)
               />
-    }
+    }*@
 
-</div>
+@*</div>*@

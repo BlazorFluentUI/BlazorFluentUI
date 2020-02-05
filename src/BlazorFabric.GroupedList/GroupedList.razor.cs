@@ -6,6 +6,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DynamicData;
+using DynamicData.Cache;
+using DynamicData.Aggregation;
+using DynamicData.Operators;
+using DynamicData.Experimental;
+using System.Reactive.Linq;
+using DynamicData.Tests;
+using System.Collections.ObjectModel;
 
 namespace BlazorFabric
 {
@@ -13,12 +21,14 @@ namespace BlazorFabric
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         private bool _isGrouped;
-        private IEnumerable<Group<TItem>> _groups;
+        private ReadOnlyObservableCollection<GroupedListItem<TItem>> dataItems;
+
+        //private IEnumerable<Group<TItem,TKey>> _groups;
 
         private const double COMPACT_ROW_HEIGHT = 32;
         private const double ROW_HEIGHT = 42;
 
-        private List<Group<TItem>> _mainList;
+        //private List<Group<TItem, TKey>> _mainList;
 
         [Parameter]
         public bool Compact { get; set; }
@@ -27,13 +37,16 @@ namespace BlazorFabric
         public Func<Group<TItem>, int, double> GetGroupHeight { get; set; }
 
         [Parameter]
-        public Func<TItem, object> GroupKeySelector { get; set; }
+        public Func<TItem, string> GroupTitleSelector { get; set; }
 
         [Parameter]
         public Func<TItem, MouseEventArgs, Task> ItemClicked { get; set; }
 
         [Parameter]
         public IEnumerable<TItem> ItemsSource { get; set; }
+
+        [Parameter]
+        public TItem RootGroup { get; set; }
 
         [Parameter]
         public RenderFragment<TItem> ItemTemplate { get; set; }
@@ -57,21 +70,157 @@ namespace BlazorFabric
         //[Parameter] public Action OnScrollExternalEvent { get; set; }  //For nested lists like GroupedList, too many javascript scroll events bogs down the whole system
         //[Parameter] public ManualRectangle ExternalProvidedScrollDimensions { get; set; }  //For nested lists like GroupedList
 
+        //IObservable<IChangeSet<ParentOwned<TItem, TKey>, TKey>> FlattenChangeSet(IObservable<IChangeSet<ParentOwned<TItem, TKey>, TKey>> node)
+        //{
+        //    var flattened = node.TransformMany(x=> SubGroupSelector(x.Item), GroupKeySelector)
+        //        .Transform(x => new ParentOwned<TItem, TKey>(x, default(TKey), GroupKeySelector, SubGroupSelector));
+        //    flattened = FlattenChangeSet(flattened);
+        //    return node.Concat(flattened);
+        //}
 
+        int FindDepth(TItem item)
+        {
+            int depth = 0;
+            var firstCollection = SubGroupSelector(RootGroup);
+            if (firstCollection.Contains(item))
+                return depth;
+            else
+            {
+                return FindDepthRecursion(item, firstCollection, depth+1);
+            }
+        }
+        int FindDepthRecursion(TItem item, IEnumerable<TItem> collection, int depth)
+        {
+            foreach (var subItem in collection)
+            {
+                var subCollection = SubGroupSelector(subItem);
+                if (subCollection != null)
+                {
+                    if (subCollection.Contains(item))
+                        break;
+                    else
+                    {
+                        var result = FindDepthRecursion(item, subCollection, depth + 1);
+                        if (result != -1)
+                        {
+                            depth = result;
+                            break;
+                        }
+                    }
+                }
+            }
+            return depth;
+        }
 
         protected override Task OnParametersSetAsync()
         {
-            if (GroupKeySelector != null && SubGroupSelector != null)
+            if (SubGroupSelector != null)
             {
                 _isGrouped = true;
                 int index = 0;
+                if (RootGroup != null)
+                {
+                    var list = new System.Collections.Generic.List<TItem>();
+                    list.Add(RootGroup);
+                    var changeSet = list.AsObservableChangeSet();
+                    Dictionary<int, HeaderItem<TItem>> headers = new Dictionary<int, HeaderItem<TItem>>();
+                    Dictionary<int, int> depthIndex = new Dictionary<int, int>();
+                    var result = changeSet.TransformMany<GroupedListItem<TItem>,TItem>(x => SubGroupSelector(x)?.RecursiveSelect<TItem, GroupedListItem<TItem>>(
+                                                                                    r => SubGroupSelector(r),
+                                                                                    (s, index, depth) =>
+                                                                                    {
+                                                                                        if (!depthIndex.ContainsKey(depth))
+                                                                                            depthIndex[depth] = 0;
+                                                                                        headers.TryGetValue(depth-1, out var parent);
+                                                                                        if (SubGroupSelector(s) == null)
+                                                                                        {
+                                                                                            Debug.WriteLine($"Creating ITEM: {depth}-{index}");
+                                                                                            return new PlainItem<TItem>(s, parent, index, depth);
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            Debug.WriteLine($"Creating HEADER: {depth}-{index}");
+                                                                                            var header = new HeaderItem<TItem>(s, parent, index, depth, GroupTitleSelector);
+                                                                                            headers[depth] = header;
+                                                                                            return header;
+                                                                                        }
+                                                                                    }))
+                        .AutoRefreshOnObservable(x=>x.IsVisibleObservable)
+                        .Filter(x=> x.IsVisible)
+                        .Sort(new GroupedListItemComparer<TItem>())
+                        .Bind(out dataItems)
+                        .Subscribe();
+                }
+
                 if (ItemsSource != null)
                 {
-                    _groups = Group<TItem>.CreateGroups(ItemsSource, GroupKeySelector, SubGroupSelector, ref index, 0);
+                    //var changeSet = ItemsSource.AsObservableChangeSet(GroupKeySelector);
+                    //var result2 = changeSet.Transform(x =>  
+                    //{
+                    //    if (SubGroupSelector(x) == null)
+                    //    {
+
+                    //    }
+                    //    else
+                    //    {
+                    //        return SubGroupSelector(x).RecursiveSelect(r => SubGroupSelector(r));
+                    //    }
+                        
+                    //}
+                    //).AsAggregator();
+                    //var result = changeSet.TransformMany(x => SubGroupSelector(x)?.RecursiveSelect(r => SubGroupSelector(r)), GroupKeySelector).AsAggregator();
+
+                    //var parentItems = changeSet.Transform(x => {
+                    //new ParentOwned<TItem, TKey>(x, default(TKey), GroupKeySelector, SubGroupSelector)
+                    //    });
+
+                    //var flattened = FlattenChangeSet(parentItems);
+
+                    //flattened.Subscribe(x =>
+                    //{
+
+                    //});
+
+                    //var groups = changeSet.Filter(x => SubGroupSelector(x) != null).Transform(x=> new ParentOwned<TItem,TKey>(x ));
+                    //var transformedGroups = groups.Transform<GroupedListItem<TItem, TKey>, TItem, TKey>(x =>  new HeaderItem<TItem, TKey>(x));
+
+                    //var nestedItems = ProcessCache()
+
+                    //var processedItems = ProcessCache(changeSet);
+
+                    //var transformedItems = changeSet.Filter(x => SubGroupSelector(x) == null).Transform<GroupedListItem<TItem, TKey>, TItem, TKey>(x => new PlainItem<TItem, TKey>(x));
+
+                    //var combined = transformedGroups.Merge.Merge(transformedItems);
+
+                    //; .Bind(out var readonlyCollection).Subscribe(x=>
+                    //{
+
+                    //});
+
+                    
+
+
+                    // Group<TItem>.CreateGroups(ItemsSource, GroupKeySelector, SubGroupSelector, ref index, 0);
                 }
             }
             return base.OnParametersSetAsync();
         }
+
+        //IObservable<IChangeSet<GroupedListItem<TItem, TKey>,TKey>> ProcessCache(IObservable<IChangeSet<TItem, TKey>> changeSet)
+        //{
+        //    var groups = changeSet.Filter(x => SubGroupSelector(x) != null);
+        //    var transformedGroups = groups.Transform<GroupedListItem<TItem, TKey>, TItem, TKey>(x => new HeaderItem<TItem, TKey>(x));
+
+        //    //need to setup recursion on this part and merge it.
+        //    //var flattenedCache = groups.Flatten();
+
+        //    //var processedSubItems = ProcessCache(flattenedCache);
+
+        //    var transformedItems = changeSet.Filter(x => SubGroupSelector(x) == null).Transform<GroupedListItem<TItem, TKey>, TItem, TKey>(x => new PlainItem<TItem, TKey>(x));
+
+        //    var combined = transformedGroups.Merge(transformedItems);
+        //    return combined;
+        //}
 
         //private void HandleListScrollerHeightChanged((double, object) details)
         //{
@@ -81,7 +230,7 @@ namespace BlazorFabric
 
         private void HandleSectionHeightChanged(double height)
         {
-            _mainList.TriggerRemeasure();
+            //_mainList.TriggerRemeasure();
         }
 
 
@@ -89,25 +238,25 @@ namespace BlazorFabric
 
         private double GetPageHeight(int itemIndex, ManualRectangle visibleRectangle, int itemCount)
         {
-            if (GroupKeySelector != null && SubGroupSelector != null)
+            if (SubGroupSelector != null)
             {
-                var pageGroup = _groups.ElementAtOrDefault(itemIndex);
+                //var pageGroup = _groups.ElementAtOrDefault(itemIndex);
 
-                if (pageGroup != null)
-                {
-                    if (GetGroupHeight != null)
-                    {
-                        return GetGroupHeight(pageGroup, itemIndex);
-                    }
-                    else
-                    {
-                        return GetGroupHeightInternal(pageGroup, itemIndex);
-                    }
-                }
-                else
-                {
-                    return 0;
-                }
+                //if (pageGroup != null)
+                //{
+                //    if (GetGroupHeight != null)
+                //    {
+                //        return GetGroupHeight(pageGroup, itemIndex);
+                //    }
+                //    else
+                //    {
+                //        return GetGroupHeightInternal(pageGroup, itemIndex);
+                //    }
+                //}
+                //else
+                //{
+                //    return 0;
+                //}
             }
             return 0;
         }
@@ -135,7 +284,7 @@ namespace BlazorFabric
         {
             var pageSpecification = new PageSpecification
             {
-                Key = _groups != null ? _groups.ElementAt(itemIndex).Key : ""
+                //Key = _groups != null ? _groups.ElementAt(itemIndex).Key : ""
             };
             return pageSpecification;
         }

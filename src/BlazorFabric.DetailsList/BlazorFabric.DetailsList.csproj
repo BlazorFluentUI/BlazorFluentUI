@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -7,7 +7,6 @@
 
 
   <ItemGroup>
-    <PackageReference Include="DynamicData" Version="6.14.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.0" />
   </ItemGroup>
@@ -15,11 +14,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
-    <ProjectReference Include="..\BlazorFabric.Check\BlazorFabric.Check.csproj" />
     <ProjectReference Include="..\BlazorFabric.DetailsRow\BlazorFabric.DetailsRow.csproj" />
-    <ProjectReference Include="..\BlazorFabric.FocusZone\BlazorFabric.FocusZone.csproj" />
+    <ProjectReference Include="..\BlazorFabric.GroupedList\BlazorFabric.GroupedList.csproj" />
     <ProjectReference Include="..\BlazorFabric.List\BlazorFabric.List.csproj" />
-    <ProjectReference Include="..\BlazorFabric.Spinner\BlazorFabric.Spinner.csproj" />
   </ItemGroup>
 
 </Project>

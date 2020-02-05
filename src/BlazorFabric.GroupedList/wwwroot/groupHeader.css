@@ -95,14 +95,55 @@
 
 
 .ms-GroupHeader-expand {
+    /*checkExpandResetStyle*/
+    /*focusStyles*/
+    outline: transparent;
+    position: relative;
+
+    cursor: default;
+    background: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    /* End checkExpandResetStyle */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size:var(--fontSize-Small);
-    width:36px;
-    height:48px;
+    font-size: var(--fontSize-Small);
+    width: 36px;
+    height: 48px;
     color: var(--palette-NeutralSecondary);
 }
+/*START more focusStyles*/
+    .ms-GroupHeader-expand::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-GroupHeader-expand:focus:after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    border: 1px solid transparent;
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zindex-FocusStyle);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible .ms-GroupHeader-expand:focus:after {
+        left: -2px;
+        top: -2px;
+        bottom: -2px;
+        right: -2px;
+        border: none;
+        outline-color: ButtonText;
+    }
+}
+/* END focusStyles*/
+
+
     .ms-GroupHeader-expand:hover{
         background-color:var(--palette-NeutralLight);
     }

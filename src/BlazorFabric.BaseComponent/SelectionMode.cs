@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public enum SelectionMode2
+    public enum SelectionMode
     {
         None,
         Single,

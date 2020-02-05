@@ -1,0 +1,17 @@
+﻿@namespace BlazorFabric
+@inherits FabricComponentBase
+
+@if (CanSelect)
+{
+    <div role="checkbox"
+         class="ms-DetailsRowCheck ms-DetailsRowCheck-check"
+         aria-checked=@Selected
+         data-selection-toggle="true"
+         data-automationid="DetailsRowCheck">
+            <Check UseFastIcons=@UseFastIcons Checked=@Checked />
+    </div>
+}
+else
+{
+    <div class="ms-DetailsRowCheck ms-DetailsRowCheck-check" />
+}

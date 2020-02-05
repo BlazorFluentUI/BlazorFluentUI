@@ -49,7 +49,7 @@ namespace BlazorFabric
         [Parameter] public EventCallback<TItem> ItemClicked { get; set; }
         [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
         [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
-        [Parameter] public SelectionMode2 SelectionMode { get; set; } = SelectionMode2.Single;
+        [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
         [Parameter] public object Data { get; set; }
         [Parameter] public bool ItemFocusable { get; set; } = false;
         [Parameter] public bool UseInternalScrolling { get; set; } = true;
@@ -169,7 +169,7 @@ namespace BlazorFabric
                       builder.AddAttribute(i * lineCount + 6, "PageMeasureSubject", pageMeasureSubject);
                       builder.AddAttribute(i * lineCount + 7, "ItemClicked", EventCallback.Factory.Create<object>(this, OnItemClick));
                       builder.AddAttribute(i * lineCount + 8, "SelectedItems", selectedItems);
-                      builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode2.None ? true : ItemFocusable);
+                      builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode.None ? true : ItemFocusable);
                       builder.AddComponentReferenceCapture(i * lineCount + 10, (comp) => renderedPages.Add((ListPage<TItem>)comp));
                       builder.CloseComponent();
                       //}
@@ -196,14 +196,14 @@ namespace BlazorFabric
             var castItem = (TItem)item;
             switch (SelectionMode)
             {
-                case SelectionMode2.Multiple:
+                case SelectionMode.Multiple:
                     if (selectedItems.Contains(castItem))
                         selectedItems.Remove(castItem);
                     else
                         selectedItems.Add(castItem);
                     _shouldRender = true;
                     break;
-                case SelectionMode2.Single:
+                case SelectionMode.Single:
                     if (selectedItems.Contains(castItem))
                         selectedItems.Remove(castItem);
                     else
@@ -213,7 +213,7 @@ namespace BlazorFabric
                     }
                     _shouldRender = true;
                     break;
-                case SelectionMode2.None:
+                case SelectionMode.None:
                     break;
 
             }

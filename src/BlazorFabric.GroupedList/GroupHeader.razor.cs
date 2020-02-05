@@ -24,10 +24,10 @@ namespace BlazorFabric
         public bool HasMoreData { get; set; }
 
         [Parameter]
-        public bool IsCollapsed { get; set; }
+        public bool IsOpen { get; set; }
 
         [Parameter]
-        public EventCallback<bool> IsCollapsedChanged { get; set; }
+        public EventCallback<bool> IsOpenChanged { get; set; }
 
         [Parameter]
         public Func<object,bool> IsGroupLoading { get; set; }
@@ -49,9 +49,9 @@ namespace BlazorFabric
 
         }
 
-        public void OnToggleCollapse(MouseEventArgs mouseEventArgs)
+        public void OnToggleOpen(MouseEventArgs mouseEventArgs)
         {
-            IsCollapsedChanged.InvokeAsync(!IsCollapsed);
+            IsOpenChanged.InvokeAsync(!IsOpen);
             //isLoadingVisible = !isCollapsed && IsGroupLoading != null; // && IsGroupLoading(group);
             
         }

@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DynamicData" Version="6.14.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\BlazorFabric.BasicList\BlazorFabric.BasicList.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Button\BlazorFabric.Button.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Calendar\BlazorFabric.Calendar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Callout\BlazorFabric.Callout.csproj" />

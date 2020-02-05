@@ -2,45 +2,29 @@
 @inherits FabricComponentBase
 @typeparam TItem
 
-@*<div class=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}") 
-     data-automationid="GroupedList" 
-     data-is-scrollable="false" 
-     role="presentation"
-     style=@($"{Style}height:100%;overflow-y:hidden;")>*@
-    @if (dataItems != null)
-    {
-        <List TItem="GroupedListItem<TItem>"
-              ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
-              ItemsSource=@dataItems
-                   >
-            <ItemTemplate>
-                    @if (context is HeaderItem<TItem>)
-                    {
-                        var header = (HeaderItem<TItem>)context;
-                        <GroupHeader @bind-IsOpen=@header.IsOpen Count=@header.Depth Name=@header.Name Compact=@Compact />
-                        @*<div>header: @header.Name</div>
-                        <div>depth: @header.Depth</div>*@
-                    }
-                    else
-                    {
-                        <div style="display:flex;flex-direction:row;">
-                            <GroupSpacer Count=@context.Depth />
-                            <div style="flex-grow:1;">
-                                @ItemTemplate(context.Item)
-                            </div>
+@if (dataItems != null)
+{
+    <List TItem="GroupedListItem<TItem>"
+            ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
+            ItemsSource=@dataItems
+                >
+        <ItemTemplate>
+                @if (context is HeaderItem<TItem>)
+                {
+                    var header = (HeaderItem<TItem>)context;
+                    <GroupHeader @bind-IsOpen=@header.IsOpen Count=@header.Depth Name=@header.Name Compact=@Compact />
+                }
+                else
+                {
+                    <div style="display:flex;flex-direction:row;">
+                        <GroupSpacer Count=@context.Depth />
+                        <div style="flex-grow:1;">
+                            @ItemTemplate(context.Item)
                         </div>
-                    }
-            </ItemTemplate>
-        </List>
+                    </div>
+                }
+        </ItemTemplate>
+    </List>
         
-    }
-    @*else
-    {
-        <List ItemsSource=@ItemsSource
-                   ItemTemplate=@ItemTemplate
-                   SelectionMode=@SelectionMode2.None
-                   GetItemCountForPage=@((a,b)=> 1)
-              />
-    }*@
-
-@*</div>*@
+}
+   

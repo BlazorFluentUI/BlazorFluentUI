@@ -38,6 +38,9 @@ namespace BlazorFabric
         public bool IsRowHeader { get; set; }
 
         [Parameter]
+        public bool IsSelected { get; set; }
+
+        [Parameter]
         public TItem Item { get; set; }
 
         [Parameter]

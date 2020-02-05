@@ -33,8 +33,8 @@ namespace BlazorFabric
         [Parameter]
         public bool Compact { get; set; }
 
-        [Parameter]
-        public Func<Group<TItem>, int, double> GetGroupHeight { get; set; }
+        //[Parameter]
+        //public Func<Group<TItem>, int, double> GetGroupHeight { get; set; }
 
         [Parameter]
         public Func<TItem, string> GroupTitleSelector { get; set; }
@@ -152,56 +152,7 @@ namespace BlazorFabric
                         .Subscribe();
                 }
 
-                if (ItemsSource != null)
-                {
-                    //var changeSet = ItemsSource.AsObservableChangeSet(GroupKeySelector);
-                    //var result2 = changeSet.Transform(x =>  
-                    //{
-                    //    if (SubGroupSelector(x) == null)
-                    //    {
-
-                    //    }
-                    //    else
-                    //    {
-                    //        return SubGroupSelector(x).RecursiveSelect(r => SubGroupSelector(r));
-                    //    }
-                        
-                    //}
-                    //).AsAggregator();
-                    //var result = changeSet.TransformMany(x => SubGroupSelector(x)?.RecursiveSelect(r => SubGroupSelector(r)), GroupKeySelector).AsAggregator();
-
-                    //var parentItems = changeSet.Transform(x => {
-                    //new ParentOwned<TItem, TKey>(x, default(TKey), GroupKeySelector, SubGroupSelector)
-                    //    });
-
-                    //var flattened = FlattenChangeSet(parentItems);
-
-                    //flattened.Subscribe(x =>
-                    //{
-
-                    //});
-
-                    //var groups = changeSet.Filter(x => SubGroupSelector(x) != null).Transform(x=> new ParentOwned<TItem,TKey>(x ));
-                    //var transformedGroups = groups.Transform<GroupedListItem<TItem, TKey>, TItem, TKey>(x =>  new HeaderItem<TItem, TKey>(x));
-
-                    //var nestedItems = ProcessCache()
-
-                    //var processedItems = ProcessCache(changeSet);
-
-                    //var transformedItems = changeSet.Filter(x => SubGroupSelector(x) == null).Transform<GroupedListItem<TItem, TKey>, TItem, TKey>(x => new PlainItem<TItem, TKey>(x));
-
-                    //var combined = transformedGroups.Merge.Merge(transformedItems);
-
-                    //; .Bind(out var readonlyCollection).Subscribe(x=>
-                    //{
-
-                    //});
-
-                    
-
-
-                    // Group<TItem>.CreateGroups(ItemsSource, GroupKeySelector, SubGroupSelector, ref index, 0);
-                }
+             
             }
             return base.OnParametersSetAsync();
         }
@@ -228,66 +179,66 @@ namespace BlazorFabric
             
         //}
 
-        private void HandleSectionHeightChanged(double height)
-        {
-            //_mainList.TriggerRemeasure();
-        }
+        //private void HandleSectionHeightChanged(double height)
+        //{
+        //    //_mainList.TriggerRemeasure();
+        //}
 
 
 
 
-        private double GetPageHeight(int itemIndex, ManualRectangle visibleRectangle, int itemCount)
-        {
-            if (SubGroupSelector != null)
-            {
-                //var pageGroup = _groups.ElementAtOrDefault(itemIndex);
+        //private double GetPageHeight(int itemIndex, ManualRectangle visibleRectangle, int itemCount)
+        //{
+        //    if (SubGroupSelector != null)
+        //    {
+        //        //var pageGroup = _groups.ElementAtOrDefault(itemIndex);
 
-                //if (pageGroup != null)
-                //{
-                //    if (GetGroupHeight != null)
-                //    {
-                //        return GetGroupHeight(pageGroup, itemIndex);
-                //    }
-                //    else
-                //    {
-                //        return GetGroupHeightInternal(pageGroup, itemIndex);
-                //    }
-                //}
-                //else
-                //{
-                //    return 0;
-                //}
-            }
-            return 0;
-        }
+        //        //if (pageGroup != null)
+        //        //{
+        //        //    if (GetGroupHeight != null)
+        //        //    {
+        //        //        return GetGroupHeight(pageGroup, itemIndex);
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        return GetGroupHeightInternal(pageGroup, itemIndex);
+        //        //    }
+        //        //}
+        //        //else
+        //        //{
+        //        //    return 0;
+        //        //}
+        //    }
+        //    return 0;
+        //}
 
-        private double GetGroupHeightInternal(Group<TItem> group, int itemIndex)
-        {
-            double rowHeight = Compact ? COMPACT_ROW_HEIGHT : ROW_HEIGHT;
-            return rowHeight + (group.IsCollapsed ? 0 : rowHeight * GetGroupItemLimitInternal(group));
-        }
+        //private double GetGroupHeightInternal(Group<TItem> group, int itemIndex)
+        //{
+        //    double rowHeight = Compact ? COMPACT_ROW_HEIGHT : ROW_HEIGHT;
+        //    return rowHeight + (group.IsCollapsed ? 0 : rowHeight * GetGroupItemLimitInternal(group));
+        //}
 
-        private int GetGroupItemLimitInternal(Group<TItem> group)
-        {
-            // going to ignore the property for now
+        //private int GetGroupItemLimitInternal(Group<TItem> group)
+        //{
+        //    // going to ignore the property for now
 
-            //default groupItemLimit
-            return group.Count;
-        }
+        //    //default groupItemLimit
+        //    return group.Count;
+        //}
 
-        private string GetGroupKey(Group<TItem> group, int index)
-        {
-            return $"group-{(group != null && !string.IsNullOrEmpty(group.Key) ? group.Key : index.ToString())}";
-        }
+        //private string GetGroupKey(Group<TItem> group, int index)
+        //{
+        //    return $"group-{(group != null && !string.IsNullOrEmpty(group.Key) ? group.Key : index.ToString())}";
+        //}
 
-        private PageSpecification GetPageSpecification(int itemIndex, ManualRectangle manualRectangle)
-        {
-            var pageSpecification = new PageSpecification
-            {
-                //Key = _groups != null ? _groups.ElementAt(itemIndex).Key : ""
-            };
-            return pageSpecification;
-        }
+        //private PageSpecification GetPageSpecification(int itemIndex, ManualRectangle manualRectangle)
+        //{
+        //    var pageSpecification = new PageSpecification
+        //    {
+        //        //Key = _groups != null ? _groups.ElementAt(itemIndex).Key : ""
+        //    };
+        //    return pageSpecification;
+        //}
 
     }
 }

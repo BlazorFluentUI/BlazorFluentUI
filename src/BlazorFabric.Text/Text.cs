@@ -8,8 +8,6 @@ namespace BlazorFabric
 {
     public class Text : FabricComponentBase
     {
-        [CascadingParameter(Name = "Theme")]
-        public ITheme Theme { get; set; }
         [Parameter] public string As { get; set; } = "span";
         [Parameter] public bool Block { get; set; }
         [Parameter] public bool NoWrap { get; set; }

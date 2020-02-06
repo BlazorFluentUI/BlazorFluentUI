@@ -8,10 +8,6 @@ namespace BlazorFabric
 {
     public partial class Label : FabricComponentBase
     {
-        [CascadingParameter(Name = "Theme")]
-        public ITheme Theme { get; set; }
-
-
         [Parameter]
         public RenderFragment ChildContent { get; set; }
 

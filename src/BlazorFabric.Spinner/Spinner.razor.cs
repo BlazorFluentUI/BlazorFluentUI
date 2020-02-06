@@ -7,9 +7,6 @@ namespace BlazorFabric
 {
     public partial class Spinner : FabricComponentBase
     {
-        [CascadingParameter(Name = "Theme")]
-        public ITheme Theme { get; set; }
-
         [Parameter] public string Label { get; set; }
         [Parameter] public SpinnerLabelPosition LabelPosition { get; set; } = SpinnerLabelPosition.Bottom;
         [Parameter] public SpinnerSize Size { get; set; } = SpinnerSize.Medium;

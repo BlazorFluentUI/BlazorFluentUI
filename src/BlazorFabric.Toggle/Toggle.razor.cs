@@ -10,9 +10,6 @@ namespace BlazorFabric
 {
     public partial class Toggle : FabricComponentBase
     {
-        [CascadingParameter(Name = "Theme")]
-        public ITheme Theme { get; set; }
-
         [Parameter] public bool? Checked { get; set; }
         [Parameter] public bool DefaultChecked { get; set; }
         [Parameter] public bool Disabled { get; set; }
@@ -75,14 +72,6 @@ namespace BlazorFabric
 
             CreateCss();
 
-            //if (IsChecked)
-            //{
-            //    StateText = OnText;
-            //}
-            //else
-            //{
-            //    StateText = OffText;
-            //}
             if (string.IsNullOrWhiteSpace(AriaLabel) && string.IsNullOrWhiteSpace(BadAriaLabel))
                 LabelledById = LabelId;
             else
@@ -107,9 +96,7 @@ namespace BlazorFabric
                 }
             }
 
-            return this.CheckedChanged.InvokeAsync(!IsChecked);
-
-            //return Task.CompletedTask;
+            return CheckedChanged.InvokeAsync(!IsChecked);
         }
 
         private void CreateCss()

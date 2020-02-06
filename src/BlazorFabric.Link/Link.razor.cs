@@ -7,9 +7,6 @@ namespace BlazorFabric
 {
     public partial class Link : FabricComponentBase
     {
-        [CascadingParameter(Name = "Theme")]
-        public ITheme Theme { get; set; }
-
         [Parameter]
         public LinkType? Type { get; set; }
 

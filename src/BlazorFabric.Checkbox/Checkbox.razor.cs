@@ -9,9 +9,6 @@ namespace BlazorFabric
 {
     public partial class Checkbox : FabricComponentBase
     {
-        [CascadingParameter(Name = "Theme")]
-        public ITheme Theme { get; set; }
-
         [Parameter]
         public int? AriaPositionInSet { get; set; }
 
@@ -120,7 +117,14 @@ namespace BlazorFabric
         {
             if (_indeterminateChanged)
             {
-                _isChecked = !_isChecked;
+                if (!_checkedUncontrolled)
+                {
+                    Checked = !Checked;
+                }
+                else
+                {
+                    _isChecked = !_isChecked;
+                }
                 _indeterminateChanged = false;
                 StateHasChanged();
             }
@@ -133,14 +137,12 @@ namespace BlazorFabric
             {
                 _indeterminate = false;
                 _indeterminateChanged = true;
-                _isChecked = (bool)args.Value;
 
                 if (!_indeterminateUncontrolled)
                 {
                     Indeterminate = false;
                     await IndeterminateChanged.InvokeAsync(false);
                 }
-                return;
             }
 
             if (!_checkedUncontrolled)

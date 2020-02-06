@@ -1,15 +1,15 @@
 ﻿/* ROOT */
-.ms-Checkbox {
+/*.ms-Checkbox {
     display: flex;
     position: relative;
     word-wrap: break-word;
     overflow-wrap: break-word;
-}
+}*/
 
 
 /* INPUT */
 
-.ms-Checkbox-input {
+/*.ms-Checkbox-input {
     position: absolute;
     background: none;
     opacity: 0;
@@ -24,11 +24,11 @@
     .ms-Fabric--isFocusVisible .ms-Checkbox-input:focus+.ms-Checkbox-label::before {
         outline: 1px solid ActiveBorder;
     }
-}
+}*/
 
 /* LABEL */
 
-.ms-Checkbox-label {
+/*.ms-Checkbox-label {
     display: flex;
     align-items: flex-start;
     cursor: pointer;
@@ -109,11 +109,11 @@
         color: Highlight;
     }
 
-}
+}*/
 
 /* CHECKBOX */
 
-.ms-Checkbox-checkbox {
+/*.ms-Checkbox-checkbox {
     display: flex;
     flex-shrink: 0;
     align-items: center;
@@ -121,17 +121,17 @@
     height: 20px;
     width: 20px;
     border-width: 1px;
-    border-style: solid;
+    border-style: solid;*/
     /*border-color: var(--semanticColors-SmallInputBorder);*/
-    box-sizing: border-box;
+    /*box-sizing: border-box;
     transition-property: background, border, border-color;
     transition-duration: 200ms;
-    transition-timing-function: cubic-bezier(.4,0,.23,1);
+    transition-timing-function: cubic-bezier(.4,0,.23,1);*/
     /* in case the icon is bigger than the box */
-    overflow: hidden;
-    margin-left: 4px;
+    /*overflow: hidden;
+    margin-left: 4px;*/
     /* FLUENT ADDITIONS */
-    border-radius: var(--effects-RoundedCorner2);
+    /*border-radius: var(--effects-RoundedCorner2);
     border-color: var(--palette-NeutralPrimary);
 }
 .ms-Checkbox-checkbox-reversed {
@@ -161,11 +161,11 @@
         border-color: InactiveBorder;
     }
 
-}
+}*/
 
 /* CHECKMARK */
 
-.ms-Checkbox-checkmark {
+/*.ms-Checkbox-checkmark {
     opacity: 0;
     color: var(--semanticColors-InputForegroundChecked);
     font-size: var(--fontSize-Medium);
@@ -190,10 +190,10 @@
     .ms-Checkbox-checkmark-disabled {
         color: InactiveBorder;
     }
-}
+}*/
 
 /* TEXT */
-.ms-Checkbox-text {
+/*.ms-Checkbox-text {
     color: var(--semanticColors-BodyText);
     font-size: var(--fontSize-Medium);
     line-height: 20px;
@@ -213,11 +213,11 @@
     .ms-Checkbox-text-disabled {
         color: InactiveBorder;
     }
-}
+}*/
 
 /* FLUENT ADDITIONS */
 
-.ms-Checkbox.not-checked.is-enabled:hover .ms-Checkbox-text {
+/*.ms-Checkbox.not-checked.is-enabled:hover .ms-Checkbox-text {
     color: var(--palette-NeutralDark);
 }
 
@@ -233,4 +233,4 @@
 .ms-Checkbox.is-checked.is-enabled:focus .ms-Checkbox-checkbox {
     background: var(--palette-ThemeDark);
     border-color: var(--palette-ThemeDark);
-}
+}*/

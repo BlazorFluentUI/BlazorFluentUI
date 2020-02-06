@@ -1,48 +1,33 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 @using Microsoft.AspNetCore.Components.Web
+
+<GlobalCS Rules="@CheckboxRules" />
+
 @*<KeytipData keytipProps={keytipProps} disabled={disabled}>
     {(keytipAttributes: any): JSX.Element => (*@
-<div class=@($"ms-Checkbox {(isChecked ? "is-checked" : "not-checked")} {(Reversed ? "reversed" : "")} {(Disabled ? "is-disabled" : "is-enabled")} {ClassName}")
+<div class=@($"ms-Checkbox {(_isChecked ? "is-checked" : "not-checked")} {(_reversed ? "reversed" : "")} {(Disabled ? "is-disabled" : "is-enabled")} {ClassName}")
      style=@Style
      @ref="RootElementReference">
     <input type="checkbox"
            id=@Id
            class=@($"ms-Checkbox-input mediumFont" )
-           checked=@(Checked.HasValue ? Checked.Value : DefaultChecked)
+           checked=@_isChecked
            disabled=@Disabled
-           @onclick=OnClick
-           @onchange="OnChange"
+           @onchange="InternalOnChange"
            aria-disabled=@Disabled
            aria-label=@AriaLabel
            aria-labelledby=@AriaLabelledBy
            aria-describedby=@AriaDescribedBy
            aria-posinset=@AriaPositionInSet
            aria-setsize=@AriaSetSize />
-    <label class=@($"ms-Checkbox-label {(Reversed ? "ms-Checkbox-label-reversed" : "")} {(Disabled ? "ms-Checkbox-label-disabled" : "ms-Checkbox-label-enabled")}  {(isChecked ? "ms-Checkbox-label-checked" : "fabricCheckbox-label-unchecked")}")
+    <label class=@($"ms-Checkbox-label{(_reversed ? " ms-Checkbox-label-reversed" : "")}{(Disabled ? " ms-Checkbox-label-disabled" : " ms-Checkbox-label-enabled")}{(_isChecked ? " ms-Checkbox-label-checked" : " ms-Checkbox-label-unchecked")}{(_indeterminate ? " ms-Checkbox-label-indeterminate" : "")}")
            for="@Id">
-        <div class=@($"ms-Checkbox-checkbox {(Reversed? "fabricCheckbox-checkbox-reversed":"")} {(Disabled ? "ms-Checkbox-checkbox-disabled" : "ms-Checkbox-checkbox-enabled")} {(isChecked ? "ms-Checkbox-checkbox-checked" : "ms-Checkbox-checkbox-unchecked")}")>
-            <i class=@($"ms-Checkbox-checkmark {(Disabled ? "ms-Checkbox-checkmark-disabled" : "")} {(isChecked ? "ms-Checkbox-checkmark-checked" : "")} ms-Icon ms-Icon--CheckMark ") aria-hidden="true"></i>
+        <div class=@($"ms-Checkbox-checkbox{(_reversed? " ms-Checkbox-checkbox-reversed":"")}{(Disabled ? " ms-Checkbox-checkbox-disabled" : " ms-Checkbox-checkbox-enabled")}{(_isChecked ? " ms-Checkbox-checkbox-checked" : " ms-Checkbox-checkbox-unchecked")}{(_indeterminate ? " ms-Checkbox-checkbox-indeterminate" : "")}")>
+            <i class=@($"ms-Checkbox-checkmark{(Disabled ? " ms-Checkbox-checkmark-disabled" : "")}{(_isChecked ? " ms-Checkbox-checkmark-checked" : "")} ms-Icon ms-Icon--CheckMark ") aria-hidden="true"></i>
         </div>
-        <span class=@($"ms-Checkbox-text ms-Checkbox-text {(Reversed ? "ms-Checkbox-text-reversed" : "")} {(Disabled ? "ms-Checkbox-text-disabled" : "")}")>@Label</span>
+        <span class=@($"ms-Checkbox-text{(_reversed ? " ms-Checkbox-text-reversed" : "")}{(Disabled ? " ms-Checkbox-text-disabled" : "")}")>@Label</span>
     </label>
 </div>
 @*)}
     </KeytipData>*@
-
-@*const { className, theme, reversed, checked, disabled, isUsingCustomLabelRender } = props;
-    const { semanticColors } = theme;
-    const checkmarkFontColor = semanticColors.inputForegroundChecked;
-    const checkmarkFontColorCheckedDisabled = semanticColors.disabledBackground;
-    const checkmarkFontColorHovered = semanticColors.inputBorder;
-    const checkboxBorderColor = semanticColors.smallInputBorder;
-    const checkboxBorderColorChecked = semanticColors.inputBackgroundChecked;
-    const checkboxBorderColorDisabled = semanticColors.disabledBodySubtext;
-    const checkboxBorderHoveredColor = semanticColors.inputBorderHovered;
-    const checkboxBackgroundChecked = semanticColors.inputBackgroundChecked;
-    const checkboxBackgroundCheckedHovered = semanticColors.inputBackgroundCheckedHovered;
-    const checkboxBorderColorCheckedHovered = semanticColors.inputBackgroundCheckedHovered;
-    const checkboxHoveredTextColor = semanticColors.bodyText;
-    const checkboxBackgroundDisabledChecked = semanticColors.disabledBodySubtext;
-    const checkboxTextColor = semanticColors.bodyText;
-    const checkboxTextColorDisabled = semanticColors.disabledText;*@

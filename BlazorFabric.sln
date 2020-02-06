@@ -120,7 +120,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Demo.ServerSid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.Demo.HostedClient.Server", "Demo\BlazorFabric.Demo.HostedClient\BlazorFabric.Demo.HostedClient.Server\BlazorFabric.Demo.HostedClient.Server.csproj", "{E660BF5C-F688-40CB-AAC0-1B4C0004D3ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.FabricTheme", "src\BlazorFabric.Theme\BlazorFabric.FabricTheme.csproj", "{9C060E23-B2BA-40D0-83E5-23CF07B22DFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.FabricTheme", "src\BlazorFabric.Theme\BlazorFabric.FabricTheme.csproj", "{9C060E23-B2BA-40D0-83E5-23CF07B22DFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

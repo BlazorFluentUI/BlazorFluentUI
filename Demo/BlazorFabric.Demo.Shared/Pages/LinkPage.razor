@@ -3,10 +3,6 @@
 <h1>Link</h1>
 
 <div>
-
-    <Toggle Checked=customTheme CheckedChanged="@SwitchTheme" OnText="TestTheme" OffText="DefaultTheme" />
-
-
     <p>
         When a link has an href, <Link Href="http://dev.office.com/fabric/components/link">it renders as an anchor tag.</Link> Without an
         href, <Link>the link is rendered as a button</Link>. You can also use the disabled attribute to create a
@@ -17,29 +13,6 @@
 </div>
 
 @code{
-    [Inject]
-    public ThemeProvider ThemeProvider { get; set; }
-
-    private bool customTheme;
-
-    protected override void OnInitialized()
-    {
-        customTheme = ThemeProvider.Theme.Palette.GetType() == typeof(TestPalette);
-        base.OnInitialized();
-    }
-
-    private Task SwitchTheme(bool checkedState)
-    {
-        customTheme = checkedState;
-        if (checkedState)
-        {
-            ThemeProvider.UpdateTheme(new TestPalette());
-        }
-        else
-        {
-            ThemeProvider.UpdateTheme(new DefaultPalette());
-        }
-        return Task.CompletedTask;
-    }
+    
 }
 

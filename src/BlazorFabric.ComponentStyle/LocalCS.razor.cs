@@ -10,13 +10,13 @@ namespace BlazorFabric
     public partial class LocalCS : ComponentBase, ILocalCSSheet
     {
         private string css;
-        private ICollection<DynamicRule> rules;
+        private ICollection<LocalRule> rules;
 
         [Inject]
         public IComponentStyle ComponentStyle { get; set; }
 
         [Parameter]
-        public ICollection<DynamicRule> Rules
+        public ICollection<LocalRule> Rules
         {
             get => rules;
             set
@@ -30,7 +30,7 @@ namespace BlazorFabric
             }
         }
 
-        [Parameter] public EventCallback<ICollection<DynamicRule>> RulesChanged { get; set; }
+        [Parameter] public EventCallback<ICollection<LocalRule>> RulesChanged { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -70,7 +70,7 @@ namespace BlazorFabric
             RulesChanged.InvokeAsync(rules);
         }
 
-        public string PrintRule(DynamicRule rule)
+        public string PrintRule(LocalRule rule)
         {
             var ruleAsString = "";
             ruleAsString += $"{rule.Selector.GetSelectorAsString()}{{";

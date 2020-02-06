@@ -1,6 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Rules="@LabelRules" />
+
 <label class="@($"ms-Label mediumFont {(Disabled ? "ms-Label--disabled" : "")} {(Required ? "ms-Label--required" : "")} {ClassName}")"
      style=@Style
        for=@HtmlFor

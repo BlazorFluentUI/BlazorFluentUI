@@ -36,7 +36,6 @@ namespace BlazorFabric
         protected override void OnParametersSet()
         {
             CreateCss();
-            StateHasChanged();
             base.OnParametersSet();
         }
 

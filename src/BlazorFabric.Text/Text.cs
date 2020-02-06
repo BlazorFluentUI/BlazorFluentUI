@@ -17,9 +17,8 @@ namespace BlazorFabric
         [Parameter] public IMsText CustomVariant { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        private MsText TextStyle;
-        private ICollection<DynamicRule> CssRules = new HashSet<DynamicRule>();
-        private DynamicRule msTextRule;
+        private ICollection<LocalRule> CssRules = new HashSet<LocalRule>();
+        private LocalRule msTextRule;
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
@@ -38,37 +37,39 @@ namespace BlazorFabric
 
         protected override void OnInitialized()
         {
-
-            CreateTextStyle();
-
-            msTextRule = new DynamicRule()
-            {
-                Selector = new ClassSelector() { SelectorName = "ms-text", UniqueName = true },
-                Properties = TextStyle
-            };
-            CssRules.Add(msTextRule);
-
+            CreateCss();
             base.OnInitialized();
-
         }
 
-        private void CreateTextStyle()
+        protected override void OnParametersSet()
         {
-            TextStyle = new MsText();
-            TextStyle.Display = Block ? (As == "td" ? "table-cell" : "block") : "inline";
-            TextStyle.Color = CustomVariant?.Color ?? "inherit";
-            TextStyle.WebkitFontSmoothing = CustomVariant?.WebkitFontSmoothing ?? "antialiased";
-            TextStyle.MozOsxFontSmoothing = CustomVariant?.MozOsxFontSmoothing ?? "grayscale";
-            TextStyle.FontFamily = CustomVariant?.FontFamily ?? "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif";
-            TextStyle.FontWeight = CustomVariant?.FontWeight ?? ((int)Variant > (int)TextType.Large ? Theme.FontStyle.FontWeight.SemiBold.ToString() : Theme.FontStyle.FontWeight.Regular.ToString());
-            TextStyle.FontSize = CustomVariant?.FontSize ?? (Variant == TextType.None ? "inherit" : TextSizeMapper.TextSizeMap[Variant]);
+            CreateCss();
+            base.OnParametersSet();
+        }
+
+        private void CreateCss()
+        {
+            CssRules.Clear();
+            CssRules.Add(new LocalRule() { Selector = new ClassSelector() { SelectorName = "ms-text", UniqueName = true }, Properties = CreateTextStyle() });
+        }
+
+        private MsText CreateTextStyle()
+        {
+            var textStyle = new MsText();
+            textStyle.Display = Block ? (As == "td" ? "table-cell" : "block") : "inline";
+            textStyle.Color = CustomVariant?.Color ?? "inherit";
+            textStyle.WebkitFontSmoothing = CustomVariant?.WebkitFontSmoothing ?? "antialiased";
+            textStyle.MozOsxFontSmoothing = CustomVariant?.MozOsxFontSmoothing ?? "grayscale";
+            textStyle.FontFamily = CustomVariant?.FontFamily ?? "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif";
+            textStyle.FontWeight = CustomVariant?.FontWeight ?? ((int)Variant > (int)TextType.Large ? Theme.FontStyle.FontWeight.SemiBold.ToString() : Theme.FontStyle.FontWeight.Regular.ToString());
+            textStyle.FontSize = CustomVariant?.FontSize ?? (Variant == TextType.None ? "inherit" : TextSizeMapper.TextSizeMap[Variant]);
             if (NoWrap)
             {
-                TextStyle.WhiteSpace = "nowrap";
-                TextStyle.Overflow = "hidden";
-                TextStyle.TextOverflow = "ellipsis";
+                textStyle.WhiteSpace = "nowrap";
+                textStyle.Overflow = "hidden";
+                textStyle.TextOverflow = "ellipsis";
             }
-
+            return textStyle;
         }
     }
 }

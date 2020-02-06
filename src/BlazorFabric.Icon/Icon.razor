@@ -1,10 +1,11 @@
 @namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Rules="@IconRules" />
 
 @if (IconType == IconType.Image)
 {
-    <div class=@($"ms-Icon ms-Icon-imageContainer {this.ClassName}") 
+    <div class=@($"ms-Icon ms-Icon-imageContainer {this.ClassName}")
          style=@Style
          @ref="RootElementReference"
          role="presentation">
@@ -13,9 +14,9 @@
 }
 else
 {
-    <i class=@($"ms-Icon {(string.IsNullOrEmpty(this.IconName) ? "ms-Icon-placeHolder" : "ms-Icon--" + this.IconName)} {this.ClassName}") 
-       role="presentation" 
-       style="@Style" 
+    <i class=@($"ms-Icon {(string.IsNullOrEmpty(this.IconName) ? "ms-Icon-placeHolder" : "ms-Icon--" + this.IconName)} {this.ClassName}")
+       role="presentation"
+       style="@Style"
        @ref="RootElementReference">
 
     </i>

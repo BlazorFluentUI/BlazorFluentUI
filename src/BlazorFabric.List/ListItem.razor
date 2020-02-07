@@ -6,7 +6,7 @@
      role="listitem"
      style=@GetListItemStyle()
      data-is-focusable=@(ItemFocusable ? "true" : "false")
-     class=@($"ms-List-cell {(IsActive ? "is-active" : "")}")
+     class=@($"{(UseDefaultStyling ? "ms-List-cell " : "")}{(IsActive ? "is-active" : "")}")
      @onclick="@(e=>OnItemClick(e))">
     @ChildContent
 </div>
@@ -20,7 +20,7 @@
     [Parameter] public bool IsActive { get; set; }
     [Parameter] public object Item { get; set; }
     [Parameter] public bool ItemFocusable { get; set; }
-
+    [Parameter] public bool UseDefaultStyling { get; set; }
 
     [Parameter]
     public EventCallback<object> ItemClicked { get; set; }
@@ -33,7 +33,7 @@
     protected string GetListItemStyle()
     {
         string style = "";
-        
+
         return style;
     }
 }

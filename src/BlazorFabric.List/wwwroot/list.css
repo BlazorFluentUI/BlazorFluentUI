@@ -1,8 +1,4 @@
-﻿/*
-    This file is to show how CSS and other static resources (such as images) can be
-    used from a library project/package.
-*/
-
+﻿
 /*.ms-List-root {
     height:100%;
     overflow-y: hidden;
@@ -18,28 +14,31 @@
     overflow-y:auto;
 }*/
 
-.ms-BasicList-cell {
-    padding: 10px;
+.ms-List-cell {
+    padding-top: 11px;
+    padding-bottom: 11px;
+    min-height: 42px;
+    min-width: 100%;
+    overflow: hidden;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--semanticColors-BodyDivider);
-    display: flex;
-
-    outline:transparent;
-    position:relative;
-
+    /*border-bottom: 1px solid var(--semanticColors-BodyDivider);*/
+    border-bottom: 1px solid var(--palette-NeutralLighter);
+    display: inline-flex;
+    outline: transparent;
+    position: relative;
 }
-    .ms-BasicList-cell:hover {
+    .ms-List-cell:hover {
         background-color: var(--palette-NeutralLighter);
     }
-    .ms-BasicList-cell.is-active {
+    .ms-List-cell.is-active {
         background-color: var(--palette-NeutralLight);
     }
 
-    .ms-BasicList-cell::-moz-focus-inner {
+    .ms-List-cell::-moz-focus-inner {
         border: 0;
     }
 
-.ms-Fabric--isFocusVisible .ms-BasicList-cell:focus::after {
+.ms-Fabric--isFocusVisible .ms-List-cell:focus::after {
     content: "";
     position: absolute;
     left: 1px;
@@ -52,7 +51,7 @@
 }
 
 @media screen and (-ms-high-contrast: active) {
-    .ms-Fabric--isFocusVisible .ms-BasicList-cell:focus::after {
+    .ms-Fabric--isFocusVisible .ms-List-cell:focus::after {
         left: -2px;
         top: -2px;
         bottom: -2px;

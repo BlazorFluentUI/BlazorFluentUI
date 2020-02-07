@@ -11,28 +11,23 @@
 <Stack Style="height:calc(100% - 20px);">
     <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
     <BlazorFabric.PrimaryButton Text="Add 2 items" OnClick="@ClickHandler3" />
-    <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
-    <BlazorFabric.PrimaryButton Text="Start with 5000 items" OnClick="@ClickHandler2" />
-
-    @*<div style="overflow-y:auto;" >
-            <div style="background: linear-gradient(to top, #013567 0%, #0195FA 100%);height:3000px;"></div>
-        </div>*@
-
+    <BlazorFabric.PrimaryButton Text="Add 10 items" OnClick="@ClickHandler" />
+    <BlazorFabric.PrimaryButton Text="Add 5000 items" OnClick="@ClickHandler2" />
 
     <BlazorFabric.List ItemsSource=@data
                        @ref="basicList1"
                        TItem="DataItem"
-                       ItemClicked=@((item)=> DebugText = item.DisplayName + " clicked")>
+                       ItemClicked=@((item)=> DebugText = item.Key + " clicked")>
         <ItemTemplate>
             <div style="display:flex; flex-direction:row; ">
-                <img height="50" width="50" src=@context.ImgUrl />
-                <em>This is item #@context.DisplayName.</em>
+                <img height="25" width="25" src=@context.ImgUrl />
+                <em>This is item #@context.Key.</em>
+                <span style="margin-left:10px;">@context.DisplayName</span>
             </div>
         </ItemTemplate>
     </BlazorFabric.List>
 </Stack> 
-        @*</div>
-    </div>*@
+
 @code {
     BlazorFabric.List<DataItem> basicList1;
     ElementReference scroller;
@@ -54,15 +49,15 @@
 
     Task ClickHandler2(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
-        var tempData = new System.Collections.Generic.List<DataItem>();
+        //var tempData = new System.Collections.Generic.List<DataItem>();
         System.Diagnostics.Debug.WriteLine("Clicked!");
         for (var i = 0; i < 5000; i++)
         {
             count++;
 
-            tempData.Add(new DataItem(count));
+            data.Add(new DataItem(count));
         }
-        data = new System.Collections.ObjectModel.ObservableCollection<DataItem>(tempData);
+        //data = new System.Collections.ObjectModel.ObservableCollection<DataItem>(tempData);
         System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
         return Task.CompletedTask;
     }

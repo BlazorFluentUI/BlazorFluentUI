@@ -15,7 +15,12 @@
         var index = StartIndex;
         foreach (var item in this.ItemsSource)
         {
-            <ListItem IndexPosition=@index Item=@item ItemClicked=@ItemClicked IsActive=@(this.SelectedItems.Contains(item)) ItemFocusable=@ItemFocusable>
+            <ListItem IndexPosition=@index 
+                      Item=@item 
+                      ItemClicked=@ItemClicked 
+                      IsActive=@(this.SelectedItems.Contains(item))
+                      ItemFocusable=@ItemFocusable
+                      UseDefaultStyling=@UseDefaultStyling>
                 @ItemTemplate(item)
             </ListItem>
             index++;
@@ -35,6 +40,7 @@
     [Parameter] public IEnumerable<TItem> SelectedItems { get; set; }
     [Parameter] public int StartIndex { get; set; }
     [Parameter] public bool ItemFocusable { get; set; }
+    [Parameter] public bool UseDefaultStyling { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

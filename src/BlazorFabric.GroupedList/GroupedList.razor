@@ -5,20 +5,21 @@
 @if (dataItems != null)
 {
     <List TItem="GroupedListItem<TItem>"
-            ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
-            ItemsSource=@dataItems
+          ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
+          ItemsSource=@dataItems
           SelectionMode=@SelectionMode
+          UseDefaultStyling="false"
                 >
         <ItemTemplate>
                 @if (context is HeaderItem<TItem>)
                 {
                     var header = (HeaderItem<TItem>)context;
-                    <GroupHeader @bind-IsOpen=@header.IsOpen Count=@header.Depth Name=@header.Name Compact=@Compact />
+                    <GroupHeader @key=@context.Key @bind-IsOpen=@header.IsOpen Count=@header.Depth Name=@header.Name Compact=@Compact />
                 }
                 else
                 {
                     //System.Diagnostics.Debug.WriteLine(context.Key);
-                    <div >
+                    <div @key=@context.Key>
                         @ItemTemplate(context)
                     </div>
                 }

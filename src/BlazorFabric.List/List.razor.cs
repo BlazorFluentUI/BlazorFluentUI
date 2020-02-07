@@ -46,16 +46,20 @@ namespace BlazorFabric
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
+        [Parameter] public object Data { get; set; }
         [Parameter] public Func<int, Rectangle, int> GetItemCountForPage { get; set; }
         [Parameter] public EventCallback<TItem> ItemClicked { get; set; }
+        [Parameter] public bool ItemFocusable { get; set; } = false;
         [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
         [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
-        [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
-        [Parameter] public object Data { get; set; }
-        [Parameter] public bool ItemFocusable { get; set; } = false;
-        [Parameter] public bool UseInternalScrolling { get; set; } = true;
         [Parameter] public EventCallback<(double, object)> OnListScrollerHeightChanged { get; set; }
+        [Parameter] public Selection<TItem> Selection { get; set; }
+        [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
+        [Parameter] public bool UseDefaultStyling { get; set; } = true;
 
+        //[Parameter] public bool UseInternalScrolling { get; set; } = true;
+        
+       
 
         private IEnumerable<TItem> _itemsSource;
 
@@ -134,7 +138,7 @@ namespace BlazorFabric
                     if (_shouldRender)
                     {
                         ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
-                        StateHasChanged();
+                        InvokeAsync(StateHasChanged);
                     }
 
                 }
@@ -256,7 +260,7 @@ namespace BlazorFabric
                   builder.AddAttribute(1, "Height", _averagePageHeight * startPage);
                   builder.CloseComponent();
 
-                  const int lineCount = 9;
+                  const int lineCount = 11;
                   var totalItemsRendered = 0;
                   for (var i = startPage; i <= endPage; i++)
                   {
@@ -281,7 +285,8 @@ namespace BlazorFabric
                       builder.AddAttribute(i * lineCount + 7, "ItemClicked", EventCallback.Factory.Create<object>(this, OnItemClick));
                       builder.AddAttribute(i * lineCount + 8, "SelectedItems", selectedItems);
                       builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode.None ? true : ItemFocusable);
-                      builder.AddComponentReferenceCapture(i * lineCount + 10, (comp) => renderedPages.Add((ListPage<TItem>)comp));
+                      builder.AddAttribute(i * lineCount + 10, "UseDefaultStyling", UseDefaultStyling);
+                      builder.AddComponentReferenceCapture(i * lineCount + 11, (comp) => renderedPages.Add((ListPage<TItem>)comp));
                       builder.CloseComponent();
                       //}
                   }

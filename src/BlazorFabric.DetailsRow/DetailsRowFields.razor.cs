@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
@@ -12,6 +13,15 @@ namespace BlazorFabric
 
         [Parameter]
         public int ItemIndex { get; set; }
+
+        [Parameter]
+        public double CellLeftPadding { get; set; } = 12;
+
+        [Parameter]
+        public double CellRightPadding { get; set; } = 8;
+
+        [Parameter]
+        public double CellExtraRightPadding { get; set; } = 24;
 
         [Parameter]
         public int ColumnStartIndex { get; set; }

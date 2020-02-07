@@ -40,11 +40,12 @@
     {
         var rect = await JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", RootElementReference);
 
-        this.Width = rect.width; // result["width"];
+        this.Width = rect.width;
 
         if (this.Height != rect.height)
         {
-            this.Height = rect.height;//,10); // result["height"];
+            System.Diagnostics.Debug.WriteLine($"Page height changed {StartIndex}, from {this.Height} to {rect.height}");
+            this.Height = rect.height;
 
             this.PageMeasureSubject.OnNext((this.StartIndex, this.Height));
         }

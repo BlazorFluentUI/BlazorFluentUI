@@ -7,16 +7,18 @@
     <List TItem="GroupedListItem<TItem>"
             ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
             ItemsSource=@dataItems
+          SelectionMode=@SelectionMode
                 >
         <ItemTemplate>
                 @if (context is HeaderItem<TItem>)
                 {
                     var header = (HeaderItem<TItem>)context;
-                    <GroupHeader @key=@(header.Depth + "-" + header.Index) @bind-IsOpen=@header.IsOpen Count=@header.Depth Name=@header.Name Compact=@Compact />
+                    <GroupHeader @bind-IsOpen=@header.IsOpen Count=@header.Depth Name=@header.Name Compact=@Compact />
                 }
                 else
                 {
-                    <div @key=@(context.Depth + "-" + context.Index)>
+                    //System.Diagnostics.Debug.WriteLine(context.Key);
+                    <div >
                         @ItemTemplate(context)
                     </div>
                 }

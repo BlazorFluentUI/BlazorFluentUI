@@ -42,9 +42,15 @@ namespace BlazorFabric
 
         public ElementReference RootElementReference;
 
+        static bool focusRectsInitialized = false;
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.initializeFocusRects");
+            if (!focusRectsInitialized)
+            {
+                focusRectsInitialized = true;
+                await JSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.initializeFocusRects");
+            }
             await base.OnAfterRenderAsync(firstRender);
         }
 

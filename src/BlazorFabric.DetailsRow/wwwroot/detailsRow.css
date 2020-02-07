@@ -25,3 +25,79 @@
     .ms-DetailsRow:hover .is-row-header{
         color:  var(--palette-NeutralDark);
     }
+    .ms-DetailsRow:hover .ms-DetailsRow-check{
+        opacity:1;
+    }
+
+.ms-DetailsRow-cellMeasurer{
+    overflow:visible;
+    white-space:nowrap;
+}
+
+.ms-DetailsRow-cell{
+    display:inline-block;
+    position:relative;
+    box-sizing:border-box;
+    min-height:42px;
+    vertical-align:top;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    padding-top:11px;
+    padding-bottom:11px;
+}
+.is-compact .ms-DetailsRow-cell {
+    min-height: 32px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.ms-DetailsRow-cell > button{
+    max-width:100%;
+}
+
+.ms-DetailsRow-checkCell{
+    padding:0;
+    padding-top:1px;
+    margin-top:-1px;
+    flex-shrink:0;
+}
+
+.ms-DetailsRow-checkCover{
+    position:absolute;
+    top:-1px;
+    left:0;
+    bottom:0;
+    right:0;
+    display: none;
+}
+.any-selected .ms-DetailsRow-checkCover{
+    display:block;
+}
+
+.ms-DetailsRow-fields{
+    display:flex;
+    align-items:stretch;
+}
+
+.ms-DetailsRow.is-row-header{
+    color: var(--palette-NeutralPrimary);
+    font-size: var(--fontSize-Medium);
+}
+
+.ms-DetailsRow.is-selected{
+    color: var(--palette-NeutralDark);
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-DetailsRow.is-selected {
+        color: Highlight;
+    }
+}
+
+.ms-DetailsRow.is-multiline{
+    white-space:normal;
+    word-break:break-word;
+    text-overflow:clip;
+}
+

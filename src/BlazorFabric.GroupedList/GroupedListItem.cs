@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
@@ -50,6 +51,16 @@ namespace BlazorFabric
         public string Name { get; set; }
         public int Index { get; set; }
         public int Depth { get; set; }
+        public string Key => GetGroupItemKey(this);
+
+        private static string GetGroupItemKey(GroupedListItem<TItem> groupedListItem)
+        {
+            string key = "";
+            if (groupedListItem.Parent != null)
+                key = GetGroupItemKey(groupedListItem.Parent) + "-";
+            key += groupedListItem.Index;
+            return key;
+        }
 
         public HeaderItem<TItem> Parent { get; set; }
                 
@@ -63,6 +74,7 @@ namespace BlazorFabric
 
             Parent?.IsOpenObservable.CombineLatest(Parent.IsVisibleObservable, (open, visible) => !visible ? false : (open ? true : false)).Subscribe(shouldBeVisible =>
             {
+                Debug.WriteLine($"Setting item {index} to be visible: {shouldBeVisible}");
                 IsVisible = shouldBeVisible;
             });
         }

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Web;
+using System.Reactive;
 
 namespace BlazorFabric
 {
@@ -61,8 +62,10 @@ namespace BlazorFabric
         protected RenderFragment ItemPagesRender { get; set; }
 
         private ISubject<(int index, double height)> pageMeasureSubject = new Subject<(int index, double height)>();
-
         private IDisposable _heightSub;
+
+        private ISubject<Unit> _scrollSubject = new Subject<Unit>();
+        private IDisposable _scrollSubscription;
 
         private System.Collections.Generic.List<ListPage<TItem>> renderedPages = new System.Collections.Generic.List<ListPage<TItem>>();
 
@@ -70,11 +73,116 @@ namespace BlazorFabric
         private string _resizeRegistration;
 
         private Dictionary<int, double> _pageSizes = new Dictionary<int, double>();
-        private bool _needsRemeasure;
+        private bool _needsRemeasure = true;
 
         protected override Task OnInitializedAsync()
         {
-            ItemPagesRender = RenderPages(0, 0);
+            _heightSub = pageMeasureSubject.Subscribe(x =>
+            {
+                if (isFirstRender && x.index == 0)
+                {
+                    _averagePageHeight = x.height;
+
+                    _pageSizes.Add(x.index, x.height);
+                    var aheadSpace = surfaceRect.height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
+                    minRenderedPage = 0;
+                    if (_averagePageHeight != 0)
+                        maxRenderedPage = (int)Math.Ceiling(aheadSpace / _averagePageHeight);
+
+                    isFirstRender = false;
+                    _shouldRender = true;
+                    ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
+                    this.StateHasChanged();
+                }
+                else if (!isFirstRender)
+                {
+                    if (_pageSizes.ContainsKey(x.index))
+                    {
+                        if (_pageSizes[x.index] != x.height)
+                        {
+                            _pageSizes[x.index] = x.height;
+                            _shouldRender = true;
+                        }
+                    }
+                    else
+                    {
+                        _pageSizes.Add(x.index, x.height);
+                    }
+
+                    if (_pageSizes.Count > 1 && ((_pageSizes.Take(_pageSizes.Count - 1).Select(x => x.Value).Average() - _averagePageHeight) / _averagePageHeight > thresholdChangePercent))
+                    {
+                        _averagePageHeight = _pageSizes.Take(_pageSizes.Count - 1).Select(x => x.Value).Average();
+                        _shouldRender = true;
+                    }
+                    else
+                    {
+                        double averagePageHeight = 0;
+                        if (_pageSizes.Count > 1)
+                            averagePageHeight = _pageSizes.Take(_pageSizes.Count - 1).Select(x => x.Value).Average();
+                        else if (_pageSizes.Count == 1)
+                            averagePageHeight = _pageSizes.Select(x => x.Value).First();
+                        else
+                            averagePageHeight = 0;
+
+                        if (averagePageHeight != _averagePageHeight)
+                        {
+                            _averagePageHeight = averagePageHeight;
+                            _shouldRender = true;
+                        }
+                    }
+
+                    if (_shouldRender)
+                    {
+                        ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
+                        StateHasChanged();
+                    }
+
+                }
+            });
+
+            _scrollSubscription = _scrollSubject.SampleFirst(TimeSpan.FromMilliseconds(100))
+                   .Do(async _ =>
+                   {
+                       await InvokeAsync(async () =>
+                       {
+                           try
+                           {
+                               _scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureScrollWindow", this.surfaceDiv);
+
+                               var rearSpace = _height * DEFAULT_RENDERED_WINDOWS_BEHIND;
+                               var aheadSpace = _height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
+                               int totalPages = 0;
+                               if (GetItemCountForPage != null)
+                                   totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)GetItemCountForPage(0, null));
+                               else
+                                   totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)DEFAULT_ITEMS_PER_PAGE);
+                               var currentPage = (int)Math.Floor(_scrollRect.top / _averagePageHeight);
+
+                               var minPage = Math.Max(0, (int)Math.Ceiling((_scrollRect.top - rearSpace) / _averagePageHeight) - 1);
+
+                               var maxPage = Math.Min(Math.Max(totalPages - 1, 0), Math.Max((int)Math.Ceiling((_scrollRect.top + aheadSpace) / _averagePageHeight) - 1, 0));
+
+                               if (minRenderedPage != minPage || maxRenderedPage != maxPage)
+                               {
+                                   minRenderedPage = minPage;
+                                   maxRenderedPage = maxPage;
+
+                                   _shouldRender = true;
+                                   Debug.WriteLine($"Scroll causing pages {minPage} to {maxPage} to rerender.");
+                                   ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
+                                   StateHasChanged();
+                               }
+                           }
+                           catch (Exception ex)
+                           {
+                               Debug.WriteLine(ex.ToString());
+                           }
+                       });
+                   })
+                   .Subscribe();
+
+
+
             return base.OnInitializedAsync();
         }
 
@@ -117,17 +225,20 @@ namespace BlazorFabric
 
         protected override bool ShouldRender()
         {
+
             if (_shouldRender)
             {
+                //Debug.WriteLine("LIST RERENDERING");
                 _shouldRender = false;
                 return true;
             }
+            //Debug.WriteLine("list wants to rerender... but can't");
             return false;
         }
 
-        public void TriggerRemeasure()
+        public async void TriggerRemeasure()
         {
-            MeasureContainerAsync();
+            await MeasureContainerAsync();
         }
 
         private RenderFragment RenderPages(int startPage, int endPage, double leadingPadding = 0) => builder =>
@@ -232,77 +343,21 @@ namespace BlazorFabric
             if (firstRender)
             {
                 _resizeRegistration = await JSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHandler");
-                
+
+
                 await MeasureContainerAsync();
 
-                _heightSub = pageMeasureSubject.Subscribe(x =>
-                {
-                    if (isFirstRender && x.index == 0)
-                    {
-                        _averagePageHeight = x.height;
 
-                        _pageSizes.Add(x.index, x.height);
-                        var aheadSpace = surfaceRect.height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
-                        minRenderedPage = 0;
-                        if (_averagePageHeight != 0)
-                            maxRenderedPage = (int)Math.Ceiling(aheadSpace / _averagePageHeight);
-
-                        isFirstRender = false;
-                        _shouldRender = true;
-                        ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
-                        this.StateHasChanged();
-                    }
-                    else if (!isFirstRender)
-                    {
-                        if (_pageSizes.ContainsKey(x.index))
-                        {
-                            if (_pageSizes[x.index] != x.height)
-                            {
-                                _pageSizes[x.index] = x.height;
-                                _shouldRender = true;
-                            }
-                        }
-                        else
-                        {
-                            _pageSizes.Add(x.index, x.height);
-                        }
-
-                        if (_pageSizes.Count > 1 && ((_pageSizes.Take(_pageSizes.Count - 1).Select(x => x.Value).Average() - _averagePageHeight) / _averagePageHeight > thresholdChangePercent))
-                        {
-                            _averagePageHeight = _pageSizes.Take(_pageSizes.Count - 1).Select(x => x.Value).Average();
-                            _shouldRender = true;
-                        }
-                        else
-                        {
-                            double averagePageHeight = 0;
-                            if (_pageSizes.Count > 1)
-                                averagePageHeight = _pageSizes.Take(_pageSizes.Count - 1).Select(x => x.Value).Average();
-                            else if (_pageSizes.Count == 1)
-                                averagePageHeight = _pageSizes.Select(x => x.Value).First();
-                            else
-                                averagePageHeight = 0;
-
-                            if (averagePageHeight != _averagePageHeight)
-                            {
-                                _averagePageHeight = averagePageHeight;
-                                _shouldRender = true;
-                            }
-                        }
+                //if (_needsRemeasure)
+                //{
+                //    //_shouldRender = true; //probably because the component rendered before all of the registrations could be made, need to force a re-render
+                //    await MeasureContainerAsync();
+                //}
+                ItemPagesRender = RenderPages(0, 0);
 
 
-                        if (_shouldRender)
-                        {
-                                //if (_averagePageHeight != 0)
-                                //    maxRenderedPage = (int)Math.Ceiling(aheadSpace / _averagePageHeight);
-                                ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
-                            StateHasChanged();
-                        }
-
-                    }
-                });
-
-                
-                //await MeasureContainerAsync();
+                _shouldRender = true;
+                StateHasChanged();
             }
 
             if (_needsRemeasure)
@@ -355,40 +410,9 @@ namespace BlazorFabric
         }
 
 
-        public async Task OnScroll(EventArgs args)
+        public void OnScroll(EventArgs args)
         {
-            try
-            {
-                _scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureScrollWindow", this.surfaceDiv);
-
-                var rearSpace = _height * DEFAULT_RENDERED_WINDOWS_BEHIND;
-                var aheadSpace = _height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
-                int totalPages = 0;
-                if (GetItemCountForPage != null)
-                    totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)GetItemCountForPage(0,null));
-                else
-                    totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)DEFAULT_ITEMS_PER_PAGE);
-                var currentPage = (int)Math.Floor(_scrollRect.top / _averagePageHeight);
-
-
-                var minPage = Math.Max(0, (int)Math.Ceiling((_scrollRect.top - rearSpace) / _averagePageHeight) - 1);
-
-                var maxPage = Math.Min(Math.Max(totalPages - 1, 0), Math.Max((int)Math.Ceiling((_scrollRect.top + aheadSpace) / _averagePageHeight) - 1, 0));
-
-                if (minRenderedPage != minPage || maxRenderedPage != maxPage)
-                {
-                    minRenderedPage = minPage;
-                    maxRenderedPage = maxPage;
-                                        
-                    _shouldRender = true;
-                    Debug.WriteLine($"Scroll causing pages {minPage} to {maxPage} to rerender.");
-                    ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
+            _scrollSubject.OnNext(Unit.Default);
 
         }
 
@@ -397,6 +421,7 @@ namespace BlazorFabric
             //if (OnListScrollerHeightChanged.HasDelegate)
             //    await OnListScrollerHeightChanged.InvokeAsync((0, Data));
             _heightSub?.Dispose();
+            _scrollSubscription?.Dispose();
 
             if (_itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
             {

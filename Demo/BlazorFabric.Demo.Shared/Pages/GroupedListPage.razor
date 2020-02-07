@@ -14,14 +14,17 @@
                                   OnShouldVirtualize=@(()=> false)
                                   TItem="GroupedDataItem"
                                   GroupTitleSelector=@(x=>x.DisplayName)
-                                  SubGroupSelector=@(x=>x.Data)>
+                                  SubGroupSelector=@(x=>x.Data)
+                                  SelectionMode=@SelectionMode.Multiple>
             <ItemTemplate>
                 @{
                     var d = context;
                     <DetailsRow Item=@context.Item
                                 Columns=@columns
                                 Compact=@isCompact
-                                GroupNestingDepth=@context.Depth />
+                                GroupNestingDepth=@context.Depth
+                                SelectionMode=@SelectionMode.Multiple
+                                />
                     @*<div style="display:flex;flex-direction:row;">
                         <GroupSpacer Count=@context.Depth />
                         <div style="flex-grow:1;">
@@ -85,7 +88,9 @@
     protected override Task OnInitializedAsync()
     {
         columns = new System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>>();
+        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Key, Name = "Key" });
         columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.DisplayName, Name = "Name" });
+        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Description, Name = "Description" });
 
         data = new System.Collections.Generic.List<DataItem>();
 
@@ -104,7 +109,7 @@
 
         groupedData = data.GroupBy(x =>
         {
-            var number = int.Parse(x.DisplayName);
+            var number = int.Parse(x.Key);
             int group = (number - 1) / 10;
             return group;
         }).Select(x =>
@@ -112,7 +117,7 @@
             var subGroup = new GroupedDataItem(x);
             subGroup.Data = subGroup.Data.GroupBy(y =>
             {
-                var number = int.Parse(y.DisplayName);
+                var number = int.Parse(y.Key);
                 int group = (number - 1) / 5;
                 return group;
             }).Select(y =>

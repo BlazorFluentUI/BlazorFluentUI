@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
@@ -61,5 +62,12 @@ namespace BlazorFabric
 
         bool showCheckbox;
         bool columnMeasureInfo = true;
+
+        protected override Task OnParametersSetAsync()
+        {
+            showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
+
+            return base.OnParametersSetAsync();
+        }
     }
 }

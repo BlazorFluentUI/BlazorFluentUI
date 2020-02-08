@@ -6,22 +6,39 @@ namespace BlazorFabric
 {
     internal class TextSizeMapper
     {
-        public static Dictionary<TextType, string> TextSizeMap = new Dictionary<TextType, string>
+        public static string TextSizeMappper(TextType textType, ITheme theme)
         {
-            [TextType.None] = "",
-            [TextType.Tiny] = "10px",
-            [TextType.XSmall] = "10px",
-            [TextType.Small] = "12px",
-            [TextType.SmallPlus] = "12px",
-            [TextType.Medium] = "14px",
-            [TextType.MediumPlus] = "16px",
-            [TextType.Large] = "18px",
-            [TextType.XLarge] = "20px",
-            [TextType.XLargePlus] = "24px",
-            [TextType.XxLarge] = "28px",
-            [TextType.XxLargePlus] = "32px",
-            [TextType.SuperLarge] = "42px",
-            [TextType.Mega] = "68px"
-        };
+            switch (textType)
+            {
+                case TextType.Tiny:
+                    return theme.FontStyle.FontSize.Tiny;
+                case TextType.XSmall:
+                    return theme.FontStyle.FontSize.XSmall;
+                case TextType.Small:
+                    return theme.FontStyle.FontSize.Small;
+                case TextType.SmallPlus:
+                    return theme.FontStyle.FontSize.SmallPlus;
+                case TextType.Medium:
+                    return theme.FontStyle.FontSize.Medium;
+                case TextType.MediumPlus:
+                    return theme.FontStyle.FontSize.MediumPlus;
+                case TextType.Large:
+                    return theme.FontStyle.FontSize.Large;
+                case TextType.XLarge:
+                    return theme.FontStyle.FontSize.XLarge;
+                case TextType.XLargePlus:
+                    return theme.FontStyle.FontSize.XLargePlus;
+                case TextType.XxLarge:
+                    return theme.FontStyle.FontSize.XxLarge;
+                case TextType.XxLargePlus:
+                    return theme.FontStyle.FontSize.XxLargePlus;
+                case TextType.SuperLarge:
+                    return theme.FontStyle.FontSize.SuperLarge;
+                case TextType.Mega:
+                    return theme.FontStyle.FontSize.Mega;
+                default:
+                    return "inherit";
+            }
+        }
     }
 }

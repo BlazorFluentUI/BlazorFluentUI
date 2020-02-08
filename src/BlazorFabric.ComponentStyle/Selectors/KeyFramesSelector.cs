@@ -4,9 +4,8 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public class KeyFramesSelector : IUniqueSelector
+    public class KeyFramesSelector : ISelector
     {
-        public bool UniqueName { get; set; }
         public string SelectorName { get; set; }
 
         public string GetSelectorAsString()

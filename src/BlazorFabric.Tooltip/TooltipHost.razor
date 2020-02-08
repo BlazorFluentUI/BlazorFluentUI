@@ -1,6 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Rules="@TooltipHostRules" />
+
 
 <div class=@($"ms-TooltipHost {ClassName}")
      style=@Style
@@ -18,8 +20,7 @@
         <Tooltip DirectionalHint=@DirectionalHint
                  FabricComponentTarget=@TargetElement
                  OnMouseLeave=@OnTooltipMouseEnter
-                 OnMouseEnter=@OnTooltipMouseLeave
-                 >
+                 OnMouseEnter=@OnTooltipMouseLeave>
             @TooltipContent
         </Tooltip>
     }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
@@ -27,8 +26,12 @@ namespace BlazorFabric
 
         protected FocusZone focusZoneComponent;
 
+        private ICollection<Rule> OverflowSetRules { get; set; } = new List<Rule>();
+
+
         protected override Task OnParametersSetAsync()
         {
+            CreateCss();
             //if (Items != null)
             //{
             //    var e = Items.GetEnumerator();
@@ -46,5 +49,45 @@ namespace BlazorFabric
             return base.OnParametersSetAsync();
         }
 
+        private void CreateCss()
+        {
+            OverflowSetRules.Clear();
+            OverflowSetRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet" },
+                Properties = new CssString()
+                {
+                    Css = $"position:relative;" +
+                            $"display:flex;" +
+                            $"flex-wrap:nowrap;"
+                }
+            });
+            OverflowSetRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet--vertical" },
+                Properties = new CssString()
+                {
+                    Css = $"flex-direction:column;"
+                }
+            });
+            OverflowSetRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet-item" },
+                Properties = new CssString()
+                {
+                    Css = $"flex-shrink:0;" +
+                            $"display:inherit;"
+                }
+            });
+            OverflowSetRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet-overflowButton" },
+                Properties = new CssString()
+                {
+                    Css = $"flex-shrink:0;" +
+                            $"display:inherit;"
+                }
+            });
+        }
     }
 }

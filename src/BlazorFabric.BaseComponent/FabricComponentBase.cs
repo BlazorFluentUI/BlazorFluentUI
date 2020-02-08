@@ -56,12 +56,6 @@ namespace BlazorFabric
             base.BuildRenderTree(builder);
         }
 
-        protected override void OnInitialized()
-        {
-            CreateCss();
-            base.OnInitialized();
-        }
-
         protected override void OnParametersSet()
         {
             CreateCss();

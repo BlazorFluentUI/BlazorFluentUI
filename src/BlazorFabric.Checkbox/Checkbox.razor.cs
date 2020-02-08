@@ -99,7 +99,6 @@ namespace BlazorFabric
                 _indeterminate = Indeterminate.Value;
             }
             _reversed = BoxSide == BoxSide.End;
-            CreateCss();
             base.OnInitialized();
         }
 

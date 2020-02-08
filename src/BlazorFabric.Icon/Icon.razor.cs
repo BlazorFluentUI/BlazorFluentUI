@@ -14,10 +14,10 @@ namespace BlazorFabric
 
         private ICollection<Rule> IconRules { get; set; } = new List<Rule>();
 
-        protected override void OnInitialized()
+        protected override void OnParametersSet()
         {
             CreateCss();
-            base.OnInitialized();
+            base.OnParametersSet();
         }
 
         private void CreateCss()

@@ -24,12 +24,6 @@ namespace BlazorFabric
 
         private ICollection<Rule> LinkRules { get; set; } = new List<Rule>();
 
-        protected override void OnInitialized()
-        {
-            CreateCss();
-            base.OnInitialized();
-        }
-
         protected override void OnParametersSet()
         {
             CreateCss();

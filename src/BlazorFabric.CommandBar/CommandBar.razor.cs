@@ -30,7 +30,6 @@ namespace BlazorFabric
 
         protected override Task OnInitializedAsync()
         {
-            CreateCss();
             onReduceData = (data) =>
             {
                 if (data.PrimaryItems.Count > 0)

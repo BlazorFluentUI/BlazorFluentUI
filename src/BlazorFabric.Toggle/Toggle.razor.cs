@@ -61,7 +61,6 @@ namespace BlazorFabric
 
         protected override void OnInitialized()
         {
-            CreateCss();
             IsChecked = this.Checked ?? this.DefaultChecked;
             base.OnInitialized();
         }

@@ -16,6 +16,7 @@ namespace BlazorFabric.BaseComponent.FocusStyle
         public string Position = "relative";
         public string HighContrastStyle;
         public string BorderColor;
+        public string BorderRadius = "var(--effects-RoundedCorner2)";
         public string OutlineColor;
         public bool IsFocusedOnly = true;
     }

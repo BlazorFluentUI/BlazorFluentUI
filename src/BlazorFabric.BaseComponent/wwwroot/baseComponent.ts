@@ -106,6 +106,42 @@
         return element.scrollHeight;
     }
 
+    export function findScrollableParent(startingElement: HTMLElement | null): HTMLElement | null {
+        let el: HTMLElement | null = startingElement;
+
+        // First do a quick scan for the scrollable attribute.
+        while (el && el !== document.body) {
+            if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) === 'true') {
+                return el;
+            }
+            el = el.parentElement;
+        }
+
+        // If we haven't found it, then use the slower method: compute styles to evaluate if overflow is set.
+        el = startingElement;
+
+        while (el && el !== document.body) {
+            if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) !== 'false') {
+                const computedStyles = getComputedStyle(el);
+                let overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
+
+                if (overflowY && (overflowY === 'scroll' || overflowY === 'auto')) {
+                    return el;
+                }
+            }
+
+            el = el.parentElement;
+        }
+
+        // Fall back to window scroll.
+        if (!el || el === document.body) {
+            // tslint:disable-next-line:no-any
+            el = window as any;
+        }
+
+        return el;
+    }
+
 
     export function measureElement(element: HTMLElement): IRectangle {
         var rect: IRectangle = {
@@ -725,7 +761,7 @@
     }
 
 
-    function debounce<T extends Function>(
+    export function debounce<T extends Function>(
         func: T,
         wait?: number,
         options?: {

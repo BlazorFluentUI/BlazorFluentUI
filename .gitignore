@@ -360,3 +360,4 @@ healthchecksdb
 /NugetKey.txt
 /nugetInfo.txt
 /src/BlazorFabric.RichTextEditor/src/quill-1.3.7
+/BlazorFabric.DetailsRow

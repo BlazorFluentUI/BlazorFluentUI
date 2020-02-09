@@ -15,7 +15,12 @@
         var index = StartIndex;
         foreach (var item in this.ItemsSource)
         {
-            <ListItem IndexPosition=@index Item=@item ItemClicked=@ItemClicked IsActive=@(this.SelectedItems.Contains(item)) ItemFocusable=@ItemFocusable>
+            <ListItem IndexPosition=@index 
+                      Item=@item 
+                      ItemClicked=@ItemClicked 
+                      IsSelected=@(this.SelectedItems != null ? this.SelectedItems.Contains(item) : false)
+                      ItemFocusable=@ItemFocusable
+                      UseDefaultStyling=@UseDefaultStyling>
                 @ItemTemplate(item)
             </ListItem>
             index++;
@@ -28,21 +33,29 @@
     public double Height { get; set; }
 
 
-    [Parameter] public Func<object, MouseEventArgs, Task> ItemClicked { get; set; }
+    [Parameter] public EventCallback<object> ItemClicked { get; set; }
     [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
     [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
     [Parameter] public ISubject<(int index, double height)> PageMeasureSubject { get; set; }
     [Parameter] public IEnumerable<TItem> SelectedItems { get; set; }
     [Parameter] public int StartIndex { get; set; }
     [Parameter] public bool ItemFocusable { get; set; }
+    [Parameter] public bool UseDefaultStyling { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var rect = await JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", RootElementReference);
-        this.Width = rect.width; // result["width"];
-        this.Height = rect.height;//,10); // result["height"];
 
-        this.PageMeasureSubject.OnNext((this.StartIndex, this.Height));
+        this.Width = rect.width;
+
+        if (this.Height != rect.height)
+        {
+            System.Diagnostics.Debug.WriteLine($"Page height changed {StartIndex}, from {this.Height} to {rect.height}");
+            this.Height = rect.height;
+
+            this.PageMeasureSubject.OnNext((this.StartIndex, this.Height));
+        }
+
         await base.OnAfterRenderAsync(firstRender);
     }
 }

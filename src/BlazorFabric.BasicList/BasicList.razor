@@ -1,0 +1,43 @@
+﻿@namespace BlazorFabric
+@inherits FabricComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+@typeparam TItem
+
+<div @ref="RootElementReference" class=@($"ms-List mediumFont {ClassName}") role="list" style=@Style>
+    <div @ref="surfaceDiv" class="ms-List-surface" role="presentation">
+        @if (_pages != null)
+        {
+            @for (var i = 0; i < _pages.Count(); i++)
+            {
+                var page = _pages.ElementAt(i);
+                <div class="ms-List-page"
+                     @ref=@_listItemReferences[page.Key]
+                     @key=@(page.Key)
+                     role="presentation"
+                     style=@(page.Items != null ? "" : $"height:{page.Height}px;")>
+                    @for (var j = 0; j < page.ItemCount; j++)
+                    {
+                        @if (page.Items != null)
+                        {
+                            var index = page.StartIndex + j;
+                            var item = page.Items.ElementAt(j);
+                            <div role="listitem"
+                                 class="ms-List-cell"
+                                 @key=@index
+                                 data-list-index=@index
+                                 data-automationid="ListCell">
+                                @ItemTemplate(item)
+                            </div>
+                        }
+                    }
+                </div>
+
+            }
+        }
+    </div>
+    @*@if (_materializedRect != null)
+        {
+            <div style=@($"background-color:red;opacity:0.3;position:relative;top:{_materializedRect.top}px;height:{_materializedRect.height}px;bottom:{_materializedRect.bottom}px; width:{_materializedRect.width}px;") />
+        }*@
+</div>

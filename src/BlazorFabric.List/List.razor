@@ -4,11 +4,18 @@
 
 @typeparam TItem
 
-<div class=@($"ms-List-root mediumFont {ClassName}") role="presentation" @ref="RootElementReference"
-     style=@Style >
-    <div @ref="rootDiv"  class="ms-List" role="list">
-        <div @ref="surfaceDiv" @onscroll=@OnScroll class="ms-List-surface" role="presentation" style="overflow-y:auto;">
+<div class=@($"ms-List mediumFont {ClassName}") role="list" @ref="RootElementReference"
+        style=@($"{Style}overflow-y:hidden;height:100%;")> @*{(UseInternalScrolling ? "overflow-y:hidden;height:100%;" : "")}*@
+    @*@if (UseInternalScrolling)*@
+    @*{*@
+        <div @ref="surfaceDiv" @onscroll=@OnScroll class="ms-List-surface" role="presentation" style="overflow-y:auto;height:100%;">
             @ItemPagesRender
         </div>
-    </div>
+    @*}*@
+    @*else
+    {
+        <div @ref="surfaceDiv" class="ms-List-surface" role="presentation" style="overflow-y:auto;height:100%;">
+            @ItemPagesRender
+        </div>
+    }*@
 </div>

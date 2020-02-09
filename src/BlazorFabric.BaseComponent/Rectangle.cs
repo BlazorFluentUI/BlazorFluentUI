@@ -4,16 +4,28 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public class Rectangle
+    public class ManualRectangle
     {
-        public double top {get;set;}
+        public double top { get; set; }
         public double left { get; set; }
-        //public double width { get; set; }
-        //public double height { get; set; }
-        public double width { get { return right - left; } set { right = left + value; } }
-        public double height { get { return bottom - top; } set { bottom = top + value; } }
+        virtual public double width { get; set; }
+        virtual public double height { get; set; }
         public double right { get; set; }
         public double bottom { get; set; }
+
+        public static ManualRectangle EmptyRect()
+        {
+            var rect = new ManualRectangle { left = -1, right = -1, top = -1, bottom = -1, height = 0, width = 0 };
+            return rect;
+        }
+    }
+    
+    public class Rectangle : ManualRectangle
+    {
+        //public double width { get; set; }
+        //public double height { get; set; }
+        public override double width { get { return right - left; } set { right = left + value; } }
+        public override double height { get { return bottom - top; } set { bottom = top + value; } }
 
         public Rectangle() { }
 
@@ -26,6 +38,8 @@ namespace BlazorFabric
             //this.right = left + width;
             //this.bottom = top + height;
         }
+
+        
     }
 
     public class PartialRectangle

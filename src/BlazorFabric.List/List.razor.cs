@@ -12,6 +12,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Web;
+using System.Reactive;
+using DynamicData;
+using System.Collections.ObjectModel;
+using DynamicData.Binding;
+using System.Collections.Specialized;
 
 namespace BlazorFabric
 {
@@ -28,115 +33,311 @@ namespace BlazorFabric
         protected ElementReference rootDiv;
         protected ElementReference surfaceDiv;
 
-        private double averagePageHeight = 100;
+        private double _averagePageHeight = 100;
         private bool isFirstRender = true;
-        private bool shouldRender = false;
+        private bool _shouldRender = false;
 
         private int minRenderedPage;
         private int maxRenderedPage;
-
+        private JSRect _scrollRect;
+        private double _scrollHeight;
+        private Rectangle surfaceRect;
         private double _height;
+        public double CurrentHeight => _height;
+        private bool _jsAvailable = false;
+
+        //private object _lastVersion = null;
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
-        [Parameter] public Func<TItem, MouseEventArgs, Task> ItemClicked { get; set; }
+        [Parameter] public object Data { get; set; }
+        [Parameter] public Func<int, Rectangle, int> GetItemCountForPage { get; set; }
+        [Parameter] public EventCallback<TItem> ItemClicked { get; set; }
+        [Parameter] public bool ItemFocusable { get; set; } = false;
         [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
         [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
+        [Parameter] public EventCallback<(double, object)> OnListScrollerHeightChanged { get; set; }
+        [Parameter] public Selection<TItem> Selection { get; set; }
+        [Parameter] public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
         [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
-        [Parameter] public bool ItemFocusable { get; set; } = false;
+        [Parameter] public bool UseDefaultStyling { get; set; } = true;
+
+        //[Parameter] public bool UseInternalScrolling { get; set; } = true;
+        
+       
 
         private IEnumerable<TItem> _itemsSource;
 
         protected RenderFragment ItemPagesRender { get; set; }
 
         private ISubject<(int index, double height)> pageMeasureSubject = new Subject<(int index, double height)>();
+        private IDisposable _heightSub;
 
-        private IDisposable heightSub;
+        private ISubject<Unit> _scrollSubject = new Subject<Unit>();
+        private IDisposable _scrollSubscription;
 
         private System.Collections.Generic.List<ListPage<TItem>> renderedPages = new System.Collections.Generic.List<ListPage<TItem>>();
 
         private System.Collections.Generic.List<TItem> selectedItems = new System.Collections.Generic.List<TItem>();
         private string _resizeRegistration;
 
+        private Dictionary<int, double> _pageSizes = new Dictionary<int, double>();
+        private bool _needsRemeasure = true;
+        private IDisposable _updatesSubscription;
+
         protected override Task OnInitializedAsync()
         {
-            ItemPagesRender = RenderPages(0, 0);
+            _heightSub = pageMeasureSubject.Subscribe(x =>
+            {
+                if (isFirstRender && x.index == 0)
+                {
+                    _averagePageHeight = x.height;
+
+                    _pageSizes.Add(x.index, x.height);
+                    var aheadSpace = surfaceRect.height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
+                    minRenderedPage = 0;
+                    if (_averagePageHeight != 0)
+                        maxRenderedPage = (int)Math.Ceiling(aheadSpace / _averagePageHeight);
+
+                    isFirstRender = false;
+                    _shouldRender = true;
+                    ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
+                    this.StateHasChanged();
+                }
+                else if (!isFirstRender)
+                {
+                    if (_pageSizes.ContainsKey(x.index))
+                    {
+                        if (_pageSizes[x.index] != x.height)
+                        {
+                            _pageSizes[x.index] = x.height;
+                            _shouldRender = true;
+                        }
+                    }
+                    else
+                    {
+                        _pageSizes.Add(x.index, x.height);
+                    }
+
+                    if (_pageSizes.Count > 1 && ((_pageSizes.Take(_pageSizes.Count - 1).Select(x => x.Value).Average() - _averagePageHeight) / _averagePageHeight > thresholdChangePercent))
+                    {
+                        _averagePageHeight = _pageSizes.Take(_pageSizes.Count - 1).Select(x => x.Value).Average();
+                        _shouldRender = true;
+                    }
+                    else
+                    {
+                        double averagePageHeight = 0;
+                        if (_pageSizes.Count > 1)
+                            averagePageHeight = _pageSizes.Take(_pageSizes.Count - 1).Select(x => x.Value).Average();
+                        else if (_pageSizes.Count == 1)
+                            averagePageHeight = _pageSizes.Select(x => x.Value).First();
+                        else
+                            averagePageHeight = 0;
+
+                        if (averagePageHeight != _averagePageHeight)
+                        {
+                            _averagePageHeight = averagePageHeight;
+                            _shouldRender = true;
+                        }
+                    }
+
+                    if (_shouldRender)
+                    {
+                        ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
+                        InvokeAsync(StateHasChanged);
+                    }
+
+                }
+            });
+
+            _scrollSubscription = _scrollSubject.SampleFirst(TimeSpan.FromMilliseconds(100))
+                   .Do(async _ =>
+                   {
+                       await InvokeAsync(async () =>
+                       {
+                           try
+                           {
+                               _scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureScrollWindow", this.surfaceDiv);
+
+                               var rearSpace = _height * DEFAULT_RENDERED_WINDOWS_BEHIND;
+                               var aheadSpace = _height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
+                               int totalPages = 0;
+                               if (GetItemCountForPage != null)
+                                   totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)GetItemCountForPage(0, null));
+                               else
+                                   totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)DEFAULT_ITEMS_PER_PAGE);
+                               var currentPage = (int)Math.Floor(_scrollRect.top / _averagePageHeight);
+
+                               var minPage = Math.Max(0, (int)Math.Ceiling((_scrollRect.top - rearSpace) / _averagePageHeight) - 1);
+
+                               var maxPage = Math.Min(Math.Max(totalPages - 1, 0), Math.Max((int)Math.Ceiling((_scrollRect.top + aheadSpace) / _averagePageHeight) - 1, 0));
+
+                               if (minRenderedPage != minPage || maxRenderedPage != maxPage)
+                               {
+                                   minRenderedPage = minPage;
+                                   maxRenderedPage = maxPage;
+
+                                   _shouldRender = true;
+                                   Debug.WriteLine($"Scroll causing pages {minPage} to {maxPage} to rerender.");
+                                   ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
+                                   StateHasChanged();
+                               }
+                           }
+                           catch (Exception ex)
+                           {
+                               Debug.WriteLine(ex.ToString());
+                           }
+                       });
+                   })
+                   .Subscribe();
+
+
+
             return base.OnInitializedAsync();
         }
 
-        protected override Task OnParametersSetAsync()
+        protected override async Task OnParametersSetAsync()
         {
-            if (_itemsSource == null && ItemsSource != null)
+
+            if (Selection != null && Selection.SelectedItems != selectedItems)
             {
-                if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
-                {
-                    (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
-                }
+                selectedItems = new System.Collections.Generic.List<TItem>(Selection.SelectedItems);
+                _shouldRender = true;
             }
-            else if (_itemsSource != null && ItemsSource != _itemsSource)
+
+            if (SelectionMode == SelectionMode.Single && selectedItems.Count() > 1)
+            {
+                selectedItems.Clear();
+                _shouldRender = true;
+                await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
+            else if (SelectionMode == SelectionMode.None && selectedItems.Count() > 0)
+            {
+                selectedItems.Clear();
+                _shouldRender = true;
+                await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
+
+            if (_itemsSource != ItemsSource)
             {
                 if (this._itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
                 {
                     (this._itemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged -= ListBase_CollectionChanged;
                 }
+
+                _itemsSource = ItemsSource;
+                //IObservable<IChangeSet<TItem>> changeSet;
                 if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
                 {
                     (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
                 }
+
+                //if (this.ItemsSource is INotifyCollectionChanged)
+                //{
+                //    changeSet = (ItemsSource).ToObservableChangeSet<IEnumerable<TItem>,TItem>();
+
+                //    _updatesSubscription?.Dispose();
+                //    _updatesSubscription = changeSet.Do(x =>
+                //    {
+                //        _shouldRender = true;
+                //        InvokeAsync(StateHasChanged);
+
+                //    }).Subscribe();
+                //}
+                
+                _shouldRender = true;
+                _needsRemeasure = true;
             }
-            return base.OnParametersSetAsync();
+
+            
+
+            await base.OnParametersSetAsync();
         }
 
 
         private void ListBase_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {            
-            shouldRender = true;
+            _shouldRender = true;
             InvokeAsync(StateHasChanged);
         }
 
         protected override bool ShouldRender()
         {
-            if (shouldRender)
+
+            if (_shouldRender)
             {
-                shouldRender = false;
+                //Debug.WriteLine("LIST RERENDERING");
+                _shouldRender = false;
                 return true;
             }
+            //Debug.WriteLine("list wants to rerender... but can't");
             return false;
         }
 
+        public void ForceRerender()
+        {
+            _shouldRender = true;
+            StateHasChanged();
+        }
+
+        public async void TriggerRemeasure()
+        {
+            await MeasureContainerAsync();
+        }
 
         private RenderFragment RenderPages(int startPage, int endPage, double leadingPadding = 0) => builder =>
           {
               try
               {
                   renderedPages.Clear();
-                  var totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)DEFAULT_ITEMS_PER_PAGE);
+                  //int totalPages = 0;
+                  //if (GetItemCountForPage != null)
+                  //  totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)GetItemCountForPage();
+                  //else
+
 
                   builder.OpenComponent(0, typeof(ListVirtualizationSpacer));
-                  builder.AddAttribute(1, "Height", averagePageHeight * startPage);
+                  builder.AddAttribute(1, "Height", _averagePageHeight * startPage);
                   builder.CloseComponent();
 
-                  const int lineCount = 9;
-                  for (var i = 0; i <= totalPages; i++)
+                  const int lineCount = 11;
+                  var totalItemsRendered = 0;
+                  for (var i = startPage; i <= endPage; i++)
                   {
                       //Debug.WriteLine($"Drawing page {i}");
-                      if (startPage <= i && endPage >= i)
+                      //if (startPage <= i && endPage >= i)
+                      //{
+                      builder.OpenComponent(i * lineCount + 2, typeof(ListPage<TItem>));
+                      builder.AddAttribute(i * lineCount + 3, "ItemTemplate", ItemTemplate);
+                      if (GetItemCountForPage != null)
                       {
-                          builder.OpenComponent(i * lineCount + 2, typeof(ListPage<TItem>));
-                          builder.AddAttribute(i * lineCount + 3, "ItemTemplate", ItemTemplate);
+                          totalItemsRendered += GetItemCountForPage(i, surfaceRect);
+                          builder.AddAttribute(i * lineCount + 4, "ItemsSource", ItemsSource.Skip(i * GetItemCountForPage(i, surfaceRect)).Take(GetItemCountForPage(i, surfaceRect)));//(ItemsSource.Count() > 0 ? ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE) : ItemsSource));
+                          builder.AddAttribute(i * lineCount + 5, "StartIndex", i * GetItemCountForPage(i, surfaceRect));
+                      }
+                      else
+                      {
+                          totalItemsRendered += DEFAULT_ITEMS_PER_PAGE;
                           builder.AddAttribute(i * lineCount + 4, "ItemsSource", ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE));//(ItemsSource.Count() > 0 ? ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE) : ItemsSource));
                           builder.AddAttribute(i * lineCount + 5, "StartIndex", i * DEFAULT_ITEMS_PER_PAGE);
-                          builder.AddAttribute(i * lineCount + 6, "PageMeasureSubject", pageMeasureSubject);
-                          builder.AddAttribute(i * lineCount + 7, "ItemClicked", (Func<object, MouseEventArgs, Task>)OnItemClick);
-                          builder.AddAttribute(i * lineCount + 8, "SelectedItems", selectedItems);
-                          builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode.None ? true : ItemFocusable);
-                          builder.AddComponentReferenceCapture(i * lineCount + 10, (comp) => renderedPages.Add((ListPage<TItem>)comp));
-                          builder.CloseComponent();
                       }
+                      builder.AddAttribute(i * lineCount + 6, "PageMeasureSubject", pageMeasureSubject);
+                      builder.AddAttribute(i * lineCount + 7, "ItemClicked", EventCallback.Factory.Create<object>(this, OnItemClick));
+                      builder.AddAttribute(i * lineCount + 8, "SelectedItems", selectedItems);
+                      builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode.None ? true : ItemFocusable);
+                      builder.AddAttribute(i * lineCount + 10, "UseDefaultStyling", UseDefaultStyling);
+                      builder.AddComponentReferenceCapture(i * lineCount + 11, (comp) => renderedPages.Add((ListPage<TItem>)comp));
+                      builder.CloseComponent();
+                      //}
                   }
 
+                  int totalPages = 0;
+                  if (GetItemCountForPage != null)
+                      totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)GetItemCountForPage(0, null));
+                  else
+                      totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)DEFAULT_ITEMS_PER_PAGE);
                   builder.OpenComponent(totalPages * lineCount, typeof(ListVirtualizationSpacer));
-                  builder.AddAttribute(totalPages * lineCount + 1, "Height", averagePageHeight * (totalPages - endPage - 1));
+                  builder.AddAttribute(totalPages * lineCount + 1, "Height", _averagePageHeight * (totalPages - endPage - 1));
                   builder.CloseComponent();
               }
               catch (Exception ex)
@@ -146,7 +347,7 @@ namespace BlazorFabric
 
           };
 
-        protected Task OnItemClick(object item, MouseEventArgs e)
+        protected Task OnItemClick(object item)
         {
             var castItem = (TItem)item;
             switch (SelectionMode)
@@ -156,7 +357,7 @@ namespace BlazorFabric
                         selectedItems.Remove(castItem);
                     else
                         selectedItems.Add(castItem);
-                    shouldRender = true;
+                    _shouldRender = true;
                     break;
                 case SelectionMode.Single:
                     if (selectedItems.Contains(castItem))
@@ -166,17 +367,17 @@ namespace BlazorFabric
                         selectedItems.Clear();
                         selectedItems.Add(castItem);
                     }
-                    shouldRender = true;
+                    _shouldRender = true;
                     break;
                 case SelectionMode.None:
                     break;
 
             }
 
-            ItemClicked?.Invoke(castItem, e);
+            ItemClicked.InvokeAsync(castItem);
+            SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
 
-
-            if (shouldRender == true)
+            if (_shouldRender == true)
                 this.StateHasChanged();
 
             return Task.CompletedTask;
@@ -188,54 +389,63 @@ namespace BlazorFabric
             {
                 _resizeRegistration = await JSRuntime.InvokeAsync<string>("BlazorFabricBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHandler");
 
+
                 await MeasureContainerAsync();
+
+
+                //if (_needsRemeasure)
+                //{
+                //    //_shouldRender = true; //probably because the component rendered before all of the registrations could be made, need to force a re-render
+                //    await MeasureContainerAsync();
+                //}
+                ItemPagesRender = RenderPages(0, 0);
+
+
+                _shouldRender = true;
+                StateHasChanged();
             }
+
+            if (_needsRemeasure)
+            {
+                _needsRemeasure = false;
+                
+            }
+
+            
 
             await base.OnAfterRenderAsync(firstRender);
         }
 
         private async Task MeasureContainerAsync()
         {
-            var surfaceRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", this.surfaceDiv);
-            _height = surfaceRect.height;
+            _scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", this.surfaceDiv);
+            var oldScrollHeight = _scrollHeight;
+            _scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFabricBaseComponent.getScrollHeight", this.surfaceDiv);
+            surfaceRect = new Rectangle(_scrollRect.left, _scrollRect.width, _scrollRect.top, _scrollRect.height);
 
-            if (heightSub != null)
+            if (_height != surfaceRect.height)
             {
-                heightSub.Dispose();
-                heightSub = null;
+                _height = surfaceRect.height;
+                _shouldRender = true;
+                StateHasChanged();
             }
 
-            heightSub = pageMeasureSubject.Subscribe(x =>
-            {
-                if (isFirstRender && x.index == 0)
-                {
-                    averagePageHeight = x.height;
-                    var aheadSpace = surfaceRect.height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
-                    minRenderedPage = 0;
-                    if (averagePageHeight != 0)
-                        maxRenderedPage = (int)Math.Ceiling(aheadSpace / averagePageHeight);
+            //if (heightSub != null)
+            //{
+            //    heightSub.Dispose();
+            //    heightSub = null;
+            //}
 
-                    isFirstRender = false;
-                    shouldRender = true;
-                    ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
-                    this.StateHasChanged();
-                }
-                else if (!isFirstRender)
-                {
-                    if (averagePageHeight != 0 && ((x.height - averagePageHeight) / averagePageHeight - 1 > thresholdChangePercent))
-                    {
-                        averagePageHeight = x.height;
+            
+            if (oldScrollHeight != _scrollHeight)
+                await OnListScrollerHeightChanged.InvokeAsync((_scrollHeight, Data));
+        }
 
-                        shouldRender = true;
-                        ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
-                        this.StateHasChanged();
-                    }
-                    else
-                    {
-                        averagePageHeight = (averagePageHeight + x.height) / 2;
-                    }
-                }
-            });
+        private async void HandleListScrollerHeightChanged(object sender, double height)
+        {
+            Debug.WriteLine($"Height changed: {height}");
+            await MeasureContainerAsync();
+            
         }
 
         [JSInvokable]
@@ -245,42 +455,20 @@ namespace BlazorFabric
         }
 
 
-        public async Task OnScroll(EventArgs args)
+        public void OnScroll(EventArgs args)
         {
-            try
-            {
-                var scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureScrollWindow", this.surfaceDiv);
-
-                var rearSpace = _height * DEFAULT_RENDERED_WINDOWS_BEHIND;
-                var aheadSpace = _height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
-                var totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)DEFAULT_ITEMS_PER_PAGE);
-                var currentPage = (int)Math.Floor(scrollRect.top / averagePageHeight);
-
-
-                var minPage = Math.Max(0, (int)Math.Ceiling((scrollRect.top - rearSpace) / averagePageHeight) - 1);
-
-                var maxPage = Math.Min(Math.Max(totalPages - 1, 0), Math.Max((int)Math.Ceiling((scrollRect.top + aheadSpace) / averagePageHeight) - 1, 0));
-
-                if (minRenderedPage != minPage || maxRenderedPage != maxPage)
-                {
-                    minRenderedPage = minPage;
-                    maxRenderedPage = maxPage;
-                                        
-                    shouldRender = true;
-                    Debug.WriteLine($"Scroll causing pages {minPage} to {maxPage} to rerender.");
-                    ItemPagesRender = RenderPages(minRenderedPage, maxRenderedPage);
-                    this.StateHasChanged();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
+            _scrollSubject.OnNext(Unit.Default);
 
         }
 
         public async void Dispose()
-        {            
+        {
+            //if (OnListScrollerHeightChanged.HasDelegate)
+            //    await OnListScrollerHeightChanged.InvokeAsync((0, Data));
+            _heightSub?.Dispose();
+            _scrollSubscription?.Dispose();
+
+            //_updatesSubscription?.Dispose();
             if (_itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
             {
                 (_itemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged -= ListBase_CollectionChanged;

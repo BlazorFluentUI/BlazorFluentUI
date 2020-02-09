@@ -61,22 +61,24 @@ namespace BlazorFabric
             {
                 if (_registrationTask == null)
                 {
-                    _registrationTask = RegisterFocusZoneAsync();
-                    _registrationId = await _registrationTask;
+                    RegisterFocusZoneAsync();
+                    //_registrationTask = RegisterFocusZoneAsync();
+                    //_registrationId = await _registrationTask;
                 }
                 else if (!_registrationTask.IsCompleted)
                 {
-                    await _registrationTask;
+                    //await _registrationTask;
                 }
                 _jsAvailable = true;
             }
             else
             {
                 //update focusZone
-                if (_registrationTask != null && !_registrationTask.IsCompleted)
-                    await _registrationTask;
-
-                await UpdateFocusZoneAsync();
+                //if (_registrationTask != null && !_registrationTask.IsCompleted)
+                //    await _registrationTask;
+                
+                if (_registrationId != -1)
+                    await UpdateFocusZoneAsync();
                 
             }
             await base.OnAfterRenderAsync(firstRender);
@@ -84,10 +86,10 @@ namespace BlazorFabric
 
         protected override async Task OnParametersSetAsync()
         {
-            if (_registrationId == -1 && _jsAvailable)
-            {
-                _registrationId = await RegisterFocusZoneAsync();
-            }
+            //if (_registrationId == -1 && _jsAvailable)
+            //{
+            //    _registrationId = await RegisterFocusZoneAsync();
+            //}
             await base.OnParametersSetAsync();
         }
 
@@ -105,10 +107,10 @@ namespace BlazorFabric
         }
 
 
-        private async Task<int> RegisterFocusZoneAsync()
+        private async Task RegisterFocusZoneAsync()
         {
             var props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
-            return await jsRuntime.InvokeAsync<int>("BlazorFabricFocusZone.register", props, DotNetObjectReference.Create(this));
+            _registrationId = await jsRuntime.InvokeAsync<int>("BlazorFabricFocusZone.register", props, DotNetObjectReference.Create(this));
         }
 
         private async Task UnregisterFocusZoneAsync()
@@ -153,7 +155,7 @@ namespace BlazorFabric
             if (_registrationId != -1)
             {
                 _registrationId = -1;
-                Debug.WriteLine("Trying to unregister focuszone");
+                //Debug.WriteLine("Trying to unregister focuszone");
                 await UnregisterFocusZoneAsync();
             }
         }

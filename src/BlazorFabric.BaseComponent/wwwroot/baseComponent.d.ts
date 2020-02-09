@@ -20,6 +20,7 @@ declare namespace BlazorFabricBaseComponent {
     export function disableBodyScroll(): void;
     export function getClientHeight(element: HTMLElement): number;
     export function getScrollHeight(element: HTMLElement): number;
+    export function findScrollableParent(startingElement: HTMLElement | null): HTMLElement | null;
     export function measureElement(element: HTMLElement): IRectangle;
     export function getNaturalBounds(image: HTMLImageElement): IRectangle;
     export function supportsObjectFit(): boolean;
@@ -67,6 +68,16 @@ declare namespace BlazorFabricBaseComponent {
     export function isElementFocusZone(element?: HTMLElement): boolean;
     export function isElementFocusSubZone(element?: HTMLElement): boolean;
     export function on(element: Element | Window, eventName: string, callback: (ev: Event) => void, options?: boolean): () => void;
+    export function debounce<T extends Function>(func: T, wait?: number, options?: {
+        leading?: boolean;
+        maxWait?: number;
+        trailing?: boolean;
+    }): ICancelable<T> & (() => void);
+    type ICancelable<T> = {
+        flush: () => T;
+        cancel: () => void;
+        pending: () => boolean;
+    };
     export const enum KeyCodes {
         backspace = 8,
         tab = 9,

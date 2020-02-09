@@ -220,6 +220,10 @@
     --fontWeight-Regular: 400;
     --fontWeight-SemiBold: 600;
     --fontWeight-Bold: 700;
+    --iconFontSize-XSmall: 10px;
+    --iconFontSize-Small: 12px;
+    --iconFontSize-Medium: 16px;
+    --iconFontSize-Large: 20px;
 }
 
 :root {

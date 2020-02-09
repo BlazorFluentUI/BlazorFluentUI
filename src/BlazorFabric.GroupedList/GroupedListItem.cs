@@ -66,6 +66,7 @@ namespace BlazorFabric
         public int Index { get; set; }
         public int Depth { get; set; }
         public string Key => GetGroupItemKey(this);
+        public System.Collections.Generic.List<GroupedListItem<TItem>> Children { get; set; } = new System.Collections.Generic.List<GroupedListItem<TItem>>();
 
         
         private static string GetGroupItemKey(GroupedListItem<TItem> groupedListItem)

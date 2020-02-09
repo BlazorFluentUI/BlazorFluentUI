@@ -151,33 +151,50 @@ namespace BlazorFabric
             var itemsToRemove = internalSelection.SelectedItems.Except(selection.SelectedItems).ToList();
             itemsToRemove.ForEach(x =>
             {
-                var items = SubGroupSelector.Invoke(x.Item);
-                if (items != null)
-                {
-                    var foundItemsToRemove = GetS(items);
-                    foreach (var remove in foundItemsToRemove)
-                    {
-                        //if (finalList.Contains(remove))
-                        finalList.Remove(remove);
-                    }
-                }
+                var remove = GetChildrenRecursive(x);
+                finalList.Remove(remove);
             });
 
             itemsToAdd.ForEach(x =>
-            {
-                var items = SubGroupSelector.Invoke(x.Item);
-                if (items != null)
-                {
-                    var foundItemsToAdd = GetS(items);
-                    foreach (var add in foundItemsToAdd)
-                    {
-                        finalList.Add(add);
-                    }
-                }
+            {                
+                var add = GetChildrenRecursive(x);                
+                finalList.Add(add);
             });
 
+            //check to see if a header needs to be turned OFF because all of its children are *not* selected.
+            restart:
+            var headers = finalList.Where(x => x is HeaderItem<TItem>).Cast<HeaderItem<TItem>>().ToList();
+            foreach (var header in headers)
+            {
+                if (header.Children.Except(finalList).Count() > 0)
+                {
+                    finalList.Remove(header);
+                    //start loop over again, simplest way to start over is a goto statement.  This is needed when a header turns off, but it's parent needs to turn off, too.
+                    goto restart;
+                }
+            }
+
+            //check to see if a header needs to be turned ON because all of its children *are* selected.
+            var potentialHeaders = finalList.Select(x => x.Parent).Where(x=> x!=null).Distinct().ToList();
+            foreach (var header in potentialHeaders)
+            {
+                if (header.Children.Except(finalList).Count() == 0)
+                    finalList.Add(header);
+            }
+
             SelectionChanged.InvokeAsync(new Selection<TItem>(finalList.Select(x => x.Item)));
-            //selectedSourceCache.AddOrUpdate(selection.SelectedItems);
+        }
+
+        private System.Collections.Generic.List<GroupedListItem<TItem>> GetChildrenRecursive(GroupedListItem<TItem> item)
+        {
+            var groupedItems = new System.Collections.Generic.List<GroupedListItem<TItem>>();
+            foreach (var child in item.Children)
+            {
+                groupedItems.Add(child);
+                var subItems = GetChildrenRecursive(child);
+                groupedItems.Add(subItems);
+            }
+            return groupedItems;
         }
 
         private System.Collections.Generic.List<GroupedListItem<TItem>> GetS(IEnumerable<TItem> items)
@@ -257,13 +274,16 @@ namespace BlazorFabric
                                                                                              if (SubGroupSelector(s) == null)
                                                                                              {
                                                                                                  Debug.WriteLine($"Creating ITEM: {depth}-{index}");
-                                                                                                 return new PlainItem<TItem>(s, parent, index, depth, selectedSourceCache);
+                                                                                                 var item = new PlainItem<TItem>(s, parent, index, depth, selectedSourceCache);
+                                                                                                 parent?.Children.Add(item);
+                                                                                                 return item;
                                                                                              }
                                                                                              else
                                                                                              {
                                                                                                  Debug.WriteLine($"Creating HEADER: {depth}-{index}");
                                                                                                  var header = new HeaderItem<TItem>(s, parent, index, depth, GroupTitleSelector, selectedSourceCache);
                                                                                                  headers[depth] = header;
+                                                                                                 parent?.Children.Add(header);
                                                                                                  return header;
                                                                                              }
                                                                                          }));

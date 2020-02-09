@@ -7,7 +7,7 @@ using System;
 
 namespace BlazorFabric
 {
-    public partial class LocalCS : ComponentBase, ILocalCSSheet
+    public partial class LocalCS : ComponentBase, ILocalCSSheet, IDisposable
     {
         private string css;
         private ICollection<Rule> rules;
@@ -109,6 +109,11 @@ namespace BlazorFabric
             }
             ruleAsString += "}";
             return ruleAsString;
+        }
+
+        public void Dispose()
+        {
+            ComponentStyle.LocalCSSheets.Remove(this);
         }
     }
 }

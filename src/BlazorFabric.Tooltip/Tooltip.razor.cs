@@ -32,7 +32,7 @@ namespace BlazorFabric
         protected override void OnParametersSet()
         {
             CreateGlobalCss();
-            SetTooltipStyle();
+            SetStyle();
             base.OnParametersSet();
         }
 
@@ -73,7 +73,7 @@ namespace BlazorFabric
             });
         }
 
-        private void SetTooltipStyle()
+        private void SetStyle()
         {
             TooltipGabSpace = -(Math.Sqrt((BeakWidth * BeakWidth) / 2) + 0);
             TooltipRule.Properties = new CssString()

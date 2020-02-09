@@ -60,6 +60,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFabric.ComponentStyle\BlazorFabric.ComponentStyle.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Theme\BlazorFabric.FabricTheme.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

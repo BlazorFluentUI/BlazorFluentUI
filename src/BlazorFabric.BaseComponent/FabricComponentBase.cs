@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,9 @@ namespace BlazorFabric
 {
     public class FabricComponentBase : ComponentBase
     {
+        [CascadingParameter(Name = "Theme")]
+        public ITheme Theme { get; set; }
+
         //[Inject] private IComponentContext ComponentContext { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
@@ -43,6 +47,22 @@ namespace BlazorFabric
         public ElementReference RootElementReference;
 
         static bool focusRectsInitialized = false;
+
+        private ICollection<Rule> OverallRules { get; set; } = new List<Rule>();
+
+        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        {
+            builder.OpenComponent<GlobalCS>(0);
+            builder.AddAttribute(1, "Rules", OverallRules);
+            builder.CloseComponent();
+            base.BuildRenderTree(builder);
+        }
+
+        protected override void OnParametersSet()
+        {
+            CreateCss();
+            base.OnParametersSet();
+        }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -106,5 +126,22 @@ namespace BlazorFabric
             }
         }
 
+        private void CreateCss()
+        {
+            OverallRules.Clear();
+            OverallRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "body" },
+                Properties = new CssString()
+                {
+                    Css = $"-moz-osx-font-smoothing:grayscale;" +
+                            $"-webkit-font-smoothing:antialiased;" +
+                            $"color:{Theme?.SemanticTextColors?.BodyText ?? "#323130"};" +
+                            $"background-color:{Theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
+                            $"font-family:'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;" +
+                            $"font-size:14px;"
+        }
+            });
+        }
     }
 }

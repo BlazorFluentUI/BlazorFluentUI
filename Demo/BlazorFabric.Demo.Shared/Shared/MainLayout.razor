@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components
 @inherits LayoutComponentBase
 
-   
+
 <Stack Horizontal="true" Style="width:100%;">
     <ResponsiveLayout MinWidth="ResponsiveMode.Medium.ToMinCssValue()">
         <StackItem Grow="0" DisableShrink="true" Style="height:100%;overflow:hidden;">
@@ -20,40 +20,28 @@
             </ResponsiveLayout>
 
             <ResponsiveLayout MinWidth="ResponsiveMode.Medium.ToMinCssValue()">
-                <StackItem Grow="0" VerticalFill="false">
-                    <div class="top-row">
-                        <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
-                    </div>
-                </StackItem>
+                <Stack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.Center" Style="width:100%">
+                    <StackItem Grow="0" VerticalFill="false">
+                        <div class="top-row">
+                            <Link Href="https://github.com/limefrogyank/BlazorFabric" Target="_blank" >View GitHub repo of BlazorFabric...</Link>
+                        </div>
+                    </StackItem>
+                    <StackItem DisableShrink="true">
+                        <Toggle Checked=customTheme CheckedChanged="@SwitchTheme" OnText="Dark Theme" OffText="Default Theme" />
+                    </StackItem>
+                </Stack>
             </ResponsiveLayout>
 
-            @*<ResponsiveLayout MinWidth="0" MaxWidth="767">
-                <StackItem Grow="1" Tokens="new StackItemTokens { Padding = 5 }" Style="overflow:hidden;">
-                    <div class="content">
-                        @Body
-                    </div>
-                </StackItem>
-            </ResponsiveLayout>*@
-
-            @*<ResponsiveLayout MinWidth="768">*@
-       @* <ResponsiveWrapper>*@
-            @*<ChildContent Context="CurrentMode">*@
-                <StackItem Grow="1" Tokens="new StackItemTokens { Padding = ((int)CurrentMode <= (int)ResponsiveMode.Medium ? 10 : 0) }" Style="overflow-y:auto;">
-                    @*<div class="content">*@
-                        @Body
-                    @*</div>*@
-                </StackItem>
-            @*</ChildContent>*@
-        @*</ResponsiveWrapper>*@
-            @*</ResponsiveLayout>*@
-
+            <StackItem Grow="1" Tokens="new StackItemTokens { Padding = ((int)CurrentMode <= (int)ResponsiveMode.Medium ? 10 : 0) }" Style="overflow-y:auto;">
+                @Body
+            </StackItem>
         </Stack>
 
         <ResponsiveLayout MaxWidth="ResponsiveMode.Medium.ToMaxCssValue()">
             <Panel Type=@PanelType.SmallFixedNear OnDismiss=@(()=>isPanelOpen = false) IsOpen=@isPanelOpen IsLightDismiss="true">
                 <NavigationTemplate>
                     <IconButton IconName="GlobalNavButton" OnClick=@(()=> isPanelOpen = false) />
-                    <a href="https://github.com/limefrogyank/BlazorFabric" target="_blank" class="ml-md-auto">View GitHub repo of BlazorFabric...</a>
+                    <Link Href="https://github.com/limefrogyank/BlazorFabric" Target="_blank">View GitHub repo of BlazorFabric...</Link>
                 </NavigationTemplate>
                 <ChildContent>
                     <NavMenu OnLinkClicked=@OnNavLinkClick />
@@ -66,6 +54,32 @@
 </Stack>
 
 @code {
+
+    [Inject]
+    public ThemeProvider ThemeProvider { get; set; }
+
+    private bool customTheme;
+
+    protected override void OnInitialized()
+    {
+        customTheme = ThemeProvider.Theme.Palette.GetType() == typeof(DefaultPaletteDark);
+        base.OnInitialized();
+    }
+
+    private Task SwitchTheme(bool checkedState)
+    {
+        customTheme = checkedState;
+        if (checkedState)
+        {
+            ThemeProvider.UpdateTheme(new DefaultPaletteDark());
+        }
+        else
+        {
+            ThemeProvider.UpdateTheme(new DefaultPalette());
+        }
+        return Task.CompletedTask;
+    }
+
     private bool isMenuCollapsed = true;
     private bool isPanelOpen = false;
 

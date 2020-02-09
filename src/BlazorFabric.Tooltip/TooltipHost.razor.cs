@@ -20,7 +20,7 @@ namespace BlazorFabric
         //[Parameter] public FabricComponentBase FabricComponentTarget { get; set; }
         [Parameter] public string HostClassName { get; set; }
         [Parameter] public EventCallback<bool> OnTooltipToggle { get; set; }
-        [Parameter] public TooltipOverflowMode OverflowMode { get; set; } = TooltipOverflowMode.None;  
+        [Parameter] public TooltipOverflowMode OverflowMode { get; set; } = TooltipOverflowMode.None;
         [Parameter] public FabricComponentBase Parent { get; set; }
         [Parameter] public bool SetAriaDescribedBy { get; set; }
         [Parameter] public RenderFragment TooltipContent { get; set; }
@@ -33,11 +33,8 @@ namespace BlazorFabric
 
         private Timer _openTimer;
         private Timer _dismissTimer;
+        private ICollection<Rule> TooltipHostRules { get; set; } = new List<Rule>();
 
-        public TooltipHost()
-        {
-            
-        }
 
         protected override void OnInitialized()
         {
@@ -78,6 +75,7 @@ namespace BlazorFabric
 
         protected override Task OnParametersSetAsync()
         {
+            CreateCss();
             DetermineTargetElement();
             return base.OnParametersSetAsync();
         }
@@ -115,7 +113,7 @@ namespace BlazorFabric
             {
                 ToggleTooltip(true);
             }
-            
+
             return Task.CompletedTask;
         }
 
@@ -189,6 +187,19 @@ namespace BlazorFabric
                 default:
                     return 0;
             }
+        }
+
+        private void CreateCss()
+        {
+            TooltipHostRules.Clear();
+            TooltipHostRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TooltipHost" },
+                Properties = new CssString()
+                {
+                    Css = $"display:inline;"
+                }
+            });
         }
 
         public void Dispose()

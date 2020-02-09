@@ -1,4 +1,4 @@
-﻿.ms-Toggle{
+﻿/*.ms-Toggle{
     margin-bottom:8px;
 }
 
@@ -28,7 +28,6 @@
 .ms-Toggle-pill{
     outline:transparent;
     position:relative;
-    /*from focusStyle*/
 
     font-size:20px;
     box-sizing:border-box;
@@ -143,4 +142,4 @@
     .ms-Toggle--disabled .ms-Toggle-stateText {
         color: GrayText;
     }
-}
+}*/

@@ -12,10 +12,14 @@ https://blazorfabric.azurewebsites.net/
 https://t.me/blazorfabric
 
 ## Release Notes
-- upcomming
+- v2.2.0 (Jan 25, 2020)
 	- Added `Pivot`
 	- Fix #78 positioning problems with `Callout`
 	- Heavy focus on keyboard-navigation.  Fixes to `ContextualMenu`, `Dropdown`
+	- Refactored `ResponsiveLayout` to use media queries in style tags for immediate effect... BREAKING CHANGES HERE.
+	- Added `ResponsiveWrapper` and `ResponsiveCascader` (not Fabric controls) that work using javascript.  Changes applied after 1st render.
+	- Minor changes to button css files.  Only need to include `button.css` to have them all load automatically.
+	- Many, many bug fixes.
 - v2.1.0
 	- Added `Text` (including custom styling)
 	- Upgraded `TextField` with PrefixContent and SuffixContent for non-text-only content
@@ -170,7 +174,7 @@ https://t.me/blazorfabric
 | Control          |    State    | Information                           |
 | :--------------- | :---------: | :------------------------------------ |
 | ResponsiveLayout |    Done     |                                       |
-| RichTextEditor   | In Progress |                                       |
+| RichTextEditor   | In Progress | Works with limited styles available   |
 | ComponentStyle   | In Progress |                                       |
 
 ## Info
@@ -179,7 +183,7 @@ There are no MergeStyles in this port.  It's just each control packaged into its
 ## To use
 1. Install NuGet package for the control you want.  _BlazorFabric.*_  (be sure to select preview packages)
 2. The Blazor team has been inconsistent with how static files from component libraries are added to projects in the past.  Going forward, you'll need to **add all javascript and CSS assets from the component packages manually**.  You can just copy/paste the section from the test app's index.html.
-You can also use my helper VSIX extension: https://marketplace.visualstudio.com/items?itemName=LeeMcPherson.BlazorLibraryAssetHelper&ssr=false#overview
+You can also use my helper VSIX extension (may have major bugs!  Be sure to compile once for assets to show up.): https://marketplace.visualstudio.com/items?itemName=LeeMcPherson.BlazorLibraryAssetHelper&ssr=false#overview  
 3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.
 
 `<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />`

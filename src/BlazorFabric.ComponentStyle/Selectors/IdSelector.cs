@@ -1,6 +1,6 @@
 namespace BlazorFabric
 {
-    public class IdSelector : IUniqueSelector
+    public class IdSelector : ISelector
     {
         public string SelectorName { get; set; }
 
@@ -8,7 +8,6 @@ namespace BlazorFabric
 
         public PseudoClass PseudoClass { get; set; }
 
-        public bool UniqueName { get; set; }
 
         private string ToPseudoClass()
         {
@@ -25,7 +24,7 @@ namespace BlazorFabric
             return $"{PseudoMapper.PseudoClassesMappper[PseudoClass.PseudoClassType]}";
         }
 
-        public override string ToString()
+        public string GetSelectorAsString()
         {
             return $"#{(SelectorName != null ? SelectorName : "")}{(PseudoElement != PseudoElements.None ? PseudoMapper.PseudoElementsMappper[PseudoElement] : "")}{ToPseudoClass()}";
         }

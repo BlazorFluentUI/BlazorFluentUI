@@ -11,9 +11,9 @@ namespace BlazorFabric
     public partial class CommandBar : FabricComponentBase
     {
 
-        [Parameter] public System.Collections.Generic.IEnumerable<ICommandBarItem> Items { get; set; }
-        [Parameter] public System.Collections.Generic.IEnumerable<ICommandBarItem> OverflowItems { get; set; }
-        [Parameter] public System.Collections.Generic.IEnumerable<ICommandBarItem> FarItems { get; set; }
+        [Parameter] public IEnumerable<ICommandBarItem> Items { get; set; }
+        [Parameter] public IEnumerable<ICommandBarItem> OverflowItems { get; set; }
+        [Parameter] public IEnumerable<ICommandBarItem> FarItems { get; set; }
 
         [Parameter] public EventCallback<ICommandBarItem> OnDataReduced { get; set; }
         [Parameter] public EventCallback<ICommandBarItem> OnDataGrown { get; set; }
@@ -22,8 +22,11 @@ namespace BlazorFabric
 
         protected Func<CommandBarData, CommandBarData> onGrowData;
         protected Func<CommandBarData, CommandBarData> onReduceData;
-        
+
         protected CommandBarData _currentData;
+
+        private ICollection<Rule> CommandBarRules { get; set; } = new List<Rule>();
+
 
         protected override Task OnInitializedAsync()
         {
@@ -75,13 +78,14 @@ namespace BlazorFabric
 
         protected override Task OnParametersSetAsync()
         {
-            _currentData = new CommandBarData() 
-            { 
-                PrimaryItems = new System.Collections.Generic.List<ICommandBarItem>(Items != null ? Items : new List<ICommandBarItem>()), 
-                OverflowItems = new System.Collections.Generic.List<ICommandBarItem>(OverflowItems != null ? OverflowItems : new List<ICommandBarItem>()), 
-                FarItems = new System.Collections.Generic.List<ICommandBarItem>(FarItems != null ? FarItems : new List<ICommandBarItem>()), 
-                MinimumOverflowItems = OverflowItems != null ? OverflowItems.Count() : 0, 
-                CacheKey = "" 
+            CreateCss();
+            _currentData = new CommandBarData()
+            {
+                PrimaryItems = new List<ICommandBarItem>(Items != null ? Items : new List<ICommandBarItem>()),
+                OverflowItems = new List<ICommandBarItem>(OverflowItems != null ? OverflowItems : new List<ICommandBarItem>()),
+                FarItems = new List<ICommandBarItem>(FarItems != null ? FarItems : new List<ICommandBarItem>()),
+                MinimumOverflowItems = OverflowItems != null ? OverflowItems.Count() : 0,
+                CacheKey = ""
             };
 
             return base.OnParametersSetAsync();
@@ -95,5 +99,40 @@ namespace BlazorFabric
             return string.Join(" ", primaryKey, farKey, overflowKey);
         }
 
+        private void CreateCss()
+        {
+            CommandBarRules.Clear();
+            CommandBarRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar" },
+                Properties = new CssString()
+                {
+                    Css = $"display:flex;" +
+                            $"background-color:{Theme.SemanticColors.BodyBackground};" +
+                            $"padding:0 14px 0 24px;" +
+                            $"height:44px;"
+                }
+            });
+            CommandBarRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar-primarySet" },
+                Properties = new CssString()
+                {
+                    Css = $"flex-grow:1;" +
+                            $"display:flex;" +
+                            $"align-items:stretch;"
+                }
+            });
+            CommandBarRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar-secondarySet" },
+                Properties = new CssString()
+                {
+                    Css = $"flex-shrink:0;" +
+                            $"display:flex;" +
+                            $"align-items:stretch;"
+                }
+            });
+        }
     }
 }

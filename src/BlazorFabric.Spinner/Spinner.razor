@@ -2,6 +2,8 @@
 
 @inherits FabricComponentBase
 
+    <GlobalCS Rules="@SpinnerRules" />
+
     <div class=@($"{ClassName} ms-Spinner{GetPositionStyle()}") style=@Style>
         <div class=@($"ms-Spinner-circle{GetSpinnerSizeStyle()}") />
         @if (Label != null)

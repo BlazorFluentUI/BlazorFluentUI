@@ -3,6 +3,9 @@
 @typeparam TItem
 @using Microsoft.AspNetCore.Components.Web
 
+<GlobalCS Rules="@OverflowSetRules" />
+
+
 @if (DoNotContainWithinFocusZone)
 {
     <div class=@($"{ClassName} ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")
@@ -22,9 +25,9 @@
 
         }
         @*else if (OverflowTemplate == null && OverflowItems != null && OverflowItems.Count() > 0)
-        {
-            <BlazorFabric.OverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
-        }*@
+            {
+                <BlazorFabric.OverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
+            }*@
     </div>
 }
 else
@@ -48,9 +51,9 @@ else
 
         }
         @*else if (OverflowTemplate == null && OverflowItems != null && OverflowItems.Count() > 0)
-        {
-            <BlazorFabric.OverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
-        }*@
+            {
+                <BlazorFabric.OverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
+            }*@
 
     </FocusZone>
 }

@@ -1,6 +1,7 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Rules="@LinkRules" />
 
 @if ((Type != null && Type == LinkType.Anchor) || (Type == null && !string.IsNullOrWhiteSpace(Href)))
 {

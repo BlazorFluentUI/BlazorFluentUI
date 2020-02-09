@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.CompilerServices;
 using System.Collections.Generic;
@@ -15,15 +14,13 @@ namespace BlazorFabric
         [Parameter] public IMsText CustomVariant { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        private MsText TextStyle;
-        private ICollection<UniqueRule> CssRules = new HashSet<UniqueRule>();
-        private UniqueRule msTextRule;
+
+        private ICollection<Rule> CssRules = new HashSet<Rule>();
+        private Rule msTextRule;
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            //base.BuildRenderTree(builder);
-
-            builder.OpenComponent<ComponentStyle>(0);
+            builder.OpenComponent<LocalCS>(0);
             builder.AddAttribute(1, "Rules", CssRules);
             builder.AddAttribute(2, "RulesChanged", EventCallback.Factory.Create(this, RuntimeHelpers.CreateInferredEventCallback(this, __value => CssRules = __value, CssRules)));
             builder.CloseComponent();
@@ -32,17 +29,17 @@ namespace BlazorFabric
             builder.AddAttribute(4, "class", $"{msTextRule.Selector.SelectorName}");
             builder.AddContent(5, ChildContent);
             builder.CloseElement();
+
+            base.BuildRenderTree(builder);
         }
 
         protected override void OnInitialized()
         {
 
-            CreateTextStyle();
-
-            msTextRule = new UniqueRule()
+            msTextRule = new Rule()
             {
-                Selector = new ClassSelector() { SelectorName = "ms-text", UniqueName = true },
-                Properties = TextStyle
+                Selector = new ClassSelector() { SelectorName = "ms-text" },
+                Properties = CreateTextStyle()
             };
             CssRules.Add(msTextRule);
 
@@ -50,23 +47,30 @@ namespace BlazorFabric
 
         }
 
-        private void CreateTextStyle()
+        protected override void OnParametersSet()
         {
-            TextStyle = new MsText();
-            TextStyle.Display = Block ? (As == "td" ? "table-cell" : "block") : "inline";
-            TextStyle.Color = CustomVariant?.Color ?? "inherit";
-            TextStyle.WebkitFontSmoothing = CustomVariant?.WebkitFontSmoothing ?? "antialiased";
-            TextStyle.MozOsxFontSmoothing = CustomVariant?.MozOsxFontSmoothing ?? "grayscale";
-            TextStyle.FontFamily = CustomVariant?.FontFamily ?? "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif";
-            TextStyle.FontWeight = CustomVariant?.FontWeight ?? ((int)Variant > (int)TextType.Large ? "600" : "400");
-            TextStyle.FontSize = CustomVariant?.FontSize ?? (Variant == TextType.None ? "inherit" : TextSizeMapper.TextSizeMap[Variant]);
+            msTextRule.Properties = CreateTextStyle();
+            base.OnParametersSet();
+        }
+
+        private MsText CreateTextStyle()
+        {
+            MsText textStyle = new MsText();
+            textStyle.Display = Block ? (As == "td" ? "table-cell" : "block") : "inline";
+            textStyle.Color = CustomVariant?.Color ?? "inherit";
+            textStyle.WebkitFontSmoothing = CustomVariant?.WebkitFontSmoothing ?? "antialiased";
+            textStyle.MozOsxFontSmoothing = CustomVariant?.MozOsxFontSmoothing ?? "grayscale";
+            textStyle.FontFamily = CustomVariant?.FontFamily ?? "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif";
+            textStyle.FontWeight = CustomVariant?.FontWeight ?? ((int)Variant > (int)TextType.Large ? Theme.FontStyle.FontWeight.SemiBold.ToString() : Theme.FontStyle.FontWeight.Regular.ToString());
+            textStyle.FontSize = CustomVariant?.FontSize ?? (Variant == TextType.None ? "inherit" : TextSizeMapper.TextSizeMappper(Variant, Theme));
+
             if (NoWrap)
             {
-                TextStyle.WhiteSpace = "nowrap";
-                TextStyle.Overflow = "hidden";
-                TextStyle.TextOverflow = "ellipsis";
+                textStyle.WhiteSpace = "nowrap";
+                textStyle.Overflow = "hidden";
+                textStyle.TextOverflow = "ellipsis";
             }
-
+            return textStyle;
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace BlazorFabric
+﻿namespace BlazorFabric
 {
 	internal class MsText : IMsText
 	{
@@ -11,27 +6,27 @@ namespace BlazorFabric
 
 		public string Display { get; set; }
 
-		[Display(Name = "font-family")]
+		[CsProperty(PropertyName = "font-family")]
 		public string FontFamily { get; set; }
 
-		[Display(Name = "font-size")]
+		[CsProperty(PropertyName = "font-size")]
 		public string FontSize { get; set; }
 
-		[Display(Name = "font-weight")]
+		[CsProperty(PropertyName = "font-weight")]
 		public string FontWeight { get; set; }
 
-		[Display(Name = "-webkit-font-smoothing")]
+		[CsProperty(PropertyName = "-webkit-font-smoothing")]
 		public string WebkitFontSmoothing { get; set; }
 
-		[Display(Name = "-moz-osx-font-smoothing")]
+		[CsProperty(PropertyName = "-moz-osx-font-smoothing")]
 		public string MozOsxFontSmoothing { get; set; }
 
-		[Display(Name = "white-space")]
+		[CsProperty(PropertyName = "white-space")]
 		public string WhiteSpace { get; set; }
 		
 		public string Overflow { get; set; }
 
-		[Display(Name = "text-overflow")]
+		[CsProperty(PropertyName = "text-overflow")]
 		public string TextOverflow { get; set; }
 	}
 }

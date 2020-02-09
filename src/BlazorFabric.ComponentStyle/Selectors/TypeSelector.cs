@@ -21,7 +21,7 @@ namespace BlazorFabric
             return $"{PseudoMapper.PseudoClassesMappper[PseudoClass.PseudoClassType]}";
         }
 
-        public override string ToString()
+        public string GetSelectorAsString()
         {
             return $"{(SelectorName != null ? SelectorName : "")}{(PseudoElement != PseudoElements.None ? PseudoMapper.PseudoElementsMappper[PseudoElement] : "")}{ToPseudoClass()}";
         }

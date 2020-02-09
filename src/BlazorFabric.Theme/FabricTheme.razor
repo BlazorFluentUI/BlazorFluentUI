@@ -1,0 +1,22 @@
+﻿<CascadingValue Value="ThemeProvider.Theme" Name="Theme">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Inject]
+    public ThemeProvider ThemeProvider { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ThemeProvider.ThemeComponents.Add(this);
+        base.OnInitialized();
+    }
+
+    public void UpdateTheme()
+    {
+        InvokeAsync(() => StateHasChanged());
+    }
+}

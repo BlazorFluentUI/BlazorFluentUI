@@ -10,10 +10,44 @@ namespace BlazorFabric
     public partial class Icon : FabricComponentBase
     {
         [Parameter] public string IconName { get; set; }
-        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public IconType IconType { get; set; }
-        //[Parameter] protected bool IsPlaceholder { get; set; }
 
+        private ICollection<Rule> IconRules { get; set; } = new List<Rule>();
 
+        protected override void OnParametersSet()
+        {
+            CreateCss();
+            base.OnParametersSet();
+        }
+
+        private void CreateCss()
+        {
+            IconRules.Clear();
+            IconRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Icon" },
+                Properties = new CssString()
+                {
+                    Css = $"display:inline-block;"
+                }
+            });
+
+            IconRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Icon-placeHolder" },
+                Properties = new CssString()
+                {
+                    Css = $"width:1em;"
+                }
+            });
+            IconRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Icon-imageContainer" },
+                Properties = new CssString()
+                {
+                    Css = $"overflow:hidden;"
+                }
+            });
+        }
     }
 }

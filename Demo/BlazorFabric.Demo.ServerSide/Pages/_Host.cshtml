@@ -28,10 +28,6 @@
     <script src="_content/BlazorFabric.Callout/callout.js"></script>
     <link rel="stylesheet" href="_content/BlazorFabric.Callout/callout.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Check/check.css" />
-
-    <link rel="stylesheet" href="_content/BlazorFabric.Checkbox/checkbox.css" />
-
     <link rel="stylesheet" href="_content/BlazorFabric.CommandBar/commandBar.css" />
 
     <script src="_content/BlazorFabric.ContextualMenu/contextualMenu.js"></script>
@@ -51,18 +47,12 @@
 
     <link rel="stylesheet" href="_content/BlazorFabric.GroupedList/groupedList.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Icon/icon.css" />
-
     <link rel="stylesheet" href="_content/BlazorFabric.Image/image.css" />
-
-    <link rel="stylesheet" href="_content/BlazorFabric.Label/label.css" />
 
     <link rel="stylesheet" href="_content/BlazorFabric.Layer/layer.css" />
 
     <script src="_content/BlazorFabric.List/fabricList.js"></script>
     <link rel="stylesheet" href="_content/BlazorFabric.List/list.css" />
-
-    <link rel="stylesheet" href="_content/BlazorFabric.Link/link.css" />
 
     <link rel="stylesheet" href="_content/BlazorFabric.MessageBar/messageBar.css" />
 
@@ -89,17 +79,15 @@
     <script src="_content/BlazorFabric.RichTextEditor/richTextEditor.js"></script>
     <link rel="stylesheet" href="_content/BlazorFabric.RichTextEditor/richTextEditor.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Spinner/spinner.css" />
-
     <script src="_content/BlazorFabric.TextField/fabricTextField.js"></script>
     <link rel="stylesheet" href="_content/BlazorFabric.TextField/textfield.css" />
 
-    <link rel="stylesheet" href="_content/BlazorFabric.Toggle/toggle.css" />
-
     <link rel="stylesheet" href="_content/BlazorFabric.Tooltip/tooltip.css" />
 
+    <component type="typeof(GlobalRules)" render-mode="ServerPrerendered" />
+
 </head>
-<body class="ms-Fabric">
+<body>
     @*<app>@(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))</app>*@
     <app><component type="typeof(App)" render-mode="ServerPrerendered" /></app>
 

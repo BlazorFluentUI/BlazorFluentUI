@@ -4,8 +4,9 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public interface IUniqueSelector : ISelector
+    public enum BoxSide
     {
-        public bool UniqueName { get; set; }
+        Start,
+        End
     }
 }

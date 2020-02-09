@@ -17,6 +17,7 @@ using DynamicData;
 using System.Collections.ObjectModel;
 using DynamicData.Binding;
 using System.Collections.Specialized;
+using BlazorFabric.BaseComponent.FocusStyle;
 
 namespace BlazorFabric
 {
@@ -262,6 +263,10 @@ namespace BlazorFabric
         }
         private void CreateCss()
         {
+            //creates a method that pulls in focusstyles the way the react controls do it.
+            var focusStyleProps = new FocusStyleProps(this.Theme);
+            var mergeStyleResults = FocusStyle.GetFocusStyle(focusStyleProps, ".ms-List-cell");
+
             ListRules.Clear();
             // Cell only
             ListRules.Add(new Rule()
@@ -276,9 +281,11 @@ namespace BlazorFabric
                           $"overflow:hidden;" +
                           $"box-sizing:border-box;" +
                           $"border-bottom:1px solid {Theme.Palette.NeutralLighter};" +
-                          $"display:inline-flex;" +
-                          $"outline:transparent;" +
-                          $"position:relative;"
+                          $"display:inline-flex;"
+                          +
+                          mergeStyleResults.MergeRules
+                          //$"outline:transparent;" +
+                          //$"position:relative;"
                 }
             });
             ListRules.Add(new Rule()
@@ -297,45 +304,48 @@ namespace BlazorFabric
                     Css = $"background-color:{Theme.Palette.NeutralLight};"
                 }
             });
-            ListRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell::-moz-focus-inner" },
-                Properties = new CssString()
-                {
-                    Css = $"border:0;"
-                }
-            });
-            ListRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-List-cell:focus::after" },
-                Properties = new CssString()
-                {
-                    Css = $"content:'';" +
-                          $"position:absolute;" +
-                          $"left:1px;" +
-                          $"top:1px;" +
-                          $"bottom:1px;" +
-                          $"right:1px;" +
-                          $"border:1px solid transparent;" +
-                          $"outline:1px solid {Theme.Palette.NeutralSecondary};" +
-                          $"z-index:var(--zindex-FocusStyle);"
-                }
-            });
-            ListRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Fabric--isFocusVisible .ms-List-cell:focus::after {" +
-                          $"left:-2px;" +
-                          $"top:-2px;" +
-                          $"bottom:-2px;" +
-                          $"right:-2px;" +
-                          $"border:none;" +
-                          $"outline-color:ButtonText;" +
-                          "}"
-                }
-            });
+
+            foreach (var rule in mergeStyleResults.AddRules)
+                ListRules.Add(rule);
+            //ListRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-List-cell::-moz-focus-inner" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"border:0;"
+            //    }
+            //});
+            //ListRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-List-cell:focus::after" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"content:'';" +
+            //              $"position:absolute;" +
+            //              $"left:1px;" +
+            //              $"top:1px;" +
+            //              $"bottom:1px;" +
+            //              $"right:1px;" +
+            //              $"border:1px solid transparent;" +
+            //              $"outline:1px solid {Theme.Palette.NeutralSecondary};" +
+            //              $"z-index:var(--zindex-FocusStyle);"
+            //    }
+            //});
+            //ListRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = ".ms-Fabric--isFocusVisible .ms-List-cell:focus::after {" +
+            //              $"left:-2px;" +
+            //              $"top:-2px;" +
+            //              $"bottom:-2px;" +
+            //              $"right:-2px;" +
+            //              $"border:none;" +
+            //              $"outline-color:ButtonText;" +
+            //              "}"
+            //    }
+            //});
         }
 
         //public void ForceRerender()

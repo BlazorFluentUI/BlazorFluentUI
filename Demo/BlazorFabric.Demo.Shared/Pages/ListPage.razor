@@ -26,20 +26,21 @@
 
         <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
         
-        <BlazorFabric.List ItemsSource=@data
-                           TItem="DataItem"
-                           ItemClicked=@((item)=> DebugText = item.Key + " clicked")
-                           SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedMode))
-                           @bind-Selection="selection">
-            <ItemTemplate>
-                <div style="display:flex; flex-direction:row; ">
-                    <img height="25" width="25" src=@context.ImgUrl />
-                    <em>This is item #@context.Key.</em>
-                    <span style="margin-left:10px;">@context.DisplayName</span>
-                </div>
-            </ItemTemplate>
-        </BlazorFabric.List>
-
+        <FocusZone Style="height:100%;overflow-y:hidden;">
+            <BlazorFabric.List ItemsSource=@data
+                               TItem="DataItem"
+                               ItemClicked=@((item)=> DebugText = item.Key + " clicked")
+                               SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedMode))
+                               @bind-Selection="selection">
+                <ItemTemplate>
+                    <div style="display:flex; flex-direction:row; ">
+                        <img height="25" width="25" src=@context.ImgUrl />
+                        <em>This is item #@context.Key.</em>
+                        <span style="margin-left:10px;">@context.DisplayName</span>
+                    </div>
+                </ItemTemplate>
+            </BlazorFabric.List>
+        </FocusZone>
     </Stack> 
 
 @code {

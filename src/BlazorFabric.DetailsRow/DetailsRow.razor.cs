@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorFabric.BaseComponent.FocusStyle;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -76,7 +77,18 @@ namespace BlazorFabric
 
         private void CreateCss()
         {
-            //create a method that pulls in focusstyles the way the react controls do it.
+            DetailsRowRules.Clear();
+            
+            //creates a method that pulls in focusstyles the way the react controls do it.
+            var focusStyleProps = new FocusStyleProps(this.Theme);
+            var mergeStyleResults = FocusStyle.GetFocusStyle(focusStyleProps, ".ms-DetailsRow");
+
+
         }
+
+       
+       
+
+        
     }
 }

@@ -31,7 +31,7 @@ namespace BlazorFabric
         private const double COMPACT_ROW_HEIGHT = 32;
         private const double ROW_HEIGHT = 42;
 
-        private SourceCache<GroupedListItem<TItem>, string> selectedSourceCache = new SourceCache<GroupedListItem<TItem>, string>(x => x.Key);
+        //private SourceCache<GroupedListItem<TItem>, string> selectedSourceCache = new SourceCache<GroupedListItem<TItem>, string>(x => x.Key);
         // This needs to be a sourcecache... and we'll just add and remove selected object by passing this cache to the items and letting them do it.
         // When this cache gets updated, we'll send out a notification for the component.
 
@@ -90,54 +90,9 @@ namespace BlazorFabric
         public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
 
 
-        //int FindDepth(TItem item)
-        //{
-        //    int depth = 0;
-        //    var firstCollection = SubGroupSelector(RootGroup);
-        //    if (firstCollection.Contains(item))
-        //        return depth;
-        //    else
-        //    {
-        //        return FindDepthRecursion(item, firstCollection, depth+1);
-        //    }
-        //}
-        //int FindDepthRecursion(TItem item, IEnumerable<TItem> collection, int depth)
-        //{
-        //    foreach (var subItem in collection)
-        //    {
-        //        var subCollection = SubGroupSelector(subItem);
-        //        if (subCollection != null)
-        //        {
-        //            if (subCollection.Contains(item))
-        //                break;
-        //            else
-        //            {
-        //                var result = FindDepthRecursion(item, subCollection, depth + 1);
-        //                if (result != -1)
-        //                {
-        //                    depth = result;
-        //                    break;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return depth;
-        //}
 
         protected override Task OnInitializedAsync()
         {
-            //_selectionSubscription = selectedSourceCache.Connect()
-            //    .Throttle(TimeSpan.FromMilliseconds(100))
-            //    .ToCollection()
-            //    .Subscribe(x => 
-            //    {
-            //        InvokeAsync(() =>
-            //        {
-            //            SelectionChanged.InvokeAsync(new Selection<TItem>(x.Select(y => y.Item)));
-            //            //internalSelection = new Selection<GroupedListItem<TItem>>(x);
-            //        });
-            //    });
-
             return base.OnInitializedAsync();
         }
 
@@ -219,12 +174,7 @@ namespace BlazorFabric
             {
                 if (dataItems != null)
                 {
-                    //selectedSourceCache.Edit(updater =>
-                    //{
-                    //    updater.Clear();
-                    //    updater.AddOrUpdate(dataItems.Where(x => Selection.SelectedItems.Contains(x.Item)));
-                    //});
-
+                   
                     internalSelection = new Selection<GroupedListItem<TItem>>(dataItems.Where(x => Selection.SelectedItems.Contains(x.Item)));
                 }
 
@@ -233,7 +183,7 @@ namespace BlazorFabric
                     internalSelection = new Selection<GroupedListItem<TItem>>();
             }
 
-            if (SelectionMode == SelectionMode.Single && selectedSourceCache.Count > 1) //internalSelection.SelectedItems.Count() > 1)
+            if (SelectionMode == SelectionMode.Single && internalSelection.SelectedItems.Count() > 1)
             {
                 //selectedSourceCache.Clear();
                 internalSelection.ClearSelection(); //new SysteList<GroupedListItem<TItem>>();
@@ -241,7 +191,7 @@ namespace BlazorFabric
                 //await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedSourceCache.Items.Select(x => x.Item)));
                 await SelectionChanged.InvokeAsync(new Selection<TItem>(internalSelection.SelectedItems.Select(x=>x.Item)));
             }
-            else if (SelectionMode == SelectionMode.None && selectedSourceCache.Count > 0) //internalSelection.SelectedItems.Count() > 0)
+            else if (SelectionMode == SelectionMode.None && internalSelection.SelectedItems.Count() > 0)
             {
                 //selectedSourceCache.Clear();
                 internalSelection.ClearSelection(); //.SelectedItems = new List<GroupedListItem<TItem>>();
@@ -274,14 +224,14 @@ namespace BlazorFabric
                                                                                              if (SubGroupSelector(s) == null)
                                                                                              {
                                                                                                  Debug.WriteLine($"Creating ITEM: {depth}-{index}");
-                                                                                                 var item = new PlainItem<TItem>(s, parent, index, depth, selectedSourceCache);
+                                                                                                 var item = new PlainItem<TItem>(s, parent, index, depth);
                                                                                                  parent?.Children.Add(item);
                                                                                                  return item;
                                                                                              }
                                                                                              else
                                                                                              {
                                                                                                  Debug.WriteLine($"Creating HEADER: {depth}-{index}");
-                                                                                                 var header = new HeaderItem<TItem>(s, parent, index, depth, GroupTitleSelector, selectedSourceCache);
+                                                                                                 var header = new HeaderItem<TItem>(s, parent, index, depth, GroupTitleSelector);
                                                                                                  headers[depth] = header;
                                                                                                  parent?.Children.Add(header);
                                                                                                  return header;

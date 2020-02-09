@@ -22,8 +22,8 @@ namespace BlazorFabric
         public IObservable<bool> IsOpenObservable => isOpenSubject.AsObservable();
                
 
-        public HeaderItem(TItem item, HeaderItem<TItem> parent, int index, int depth, Func<TItem,string> groupTitleSelector, SourceCache<GroupedListItem<TItem>, string> selectionObservable)
-            : base(item, parent, index, depth, selectionObservable)
+        public HeaderItem(TItem item, HeaderItem<TItem> parent, int index, int depth, Func<TItem,string> groupTitleSelector)
+            : base(item, parent, index, depth)
         {
             isOpenSubject = new BehaviorSubject<bool>(true);
             Name = groupTitleSelector(item);
@@ -33,8 +33,8 @@ namespace BlazorFabric
 
     public class PlainItem<TItem> : GroupedListItem<TItem>
     {
-        public PlainItem(TItem item, HeaderItem<TItem> parent, int index, int depth, SourceCache<GroupedListItem<TItem>, string> selectionObservable) 
-            : base(item, parent, index, depth, selectionObservable)
+        public PlainItem(TItem item, HeaderItem<TItem> parent, int index, int depth) 
+            : base(item, parent, index, depth)
         {
             
         }
@@ -80,7 +80,7 @@ namespace BlazorFabric
 
         public HeaderItem<TItem> Parent { get; set; }
 
-        public GroupedListItem(TItem item, HeaderItem<TItem> parent, int index, int depth, SourceCache<GroupedListItem<TItem>, string> selectionCache)
+        public GroupedListItem(TItem item, HeaderItem<TItem> parent, int index, int depth)
         {
             _isVisibleSubject = new BehaviorSubject<bool>(true);
             //isSelectedSubject = new Subject<bool>();

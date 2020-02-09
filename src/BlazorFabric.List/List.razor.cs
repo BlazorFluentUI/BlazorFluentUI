@@ -83,7 +83,9 @@ namespace BlazorFabric
 
         private Dictionary<int, double> _pageSizes = new Dictionary<int, double>();
         private bool _needsRemeasure = true;
-        private IDisposable _updatesSubscription;
+        //private IDisposable _updatesSubscription;
+
+        private ICollection<Rule> ListRules { get; set; } = new System.Collections.Generic.List<Rule>();
 
         protected override Task OnInitializedAsync()
         {
@@ -198,7 +200,6 @@ namespace BlazorFabric
 
         protected override async Task OnParametersSetAsync()
         {
-
             if (Selection != null && Selection.SelectedItems != selectedItems)
             {
                 selectedItems = new System.Collections.Generic.List<TItem>(Selection.SelectedItems);
@@ -226,31 +227,17 @@ namespace BlazorFabric
                 }
 
                 _itemsSource = ItemsSource;
-                //IObservable<IChangeSet<TItem>> changeSet;
+
                 if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
                 {
                     (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
                 }
-
-                //if (this.ItemsSource is INotifyCollectionChanged)
-                //{
-                //    changeSet = (ItemsSource).ToObservableChangeSet<IEnumerable<TItem>,TItem>();
-
-                //    _updatesSubscription?.Dispose();
-                //    _updatesSubscription = changeSet.Do(x =>
-                //    {
-                //        _shouldRender = true;
-                //        InvokeAsync(StateHasChanged);
-
-                //    }).Subscribe();
-                //}
                 
                 _shouldRender = true;
                 _needsRemeasure = true;
             }
 
-            
-
+            CreateCss();
             await base.OnParametersSetAsync();
         }
 
@@ -273,17 +260,94 @@ namespace BlazorFabric
             //Debug.WriteLine("list wants to rerender... but can't");
             return false;
         }
-
-        public void ForceRerender()
+        private void CreateCss()
         {
-            _shouldRender = true;
-            StateHasChanged();
+            ListRules.Clear();
+            // Cell only
+            ListRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell" },
+                Properties = new CssString()
+                {
+                    Css = $"padding-top:11px;" +
+                          $"padding-bottom:11px;" +
+                          $"min-height:42px;" +
+                          $"min-width:100%;" +
+                          $"overflow:hidden;" +
+                          $"box-sizing:border-box;" +
+                          $"border-bottom:1px solid {Theme.Palette.NeutralLighter};" +
+                          $"display:inline-flex;" +
+                          $"outline:transparent;" +
+                          $"position:relative;"
+                }
+            });
+            ListRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.Palette.NeutralLighter};" 
+                }
+            });
+            ListRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell.is-selected" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.Palette.NeutralLight};"
+                }
+            });
+            ListRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell::-moz-focus-inner" },
+                Properties = new CssString()
+                {
+                    Css = $"border:0;"
+                }
+            });
+            ListRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-List-cell:focus::after" },
+                Properties = new CssString()
+                {
+                    Css = $"content:'';" +
+                          $"position:absolute;" +
+                          $"left:1px;" +
+                          $"top:1px;" +
+                          $"bottom:1px;" +
+                          $"right:1px;" +
+                          $"border:1px solid transparent;" +
+                          $"outline:1px solid {Theme.Palette.NeutralSecondary};" +
+                          $"z-index:var(--zindex-FocusStyle);"
+                }
+            });
+            ListRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-Fabric--isFocusVisible .ms-List-cell:focus::after {" +
+                          $"left:-2px;" +
+                          $"top:-2px;" +
+                          $"bottom:-2px;" +
+                          $"right:-2px;" +
+                          $"border:none;" +
+                          $"outline-color:ButtonText;" +
+                          "}"
+                }
+            });
         }
 
-        public async void TriggerRemeasure()
-        {
-            await MeasureContainerAsync();
-        }
+        //public void ForceRerender()
+        //{
+        //    _shouldRender = true;
+        //    StateHasChanged();
+        //}
+
+        //public async void TriggerRemeasure()
+        //{
+        //    await MeasureContainerAsync();
+        //}
 
         private RenderFragment RenderPages(int startPage, int endPage, double leadingPadding = 0) => builder =>
           {

@@ -4,18 +4,11 @@
 
 @typeparam TItem
 
+<GlobalCS Rules=@ListRules />
+
 <div class=@($"ms-List mediumFont {ClassName}") role="list" @ref="RootElementReference"
-        style=@($"{Style}overflow-y:hidden;height:100%;")> @*{(UseInternalScrolling ? "overflow-y:hidden;height:100%;" : "")}*@
-    @*@if (UseInternalScrolling)*@
-    @*{*@
-        <div @ref="surfaceDiv" @onscroll=@OnScroll class="ms-List-surface" role="presentation" style="overflow-y:auto;height:100%;">
-            @ItemPagesRender
-        </div>
-    @*}*@
-    @*else
-    {
-        <div @ref="surfaceDiv" class="ms-List-surface" role="presentation" style="overflow-y:auto;height:100%;">
-            @ItemPagesRender
-        </div>
-    }*@
+        style=@($"{Style}overflow-y:hidden;height:100%;")>
+    <div @ref="surfaceDiv" @onscroll=@OnScroll class="ms-List-surface" role="presentation" style="overflow-y:auto;height:100%;">
+        @ItemPagesRender
+    </div>
 </div>

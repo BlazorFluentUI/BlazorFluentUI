@@ -59,9 +59,10 @@ namespace BlazorFabric
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
-        bool canSelect;
-        bool showCheckbox;
-        bool columnMeasureInfo = true;
+        private bool canSelect;
+        private bool showCheckbox;
+        private bool columnMeasureInfo = true;
+        private ICollection<Rule> DetailsRowRules { get; set; } = new List<Rule>();
 
         protected override Task OnParametersSetAsync()
         {
@@ -69,7 +70,13 @@ namespace BlazorFabric
 
             canSelect = Selection != null;
 
+            CreateCss();
             return base.OnParametersSetAsync();
+        }
+
+        private void CreateCss()
+        {
+            //create a method that pulls in focusstyles the way the react controls do it.
         }
     }
 }

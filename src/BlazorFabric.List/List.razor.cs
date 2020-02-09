@@ -13,6 +13,10 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Web;
 using System.Reactive;
+using DynamicData;
+using System.Collections.ObjectModel;
+using DynamicData.Binding;
+using System.Collections.Specialized;
 
 namespace BlazorFabric
 {
@@ -54,6 +58,7 @@ namespace BlazorFabric
         [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
         [Parameter] public EventCallback<(double, object)> OnListScrollerHeightChanged { get; set; }
         [Parameter] public Selection<TItem> Selection { get; set; }
+        [Parameter] public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
         [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
         [Parameter] public bool UseDefaultStyling { get; set; } = true;
 
@@ -78,6 +83,7 @@ namespace BlazorFabric
 
         private Dictionary<int, double> _pageSizes = new Dictionary<int, double>();
         private bool _needsRemeasure = true;
+        private IDisposable _updatesSubscription;
 
         protected override Task OnInitializedAsync()
         {
@@ -192,30 +198,58 @@ namespace BlazorFabric
 
         protected override async Task OnParametersSetAsync()
         {
-            if (_itemsSource == null && ItemsSource != null)
+
+            if (Selection != null && Selection.SelectedItems != selectedItems)
             {
-                if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
-                {
-                    (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
-                }
-                _itemsSource = ItemsSource;
+                selectedItems = new System.Collections.Generic.List<TItem>(Selection.SelectedItems);
                 _shouldRender = true;
-                _needsRemeasure = true;
             }
-            else if (_itemsSource != null && ItemsSource != _itemsSource)
+
+            if (SelectionMode == SelectionMode.Single && selectedItems.Count() > 1)
+            {
+                selectedItems.Clear();
+                _shouldRender = true;
+                await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
+            else if (SelectionMode == SelectionMode.None && selectedItems.Count() > 0)
+            {
+                selectedItems.Clear();
+                _shouldRender = true;
+                await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
+
+            if (_itemsSource != ItemsSource)
             {
                 if (this._itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
                 {
                     (this._itemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged -= ListBase_CollectionChanged;
                 }
+
+                _itemsSource = ItemsSource;
+                //IObservable<IChangeSet<TItem>> changeSet;
                 if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
                 {
                     (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
                 }
-                _itemsSource = ItemsSource;
+
+                //if (this.ItemsSource is INotifyCollectionChanged)
+                //{
+                //    changeSet = (ItemsSource).ToObservableChangeSet<IEnumerable<TItem>,TItem>();
+
+                //    _updatesSubscription?.Dispose();
+                //    _updatesSubscription = changeSet.Do(x =>
+                //    {
+                //        _shouldRender = true;
+                //        InvokeAsync(StateHasChanged);
+
+                //    }).Subscribe();
+                //}
+                
                 _shouldRender = true;
                 _needsRemeasure = true;
             }
+
+            
 
             await base.OnParametersSetAsync();
         }
@@ -238,6 +272,12 @@ namespace BlazorFabric
             }
             //Debug.WriteLine("list wants to rerender... but can't");
             return false;
+        }
+
+        public void ForceRerender()
+        {
+            _shouldRender = true;
+            StateHasChanged();
         }
 
         public async void TriggerRemeasure()
@@ -335,7 +375,7 @@ namespace BlazorFabric
             }
 
             ItemClicked.InvokeAsync(castItem);
-
+            SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
 
             if (_shouldRender == true)
                 this.StateHasChanged();
@@ -428,6 +468,7 @@ namespace BlazorFabric
             _heightSub?.Dispose();
             _scrollSubscription?.Dispose();
 
+            //_updatesSubscription?.Dispose();
             if (_itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
             {
                 (_itemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged -= ListBase_CollectionChanged;

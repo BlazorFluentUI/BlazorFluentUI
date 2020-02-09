@@ -14,8 +14,8 @@ namespace BlazorFabric
         [Parameter]
         public bool AnySelected { get; set; }
 
-        [Parameter]
-        public bool CanSelect { get; set; }
+        //[Parameter]
+        //public bool CanSelect { get; set; }
 
         [Parameter]
         public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
@@ -59,13 +59,15 @@ namespace BlazorFabric
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
-
+        bool canSelect;
         bool showCheckbox;
         bool columnMeasureInfo = true;
 
         protected override Task OnParametersSetAsync()
         {
             showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
+
+            canSelect = Selection != null;
 
             return base.OnParametersSetAsync();
         }

@@ -15,6 +15,7 @@
                                   TItem="GroupedDataItem"
                                   GroupTitleSelector=@(x=>x.DisplayName)
                                   SubGroupSelector=@(x=>x.Data)
+                                  @bind-Selection=@selection
                                   SelectionMode=@SelectionMode.Multiple>
             <ItemTemplate>
                 @{
@@ -22,7 +23,9 @@
                     <DetailsRow Item=@context.Item
                                 Columns=@columns
                                 Compact=@isCompact
+                                IsSelected=@context.IsSelected
                                 GroupNestingDepth=@context.Depth
+                                Selection=@selection
                                 SelectionMode=@SelectionMode.Multiple
                                 />
                     @*<div style="display:flex;flex-direction:row;">
@@ -46,6 +49,7 @@
     GroupedDataItem rootGroup;
     System.Collections.Generic.List<DataItem> data;
     System.Collections.Generic.List<GroupedDataItem> groupedData;
+    Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
     System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>> columns;
 

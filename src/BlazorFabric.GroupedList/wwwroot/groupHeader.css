@@ -50,14 +50,14 @@
     
     /*GLOBAL selector here I don't get */
 
-.ms-GroupHeader.is-selected{
+.is-selected .ms-GroupHeader {
     background: var(--semanticColors-ListItemBackgroundChecked);
 }
-.ms-GroupHeader.is-selected:hover {
-    background: var(--semanticColors-ListItemBackgroundCheckedHovered);
-}
-    .ms-GroupHeader.is-selected:hover .ms-GroupHeader-check{
-        opacity:1;
+    .is-selected .ms-GroupHeader:hover {
+        background: var(--semanticColors-ListItemBackgroundCheckedHovered);
+    }
+    .is-selected .ms-GroupHeader:hover .ms-GroupHeader-check {
+        opacity: 1;
     }
 .ms-GroupHeader.ms-GroupHeader--compact {
     border: none;

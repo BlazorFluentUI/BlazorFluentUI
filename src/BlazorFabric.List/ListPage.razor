@@ -18,7 +18,7 @@
             <ListItem IndexPosition=@index 
                       Item=@item 
                       ItemClicked=@ItemClicked 
-                      IsActive=@(this.SelectedItems.Contains(item))
+                      IsSelected=@(this.SelectedItems != null ? this.SelectedItems.Contains(item) : false)
                       ItemFocusable=@ItemFocusable
                       UseDefaultStyling=@UseDefaultStyling>
                 @ItemTemplate(item)

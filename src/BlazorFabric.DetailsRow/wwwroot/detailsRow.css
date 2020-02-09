@@ -84,13 +84,14 @@
     font-size: var(--fontSize-Medium);
 }
 
-.ms-DetailsRow.is-selected{
+.is-selected .ms-DetailsRow {
     color: var(--palette-NeutralDark);
     font-weight: var(--fontWeight-SemiBold);
+    background: var(--palette-NeutralLight);
 }
 
 @media screen and (-ms-high-contrast: active) {
-    .ms-DetailsRow.is-selected {
+    .is-selected .ms-DetailsRow {
         color: Highlight;
     }
 }

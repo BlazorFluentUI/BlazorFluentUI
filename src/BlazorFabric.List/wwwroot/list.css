@@ -30,7 +30,7 @@
     .ms-List-cell:hover {
         background-color: var(--palette-NeutralLighter);
     }
-    .ms-List-cell.is-active {
+    .ms-List-cell.is-selected {
         background-color: var(--palette-NeutralLight);
     }
 

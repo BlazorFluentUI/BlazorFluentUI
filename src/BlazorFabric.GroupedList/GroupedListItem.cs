@@ -1,6 +1,8 @@
-﻿using System;
+﻿using DynamicData;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
@@ -18,8 +20,10 @@ namespace BlazorFabric
 
         private BehaviorSubject<bool> isOpenSubject;
         public IObservable<bool> IsOpenObservable => isOpenSubject.AsObservable();
+               
 
-        public HeaderItem(TItem item, HeaderItem<TItem> parent, int index, int depth, Func<TItem,string> groupTitleSelector):base(item, parent, index, depth)
+        public HeaderItem(TItem item, HeaderItem<TItem> parent, int index, int depth, Func<TItem,string> groupTitleSelector, SourceCache<GroupedListItem<TItem>, string> selectionObservable)
+            : base(item, parent, index, depth, selectionObservable)
         {
             isOpenSubject = new BehaviorSubject<bool>(true);
             Name = groupTitleSelector(item);
@@ -29,7 +33,8 @@ namespace BlazorFabric
 
     public class PlainItem<TItem> : GroupedListItem<TItem>
     {
-        public PlainItem(TItem item, HeaderItem<TItem> parent, int index, int depth) : base(item, parent, index, depth)
+        public PlainItem(TItem item, HeaderItem<TItem> parent, int index, int depth, SourceCache<GroupedListItem<TItem>, string> selectionObservable) 
+            : base(item, parent, index, depth, selectionObservable)
         {
             
         }
@@ -47,12 +52,22 @@ namespace BlazorFabric
                 _isVisibleSubject.OnNext(value);
             }
         }
+
+        private bool _isSelected;
+        public bool IsSelected { get => _isSelected; set => _isSelected = value; }
+
+        //private bool _isSelected;
+        //public bool IsSelected { get => _isSelected; set { if (_isSelected != value) { _isSelected = value; isSelectedSubject?.OnNext(value); } } }
+        //private Subject<bool> isSelectedSubject;
+        //public IObservable<bool> IsSelectedObservable => isSelectedSubject.AsObservable();
+
         public TItem Item { get; set; }
         public string Name { get; set; }
         public int Index { get; set; }
         public int Depth { get; set; }
         public string Key => GetGroupItemKey(this);
 
+        
         private static string GetGroupItemKey(GroupedListItem<TItem> groupedListItem)
         {
             string key = "";
@@ -63,10 +78,12 @@ namespace BlazorFabric
         }
 
         public HeaderItem<TItem> Parent { get; set; }
-                
-        public GroupedListItem(TItem item, HeaderItem<TItem> parent, int index, int depth)
+
+        public GroupedListItem(TItem item, HeaderItem<TItem> parent, int index, int depth, SourceCache<GroupedListItem<TItem>, string> selectionCache)
         {
             _isVisibleSubject = new BehaviorSubject<bool>(true);
+            //isSelectedSubject = new Subject<bool>();
+
             Item = item;
             Index = index;
             Depth = depth;
@@ -77,7 +94,38 @@ namespace BlazorFabric
                 Debug.WriteLine($"Setting item {index} to be visible: {shouldBeVisible}");
                 IsVisible = shouldBeVisible;
             });
+
+            //if (Parent != null)
+            //{
+            //    selectionCache.Connect()
+            //        .Filter(x => x == Parent)
+            //        .OnItemAdded(x =>
+            //        {
+            //            selectionCache.AddOrUpdate(this);
+            //        })
+            //        .OnItemRemoved(x =>
+            //        {
+            //            selectionCache.Remove(this);
+            //        })
+            //        .Subscribe();
+            //}
+
         }
+
+        //public bool ShouldAlsoToggle(GroupedListItem<TItem> selectedItem)
+        //{
+        //    if (this.Parent == selectedItem)
+        //        return true;
+        //    else if (this.Parent != null)
+        //    {
+        //        return this.Parent.ShouldAlsoToggle(selectedItem);
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
     }
 
     public class GroupedListItemComparer<TItem> : IComparer<GroupedListItem<TItem>>

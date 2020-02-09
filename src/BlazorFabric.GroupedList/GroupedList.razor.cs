@@ -14,13 +14,16 @@ using DynamicData.Experimental;
 using System.Reactive.Linq;
 using DynamicData.Tests;
 using System.Collections.ObjectModel;
+using System.Reactive.Subjects;
 
 namespace BlazorFabric
 {
     public partial class GroupedList<TItem> : FabricComponentBase
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
-        private bool _isGrouped;
+        //private bool _isGrouped;
+        private List<GroupedListItem<TItem>> listReference;
+
         private ReadOnlyObservableCollection<GroupedListItem<TItem>> dataItems;
 
         //private IEnumerable<Group<TItem,TKey>> _groups;
@@ -28,7 +31,24 @@ namespace BlazorFabric
         private const double COMPACT_ROW_HEIGHT = 32;
         private const double ROW_HEIGHT = 42;
 
-        //private List<Group<TItem, TKey>> _mainList;
+        private SourceCache<GroupedListItem<TItem>, string> selectedSourceCache = new SourceCache<GroupedListItem<TItem>, string>(x => x.Key);
+        // This needs to be a sourcecache... and we'll just add and remove selected object by passing this cache to the items and letting them do it.
+        // When this cache gets updated, we'll send out a notification for the component.
+
+        //private BehaviorSubject<Selection<GroupedListItem<TItem>>> _internalSelectionSubject = new BehaviorSubject<Selection<GroupedListItem<TItem>>>(new Selection<GroupedListItem<TItem>>());
+        //private Selection<GroupedListItem<TItem>> _internalSelection = new Selection<GroupedListItem<TItem>>();
+        //private Selection<GroupedListItem<TItem>> internalSelection { get => _internalSelectionSubject.Value;
+        //    set
+        //    {
+        //        _internalSelectionSubject.OnNext(value);
+        //    }
+        //}
+        private TItem _rootGroup;
+
+        private Selection<GroupedListItem<TItem>> internalSelection = new Selection<GroupedListItem<TItem>>();
+        private IDisposable _selectionSubscription;
+
+        //internal IEnumerable<GroupedListItem<TItem>> selectedItems { get => internalSelection.SelectedItems; set => internalSelection = new Selection<GroupedListItem<TItem>>(value); }
 
         [Parameter]
         public bool Compact { get; set; }
@@ -56,9 +76,12 @@ namespace BlazorFabric
 
         [Parameter]
         public Func<bool> OnShouldVirtualize { get; set; } = () => true;
-
-        [Parameter]
-        public TItem Selection { get; set; }
+                
+        [Parameter] 
+        public Selection<TItem> Selection { get; set; }
+        
+        [Parameter] 
+        public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
@@ -67,178 +90,200 @@ namespace BlazorFabric
         public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
 
 
-        //[Parameter] public Action OnScrollExternalEvent { get; set; }  //For nested lists like GroupedList, too many javascript scroll events bogs down the whole system
-        //[Parameter] public ManualRectangle ExternalProvidedScrollDimensions { get; set; }  //For nested lists like GroupedList
-
-        //IObservable<IChangeSet<ParentOwned<TItem, TKey>, TKey>> FlattenChangeSet(IObservable<IChangeSet<ParentOwned<TItem, TKey>, TKey>> node)
+        //int FindDepth(TItem item)
         //{
-        //    var flattened = node.TransformMany(x=> SubGroupSelector(x.Item), GroupKeySelector)
-        //        .Transform(x => new ParentOwned<TItem, TKey>(x, default(TKey), GroupKeySelector, SubGroupSelector));
-        //    flattened = FlattenChangeSet(flattened);
-        //    return node.Concat(flattened);
+        //    int depth = 0;
+        //    var firstCollection = SubGroupSelector(RootGroup);
+        //    if (firstCollection.Contains(item))
+        //        return depth;
+        //    else
+        //    {
+        //        return FindDepthRecursion(item, firstCollection, depth+1);
+        //    }
+        //}
+        //int FindDepthRecursion(TItem item, IEnumerable<TItem> collection, int depth)
+        //{
+        //    foreach (var subItem in collection)
+        //    {
+        //        var subCollection = SubGroupSelector(subItem);
+        //        if (subCollection != null)
+        //        {
+        //            if (subCollection.Contains(item))
+        //                break;
+        //            else
+        //            {
+        //                var result = FindDepthRecursion(item, subCollection, depth + 1);
+        //                if (result != -1)
+        //                {
+        //                    depth = result;
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return depth;
         //}
 
-        int FindDepth(TItem item)
+        protected override Task OnInitializedAsync()
         {
-            int depth = 0;
-            var firstCollection = SubGroupSelector(RootGroup);
-            if (firstCollection.Contains(item))
-                return depth;
-            else
-            {
-                return FindDepthRecursion(item, firstCollection, depth+1);
-            }
+            //_selectionSubscription = selectedSourceCache.Connect()
+            //    .Throttle(TimeSpan.FromMilliseconds(100))
+            //    .ToCollection()
+            //    .Subscribe(x => 
+            //    {
+            //        InvokeAsync(() =>
+            //        {
+            //            SelectionChanged.InvokeAsync(new Selection<TItem>(x.Select(y => y.Item)));
+            //            //internalSelection = new Selection<GroupedListItem<TItem>>(x);
+            //        });
+            //    });
+
+            return base.OnInitializedAsync();
         }
-        int FindDepthRecursion(TItem item, IEnumerable<TItem> collection, int depth)
+
+        private void OnSelectedChanged(Selection<GroupedListItem<TItem>> selection)
         {
-            foreach (var subItem in collection)
+            List<string> s = new List<string>();
+            
+            var finalList = new System.Collections.Generic.List<GroupedListItem<TItem>>(selection.SelectedItems);
+
+            var itemsToAdd = selection.SelectedItems.Except(internalSelection.SelectedItems).ToList();
+            var itemsToRemove = internalSelection.SelectedItems.Except(selection.SelectedItems).ToList();
+            itemsToRemove.ForEach(x =>
             {
-                var subCollection = SubGroupSelector(subItem);
-                if (subCollection != null)
+                var items = SubGroupSelector.Invoke(x.Item);
+                if (items != null)
                 {
-                    if (subCollection.Contains(item))
-                        break;
-                    else
+                    var foundItemsToRemove = GetS(items);
+                    foreach (var remove in foundItemsToRemove)
                     {
-                        var result = FindDepthRecursion(item, subCollection, depth + 1);
-                        if (result != -1)
-                        {
-                            depth = result;
-                            break;
-                        }
+                        //if (finalList.Contains(remove))
+                        finalList.Remove(remove);
                     }
                 }
-            }
-            return depth;
+            });
+
+            itemsToAdd.ForEach(x =>
+            {
+                var items = SubGroupSelector.Invoke(x.Item);
+                if (items != null)
+                {
+                    var foundItemsToAdd = GetS(items);
+                    foreach (var add in foundItemsToAdd)
+                    {
+                        finalList.Add(add);
+                    }
+                }
+            });
+
+            SelectionChanged.InvokeAsync(new Selection<TItem>(finalList.Select(x => x.Item)));
+            //selectedSourceCache.AddOrUpdate(selection.SelectedItems);
         }
 
-        protected override Task OnParametersSetAsync()
+        private System.Collections.Generic.List<GroupedListItem<TItem>> GetS(IEnumerable<TItem> items)
         {
-            if (SubGroupSelector != null)
+            var groupedItems = new System.Collections.Generic.List<GroupedListItem<TItem>>();
+            foreach (var item in items)
             {
-                _isGrouped = true;
-                int index = 0;
-                if (RootGroup != null)
+                var foundItem = dataItems.FirstOrDefault(x => x.Item.Equals(item));
+                if (foundItem != null)
+                    groupedItems.Add(foundItem);
+
+                var moreItems = SubGroupSelector.Invoke(item);
+                if (moreItems != null)
+                    groupedItems.AddRange(GetS(moreItems));
+            }
+            return groupedItems;
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            if (Selection != null)
+            {
+                if (dataItems != null)
                 {
-                    var list = new System.Collections.Generic.List<TItem>();
-                    list.Add(RootGroup);
-                    var changeSet = list.AsObservableChangeSet();
-                    Dictionary<int, HeaderItem<TItem>> headers = new Dictionary<int, HeaderItem<TItem>>();
-                    Dictionary<int, int> depthIndex = new Dictionary<int, int>();
-                    var result = changeSet.TransformMany<GroupedListItem<TItem>,TItem>(x => SubGroupSelector(x)?.RecursiveSelect<TItem, GroupedListItem<TItem>>(
-                                                                                    r => SubGroupSelector(r),
-                                                                                    (s, index, depth) =>
-                                                                                    {
-                                                                                        if (!depthIndex.ContainsKey(depth))
-                                                                                            depthIndex[depth] = 0;
-                                                                                        headers.TryGetValue(depth-1, out var parent);
-                                                                                        if (SubGroupSelector(s) == null)
-                                                                                        {
-                                                                                            Debug.WriteLine($"Creating ITEM: {depth}-{index}");
-                                                                                            return new PlainItem<TItem>(s, parent, index, depth);
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            Debug.WriteLine($"Creating HEADER: {depth}-{index}");
-                                                                                            var header = new HeaderItem<TItem>(s, parent, index, depth, GroupTitleSelector);
-                                                                                            headers[depth] = header;
-                                                                                            return header;
-                                                                                        }
-                                                                                    }))
-                        .AutoRefreshOnObservable(x=>x.IsVisibleObservable)
-                        .Filter(x=> x.IsVisible)
-                        .Sort(new GroupedListItemComparer<TItem>())
-                        .Bind(out dataItems)
-                        .Subscribe();
+                    //selectedSourceCache.Edit(updater =>
+                    //{
+                    //    updater.Clear();
+                    //    updater.AddOrUpdate(dataItems.Where(x => Selection.SelectedItems.Contains(x.Item)));
+                    //});
+
+                    internalSelection = new Selection<GroupedListItem<TItem>>(dataItems.Where(x => Selection.SelectedItems.Contains(x.Item)));
                 }
 
+                else
+                    //selectedSourceCache.Clear();
+                    internalSelection = new Selection<GroupedListItem<TItem>>();
+            }
+
+            if (SelectionMode == SelectionMode.Single && selectedSourceCache.Count > 1) //internalSelection.SelectedItems.Count() > 1)
+            {
+                //selectedSourceCache.Clear();
+                internalSelection.ClearSelection(); //new SysteList<GroupedListItem<TItem>>();
+                //_shouldRender = true;
+                //await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedSourceCache.Items.Select(x => x.Item)));
+                await SelectionChanged.InvokeAsync(new Selection<TItem>(internalSelection.SelectedItems.Select(x=>x.Item)));
+            }
+            else if (SelectionMode == SelectionMode.None && selectedSourceCache.Count > 0) //internalSelection.SelectedItems.Count() > 0)
+            {
+                //selectedSourceCache.Clear();
+                internalSelection.ClearSelection(); //.SelectedItems = new List<GroupedListItem<TItem>>();
+                //_shouldRender = true;
+                //await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedSourceCache.Items.Select(x => x.Item)));
+                await SelectionChanged.InvokeAsync(new Selection<TItem>(internalSelection.SelectedItems.Select(x => x.Item)));
+            }
+
+            if (SubGroupSelector != null)
+            {
+                if (RootGroup != null && !RootGroup.Equals(_rootGroup))
+                {
+                    //dispose old subscriptions
+
+                    _rootGroup = RootGroup;
+                    if (_rootGroup != null)
+                    {
+                        var list = new System.Collections.Generic.List<TItem>();
+                        list.Add(_rootGroup);
+                        var changeSet = list.AsObservableChangeSet();
+                        Dictionary<int, HeaderItem<TItem>> headers = new Dictionary<int, HeaderItem<TItem>>();
+                        Dictionary<int, int> depthIndex = new Dictionary<int, int>();
+                        var transformedChangeSet = changeSet.TransformMany<GroupedListItem<TItem>, TItem>(x => SubGroupSelector(x)?.RecursiveSelect<TItem, GroupedListItem<TItem>>(
+                                                                                         r => SubGroupSelector(r),
+                                                                                         (s, index, depth) =>
+                                                                                         {
+                                                                                             if (!depthIndex.ContainsKey(depth))
+                                                                                                 depthIndex[depth] = 0;
+                                                                                             headers.TryGetValue(depth - 1, out var parent);
+                                                                                             if (SubGroupSelector(s) == null)
+                                                                                             {
+                                                                                                 Debug.WriteLine($"Creating ITEM: {depth}-{index}");
+                                                                                                 return new PlainItem<TItem>(s, parent, index, depth, selectedSourceCache);
+                                                                                             }
+                                                                                             else
+                                                                                             {
+                                                                                                 Debug.WriteLine($"Creating HEADER: {depth}-{index}");
+                                                                                                 var header = new HeaderItem<TItem>(s, parent, index, depth, GroupTitleSelector, selectedSourceCache);
+                                                                                                 headers[depth] = header;
+                                                                                                 return header;
+                                                                                             }
+                                                                                         }));
+
+
+                        var someDisposable = transformedChangeSet
+                            .AutoRefreshOnObservable(x => x.IsVisibleObservable)
+                            .Filter(x => x.IsVisible)
+                            .Sort(new GroupedListItemComparer<TItem>())
+                            .Bind(out dataItems)
+                            .Subscribe();
+
+                    }
+                }
              
             }
-            return base.OnParametersSetAsync();
+            await base.OnParametersSetAsync();
         }
 
-        //IObservable<IChangeSet<GroupedListItem<TItem, TKey>,TKey>> ProcessCache(IObservable<IChangeSet<TItem, TKey>> changeSet)
-        //{
-        //    var groups = changeSet.Filter(x => SubGroupSelector(x) != null);
-        //    var transformedGroups = groups.Transform<GroupedListItem<TItem, TKey>, TItem, TKey>(x => new HeaderItem<TItem, TKey>(x));
 
-        //    //need to setup recursion on this part and merge it.
-        //    //var flattenedCache = groups.Flatten();
-
-        //    //var processedSubItems = ProcessCache(flattenedCache);
-
-        //    var transformedItems = changeSet.Filter(x => SubGroupSelector(x) == null).Transform<GroupedListItem<TItem, TKey>, TItem, TKey>(x => new PlainItem<TItem, TKey>(x));
-
-        //    var combined = transformedGroups.Merge(transformedItems);
-        //    return combined;
-        //}
-
-        //private void HandleListScrollerHeightChanged((double, object) details)
-        //{
-        //    Debug.WriteLine($"Height changed: {details.Item1} for {(int)details.Item2}");
-            
-        //}
-
-        //private void HandleSectionHeightChanged(double height)
-        //{
-        //    //_mainList.TriggerRemeasure();
-        //}
-
-
-
-
-        //private double GetPageHeight(int itemIndex, ManualRectangle visibleRectangle, int itemCount)
-        //{
-        //    if (SubGroupSelector != null)
-        //    {
-        //        //var pageGroup = _groups.ElementAtOrDefault(itemIndex);
-
-        //        //if (pageGroup != null)
-        //        //{
-        //        //    if (GetGroupHeight != null)
-        //        //    {
-        //        //        return GetGroupHeight(pageGroup, itemIndex);
-        //        //    }
-        //        //    else
-        //        //    {
-        //        //        return GetGroupHeightInternal(pageGroup, itemIndex);
-        //        //    }
-        //        //}
-        //        //else
-        //        //{
-        //        //    return 0;
-        //        //}
-        //    }
-        //    return 0;
-        //}
-
-        //private double GetGroupHeightInternal(Group<TItem> group, int itemIndex)
-        //{
-        //    double rowHeight = Compact ? COMPACT_ROW_HEIGHT : ROW_HEIGHT;
-        //    return rowHeight + (group.IsCollapsed ? 0 : rowHeight * GetGroupItemLimitInternal(group));
-        //}
-
-        //private int GetGroupItemLimitInternal(Group<TItem> group)
-        //{
-        //    // going to ignore the property for now
-
-        //    //default groupItemLimit
-        //    return group.Count;
-        //}
-
-        //private string GetGroupKey(Group<TItem> group, int index)
-        //{
-        //    return $"group-{(group != null && !string.IsNullOrEmpty(group.Key) ? group.Key : index.ToString())}";
-        //}
-
-        //private PageSpecification GetPageSpecification(int itemIndex, ManualRectangle manualRectangle)
-        //{
-        //    var pageSpecification = new PageSpecification
-        //    {
-        //        //Key = _groups != null ? _groups.ElementAt(itemIndex).Key : ""
-        //    };
-        //    return pageSpecification;
-        //}
 
     }
 }

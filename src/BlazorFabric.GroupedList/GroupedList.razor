@@ -5,24 +5,40 @@
 @if (dataItems != null)
 {
     <List TItem="GroupedListItem<TItem>"
+          @ref="listReference"
           ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
           ItemsSource=@dataItems
           SelectionMode=@SelectionMode
           UseDefaultStyling="false"
+          Selection=@internalSelection
+          SelectionChanged=@OnSelectedChanged
                 >
         <ItemTemplate>
-                @if (context is HeaderItem<TItem>)
-                {
-                    var header = (HeaderItem<TItem>)context;
-                    <GroupHeader @key=@context.Key @bind-IsOpen=@header.IsOpen Count=@header.Depth Name=@header.Name Compact=@Compact />
-                }
-                else
-                {
-                    //System.Diagnostics.Debug.WriteLine(context.Key);
-                    <div @key=@context.Key>
-                        @ItemTemplate(context)
-                    </div>
-                }
+            @{
+                //context.IsSelectedObservable.Subscribe(isSelected =>
+                //{
+                //    listReference.ForceRerender();
+                //});
+            }
+
+            @if (context is HeaderItem<TItem>)
+            {
+                var header = (HeaderItem<TItem>)context;
+                @*@key=@(context.Key + (context.IsSelected ? "-selected" : ""))*@
+                <GroupHeader @key=@context.Key 
+                             @bind-IsOpen=@header.IsOpen 
+                             Count=@header.Depth 
+                             Name=@header.Name 
+                             Compact=@Compact 
+                             IsSelectionCheckVisible=@(Selection != null)/>
+            }
+            else
+            {
+                //System.Diagnostics.Debug.WriteLine(context.Key);
+                <div @key=@context.Key>
+                    @ItemTemplate(context)
+                </div>
+            }
         </ItemTemplate>
     </List>
         

@@ -27,6 +27,21 @@ namespace BlazorFabric
 
 
         private decimal _percent = -1;
+        private const int marginBetweenText = 8;
+        private const int textHeight = 18;
+        private bool isRTL = false;
+        private Rule ProgressIndicatorItemProgressRule = new Rule();
+        private Rule ProgressIndicatorProgressTrackRule = new Rule();
+        private Rule ProgressIndicatorProgressBarRule = new Rule();
+
+        private ICollection<Rule> ProgressIndicatorGlobalRules { get; set; } = new List<Rule>();
+        private ICollection<Rule> ProgressIndicatorLocalRules { get; set; } = new List<Rule>();
+
+        protected override void OnInitialized()
+        {
+            CreateLocalCss();
+            base.OnInitialized();
+        }
 
         protected override Task OnParametersSetAsync()
         {
@@ -39,7 +54,8 @@ namespace BlazorFabric
                 _percent = -1;
             }
 
-
+            CreateGlobalCss();
+            SetStyle();
             AriaValueMin = _percent >= 0 ? null : "0";
             AriaValueMax = _percent >= 0 ? null : "100";
             AriaValueNow = _percent >= 0 ? null : _percent.ToString();
@@ -47,15 +63,7 @@ namespace BlazorFabric
             return base.OnParametersSetAsync();
         }
 
-        protected string GetBarHeightStyles()
-        {
-            string styles = "";
-            styles += $"height:{BarHeight}px;";
-
-            return styles;
-        }
-
-        protected string GetProgressBarStyles()
+        protected string GetWidthByPercentage()
         {
             string styles = "";
 
@@ -67,23 +75,101 @@ namespace BlazorFabric
                     styles += "transition: none;";
                 }
             }
-            styles += GetBarHeightStyles();
-
-            if (Indeterminate)
-            {
-                styles += "position:absolute;";
-                styles += "min-width:33%;";
-                styles += "background: linear-gradient(to right, var(--palette-NeutralLight) 0%, var(--palette-ThemePrimary) 50%, var(--palette-NeutralLight) 100%);";
-                styles += "animation: IndeterminateProgress 3s infinite;";
-            }
-            else
-            {
-                styles += "transition: width .15s linear;";
-            }
 
             return styles;
         }
 
-   
+        private void CreateLocalCss()
+        {
+            ProgressIndicatorItemProgressRule.Selector = new ClassSelector() { SelectorName = "ms-ProgressIndicator-itemProgress" };
+            ProgressIndicatorProgressTrackRule.Selector = new ClassSelector() { SelectorName = "ms-ProgressIndicator-progressTrack" };
+            ProgressIndicatorProgressBarRule.Selector = new ClassSelector() { SelectorName = "ms-ProgressIndicator-progressBar" };
+            ProgressIndicatorLocalRules.Add(ProgressIndicatorItemProgressRule);
+            ProgressIndicatorLocalRules.Add(ProgressIndicatorProgressTrackRule);
+            ProgressIndicatorLocalRules.Add(ProgressIndicatorProgressBarRule);
+        }
+
+        private void SetStyle()
+        {
+            ProgressIndicatorItemProgressRule.Properties = new CssString()
+            {
+                Css = $"position:relative;" +
+                            $"overflow:hidden;" +
+                            $"height:{BarHeight}px;" +
+                            $"padding:{marginBetweenText}px 0;"
+            };
+            ProgressIndicatorProgressTrackRule.Properties = new CssString()
+            {
+                Css = $"position:absolute;" +
+                        $"width:100%;" +
+                        $"height:{BarHeight}px;" +
+                        $"background-color:{Theme.Palette.NeutralLight}"
+            };
+            ProgressIndicatorProgressBarRule.Properties = new CssString()
+            {
+                Css = $"background-color:{Theme.Palette.ThemePrimary};" +
+                        $"height:{BarHeight}px;" +
+                        $"position:absolute;" +
+                        (Indeterminate ? $"transition:width .3s ease;" : $"transition:width .15s linear;") +
+                        $"width:0;" +
+                        (Indeterminate ? $"min-width:33%;" : $"") +
+                        (Indeterminate ? $"background: linear-gradient(to right,{Theme.Palette.NeutralLight} 0%,{Theme.Palette.ThemePrimary} 50%,{Theme.Palette.NeutralLight} 100%);" : $"") +
+                        (Indeterminate ? (isRTL ? $"animation:IndeterminateProgressRTL 3s infinite;" : $"animation:IndeterminateProgress 3s infinite;") : $"") 
+                        // ToDo Implement RTL-Support
+            };
+        }
+
+        private void CreateGlobalCss()
+        {
+            ProgressIndicatorGlobalRules.Clear();
+            ProgressIndicatorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgress" },
+                Properties = new CssString()
+                {
+                    Css = "0%{left:-30%;} 100%{left:100%;}"
+                }
+            });
+            ProgressIndicatorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgressRTL" },
+                Properties = new CssString()
+                {
+                    Css = "100%{right:-30%;} 0%{right:100%;}"
+                }
+            });
+            ProgressIndicatorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemName" },
+                Properties = new CssString()
+                {
+                    Css = $"overflow:hidden;" +
+                            $"text-overflow:ellipsis;" +
+                            $"white-space:nowrap;" +
+                            $"color:{Theme.SemanticTextColors.BodyText};" +
+                            $"padding-top:{marginBetweenText / 2}px;" +
+                            $"line-height:{textHeight + 2}px;"
+        }
+            });
+            ProgressIndicatorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemDescription" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.BodySubtext};" +
+                            $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                            $"line-height:{textHeight}px;"
+                }
+            });
+            ProgressIndicatorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-ProgressIndicator-progressTrack{border-bottom:1px solid WindowText;} .ms-ProgressIndicator-progressBar{background-color:WindowText;}"
+                }
+            });
+        }
+
     }
 }

@@ -1,6 +1,9 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Rules="@ProgressIndicatorGlobalRules" />
+<LocalCS @bind-Rules="@ProgressIndicatorLocalRules" />
+
 <div class=@($"mediumFont ms-ProgressIndicator {ClassName}") style=@Style>
     @if (!string.IsNullOrWhiteSpace(Label))
     {
@@ -8,24 +11,21 @@
     }
     @if (!ProgressHidden)
     {
-        @if(RenderProgressTemplate != null)
+        @if (RenderProgressTemplate != null)
         {
             @RenderProgressTemplate(PercentComplete)
         }
         else
         {
-            <div class="ms-ProgressIndicator-itemProgress"
-                 style=@GetBarHeightStyles()>
-                <div class="ms-ProgressIndicator-progressTrack"
-                     style=@GetBarHeightStyles()/>
-                <div class="ms-ProgressIndicator-progressBar"
-                     style=@GetProgressBarStyles()
+            <div class="@ProgressIndicatorItemProgressRule.Selector.SelectorName" >
+                <div class="ms-ProgressIndicator-progressTrack @ProgressIndicatorProgressTrackRule.Selector.SelectorName" />
+                <div class="ms-ProgressIndicator-progressBar @ProgressIndicatorProgressBarRule.Selector.SelectorName"
+                     style=@(Indeterminate ? "" : GetWidthByPercentage())
                      role="progressbar"
                      aria-valuemin=@AriaValueMin
                      aria-valuemax=@AriaValueMax
                      aria-valuenow=@AriaValueNow
-                     aria-valuetext=@AriaValueText
-                     />
+                     aria-valuetext=@AriaValueText />
             </div>
         }
     }

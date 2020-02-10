@@ -2,22 +2,22 @@
 @inherits FabricComponentBase
 @typeparam TItem
 
-<GlobalCS Rules=@DetailsRowRules />
+<GlobalCS Rules=@DetailsRowGlobalRules />
+<LocalCS @bind-Rules=@DetailsRowLocalRules />
 
 <FocusZone Direction=@FocusZoneDirection.Horizontal
            AriaLabel=@AriaLabel
            AriaDescribedBy=@AriaDescribedBy
-           ClassName=@($"fadeIn400 smallFont {(Compact ? "is-compact " : "")}{(IsCheckVisible ? "is-check-visible " : "")}ms-DetailsRow")
+           ClassName=@($"fadeIn400 smallFont {(Compact ? "is-compact " : "")}{(isSelected ? "is-selected " : "")}{(IsRowHeader ? "is-row-header " : "")}{(IsCheckVisible ? "is-check-visible " : "")}ms-DetailsRow")
            AllowFocusRoot="true">
-    
-    @if(showCheckbox)
+
+    @if (showCheckbox)
     {
         <div role="gridcell" aria-colindex="1" data-selection-toggle="true" class="ms-DetailsRow-checkCell">
             <DetailsRowCheck IsVisible=@(this.CheckboxVisibility == CheckboxVisibility.Always)
                              Compact=@Compact
                              UseFastIcons="true"
-                             CanSelect=@canSelect
-                             />
+                             CanSelect=@canSelect />
         </div>
     }
 
@@ -26,9 +26,14 @@
 
     @if (Item != null)
     {
+        <DetailsRowFields Item=@Item
+                          ItemIndex=@ItemIndex
+                          Columns=@Columns
+                          ColumnStartIndex=@((showCheckbox ? 1 : 0)) />
+
         @if (columnMeasureInfo)
         {
-            <span role="presentation" class="ms-DetailsRow-cellMeasurer">
+            <span role="presentation" class="ms-DetailsRow-cellMeasurer ms-DetailsRow-cell">
                 <DetailsRowFields Item=@Item
                                   ItemIndex=@ItemIndex
                                   Columns=@Columns
@@ -37,6 +42,6 @@
         }
     }
 
-    <span role="checkbox" class="ms-DetailsRow-checkCover" aria-checked=@IsSelected data-selection-toggle="true" />
+    <span role="checkbox" class="ms-DetailsRow-checkCover" aria-checked=@isSelected data-selection-toggle="true" />
 
 </FocusZone>

@@ -141,25 +141,25 @@ text: 'ms-Pivot-text'
         outline: none;
     }
 
-.is-selected {
+.ms-Pivot .is-selected {
     font-weight: var(--fontWeight-SemiBold);
 }
 
-    .is-selected::before {
+    .ms-Pivot .is-selected::before {
         background-color: var(--semanticColors-InputBackgroundChecked);
     }
 
-    .is-selected:hover::before {
+    .ms-Pivot .is-selected:hover::before {
         left: 0;
         right: 0;
     }
 
 @media screen and (-ms-high-contrast: active) {
-    .is-selected::before {
+    .ms-Pivot .is-selected::before {
         background-color: Highlight;
     }
 
-    .is-selected {
+    .ms-Pivot .is-selected {
         color: Highlight;
     }
 

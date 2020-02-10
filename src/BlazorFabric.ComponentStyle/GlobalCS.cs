@@ -10,6 +10,7 @@ namespace BlazorFabric
     public class GlobalCS : ComponentBase, IGlobalCSSheet, IDisposable
     {
         private ICollection<Rule> rules;
+        private bool shouldRender;
 
         [Inject]
         public IComponentStyle ComponentStyle { get; set; }
@@ -25,6 +26,7 @@ namespace BlazorFabric
                     return;
                 }
                 rules = value;
+                shouldRender = true;
                 //RulesChanged.InvokeAsync(value);
             }
         }
@@ -39,6 +41,17 @@ namespace BlazorFabric
         {
             ComponentStyle.GlobalCSSheets.Add(this);
             return base.OnInitializedAsync();
+        }
+
+        protected override bool ShouldRender()
+        {
+            if (shouldRender)
+            {
+                shouldRender = false;
+                return true;
+            }
+            return false;
+            //return base.ShouldRender();
         }
 
         protected override void OnAfterRender(bool firstRender)

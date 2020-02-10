@@ -46,6 +46,8 @@ namespace BlazorFabric
 
         public ElementReference RootElementReference;
 
+        private ITheme _theme;
+
         static bool focusRectsInitialized = false;
 
         private ICollection<Rule> OverallRules { get; set; } = new List<Rule>();
@@ -58,9 +60,19 @@ namespace BlazorFabric
             base.BuildRenderTree(builder);
         }
 
+        protected virtual void CreateCss()
+        {
+
+        }
+
         protected override void OnParametersSet()
         {
-            CreateCss();
+            if (_theme != Theme)
+            {
+                _theme = Theme;
+                CreateCss();
+            }
+            CreateBaseCss();
             base.OnParametersSet();
         }
 
@@ -126,7 +138,7 @@ namespace BlazorFabric
             }
         }
 
-        private void CreateCss()
+        private void CreateBaseCss()
         {
             OverallRules.Clear();
             OverallRules.Add(new Rule()

@@ -265,13 +265,13 @@ namespace BlazorFabric
         {
             //creates a method that pulls in focusstyles the way the react controls do it.
             var focusStyleProps = new FocusStyleProps(this.Theme);
-            var mergeStyleResults = FocusStyle.GetFocusStyle(focusStyleProps, ".ms-List-cell");
+            var mergeStyleResults = FocusStyle.GetFocusStyle(focusStyleProps, ".ms-List-cell-default");
 
             ListRules.Clear();
             // Cell only
             ListRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default" },
                 Properties = new CssString()
                 {
                     Css = $"padding-top:11px;" +
@@ -290,7 +290,7 @@ namespace BlazorFabric
             });
             ListRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell:hover" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default:hover" },
                 Properties = new CssString()
                 {
                     Css = $"background-color:{Theme.Palette.NeutralLighter};" 
@@ -298,7 +298,7 @@ namespace BlazorFabric
             });
             ListRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell.is-selected" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default.is-selected" },
                 Properties = new CssString()
                 {
                     Css = $"background-color:{Theme.Palette.NeutralLight};"

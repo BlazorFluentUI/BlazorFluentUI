@@ -47,10 +47,10 @@ namespace BlazorFabric
 
         }
 
-        protected override void OnParametersSet()
+        protected override void OnThemeChanged()
         {
             msTextRule.Properties = CreateTextStyle();
-            base.OnParametersSet();
+            base.OnThemeChanged();
         }
 
         private MsText CreateTextStyle()

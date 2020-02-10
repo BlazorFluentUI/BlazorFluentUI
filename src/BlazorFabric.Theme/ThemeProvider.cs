@@ -12,11 +12,13 @@ namespace BlazorFabric
 
         public ITheme Theme { get => _theme; }
 
+        public event EventHandler<ThemeChangedArgs> ThemeChanged;
+
         public ThemeProvider()
         {
             ThemeComponents = new HashSet<FabricTheme>();
             _theme = CreateTheme();
-
+            ThemeChanged?.Invoke(this, new ThemeChangedArgs(_theme));
         }
 
         public void UpdateTheme(IPalette palette)
@@ -26,6 +28,7 @@ namespace BlazorFabric
             {
                 comp.UpdateTheme();
             }
+            ThemeChanged.Invoke(this, new ThemeChangedArgs(_theme));
         }
 
         private ITheme CreateTheme(IPalette palette = null)

@@ -26,14 +26,15 @@ namespace BlazorFabric
         protected override void OnInitialized()
         {
             CreateLocalCss();
+            CreateGlobalCss();
+            SetStyle();
             base.OnInitialized();
         }
 
-        protected override void OnParametersSet()
+        protected override void OnThemeChanged()
         {
             CreateGlobalCss();
             SetStyle();
-            base.OnParametersSet();
         }
 
         private void CreateLocalCss()

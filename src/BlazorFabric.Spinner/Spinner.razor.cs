@@ -14,10 +14,16 @@ namespace BlazorFabric
 
         private ICollection<Rule> SpinnerRules { get; set; } = new List<Rule>();
 
-        protected override void OnParametersSet()
+        protected override void OnInitialized()
         {
             CreateCss();
-            base.OnParametersSet();
+            base.OnInitialized();
+        }
+
+        protected override void OnThemeChanged()
+        {
+            CreateCss();
+            base.OnThemeChanged();
         }
 
         private string GetAriaLive()

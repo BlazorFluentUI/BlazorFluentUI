@@ -42,6 +42,7 @@ namespace BlazorFabric
             _openTimer.Elapsed += _openTimer_Elapsed;
             _dismissTimer = new Timer();
             _dismissTimer.Elapsed += _dismissTimer_Elapsed;
+            CreateCss();
             base.OnInitialized();
         }
 
@@ -75,9 +76,14 @@ namespace BlazorFabric
 
         protected override Task OnParametersSetAsync()
         {
-            CreateCss();
             DetermineTargetElement();
             return base.OnParametersSetAsync();
+        }
+
+        protected override void OnThemeChanged()
+        {
+            CreateCss();
+            base.OnThemeChanged();
         }
 
         protected Task OnTooltipMouseEnter(EventArgs args)

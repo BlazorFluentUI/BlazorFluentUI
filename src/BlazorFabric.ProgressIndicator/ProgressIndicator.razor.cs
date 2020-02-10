@@ -40,7 +40,16 @@ namespace BlazorFabric
         protected override void OnInitialized()
         {
             CreateLocalCss();
+            CreateGlobalCss();
+            SetStyle();
             base.OnInitialized();
+        }
+
+        protected override void OnThemeChanged()
+        {
+            CreateGlobalCss();
+            SetStyle();
+            base.OnThemeChanged();
         }
 
         protected override Task OnParametersSetAsync()
@@ -54,8 +63,6 @@ namespace BlazorFabric
                 _percent = -1;
             }
 
-            CreateGlobalCss();
-            SetStyle();
             AriaValueMin = _percent >= 0 ? null : "0";
             AriaValueMax = _percent >= 0 ? null : "100";
             AriaValueNow = _percent >= 0 ? null : _percent.ToString();

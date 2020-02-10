@@ -16,6 +16,7 @@ namespace BlazorFabric
 
         //[Inject] private IComponentContext ComponentContext { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private ThemeProvider ThemeProvider{ get; set; }
 
         [Parameter] public string ClassName { get; set; }
         [Parameter] public string Style { get; set; }
@@ -58,10 +59,12 @@ namespace BlazorFabric
             base.BuildRenderTree(builder);
         }
 
-        protected override void OnParametersSet()
+        protected override void OnInitialized()
         {
-            CreateCss();
-            base.OnParametersSet();
+            CreateCss(Theme);
+            ThemeProvider.ThemeChanged += OnThemeChangedPrivate;
+            ThemeProvider.ThemeChanged += OnThemeChangedProtected;
+            base.OnInitialized();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -126,7 +129,20 @@ namespace BlazorFabric
             }
         }
 
-        private void CreateCss()
+        private void OnThemeChangedProtected(object sender, ThemeChangedArgs themeChangedArgs)
+        {
+            Theme = themeChangedArgs.Theme;
+            OnThemeChanged();    
+        }
+
+        protected virtual void OnThemeChanged() { }
+
+        private void OnThemeChangedPrivate(object sender, ThemeChangedArgs themeChangedArgs)
+        {
+            CreateCss(themeChangedArgs.Theme);
+        }
+
+        private void CreateCss(ITheme theme)
         {
             OverallRules.Clear();
             OverallRules.Add(new Rule()
@@ -136,8 +152,8 @@ namespace BlazorFabric
                 {
                     Css = $"-moz-osx-font-smoothing:grayscale;" +
                             $"-webkit-font-smoothing:antialiased;" +
-                            $"color:{Theme?.SemanticTextColors?.BodyText ?? "#323130"};" +
-                            $"background-color:{Theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
+                            $"color:{theme?.SemanticTextColors?.BodyText ?? "#323130"};" +
+                            $"background-color:{theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
                             $"font-family:'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;" +
                             $"font-size:14px;"
         }

@@ -30,6 +30,7 @@ namespace BlazorFabric
 
         protected override Task OnInitializedAsync()
         {
+            CreateCss();
             onReduceData = (data) =>
             {
                 if (data.PrimaryItems.Count > 0)
@@ -76,9 +77,14 @@ namespace BlazorFabric
             return base.OnInitializedAsync();
         }
 
-        protected override Task OnParametersSetAsync()
+        protected override void OnThemeChanged()
         {
             CreateCss();
+            base.OnThemeChanged();
+        }
+
+        protected override Task OnParametersSetAsync()
+        {
             _currentData = new CommandBarData()
             {
                 PrimaryItems = new List<ICommandBarItem>(Items != null ? Items : new List<ICommandBarItem>()),

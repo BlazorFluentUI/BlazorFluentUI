@@ -1,38 +1,34 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class GlobalCS : ComponentBase, IGlobalCSSheet, IDisposable
+    public class GlobalCS : ComponentBase, IGlobalCSSheet, IDisposable, INotifyPropertyChanged
     {
-        private ICollection<Rule> rules;
-
         [Inject]
         public IComponentStyle ComponentStyle { get; set; }
 
         [Parameter]
         public ICollection<Rule> Rules
         {
-            get => rules;
-            set
+            get => _rules;
+            set 
             {
-                if (value == rules)
-                {
-                    return;
-                }
-                rules = value;
-                //RulesChanged.InvokeAsync(value);
+                _rules = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rules"));
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private ICollection<Rule> _rules;
 
         public void Dispose()
         {
             ComponentStyle.GlobalCSSheets.Remove(this);
-            ComponentStyle.UpdateSubscribers();
         }
 
         protected override Task OnInitializedAsync()
@@ -41,12 +37,11 @@ namespace BlazorFabric
             return base.OnInitializedAsync();
         }
 
-        protected override void OnAfterRender(bool firstRender)
+        protected override void OnParametersSet()
         {
-            ComponentStyle.UpdateSubscribers();
-            base.OnAfterRender(firstRender);
-        }
 
+            base.OnParametersSet();
+        }
     }
 }
 

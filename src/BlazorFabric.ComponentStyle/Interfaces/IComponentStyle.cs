@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace BlazorFabric
 {
@@ -8,11 +7,8 @@ namespace BlazorFabric
     {
         ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
 
-        ICollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
+        ObservableCollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
 
-        IDictionary<string, string> GetGlobalCSRules();
-        
-        void Subscribe(IGlobalRules globalRules);
-        void UpdateSubscribers();
+        ObservableRangeCollection<string> GlobalCSRules { get; set; }
     }
 }

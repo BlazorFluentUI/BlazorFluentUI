@@ -1,41 +1,24 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class GlobalRules : IGlobalRules, IDisposable
+    public partial class GlobalRules
     {
         [Inject]
         public IComponentStyle ComponentStyle { get; set; }
 
-        private bool isRendered;
-        private bool isDisposed;
-
-        public void Update()
-        {
-            if(isRendered && !isDisposed)
-                InvokeAsync(() => StateHasChanged());
-        }
-
         protected override Task OnInitializedAsync()
         {
-            ComponentStyle.Subscribe(this);
+            ComponentStyle.GlobalCSRules.CollectionChanged += UpdateComponent;
             return base.OnInitializedAsync();
         }
 
-        protected override void OnAfterRender(bool firstRender)
+        private void UpdateComponent(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (firstRender)
-                isRendered = true;
-            base.OnAfterRender(firstRender);
+                InvokeAsync(() => StateHasChanged());
         }
 
-        public void Dispose()
-        {
-            isDisposed = true;
-        }
     }
 }

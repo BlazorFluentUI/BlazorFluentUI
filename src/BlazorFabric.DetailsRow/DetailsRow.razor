@@ -31,7 +31,7 @@
                           Columns=@Columns
                           ColumnStartIndex=@((showCheckbox ? 1 : 0)) />
 
-        @if (columnMeasureInfo)
+        @if (columnMeasureInfo != null)
         {
             <span role="presentation" class="ms-DetailsRow-cellMeasurer ms-DetailsRow-cell">
                 <DetailsRowFields Item=@Item

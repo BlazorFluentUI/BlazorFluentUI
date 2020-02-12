@@ -63,7 +63,7 @@ namespace BlazorFabric
 
         private bool canSelect;
         private bool showCheckbox;
-        private bool columnMeasureInfo = false;
+        private object columnMeasureInfo = null;
         private bool isSelected;
         private Rule _localCheckCoverRule;
 

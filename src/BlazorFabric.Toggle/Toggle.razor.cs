@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
@@ -62,14 +61,19 @@ namespace BlazorFabric
         protected override void OnInitialized()
         {
             IsChecked = this.Checked ?? this.DefaultChecked;
+            CreateCss();
             base.OnInitialized();
+        }
+
+        protected override void OnThemeChanged()
+        {
+            CreateCss();
+            base.OnThemeChanged();
         }
 
         protected override Task OnParametersSetAsync()
         {
             IsChecked = this.Checked ?? IsChecked;
-
-            CreateCss();
 
             if (string.IsNullOrWhiteSpace(AriaLabel) && string.IsNullOrWhiteSpace(BadAriaLabel))
                 LabelledById = LabelId;

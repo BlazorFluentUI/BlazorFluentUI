@@ -1,53 +1,119 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Reflection;
-using System.Text;
 
 namespace BlazorFabric
 {
     public class ComponentStyle : IComponentStyle
     {
         public ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
-        public ICollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
-
-        public ICollection<IGlobalRules> SubscribedGlobalRules { get; set; }
+        public ObservableCollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
+        public ObservableRangeCollection<string> GlobalCSRules { get; set; }
 
         public ComponentStyle()
         {
             LocalCSSheets = new HashSet<ILocalCSSheet>();
-            GlobalCSSheets = new HashSet<IGlobalCSSheet>();
-            SubscribedGlobalRules = new HashSet<IGlobalRules>();
+            GlobalCSSheets = new ObservableCollection<IGlobalCSSheet>();
+            GlobalCSRules = new ObservableRangeCollection<string>();
+            GlobalCSSheets.CollectionChanged += CollectionChanged;
         }
 
-        public IDictionary<string, string> GetGlobalCSRules()
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var globalCSRules = new Dictionary<string, string>();
-            foreach(var styleSheet in GlobalCSSheets)
+            if (e.OldItems != null)
             {
-                foreach(var rule in styleSheet.Rules)
+                foreach (INotifyPropertyChanged item in e.OldItems)
+                {
+                    item.PropertyChanged -= ItemChanged;
+                }
+            }
+
+            if (e.NewItems != null)
+            {
+                foreach (INotifyPropertyChanged item in e.NewItems)
+                    item.PropertyChanged += ItemChanged;
+            }
+        }
+        private void ItemChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateGlobalRules();
+        }
+
+        private void UpdateGlobalRules()
+        {
+            var newRules = GetGlobalCSRules();
+            if (newRules?.Count > 0)
+            {
+                GlobalCSRules.ReplaceRange(newRules);
+            }
+        }
+
+        private ICollection<string> GetNewRules(ICollection<Rule> rules)
+        {
+            var addRules = new Collection<string>();
+            foreach (var rule in rules)
+            {
+                var ruleAsString = PrintRule(rule);
+                if (!GlobalCSRules.Contains(ruleAsString))
+                {
+                    addRules.Add(ruleAsString);
+                }
+            }
+            return addRules;
+        }
+
+        private ICollection<string> GetOldRules()
+        {
+            var addRules = new Collection<string>();
+            foreach (var styleSheet in GlobalCSSheets)
+            {
+                foreach (var rule in styleSheet.Rules)
                 {
                     var ruleAsString = PrintRule(rule);
-                    var key = Convert.ToBase64String(Encoding.Unicode.GetBytes(ruleAsString));
-                    if (!globalCSRules.ContainsKey(key))
+                    if (!GlobalCSRules.Contains(ruleAsString))
                     {
-                        globalCSRules.Add(key, ruleAsString);
+                        addRules.Add(ruleAsString);
                     }
                 }
             }
-            return globalCSRules;
+            return addRules;
         }
 
-        public void Subscribe(IGlobalRules globalRules)
+        private ICollection<string> GetGlobalCSRules()
         {
-            SubscribedGlobalRules.Add(globalRules);
-        }
-
-        public void UpdateSubscribers()
-        {
-            foreach(var subscriber in SubscribedGlobalRules)
+            var globalCSRules = new Collection<string>();
+            var update = false;
+            foreach (var styleSheet in GlobalCSSheets)
             {
-                subscriber.Update();
+                foreach (var rule in styleSheet.Rules)
+                {
+                    var ruleAsString = PrintRule(rule);
+                    if (!globalCSRules.Contains(ruleAsString))
+                    {
+                        globalCSRules.Add(ruleAsString);
+                    }
+                    if (!GlobalCSRules.Contains(ruleAsString))
+                    {
+                        update = true;
+                    }
+                }
             }
+            if (!update)
+            {
+                foreach (var rule in GlobalCSRules)
+                {
+                    if (!globalCSRules.Contains(rule))
+                    {
+                        update = true;
+                    }
+                }
+            }
+            if (update)
+                return globalCSRules;
+            return null;
         }
 
         public string PrintRule(Rule rule)

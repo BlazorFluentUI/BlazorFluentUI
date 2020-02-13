@@ -99,6 +99,7 @@ namespace BlazorFabric
                 _indeterminate = Indeterminate.Value;
             }
             _reversed = BoxSide == BoxSide.End;
+            CreateCss();
             base.OnInitialized();
         }
 
@@ -108,7 +109,6 @@ namespace BlazorFabric
             {
                 _isChecked = Checked.Value;
             }
-            CreateCss();
             return base.OnParametersSetAsync();
         }
 
@@ -128,6 +128,12 @@ namespace BlazorFabric
                 StateHasChanged();
             }
             base.OnAfterRender(firstRender);
+        }
+
+        protected override void OnThemeChanged()
+        {
+            CreateCss();
+            base.OnThemeChanged();
         }
 
         protected async Task InternalOnChange(ChangeEventArgs args)

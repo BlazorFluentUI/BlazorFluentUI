@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +14,7 @@ namespace BlazorFabric
 
         //[Inject] private IComponentContext ComponentContext { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private ThemeProvider ThemeProvider{ get; set; }
 
         [Parameter] public string ClassName { get; set; }
         [Parameter] public string Style { get; set; }
@@ -60,20 +59,12 @@ namespace BlazorFabric
             base.BuildRenderTree(builder);
         }
 
-        protected virtual void CreateCss()
+        protected override void OnInitialized()
         {
-
-        }
-
-        protected override void OnParametersSet()
-        {
-            if (_theme != Theme)
-            {
-                _theme = Theme;
-                CreateCss();
-            }
-            CreateBaseCss();
-            base.OnParametersSet();
+            CreateCss(Theme);
+            ThemeProvider.ThemeChanged += OnThemeChangedPrivate;
+            ThemeProvider.ThemeChanged += OnThemeChangedProtected;
+            base.OnInitialized();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -137,8 +128,21 @@ namespace BlazorFabric
                 return new Rectangle();
             }
         }
+        
+        private void OnThemeChangedProtected(object sender, ThemeChangedArgs themeChangedArgs)
+        {
+            Theme = themeChangedArgs.Theme;
+            OnThemeChanged();    
+        }
 
-        private void CreateBaseCss()
+        protected virtual void OnThemeChanged() { }
+
+        private void OnThemeChangedPrivate(object sender, ThemeChangedArgs themeChangedArgs)
+        {
+            CreateCss(themeChangedArgs.Theme);
+        }
+
+        private void CreateCss(ITheme theme)
         {
             OverallRules.Clear();
             OverallRules.Add(new Rule()
@@ -148,8 +152,8 @@ namespace BlazorFabric
                 {
                     Css = $"-moz-osx-font-smoothing:grayscale;" +
                             $"-webkit-font-smoothing:antialiased;" +
-                            $"color:{Theme?.SemanticTextColors?.BodyText ?? "#323130"};" +
-                            $"background-color:{Theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
+                            $"color:{theme?.SemanticTextColors?.BodyText ?? "#323130"};" +
+                            $"background-color:{theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
                             $"font-family:'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;" +
                             $"font-size:14px;"
         }

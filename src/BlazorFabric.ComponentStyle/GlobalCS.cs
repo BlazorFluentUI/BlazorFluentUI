@@ -39,7 +39,6 @@ namespace BlazorFabric
 
         protected override void OnParametersSet()
         {
-
             base.OnParametersSet();
         }
     }

@@ -6,7 +6,7 @@
      role="listitem"
      style=@GetListItemStyle()
      data-is-focusable=@(ItemFocusable ? "true" : "false")
-     class=@($"{(UseDefaultStyling ? "ms-List-cell " : "")}{(IsSelected ? "is-selected" : "")}")
+     class=@($"ms-List-cell{(UseDefaultStyling ? " ms-List-cell-default" : "")}{(IsSelected ? " is-selected" : "")}")
      @onclick="@(e=>OnItemClick(e))">
     @ChildContent
 </div>

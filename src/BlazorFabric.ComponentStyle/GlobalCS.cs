@@ -18,10 +18,13 @@ namespace BlazorFabric
         public ICollection<Rule> Rules
         {
             get => _rules;
-            set 
+            set
             {
-                _rules = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rules"));
+                if (_rules != value)
+                {
+                    _rules = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rules"));
+                }
             }
         }
 
@@ -40,6 +43,7 @@ namespace BlazorFabric
         protected override Task OnInitializedAsync()
         {
             ComponentStyle.GlobalCSSheets.Add(this);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rules"));
             return base.OnInitializedAsync();
         }
 

@@ -12,6 +12,9 @@ namespace BlazorFabric
         public IComponentStyle ComponentStyle { get; set; }
 
         [Parameter]
+        public object Component { get; set; }
+
+        [Parameter]
         public ICollection<Rule> Rules
         {
             get => _rules;

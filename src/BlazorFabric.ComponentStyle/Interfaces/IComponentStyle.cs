@@ -10,5 +10,7 @@ namespace BlazorFabric
         ObservableCollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
 
         ObservableRangeCollection<string> GlobalCSRules { get; set; }
+
+        bool ComponentStyleExist(object component);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -11,14 +12,23 @@ namespace BlazorFabric
     {
         public ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
         public ObservableCollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
+        public ObservableCollection<IGlobalCSSheet> GlobalRulesSheets { get; set; }
         public ObservableRangeCollection<string> GlobalCSRules { get; set; }
 
         public ComponentStyle()
         {
             LocalCSSheets = new HashSet<ILocalCSSheet>();
             GlobalCSSheets = new ObservableCollection<IGlobalCSSheet>();
-            GlobalCSRules = new ObservableRangeCollection<string>();
             GlobalCSSheets.CollectionChanged += CollectionChanged;
+            GlobalRulesSheets = new ObservableCollection<IGlobalCSSheet>();
+            GlobalCSRules = new ObservableRangeCollection<string>();
+
+        }
+
+        public bool ComponentStyleExist(object component)
+        {
+            var componentType = component.GetType();
+            return GlobalRulesSheets.Any(x => x.Component?.GetType() == componentType);
         }
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -34,7 +44,13 @@ namespace BlazorFabric
             if (e.NewItems != null)
             {
                 foreach (INotifyPropertyChanged item in e.NewItems)
-                    item.PropertyChanged += ItemChanged;
+                {
+                    if (!ComponentStyleExist(item))
+                    {
+                        GlobalRulesSheets.Add((IGlobalCSSheet)item);
+                        item.PropertyChanged += ItemChanged;
+                    }
+                }
             }
         }
         private void ItemChanged(object sender, PropertyChangedEventArgs e)
@@ -68,7 +84,7 @@ namespace BlazorFabric
         private ICollection<string> GetOldRules()
         {
             var addRules = new Collection<string>();
-            foreach (var styleSheet in GlobalCSSheets)
+            foreach (var styleSheet in GlobalRulesSheets)
             {
                 foreach (var rule in styleSheet.Rules)
                 {
@@ -86,8 +102,10 @@ namespace BlazorFabric
         {
             var globalCSRules = new Collection<string>();
             var update = false;
-            foreach (var styleSheet in GlobalCSSheets)
+            foreach (var styleSheet in GlobalRulesSheets)
             {
+                if (styleSheet.Rules == null)
+                    continue;
                 foreach (var rule in styleSheet.Rules)
                 {
                     var ruleAsString = PrintRule(rule);

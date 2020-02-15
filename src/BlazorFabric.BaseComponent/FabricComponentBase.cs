@@ -14,7 +14,8 @@ namespace BlazorFabric
 
         //[Inject] private IComponentContext ComponentContext { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
-        [Inject] private ThemeProvider ThemeProvider{ get; set; }
+        [Inject] protected IComponentStyle CStyle { get; set; }
+        [Inject] private ThemeProvider ThemeProvider { get; set; }
 
         [Parameter] public string ClassName { get; set; }
         [Parameter] public string Style { get; set; }
@@ -76,7 +77,7 @@ namespace BlazorFabric
         }
 
         public async Task<Rectangle> GetBoundsAsync()
-        {            
+        {
             try
             {
                 var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFabricBaseComponent.measureElementRect", RootElementReference);
@@ -130,7 +131,7 @@ namespace BlazorFabric
         private void OnThemeChangedProtected(object sender, ThemeChangedArgs themeChangedArgs)
         {
             Theme = themeChangedArgs.Theme;
-            OnThemeChanged();    
+            OnThemeChanged();
         }
 
         protected virtual void OnThemeChanged() { }
@@ -154,7 +155,7 @@ namespace BlazorFabric
                             $"background-color:{theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
                             $"font-family:'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;" +
                             $"font-size:14px;"
-        }
+                }
             });
         }
     }

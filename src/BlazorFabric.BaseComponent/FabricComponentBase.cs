@@ -54,6 +54,7 @@ namespace BlazorFabric
         {
             builder.OpenComponent<GlobalCS>(0);
             builder.AddAttribute(1, "Rules", OverallRules);
+            builder.AddAttribute(2, "Component", this);
             builder.CloseComponent();
             base.BuildRenderTree(builder);
         }

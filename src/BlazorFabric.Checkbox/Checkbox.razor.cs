@@ -99,7 +99,10 @@ namespace BlazorFabric
                 _indeterminate = Indeterminate.Value;
             }
             _reversed = BoxSide == BoxSide.End;
-            CreateCss();
+            if (!CStyle.ComponentStyleExist(this))
+            {
+                CreateCss();
+            }
             base.OnInitialized();
         }
 

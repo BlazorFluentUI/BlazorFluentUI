@@ -74,6 +74,11 @@ namespace BlazorFabric
             base.OnThemeChanged();
         }
 
+        protected override void OnAfterRender(bool firstRender)
+        {
+            base.OnAfterRender(firstRender);
+        }
+
         protected override Task OnParametersSetAsync()
         {
             IsChecked = this.Checked ?? IsChecked;

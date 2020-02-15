@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-    <GlobalCS Rules="@CommandBarRules" />
+    <GlobalCS Component="this" Rules="@CommandBarRules" />
 
 <ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
              Data=@_currentData

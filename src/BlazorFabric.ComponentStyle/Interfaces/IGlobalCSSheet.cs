@@ -6,5 +6,6 @@ namespace BlazorFabric
     {
         object Component { get; set; }
         ICollection<Rule> Rules { get; set; }
+        bool HasEvent { get; set; }
     }
 }

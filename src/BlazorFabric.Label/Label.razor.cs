@@ -30,7 +30,10 @@ namespace BlazorFabric
 
         protected override void OnInitialized()
         {
-            CreateCss();
+            if (!CStyle.ComponentStyleExist(this))
+            {
+                CreateCss();
+            }
             base.OnInitialized();
         }
 

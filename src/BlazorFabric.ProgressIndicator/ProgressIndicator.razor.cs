@@ -40,7 +40,10 @@ namespace BlazorFabric
         protected override void OnInitialized()
         {
             CreateLocalCss();
-            CreateGlobalCss();
+            if (!CStyle.ComponentStyleExist(this))
+            {
+                CreateGlobalCss();
+            }
             SetStyle();
             base.OnInitialized();
         }

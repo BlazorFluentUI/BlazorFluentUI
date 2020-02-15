@@ -27,8 +27,18 @@ namespace BlazorFabric
 
         public bool ComponentStyleExist(object component)
         {
+            if (component == null)
+                return false;
             var componentType = component.GetType();
             return GlobalRulesSheets.Any(x => x.Component?.GetType() == componentType);
+        }
+
+        public bool StyleSheetIsNeeded(object component)
+        {
+            if (component == null)
+                return false;
+            var componentType = component.GetType();
+            return GlobalCSSheets.Any(x => x.Component?.GetType() == componentType);
         }
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -37,7 +47,18 @@ namespace BlazorFabric
             {
                 foreach (INotifyPropertyChanged item in e.OldItems)
                 {
-                    item.PropertyChanged -= ItemChanged;
+                    
+                    if (((IGlobalCSSheet)item).Component != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).Component))
+                    {
+                        item.PropertyChanged -= ItemChanged;
+                        GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()));
+                    }
+                    else if(((IGlobalCSSheet)item).Component != null && ((IGlobalCSSheet)item).HasEvent)
+                    {
+                        item.PropertyChanged -= ItemChanged;
+                        GlobalCSSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()).HasEvent = true;
+                        ((INotifyPropertyChanged)GlobalCSSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType())).PropertyChanged += ItemChanged;
+                    }
                 }
             }
 
@@ -45,9 +66,10 @@ namespace BlazorFabric
             {
                 foreach (INotifyPropertyChanged item in e.NewItems)
                 {
-                    if (!ComponentStyleExist(item))
+                    if (!ComponentStyleExist(((IGlobalCSSheet)item).Component))
                     {
                         GlobalRulesSheets.Add((IGlobalCSSheet)item);
+                        ((IGlobalCSSheet)item).HasEvent = true;
                         item.PropertyChanged += ItemChanged;
                     }
                 }

@@ -25,9 +25,12 @@ namespace BlazorFabric
             }
         }
 
+        public bool HasEvent { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private ICollection<Rule> _rules;
+
 
         public void Dispose()
         {

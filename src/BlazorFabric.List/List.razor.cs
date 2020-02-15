@@ -194,9 +194,18 @@ namespace BlazorFabric
                    })
                    .Subscribe();
 
-
+            if (!CStyle.ComponentStyleExist(this))
+            {
+                CreateCss();
+            }
 
             return base.OnInitializedAsync();
+        }
+
+        protected override void OnThemeChanged()
+        {
+            CreateCss();
+            base.OnThemeChanged();
         }
 
         protected override async Task OnParametersSetAsync()
@@ -238,7 +247,7 @@ namespace BlazorFabric
                 _needsRemeasure = true;
             }
 
-            CreateCss();
+            //CreateCss();
             await base.OnParametersSetAsync();
         }
 

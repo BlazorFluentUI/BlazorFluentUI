@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
@@ -13,11 +14,25 @@ namespace BlazorFabric
         [Parameter]
         public bool UseFastIcons { get; set; }
 
-        private ICollection<Rule> CheckGlobalRules { get; set; }
+        private ICollection<Rule> CheckGlobalRules { get; set; } = new List<Rule>();
+
+        protected override Task OnInitializedAsync()
+        {
+            if (!CStyle.ComponentStyleExist(this))
+            {
+                CreateCss();
+            }
+            return base.OnInitializedAsync();
+        }
+        protected override void OnThemeChanged()
+        {
+            CreateCss();
+            base.OnThemeChanged();
+        }
 
         protected void CreateCss()
         {
-            CheckGlobalRules = new List<Rule>();
+            CheckGlobalRules.Clear();
 
             CheckGlobalRules.Add(new Rule()
             {

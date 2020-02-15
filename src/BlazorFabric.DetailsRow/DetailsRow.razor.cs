@@ -73,6 +73,10 @@ namespace BlazorFabric
         protected override Task OnInitializedAsync()
         {
             CreateLocalCss();
+            if (!CStyle.ComponentStyleExist(this))
+            {
+                CreateCss();
+            }
             return base.OnInitializedAsync();
         }
 
@@ -83,6 +87,13 @@ namespace BlazorFabric
             _localCheckCoverRule.Properties = new CssString() { Css = "position:absolute;top:-1px;left:0;bottom:0;right:0;display:none;" };            
             DetailsRowLocalRules.Add(_localCheckCoverRule);
         }
+
+        protected override void OnThemeChanged()
+        {
+            CreateCss();
+            base.OnThemeChanged();
+        }
+
         protected override Task OnParametersSetAsync()
         {
             showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
@@ -107,9 +118,9 @@ namespace BlazorFabric
 
         protected void CreateCss()
         {
-            
-            DetailsRowLocalRules = new List<Rule>();
-            DetailsRowGlobalRules = new List<Rule>();
+
+            DetailsRowLocalRules.Clear();
+            DetailsRowGlobalRules.Clear();
 
             // Root
             var rootFocusStyleProps = new FocusStyleProps(this.Theme);

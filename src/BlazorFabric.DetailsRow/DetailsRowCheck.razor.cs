@@ -29,17 +29,26 @@ namespace BlazorFabric
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
-        private ICollection<Rule> DetailsRowCheckGlobalRules { get; set; }
+        private ICollection<Rule> DetailsRowCheckGlobalRules { get; set; } = new List<Rule>();
 
         protected override void OnInitialized()
         {
-            CreateCss();
+            if (!CStyle.ComponentStyleExist(this))
+            {
+                CreateCss();
+            }
             base.OnInitialized();
+        }
+
+        protected override void OnThemeChanged()
+        {
+            CreateCss();
+            base.OnThemeChanged();
         }
 
         protected void CreateCss()
         {
-            DetailsRowCheckGlobalRules = new List<Rule>();
+            DetailsRowCheckGlobalRules.Clear();
             var focusProps = new FocusStyleProps(Theme);
             var focusStyles = FocusStyle.GetFocusStyle(focusProps, ".ms-DetailsRowCheck-check");
 

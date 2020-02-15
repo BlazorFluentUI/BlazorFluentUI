@@ -42,6 +42,6 @@
         }
     }
 
-    <span role="checkbox" class="ms-DetailsRow-checkCover" aria-checked=@isSelected data-selection-toggle="true" />
+    <span role="checkbox" class="@($"ms-DetailsRow-checkCover {_localCheckCoverRule.Selector.SelectorName}")" aria-checked=@isSelected data-selection-toggle="true" />
 
 </FocusZone>

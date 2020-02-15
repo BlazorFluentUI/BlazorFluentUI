@@ -80,6 +80,7 @@ namespace BlazorFabric
         {
             _localCheckCoverRule = new Rule();
             _localCheckCoverRule.Selector = new ClassSelector() { SelectorName = "ms-DetailsRow-checkCover" };            
+            _localCheckCoverRule.Properties = new CssString() { Css = "position:absolute;top:-1px;left:0;bottom:0;right:0;display:none;" };            
             DetailsRowLocalRules.Add(_localCheckCoverRule);
         }
         protected override Task OnParametersSetAsync()
@@ -104,7 +105,7 @@ namespace BlazorFabric
         const int CellRightPadding = 8;
         const int CellExtraRightPadding = 24;
 
-        protected override void CreateCss()
+        protected void CreateCss()
         {
             
             DetailsRowLocalRules = new List<Rule>();

@@ -31,7 +31,13 @@ namespace BlazorFabric
 
         private ICollection<Rule> DetailsRowCheckGlobalRules { get; set; }
 
-        protected override void CreateCss()
+        protected override void OnInitialized()
+        {
+            CreateCss();
+            base.OnInitialized();
+        }
+
+        protected void CreateCss()
         {
             DetailsRowCheckGlobalRules = new List<Rule>();
             var focusProps = new FocusStyleProps(Theme);

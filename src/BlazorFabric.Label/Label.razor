@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<GlobalCS Rules="@LabelRules" />
+<GlobalCS Component="this" Rules="@LabelRules" />
 
 <label class="@($"ms-Label mediumFont {(Disabled ? "ms-Label--disabled" : "")} {(Required ? "ms-Label--required" : "")} {ClassName}")"
      style=@Style

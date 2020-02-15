@@ -41,7 +41,10 @@ namespace BlazorFabric
             _openTimer.Elapsed += _openTimer_Elapsed;
             _dismissTimer = new Timer();
             _dismissTimer.Elapsed += _dismissTimer_Elapsed;
-            CreateCss();
+            if (!CStyle.ComponentStyleExist(this))
+            {
+                CreateCss();
+            }
             base.OnInitialized();
         }
 

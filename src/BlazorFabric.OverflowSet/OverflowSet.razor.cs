@@ -31,7 +31,10 @@ namespace BlazorFabric
 
         protected override Task OnParametersSetAsync()
         {
-            CreateCss();
+            if (!CStyle.ComponentStyleExist(this))
+            {
+                CreateCss();
+            }
             //if (Items != null)
             //{
             //    var e = Items.GetEnumerator();

@@ -23,11 +23,15 @@
                 <Stack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.Center" Style="width:100%">
                     <StackItem Grow="0" VerticalFill="false">
                         <div class="top-row">
-                            <Link Href="https://github.com/limefrogyank/BlazorFabric" Target="_blank" >View GitHub repo of BlazorFabric...</Link>
+                            <Link Href="https://github.com/limefrogyank/BlazorFabric" Target="_blank">View GitHub repo of BlazorFabric...</Link>
                         </div>
                     </StackItem>
                     <StackItem DisableShrink="true">
-                        <Toggle Checked=customTheme CheckedChanged="@SwitchTheme" OnText="Dark Theme" OffText="Default Theme" />
+                        <Checkbox Label="Show Theme-Toggle" @bind-Checked=@showToggle />
+                        @if (showToggle)
+                        {
+                            <Toggle Checked=customTheme CheckedChanged="@SwitchTheme" OnText="Dark Theme" OffText="Default Theme" />
+                        }
                     </StackItem>
                 </Stack>
             </ResponsiveLayout>
@@ -59,6 +63,7 @@
     public ThemeProvider ThemeProvider { get; set; }
 
     private bool customTheme;
+    private bool showToggle;
 
     protected override void OnInitialized()
     {

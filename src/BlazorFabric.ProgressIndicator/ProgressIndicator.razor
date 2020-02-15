@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<GlobalCS Rules="@ProgressIndicatorGlobalRules" />
+<GlobalCS Component="this" Rules="@ProgressIndicatorGlobalRules" />
 <LocalCS @bind-Rules="@ProgressIndicatorLocalRules" />
 
 <div class=@($"mediumFont ms-ProgressIndicator {ClassName}") style=@Style>

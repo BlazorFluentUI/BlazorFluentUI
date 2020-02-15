@@ -15,7 +15,7 @@ namespace BlazorFabric
 
         private ICollection<Rule> CheckGlobalRules { get; set; }
 
-        protected override void CreateCss()
+        protected void CreateCss()
         {
             CheckGlobalRules = new List<Rule>();
 

@@ -46,6 +46,8 @@ namespace BlazorFabric
 
         public ElementReference RootElementReference;
 
+        private ITheme _theme;
+
         static bool focusRectsInitialized = false;
 
         private ICollection<Rule> OverallRules { get; set; } = new List<Rule>();
@@ -128,7 +130,7 @@ namespace BlazorFabric
                 return new Rectangle();
             }
         }
-
+        
         private void OnThemeChangedProtected(object sender, ThemeChangedArgs themeChangedArgs)
         {
             Theme = themeChangedArgs.Theme;

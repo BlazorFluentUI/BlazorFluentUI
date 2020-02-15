@@ -1,10 +1,12 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Rules=@DetailsRowCheckGlobalRules />
+
 @if (CanSelect)
 {
     <div role="checkbox"
-         class="ms-DetailsRowCheck ms-DetailsRowCheck-check"
+         class=@($"smallFont ms-DetailsRowCheck ms-DetailsRowCheck-check{(IsHeader ? " is-header" : "")}{(Checked ? " is-checked" : "")}{(CanSelect ? " can-select" : "")}")
          aria-checked=@Selected
          data-selection-toggle="true"
          data-automationid="DetailsRowCheck">

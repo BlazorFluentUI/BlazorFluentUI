@@ -93,6 +93,7 @@
 @media screen and (-ms-high-contrast: active) {
     .is-selected .ms-DetailsRow {
         color: Highlight;
+        -ms-high-contrast-adjust
     }
 }
 

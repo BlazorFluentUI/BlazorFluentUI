@@ -32,7 +32,6 @@ namespace BlazorFabric
 
         private Timer _openTimer;
         private Timer _dismissTimer;
-        private ICollection<Rule> TooltipHostRules { get; set; } = new List<Rule>();
 
 
         protected override void OnInitialized()
@@ -41,10 +40,6 @@ namespace BlazorFabric
             _openTimer.Elapsed += _openTimer_Elapsed;
             _dismissTimer = new Timer();
             _dismissTimer.Elapsed += _dismissTimer_Elapsed;
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
             base.OnInitialized();
         }
 
@@ -80,12 +75,6 @@ namespace BlazorFabric
         {
             DetermineTargetElement();
             return base.OnParametersSetAsync();
-        }
-
-        protected override void OnThemeChanged()
-        {
-            CreateCss();
-            base.OnThemeChanged();
         }
 
         protected Task OnTooltipMouseEnter(EventArgs args)
@@ -197,10 +186,10 @@ namespace BlazorFabric
             }
         }
 
-        private void CreateCss()
+        private ICollection<Rule> CreateGlobalCss()
         {
-            TooltipHostRules.Clear();
-            TooltipHostRules.Add(new Rule()
+            var tooltipHostRules = new HashSet<Rule>();
+            tooltipHostRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-TooltipHost" },
                 Properties = new CssString()
@@ -208,6 +197,7 @@ namespace BlazorFabric
                     Css = $"display:inline;"
                 }
             });
+            return tooltipHostRules;
         }
 
         public void Dispose()

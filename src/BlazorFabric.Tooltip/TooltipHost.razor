@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<GlobalCS Component="this" Rules="@TooltipHostRules" />
+<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
 
 
 <div class=@($"ms-TooltipHost {ClassName}")

@@ -12,23 +12,6 @@ namespace BlazorFabric
         [Parameter] public SpinnerSize Size { get; set; } = SpinnerSize.Medium;
         [Parameter] public string StatusMessage { get; set; }
 
-        private ICollection<Rule> SpinnerRules { get; set; } = new List<Rule>();
-
-        protected override void OnInitialized()
-        {
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
-            base.OnInitialized();
-        }
-
-        protected override void OnThemeChanged()
-        {
-            CreateCss();
-            base.OnThemeChanged();
-        }
-
         private string GetAriaLive()
         {
             switch (AriaLive)
@@ -75,10 +58,10 @@ namespace BlazorFabric
                     return " ms-Spinner--medium";
             }
         }
-        private void CreateCss()
+        private ICollection<Rule> CreateGlobalCss()
         {
-            SpinnerRules.Clear();
-            SpinnerRules.Add(new Rule()
+            var spinnerRules = new HashSet<Rule>();
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner" },
                 Properties = new CssString()
@@ -90,7 +73,7 @@ namespace BlazorFabric
                 }
             });
 
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner--top" },
                 Properties = new CssString()
@@ -98,7 +81,7 @@ namespace BlazorFabric
                     Css = $"flex-direction:column-reverse;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner--left" },
                 Properties = new CssString()
@@ -106,7 +89,7 @@ namespace BlazorFabric
                     Css = $"flex-direction:row-reverse;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner--right" },
                 Properties = new CssString()
@@ -114,7 +97,7 @@ namespace BlazorFabric
                     Css = "flex-direction:row;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner-circle" },
                 Properties = new CssString()
@@ -129,7 +112,7 @@ namespace BlazorFabric
                     $"animation-timing-function:cubic-bezier(.53,.21,.29,.67);"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner--xSmall" },
                 Properties = new CssString()
@@ -138,7 +121,7 @@ namespace BlazorFabric
                             $"height:12px;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner--small" },
                 Properties = new CssString()
@@ -147,7 +130,7 @@ namespace BlazorFabric
                             $"height:16px;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner--medium" },
                 Properties = new CssString()
@@ -156,7 +139,7 @@ namespace BlazorFabric
                             $"height:20px;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner--large" },
                 Properties = new CssString()
@@ -165,7 +148,7 @@ namespace BlazorFabric
                             $"height:28px;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -173,7 +156,7 @@ namespace BlazorFabric
                     Css = ".ms-Spinner-circle{border-top-color:Highlight;}"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner-label" },
                 Properties = new CssString()
@@ -183,7 +166,7 @@ namespace BlazorFabric
                             $"text-align:center;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner--top .ms-Spinner-label" },
                 Properties = new CssString()
@@ -191,7 +174,7 @@ namespace BlazorFabric
                     Css = $"margin: 0 0 8px 0;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner--right .ms-Spinner-label" },
                 Properties = new CssString()
@@ -199,7 +182,7 @@ namespace BlazorFabric
                     Css = $"margin: 0 0 0 8px;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner--left .ms-Spinner-label" },
                 Properties = new CssString()
@@ -209,7 +192,7 @@ namespace BlazorFabric
             });
 
             //Label enable && unchecked
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner-screenReaderText" },
                 Properties = new CssString()
@@ -223,7 +206,7 @@ namespace BlazorFabric
                             "overflow:hidden;"
                 }
             });
-            SpinnerRules.Add(new Rule()
+            spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@keyframes spinAnimation" },
                 Properties = new CssString()
@@ -231,6 +214,7 @@ namespace BlazorFabric
                     Css = "0%{transform: rotate(0deg);} 100%{transform:rotate(360deg);}"
                 }
             });
+            return spinnerRules;
         }
     }
 }

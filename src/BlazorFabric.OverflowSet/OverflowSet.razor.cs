@@ -26,15 +26,8 @@ namespace BlazorFabric
 
         protected FocusZone focusZoneComponent;
 
-        private ICollection<Rule> OverflowSetRules { get; set; } = new List<Rule>();
-
-
         protected override Task OnParametersSetAsync()
         {
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
             //if (Items != null)
             //{
             //    var e = Items.GetEnumerator();
@@ -52,10 +45,10 @@ namespace BlazorFabric
             return base.OnParametersSetAsync();
         }
 
-        private void CreateCss()
+        private ICollection<Rule> CreateGlobalCss()
         {
-            OverflowSetRules.Clear();
-            OverflowSetRules.Add(new Rule()
+            var overflowSetRules = new HashSet<Rule>();
+            overflowSetRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet" },
                 Properties = new CssString()
@@ -65,7 +58,7 @@ namespace BlazorFabric
                             $"flex-wrap:nowrap;"
                 }
             });
-            OverflowSetRules.Add(new Rule()
+            overflowSetRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet--vertical" },
                 Properties = new CssString()
@@ -73,7 +66,7 @@ namespace BlazorFabric
                     Css = $"flex-direction:column;"
                 }
             });
-            OverflowSetRules.Add(new Rule()
+            overflowSetRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet-item" },
                 Properties = new CssString()
@@ -82,7 +75,7 @@ namespace BlazorFabric
                             $"display:inherit;"
                 }
             });
-            OverflowSetRules.Add(new Rule()
+            overflowSetRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet-overflowButton" },
                 Properties = new CssString()
@@ -91,6 +84,7 @@ namespace BlazorFabric
                             $"display:inherit;"
                 }
             });
+            return overflowSetRules;
         }
     }
 }

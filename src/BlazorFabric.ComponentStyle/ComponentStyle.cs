@@ -45,38 +45,38 @@ namespace BlazorFabric
         {
             if (e.OldItems != null)
             {
-                foreach (INotifyPropertyChanged item in e.OldItems)
+                foreach (var item in e.OldItems)
                 {
-                    
+
                     if (((IGlobalCSSheet)item).Component != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).Component))
                     {
-                        item.PropertyChanged -= ItemChanged;
                         GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()));
+                        UpdateGlobalRules();
                     }
-                    else if(((IGlobalCSSheet)item).Component != null && ((IGlobalCSSheet)item).HasEvent)
+                    else if (((IGlobalCSSheet)item).Component != null && ((IGlobalCSSheet)item).IsGlobal)
                     {
-                        item.PropertyChanged -= ItemChanged;
-                        GlobalCSSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()).HasEvent = true;
-                        ((INotifyPropertyChanged)GlobalCSSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType())).PropertyChanged += ItemChanged;
+                        GlobalCSSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()).IsGlobal = true;
                     }
                 }
             }
 
             if (e.NewItems != null)
             {
-                foreach (INotifyPropertyChanged item in e.NewItems)
+                foreach (var item in e.NewItems)
                 {
                     if (!ComponentStyleExist(((IGlobalCSSheet)item).Component))
                     {
                         GlobalRulesSheets.Add((IGlobalCSSheet)item);
-                        ((IGlobalCSSheet)item).HasEvent = true;
-                        item.PropertyChanged += ItemChanged;
+                        ((IGlobalCSSheet)item).IsGlobal = true; ;
+                        UpdateGlobalRules();
                     }
                 }
             }
         }
-        private void ItemChanged(object sender, PropertyChangedEventArgs e)
+        public void ItemsChanged(IGlobalCSSheet globalCSSheet)
         {
+            if (!globalCSSheet.IsGlobal)
+                return;
             UpdateGlobalRules();
         }
 
@@ -89,46 +89,19 @@ namespace BlazorFabric
             }
         }
 
-        private ICollection<string> GetNewRules(ICollection<Rule> rules)
-        {
-            var addRules = new Collection<string>();
-            foreach (var rule in rules)
-            {
-                var ruleAsString = PrintRule(rule);
-                if (!GlobalCSRules.Contains(ruleAsString))
-                {
-                    addRules.Add(ruleAsString);
-                }
-            }
-            return addRules;
-        }
-
-        private ICollection<string> GetOldRules()
-        {
-            var addRules = new Collection<string>();
-            foreach (var styleSheet in GlobalRulesSheets)
-            {
-                foreach (var rule in styleSheet.Rules)
-                {
-                    var ruleAsString = PrintRule(rule);
-                    if (!GlobalCSRules.Contains(ruleAsString))
-                    {
-                        addRules.Add(ruleAsString);
-                    }
-                }
-            }
-            return addRules;
-        }
-
         private ICollection<string> GetGlobalCSRules()
         {
             var globalCSRules = new Collection<string>();
             var update = false;
             foreach (var styleSheet in GlobalRulesSheets)
             {
-                if (styleSheet.Rules == null)
+                if (styleSheet.CreateGlobalCss == null)
+                {
                     continue;
-                foreach (var rule in styleSheet.Rules)
+                }
+                var rules = styleSheet.CreateGlobalCss.Invoke();
+
+                foreach (var rule in rules)
                 {
                     var ruleAsString = PrintRule(rule);
                     if (!globalCSRules.Contains(ruleAsString))

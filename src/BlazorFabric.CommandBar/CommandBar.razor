@@ -1,14 +1,13 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-    <GlobalCS Component="this" Rules="@CommandBarRules" />
+<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
 
 <ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
              Data=@_currentData
              GetCacheKey=@(x => x.CacheKey)
              ClassName=@ClassName
-             Style=@Style
-             >
+             Style=@Style>
     <DataTemplate Context="data">
         <div class="mediumFont ms-CommandBar" role="menubar">
             @*Primary*@
@@ -41,7 +40,7 @@
                 <OverflowTemplate>
                     <CommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@context />
                 </OverflowTemplate>
-                
+
             </OverflowSet>
             @*Secondary*@
             <OverflowSet ClassName="ms-CommandBar-secondarySet" Items=@data.FarItems GetKey=@(x=>x.Key)>

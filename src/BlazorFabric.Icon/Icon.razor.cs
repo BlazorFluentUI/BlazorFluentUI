@@ -12,27 +12,10 @@ namespace BlazorFabric
         [Parameter] public string IconName { get; set; }
         [Parameter] public IconType IconType { get; set; }
 
-        private ICollection<Rule> IconRules { get; set; } = new List<Rule>();
-
-        protected override void OnInitialized()
+        private ICollection<Rule> CreateGlobalCss()
         {
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
-            base.OnInitialized();
-        }
-
-        protected override void OnThemeChanged()
-        {
-            CreateCss();
-            base.OnThemeChanged();
-        }
-
-        private void CreateCss()
-        {
-            IconRules.Clear();
-            IconRules.Add(new Rule()
+            var iconRules = new HashSet<Rule>();
+            iconRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Icon" },
                 Properties = new CssString()
@@ -41,7 +24,7 @@ namespace BlazorFabric
                 }
             });
 
-            IconRules.Add(new Rule()
+            iconRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Icon-placeHolder" },
                 Properties = new CssString()
@@ -49,7 +32,8 @@ namespace BlazorFabric
                     Css = $"width:1em;"
                 }
             });
-            IconRules.Add(new Rule()
+
+            iconRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Icon-imageContainer" },
                 Properties = new CssString()
@@ -57,6 +41,8 @@ namespace BlazorFabric
                     Css = $"overflow:hidden;"
                 }
             });
+
+            return iconRules;
         }
     }
 }

@@ -34,23 +34,17 @@ namespace BlazorFabric
         private Rule ProgressIndicatorProgressTrackRule = new Rule();
         private Rule ProgressIndicatorProgressBarRule = new Rule();
 
-        private ICollection<Rule> ProgressIndicatorGlobalRules { get; set; } = new List<Rule>();
         private ICollection<Rule> ProgressIndicatorLocalRules { get; set; } = new List<Rule>();
 
         protected override void OnInitialized()
         {
             CreateLocalCss();
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateGlobalCss();
-            }
             SetStyle();
             base.OnInitialized();
         }
 
         protected override void OnThemeChanged()
         {
-            CreateGlobalCss();
             SetStyle();
             base.OnThemeChanged();
         }
@@ -129,10 +123,10 @@ namespace BlazorFabric
             };
         }
 
-        private void CreateGlobalCss()
+        private ICollection<Rule> CreateGlobalCss()
         {
-            ProgressIndicatorGlobalRules.Clear();
-            ProgressIndicatorGlobalRules.Add(new Rule()
+            var progressIndicatorGlobalRules = new HashSet<Rule>();
+            progressIndicatorGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgress" },
                 Properties = new CssString()
@@ -140,7 +134,7 @@ namespace BlazorFabric
                     Css = "0%{left:-30%;} 100%{left:100%;}"
                 }
             });
-            ProgressIndicatorGlobalRules.Add(new Rule()
+            progressIndicatorGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgressRTL" },
                 Properties = new CssString()
@@ -148,7 +142,7 @@ namespace BlazorFabric
                     Css = "100%{right:-30%;} 0%{right:100%;}"
                 }
             });
-            ProgressIndicatorGlobalRules.Add(new Rule()
+            progressIndicatorGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemName" },
                 Properties = new CssString()
@@ -161,7 +155,7 @@ namespace BlazorFabric
                             $"line-height:{textHeight + 2}px;"
         }
             });
-            ProgressIndicatorGlobalRules.Add(new Rule()
+            progressIndicatorGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemDescription" },
                 Properties = new CssString()
@@ -171,7 +165,7 @@ namespace BlazorFabric
                             $"line-height:{textHeight}px;"
                 }
             });
-            ProgressIndicatorGlobalRules.Add(new Rule()
+            progressIndicatorGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -179,6 +173,7 @@ namespace BlazorFabric
                     Css = ".ms-ProgressIndicator-progressTrack{border-bottom:1px solid WindowText;} .ms-ProgressIndicator-progressBar{background-color:WindowText;}"
                 }
             });
+            return progressIndicatorGlobalRules;
         }
 
     }

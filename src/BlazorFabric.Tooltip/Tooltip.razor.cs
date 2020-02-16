@@ -16,7 +16,6 @@ namespace BlazorFabric
         [Parameter] public EventCallback<EventArgs> OnMouseEnter { get; set; }
         [Parameter] public EventCallback<EventArgs> OnMouseLeave { get; set; }
 
-        private ICollection<Rule> TooltipGlobalRules { get; set; } = new List<Rule>();
         private ICollection<Rule> TooltipLocalRules { get; set; } = new List<Rule>();
 
         private Rule TooltipRule = new Rule();
@@ -26,17 +25,12 @@ namespace BlazorFabric
         protected override void OnInitialized()
         {
             CreateLocalCss();
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateGlobalCss();
-            }
             SetStyle();
             base.OnInitialized();
         }
 
         protected override void OnThemeChanged()
         {
-            CreateGlobalCss();
             SetStyle();
         }
 
@@ -48,10 +42,10 @@ namespace BlazorFabric
             TooltipLocalRules.Add(TooltipAfterRule);
         }
 
-        private void CreateGlobalCss()
+        private ICollection<Rule> CreateGlobalCss()
         {
-            TooltipGlobalRules.Clear();
-            TooltipGlobalRules.Add(new Rule()
+            var tooltipGlobalRules = new HashSet<Rule>();
+            tooltipGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Tooltip-content" },
                 Properties = new CssString()
@@ -64,7 +58,7 @@ namespace BlazorFabric
                             $"overflow:hidden;"
                 }
             });
-            TooltipGlobalRules.Add(new Rule()
+            tooltipGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Tooltip-subtext" },
                 Properties = new CssString()
@@ -75,6 +69,7 @@ namespace BlazorFabric
                             $"margin:0;"
                 }
             });
+            return tooltipGlobalRules;
         }
 
         private void SetStyle()

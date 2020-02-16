@@ -3,7 +3,7 @@
 @typeparam TItem
 @using Microsoft.AspNetCore.Components.Web
 
-<GlobalCS Component="this" Rules="@OverflowSetRules" />
+<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss"/>
 
 
 @if (DoNotContainWithinFocusZone)

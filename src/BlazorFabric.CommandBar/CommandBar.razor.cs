@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
@@ -25,15 +24,8 @@ namespace BlazorFabric
 
         protected CommandBarData _currentData;
 
-        private ICollection<Rule> CommandBarRules { get; set; } = new List<Rule>();
-
-
         protected override Task OnInitializedAsync()
         {
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
             onReduceData = (data) =>
             {
                 if (data.PrimaryItems.Count > 0)
@@ -80,12 +72,6 @@ namespace BlazorFabric
             return base.OnInitializedAsync();
         }
 
-        protected override void OnThemeChanged()
-        {
-            CreateCss();
-            base.OnThemeChanged();
-        }
-
         protected override Task OnParametersSetAsync()
         {
             _currentData = new CommandBarData()
@@ -108,10 +94,10 @@ namespace BlazorFabric
             return string.Join(" ", primaryKey, farKey, overflowKey);
         }
 
-        private void CreateCss()
+        private ICollection<Rule> CreateGlobalCss()
         {
-            CommandBarRules.Clear();
-            CommandBarRules.Add(new Rule()
+            var commandBarRules = new HashSet<Rule>();
+            commandBarRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar" },
                 Properties = new CssString()
@@ -122,7 +108,7 @@ namespace BlazorFabric
                             $"height:44px;"
                 }
             });
-            CommandBarRules.Add(new Rule()
+            commandBarRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar-primarySet" },
                 Properties = new CssString()
@@ -132,7 +118,7 @@ namespace BlazorFabric
                             $"align-items:stretch;"
                 }
             });
-            CommandBarRules.Add(new Rule()
+            commandBarRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar-secondarySet" },
                 Properties = new CssString()
@@ -142,6 +128,8 @@ namespace BlazorFabric
                             $"align-items:stretch;"
                 }
             });
+
+            return commandBarRules;
         }
     }
 }

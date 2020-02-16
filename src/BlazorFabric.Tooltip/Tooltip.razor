@@ -1,8 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-    <GlobalCS Component="this" Rules="@TooltipGlobalRules" />
-    <LocalCS @bind-Rules="@TooltipLocalRules" />
+<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+<LocalCS @bind-Rules="@TooltipLocalRules" />
 
 <Callout ClassName=@($"mediumFont fadeIn200 {TooltipRule.Selector.SelectorName} {TooltipAfterRule.Selector.SelectorName} {ClassName}")
          FabricComponentTarget=@FabricComponentTarget
@@ -11,13 +11,11 @@
          BeakWidth=@BeakWidth
          GapSpace="0"
          DoNotLayer="false"
-         IsBeakVisible="true"
-         >
+         IsBeakVisible="true">
     <div class="ms-Tooltip-content smallFont"
          @onmouseenter=@OnMouseEnter
          @onmouseleave=@OnMouseLeave
-         role="tooltip"
-         >
+         role="tooltip">
         <p class="ms-Tooltip-subtext">
             @ChildContent
         </p>

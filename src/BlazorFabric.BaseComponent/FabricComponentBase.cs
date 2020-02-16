@@ -47,23 +47,24 @@ namespace BlazorFabric
         public ElementReference RootElementReference;
 
         private ITheme _theme;
+        private bool reloadStyle;
 
         static bool focusRectsInitialized = false;
-
-        private ICollection<Rule> OverallRules { get; set; } = new List<Rule>();
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.OpenComponent<GlobalCS>(0);
-            builder.AddAttribute(1, "Rules", OverallRules);
-            builder.AddAttribute(2, "Component", this);
+            builder.AddAttribute(1, "Component", this);
+            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<Rule>>( CreateGlobalCss ));
+            builder.AddAttribute(3, "ReloadStyle", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<bool>(reloadStyle));
+            builder.AddAttribute(4, "ReloadStyleChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck(EventCallback.Factory.Create(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => reloadStyle = __value, reloadStyle))));
+
             builder.CloseComponent();
             base.BuildRenderTree(builder);
         }
 
         protected override void OnInitialized()
         {
-            CreateCss(Theme);
             ThemeProvider.ThemeChanged += OnThemeChangedPrivate;
             ThemeProvider.ThemeChanged += OnThemeChangedProtected;
             base.OnInitialized();
@@ -141,25 +142,26 @@ namespace BlazorFabric
 
         private void OnThemeChangedPrivate(object sender, ThemeChangedArgs themeChangedArgs)
         {
-            CreateCss(themeChangedArgs.Theme);
+            reloadStyle = true;
         }
 
-        private void CreateCss(ITheme theme)
+        private ICollection<Rule> CreateGlobalCss()
         {
-            OverallRules.Clear();
-            OverallRules.Add(new Rule()
+            var overallRules = new HashSet<Rule>();
+            overallRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "body" },
                 Properties = new CssString()
                 {
                     Css = $"-moz-osx-font-smoothing:grayscale;" +
                             $"-webkit-font-smoothing:antialiased;" +
-                            $"color:{theme?.SemanticTextColors?.BodyText ?? "#323130"};" +
-                            $"background-color:{theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
+                            $"color:{Theme?.SemanticTextColors?.BodyText ?? "#323130"};" +
+                            $"background-color:{Theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
                             $"font-family:'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;" +
                             $"font-size:14px;"
                 }
             });
+            return overallRules;
         }
     }
 }

@@ -80,8 +80,6 @@ namespace BlazorFabric
         private bool _indeterminateUncontrolled;
         private bool _indeterminateChanged;
 
-        private ICollection<Rule> CheckboxRules { get; set; } = new List<Rule>();
-
         protected override void OnInitialized()
         {
             if (!Checked.HasValue)
@@ -99,10 +97,6 @@ namespace BlazorFabric
                 _indeterminate = Indeterminate.Value;
             }
             _reversed = BoxSide == BoxSide.End;
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
             base.OnInitialized();
         }
 
@@ -133,12 +127,6 @@ namespace BlazorFabric
             base.OnAfterRender(firstRender);
         }
 
-        protected override void OnThemeChanged()
-        {
-            CreateCss();
-            base.OnThemeChanged();
-        }
-
         protected async Task InternalOnChange(ChangeEventArgs args)
         {
             if (_indeterminate)
@@ -166,11 +154,11 @@ namespace BlazorFabric
 
         }
 
-        private void CreateCss()
+        private ICollection<Rule> CreateGlobalCss()
         {
-            CheckboxRules.Clear();
+            var checkboxRules = new HashSet<Rule>();
             // ROOT
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox" },
                 Properties = new CssString()
@@ -181,7 +169,7 @@ namespace BlazorFabric
             });
 
             // INPUT
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-input" },
                 Properties = new CssString()
@@ -191,7 +179,7 @@ namespace BlazorFabric
                             $"opacity:0;"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-Checkbox-input:focus+.ms-Checkbox-label::before" },
                 Properties = new CssString()
@@ -200,7 +188,7 @@ namespace BlazorFabric
                             $"outline-offset:2px;"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -210,7 +198,7 @@ namespace BlazorFabric
             });
 
             // LABEL
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label" },
                 Properties = new CssString()
@@ -223,7 +211,7 @@ namespace BlazorFabric
                             $"text-align:left;"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-reversed" },
                 Properties = new CssString()
@@ -232,7 +220,7 @@ namespace BlazorFabric
                             $"justify-content:flex-end;"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label::before" },
                 Properties = new CssString()
@@ -246,7 +234,7 @@ namespace BlazorFabric
                             $"pointer-events:none;"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-disabled" },
                 Properties = new CssString()
@@ -256,7 +244,7 @@ namespace BlazorFabric
             });
 
             //Label enable && unchecked
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkbox" },
                 Properties = new CssString()
@@ -264,7 +252,7 @@ namespace BlazorFabric
                     Css = $"border-color:{Theme.SemanticColors.InputBorderHovered};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:focus .ms-Checkbox-checkbox" },
                 Properties = new CssString()
@@ -272,7 +260,7 @@ namespace BlazorFabric
                     Css = $"border-color:{Theme.SemanticColors.InputBorderHovered};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkmark" },
                 Properties = new CssString()
@@ -281,7 +269,7 @@ namespace BlazorFabric
                             $"opacity:1;"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -292,7 +280,7 @@ namespace BlazorFabric
             });
 
             //Label enable && checked && !indeterminate
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox" },
                 Properties = new CssString()
@@ -301,7 +289,7 @@ namespace BlazorFabric
                             $"border-color:{Theme.SemanticColors.InputBackgroundCheckedHovered};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox" },
                 Properties = new CssString()
@@ -310,7 +298,7 @@ namespace BlazorFabric
                             $"border-color:{Theme.SemanticColors.InputBackgroundCheckedHovered};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked .ms-Checkbox-checkbox" },
                 Properties = new CssString()
@@ -319,7 +307,7 @@ namespace BlazorFabric
                             $"border-color:{Theme.SemanticColors.InputBackgroundChecked};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -332,7 +320,7 @@ namespace BlazorFabric
                 }
             });
 
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox" },
                 Properties = new CssString()
@@ -340,7 +328,7 @@ namespace BlazorFabric
                     Css = $"border-color:{Theme.SemanticColors.InputBackgroundCheckedHovered};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox:after" },
                 Properties = new CssString()
@@ -348,7 +336,7 @@ namespace BlazorFabric
                     Css = $"border-color:{Theme.SemanticColors.InputBackgroundCheckedHovered};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox" },
                 Properties = new CssString()
@@ -356,7 +344,7 @@ namespace BlazorFabric
                     Css = $"border-color:{Theme.SemanticColors.InputBackgroundCheckedHovered};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkmark" },
                 Properties = new CssString()
@@ -365,7 +353,7 @@ namespace BlazorFabric
                 }
             });
 
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-checked:hover .ms-Checkbox-text" },
                 Properties = new CssString()
@@ -373,7 +361,7 @@ namespace BlazorFabric
                     Css = $"color:{Theme.SemanticTextColors.InputTextHovered};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-checked:focus .ms-Checkbox-text" },
                 Properties = new CssString()
@@ -383,7 +371,7 @@ namespace BlazorFabric
             });
 
             // CHECKBOX
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox" },
                 Properties = new CssString()
@@ -406,7 +394,7 @@ namespace BlazorFabric
                             $"margin-right:0"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-reversed" },
                 Properties = new CssString()
@@ -415,7 +403,7 @@ namespace BlazorFabric
                             $"margin-left:0;"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-checked:not(.ms-Checkbox-checkbox-indeterminate).ms-Checkbox-checkbox-enabled" },
                 Properties = new CssString()
@@ -424,7 +412,7 @@ namespace BlazorFabric
                             $"border-color:{Theme.SemanticColors.InputBackgroundChecked};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-indeterminate" },
                 Properties = new CssString()
@@ -432,7 +420,7 @@ namespace BlazorFabric
                     Css = $"border-color:{Theme.SemanticColors.InputBackgroundChecked};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-disabled" },
                 Properties = new CssString()
@@ -440,7 +428,7 @@ namespace BlazorFabric
                     Css = $"border-color:{Theme.SemanticTextColors.DisabledBodySubtext};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-disabled.ms-Checkbox-checkbox-checked" },
                 Properties = new CssString()
@@ -449,7 +437,7 @@ namespace BlazorFabric
                             $"border-color:{Theme.SemanticTextColors.DisabledBodySubtext};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox.ms-Checkbox-checkbox-indeterminate::after" },
                 Properties = new CssString()
@@ -468,15 +456,15 @@ namespace BlazorFabric
                             $"transition-timing-function:cubic-bezier(.4, 0, .23, 1);"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox.ms-Checkbox-checkbox-disabled.ms-Checkbox-checkbox-indeterminate::after" },
                 Properties = new CssString()
                 {
-                    Css =   $"border:5px solid {Theme.SemanticTextColors.DisabledBodySubtext};"
+                    Css = $"border:5px solid {Theme.SemanticTextColors.DisabledBodySubtext};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -487,7 +475,7 @@ namespace BlazorFabric
             });
 
             // CHECKMARK
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkmark" },
                 Properties = new CssString()
@@ -496,7 +484,7 @@ namespace BlazorFabric
                             $"color:{Theme.SemanticColors.InputForegroundChecked};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkmark-checked" },
                 Properties = new CssString()
@@ -504,7 +492,7 @@ namespace BlazorFabric
                     Css = $"opacity:1;"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -515,7 +503,7 @@ namespace BlazorFabric
             });
 
             // TEXT
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text" },
                 Properties = new CssString()
@@ -527,7 +515,7 @@ namespace BlazorFabric
                             $"margin-right:0;"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text-reversed" },
                 Properties = new CssString()
@@ -536,7 +524,7 @@ namespace BlazorFabric
                             $"margin-left:0;"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text-disabled" },
                 Properties = new CssString()
@@ -544,7 +532,7 @@ namespace BlazorFabric
                     Css = $"color:{Theme.SemanticTextColors.DisabledText};"
                 }
             });
-            CheckboxRules.Add(new Rule()
+            checkboxRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -552,7 +540,8 @@ namespace BlazorFabric
                     Css = ".ms-Checkbox-text-disabled {color: InactiveBorder;}"
                 }
             });
-        }
 
+            return checkboxRules;
+        }
     }
 }

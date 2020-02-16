@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class GlobalCS : ComponentBase, IGlobalCSSheet, IDisposable, INotifyPropertyChanged
+    public class GlobalCS : ComponentBase, IGlobalCSSheet, IDisposable
     {
         [Inject]
         public IComponentStyle ComponentStyle { get; set; }
@@ -15,25 +15,15 @@ namespace BlazorFabric
         public object Component { get; set; }
 
         [Parameter]
-        public ICollection<Rule> Rules
-        {
-            get => _rules;
-            set
-            {
-                if (_rules != value)
-                {
-                    _rules = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rules"));
-                }
-            }
-        }
+        public bool ReloadStyle { get; set; } = false;
 
-        public bool HasEvent { get; set; }
+        [Parameter]
+        public Func<ICollection<Rule>> CreateGlobalCss { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        [Parameter]
+        public EventCallback<bool> ReloadStyleChanged { get; set; }
 
-        private ICollection<Rule> _rules;
-
+        public bool IsGlobal { get; set; }
 
         public void Dispose()
         {
@@ -43,12 +33,17 @@ namespace BlazorFabric
         protected override Task OnInitializedAsync()
         {
             ComponentStyle.GlobalCSSheets.Add(this);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rules"));
             return base.OnInitializedAsync();
         }
 
         protected override void OnParametersSet()
         {
+            if (ReloadStyle && IsGlobal)
+            {
+                ReloadStyle = false;
+                ReloadStyleChanged.InvokeAsync(false);
+                ComponentStyle.ItemsChanged(this);
+            }
             base.OnParametersSet();
         }
     }

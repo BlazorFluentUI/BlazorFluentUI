@@ -119,7 +119,7 @@ namespace BlazorFabric
         protected void CreateCss()
         {
 
-            DetailsRowLocalRules.Clear();
+            //DetailsRowLocalRules.Clear();
             DetailsRowGlobalRules.Clear();
 
             // Root

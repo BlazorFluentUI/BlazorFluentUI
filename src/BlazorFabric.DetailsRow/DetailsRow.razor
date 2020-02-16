@@ -16,6 +16,7 @@
         <div role="gridcell" aria-colindex="1" data-selection-toggle="true" class="ms-DetailsRow-checkCell">
             <DetailsRowCheck IsVisible=@(this.CheckboxVisibility == CheckboxVisibility.Always)
                              Compact=@Compact
+                             Checked=@isSelected
                              UseFastIcons="true"
                              CanSelect=@canSelect />
         </div>

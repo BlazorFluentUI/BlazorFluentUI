@@ -50,12 +50,12 @@ namespace BlazorFabric
         {
             DetailsRowCheckGlobalRules.Clear();
             var focusProps = new FocusStyleProps(Theme);
-            var focusStyles = FocusStyle.GetFocusStyle(focusProps, ".ms-DetailsRowCheck-check");
+            var focusStyles = FocusStyle.GetFocusStyle(focusProps, ".ms-DetailsRow-check");
 
             DetailsRowCheckGlobalRules.Add(
                 new Rule()
                 {
-                    Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRowCheck-check" },
+                    Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-check" },
                     Properties = new CssString()
                     {
                         Css = focusStyles.MergeRules +
@@ -79,21 +79,34 @@ namespace BlazorFabric
             DetailsRowCheckGlobalRules.Add(
                new Rule()
                {
-                   Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-compact .ms-DetailsRowCheck-check" },
+                   Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-compact .ms-DetailsRow-check" },
                    Properties = new CssString()
                    {
                        Css = "height:32px;"
                    }
                });
             DetailsRowCheckGlobalRules.Add(
+              new Rule()
+              {
+                  Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-header .ms-DetailsRow-check" },
+                  Properties = new CssString()
+                  {
+                      Css = "height:42px;"
+                  }
+              });
+            DetailsRowCheckGlobalRules.Add(
                new Rule()
                {
-                   Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRowCheck-check.is-checked,.ms-DetailsRowCheck-check.can-select,.ms-DetailsRowCheck-check.is-header" },
+                   Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-check.is-checked,.ms-DetailsRow-check.is-visible" },
                    Properties = new CssString()
                    {
                        Css = "opacity:1;"
                    }
                });
+
+
+
+            
         }
 
     }

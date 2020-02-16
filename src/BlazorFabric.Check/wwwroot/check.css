@@ -1,4 +1,4 @@
-﻿.ms-Check{
+﻿/*.ms-Check{
     line-height: 1;
     width: 18px;
     height: 18px;
@@ -59,7 +59,7 @@
     opacity: 0;
     color: var(--palette-NeutralSecondary);
     font-size: var(--iconFontSize-Medium);
-    left:0.5px;  /* skipping RTL support */
+    left:0.5px;  
 }
 .ms-Check-check:hover{
     opacity:1;
@@ -84,4 +84,4 @@
         border:none;
         color:WindowText;
     }
-}
+}*/

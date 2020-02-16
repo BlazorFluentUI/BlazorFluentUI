@@ -86,7 +86,7 @@ namespace BlazorFabric
         private bool _needsRemeasure = true;
         //private IDisposable _updatesSubscription;
 
-        private ICollection<Rule> ListRules { get; set; } = new System.Collections.Generic.List<Rule>();
+        //private ICollection<Rule> ListRules { get; set; } = new System.Collections.Generic.List<Rule>();
 
         protected override Task OnInitializedAsync()
         {
@@ -194,19 +194,19 @@ namespace BlazorFabric
                    })
                    .Subscribe();
 
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
+            //if (!CStyle.ComponentStyleExist(this))
+            //{
+            //    CreateCss();
+            //}
 
             return base.OnInitializedAsync();
         }
 
-        protected override void OnThemeChanged()
-        {
-            CreateCss();
-            base.OnThemeChanged();
-        }
+        //protected override void OnThemeChanged()
+        //{
+        //    CreateCss();
+        //    base.OnThemeChanged();
+        //}
 
         protected override async Task OnParametersSetAsync()
         {
@@ -270,15 +270,16 @@ namespace BlazorFabric
             //Debug.WriteLine("list wants to rerender... but can't");
             return false;
         }
-        private void CreateCss()
+        private ICollection<Rule> CreateGlobalCss()
         {
+            var listRules = new HashSet<Rule>();
             //creates a method that pulls in focusstyles the way the react controls do it.
             var focusStyleProps = new FocusStyleProps(this.Theme);
             var mergeStyleResults = FocusStyle.GetFocusStyle(focusStyleProps, ".ms-List-cell-default");
 
-            ListRules.Clear();
+            listRules.Clear();
             // Cell only
-            ListRules.Add(new Rule()
+            listRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default" },
                 Properties = new CssString()
@@ -297,7 +298,7 @@ namespace BlazorFabric
                           //$"position:relative;"
                 }
             });
-            ListRules.Add(new Rule()
+            listRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default:hover" },
                 Properties = new CssString()
@@ -305,7 +306,7 @@ namespace BlazorFabric
                     Css = $"background-color:{Theme.Palette.NeutralLighter};" 
                 }
             });
-            ListRules.Add(new Rule()
+            listRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default.is-selected" },
                 Properties = new CssString()
@@ -315,7 +316,7 @@ namespace BlazorFabric
             });
 
             foreach (var rule in mergeStyleResults.AddRules)
-                ListRules.Add(rule);
+                listRules.Add(rule);
             //ListRules.Add(new Rule()
             //{
             //    Selector = new CssStringSelector() { SelectorName = ".ms-List-cell::-moz-focus-inner" },
@@ -355,6 +356,7 @@ namespace BlazorFabric
             //              "}"
             //    }
             //});
+            return listRules;
         }
 
         //public void ForceRerender()

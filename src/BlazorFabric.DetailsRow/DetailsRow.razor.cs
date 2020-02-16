@@ -67,16 +67,11 @@ namespace BlazorFabric
         private bool isSelected;
         private Rule _localCheckCoverRule;
 
-        private ICollection<Rule> DetailsRowGlobalRules { get; set; } = new List<Rule>();
         private ICollection<Rule> DetailsRowLocalRules { get; set; } = new List<Rule>();
 
         protected override Task OnInitializedAsync()
         {
             CreateLocalCss();
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
             return base.OnInitializedAsync();
         }
 
@@ -86,12 +81,6 @@ namespace BlazorFabric
             _localCheckCoverRule.Selector = new ClassSelector() { SelectorName = "ms-DetailsRow-checkCover" };            
             _localCheckCoverRule.Properties = new CssString() { Css = "position:absolute;top:-1px;left:0;bottom:0;right:0;display:none;" };            
             DetailsRowLocalRules.Add(_localCheckCoverRule);
-        }
-
-        protected override void OnThemeChanged()
-        {
-            CreateCss();
-            base.OnThemeChanged();
         }
 
         protected override Task OnParametersSetAsync()
@@ -116,11 +105,10 @@ namespace BlazorFabric
         const int CellRightPadding = 8;
         const int CellExtraRightPadding = 24;
 
-        protected void CreateCss()
+        private ICollection<Rule> CreateGlobalCss()
         {
-
             //DetailsRowLocalRules.Clear();
-            DetailsRowGlobalRules.Clear();
+            var detailsRowRules = new HashSet<Rule>();
 
             // Root
             var rootFocusStyleProps = new FocusStyleProps(this.Theme);
@@ -128,9 +116,9 @@ namespace BlazorFabric
             rootFocusStyleProps.OutlineColor = Theme.Palette.White;
             var rootMergeStyleResults = FocusStyle.GetFocusStyle(rootFocusStyleProps, ".ms-DetailsRow");
             foreach (var rule in rootMergeStyleResults.AddRules)
-                DetailsRowGlobalRules.Add(rule);
+                detailsRowRules.Add(rule);
 
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow" },
                 Properties = new CssString()
@@ -149,7 +137,7 @@ namespace BlazorFabric
                           $"text-align:left;"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-compact" },
                 Properties = new CssString()
@@ -158,7 +146,7 @@ namespace BlazorFabric
                           "border:0px"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow:hover" },
                 Properties = new CssString()
@@ -167,7 +155,7 @@ namespace BlazorFabric
                           $"color:{Theme.Palette.NeutralPrimary}"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow:hover .is-row-header" },
                 Properties = new CssString()
@@ -175,7 +163,7 @@ namespace BlazorFabric
                     Css = $"color:{Theme.Palette.NeutralDark}"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow:hover .ms-DetailsRow-check" },
                 Properties = new CssString()
@@ -183,7 +171,7 @@ namespace BlazorFabric
                     Css = $"opacity:1;"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-DetailsRow:focus .ms-DetailsRow-check" },
                 Properties = new CssString()
@@ -198,9 +186,9 @@ namespace BlazorFabric
 
             var rootSelectedMergeStyleResults = FocusStyle.GetFocusStyle(rootSelectedFocusStyleProps, ".ms-DetailsRow.is-selected");
             foreach (var rule in rootSelectedMergeStyleResults.AddRules)
-                DetailsRowGlobalRules.Add(rule);
+                detailsRowRules.Add(rule);
 
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-selected" },
                 Properties = new CssString()
@@ -211,7 +199,7 @@ namespace BlazorFabric
                           $"border-bottom:1px solid {Theme.Palette.White};"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-selected:before" },
                 Properties = new CssString()
@@ -227,7 +215,7 @@ namespace BlazorFabric
                           $"border-top:1px solid {Theme.Palette.White}"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-selected:hover" },
                 Properties = new CssString()
@@ -236,7 +224,7 @@ namespace BlazorFabric
                           $"color:{Theme.Palette.NeutralPrimary};"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -249,7 +237,7 @@ namespace BlazorFabric
                           "}" 
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-selected.is-row-header:hover" },
                 Properties = new CssString()
@@ -257,7 +245,7 @@ namespace BlazorFabric
                     Css = $"color:{Theme.Palette.NeutralDark};"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -276,7 +264,7 @@ namespace BlazorFabric
             // #####################################################################################
 
             // CellUnpadded
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-cellUnpadded" },
                 Properties = new CssString()
@@ -285,7 +273,7 @@ namespace BlazorFabric
                 }
             });
             // CellPadded
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-cellPadded" },
                 Properties = new CssString()
@@ -293,7 +281,7 @@ namespace BlazorFabric
                     Css = $"padding-right:{CellExtraRightPadding + CellRightPadding}px;"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-cellPadded.ms-DetailsRow-cellCheck" },
                 Properties = new CssString()
@@ -305,10 +293,10 @@ namespace BlazorFabric
             //Cell
             var rules = GetDefaultCellStyles(".ms-DetailsRow-cell");
             foreach (var rule in rules)
-                DetailsRowGlobalRules.Add(rule);
+                detailsRowRules.Add(rule);
 
             // CellMeasurer
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-cellMeasurer" },
                 Properties = new CssString()
@@ -319,7 +307,7 @@ namespace BlazorFabric
             });
 
             // CheckCell
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-checkCell" },
                 Properties = new CssString()
@@ -333,7 +321,7 @@ namespace BlazorFabric
 
 
             // CheckCover
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-checkCover" },
                 Properties = new CssString()
@@ -351,7 +339,7 @@ namespace BlazorFabric
             };
 
             //Fields
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-fields" },
                 Properties = new CssString()
@@ -362,7 +350,7 @@ namespace BlazorFabric
             });
 
             //IsRowHeader
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-row-header" },
                 Properties = new CssString()
@@ -371,7 +359,7 @@ namespace BlazorFabric
                           $"font-size:{Theme.FontStyle.FontSize.Medium};"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-row-header.is-selected" },
                 Properties = new CssString()
@@ -380,7 +368,7 @@ namespace BlazorFabric
                           $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};"
                 }
             });
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -392,7 +380,7 @@ namespace BlazorFabric
             });
 
             // IsMultiline
-            DetailsRowGlobalRules.Add(new Rule()
+            detailsRowRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-multiline" },
                 Properties = new CssString()
@@ -420,7 +408,7 @@ namespace BlazorFabric
             selectedfocusStyleProps.OutlineColor = Theme.Palette.White;
             var selectedMergeStyleResults = FocusStyle.GetFocusStyle(selectedfocusStyleProps, ".ms-List-cell.is-selected .ms-DetailsRow");
 
-
+            return detailsRowRules;
 
         }
 

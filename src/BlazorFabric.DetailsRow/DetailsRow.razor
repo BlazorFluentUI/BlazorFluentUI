@@ -2,7 +2,7 @@
 @inherits FabricComponentBase
 @typeparam TItem
 
-<GlobalCS Component=@this Rules=@DetailsRowGlobalRules />
+<GlobalCS Component=@this CreateGlobalCss=@CreateGlobalCss />
 <LocalCS @bind-Rules=@DetailsRowLocalRules />
 
 <FocusZone Direction=@FocusZoneDirection.Horizontal

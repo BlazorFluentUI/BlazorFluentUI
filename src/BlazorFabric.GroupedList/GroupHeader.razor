@@ -2,7 +2,7 @@
 @inherits FabricComponentBase
 
 
-<GlobalCS Component=@this Rules=@GroupHeaderGlobalRules />
+<GlobalCS Component=@this CreateGlobalCss=@CreateGlobalCss />
 <div class=@($"mediumFont ms-GroupHeader{(Compact ? " ms-GroupHeader--compact" : "")}{(!IsOpen ? " is-collapsed" : "")}{(CurrentlySelected ? " is-selected": "")}{(string.IsNullOrEmpty(ClassName) ? "":" " + ClassName)}")>
     <FocusZone ClassName="ms-GroupHeader-groupHeaderContainer"
                Direction="FocusZoneDirection.Horizontal">

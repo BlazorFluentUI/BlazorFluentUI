@@ -46,21 +46,21 @@ namespace BlazorFabric
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
-        private ICollection<Rule> GroupHeaderGlobalRules { get; set; } = new System.Collections.Generic.List<Rule>();
+        //private ICollection<Rule> GroupHeaderGlobalRules { get; set; } = new System.Collections.Generic.List<Rule>();
 
         protected override Task OnInitializedAsync()
         {
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
+            //if (!CStyle.ComponentStyleExist(this))
+            //{
+            //    CreateCss();
+            //}
             return base.OnInitializedAsync();
         }
-        protected override void OnThemeChanged()
-        {
-            CreateCss();
-            base.OnThemeChanged();
-        }
+        //protected override void OnThemeChanged()
+        //{
+        //    CreateCss();
+        //    base.OnThemeChanged();
+        //}
 
         public void OnToggleSelectGroupClick(MouseEventArgs mouseEventArgs)
         {
@@ -75,17 +75,17 @@ namespace BlazorFabric
         }
 
 
-        protected void CreateCss()
+        private ICollection<Rule> CreateGlobalCss()
         {
-            GroupHeaderGlobalRules.Clear();
+            var groupHeaderRules = new HashSet<Rule>();
 
             // Root
             var rootFocusStyleProps = new FocusStyleProps(this.Theme);
             var rootMergeStyleResults = FocusStyle.GetFocusStyle(rootFocusStyleProps, ".ms-GroupHeader");
             foreach (var rule in rootMergeStyleResults.AddRules)
-                GroupHeaderGlobalRules.Add(rule);
+                groupHeaderRules.Add(rule);
 
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader" },
                 Properties = new CssString()
@@ -96,7 +96,7 @@ namespace BlazorFabric
                           $"user-select:none;"
                 }
             });
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader:hover" },
                 Properties = new CssString()
@@ -105,7 +105,7 @@ namespace BlazorFabric
                           $"color:{Theme.SemanticTextColors.ActionLinkHovered};" 
                 }
             });
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader:hover .ms-GroupHeader-check" },
                 Properties = new CssString()
@@ -113,7 +113,7 @@ namespace BlazorFabric
                     Css = $"opacity:1;" 
                 }
             });
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-GroupHeader:focus .ms-GroupHeader-check" },
                 Properties = new CssString()
@@ -122,18 +122,18 @@ namespace BlazorFabric
                 }
             });
 
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupedList-group.is-dropping > .ms-GroupHeader .ms-GroupHeader-dropIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"transition:transform var(--animation-DURATION_4) cubic-bezier(0.075, 0.820, 0.165, 1.000) opacity var(--animation-DURATION_1) cubic-bezier(0.390, 0.575, 0.565, 1.000);" +
+                    Css = $"transition:transform var(--animation-DURATION_4) cubic-bezier(0.075, 0.820, 0.165, 1.000), opacity var(--animation-DURATION_1) cubic-bezier(0.390, 0.575, 0.565, 1.000);" +
                           $"transition-delay:var(--animation-DURATION_3);" +
                           $"opacity: 1;"+
                           $"transform:rotate(0.2deg) scale(1);" // rotation prevents jittery motion in IE
                 }
             });
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupedList-group.is-dropping > .ms-GroupHeader-check" },
                 Properties = new CssString()
@@ -142,7 +142,7 @@ namespace BlazorFabric
                 }
             });
 
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected" },
                 Properties = new CssString()
@@ -150,7 +150,7 @@ namespace BlazorFabric
                     Css = $"background:{Theme.SemanticColors.ListItemBackgroundChecked};"
                 }
             });
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected:hover" },
                 Properties = new CssString()
@@ -158,18 +158,18 @@ namespace BlazorFabric
                     Css = $"background:{Theme.SemanticColors.ListItemBackgroundCheckedHovered};"
                 }
             });
-            GroupHeaderGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-check" },
-                Properties = new CssString()
-                {
-                    Css = $"opacity:1;"
-                }
-            });
+            //groupHeaderRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-check" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"opacity:1;"
+            //    }
+            //});
 
 
             //GroupHeaderContainer
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-groupHeaderContainer" },
                 Properties = new CssString()
@@ -179,7 +179,7 @@ namespace BlazorFabric
                           $"height:48px;"
                 }
             });
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader--compact .ms-GroupHeader-groupHeaderContainer" },
                 Properties = new CssString()
@@ -189,7 +189,7 @@ namespace BlazorFabric
             });
 
             //HeaderCount
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-headerCount" },
                 Properties = new CssString()
@@ -202,9 +202,9 @@ namespace BlazorFabric
             //Check           
             var checkMergeStyleResults = FocusStyle.GetFocusStyle(rootFocusStyleProps, ".ms-GroupHeader-check");
             foreach (var rule in checkMergeStyleResults.AddRules)
-                GroupHeaderGlobalRules.Add(rule);
+                groupHeaderRules.Add(rule);
 
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-check" },
                 Properties = new CssString()
@@ -225,7 +225,7 @@ namespace BlazorFabric
                           $"height:48px;"
                 }
             });
-            GroupHeaderGlobalRules.Add(new Rule()
+            groupHeaderRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-GroupHeader-check:focus" },
                 Properties = new CssString()
@@ -233,6 +233,151 @@ namespace BlazorFabric
                     Css = $"opacity:1;"
                 }
             });
+
+            //Expand           
+            var expandMergeStyleResults = FocusStyle.GetFocusStyle(rootFocusStyleProps, ".ms-GroupHeader-expand");
+            foreach (var rule in expandMergeStyleResults.AddRules)
+                groupHeaderRules.Add(rule);
+
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-expand" },
+                Properties = new CssString()
+                {
+                    Css = checkMergeStyleResults.MergeRules +
+                          $"cursor:default;" +
+                          $"background:none;" +
+                          $"background-color:transparent;" +
+                          $"border:none;" +
+                          $"padding:0;" +
+                          $"display:flex;" +
+                          $"align-items:center;" +
+                          $"justify-content:center;" +
+                          $"font-size:{Theme.FontStyle.FontSize.Small};"+
+                          $"width:48px;" +
+                          $"height:48px;"+
+                          $"color:{Theme.Palette.NeutralSecondary};"
+                }
+            });
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-expand" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.Palette.NeutralPrimary};"
+                }
+            });
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-expand:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.Palette.NeutralLight};"
+                }
+            });
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-expand:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.Palette.NeutralQuaternary};"
+                }
+            });
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-expand:active" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.Palette.NeutralQuaternaryAlt};"
+                }
+            });
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-expand:active" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.Palette.NeutralTertiaryAlt};"
+                }
+            });
+
+            //ExpandIsCollapsed
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-expandIsCollapsed" },
+                Properties = new CssString()
+                {
+                    Css = $"transform:rotate(90deg);" +
+                          $"transform-origin:50% 50%;" +
+                          $"transition:transform .1s linear;" 
+                }
+            });
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-collapsed .ms-GroupHeader-expandIsCollapsed" },
+                Properties = new CssString()
+                {
+                    Css = $"transform:rotate(0deg);"                 }
+            });
+
+            //Title
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-title" },
+                Properties = new CssString()
+                {
+                    Css = $"padding-left:12px;" +
+                          $"font-size:{Theme.FontStyle.FontSize.MediumPlus};" +
+                          $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};"+
+                          $"cursor:pointer;"+
+                          $"outline:0;"+
+                          $"white-space:nowrap;"+
+                          $"text-overflow:ellipsis;"
+                }
+            });
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader--compact .ms-GroupHeader-title" },
+                Properties = new CssString()
+                {
+                    Css = $"font-size:{Theme.FontStyle.FontSize.Medium};" 
+                }
+            });
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-collapsed .ms-GroupHeader-title" },
+                Properties = new CssString()
+                {
+                    Css = $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                }
+            });
+
+
+            //DropIcon
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-dropIcon" },
+                Properties = new CssString()
+                {
+                    Css = $"position:absolute;" +
+                          $"left:-26px;" +
+                          $"font-size:20px;" + //used IconFontSize theme style which we haven't implemented yet.
+                          $"color:{Theme.Palette.NeutralSecondary};" +
+                          $"transition:transform var(--animation-DURATION_2) cubic-bezier(0.600, -0.280, 0.735, 0.045), opacity var(--animation-DURATION_4) cubic-bezier(0.390, 0.575, 0.565, 1.000);" +
+                          $"opacity:0;" +
+                          $"transform:rotate(0.2deg) scale(0.65);"+
+                          $"transform-origin:10px 10px;"
+                }
+            });
+            groupHeaderRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-dropIcon .ms-Icon--Tag" },
+                Properties = new CssString()
+                {
+                    Css = $"position:absolute;" 
+                }
+            });
+
+            return groupHeaderRules;
         }
 
     }

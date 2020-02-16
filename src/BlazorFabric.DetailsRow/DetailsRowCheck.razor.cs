@@ -29,30 +29,13 @@ namespace BlazorFabric
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
-        private ICollection<Rule> DetailsRowCheckGlobalRules { get; set; } = new List<Rule>();
-
-        protected override void OnInitialized()
+        protected ICollection<Rule> CreateGlobalCss()
         {
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
-            base.OnInitialized();
-        }
-
-        protected override void OnThemeChanged()
-        {
-            CreateCss();
-            base.OnThemeChanged();
-        }
-
-        protected void CreateCss()
-        {
-            DetailsRowCheckGlobalRules.Clear();
+            var detailsRowRules = new HashSet<Rule>();
             var focusProps = new FocusStyleProps(Theme);
             var focusStyles = FocusStyle.GetFocusStyle(focusProps, ".ms-DetailsRow-check");
 
-            DetailsRowCheckGlobalRules.Add(
+            detailsRowRules.Add(
                 new Rule()
                 {
                     Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-check" },
@@ -76,7 +59,7 @@ namespace BlazorFabric
                     }
                 });
             
-            DetailsRowCheckGlobalRules.Add(
+            detailsRowRules.Add(
                new Rule()
                {
                    Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-compact .ms-DetailsRow-check" },
@@ -85,7 +68,7 @@ namespace BlazorFabric
                        Css = "height:32px;"
                    }
                });
-            DetailsRowCheckGlobalRules.Add(
+            detailsRowRules.Add(
               new Rule()
               {
                   Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-header .ms-DetailsRow-check" },
@@ -94,7 +77,7 @@ namespace BlazorFabric
                       Css = "height:42px;"
                   }
               });
-            DetailsRowCheckGlobalRules.Add(
+            detailsRowRules.Add(
                new Rule()
                {
                    Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-check.is-checked,.ms-DetailsRow-check.is-visible" },
@@ -105,7 +88,7 @@ namespace BlazorFabric
                });
 
 
-
+            return detailsRowRules;
             
         }
 

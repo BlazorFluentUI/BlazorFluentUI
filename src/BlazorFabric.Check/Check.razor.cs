@@ -14,27 +14,11 @@ namespace BlazorFabric
         [Parameter]
         public bool UseFastIcons { get; set; }
 
-        private ICollection<Rule> CheckGlobalRules { get; set; } = new List<Rule>();
-
-        protected override Task OnInitializedAsync()
+        protected ICollection<Rule> CreateGlobalCss()
         {
-            if (!CStyle.ComponentStyleExist(this))
-            {
-                CreateCss();
-            }
-            return base.OnInitializedAsync();
-        }
-        protected override void OnThemeChanged()
-        {
-            CreateCss();
-            base.OnThemeChanged();
-        }
+            var checkRules = new HashSet<Rule>();
 
-        protected void CreateCss()
-        {
-            CheckGlobalRules.Clear();
-
-            CheckGlobalRules.Add(new Rule()
+            checkRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Check" },
                 Properties = new CssString()
@@ -49,7 +33,7 @@ namespace BlazorFabric
                 }
             });
 
-            CheckGlobalRules.Add(new Rule()
+            checkRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Check:before" },
                 Properties = new CssString()
@@ -66,7 +50,7 @@ namespace BlazorFabric
                 }
             });
 
-            CheckGlobalRules.Add(new Rule()
+            checkRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Check-checkHost:hover .ms-Check, .ms-Check-checkHost:focus .ms-Check, .ms-Check:focus" },
                 Properties = new CssString()
@@ -75,7 +59,7 @@ namespace BlazorFabric
                 }
             });
 
-            CheckGlobalRules.Add(new Rule()
+            checkRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Check.is-checked:before" },
                 Properties = new CssString()
@@ -86,7 +70,7 @@ namespace BlazorFabric
                 }
             });
 
-            CheckGlobalRules.Add(new Rule()
+            checkRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -98,7 +82,7 @@ namespace BlazorFabric
             });
 
             //Circle            
-            CheckGlobalRules.Add(
+            checkRules.Add(
               new Rule()
               {
                   Selector = new CssStringSelector() { SelectorName = ".ms-Check-circle" },
@@ -115,7 +99,7 @@ namespace BlazorFabric
                             $"vertical-align:middle;"
                   }
               });
-            CheckGlobalRules.Add(
+            checkRules.Add(
               new Rule()
               {
                   Selector = new CssStringSelector() { SelectorName = ".ms-Check.is-checked .ms-Check-circle" },
@@ -124,7 +108,7 @@ namespace BlazorFabric
                       Css = $"color:{Theme.Palette.White};" 
                   }
               });
-            CheckGlobalRules.Add(new Rule()
+            checkRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -136,7 +120,7 @@ namespace BlazorFabric
             });
 
             //Check
-            CheckGlobalRules.Add(
+            checkRules.Add(
             new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Check-check" },
@@ -156,7 +140,7 @@ namespace BlazorFabric
                           $"left:0.5px;" //isRTL ignored
                 }
             });
-            CheckGlobalRules.Add(
+            checkRules.Add(
             new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Check-check:hover" },
@@ -165,7 +149,7 @@ namespace BlazorFabric
                     Css = $"opacity:1;"
                 }
             });
-            CheckGlobalRules.Add(new Rule()
+            checkRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -175,7 +159,7 @@ namespace BlazorFabric
                          "}"
                 }
             });
-            CheckGlobalRules.Add(new Rule()
+            checkRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Check.is-checked .ms-Check-check" },
                 Properties = new CssString()
@@ -185,7 +169,7 @@ namespace BlazorFabric
                             $"font-weight:900;"
                 }
             });
-            CheckGlobalRules.Add(new Rule()
+            checkRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
@@ -196,6 +180,8 @@ namespace BlazorFabric
                          "}"
                 }
             });
+
+            return checkRules;
         }
     }
 }

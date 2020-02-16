@@ -27,6 +27,7 @@
                 @*@key=@(context.Key + (context.IsSelected ? "-selected" : ""))*@
                 <GroupHeader @key=@context.Key 
                              @bind-IsOpen=@header.IsOpen 
+                             CurrentlySelected=@(Selection != null ? Selection.SelectedItems.Contains(context.Item) : false)
                              Count=@header.Depth 
                              Name=@header.Name 
                              Compact=@Compact 

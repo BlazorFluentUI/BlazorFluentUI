@@ -4,7 +4,7 @@
 
 @typeparam TItem
 
-<GlobalCS Component=@this Rules=@ListRules />
+<GlobalCS Component=@this CreateGlobalCss=@CreateGlobalCss/>
 
 <div class=@($"ms-List mediumFont {ClassName}") role="list" @ref="RootElementReference"
         style=@($"{Style}overflow-y:hidden;height:100%;")>

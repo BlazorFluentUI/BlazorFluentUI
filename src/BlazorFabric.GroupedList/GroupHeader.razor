@@ -13,7 +13,8 @@
                     role="checkbox"
                     aria-checked=@CurrentlySelected
                     data-selection-toggle="true"
-                    @onclick=@OnToggleSelectGroupClick>
+                    @onclick=@OnToggleSelectGroupClick
+                    @onclick:stopPropagation="true">
                 <Check Checked=@CurrentlySelected />
             </button>
         }
@@ -25,6 +26,7 @@
         <button type="button"
                 class="ms-GroupHeader-expand"
                 @onclick=@OnToggleOpen
+                @onclick:stopPropagation="true"
                 aria-expanded=""
                 aria-controls="">
             <Icon ClassName="ms-GroupHeader-expandIsCollapsed" IconName="ChevronRightMed" />

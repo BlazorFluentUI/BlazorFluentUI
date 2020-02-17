@@ -1,0 +1,9 @@
+﻿@namespace BlazorFabric
+@inherits FabricComponentBase
+@typeparam TItem
+
+<div class="ms-SelectionZone">
+    <CascadingValue Value=@this>
+        @ChildContent
+    </CascadingValue>
+</div>

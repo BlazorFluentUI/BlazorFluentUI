@@ -275,7 +275,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-expand:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralLight};"
+                    Css = $"background-color:{Theme.Palette.NeutralLight};"
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -283,7 +283,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-expand:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralQuaternary};"
+                    Css = $"background-color:{Theme.Palette.NeutralQuaternary};"
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -291,7 +291,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-expand:active" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralQuaternaryAlt};"
+                    Css = $"background-color:{Theme.Palette.NeutralQuaternaryAlt};"
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -299,7 +299,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-expand:active" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralTertiaryAlt};"
+                    Css = $"background-color:{Theme.Palette.NeutralTertiaryAlt};"
                 }
             });
 

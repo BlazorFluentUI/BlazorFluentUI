@@ -9,25 +9,25 @@
         <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
         <BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
 
-        <BlazorFabric.GroupedList RootGroup=@rootGroup
-                                  Compact=@isCompact
-                                  OnShouldVirtualize=@(()=> false)
-                                  TItem="GroupedDataItem"
-                                  GroupTitleSelector=@(x=>x.DisplayName)
-                                  SubGroupSelector=@(x=>x.Data)
-                                  @bind-Selection=@selection
-                                  SelectionMode=@SelectionMode.Multiple>
-            <ItemTemplate>
-                @{
-                    var d = context;
-                    <DetailsRow Item=@context.Item
-                                Columns=@columns
-                                Compact=@isCompact
-                                GroupNestingDepth=@context.Depth
-                                Selection=@selection
-                                SelectionMode=@SelectionMode.Multiple
-                                />
-                    @*<div style="display:flex;flex-direction:row;">
+        <SelectionZone @bind-Selection=@selection
+                       SelectionMode=@SelectionMode.Multiple>
+            <BlazorFabric.GroupedList RootGroup=@rootGroup
+                                      Compact=@isCompact
+                                      TItem="GroupedDataItem"
+                                      GroupTitleSelector=@(x=>x.DisplayName)
+                                      SubGroupSelector=@(x=>x.Data)
+                                      Selection=@selection
+                                      SelectionMode=@SelectionMode.Multiple>
+                <ItemTemplate>
+                    @{
+                        var d = context;
+                        <DetailsRow Item=@context.Item
+                                    Columns=@columns
+                                    Compact=@isCompact
+                                    GroupNestingDepth=@context.Depth
+                                    Selection=@selection
+                                    SelectionMode=@SelectionMode.Multiple />
+                        @*<div style="display:flex;flex-direction:row;">
                         <GroupSpacer Count=@context.Depth />
                         <div style="flex-grow:1;">
                             <div style="display:flex; flex-direction:row; ">
@@ -36,9 +36,10 @@
                             </div>
                         </div>
                     </div>*@
-                }
-            </ItemTemplate>
-        </BlazorFabric.GroupedList>
+                    }
+                </ItemTemplate>
+            </BlazorFabric.GroupedList>
+        </SelectionZone>
     </Stack>
 
 @code {

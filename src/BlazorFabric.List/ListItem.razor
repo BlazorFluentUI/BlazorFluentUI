@@ -1,13 +1,14 @@
 @namespace BlazorFabric
 @using Microsoft.AspNetCore.Components.Web
 @inherits FabricComponentBase
+@typeparam TItem
 
 <div @ref="RootElementReference"
      role="listitem"
      style=@GetListItemStyle()
      data-is-focusable=@(ItemFocusable ? "true" : "false")
-     class=@($"ms-List-cell{(UseDefaultStyling ? " ms-List-cell-default" : "")}{(IsSelected ? " is-selected" : "")}")
-     @onclick="@(e=>OnItemClick(e))">
+     class=@($"ms-List-cell")
+     >
     @ChildContent
 </div>
 
@@ -17,17 +18,17 @@
 
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public int IndexPosition { get; set; }
-    [Parameter] public bool IsSelected { get; set; }
-    [Parameter] public object Item { get; set; }
+    //[Parameter] public bool IsSelected { get; set; }
+    [Parameter] public TItem Item { get; set; }
     [Parameter] public bool ItemFocusable { get; set; }
-    [Parameter] public bool UseDefaultStyling { get; set; }
+    //[Parameter] public bool UseDefaultStyling { get; set; }
 
     [Parameter]
-    public EventCallback<object> ItemClicked { get; set; }
+    public EventCallback<ItemContainer<TItem>> ItemClicked { get; set; }
 
     private Task OnItemClick(MouseEventArgs e)
     {
-        return ItemClicked.InvokeAsync(this.Item);
+        return ItemClicked.InvokeAsync(new ItemContainer<TItem>() { Item = this.Item, Index = this.IndexPosition });
     }
 
     protected string GetListItemStyle()

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
@@ -23,10 +25,13 @@ namespace BlazorFabric
         public EventCallback<(TItem item, int index)> OnItemContextMenu { get; set; }
 
         [Parameter]
-        public EventCallback<(TItem item,int index)> OnItemInvoked { get; set; }
+        public EventCallback<(TItem item, int index)> OnItemInvoked { get; set; }
 
         [Parameter]
         public Selection<TItem> Selection { get; set; }
+
+        [Parameter]
+        public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; }
@@ -35,5 +40,84 @@ namespace BlazorFabric
         public bool SelectionPreservedOnEmptyClick { get; set; }
 
 
+        private List<TItem> selectedItems = new List<TItem>();
+
+        protected override async Task OnParametersSetAsync()
+        {
+            if (Selection != null && Selection.SelectedItems != selectedItems)
+            {
+                selectedItems = new System.Collections.Generic.List<TItem>(Selection.SelectedItems);
+                //StateHasChanged();
+            }
+
+            if (SelectionMode == SelectionMode.Single && selectedItems.Count() > 1)
+            {
+                selectedItems.Clear();
+                await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
+            else if (SelectionMode == SelectionMode.None && selectedItems.Count() > 0)
+            {
+                selectedItems.Clear();
+                await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
+            await base.OnParametersSetAsync();
+        }
+
+        public void HandleClick(TItem item, int index)
+        {
+            bool hasChanged = false;
+            switch (SelectionMode)
+            {
+                case SelectionMode.Multiple:
+                    hasChanged = true;
+                    if (selectedItems.Contains(item))
+                        selectedItems.Remove(item);
+                    else
+                        selectedItems.Add(item);
+                    break;
+                case SelectionMode.Single:
+                    if (!selectedItems.Contains(item))
+                    {
+                        hasChanged = true;
+                        selectedItems.Clear();
+                        selectedItems.Add(item);
+                    }
+                    break;
+                case SelectionMode.None:
+                    break;
+            }
+            if (hasChanged)
+                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+        }
+
+        public void HandleToggle(TItem item, int index)
+        {
+            bool hasChanged = false;
+            switch (SelectionMode)
+            {
+                case SelectionMode.Multiple:
+                    hasChanged = true;
+                    if (selectedItems.Contains(item))
+                        selectedItems.Remove(item);
+                    else
+                        selectedItems.Add(item);
+                    break;
+                case SelectionMode.Single:
+                    hasChanged = true;
+                    if (selectedItems.Contains(item))
+                        selectedItems.Remove(item);
+                    else
+                    {
+                        selectedItems.Clear();
+                        selectedItems.Add(item);
+                    }
+                    break;
+                case SelectionMode.None:
+                    break;
+            }
+
+            if (hasChanged)
+                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+        }
     }
 }

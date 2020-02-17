@@ -49,19 +49,36 @@ namespace BlazorFabric
 
         //private object _lastVersion = null;
 
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] 
+        private IJSRuntime JSRuntime { get; set; }
 
-        [Parameter] public object Data { get; set; }
-        [Parameter] public Func<int, Rectangle, int> GetItemCountForPage { get; set; }
-        [Parameter] public EventCallback<TItem> ItemClicked { get; set; }
-        [Parameter] public bool ItemFocusable { get; set; } = false;
-        [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
-        [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
-        [Parameter] public EventCallback<(double, object)> OnListScrollerHeightChanged { get; set; }
-        [Parameter] public Selection<TItem> Selection { get; set; }
-        [Parameter] public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
-        [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
-        [Parameter] public bool UseDefaultStyling { get; set; } = true;
+        [Parameter] 
+        public object Data { get; set; }
+
+        [Parameter] 
+        public Func<int, Rectangle, int> GetItemCountForPage { get; set; }
+
+        //[Parameter] 
+        //public EventCallback<ItemContainer<TItem>> ItemClicked { get; set; }
+
+        [Parameter] 
+        public bool ItemFocusable { get; set; } = false;
+
+        [Parameter] 
+        public IEnumerable<TItem> ItemsSource { get; set; }
+
+        [Parameter] 
+        public RenderFragment<ItemContainer<TItem>> ItemTemplate { get; set; }
+
+        [Parameter] 
+        public EventCallback<(double, object)> OnListScrollerHeightChanged { get; set; }
+
+        //[Parameter] public Selection<TItem> Selection { get; set; }
+        //[Parameter] public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
+        //[Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
+        [Parameter]
+        public bool UseDefaultStyling { get; set; } = true;
+
 
         //[Parameter] public bool UseInternalScrolling { get; set; } = true;
         
@@ -210,24 +227,24 @@ namespace BlazorFabric
 
         protected override async Task OnParametersSetAsync()
         {
-            if (Selection != null && Selection.SelectedItems != selectedItems)
-            {
-                selectedItems = new System.Collections.Generic.List<TItem>(Selection.SelectedItems);
-                _shouldRender = true;
-            }
+            //if (Selection != null && Selection.SelectedItems != selectedItems)
+            //{
+            //    selectedItems = new System.Collections.Generic.List<TItem>(Selection.SelectedItems);
+            //    _shouldRender = true;
+            //}
 
-            if (SelectionMode == SelectionMode.Single && selectedItems.Count() > 1)
-            {
-                selectedItems.Clear();
-                _shouldRender = true;
-                await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
-            }
-            else if (SelectionMode == SelectionMode.None && selectedItems.Count() > 0)
-            {
-                selectedItems.Clear();
-                _shouldRender = true;
-                await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
-            }
+            //if (SelectionMode == SelectionMode.Single && selectedItems.Count() > 1)
+            //{
+            //    selectedItems.Clear();
+            //    _shouldRender = true;
+            //    await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            //}
+            //else if (SelectionMode == SelectionMode.None && selectedItems.Count() > 0)
+            //{
+            //    selectedItems.Clear();
+            //    _shouldRender = true;
+            //    await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            //}
 
             if (_itemsSource != ItemsSource)
             {
@@ -258,18 +275,18 @@ namespace BlazorFabric
             InvokeAsync(StateHasChanged);
         }
 
-        protected override bool ShouldRender()
-        {
+        //protected override bool ShouldRender()
+        //{
 
-            if (_shouldRender)
-            {
-                //Debug.WriteLine("LIST RERENDERING");
-                _shouldRender = false;
-                return true;
-            }
-            //Debug.WriteLine("list wants to rerender... but can't");
-            return false;
-        }
+        //    if (_shouldRender)
+        //    {
+        //        //Debug.WriteLine("LIST RERENDERING");
+        //        _shouldRender = false;
+        //        return true;
+        //    }
+        //    //Debug.WriteLine("list wants to rerender... but can't");
+        //    return false;
+        //}
         private ICollection<Rule> CreateGlobalCss()
         {
             var listRules = new HashSet<Rule>();
@@ -407,10 +424,10 @@ namespace BlazorFabric
                           builder.AddAttribute(i * lineCount + 5, "StartIndex", i * DEFAULT_ITEMS_PER_PAGE);
                       }
                       builder.AddAttribute(i * lineCount + 6, "PageMeasureSubject", pageMeasureSubject);
-                      builder.AddAttribute(i * lineCount + 7, "ItemClicked", EventCallback.Factory.Create<object>(this, OnItemClick));
-                      builder.AddAttribute(i * lineCount + 8, "SelectedItems", selectedItems);
-                      builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode.None ? true : ItemFocusable);
-                      builder.AddAttribute(i * lineCount + 10, "UseDefaultStyling", UseDefaultStyling);
+                      //builder.AddAttribute(i * lineCount + 7, "ItemClicked", EventCallback.Factory.Create<ItemContainer<TItem>>(this, OnItemClick));
+                      //builder.AddAttribute(i * lineCount + 8, "SelectedItems", selectedItems);
+                      //builder.AddAttribute(i * lineCount + 9, "ItemFocusable", SelectionMode != SelectionMode.None ? true : ItemFocusable);
+                      //builder.AddAttribute(i * lineCount + 10, "UseDefaultStyling", UseDefaultStyling);
                       builder.AddComponentReferenceCapture(i * lineCount + 11, (comp) => renderedPages.Add((ListPage<TItem>)comp));
                       builder.CloseComponent();
                       //}
@@ -432,41 +449,40 @@ namespace BlazorFabric
 
           };
 
-        protected Task OnItemClick(object item)
-        {
-            var castItem = (TItem)item;
-            switch (SelectionMode)
-            {
-                case SelectionMode.Multiple:
-                    if (selectedItems.Contains(castItem))
-                        selectedItems.Remove(castItem);
-                    else
-                        selectedItems.Add(castItem);
-                    _shouldRender = true;
-                    break;
-                case SelectionMode.Single:
-                    if (selectedItems.Contains(castItem))
-                        selectedItems.Remove(castItem);
-                    else
-                    {
-                        selectedItems.Clear();
-                        selectedItems.Add(castItem);
-                    }
-                    _shouldRender = true;
-                    break;
-                case SelectionMode.None:
-                    break;
+        //protected Task OnItemClick(ItemContainer<TItem> itemContainer)
+        //{
+        //    //var castItem = (TItem)item;
+        //    //switch (SelectionMode)
+        //    //{
+        //    //    case SelectionMode.Multiple:
+        //    //        if (selectedItems.Contains(castItem))
+        //    //            selectedItems.Remove(castItem);
+        //    //        else
+        //    //            selectedItems.Add(castItem);
+        //    //        _shouldRender = true;
+        //    //        break;
+        //    //    case SelectionMode.Single:
+        //    //        if (selectedItems.Contains(castItem))
+        //    //            selectedItems.Remove(castItem);
+        //    //        else
+        //    //        {
+        //    //            selectedItems.Clear();
+        //    //            selectedItems.Add(castItem);
+        //    //        }
+        //    //        _shouldRender = true;
+        //    //        break;
+        //    //    case SelectionMode.None:
+        //    //        break;
+        //    //}
 
-            }
+        //    ItemClicked.InvokeAsync(itemContainer);
+        //    //SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
 
-            ItemClicked.InvokeAsync(castItem);
-            SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+        //    //if (_shouldRender == true)
+        //    //    this.StateHasChanged();
 
-            if (_shouldRender == true)
-                this.StateHasChanged();
-
-            return Task.CompletedTask;
-        }
+        //    return Task.CompletedTask;
+        //}
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {

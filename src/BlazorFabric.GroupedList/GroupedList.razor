@@ -8,26 +8,16 @@
           @ref="listReference"
           ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
           ItemsSource=@dataItems
-          SelectionMode=@SelectionMode
           UseDefaultStyling="false"
-          Selection=@internalSelection
-          SelectionChanged=@OnSelectedChanged
-                >
-        <ItemTemplate>
-            @{
-                //context.IsSelectedObservable.Subscribe(isSelected =>
-                //{
-                //    listReference.ForceRerender();
-                //});
-            }
+          >
+        @*<ItemTemplate>
 
-            @if (context is HeaderItem<TItem>)
+            @if (context.Item1 is HeaderItem<TItem>)
             {
-                var header = (HeaderItem<TItem>)context;
-                @*@key=@(context.Key + (context.IsSelected ? "-selected" : ""))*@
-                <GroupHeader @key=@context.Key 
+                var header = (HeaderItem<TItem>)context.Item1;
+                <GroupHeader @key=@header.Key 
                              @bind-IsOpen=@header.IsOpen 
-                             CurrentlySelected=@(Selection != null ? Selection.SelectedItems.Contains(context.Item) : false)
+                             CurrentlySelected=@(Selection != null ? Selection.SelectedItems.Contains(header.Item) : false)
                              Count=@header.Children.Count 
                              GroupLevel=@header.Depth
                              Name=@header.Name 
@@ -36,12 +26,12 @@
             }
             else
             {
-                //System.Diagnostics.Debug.WriteLine(context.Key);
-                <div @key=@context.Key>
-                    @ItemTemplate(context)
+
+                <div @key=@context.Item1.Key>
+                    @ItemTemplate(context.Item1)
                 </div>
             }
-        </ItemTemplate>
+        </ItemTemplate>*@
     </List>
         
 }

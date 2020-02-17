@@ -12,7 +12,7 @@
         </div>
 
         <Dropdown ItemsSource="(Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>().ToList())"
-                  @bind-SelectedKey=@SelectedMode
+                  @bind-SelectedKey=SelectedMode
                   Style="max-width:300px;">
             <ItemTemplate>
                 <DropdownItem TItem="SelectionMode"
@@ -26,21 +26,31 @@
 
         <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
         
-        <FocusZone Style="height:100%;overflow-y:hidden;">
-            <BlazorFabric.List ItemsSource=@data
-                               TItem="DataItem"
-                               ItemClicked=@((item)=> DebugText = item.Key + " clicked")
-                               SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedMode))
-                               @bind-Selection="selection">
-                <ItemTemplate>
-                    <div style="display:flex; flex-direction:row; ">
-                        <img height="25" width="25" src=@context.ImgUrl />
-                        <em>This is item #@context.Key.</em>
-                        <span style="margin-left:10px;">@context.DisplayName</span>
-                    </div>
-                </ItemTemplate>
-            </BlazorFabric.List>
-        </FocusZone>
+        
+        <SelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedMode))
+                       @bind-Selection="selection"
+                       @ref="selectionZone">
+            <FocusZone Style="height:100%;overflow-y:hidden;">
+                <BlazorFabric.List ItemsSource=@data
+                                   TItem="DataItem">
+                    <ItemTemplate>
+
+                        <div style="display:flex; flex-direction:row;" 
+                             class=@($"ms-List-cell-default{(selection.SelectedItems.Contains(context.Item)?" is-selected":"")}")
+                             data-is-focusable="true"
+                             @onclick=@(()=> {
+                                            selectionZone.HandleClick(context.Item, context.Index);
+                                            DebugText = context.Item.Key + " clicked";
+                                        })>
+                            <img height="25" width="25" src=@context.Item.ImgUrl />
+                            <em>This is item #@context.Item.Key.</em>
+                            <span style="margin-left:10px;">@context.Item.DisplayName</span>
+                        </div>
+                    </ItemTemplate>
+                </BlazorFabric.List>
+
+            </FocusZone>
+        </SelectionZone>
     </Stack> 
 
 @code {
@@ -49,6 +59,7 @@
     string DebugText = "";
     string SelectedMode = SelectionMode.Single.ToString();
     Selection<DataItem> selection = new Selection<DataItem>();
+    SelectionZone<DataItem> selectionZone;
 
     Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {

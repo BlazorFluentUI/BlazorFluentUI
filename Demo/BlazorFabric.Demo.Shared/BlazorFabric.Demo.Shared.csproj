@@ -43,6 +43,7 @@
     <ProjectReference Include="..\..\src\BlazorFabric.ResizeGroup\BlazorFabric.ResizeGroup.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.ResponsiveLayout\BlazorFabric.ResponsiveLayout.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.RichTextEditor\BlazorFabric.RichTextEditor.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFabric.SelectionZone\BlazorFabric.SelectionZone.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Spinner\BlazorFabric.Spinner.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.Stack\BlazorFabric.Stack.csproj" />
     <ProjectReference Include="..\..\src\BlazorFabric.TextField\BlazorFabric.TextField.csproj" />

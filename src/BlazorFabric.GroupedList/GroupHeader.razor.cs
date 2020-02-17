@@ -23,6 +23,9 @@ namespace BlazorFabric
         public bool CurrentlySelected { get; set; }
 
         [Parameter]
+        public int GroupLevel { get; set; }
+
+        [Parameter]
         public bool HasMoreData { get; set; }
 
         [Parameter]

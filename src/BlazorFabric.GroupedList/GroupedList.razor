@@ -28,7 +28,8 @@
                 <GroupHeader @key=@context.Key 
                              @bind-IsOpen=@header.IsOpen 
                              CurrentlySelected=@(Selection != null ? Selection.SelectedItems.Contains(context.Item) : false)
-                             Count=@header.Depth 
+                             Count=@header.Children.Count 
+                             GroupLevel=@header.Depth
                              Name=@header.Name 
                              Compact=@Compact 
                              IsSelectionCheckVisible=@(Selection != null)/>

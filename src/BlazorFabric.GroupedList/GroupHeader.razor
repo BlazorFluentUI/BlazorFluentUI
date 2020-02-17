@@ -17,7 +17,7 @@
                 <Check Checked=@CurrentlySelected />
             </button>
         }
-        <GroupSpacer Count=@Count />
+        <GroupSpacer Count=@GroupLevel />
 
         <div class="ms-GroupHeader-dropIcon">
             <Icon IconName="Tag" />
@@ -32,7 +32,7 @@
         <div class="ms-GroupHeader-title">
             <span>@Name</span>
             <span class="ms-GroupHeader-headerCount">
-                @(Count)@(HasMoreData ? "+" : "")
+                (@(Count)@(HasMoreData ? "+" : ""))
             </span>
         </div>
 

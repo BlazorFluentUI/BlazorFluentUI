@@ -243,6 +243,7 @@ namespace BlazorFabric
                             .AutoRefreshOnObservable(x => x.IsVisibleObservable)
                             .Filter(x => x.IsVisible)
                             .Sort(new GroupedListItemComparer<TItem>())
+                            .Do(x => Debug.WriteLine("Change occurred"))
                             .Bind(out dataItems)
                             .Subscribe();
 

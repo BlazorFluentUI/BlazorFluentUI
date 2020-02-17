@@ -91,7 +91,7 @@ namespace BlazorFabric
 
         private ICollection<string> GetGlobalCSRules()
         {
-            var globalCSRules = new Collection<string>();
+            var globalCSRules = new HashSet<string>();
             var update = false;
             foreach (var styleSheet in GlobalRulesSheets)
             {
@@ -133,41 +133,49 @@ namespace BlazorFabric
         {
             var ruleAsString = "";
             ruleAsString += $"{rule.Selector.GetSelectorAsString()}{{";
-            foreach (var property in rule.Properties.GetType().GetProperties())
+
+            if (rule.Properties is CssString)
             {
-                string cssProperty = "";
-                string cssValue = "";
-                Attribute attribute = null;
-
-                //Catch Ignore Propertie
-                attribute = property.GetCustomAttribute(typeof(CsIgnoreAttribute));
-                if (attribute != null)
-                    continue;
-
-                attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
-                if (attribute != null)
+                return ruleAsString + (rule.Properties as CssString).Css + "}";
+            }
+            else
+            {
+                foreach (var property in rule.Properties.GetType().GetProperties())
                 {
-                    if ((attribute as CsPropertyAttribute).IsCssStringProperty)
-                    {
-                        ruleAsString += property.GetValue(rule.Properties)?.ToString();
+                    string cssProperty = "";
+                    string cssValue = "";
+                    Attribute attribute = null;
+
+                    //Catch Ignore Propertie
+                    attribute = property.GetCustomAttribute(typeof(CsIgnoreAttribute));
+                    if (attribute != null)
                         continue;
+
+                    attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
+                    if (attribute != null)
+                    {
+                        if ((attribute as CsPropertyAttribute).IsCssStringProperty)
+                        {
+                            ruleAsString += property.GetValue(rule.Properties)?.ToString();
+                            continue;
+                        }
+
+                        cssProperty = (attribute as CsPropertyAttribute).PropertyName;
+                    }
+                    else
+                    {
+                        cssProperty = property.Name;
                     }
 
-                    cssProperty = (attribute as CsPropertyAttribute).PropertyName;
+                    cssValue = property.GetValue(rule.Properties)?.ToString();
+                    if (cssValue != null)
+                    {
+                        ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
+                    }
                 }
-                else
-                {
-                    cssProperty = property.Name;
-                }
-
-                cssValue = property.GetValue(rule.Properties)?.ToString();
-                if (cssValue != null)
-                {
-                    ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
-                }
+                ruleAsString += "}";
+                return ruleAsString;
             }
-            ruleAsString += "}";
-            return ruleAsString;
         }
     }
 }

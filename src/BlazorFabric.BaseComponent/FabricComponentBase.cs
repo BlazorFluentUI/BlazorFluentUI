@@ -14,7 +14,6 @@ namespace BlazorFabric
 
         //[Inject] private IComponentContext ComponentContext { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
-        [Inject] protected IComponentStyle CStyle { get; set; }
         [Inject] private ThemeProvider ThemeProvider { get; set; }
 
         [Parameter] public string ClassName { get; set; }

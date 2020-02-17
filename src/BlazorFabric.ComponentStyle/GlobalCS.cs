@@ -42,7 +42,7 @@ namespace BlazorFabric
             {
                 ReloadStyle = false;
                 ReloadStyleChanged.InvokeAsync(false);
-                ComponentStyle.ItemsChanged(this);
+                ComponentStyle.RulesChanged(this);
             }
             base.OnParametersSet();
         }

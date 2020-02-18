@@ -10,18 +10,20 @@ namespace BlazorFabric
 {
     public class ComponentStyle : IComponentStyle
     {
+        public GlobalRules GlobalRules { get; set; }
+
         public ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
         public ObservableCollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
-        public ObservableCollection<IGlobalCSSheet> GlobalRulesSheets { get; set; }
-        public ObservableRangeCollection<string> GlobalCSRules { get; set; }
+        public ICollection<IGlobalCSSheet> GlobalRulesSheets { get; set; }
+        public ICollection<string> GlobalCSRules { get; set; }
 
         public ComponentStyle()
         {
             LocalCSSheets = new HashSet<ILocalCSSheet>();
             GlobalCSSheets = new ObservableCollection<IGlobalCSSheet>();
             GlobalCSSheets.CollectionChanged += CollectionChanged;
-            GlobalRulesSheets = new ObservableCollection<IGlobalCSSheet>();
-            GlobalCSRules = new ObservableRangeCollection<string>();
+            GlobalRulesSheets = new HashSet<IGlobalCSSheet>();
+            GlobalCSRules = new HashSet<string>();
 
         }
 
@@ -51,7 +53,8 @@ namespace BlazorFabric
                     if (((IGlobalCSSheet)item).Component != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).Component))
                     {
                         GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()));
-                        UpdateGlobalRules();
+                        RemoveOneStyleSheet((IGlobalCSSheet)item);
+                        GlobalRules.UpdateGlobalRules();
                     }
                     else if (((IGlobalCSSheet)item).Component != null && ((IGlobalCSSheet)item).IsGlobal)
                     {
@@ -67,13 +70,14 @@ namespace BlazorFabric
                     if (!ComponentStyleExist(((IGlobalCSSheet)item).Component))
                     {
                         GlobalRulesSheets.Add((IGlobalCSSheet)item);
-                        ((IGlobalCSSheet)item).IsGlobal = true; ;
-                        UpdateGlobalRules();
+                        ((IGlobalCSSheet)item).IsGlobal = true;
+                        AddOneStyleSheet((IGlobalCSSheet)item);
+                        GlobalRules.UpdateGlobalRules();
                     }
                 }
             }
         }
-        public void ItemsChanged(IGlobalCSSheet globalCSSheet)
+        public void RulesChanged(IGlobalCSSheet globalCSSheet)
         {
             if (!globalCSSheet.IsGlobal)
                 return;
@@ -82,14 +86,52 @@ namespace BlazorFabric
 
         private void UpdateGlobalRules()
         {
-            var newRules = GetGlobalCSRules();
+            var newRules = GetAllGlobalCSRules();
             if (newRules?.Count > 0)
             {
-                GlobalCSRules.ReplaceRange(newRules);
+                GlobalCSRules.Clear();
+                GlobalCSRules = newRules;
+                GlobalRules.UpdateGlobalRules();
             }
         }
 
-        private ICollection<string> GetGlobalCSRules()
+        private void AddOneStyleSheet(IGlobalCSSheet sheet)
+        {
+            if (sheet.CreateGlobalCss == null)
+            {
+                return;
+            }
+            var rules = sheet.CreateGlobalCss.Invoke();
+
+            foreach (var rule in rules)
+            {
+                var ruleAsString = PrintRule(rule);
+                if (!GlobalCSRules.Contains(ruleAsString))
+                {
+                    GlobalCSRules.Add(ruleAsString);
+                }
+            }
+        }
+
+        private void RemoveOneStyleSheet(IGlobalCSSheet sheet)
+        {
+            if (sheet.CreateGlobalCss == null)
+            {
+                return;
+            }
+            var rules = sheet.CreateGlobalCss.Invoke();
+
+            foreach (var rule in rules)
+            {
+                var ruleAsString = PrintRule(rule);
+                if (GlobalCSRules.Contains(ruleAsString))
+                {
+                    GlobalCSRules.Remove(ruleAsString);
+                }
+            }
+        }
+
+        private ICollection<string> GetAllGlobalCSRules()
         {
             var globalCSRules = new HashSet<string>();
             var update = false;
@@ -151,6 +193,12 @@ namespace BlazorFabric
                     if (attribute != null)
                         continue;
 
+                    if (property.Name == "CssString")
+                    {
+                        ruleAsString += property.GetValue(rule.Properties)?.ToString();
+                        continue;
+                    }
+
                     attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
                     if (attribute != null)
                     {
@@ -173,9 +221,9 @@ namespace BlazorFabric
                         ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
                     }
                 }
-                ruleAsString += "}";
-                return ruleAsString;
             }
+            ruleAsString += "}";
+            return ruleAsString;
         }
     }
 }

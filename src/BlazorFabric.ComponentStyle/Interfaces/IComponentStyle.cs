@@ -5,14 +5,16 @@ namespace BlazorFabric
 {
     public interface IComponentStyle
     {
+        GlobalRules GlobalRules { get; set; }
+
         ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
 
         ObservableCollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
 
-        ObservableRangeCollection<string> GlobalCSRules { get; set; }
+        ICollection<string> GlobalCSRules { get; set; }
 
-        bool ComponentStyleExist(object component);
+        void RulesChanged(IGlobalCSSheet globalCSSheet);
 
-        void ItemsChanged(IGlobalCSSheet globalCSSheet);
+        string PrintRule(Rule rule);
     }
 }

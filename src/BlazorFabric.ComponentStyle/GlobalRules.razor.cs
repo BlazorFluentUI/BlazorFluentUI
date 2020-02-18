@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
@@ -13,12 +12,12 @@ namespace BlazorFabric
 
         protected override Task OnInitializedAsync()
         {
-            ComponentStyle.GlobalCSRules.CollectionChanged += UpdateComponent;
+            ComponentStyle.GlobalRules = this;
             return base.OnInitializedAsync();
         }
 
-        private void UpdateComponent(object sender, NotifyCollectionChangedEventArgs e)
-        {   
+        public void UpdateGlobalRules()
+        {
             if(!_isDisposed)
                 InvokeAsync(() => StateHasChanged());
         }

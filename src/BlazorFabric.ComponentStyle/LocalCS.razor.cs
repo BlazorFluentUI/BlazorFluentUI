@@ -44,7 +44,7 @@ namespace BlazorFabric
             css = "";
             foreach(var rule in rules)
             {
-                css += PrintRule(rule);
+                css += ComponentStyle.PrintRule(rule);
             }
             base.OnParametersSet();
 
@@ -68,47 +68,6 @@ namespace BlazorFabric
                 }
             }
             RulesChanged.InvokeAsync(rules);
-        }
-
-        public string PrintRule(Rule rule)
-        {
-            var ruleAsString = "";
-            ruleAsString += $"{rule.Selector.GetSelectorAsString()}{{";
-            foreach (var property in rule.Properties.GetType().GetProperties())
-            {
-                string cssProperty = "";
-                string cssValue = "";
-                Attribute attribute = null;
-
-                //Catch Ignore Propertie
-                attribute = property.GetCustomAttribute(typeof(CsIgnoreAttribute));
-                if (attribute != null)
-                    continue;
-
-                attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
-                if (attribute != null)
-                {
-                    if ((attribute as CsPropertyAttribute).IsCssStringProperty)
-                    {
-                        ruleAsString += property.GetValue(rule.Properties)?.ToString();
-                        continue;
-                    }
-
-                    cssProperty = (attribute as CsPropertyAttribute).PropertyName;
-                }
-                else
-                {
-                    cssProperty = property.Name;
-                }
-
-                cssValue = property.GetValue(rule.Properties)?.ToString();
-                if (cssValue != null)
-                {
-                    ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
-                }
-            }
-            ruleAsString += "}";
-            return ruleAsString;
         }
 
         public void Dispose()

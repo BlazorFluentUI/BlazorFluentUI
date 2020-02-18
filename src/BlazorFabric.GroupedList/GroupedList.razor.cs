@@ -49,6 +49,8 @@ namespace BlazorFabric
         private IDisposable _selectionSubscription;
 
         //internal IEnumerable<GroupedListItem<TItem>> selectedItems { get => internalSelection.SelectedItems; set => internalSelection = new Selection<GroupedListItem<TItem>>(value); }
+        [CascadingParameter]
+        public SelectionZone<TItem> SelectionZone { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }

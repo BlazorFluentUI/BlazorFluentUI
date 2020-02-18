@@ -47,6 +47,12 @@ namespace BlazorFabric
         public string Name { get; set; }
 
         [Parameter]
+        public EventCallback OnClick { get; set; }
+
+        [Parameter]
+        public EventCallback OnToggle { get; set; }
+
+        [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
         //private ICollection<Rule> GroupHeaderGlobalRules { get; set; } = new System.Collections.Generic.List<Rule>();
@@ -65,10 +71,10 @@ namespace BlazorFabric
         //    base.OnThemeChanged();
         //}
 
-        public void OnToggleSelectGroupClick(MouseEventArgs mouseEventArgs)
-        {
+        //public void OnToggleSelectGroupClick(MouseEventArgs mouseEventArgs)
+        //{
 
-        }
+        //}
 
         public void OnToggleOpen(MouseEventArgs mouseEventArgs)
         {

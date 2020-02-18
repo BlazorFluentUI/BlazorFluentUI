@@ -10,11 +10,11 @@
           ItemsSource=@dataItems
           UseDefaultStyling="false"
           >
-        @*<ItemTemplate>
+        <ItemTemplate>
 
-            @if (context.Item1 is HeaderItem<TItem>)
+            @if (context.Item is HeaderItem<TItem>)
             {
-                var header = (HeaderItem<TItem>)context.Item1;
+                var header = (HeaderItem<TItem>)context.Item;
                 <GroupHeader @key=@header.Key 
                              @bind-IsOpen=@header.IsOpen 
                              CurrentlySelected=@(Selection != null ? Selection.SelectedItems.Contains(header.Item) : false)
@@ -22,16 +22,19 @@
                              GroupLevel=@header.Depth
                              Name=@header.Name 
                              Compact=@Compact 
-                             IsSelectionCheckVisible=@(Selection != null)/>
+                             IsSelectionCheckVisible=@(Selection != null)
+                             OnClick=@(()=> SelectionZone.HandleClick(header.Item,context.Index))
+                             OnToggle=@(()=> SelectionZone.HandleToggle(header.Item,context.Index))
+                             />
             }
             else
             {
 
-                <div @key=@context.Item1.Key>
-                    @ItemTemplate(context.Item1)
+                <div @key=@context.Item.Key>
+                    @ItemTemplate(context.Item)
                 </div>
             }
-        </ItemTemplate>*@
+        </ItemTemplate>
     </List>
         
 }

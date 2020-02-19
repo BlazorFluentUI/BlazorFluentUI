@@ -1,16 +1,16 @@
-﻿.ms-Callout{
+﻿/*.ms-Callout {
     position: absolute;
     box-sizing: border-box;
     border-style: solid;
-    border-color: var(--palette-NeutralLight);
+    border-color: var(--palette-NeutralLight);*/
     /*box-shadow: 0 0 5px 0px rgba(0,0,0,0.4);*/
-    border-radius: var(--effects-RounderCorner2);
-    border-width:0;
-    box-shadow: var(--effects-Elevation16);
+    /*border-radius: var(--effects-RoundedCorner2);
+    border-width: 0;
+    box-shadow: var(--effects-Elevation16);*/
     /*focusClear() ?*/
-}
+/*}*/
 
-@media screen and (-ms-high-contrast: active) {
+/*@media screen and (-ms-high-contrast: active) {
     .ms-Callout {
         border-width: 1px;
         border-style: solid;
@@ -29,7 +29,7 @@
     border: inherit;
     box-sizing: border-box;
     transform: rotate(45deg);
-    border-radius: var(--effects-RounderCorner2);
+    border-radius: var(--effects-RoundedCorner2);
 }
 
 .ms-Callout-beakCurtain{
@@ -46,5 +46,5 @@
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
-    border-radius: var(--effects-RounderCorner2);
-}
+    border-radius: var(--effects-RoundedCorner2);
+}*/

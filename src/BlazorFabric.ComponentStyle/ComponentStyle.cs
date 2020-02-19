@@ -50,7 +50,7 @@ namespace BlazorFabric
                 foreach (var item in e.OldItems)
                 {
 
-                    if (((IGlobalCSSheet)item).Component != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).Component))
+                    if (((IGlobalCSSheet)item).Component != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).Component) && !((IGlobalCSSheet)item).FixStyle)
                     {
                         GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()));
                         RemoveOneStyleSheet((IGlobalCSSheet)item);
@@ -173,6 +173,8 @@ namespace BlazorFabric
 
         public string PrintRule(Rule rule)
         {
+            if (rule?.Properties == null)
+                return "";
             var ruleAsString = "";
             ruleAsString += $"{rule.Selector.GetSelectorAsString()}{{";
 

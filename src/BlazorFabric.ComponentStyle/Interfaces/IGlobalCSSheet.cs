@@ -7,6 +7,7 @@ namespace BlazorFabric
     {
         object Component { get; set; }
         bool IsGlobal { get; set; }
+        bool FixStyle { get; set; }
         Func<ICollection<Rule>> CreateGlobalCss { get; set; }
     }
 }

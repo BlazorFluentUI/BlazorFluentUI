@@ -1,26 +1,27 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-    <div class=@($"bf-richTextEditor {this.ClassName}{(Disabled ? " is-disabled" : "")}")
-         style=@Style>
-        @if (!ReadOnly)
-        {
-        <CommandBar Items=@items ClassName="bf-richTextEditor-commandBar"/>
-        }
-        <div @ref=@RootElementReference
-             @onkeydown=@InterceptKeyPressAsync             
-             @onfocusin=@OnFocusAsync
-             @onfocusout=@OnBlurAsync
-             class="bf-richTextEditor-editor">
-        </div>
+<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+
+<div class=@($"bf-richTextEditor {this.ClassName}{(Disabled ? " is-disabled" : "")}")
+     style=@Style>
+    @if (!ReadOnly)
+    {
+        <CommandBar Items=@items ClassName="bf-richTextEditor-commandBar" />
+    }
+    <div @ref=@RootElementReference
+         @onkeydown=@InterceptKeyPressAsync
+         @onfocusin=@OnFocusAsync
+         @onfocusout=@OnBlurAsync
+         class="bf-richTextEditor-editor">
     </div>
+</div>
 
 <Dialog IsOpen=@isImageDialogOpen
         Title="Insert Image"
         FirstFocusableSelector="firstFocus"
         ForceFocusInsideTrap="true"
-        OnDismiss=@(args => isImageDialogOpen=false)
-        >
+        OnDismiss=@(args => isImageDialogOpen=false)>
     <ChildContent>
         <Stack>
             <TextField ClassName="firstFocus" Label="Image Link" @bind-Value=@imageUrl @bind-Value:event="OnInput" />
@@ -32,7 +33,7 @@
         </Stack>
     </ChildContent>
     <FooterTemplate>
-        <DefaultButton Text="Cancel" OnClick=@(args=> isImageDialogOpen=false)/>
+        <DefaultButton Text="Cancel" OnClick=@(args=> isImageDialogOpen=false) />
         <PrimaryButton Text="Insert" OnClick=@(args=> InsertImageAsync()) />
     </FooterTemplate>
 </Dialog>

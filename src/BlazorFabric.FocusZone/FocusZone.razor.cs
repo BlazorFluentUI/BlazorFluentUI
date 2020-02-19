@@ -57,30 +57,30 @@ namespace BlazorFabric
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
-            {
-                if (_registrationTask == null)
-                {
-                    RegisterFocusZoneAsync();
-                    //_registrationTask = RegisterFocusZoneAsync();
-                    //_registrationId = await _registrationTask;
-                }
-                else if (!_registrationTask.IsCompleted)
-                {
-                    //await _registrationTask;
-                }
-                _jsAvailable = true;
-            }
-            else
-            {
-                //update focusZone
-                //if (_registrationTask != null && !_registrationTask.IsCompleted)
-                //    await _registrationTask;
+            //if (firstRender)
+            //{
+            //    if (_registrationTask == null)
+            //    {
+            //        RegisterFocusZoneAsync();
+            //        //_registrationTask = RegisterFocusZoneAsync();
+            //        //_registrationId = await _registrationTask;
+            //    }
+            //    else if (!_registrationTask.IsCompleted)
+            //    {
+            //        //await _registrationTask;
+            //    }
+            //    _jsAvailable = true;
+            //}
+            //else
+            //{
+            //    //update focusZone
+            //    //if (_registrationTask != null && !_registrationTask.IsCompleted)
+            //    //    await _registrationTask;
                 
-                if (_registrationId != -1)
-                    await UpdateFocusZoneAsync();
+            //    if (_registrationId != -1)
+            //        await UpdateFocusZoneAsync();
                 
-            }
+            //}
             await base.OnAfterRenderAsync(firstRender);
         }
 

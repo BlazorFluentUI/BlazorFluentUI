@@ -14,6 +14,8 @@ namespace BlazorFabric
             set => _items = value;
         }
 
+        
+
         public Selection()
         {
             _items = new List<TItem>();

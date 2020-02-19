@@ -19,24 +19,12 @@
                                       Selection=@selection
                                       SelectionMode=@SelectionMode.Multiple>
                 <ItemTemplate>
-                    @{
-                        
-                        <DetailsRow Item=@context.Item
-                                    Columns=@columns
-                                    Compact=@isCompact
-                                    GroupNestingDepth=@context.Depth
-                                    Selection=@selection
-                                    SelectionMode=@SelectionMode.Multiple />
-                        @*<div style="display:flex;flex-direction:row;">
-                        <GroupSpacer Count=@context.Depth />
-                        <div style="flex-grow:1;">
-                            <div style="display:flex; flex-direction:row; ">
-                                <img height="50" width="50" src=@context.Item.ImgUrl />
-                                <em>This is item #@context.Item.DisplayName.</em>
-                            </div>
-                        </div>
-                    </div>*@
-                    }
+                    <DetailsRow Item=@context.Item
+                                Columns=@columns
+                                Compact=@isCompact
+                                GroupNestingDepth=@context.Depth
+                                Selection=@selection
+                                SelectionMode=@SelectionMode.Multiple />
                 </ItemTemplate>
             </BlazorFabric.GroupedList>
         </SelectionZone>
@@ -128,7 +116,7 @@
             {
                 var subSubGroup = new GroupedDataItem(y);
                 return subSubGroup;
-            });
+            }).ToList();
 
             return subGroup;
         }).ToList();

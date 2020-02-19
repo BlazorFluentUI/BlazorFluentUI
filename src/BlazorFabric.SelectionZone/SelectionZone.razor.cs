@@ -63,33 +63,93 @@ namespace BlazorFabric
             await base.OnParametersSetAsync();
         }
 
-        public void HandleClick(TItem item, int index)
+        /// <summary>
+        /// For DetailsRow
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="asSingle">On click, force list to select one even if set to multiple</param>
+        public void SelectItem(TItem item, bool asSingle=false)
         {
             bool hasChanged = false;
-            switch (SelectionMode)
+            if (SelectionMode == SelectionMode.Multiple && !asSingle)
             {
-                case SelectionMode.Multiple:
-                    hasChanged = true;
-                    if (selectedItems.Contains(item))
-                        selectedItems.Remove(item);
-                    else
-                        selectedItems.Add(item);
-                    break;
-                case SelectionMode.Single:
-                    if (!selectedItems.Contains(item))
-                    {
-                        hasChanged = true;
-                        selectedItems.Clear();
-                        selectedItems.Add(item);
-                    }
-                    break;
-                case SelectionMode.None:
-                    break;
+                hasChanged = true;
+                if (selectedItems.Contains(item))
+                    selectedItems.Remove(item);
+                else
+                    selectedItems.Add(item);
             }
+            else if (SelectionMode == SelectionMode.Multiple && asSingle)
+            {
+                //same as single except we need to clear other items if they are selected, too
+                hasChanged = true;
+                selectedItems.Clear();
+                selectedItems.Add(item);
+            }
+            else if (SelectionMode == SelectionMode.Single)
+            {
+                if (!selectedItems.Contains(item))
+                {
+                    hasChanged = true;
+                    selectedItems.Clear();
+                    selectedItems.Add(item);
+                }
+            }
+
             if (hasChanged)
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
         }
 
+        public void AddItems(IEnumerable<TItem> items)
+        {
+            foreach (var item in items)
+            {
+                if (!selectedItems.Contains(item))
+                    selectedItems.Add(item);
+            }
+
+            if (items != null && items.Count() > 0)
+                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+        }
+
+        public void RemoveItems(IEnumerable<TItem> items)
+        {
+            foreach (var item in items)
+            {
+                selectedItems.Remove(item);
+            }
+
+            if (items != null && items.Count() > 0)
+                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+        }
+
+        // For end-users to let SelectionMode handle what to do.
+        public void HandleClick(TItem item, int index)
+        {
+            bool hasChanged = false;
+            if (SelectionMode == SelectionMode.Multiple)
+            {
+                hasChanged = true;
+                if (selectedItems.Contains(item))
+                    selectedItems.Remove(item);
+                else
+                    selectedItems.Add(item);
+            }
+            else if (SelectionMode == SelectionMode.Single )
+            {
+                if (!selectedItems.Contains(item))
+                {
+                    hasChanged = true;
+                    selectedItems.Clear();
+                    selectedItems.Add(item);
+                }
+            }
+
+            if (hasChanged)
+                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+        }
+
+        // For end-users to let SelectionMode handle what to do.
         public void HandleToggle(TItem item, int index)
         {
             bool hasChanged = false;
@@ -119,5 +179,51 @@ namespace BlazorFabric
             if (hasChanged)
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
         }
+
+
+        //private void OnSelectedChanged(Selection<GroupedListItem<TItem>> selection)
+        //{
+        //    List<string> s = new List<string>();
+
+        //    var finalList = new System.Collections.Generic.List<GroupedListItem<TItem>>(selection.SelectedItems);
+
+        //    var itemsToAdd = selection.SelectedItems.Except(internalSelection.SelectedItems).ToList();
+        //    var itemsToRemove = internalSelection.SelectedItems.Except(selection.SelectedItems).ToList();
+        //    itemsToRemove.ForEach(x =>
+        //    {
+        //        var remove = GetChildrenRecursive(x);
+        //        finalList.Remove(remove);
+        //    });
+
+        //    itemsToAdd.ForEach(x =>
+        //    {
+        //        var add = GetChildrenRecursive(x);
+        //        finalList.Add(add);
+        //    });
+
+        //    //check to see if a header needs to be turned OFF because all of its children are *not* selected.
+        //    restart:
+        //    var headers = finalList.Where(x => x is HeaderItem<TItem>).Cast<HeaderItem<TItem>>().ToList();
+        //    foreach (var header in headers)
+        //    {
+        //        if (header.Children.Except(finalList).Count() > 0)
+        //        {
+        //            finalList.Remove(header);
+        //            //start loop over again, simplest way to start over is a goto statement.  This is needed when a header turns off, but it's parent needs to turn off, too.
+        //            goto restart;
+        //        }
+        //    }
+
+        //    //check to see if a header needs to be turned ON because all of its children *are* selected.
+        //    var potentialHeaders = finalList.Select(x => x.Parent).Where(x => x != null).Distinct().ToList();
+        //    foreach (var header in potentialHeaders)
+        //    {
+        //        if (header.Children.Except(finalList).Count() == 0)
+        //            finalList.Add(header);
+        //    }
+
+        //    SelectionChanged.InvokeAsync(new Selection<TItem>(finalList.Select(x => x.Item)));
+        //}
+
     }
 }

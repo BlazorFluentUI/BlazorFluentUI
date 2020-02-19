@@ -7,7 +7,7 @@ namespace BlazorFabric.Demo.Shared.Models
 {
     public class GroupedDataItem : DataItem
     {
-        public IEnumerable<GroupedDataItem> Data { get; set; }
+        public System.Collections.Generic.List<GroupedDataItem> Data { get; set; }
 
         public GroupedDataItem(IGrouping<int, DataItem> grouping)
         {

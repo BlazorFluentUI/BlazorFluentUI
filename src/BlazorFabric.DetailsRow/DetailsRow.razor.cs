@@ -2,14 +2,18 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class DetailsRow<TItem> : FabricComponentBase
+    public partial class DetailsRow<TItem> : FabricComponentBase, IDisposable
     {
+        [CascadingParameter]
+        public SelectionZone<TItem> SelectionZone { get; set; }
+
         [Parameter]
         public CheckboxVisibility CheckboxVisibility { get; set; } = CheckboxVisibility.OnHover;
 
@@ -482,8 +486,10 @@ namespace BlazorFabric
 
             return rules;
         }
-       
 
-        
+        public void Dispose()
+        {
+            Debug.WriteLine("DetailsRow disposed");
+        }
     }
 }

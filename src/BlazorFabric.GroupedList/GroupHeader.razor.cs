@@ -55,26 +55,16 @@ namespace BlazorFabric
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
-        //private ICollection<Rule> GroupHeaderGlobalRules { get; set; } = new System.Collections.Generic.List<Rule>();
-
-        protected override Task OnInitializedAsync()
+         protected override Task OnInitializedAsync()
         {
-            //if (!CStyle.ComponentStyleExist(this))
-            //{
-            //    CreateCss();
-            //}
             return base.OnInitializedAsync();
         }
-        //protected override void OnThemeChanged()
-        //{
-        //    CreateCss();
-        //    base.OnThemeChanged();
-        //}
 
-        //public void OnToggleSelectGroupClick(MouseEventArgs mouseEventArgs)
-        //{
-
-        //}
+        protected override Task OnParametersSetAsync()
+        {
+            return base.OnParametersSetAsync();
+        }
+       
 
         public void OnToggleOpen(MouseEventArgs mouseEventArgs)
         {

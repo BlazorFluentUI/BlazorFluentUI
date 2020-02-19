@@ -8,31 +8,26 @@
           @ref="listReference"
           ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
           ItemsSource=@dataItems
-          UseDefaultStyling="false"
           >
         <ItemTemplate>
 
             @if (context.Item is HeaderItem<TItem>)
             {
                 var header = (HeaderItem<TItem>)context.Item;
-                <GroupHeader @key=@header.Key 
-                             @bind-IsOpen=@header.IsOpen 
+                <GroupHeader @bind-IsOpen=@header.IsOpen 
                              CurrentlySelected=@(Selection != null ? Selection.SelectedItems.Contains(header.Item) : false)
                              Count=@header.Children.Count 
                              GroupLevel=@header.Depth
                              Name=@header.Name 
                              Compact=@Compact 
                              IsSelectionCheckVisible=@(Selection != null)
-                             OnClick=@(()=> SelectionZone.HandleClick(header.Item,context.Index))
-                             OnToggle=@(()=> SelectionZone.HandleToggle(header.Item,context.Index))
+                             OnClick=@(()=>OnHeaderClicked(header))
+                             OnToggle=@(()=>OnHeaderToggled(header))
                              />
             }
             else
             {
-
-                <div @key=@context.Item.Key>
-                    @ItemTemplate(context.Item)
-                </div>
+                @ItemTemplate(context.Item)
             }
         </ItemTemplate>
     </List>

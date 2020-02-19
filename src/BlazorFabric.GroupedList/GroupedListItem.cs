@@ -92,7 +92,7 @@ namespace BlazorFabric
 
             Parent?.IsOpenObservable.CombineLatest(Parent.IsVisibleObservable, (open, visible) => !visible ? false : (open ? true : false)).Subscribe(shouldBeVisible =>
             {
-                Debug.WriteLine($"Setting item {index} to be visible: {shouldBeVisible}");
+                //Debug.WriteLine($"Setting item {index} to be visible: {shouldBeVisible}");
                 IsVisible = shouldBeVisible;
             });
 

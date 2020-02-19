@@ -48,7 +48,7 @@
 
         if (this.Height != rect.height)
         {
-            System.Diagnostics.Debug.WriteLine($"Page height changed {StartIndex}, from {this.Height} to {rect.height}");
+            //System.Diagnostics.Debug.WriteLine($"Page height changed {StartIndex}, from {this.Height} to {rect.height}");
             this.Height = rect.height;
 
             this.PageMeasureSubject.OnNext((this.StartIndex, this.Height));

@@ -34,9 +34,6 @@ namespace BlazorFabric
         [Parameter] public bool CoverTarget { get; set; } = false;
         [Parameter] public bool AlignTargetEdge { get; set; } = false;
         [Parameter] public string Role { get; set; }
-        //[Parameter] public string AriaLabel { get; set; }
-        //[Parameter] public string AriaLabelledBy { get; set; }
-        //[Parameter] public string AriaDescribedBy { get; set; }
         [Parameter] public bool HideOverflow { get; set; } = false;
 
         [Parameter] public bool SetInitialFocus { get; set; }
@@ -71,11 +68,24 @@ namespace BlazorFabric
 
         private List<int> eventHandlerIds;
 
+        #region Style
+        private ICollection<Rule> CalloutLocalRules { get; set; } = new List<Rule>();
+
+        private Rule CalloutRule = new Rule();
+        private Rule CalloutMainRule = new Rule();
+        private Rule CalloutBeakRule = new Rule();
+        #endregion
         protected override Task OnInitializedAsync()
         {
             System.Diagnostics.Debug.WriteLine("Creating Callout");
-
+            CreateLocalCss();
+            SetStyle();
             return base.OnInitializedAsync();
+        }
+
+        protected override void OnThemeChanged()
+        {
+            SetStyle();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -91,7 +101,7 @@ namespace BlazorFabric
                 {
                     await CalculateCalloutPositionAsync();
                 }
-                
+
             }
 
             if (isRenderedOnce && isMeasured && !_finalPositionAnnounced)
@@ -107,7 +117,7 @@ namespace BlazorFabric
 
             await base.OnAfterRenderAsync(firstRender);
         }
-        
+
         private async void FocusFirstElement()
         {
             //await jSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.focusFirstElementChild", RootElementReference);
@@ -220,7 +230,7 @@ namespace BlazorFabric
 
             //this.Position = this.CalloutPosition.ElementRectangle;
 
-            
+
             isMeasured = true;
             Hidden = false;
             StateHasChanged();
@@ -432,7 +442,7 @@ namespace BlazorFabric
             //GetPositionData()
             PositionDirectionalHintData positionData = DirectionalDictionary[DirectionalHint];
             //PositionDirectionalHintData alignmentData = null;
-            
+
             // start GetAlignmentData()
             if (positionData.IsAuto)
             {
@@ -740,5 +750,84 @@ namespace BlazorFabric
             {DirectionalHint.RightBottomEdge, new PositionDirectionalHintData(RectangleEdge.Right, RectangleEdge.Bottom) },
         };
         private bool _finalPositionAnnounced;
+
+        private void CreateLocalCss()
+        {
+            CalloutRule.Selector = new ClassSelector() { SelectorName = "ms-Callout" };
+            CalloutMainRule.Selector = new ClassSelector() { SelectorName = "ms-Callout-main" };
+            CalloutBeakRule.Selector = new ClassSelector() { SelectorName = "ms-Callout-beak" };
+            CalloutLocalRules.Add(CalloutRule);
+            CalloutLocalRules.Add(CalloutMainRule);
+            CalloutLocalRules.Add(CalloutBeakRule);
+        }
+
+        private void SetStyle()
+        {
+            CalloutRule.Properties = new CssString()
+            {
+                Css = $"position:absolute;" +
+                        $"box-sizing:border-box;" +
+                        $"border-radius:var(--effects-RoundedCorner2);" +
+                        $"box-shadow:var(--effects-Elevation16);" +
+                        $"{(CalloutWidth != 0 ? $"width:{CalloutWidth}px;" : "")}" +
+                        $"{(CalloutMaxWidth != 0 ? $"max-width:{CalloutMaxWidth}px;" : "")}" +
+                        $"outline:transparent;"
+            };
+            CalloutMainRule.Properties = new CssString()
+            {
+                Css = $"background-color:{(BackgroundColor != null ? BackgroundColor : Theme?.Palette.White)};" +
+                        $"overflow-x:hidden;" +
+                        $"overflow-y:{(overflowYHidden ? "hidden" : "auto")};" +
+                        $"position:relative;" +
+                        $"border-radius: var(--effects-RoundedCorner2);"
+            };
+            CalloutBeakRule.Properties = new CssString()
+            {
+                Css = $"position:absolute;" +
+                        $"background-color:{(BackgroundColor != null ? BackgroundColor : Theme?.SemanticColors.MenuBackground)};" +
+                        $"box-shadow:inherit;" +
+                        $"border:inherit;" +
+                        $"box-sizing:border-box;" +
+                        $"transform:rotate(45deg);" +
+                        $"height:{BeakWidth}px;" +
+                        $"width:{BeakWidth}px;"
+            };
+        }
+
+        private ICollection<Rule> CreateGlobalCss()
+        {
+            var calloutGlobalRules = new HashSet<Rule>();
+            calloutGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Callout-container" },
+                Properties = new CssString()
+                {
+                    Css = $"position:relative;"
+                }
+            });
+            calloutGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Callout-beakCurtain" },
+                Properties = new CssString()
+                {
+                    Css = $"position:absolute;" +
+                        $"top:0;" +
+                        $"right:0;" +
+                        $"bottom:0;" +
+                        $"left:0;" +
+                        $"background-color:{Theme?.SemanticColors.MenuBackground};" +
+                        $"border-radius:var(--effects-RoundedCorner2);"
+                }
+            });
+            calloutGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast:active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-Callout {border-width:1px;border-style:solid;border-color:WindowText;}"
+                }
+            });
+            return calloutGlobalRules;
+        }
     }
 }

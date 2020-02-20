@@ -274,5 +274,121 @@ namespace BlazorFabric
             imageHeight = "";
             isImageDialogOpen = false;
         }
+
+        private ICollection<Rule> CreateGlobalCss()
+        {
+            var richTextEditorGlobalRules = new HashSet<Rule>();
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".bf-richTextEditor" },
+                Properties = new CssString()
+                {
+                    Css = $"position: relative;"
+                }
+            });
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".bf-richTextEditor-editor" },
+                Properties = new CssString()
+                {
+                    Css = $"border:1px solid {Theme.SemanticColors.InputBorder};" +
+                        $"background:{Theme.SemanticColors.InputBackground};" +
+                        $"cursor:text;" +
+                        /*padding: 6px 8px;*/
+                        $"margin-top:0.1px;" + /* Odd rendering issue with hover for EdgeHTML */
+                        $"min-height:60px;" +
+                        $"height:auto;"
+                }
+            });
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".richTextEditor-editor:hover {border-color:Highlight;}"
+                }
+            });
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".bf-richTextEditor-editor:focus" },
+                Properties = new CssString()
+                {
+                    Css = $"outline:none;"
+                }
+            });
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".bf-richTextEditor-editor div:focus" },
+                Properties = new CssString()
+                {
+                    Css = $"outline:none;"
+                }
+            });
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".bf-richTextEditor-editor:active" },
+                Properties = new CssString()
+                {
+                    Css = $"outline:none;"
+                }
+            });
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".bf-richTextEditor-editor:active {border-color:Highlight;border-width:2px;}"
+                }
+            });
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".bf-richTextEditor-editor:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"border-color:{Theme.SemanticColors.InputBorderHovered};"
+                }
+            });
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".bf-richTextEditor.is-disabled .bf-richTextEditor-editor" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.SemanticColors.DisabledBackground};" +
+                        /*border-color: var(--semanticColors-DisabledBackground);*/
+                        $"cursor:default;"
+                }
+            });
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".bf-richTextEditor .ql-editor" },
+                Properties = new CssString()
+                {
+                    Css = $"box-sizing:border-box;" +
+                        $"cursor:text;" +
+                        $"line-height:1.42;" +
+                        $"height:100%;" +
+                        $"outline:none;" +
+                        $"overflow-y:auto;" +
+                        $"padding:6px 8px;" +
+                        $"tab-size:4;" +
+                        $"text-align:left;" +
+                        $"white-space:pre-wrap;" +
+                        $"word-wrap:break-word;" 
+                }
+            });
+            richTextEditorGlobalRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".bf-richTextEditor .ql-clipboard" },
+                Properties = new CssString()
+                {
+                    Css = $"left:-100000px;" +
+                        $"height:1px;" +
+                        $"overflow-y:hidden;" +
+                        $"position:absolute;" +
+                        $"top:50%;"
+        }
+            });
+            return richTextEditorGlobalRules;
+        }
     }
 }

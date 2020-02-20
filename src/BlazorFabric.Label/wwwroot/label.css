@@ -1,6 +1,6 @@
-﻿.ms-Label {
+﻿/*.ms-Label {*/
     /*FontVariantAlternates = theme.Fonts.Medium.FontVariantAlternates;*/
-    font-weight: var(--fontWeight-SemiBold);
+    /*font-weight: var(--fontWeight-SemiBold);
     color: var(--semanticColors-BodyText);
     box-sizing: border-box;
     box-shadow: none;
@@ -26,4 +26,4 @@
     .ms-Label--disabled {
         color: GrayText;
     }
-}
+}*/

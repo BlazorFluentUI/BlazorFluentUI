@@ -50,13 +50,13 @@ namespace BlazorFabric
                 foreach (var item in e.OldItems)
                 {
 
-                    if (((IGlobalCSSheet)item).Component != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).Component) && !((IGlobalCSSheet)item).FixStyle)
+                    if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).Component != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).Component))
                     {
                         GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()));
                         RemoveOneStyleSheet((IGlobalCSSheet)item);
                         GlobalRules.UpdateGlobalRules();
                     }
-                    else if (((IGlobalCSSheet)item).Component != null && ((IGlobalCSSheet)item).IsGlobal)
+                    else if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).Component != null && ((IGlobalCSSheet)item).IsGlobal)
                     {
                         GlobalCSSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()).IsGlobal = true;
                     }

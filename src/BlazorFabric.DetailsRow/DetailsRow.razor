@@ -5,7 +5,7 @@
 <GlobalCS Component=@this CreateGlobalCss=@CreateGlobalCss />
 <LocalCS @bind-Rules=@DetailsRowLocalRules />
 
-<div @onclick="args => SelectionZone.SelectItem(Item,true)">
+<div @onclick="args => SelectionZone.SelectItem(Item,true)" data-is-focusable="true">
     <FocusZone Direction=@FocusZoneDirection.Horizontal
                AriaLabel=@AriaLabel
                AriaDescribedBy=@AriaDescribedBy

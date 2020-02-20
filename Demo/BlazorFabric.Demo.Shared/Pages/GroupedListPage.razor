@@ -11,22 +11,25 @@
 
         <SelectionZone @bind-Selection=@selection
                        SelectionMode=@SelectionMode.Multiple>
-            <BlazorFabric.GroupedList RootGroup=@rootGroup
-                                      Compact=@isCompact
-                                      TItem="GroupedDataItem"
-                                      GroupTitleSelector=@(x=>x.DisplayName)
-                                      SubGroupSelector=@(x=>x.Data)
-                                      Selection=@selection
-                                      SelectionMode=@SelectionMode.Multiple>
-                <ItemTemplate>
-                    <DetailsRow Item=@context.Item
-                                Columns=@columns
-                                Compact=@isCompact
-                                GroupNestingDepth=@context.Depth
-                                Selection=@selection
-                                SelectionMode=@SelectionMode.Multiple />
-                </ItemTemplate>
-            </BlazorFabric.GroupedList>
+            <FocusZone Direction="FocusZoneDirection.Vertical"
+                       Style="height:100%;overflow-y:hidden;">
+                <BlazorFabric.GroupedList RootGroup=@rootGroup
+                                          Compact=@isCompact
+                                          TItem="GroupedDataItem"
+                                          GroupTitleSelector=@(x=>x.DisplayName)
+                                          SubGroupSelector=@(x=>x.Data)
+                                          Selection=@selection
+                                          SelectionMode=@SelectionMode.Multiple>
+                    <ItemTemplate>
+                        <DetailsRow Item=@context.Item
+                                    Columns=@columns
+                                    Compact=@isCompact
+                                    GroupNestingDepth=@context.Depth
+                                    Selection=@selection
+                                    SelectionMode=@SelectionMode.Multiple />
+                    </ItemTemplate>
+                </BlazorFabric.GroupedList>
+            </FocusZone>
         </SelectionZone>
     </Stack>
 

@@ -260,6 +260,14 @@ namespace BlazorFabric
             });
             groupHeaderRules.Add(new Rule()
             {
+                Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader--compact .ms-GroupHeader-expand" },
+                Properties = new CssString()
+                {
+                    Css = $"height:40px;"
+                }
+            });
+            groupHeaderRules.Add(new Rule()
+            {
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-expand" },
                 Properties = new CssString()
                 {

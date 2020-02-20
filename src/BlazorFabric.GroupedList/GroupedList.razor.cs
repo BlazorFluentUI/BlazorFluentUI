@@ -83,8 +83,8 @@ namespace BlazorFabric
         [Parameter] 
         public Selection<TItem> Selection { get; set; }
         
-        [Parameter] 
-        public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
+        //[Parameter] 
+        //public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
@@ -101,6 +101,7 @@ namespace BlazorFabric
 
         private void OnHeaderClicked(HeaderItem<TItem> headerItem)
         {
+            // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
             //does selection contain this item already?
             if (Selection.SelectedItems.Contains(headerItem.Item))
             {
@@ -118,7 +119,20 @@ namespace BlazorFabric
 
         private void OnHeaderToggled(HeaderItem<TItem> headerItem)
         {
-
+            // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
+            //does selection contain this item already?
+            if (Selection.SelectedItems.Contains(headerItem.Item))
+            {
+                //deselect it and all children
+                var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+                SelectionZone.RemoveItems(items);
+            }
+            else
+            {
+                //select it and all children
+                var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+                SelectionZone.AddItems(items);
+            }
         }
 
         //private void OnSelectedChanged(Selection<GroupedListItem<TItem>> selection)
@@ -195,35 +209,7 @@ namespace BlazorFabric
 
         protected override async Task OnParametersSetAsync()
         {
-            //if (Selection != null)
-            //{
-            //    if (dataItems != null)
-            //    {
-                   
-            //        internalSelection = new Selection<GroupedListItem<TItem>>(dataItems.Where(x => Selection.SelectedItems.Contains(x.Item)));
-            //    }
-
-            //    else
-            //        //selectedSourceCache.Clear();
-            //        internalSelection = new Selection<GroupedListItem<TItem>>();
-            //}
-
-            if (SelectionMode == SelectionMode.Single && Selection.SelectedItems.Count() > 1)
-            {
-                //selectedSourceCache.Clear();
-                Selection.ClearSelection(); //new SysteList<GroupedListItem<TItem>>();
-                //_shouldRender = true;
-                //await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedSourceCache.Items.Select(x => x.Item)));
-                await SelectionChanged.InvokeAsync(new Selection<TItem>(Selection.SelectedItems));
-            }
-            else if (SelectionMode == SelectionMode.None && Selection.SelectedItems.Count() > 0)
-            {
-                //selectedSourceCache.Clear();
-                Selection.ClearSelection(); //.SelectedItems = new List<GroupedListItem<TItem>>();
-                //_shouldRender = true;
-                //await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedSourceCache.Items.Select(x => x.Item)));
-                await SelectionChanged.InvokeAsync(new Selection<TItem>(Selection.SelectedItems));
-            }
+            
 
             if (SubGroupSelector != null)
             {
@@ -273,8 +259,57 @@ namespace BlazorFabric
 
                     }
                 }
-             
             }
+
+            if (SelectionMode == SelectionMode.Single && Selection.SelectedItems.Count() > 1)
+            {
+                SelectionZone.ClearSelection(); //new SysteList<GroupedListItem<TItem>>();
+                //await SelectionChanged.InvokeAsync(new Selection<TItem>(Selection.SelectedItems));
+            }
+            else if (SelectionMode == SelectionMode.None && Selection.SelectedItems.Count() > 0)
+            {
+                Selection.ClearSelection(); //.SelectedItems = new List<GroupedListItem<TItem>>();
+                //await SelectionChanged.InvokeAsync(new Selection<TItem>(Selection.SelectedItems));
+            }
+            else
+            {
+                bool hasChanged = false;
+                //make a copy of list
+                var selected = Selection.SelectedItems.ToList();
+                //check to see if a header needs to be turned OFF because all of its children are *not* selected.
+                restart:
+                var headers = selected.Where(x => SubGroupSelector(x) != null && SubGroupSelector(x).Count() > 0).ToList();
+                foreach (var header in headers)
+                {
+                    if (SubGroupSelector(header).Except(selected).Count() > 0)
+                    {
+                        hasChanged = true;
+                        selected.Remove(header);
+                        //start loop over again, simplest way to start over is a goto statement.  This is needed when a header turns off, but it's parent header needs to turn off, too.
+                        goto restart;
+                    }
+                }
+
+                //check to see if a header needs to be turned ON because all of its children *are* selected.
+                var potentialHeaders = dataItems.Where(x=> selected.Contains(x.Item)).Select(x=>x.Parent).Where(x=>x!= null).Distinct().ToList();
+                foreach (var header in potentialHeaders)
+                {
+                    if (header.Children.Select(x => x.Item).Except(selected).Count() == 0)
+                    {
+                        if (!selected.Contains(header.Item))
+                        {
+                            selected.Add(header.Item);
+                            hasChanged = true;
+                        }
+                    }
+                }
+
+                if (hasChanged)
+                {
+                    SelectionZone.AddAndRemoveItems(selected.Except(Selection.SelectedItems).ToList(), Selection.SelectedItems.Except(selected).ToList());
+                }
+            }
+
             await base.OnParametersSetAsync();
         }
 

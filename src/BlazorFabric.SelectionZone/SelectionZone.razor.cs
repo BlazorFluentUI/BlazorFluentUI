@@ -123,6 +123,31 @@ namespace BlazorFabric
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
         }
 
+        public void AddAndRemoveItems(IEnumerable<TItem> itemsToAdd, IEnumerable<TItem> itemsToRemove)
+        {
+            foreach (var item in itemsToAdd)
+            {
+                if (!selectedItems.Contains(item))
+                    selectedItems.Add(item);
+            }
+            foreach (var item in itemsToRemove)
+            {
+                selectedItems.Remove(item);
+            }
+
+            if ((itemsToAdd != null && itemsToAdd.Count() > 0)||(itemsToRemove != null && itemsToRemove.Count() > 0))
+                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+        }
+
+        public void ClearSelection()
+        {
+            if (selectedItems.Count>0)
+            {
+                selectedItems.Clear();
+                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
+        }
+
         // For end-users to let SelectionMode handle what to do.
         public void HandleClick(TItem item, int index)
         {

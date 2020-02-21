@@ -37,7 +37,7 @@ namespace BlazorFabric
             theme.Palette = palette ?? new DefaultPalette();
             theme.SemanticColors = MakeSemanticColorsFromPalette(theme.Palette, false);
             theme.SemanticTextColors = MakeSemanticTextColorsFromPalette(theme.Palette, false);
-            theme.FontStyle = new FontStyle() { FontSize = new DefaultFontSize(), FontWeight = new DefaultFontWeight() };
+            theme.FontStyle = new FontStyle() { FontSize = new DefaultFontSize(), FontWeight = new DefaultFontWeight(), IconFontSize = new DefaultIconFontSize() };
             return theme;
         }
 

@@ -8,5 +8,6 @@ namespace BlazorFabric
     {
         public IFontSize FontSize { get; set; }
         public IFontWeight FontWeight { get; set; }
+        public IIconFontSize IconFontSize { get; set; }
     }
 }

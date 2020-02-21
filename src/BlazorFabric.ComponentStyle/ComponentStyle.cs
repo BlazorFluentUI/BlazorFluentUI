@@ -24,7 +24,19 @@ namespace BlazorFabric
             GlobalCSSheets.CollectionChanged += CollectionChanged;
             GlobalRulesSheets = new HashSet<IGlobalCSSheet>();
             GlobalCSRules = new HashSet<string>();
+        }
 
+        public void SetDisposedAction()
+        {
+            GlobalRules.OnDispose = Disposed;
+        }
+
+        public void Disposed()
+        {
+            LocalCSSheets.Clear();
+            GlobalCSSheets.Clear();
+            GlobalRulesSheets.Clear();
+            GlobalCSRules.Clear();
         }
 
         public bool ComponentStyleExist(object component)

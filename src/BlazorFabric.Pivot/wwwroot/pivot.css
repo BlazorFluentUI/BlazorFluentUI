@@ -167,7 +167,7 @@ text: 'ms-Pivot-text'
         font-weight: var(--fontWeight-SemiBold);
         color: HighlightText;
         background: Highlight;
-        msHighContrastAdjust: none;
+        -ms-high-contrast-adjust: none;
     }
 }
 

@@ -56,11 +56,6 @@ namespace BlazorFabric
         private bool _isSelected;
         public bool IsSelected { get => _isSelected; set => _isSelected = value; }
 
-        //private bool _isSelected;
-        //public bool IsSelected { get => _isSelected; set { if (_isSelected != value) { _isSelected = value; isSelectedSubject?.OnNext(value); } } }
-        //private Subject<bool> isSelectedSubject;
-        //public IObservable<bool> IsSelectedObservable => isSelectedSubject.AsObservable();
-
         public TItem Item { get; set; }
         public string Name { get; set; }
         public int Index { get; set; }
@@ -83,7 +78,6 @@ namespace BlazorFabric
         public GroupedListItem(TItem item, HeaderItem<TItem> parent, int index, int depth)
         {
             _isVisibleSubject = new BehaviorSubject<bool>(true);
-            //isSelectedSubject = new Subject<bool>();
 
             Item = item;
             Index = index;
@@ -92,41 +86,9 @@ namespace BlazorFabric
 
             Parent?.IsOpenObservable.CombineLatest(Parent.IsVisibleObservable, (open, visible) => !visible ? false : (open ? true : false)).Subscribe(shouldBeVisible =>
             {
-                //Debug.WriteLine($"Setting item {index} to be visible: {shouldBeVisible}");
                 IsVisible = shouldBeVisible;
             });
-
-            //if (Parent != null)
-            //{
-            //    selectionCache.Connect()
-            //        .Filter(x => x == Parent)
-            //        .OnItemAdded(x =>
-            //        {
-            //            selectionCache.AddOrUpdate(this);
-            //        })
-            //        .OnItemRemoved(x =>
-            //        {
-            //            selectionCache.Remove(this);
-            //        })
-            //        .Subscribe();
-            //}
-
         }
-
-        //public bool ShouldAlsoToggle(GroupedListItem<TItem> selectedItem)
-        //{
-        //    if (this.Parent == selectedItem)
-        //        return true;
-        //    else if (this.Parent != null)
-        //    {
-        //        return this.Parent.ShouldAlsoToggle(selectedItem);
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
     }
 
     public class GroupedListItemComparer<TItem> : IComparer<GroupedListItem<TItem>>

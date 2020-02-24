@@ -16,6 +16,7 @@
     <ProjectReference Include="..\BlazorFabric.BaseComponent\BlazorFabric.BaseComponent.csproj" />
     <ProjectReference Include="..\BlazorFabric.DetailsRow\BlazorFabric.DetailsRow.csproj" />
     <ProjectReference Include="..\BlazorFabric.GroupedList\BlazorFabric.GroupedList.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Layer\BlazorFabric.Layer.csproj" />
     <ProjectReference Include="..\BlazorFabric.List\BlazorFabric.List.csproj" />
   </ItemGroup>
 

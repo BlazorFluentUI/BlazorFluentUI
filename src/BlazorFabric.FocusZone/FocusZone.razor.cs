@@ -29,6 +29,8 @@ namespace BlazorFabric
         [Parameter] public EventCallback OnActiveElementChanged { get; set; }
         [Parameter] public Func<bool> OnBeforeFocus { get => onBeforeFocus; set { if (value != onBeforeFocus) { updateFocusZone = true; onBeforeFocus = value; } } }   // This is likely not having an effect because of asynchronous code allowing the event to propagate.
         [Parameter] public EventCallback OnFocusNotification { get; set; }
+
+        [Parameter] public string Role { get; set; } = "presentation";
         [Parameter] public Func<bool> ShouldInputLoseFocusOnArrowKey { get => shouldInputLoseFocusOnArrowKey; set { if (value != shouldInputLoseFocusOnArrowKey) { updateFocusZone = true; shouldInputLoseFocusOnArrowKey = value; } } } // This is likely not having an effect because of asynchronous code allowing the event to propagate.
         [Parameter] public bool IsFocusable { get; set; }
 

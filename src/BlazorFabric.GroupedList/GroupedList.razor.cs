@@ -31,33 +31,17 @@ namespace BlazorFabric
         private const double COMPACT_ROW_HEIGHT = 32;
         private const double ROW_HEIGHT = 42;
 
-        //private SourceCache<GroupedListItem<TItem>, string> selectedSourceCache = new SourceCache<GroupedListItem<TItem>, string>(x => x.Key);
-        // This needs to be a sourcecache... and we'll just add and remove selected object by passing this cache to the items and letting them do it.
-        // When this cache gets updated, we'll send out a notification for the component.
 
-        //private BehaviorSubject<Selection<GroupedListItem<TItem>>> _internalSelectionSubject = new BehaviorSubject<Selection<GroupedListItem<TItem>>>(new Selection<GroupedListItem<TItem>>());
-        //private Selection<GroupedListItem<TItem>> _internalSelection = new Selection<GroupedListItem<TItem>>();
-        //private Selection<GroupedListItem<TItem>> internalSelection { get => _internalSelectionSubject.Value;
-        //    set
-        //    {
-        //        _internalSelectionSubject.OnNext(value);
-        //    }
-        //}
         private TItem _rootGroup;
 
-        //private Selection<GroupedListItem<TItem>> internalSelection = new Selection<GroupedListItem<TItem>>();
         private IDisposable _selectionSubscription;
+        private IDisposable _transformedDisposable;
 
-        //internal IEnumerable<GroupedListItem<TItem>> selectedItems { get => internalSelection.SelectedItems; set => internalSelection = new Selection<GroupedListItem<TItem>>(value); }
-        
         [CascadingParameter]
         public SelectionZone<TItem> SelectionZone { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
-
-        //[Parameter]
-        //public Func<Group<TItem>, int, double> GetGroupHeight { get; set; }
 
         [Parameter]
         public Func<TItem, string> GroupTitleSelector { get; set; }
@@ -83,9 +67,6 @@ namespace BlazorFabric
         [Parameter] 
         public Selection<TItem> Selection { get; set; }
         
-        //[Parameter] 
-        //public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
-
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
@@ -135,50 +116,6 @@ namespace BlazorFabric
             }
         }
 
-        //private void OnSelectedChanged(Selection<GroupedListItem<TItem>> selection)
-        //{
-        //    List<string> s = new List<string>();
-            
-        //    var finalList = new System.Collections.Generic.List<GroupedListItem<TItem>>(selection.SelectedItems);
-
-        //    var itemsToAdd = selection.SelectedItems.Except(internalSelection.SelectedItems).ToList();
-        //    var itemsToRemove = internalSelection.SelectedItems.Except(selection.SelectedItems).ToList();
-        //    itemsToRemove.ForEach(x =>
-        //    {
-        //        var remove = GetChildrenRecursive(x);
-        //        finalList.Remove(remove);
-        //    });
-
-        //    itemsToAdd.ForEach(x =>
-        //    {                
-        //        var add = GetChildrenRecursive(x);                
-        //        finalList.Add(add);
-        //    });
-
-        //    //check to see if a header needs to be turned OFF because all of its children are *not* selected.
-        //    restart:
-        //    var headers = finalList.Where(x => x is HeaderItem<TItem>).Cast<HeaderItem<TItem>>().ToList();
-        //    foreach (var header in headers)
-        //    {
-        //        if (header.Children.Except(finalList).Count() > 0)
-        //        {
-        //            finalList.Remove(header);
-        //            //start loop over again, simplest way to start over is a goto statement.  This is needed when a header turns off, but it's parent needs to turn off, too.
-        //            goto restart;
-        //        }
-        //    }
-
-        //    //check to see if a header needs to be turned ON because all of its children *are* selected.
-        //    var potentialHeaders = finalList.Select(x => x.Parent).Where(x=> x!=null).Distinct().ToList();
-        //    foreach (var header in potentialHeaders)
-        //    {
-        //        if (header.Children.Except(finalList).Count() == 0)
-        //            finalList.Add(header);
-        //    }
-
-        //    SelectionChanged.InvokeAsync(new Selection<TItem>(finalList.Select(x => x.Item)));
-        //}
-
         private System.Collections.Generic.List<GroupedListItem<TItem>> GetChildrenRecursive(GroupedListItem<TItem> item)
         {
             var groupedItems = new System.Collections.Generic.List<GroupedListItem<TItem>>();
@@ -209,13 +146,12 @@ namespace BlazorFabric
 
         protected override async Task OnParametersSetAsync()
         {
-            
-
             if (SubGroupSelector != null)
             {
                 if (RootGroup != null && !RootGroup.Equals(_rootGroup))
                 {
                     //dispose old subscriptions
+                    _transformedDisposable?.Dispose();
 
                     _rootGroup = RootGroup;
                     if (_rootGroup != null)
@@ -250,7 +186,7 @@ namespace BlazorFabric
                                                                                          }));
 
 
-                        var someDisposable = transformedChangeSet
+                        _transformedDisposable = transformedChangeSet
                             .AutoRefreshOnObservable(x => x.IsVisibleObservable)
                             .Filter(x => x.IsVisible)
                             .Sort(new GroupedListItemComparer<TItem>())
@@ -263,13 +199,11 @@ namespace BlazorFabric
 
             if (SelectionMode == SelectionMode.Single && Selection.SelectedItems.Count() > 1)
             {
-                SelectionZone.ClearSelection(); //new SysteList<GroupedListItem<TItem>>();
-                //await SelectionChanged.InvokeAsync(new Selection<TItem>(Selection.SelectedItems));
+                SelectionZone.ClearSelection(); 
             }
             else if (SelectionMode == SelectionMode.None && Selection.SelectedItems.Count() > 0)
             {
-                Selection.ClearSelection(); //.SelectedItems = new List<GroupedListItem<TItem>>();
-                //await SelectionChanged.InvokeAsync(new Selection<TItem>(Selection.SelectedItems));
+                Selection.ClearSelection(); 
             }
             else
             {
@@ -315,6 +249,7 @@ namespace BlazorFabric
 
         public void Dispose()
         {
+            _transformedDisposable?.Dispose();
             _selectionSubscription?.Dispose();
         }
     }

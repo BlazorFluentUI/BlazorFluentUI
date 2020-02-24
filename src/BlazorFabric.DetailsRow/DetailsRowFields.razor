@@ -18,12 +18,12 @@
             width = (column.CalculatedWidth + CellLeftPadding + CellRightPadding + (column.IsPadded ? CellExtraRightPadding : 0)).ToString() + "px";
         }
         // generate a key that auto-dirties when content changes, to force the container to re-render, to trigger animation
-        //string key = $"{column.key}${(cellValueKey != null ? "-${ cellValueKey}" : "")}";
+        //string key = $"{column.Key}${(cellValueKey != null ? "-${ cellValueKey}" : "")}";
         <div 
              role=@(column.IsRowHeader ? "rowheader" : "gridcell")
              aria-readonly="true"
              aria-colindex=@(index + ColumnStartIndex + 1)
-             class=@($"ms-DetailsRow-field{(column.IsMultiline ? " is-multiline":"")}{(column.IsRowHeader ? " is-row-header":"")} ms-DetailsRow-cell{(column.IsPadded ? " is-padded":"")}")
+             class=@($"ms-DetailsRow-field{(column.IsMultiline ? " is-multiline":"")}{(column.IsRowHeader ? " is-row-header":"")} ms-DetailsRow-cell{(column.IsPadded ? " ms-DetailsRow-cellPadded":" ms-DetailsRow-cellUnpadded")}")
              style=@($"width:{width};padding-left:{CellLeftPadding}px;")
 
              >

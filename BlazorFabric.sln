@@ -130,7 +130,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.DetailsList", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.DetailsRow", "src\BlazorFabric.DetailsRow\BlazorFabric.DetailsRow.csproj", "{C3924927-6504-4DEC-BCFE-8242C0E055FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFabric.SelectionZone", "src\BlazorFabric.SelectionZone\BlazorFabric.SelectionZone.csproj", "{FCA7939B-666C-4B37-A4BC-610DA1619034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.SelectionZone", "src\BlazorFabric.SelectionZone\BlazorFabric.SelectionZone.csproj", "{FCA7939B-666C-4B37-A4BC-610DA1619034}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

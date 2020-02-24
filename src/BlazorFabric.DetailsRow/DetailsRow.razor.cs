@@ -101,13 +101,13 @@ namespace BlazorFabric
             return base.OnParametersSetAsync();
         }
 
-        const int RowVerticalPadding = 11;
-        const int CompactRowVerticalPadding = 6;
-        const int RowHeight = 42;
-        const int CompactRowHeight = 32;
-        const int CellLeftPadding = 12;
-        const int CellRightPadding = 8;
-        const int CellExtraRightPadding = 24;
+        public static int RowVerticalPadding = 11;
+        public static int CompactRowVerticalPadding = 6;
+        public static int RowHeight = 42;
+        public static int CompactRowHeight = 32;
+        public static int CellLeftPadding = 12;
+        public static int CellRightPadding = 8;
+        public static int CellExtraRightPadding = 24;
 
         private ICollection<Rule> CreateGlobalCss()
         {

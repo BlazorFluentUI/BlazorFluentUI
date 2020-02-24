@@ -136,7 +136,7 @@ namespace BlazorFabric
                           $"vertical-align:middle;" +
                           $"opacity:0;" +
                           $"color:{Theme.Palette.NeutralSecondary};" +
-                          $"font-size:{Theme.FontStyle.FontSize.Medium};" +
+                          $"font-size:{Theme.FontStyle.FontSize.MediumPlus};" +  //This is technically IconFontSize.Medium which is equivalent to FontSize.MediumPlus (16px)
                           $"left:0.5px;" //isRTL ignored
                 }
             });

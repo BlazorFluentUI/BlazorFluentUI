@@ -22,10 +22,10 @@ namespace BlazorFabric
         public bool IsSelectedOnFocus { get; set; } = true;
 
         [Parameter]
-        public EventCallback<(TItem item, int index)> OnItemContextMenu { get; set; }
+        public EventCallback<ItemContainer<TItem>> OnItemContextMenu { get; set; }
 
         [Parameter]
-        public EventCallback<(TItem item, int index)> OnItemInvoked { get; set; }
+        public EventCallback<ItemContainer<TItem>> OnItemInvoked { get; set; }
 
         [Parameter]
         public Selection<TItem> Selection { get; set; }

@@ -1,0 +1,38 @@
+﻿@page "/detailsListPage"
+    <Stack Style="height:100%;">
+        <h3>DetailsList</h3>
+
+
+        <DetailsList ItemsSource="data"
+                     Columns="columns"
+                     LayoutMode="DetailsListLayoutMode.Justified"
+                     @bind-Selection="selection"
+                     SelectionMode="SelectionMode.Multiple">
+
+        </DetailsList>
+    </Stack>
+
+@code {
+    int count = 0;
+    Selection<DataItem> selection = new Selection<DataItem>();
+
+    System.Collections.ObjectModel.ObservableCollection<DataItem> data;
+    System.Collections.Generic.List<DetailsRowColumn<DataItem>> columns;
+
+    protected override void OnInitialized()
+    {
+        columns = new System.Collections.Generic.List<DetailsRowColumn<DataItem>>();
+        columns.Add(new DetailsRowColumn<DataItem>("Key", x => x.Key) { MaxWidth=70 });
+        columns.Add(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName) { MaxWidth = 150 });
+        columns.Add(new DetailsRowColumn<DataItem>("Description", x => x.Description));
+
+        data = new System.Collections.ObjectModel.ObservableCollection<DataItem>();
+
+        for (var i = 0; i < 1000; i++)
+        {
+            count++;
+            data.Add(new DataItem(count));
+        }
+        base.OnInitialized();
+    }
+}

@@ -53,6 +53,29 @@ namespace BlazorFabric.BaseComponent.FocusStyle
             return focusStyles;
         }
 
+        public static ICollection<Rule> FocusClear(string selectorName)
+        {
+            var focusStyles = new HashSet<Rule>();
+
+            focusStyles.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = $"{selectorName}::-moz-focus-inner" },
+                Properties = new CssString()
+                {
+                    Css = $"border:0"
+                }
+            });
+            focusStyles.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = $"{selectorName}" },
+                Properties = new CssString()
+                {
+                    Css = $"outline:transparent;"
+                }
+            });
+            return focusStyles;
+        }
+
         public static FocusStyleMergeRules GetFocusOutlineStyle(FocusStyleProps focusStyleProps, string selectorName)
         {
             var focusStyles = new FocusStyleMergeRules();

@@ -9,13 +9,25 @@ namespace BlazorFabric
     public partial class DetailsRowCheck : FabricComponentBase
     {
         [Parameter]
+        public bool AnySelected { get; set; }
+
+        [Parameter]
         public bool CanSelect { get; set; }
+
+        [Parameter]
+        public RenderFragment DetailsCheckboxTemplate { get; set; }
 
         [Parameter]
         public bool Checked { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
+
+        [Parameter]
+        public string Id { get; set; }
+
+        [Parameter]
+        public bool IsFocusable { get; set; }
 
         [Parameter]
         public bool IsHeader { get; set; }

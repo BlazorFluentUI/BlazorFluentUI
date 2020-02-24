@@ -38,5 +38,12 @@ namespace BlazorFabric
         [Parameter]
         public string RowClassNames { get; set; }
 
+
+        private string key;
+
+        protected override Task OnParametersSetAsync()
+        {
+            return base.OnParametersSetAsync();
+        }
     }
 }

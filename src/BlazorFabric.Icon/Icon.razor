@@ -15,6 +15,7 @@
 else
 {
     <i class=@($"ms-Icon {(string.IsNullOrEmpty(this.IconName) ? "ms-Icon-placeHolder" : "ms-Icon--" + this.IconName)} {this.ClassName}")
+       data-icon-name=@IconName
        role="presentation"
        style="@Style"
        @ref="RootElementReference">

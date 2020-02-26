@@ -182,7 +182,7 @@ namespace BlazorFabric
 
         private ICollection<Rule> CreateGlobalCss()
         {
-            var headerRules = new HashSet<Rule>();
+            var headerRules = new System.Collections.Generic.List<Rule>();
 
             // ROOT           
             headerRules.Add(new Rule()

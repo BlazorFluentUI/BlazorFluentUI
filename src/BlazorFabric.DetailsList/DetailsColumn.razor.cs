@@ -1,5 +1,6 @@
 ﻿using BlazorFabric.BaseComponent.FocusStyle;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -50,6 +51,14 @@ namespace BlazorFabric
                 || !string.IsNullOrEmpty(Column.SortedAscendingAriaLabel)
                 || !string.IsNullOrEmpty(Column.SortedDescendingAriaLabel)
                 || !string.IsNullOrEmpty(Column.GroupAriaLabel);
+        }
+
+        private void HandleColumnClick(MouseEventArgs mouseEventArgs)
+        {
+            if (Column.ColumnActionsMode == ColumnActionsMode.Disabled)
+                return;
+
+            Column.OnColumnClick?.Invoke(Column);
         }
 
         private ICollection<Rule> CreateGlobalCss()

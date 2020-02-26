@@ -42,8 +42,8 @@ namespace BlazorFabric
         private int maxRenderedPage;
         private JSRect _lastScrollRect = new JSRect();
         private JSRect _scrollRect = new JSRect();
-        private double _scrollHeight;
-        private Rectangle surfaceRect;
+        //private double _scrollHeight;
+        private Rectangle surfaceRect = new Rectangle();
         private double _height;
         public double CurrentHeight => _height;
         private bool _jsAvailable = false;
@@ -110,7 +110,7 @@ namespace BlazorFabric
         private bool _needsRemeasure = true;
 
         private Viewport _viewport = new Viewport();
-        private JSRect _surfaceRect;
+        private JSRect _surfaceRect = new JSRect();
 
         //private IDisposable _updatesSubscription;
 
@@ -214,6 +214,8 @@ namespace BlazorFabric
                                _viewport.ScrollDistance = (_scrollRect.left, _scrollRect.top);
                                _viewport.Height = _surfaceRect.height;
                                _viewport.Width = _surfaceRect.width;
+                               _viewport.ScrollHeight = _scrollRect.height;
+                               _viewport.ScrollWidth = _scrollRect.width;
 
                                var rearSpace = _height * DEFAULT_RENDERED_WINDOWS_BEHIND;
                                var aheadSpace = _height * (DEFAULT_RENDERED_WINDOWS_AHEAD + 1);
@@ -491,13 +493,9 @@ namespace BlazorFabric
 
 
                 await MeasureContainerAsync();
+                Debug.WriteLine($"List after render, after measurecontainerasync: {_scrollRect.width}");
 
-                _viewport.Height = _surfaceRect.height;
-                _viewport.Width = _surfaceRect.width;
-                _viewport.ScrollDistance = (0, 0);
-                _viewport.ScrollDirection = (ScrollDirection.None, ScrollDirection.None);
-                _viewport.IsScrolling = false;
-                await OnViewportChanged.InvokeAsync(_viewport);
+                
 
                 //if (_needsRemeasure)
                 //{
@@ -514,10 +512,22 @@ namespace BlazorFabric
             //if (_needsRemeasure)
             //{
             //    _needsRemeasure = false;
-                
-            //}
 
-            
+            //}
+            if (_viewport.Height != _surfaceRect.height
+                && _viewport.Width != _surfaceRect.width
+                && _viewport.ScrollHeight != _scrollRect.height
+                && _viewport.ScrollWidth != _scrollRect.width)
+            {
+                _viewport.Height = _surfaceRect.height;
+                _viewport.Width = _surfaceRect.width;
+                _viewport.ScrollHeight = _scrollRect.height;
+                _viewport.ScrollWidth = _scrollRect.width;
+                //_viewport.ScrollDistance = (0, 0);
+                //_viewport.ScrollDirection = (ScrollDirection.None, ScrollDirection.None);
+                //_viewport.IsScrolling = false;
+                await OnViewportChanged.InvokeAsync(_viewport);
+            }
 
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -525,8 +535,11 @@ namespace BlazorFabric
         private async Task MeasureContainerAsync()
         {
             _surfaceRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", this.surfaceDiv);
-            var oldScrollHeight = _scrollHeight;
-            _scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFabricBaseComponent.getScrollHeight", this.surfaceDiv);
+            //var oldScrollHeight = _scrollHeight;
+            _lastScrollRect = _scrollRect;
+            _scrollRect = await this.JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureScrollWindow", this.surfaceDiv);
+
+            //_scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFabricBaseComponent.getScrollHeight", this.surfaceDiv);
             surfaceRect = new Rectangle(_surfaceRect.left, _surfaceRect.width, _surfaceRect.top, _surfaceRect.height);
 
             if (_height != surfaceRect.height)
@@ -537,8 +550,8 @@ namespace BlazorFabric
             }
 
             
-            if (oldScrollHeight != _scrollHeight)
-                await OnListScrollerHeightChanged.InvokeAsync((_scrollHeight, Data));
+            if (_lastScrollRect.height != _scrollRect.height)
+                await OnListScrollerHeightChanged.InvokeAsync((_scrollRect.height, Data));
         }
 
         private async void HandleListScrollerHeightChanged(object sender, double height)
@@ -555,6 +568,8 @@ namespace BlazorFabric
 
             _viewport.Height = _surfaceRect.height;
             _viewport.Width = _surfaceRect.width;
+            _viewport.ScrollHeight = _scrollRect.height;
+            _viewport.ScrollWidth = _scrollRect.width;
             await OnViewportChanged.InvokeAsync(_viewport);
         }
 

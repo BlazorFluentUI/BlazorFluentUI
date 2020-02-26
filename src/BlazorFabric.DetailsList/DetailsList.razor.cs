@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,14 +95,17 @@ namespace BlazorFabric
                 shouldForceUpdates = true;
             }
 
-            AdjustColumns(
-                parameters.GetValueOrDefault<IEnumerable<TItem>>("ItemsSource"),
-                parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode"),
-                parameters.GetValueOrDefault<SelectionMode>("SelectionMode"),
-                parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility"),
-                parameters.GetValueOrDefault<IEnumerable<DetailsRowColumn<TItem>>>("Columns"),
-                true
-                );
+            if (_viewport != null)
+            {
+                AdjustColumns(
+                    parameters.GetValueOrDefault<IEnumerable<TItem>>("ItemsSource"),
+                    parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode"),
+                    parameters.GetValueOrDefault<SelectionMode>("SelectionMode"),
+                    parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility"),
+                    parameters.GetValueOrDefault<IEnumerable<DetailsRowColumn<TItem>>>("Columns"),
+                    true
+                    );
+            }
 
             return base.SetParametersAsync(parameters);
         }
@@ -115,7 +119,6 @@ namespace BlazorFabric
 
         protected override Task OnAfterRenderAsync(bool firstRender)
         {
-
             return base.OnAfterRenderAsync(firstRender);
         }
 
@@ -133,7 +136,9 @@ namespace BlazorFabric
         {
             _lastViewport = _viewport;
             _viewport = viewport;
-            AdjustColumns(ItemsSource, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true);
+            //Debug.WriteLine($"Viewport changed: {viewport.ScrollWidth}");
+            if (_viewport != null)
+                AdjustColumns(ItemsSource, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true);
         }
 
         private void AdjustColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<DetailsRowColumn<TItem>> newColumns,bool forceUpdate,int resizingColumnIndex = -1)
@@ -147,7 +152,7 @@ namespace BlazorFabric
             var lastWidth = _lastWidth;
             var lastSelectionMode = _lastSelectionMode;
 
-            if (!forceUpdate && _lastViewport.Width == _viewport.Width && SelectionMode == newSelectionMode && (Columns == null || newColumns == Columns))
+            if (!forceUpdate && _lastViewport.ScrollWidth == _viewport.ScrollWidth && SelectionMode == newSelectionMode && (Columns == null || newColumns == Columns))
                 return Enumerable.Empty<DetailsRowColumn<TItem>>();
 
             // skipping default column builder... user must provide columns always
@@ -165,11 +170,11 @@ namespace BlazorFabric
             {
                 if (resizingColumnIndex != -1)
                 {
-                    adjustedColumns = GetJustifiedColumnsAfterResize(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.Width, resizingColumnIndex);
+                    adjustedColumns = GetJustifiedColumnsAfterResize(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.ScrollWidth, resizingColumnIndex);
                 }
                 else
                 {
-                    adjustedColumns = GetJustifiedColumns(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.Width, resizingColumnIndex);
+                    adjustedColumns = GetJustifiedColumns(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.ScrollWidth, resizingColumnIndex);
                 }
             }
 

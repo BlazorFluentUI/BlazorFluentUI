@@ -27,6 +27,10 @@ namespace BlazorFabric
         public string GroupAriaLabel { get; set; }
         public string IconClassName { get; set; }
         public string IconName { get; set; }
+        /// <summary>
+        /// Forces columns to be in a particular order.  Useful for libraries (like DynamicData) that don't maintain order of collections internally.
+        /// </summary>
+        public int Index { get; set; } 
         public bool IsCollapsible { get; set; }
         public bool IsFiltered { get; set; }
         public bool IsGrouped { get; set; }
@@ -42,7 +46,8 @@ namespace BlazorFabric
         public double MaxWidth { get; set; } = 300;
         public double MinWidth { get; set; } = 100;
         public string Name { get; set; }
-        public EventCallback<DetailsRowColumn<TItem>> OnColumnClick { get; set; }
+        public Action<DetailsRowColumn<TItem>> OnColumnClick { get; set; }
+        public Action<DetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
         public string SortedAscendingAriaLabel { get; set; }
         public string SortedDescendingAriaLabel { get; set; }
         public Type Type { get; set; }        

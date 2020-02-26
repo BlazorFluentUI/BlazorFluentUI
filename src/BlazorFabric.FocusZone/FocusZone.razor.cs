@@ -198,7 +198,7 @@ namespace BlazorFabric
             if (_registrationId != -1)
             {                
                 //Debug.WriteLine("Trying to unregister focuszone");
-                await UnregisterFocusZoneAsync();
+                UnregisterFocusZoneAsync();
                 
             }
         }

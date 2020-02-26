@@ -36,11 +36,11 @@
                   class="ms-DetailsColumn-cellTitle"
                   data-is-focusable=@(Column.ColumnActionsMode != ColumnActionsMode.Disabled)
                   role=@(Column.ColumnActionsMode != ColumnActionsMode.Disabled &&
-                             (Column.OnColumnClick.HasDelegate || OnColumnClick.HasDelegate)
+                             (Column.OnColumnClick!= null || OnColumnClick.HasDelegate)
                              ? "button" : null)
                   aria-describedby=@(ColumnHeaderTooltipTemplate != null && HasAccessibleLabel() ? $"{ParentId}-{Column.Key}" : null)
                   @oncontextmenu=@(()=> OnColumnContextMenu.InvokeAsync(Column))
-                  @onclick=@(()=>OnColumnClick.InvokeAsync(Column))
+                  @onclick=@HandleColumnClick
                   aria-haspopup=@(Column.ColumnActionsMode == ColumnActionsMode.HasDropdown)
                   aria-expanded=@(Column.ColumnActionsMode == ColumnActionsMode.HasDropdown ? Column.IsMenuOpen : false)>
                 <span id=@($"{ParentId}-{Column.Key}-name")

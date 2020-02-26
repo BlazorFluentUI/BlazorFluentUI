@@ -489,7 +489,7 @@ namespace BlazorFabric
 
         public void Dispose()
         {
-            Debug.WriteLine("DetailsRow disposed");
+            //Debug.WriteLine("DetailsRow disposed");
         }
     }
 }

@@ -10,7 +10,7 @@ namespace BlazorFabric
     {
         public DetailsRowColumn()
         { }
-        public DetailsRowColumn(string fieldName, Func<TItem,object> fieldSelector)
+        public DetailsRowColumn(string fieldName, Func<TItem, IComparable> fieldSelector)
         {
             Name = fieldName;
             Key = fieldName;
@@ -21,8 +21,8 @@ namespace BlazorFabric
         public string AriaLabel { get; set; }
         public double CalculatedWidth { get; set; } = double.NaN;
         public ColumnActionsMode ColumnActionsMode { get; set; } = ColumnActionsMode.Clickable;
-        public RenderFragment<object> ColumnItemTemplate { get; set; }
-        public Func<TItem, object> FieldSelector { get; set; }
+        public RenderFragment<IComparable> ColumnItemTemplate { get; set; }
+        public Func<TItem, IComparable> FieldSelector { get; set; }
         public string FilterAriaLabel { get; set; }
         public string GroupAriaLabel { get; set; }
         public string IconClassName { get; set; }

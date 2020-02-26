@@ -19,5 +19,10 @@ namespace BlazorFabric.Demo.Shared.Models
         {
             return string.Join(' ', LOREM_IPSUM.Take(wordCount));
         }
+
+        public static string Lorem(int startWord, int wordCount)
+        {
+            return string.Join(' ', LOREM_IPSUM.Skip(startWord).Take(wordCount));
+        }
     }
 }

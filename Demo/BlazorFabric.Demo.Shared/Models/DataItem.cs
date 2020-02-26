@@ -14,8 +14,10 @@ namespace BlazorFabric.Demo.Shared.Models
         public DataItem(int num)
         {
             Key = num.ToString();
-            DisplayName = LoremUtils.Lorem(5); // = num.ToString();
-            Description = LoremUtils.Lorem(10 + (int)Math.Round(random.NextDouble() * 50));
+            KeyNumber = num;
+            var start = (int)Math.Round(random.NextDouble() * 40);
+            DisplayName = LoremUtils.Lorem(start, 5); // = num.ToString();
+            Description = LoremUtils.Lorem(start, 5 + (int)Math.Round(random.NextDouble() * 50));
         }
 
         public DataItem(string text)
@@ -30,6 +32,7 @@ namespace BlazorFabric.Demo.Shared.Models
             Type = selectableOptionMenuItemType;
         }
         public string Key { get; set; }
+        public int KeyNumber { get; set; }
         public string DisplayName { get; set; }
         public string LongName { get; set; }
         public string Description { get; set; }

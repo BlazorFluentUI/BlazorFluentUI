@@ -44,8 +44,8 @@
         private bool descending = false;
         public bool Descending { get => descending; set => SetAndRaise(ref descending, value); }
 
-        private Func<DataItem, string> sortSelector = null;
-        public Func<DataItem, string> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
+        private Func<DataItem, IComparable> sortSelector = x=>x.KeyNumber;
+        public Func<DataItem, IComparable> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
 
         public IObservable<Func<DataItem, bool>> DynamicDescriptionFilter { get; private set; }
 
@@ -59,6 +59,7 @@
 
             DynamicSortExpression = this.WhenValueChanged(@this => @this.SortSelector).CombineLatest(this.WhenValueChanged(@this => @this.Descending), (selector, isDescending) =>
             {
+
                 if (isDescending)
                 {
                     return SortExpressionComparer<DataItem>.Descending(selector);
@@ -75,7 +76,7 @@
 
     protected override void OnInitialized()
     {
-        columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Key", x => x.Key) { MaxWidth = 70, Index=0, OnColumnClick = this.OnColumnClick });
+        columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index=0, OnColumnClick = this.OnColumnClick });
         columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick });
         columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick });
 

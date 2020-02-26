@@ -2,53 +2,6 @@
 @inherits FabricComponentBase
 @typeparam TItem
 
-@*@if(SubGroupSelector == null)
-{
-    list = b =>
-    {
-        <List ItemsSource=@ItemsSource
-              >
-            <ItemTemplate>
-                @if(RowTemplate != null)
-                {
-                    RowTemplate(context);
-                }
-                else
-                {
-                    <DetailsRow Item=@context.Item
-                                ItemIndex=@context.Index
-                                SelectionMode=@SelectionMode
-                                Selection=@Selection
-                                Compact=@Compact
-                                CheckboxVisibility=@CheckboxVisibility
-                                />
-                }
-            </ItemTemplate>
-        </List>
-    };
-}
-else
-{
-    list = b =>
-    {
-        <GroupedList ItemsSource=@ItemsSource
-                     SubGroupSelector=@SubGroupSelector
-                     GroupTitleSelector=@GroupTitleSelector
-                     SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
-                     >
-            <ItemTemplate>
-                <DetailsRow Item=@context.Item
-                            ItemIndex=@context.Index
-                            SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
-                            Selection=@Selection
-                            CheckboxVisibility=@CheckboxVisibility
-                            Compact=@Compact 
-                            />
-            </ItemTemplate>
-        </GroupedList>
-    };
-}*@
-
 <div class=@($"ms-DetailsList {ClassName}")
      style=@($"overflow-y:hidden;height:100%;{Style}")
      aria-label=@AriaLabel

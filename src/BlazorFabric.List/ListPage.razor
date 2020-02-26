@@ -42,7 +42,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var rect = await JSRuntime.InvokeAsync<JSRect>("BlazorFabricList.measureElementRect", RootElementReference);
+        var rect = await JSRuntime.InvokeAsync<ElementMeasurements>("BlazorFabricList.measureElementRect", RootElementReference);
 
         this.Width = rect.width;
 

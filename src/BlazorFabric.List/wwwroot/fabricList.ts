@@ -3,20 +3,32 @@
 
 namespace BlazorFabricList {
 
-  interface DotNetReferenceType {
+    interface DotNetReferenceType {
 
     invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
     invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-  }
+    }
 
-  interface IRectangle {
-    left: number;
-    top: number;
-    width: number;
-    height: number;
-    right?: number;
-    bottom?: number;
-  }
+    interface IRectangle {
+        left: number;
+        top: number;
+        width: number;
+        height: number;
+        right?: number;
+        bottom?: number;
+    }
+
+    interface IElementMeasurements {
+        left: number;
+        top: number;
+        width: number;
+        height: number;
+        right?: number;
+        bottom?: number;
+        cwidth: number;
+        cheight: number;
+        test: string;
+    }
 
   type ICancelable<T> = {
     flush: () => T;
@@ -41,14 +53,18 @@ namespace BlazorFabricList {
       top: element.scrollTop,
       left: element.scrollLeft,
       bottom: element.scrollTop + element.clientHeight,
-      right: element.scrollLeft + element.clientWidth,
+        right: element.scrollLeft + element.clientWidth        
     }
     return rect;
   };
 
-  export function measureElementRect(element: HTMLElement): IRectangle {
-    return element.getBoundingClientRect();
-  };
+    export function measureElementRect(element: HTMLElement): IElementMeasurements {
+        var rect = element.getBoundingClientRect();
+
+        var elementMeasurements: IElementMeasurements = { height : rect.height, width: rect.width, left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, cheight:element.clientHeight, cwidth:element.clientWidth, test:"Random!"};
+
+        return elementMeasurements;
+    };
 
  
   

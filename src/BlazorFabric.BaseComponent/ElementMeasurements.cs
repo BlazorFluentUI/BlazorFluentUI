@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public class JSRect
+    public class ElementMeasurements
     {
         public double left { get; set; } 
         public double top { get; set; }
@@ -14,6 +14,9 @@ namespace BlazorFabric
         public double y { get; set; }
         public double width { get; set; }
         public double height { get; set; }
+        public double cwidth { get; set; }
+        public double cheight { get; set; }
+        public string test { get; set; }
 
         public override string ToString()
         {

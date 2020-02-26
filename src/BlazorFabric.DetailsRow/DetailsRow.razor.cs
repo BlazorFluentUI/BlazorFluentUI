@@ -133,6 +133,7 @@ namespace BlazorFabric
                           $"color:{Theme.Palette.NeutralSecondary};" +
                           $"display:inline-flex;" +
                           $"min-width:100%;" +
+                          $"width:100%;" +  // added to make DetailsRow fit width of window
                           $"min-height:{RowHeight}px;" +
                           $"white-space:nowrap;" +
                           $"padding:0px;" +

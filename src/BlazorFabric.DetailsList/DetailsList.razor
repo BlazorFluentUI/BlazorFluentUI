@@ -23,7 +23,9 @@
                 }
                 else
                 {
-                    <DetailsHeader Columns=@_adjustedColumns/>
+                    <DetailsHeader Columns=@_adjustedColumns
+                                   TItem="TItem"
+                                   OnColumnResized=@OnColumnResizedInternal/>
                 }
             }
         </div>

@@ -51,6 +51,9 @@ namespace BlazorFabric
         public EventCallback<ItemContainer<TItem>> OnItemInvoked { get; set; }
 
         [Parameter]
+        public EventCallback<ColumnResizedArgs<TItem>> OnColumnResized { get; set; }
+
+        [Parameter]
         public RenderFragment<ItemContainer<TItem>> RowTemplate { get; set; }
 
         [Parameter]
@@ -176,6 +179,11 @@ namespace BlazorFabric
                 {
                     adjustedColumns = GetJustifiedColumns(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.ScrollWidth, resizingColumnIndex);
                 }
+
+                foreach (var col in adjustedColumns)
+                {
+                    _columnOverrides[col.Key] = col.CalculatedWidth;
+                }
             }
 
 
@@ -290,6 +298,14 @@ namespace BlazorFabric
                     DetailsRow<TItem>.CellLeftPadding +
                     DetailsRow<TItem>.CellRightPadding +
                     (column.IsPadded ? DetailsRow<TItem>.CellExtraRightPadding : 0);
+        }
+
+        private void OnColumnResizedInternal(ColumnResizedArgs<TItem> columnResizedArgs)
+        {
+            OnColumnResized.InvokeAsync(columnResizedArgs);
+
+            _columnOverrides[columnResizedArgs.Column.Key] = columnResizedArgs.NewWidth;
+            AdjustColumns(ItemsSource, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true, columnResizedArgs.ColumnIndex);
         }
     }
 }

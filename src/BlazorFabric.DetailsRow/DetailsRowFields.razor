@@ -24,7 +24,7 @@
              aria-readonly="true"
              aria-colindex=@(index + ColumnStartIndex + 1)
              class=@($"ms-DetailsRow-field{(column.IsMultiline ? " is-multiline":"")}{(column.IsRowHeader ? " is-row-header":"")} ms-DetailsRow-cell{(column.IsPadded ? " ms-DetailsRow-cellPadded":" ms-DetailsRow-cellUnpadded")}")
-             style=@($"width:{width};padding-left:{CellLeftPadding}px;overflow-x:hidden;")
+             style=@($"width:{width};padding-left:{CellLeftPadding}px;")
 
              >
             @if (column.ColumnItemTemplate != null)

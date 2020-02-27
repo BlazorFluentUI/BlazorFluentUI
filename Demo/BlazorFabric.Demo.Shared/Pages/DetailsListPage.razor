@@ -77,7 +77,7 @@
     protected override void OnInitialized()
     {
         columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index=0, OnColumnClick = this.OnColumnClick });
-        columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick });
+        columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable=true });
         columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick });
 
         for (var i = 0; i < 1000; i++)
@@ -130,4 +130,6 @@
         dataContainer.SortSelector = column.FieldSelector;
 
     }
+      
+
 }

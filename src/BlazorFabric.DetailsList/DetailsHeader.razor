@@ -100,14 +100,18 @@
                        OnColumnClick=@OnColumnClick
                        OnColumnContextMenu=@OnColumnContextMenu
                        ColumnHeaderTooltipTemplate=@ColumnHeaderTooltipTemplate
-                       IsDropped=@(onDropIndexInfo.TargetIndex==colIndex)
+                       IsDropped=@(onDropIndexInfo.TargetIndex == colIndex)
                        UseFastIcons=@UseFastIcons />
-        <div aria-hidden="true"
-             role="button"
-             @onclick:stopPropagation="true"
-             @onblur=@(()=> { })
-             class=@($"ms-DetailsHeader-cellSizer{(colIndex < Columns.Count()-1 ? " ms-DetailsHeader-cellSizerStart":" ms-DetailsHeader-cellSizerEnd")}")
-             @ondblclick=@(()=> { }) />
+        @if (Columns.ElementAt(colIndex).IsResizable)
+        {
+            <div aria-hidden="true"
+                 role="button"
+                 @onmousedown=@(args=>OnSizerMouseDown(args, colIndex))
+                 @onclick:stopPropagation="true"
+                 @onblur=@(() => { })
+                 class=@($"ms-DetailsHeader-cellSizer{(colIndex < Columns.Count() - 1 ? " ms-DetailsHeader-cellSizerStart" : " ms-DetailsHeader-cellSizerEnd")}")
+                 @ondblclick=@(() => { }) />
+        }
     }
     @if (ColumnReorderProps != null && frozenColumnCountFromEnd == 0)
     {

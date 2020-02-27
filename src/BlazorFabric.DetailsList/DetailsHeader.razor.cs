@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -71,7 +72,7 @@ namespace BlazorFabric
         public EventCallback<object> OnColumnIsSizingChanged { get; set; }
 
         [Parameter]
-        public EventCallback<object> OnColumnIsResized { get; set; }        
+        public EventCallback<ColumnResizedArgs<TItem>> OnColumnResized { get; set; }        
 
         [Parameter]
         public EventCallback<bool> OnToggleCollapsedAll { get; set; }
@@ -110,7 +111,9 @@ namespace BlazorFabric
         private bool isAllSelected;
         private bool isAllCollapsed;
         private bool isSizing;
-        private object columnResizeDetails;
+        private int resizeColumnIndex;
+        private double resizeColumnMinWidth;
+        private double resizeColumnOriginX;
 
 
 
@@ -129,7 +132,7 @@ namespace BlazorFabric
             isCheckboxHidden = SelectAllVisibility == SelectAllVisibility.Hidden;
             isCheckboxAlwaysVisible = CheckboxVisibility == CheckboxVisibility.Always;
 
-            isResizingColumn = columnResizeDetails != null && isSizing;
+            isResizingColumn = isSizing;
 
             if (ColumnReorderProps!= null && ColumnReorderProps.ToString() == "something")
             {
@@ -165,13 +168,34 @@ namespace BlazorFabric
             
         }
 
+        private void OnSizerMouseDown(MouseEventArgs args, int colIndex)
+        {
+            isSizing = true;
+            resizeColumnIndex = colIndex - (showCheckbox ? 2 : 1);
+            resizeColumnOriginX = args.ClientX;
+            resizeColumnMinWidth = Columns.ElementAt(resizeColumnIndex).CalculatedWidth;
+            
+        }
+
         private void OnSizerMouseMove(MouseEventArgs mouseEventArgs)
         {
+            if (mouseEventArgs.ClientX != resizeColumnOriginX)
+            {
+                //OnColumnIsSizingChanged.InvokeAsync();                
+            }
+            if (OnColumnResized.HasDelegate)
+            {
+                var movement = mouseEventArgs.ClientX - resizeColumnOriginX;
+                //skipping RTL check
 
+                OnColumnResized.InvokeAsync(new ColumnResizedArgs<TItem>(Columns.ElementAt(resizeColumnIndex), resizeColumnIndex, resizeColumnMinWidth + movement));
+
+            }
+            
         }
         private void OnSizerMouseUp(MouseEventArgs mouseEventArgs)
         {
-
+            isSizing = false;
         }
 
         private void UpdateDragInfo(int itemIndex)

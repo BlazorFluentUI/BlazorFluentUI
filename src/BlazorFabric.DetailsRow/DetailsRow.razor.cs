@@ -350,7 +350,8 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"display:flex;" +
-                         $"align-items:stretch;"
+                         $"align-items:stretch;"+
+                         $"overflow-x:hidden;"
                 }
             });
 

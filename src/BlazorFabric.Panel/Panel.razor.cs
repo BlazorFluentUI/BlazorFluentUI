@@ -11,7 +11,7 @@ using System.Timers;
 
 namespace BlazorFabric
 {
-    public partial class Panel : FabricComponentBase, IDisposable
+    public partial class Panel : FabricComponentBase, IAsyncDisposable
     {
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
@@ -398,7 +398,7 @@ namespace BlazorFabric
                 currentVisibility = PanelVisibilityState.AnimatingClosed;
                 // This StateHasChanged call was added because using a custom close button in NavigationTemplate did not cause a state change to occur.
                 // The result was that the animation class would not get added and the close transition would not show.  This is a hack to make it work.
-                InvokeAsync(StateHasChanged);
+                await InvokeAsync(StateHasChanged);
             }
 
             Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
@@ -452,7 +452,7 @@ namespace BlazorFabric
             return IsBlocking && IsOpen;
         }
 
-        public async void Dispose()
+        public async ValueTask DisposeAsync()
         {
             _clearExistingAnimationTimer?.Invoke();
             if (_scrollerEventId != null)

@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace BlazorFabric
 {
-    public partial class ContextualMenu : ResponsiveFabricComponentBase, IDisposable
+    public partial class ContextualMenu : ResponsiveFabricComponentBase, IAsyncDisposable
     {      
         [Parameter] public bool AlignTargetEdge { get; set; }
         //[Parameter] public string AriaLabel { get; set; }
@@ -140,10 +140,10 @@ namespace BlazorFabric
             await this.OnMenuOpened.InvokeAsync(this);
         }
 
-        public override void Dispose()
+        public override async ValueTask DisposeAsync()
         {
-            this.OnMenuDismissed.InvokeAsync(this);
-            base.Dispose();
+            await this.OnMenuDismissed.InvokeAsync(this);
+            await base.DisposeAsync();
         }
     }
 }

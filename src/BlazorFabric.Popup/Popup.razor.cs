@@ -11,7 +11,7 @@ namespace BlazorFabric
     /**
      * This adds accessibility to Dialog and Panel controls
      */
-    public partial class Popup : FabricComponentBase, IDisposable
+    public partial class Popup : FabricComponentBase, IAsyncDisposable
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
 
@@ -54,7 +54,7 @@ namespace BlazorFabric
             //return Task.CompletedTask;
         }
 
-        public async void Dispose()
+        public async ValueTask DisposeAsync()
         {
             if (_handleToLastFocusedElement != null)
             {

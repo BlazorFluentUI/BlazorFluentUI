@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class ResponsiveFabricComponentBase : FabricComponentBase, IDisposable
+    public class ResponsiveFabricComponentBase : FabricComponentBase, IAsyncDisposable
     {
         private string _resizeRegistration;
 
@@ -59,7 +59,7 @@ namespace BlazorFabric
             return Task.CompletedTask;
         }
 
-        public virtual async void Dispose()
+        public virtual async ValueTask DisposeAsync()
         {
             if (_resizeRegistration != null)
             {

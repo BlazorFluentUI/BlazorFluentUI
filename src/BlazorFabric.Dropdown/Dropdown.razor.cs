@@ -226,9 +226,10 @@ namespace BlazorFabric
             return Task.CompletedTask;
         }
 
-        protected async Task DismissHandler()
+        protected Task DismissHandler()
         {
             isOpen = false;
+            return Task.CompletedTask;
         }
 
       

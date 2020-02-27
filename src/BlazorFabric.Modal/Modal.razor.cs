@@ -9,7 +9,7 @@ using System.Timers;
 
 namespace BlazorFabric
 {
-    public partial class Modal : FabricComponentBase, IDisposable
+    public partial class Modal : FabricComponentBase, IAsyncDisposable
     {
         [Parameter]
         public string ContainerClass { get; set; }
@@ -199,7 +199,7 @@ namespace BlazorFabric
              return IsOpen;
         }
 
-        public async void Dispose()
+        public async ValueTask DisposeAsync()
         {
             _clearExistingAnimationTimer();
             if (_keydownRegistration != null)

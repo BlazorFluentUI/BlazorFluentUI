@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class FocusTrapZone : FabricComponentBase, IDisposable
+    public partial class FocusTrapZone : FabricComponentBase, IAsyncDisposable
     {
         protected static Stack<FocusTrapZone> _focusStack = new Stack<FocusTrapZone>();
 
@@ -89,7 +89,7 @@ namespace BlazorFabric
 
      
 
-        public async void Dispose()
+        public async ValueTask DisposeAsync()
         {
             if (_id != -1)
                 await jsRuntime.InvokeVoidAsync("BlazorFabricFocusTrapZone.unregister", _id);

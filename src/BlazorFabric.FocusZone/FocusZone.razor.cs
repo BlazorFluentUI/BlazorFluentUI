@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace BlazorFabric
 {
 
-    public partial class FocusZone : FabricComponentBase, IDisposable
+    public partial class FocusZone : FabricComponentBase, IAsyncDisposable
     {
         [Inject] private IJSRuntime jsRuntime { get; set; }
 
@@ -74,13 +74,13 @@ namespace BlazorFabric
             return base.OnInitializedAsync();
         }
 
-        protected override void OnAfterRender(bool firstRender)
+        protected override async void OnAfterRender(bool firstRender)
         {
             if (firstRender)
             {
                 if (_registrationTask == null)
                 {
-                    RegisterFocusZoneAsync();
+                    await RegisterFocusZoneAsync();
                 }
                 else if (!_registrationTask.IsCompleted)
                 {
@@ -94,7 +94,7 @@ namespace BlazorFabric
                 if (_registrationId != -1 && updateFocusZone)
                 {
                     updateFocusZone = false;
-                    UpdateFocusZoneAsync();
+                    await UpdateFocusZoneAsync();
                 }
             }
             base.OnAfterRender(firstRender);
@@ -193,12 +193,12 @@ namespace BlazorFabric
         }
 
 
-        public async void Dispose()
+        public async ValueTask DisposeAsync()
         {
             if (_registrationId != -1)
             {                
                 //Debug.WriteLine("Trying to unregister focuszone");
-                UnregisterFocusZoneAsync();
+                await UnregisterFocusZoneAsync();
                 
             }
         }

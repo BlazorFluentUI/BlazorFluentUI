@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace BlazorFabric
 {
-    public class ButtonBase : FabricComponentBase, IDisposable
+    public class ButtonBase : FabricComponentBase, IAsyncDisposable
     {
         internal ButtonBase()
         {
@@ -377,7 +377,7 @@ namespace BlazorFabric
 
         }
 
-        public async void Dispose()
+        public async ValueTask DisposeAsync()
         {
             if (_registrationToken != null)
                 await DeregisterListFocusAsync();

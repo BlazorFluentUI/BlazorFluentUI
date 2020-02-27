@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class CalloutContent : FabricComponentBase, IDisposable
+    public partial class CalloutContent : FabricComponentBase, IAsyncDisposable
     {
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
@@ -184,7 +184,7 @@ namespace BlazorFabric
         }
 
 
-        public async void Dispose()
+        public async ValueTask DisposeAsync()
         {
             if (eventHandlerIds != null)
                 await JSRuntime.InvokeAsync<object>("BlazorFabricCallout.unregisterHandlers", eventHandlerIds);

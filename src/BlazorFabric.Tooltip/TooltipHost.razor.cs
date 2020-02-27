@@ -204,6 +204,8 @@ namespace BlazorFabric
         {
             _dismissTimer.Stop();
             _openTimer.Stop();
+            _openTimer.Dispose();
+            _dismissTimer.Dispose();
             _dismissTimer = null;
             _openTimer = null;
 

@@ -80,6 +80,7 @@ namespace BlazorFabric.ContextualMenuInternal
         public void Dispose()
         {
             jsRuntime.InvokeAsync<object>("BlazorFabricContextualMenu.unregisterHandlers", eventHandlerIds);
+            enterTimer.Dispose();
         }
 
         public override Task SetParametersAsync(ParameterView parameters)

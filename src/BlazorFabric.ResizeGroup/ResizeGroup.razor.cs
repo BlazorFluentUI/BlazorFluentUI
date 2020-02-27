@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class ResizeGroup<TObject> : FabricComponentBase, IDisposable
+    public partial class ResizeGroup<TObject> : FabricComponentBase, IAsyncDisposable
     {
         [Inject] IJSRuntime jSRuntime { get; set; }
 
@@ -300,7 +300,7 @@ namespace BlazorFabric
 
         }
 
-        public async void Dispose()
+        public async ValueTask DisposeAsync()
         {
             try
             {

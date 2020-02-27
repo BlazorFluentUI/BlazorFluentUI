@@ -21,7 +21,7 @@ using BlazorFabric.BaseComponent.FocusStyle;
 
 namespace BlazorFabric
 {
-    public partial class List<TItem> : FabricComponentBase, IDisposable
+    public partial class List<TItem> : FabricComponentBase, IAsyncDisposable
     {
         //protected bool firstRender = false;
 
@@ -415,10 +415,10 @@ namespace BlazorFabric
             return listRules;
         }
 
-        public void ForceUpdate()
+        public async Task ForceUpdate()
         {
 
-            MeasureContainerAsync();
+            await MeasureContainerAsync();
         }
 
         private RenderFragment RenderPages(int startPage, int endPage, double leadingPadding = 0) => builder =>
@@ -580,7 +580,7 @@ namespace BlazorFabric
             _scrollDoneSubject.OnNext(Unit.Default);
         }
 
-        public async void Dispose()
+        public async ValueTask DisposeAsync()
         {
             //if (OnListScrollerHeightChanged.HasDelegate)
             //    await OnListScrollerHeightChanged.InvokeAsync((0, Data));

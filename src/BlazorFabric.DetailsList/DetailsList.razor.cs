@@ -85,6 +85,7 @@ namespace BlazorFabric
 
         GroupedList<TItem> groupedList;
         List<TItem> list;
+        SelectionZone<TItem> selectionZone;
 
         public void ForceUpdate()
         {
@@ -141,6 +142,18 @@ namespace BlazorFabric
         private void OnContentKeyDown(KeyboardEventArgs keyboardEventArgs)
         {
 
+        }
+
+        private void OnAllSelected()
+        {
+            if (Selection.SelectedItems.Count() != this.ItemsSource.Count())
+            {
+                selectionZone.AddItems(ItemsSource);
+            }
+            else
+            {
+                selectionZone.ClearSelection();
+            }
         }
 
         private void ViewportChangedHandler(Viewport viewport)

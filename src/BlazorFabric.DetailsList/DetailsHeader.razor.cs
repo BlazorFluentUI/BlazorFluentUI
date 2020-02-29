@@ -54,10 +54,16 @@ namespace BlazorFabric
         public double IndentWidth { get; set; }
 
         [Parameter]
+        public bool IsAllSelected { get; set; }
+
+        [Parameter]
         public DetailsListLayoutMode LayoutMode { get; set; }
 
         [Parameter]
         public int MinimumPixelsForDrag { get; set; }
+
+        [Parameter]
+        public EventCallback OnAllSelected { get; set; }
 
         [Parameter]
         public EventCallback<ItemContainer<DetailsRowColumn<TItem>>> OnColumnAutoResized { get; set; }
@@ -108,7 +114,7 @@ namespace BlazorFabric
         private bool isResizingColumn;
 
         //state
-        private bool isAllSelected;
+        //private bool isAllSelected;
         private bool isAllCollapsed;
         private bool isSizing;
         private int resizeColumnIndex;
@@ -159,7 +165,7 @@ namespace BlazorFabric
         {
             if (!isCheckboxHidden)
             {
-
+                OnAllSelected.InvokeAsync(null);
             }
         }
 

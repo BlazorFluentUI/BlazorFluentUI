@@ -25,6 +25,8 @@
                 {
                     <DetailsHeader Columns=@_adjustedColumns
                                    TItem="TItem"
+                                   IsAllSelected=@(ItemsSource.Count() == Selection.SelectedItems.Count())
+                                   OnAllSelected=@OnAllSelected
                                    OnColumnAutoResized=@OnColumnAutoResized
                                    OnColumnResized=@OnColumnResizedInternal/>
                 }
@@ -41,6 +43,7 @@
                 @if (!DisableSelectionZone)
                 {
                 <SelectionZone Selection=@Selection
+                               @ref="selectionZone"
                                SelectionChanged=@SelectionChanged
                                SelectionPreservedOnEmptyClick=@SelectionPreservedOnEmptyClick
                                SelectionMode=@SelectionMode

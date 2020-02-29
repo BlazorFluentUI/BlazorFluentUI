@@ -28,6 +28,8 @@ namespace BlazorFabric
         [Parameter] public List<ConsoleKey> InnerZoneKeystrokeTriggers { get => innerZoneKeystrokeTriggers; set { if (value != innerZoneKeystrokeTriggers) { updateFocusZone = true; innerZoneKeystrokeTriggers = value; } } }
         [Parameter] public EventCallback OnActiveElementChanged { get; set; }
         [Parameter] public Func<bool> OnBeforeFocus { get => onBeforeFocus; set { if (value != onBeforeFocus) { updateFocusZone = true; onBeforeFocus = value; } } }   // This is likely not having an effect because of asynchronous code allowing the event to propagate.
+
+        [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
         [Parameter] public EventCallback OnFocusNotification { get; set; }
 
         [Parameter] public string Role { get; set; } = "presentation";

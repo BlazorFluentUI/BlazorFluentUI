@@ -111,7 +111,7 @@ namespace BlazorFabric
             if (items != null && items.Count() > 0)
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
         }
-
+                
         public void RemoveItems(IEnumerable<TItem> items)
         {
             foreach (var item in items)
@@ -138,6 +138,8 @@ namespace BlazorFabric
             if ((itemsToAdd != null && itemsToAdd.Count() > 0)||(itemsToRemove != null && itemsToRemove.Count() > 0))
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
         }
+
+        
 
         public void ClearSelection()
         {

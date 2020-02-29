@@ -6,7 +6,7 @@
 
 <FocusZone Role="row"
            AriaLabel=@AriaLabel
-           ClassName=@($"smallFont ms-DetailsHeader{(isAllSelected?" is-allSelected":"")}{(isResizingColumn?" is-resizingColumn":"")}")
+           ClassName=@($"smallFont ms-DetailsHeader{(IsAllSelected?" is-allSelected":"")}{(isResizingColumn?" is-resizingColumn":"")}")
            Direction="FocusZoneDirection.Horizontal">
     @if (showCheckbox)
     {
@@ -34,7 +34,7 @@
                                     : null)
                                      IsFocusable=@(!isCheckboxHidden)
                                      IsHeader="true"
-                                     Selected=@isAllSelected
+                                     Checked=@IsAllSelected
                                      AnySelected="false"
                                      CanSelect=@(!isCheckboxHidden)
                                      ClassName="ms-DetailsHeader-check"

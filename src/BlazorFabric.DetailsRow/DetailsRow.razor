@@ -5,12 +5,14 @@
 <GlobalCS Component=@this CreateGlobalCss=@CreateGlobalCss />
 <LocalCS @bind-Rules=@DetailsRowLocalRules />
 
-<div @onclick="args => SelectionZone.SelectItem(Item,true)" data-is-focusable="true">
+@*<div @onclick="args => SelectionZone.SelectItem(Item,true)" data-is-focusable="true">*@
     <FocusZone Direction=@FocusZoneDirection.Horizontal
                AriaLabel=@AriaLabel
                AriaDescribedBy=@AriaDescribedBy
                ClassName=@($"fadeIn400 smallFont {(Compact ? "is-compact " : "")}{(isSelected ? "is-selected " : "")}{(IsRowHeader ? "is-row-header " : "")}{(IsCheckVisible ? "is-check-visible " : "")}ms-DetailsRow")
-               AllowFocusRoot="true">
+               AllowFocusRoot="true"
+               IsFocusable="true"
+               OnClick=@(args=> SelectionZone.SelectItem(Item,true))>
 
         @if (showCheckbox)
         {
@@ -52,4 +54,4 @@
         <span role="checkbox" class="@($"ms-DetailsRow-checkCover {_localCheckCoverRule.Selector.SelectorName}")" aria-checked=@isSelected data-selection-toggle="true" />
 
     </FocusZone>
-</div>
+@*</div>*@

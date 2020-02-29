@@ -41,6 +41,8 @@
         private string filter = "";
         public string Filter { get => filter; set => SetAndRaise(ref filter, value); }
 
+
+
         private bool descending = false;
         public bool Descending { get => descending; set => SetAndRaise(ref descending, value); }
 
@@ -50,6 +52,8 @@
         public IObservable<Func<DataItem, bool>> DynamicDescriptionFilter { get; private set; }
 
         public IObservable<SortExpressionComparer<DataItem>> DynamicSortExpression { get; private set; }
+
+        public IObservable<bool> IsFiltered { get; private set; }
 
         public ObservableDataContainer()
         {
@@ -70,6 +74,7 @@
                 }
             });
 
+            IsFiltered = this.WhenValueChanged(@this => @this.Filter).Select(x => !string.IsNullOrWhiteSpace(x));
         }
     }
 
@@ -78,13 +83,20 @@
     {
         columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index=0, OnColumnClick = this.OnColumnClick });
         columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable=true });
-        columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick });
+        var descColumn = new DetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
+        columnsSource.AddOrUpdate(descColumn);
 
         for (var i = 0; i < 1000; i++)
         {
             count++;
             dataSource.AddOrUpdate(new DataItem(count));
         }
+
+        dataContainer.IsFiltered.Subscribe(isFiltered =>
+        {
+            descColumn.IsFiltered = isFiltered;
+            columnsSource.AddOrUpdate(descColumn);
+        });
 
         dataSource.Connect()
                 .Filter(dataContainer.DynamicDescriptionFilter)
@@ -95,7 +107,7 @@
         columnsSource.Connect()
             .Sort(SortExpressionComparer<DetailsRowColumn<DataItem>>.Ascending(x=>x.Index))
             .Bind(out ReadonlyColumns)
-            .Do(_ => StateHasChanged())
+            .Do(_ => StateHasChanged())  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
             .Subscribe();
 
 
@@ -130,6 +142,6 @@
         dataContainer.SortSelector = column.FieldSelector;
 
     }
-      
+
 
 }

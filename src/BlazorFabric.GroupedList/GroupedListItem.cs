@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace BlazorFabric
@@ -63,7 +64,10 @@ namespace BlazorFabric
         public string Key => GetGroupItemKey(this);
         public System.Collections.Generic.List<GroupedListItem<TItem>> Children { get; set; } = new System.Collections.Generic.List<GroupedListItem<TItem>>();
 
+        public int RecursiveCount => Children.RecursiveCount();
         
+        
+
         private static string GetGroupItemKey(GroupedListItem<TItem> groupedListItem)
         {
             string key = "";
@@ -140,21 +144,32 @@ namespace BlazorFabric
 
         private int CompareItems(GroupedListItem<TItem> x, GroupedListItem<TItem> y)
         {
-            if (x.Parent == y.Parent)
+            if (x != null & y != null)
             {
-                return x.Index.CompareTo(y.Index);
-            }
-            else
-            {
-                var parentCompare = CompareItems(x.Parent, y.Parent);
-                if (parentCompare == 0)
+                if (x.Parent == y.Parent)
                 {
                     return x.Index.CompareTo(y.Index);
                 }
                 else
                 {
-                    return parentCompare;
+                    var parentCompare = CompareItems(x.Parent, y.Parent);
+                    if (parentCompare == 0)
+                    {
+                        return x.Index.CompareTo(y.Index);
+                    }
+                    else
+                    {
+                        return parentCompare;
+                    }
                 }
+            }
+            else if (x== null && y == null)
+            {
+                return 0;
+            }    
+            else
+            {
+                return 0;
             }
         }
     }

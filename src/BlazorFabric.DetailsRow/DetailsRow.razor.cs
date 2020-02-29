@@ -439,7 +439,7 @@ namespace BlazorFabric
                           $"position:relative;" +
                           $"box-sizing:border-box;" +
                           $"min-height:{RowHeight}px;" +
-                          $"vertial-align:top;" +
+                          $"vertical-align:top;" +
                           $"white-space:nowrap;" +
                           $"overflow:hidden;" +
                           $"text-overflow:ellipsis;" +

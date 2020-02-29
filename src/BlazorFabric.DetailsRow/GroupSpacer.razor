@@ -3,7 +3,8 @@
 @if (Count > 0)
 {
 <span class="ms-GroupSpacer"
-      style=@($"display:inline-block;width:{Count*IndentWidth}px;") />
+      style=@($"display:inline-block;width:{Count*IndentWidth}px;flex-shrink:0;") />
+      @*Added flex-shrink:0 for this b/c the container has display:flex instead of display:inline-block*@
 }
 
 @code {

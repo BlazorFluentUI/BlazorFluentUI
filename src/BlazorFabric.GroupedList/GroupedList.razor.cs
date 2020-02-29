@@ -15,6 +15,9 @@ using System.Reactive.Linq;
 using DynamicData.Tests;
 using System.Collections.ObjectModel;
 using System.Reactive.Subjects;
+using System.Security.Cryptography.X509Certificates;
+using System.Collections.Specialized;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace BlazorFabric
 {
@@ -32,7 +35,8 @@ namespace BlazorFabric
         private const double ROW_HEIGHT = 42;
 
 
-        private TItem _rootGroup;
+        //private TItem _rootGroup;
+        private IEnumerable<TItem> _itemsSource;
 
         private IDisposable _selectionSubscription;
         private IDisposable _transformedDisposable;
@@ -52,8 +56,8 @@ namespace BlazorFabric
         [Parameter]
         public IEnumerable<TItem> ItemsSource { get; set; }
 
-        [Parameter]
-        public TItem RootGroup { get; set; }
+        //[Parameter]
+        //public TItem RootGroup { get; set; }
 
         [Parameter]
         public RenderFragment<GroupedListItem<TItem>> ItemTemplate { get; set; }
@@ -63,7 +67,10 @@ namespace BlazorFabric
 
         [Parameter]
         public Func<bool> OnShouldVirtualize { get; set; } = () => true;
-                
+
+        [Parameter]
+        public EventCallback<Viewport> OnViewportChanged { get; set; }
+
         [Parameter] 
         public Selection<TItem> Selection { get; set; }
         
@@ -144,46 +151,66 @@ namespace BlazorFabric
             return groupedItems;
         }
 
+        public void ForceUpdate()
+        {
+            _itemsSource = null;
+            StateHasChanged();
+        }
+
         protected override async Task OnParametersSetAsync()
         {
             if (SubGroupSelector != null)
             {
-                if (RootGroup != null && !RootGroup.Equals(_rootGroup))
+                //if (ItemsSource != null && !ItemsSource.Equals(_itemsSource))
+                //if (RootGroup != null && !RootGroup.Equals(_rootGroup))
+
+                if (ItemsSource != null && !ItemsSource.Equals(_itemsSource))
                 {
                     //dispose old subscriptions
                     _transformedDisposable?.Dispose();
 
-                    _rootGroup = RootGroup;
-                    if (_rootGroup != null)
+                    _itemsSource = ItemsSource;
+                    //_rootGroup = RootGroup;
+                    if (_itemsSource != null)
+                    //if (_rootGroup != null)
                     {
-                        var list = new System.Collections.Generic.List<TItem>();
-                        list.Add(_rootGroup);
-                        var changeSet = list.AsObservableChangeSet();
-                        Dictionary<int, HeaderItem<TItem>> headers = new Dictionary<int, HeaderItem<TItem>>();
+                        //var list = new System.Collections.Generic.List<TItem>();
+                        //list.Add(_rootGroup);
+                        
+                        var changeSet = _itemsSource.AsObservableChangeSet();
+                        System.Collections.Generic.List<HeaderItem<TItem>> headersList = new System.Collections.Generic.List<HeaderItem<TItem>>();
                         Dictionary<int, int> depthIndex = new Dictionary<int, int>();
-                        var transformedChangeSet = changeSet.TransformMany<GroupedListItem<TItem>, TItem>(x => SubGroupSelector(x)?.RecursiveSelect<TItem, GroupedListItem<TItem>>(
-                                                                                         r => SubGroupSelector(r),
-                                                                                         (s, index, depth) =>
-                                                                                         {
-                                                                                             if (!depthIndex.ContainsKey(depth))
-                                                                                                 depthIndex[depth] = 0;
-                                                                                             headers.TryGetValue(depth - 1, out var parent);
-                                                                                             if (SubGroupSelector(s) == null)
+
+                        var rootIndex = 0;
+                        var transformedChangeSet = changeSet.TransformMany<GroupedListItem<TItem>, TItem>((x) =>
+
+                        {
+                            var header = new HeaderItem<TItem>(x, null, rootIndex++, 0, GroupTitleSelector);
+                            headersList.Add(header);
+                            var children = SubGroupSelector(x).RecursiveSelect<TItem, GroupedListItem<TItem>>(
+                                                                                    r => SubGroupSelector(r),
+                                                                                             (s, index, depth) =>
                                                                                              {
-                                                                                                 Debug.WriteLine($"Creating ITEM: {depth}-{index}");
-                                                                                                 var item = new PlainItem<TItem>(s, parent, index, depth);
-                                                                                                 parent?.Children.Add(item);
-                                                                                                 return item;
-                                                                                             }
-                                                                                             else
-                                                                                             {
-                                                                                                 Debug.WriteLine($"Creating HEADER: {depth}-{index}");
-                                                                                                 var header = new HeaderItem<TItem>(s, parent, index, depth, GroupTitleSelector);
-                                                                                                 headers[depth] = header;
-                                                                                                 parent?.Children.Add(header);
-                                                                                                 return header;
-                                                                                             }
-                                                                                         }));
+                                                                                                 if (!depthIndex.ContainsKey(depth))
+                                                                                                     depthIndex[depth] = 0;
+                                                                                                 var parent = headersList.FirstOrDefault(header => header.Depth == depth-1 && SubGroupSelector(header.Item).Contains(s));
+                                                                                                 if (SubGroupSelector(s) == null || SubGroupSelector(s).Count() == 0)
+                                                                                                 {
+                                                                                                     var item = new PlainItem<TItem>(s, parent, index, depth);
+                                                                                                     parent?.Children.Add(item);
+                                                                                                     return item;
+                                                                                                 }
+                                                                                                 else
+                                                                                                 {
+                                                                                                     var header = new HeaderItem<TItem>(s, parent, index, depth, GroupTitleSelector);
+                                                                                                     headersList.Add(header);
+                                                                                                     parent?.Children.Add(header);
+                                                                                                     return header;
+                                                                                                 }
+                                                                                             },
+                                                                                             1);
+                            return Enumerable.Repeat(header, 1).Concat(children);
+                        });
 
 
                         _transformedDisposable = transformedChangeSet

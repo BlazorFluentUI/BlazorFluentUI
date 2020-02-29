@@ -11,7 +11,7 @@
          aria-rowcount=""
          aria-colcount=""
          aria-readonly=true
-         style="overflow-y:hidden;height:100%;">
+         style="overflow-y:hidden;height:100%;display:flex;flex-direction:column;">
         <div @onkeydown=@OnHeaderKeyDown 
              role="presentation"
              class="ms-DetailsList-headerWrapper">
@@ -25,6 +25,7 @@
                 {
                     <DetailsHeader Columns=@_adjustedColumns
                                    TItem="TItem"
+                                   OnColumnAutoResized=@OnColumnAutoResized
                                    OnColumnResized=@OnColumnResizedInternal/>
                 }
             }
@@ -72,8 +73,11 @@
                     else
                     {
                         <GroupedList ItemsSource=@ItemsSource
+                                     @ref=@groupedList
+                                     OnViewportChanged=@ViewportChangedHandler
                                      SubGroupSelector=@SubGroupSelector
                                      GroupTitleSelector=@GroupTitleSelector
+                                     Selection=@Selection
                                      SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                             <ItemTemplate>
                                 <DetailsRow Item=@context.Item

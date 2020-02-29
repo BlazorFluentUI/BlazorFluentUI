@@ -1,0 +1,173 @@
+﻿@page "/detailsListGroupedPage"
+
+@using DynamicData
+@using DynamicData.Binding
+@using System.Collections.ObjectModel
+@using System.Reactive.Linq
+@using System.Reactive.Subjects
+
+<Stack Style="height:100%;">
+    <h3>DetailsList - Grouped Data</h3>
+    <TextField Label="Filter Description"
+               @bind-Value=@dataContainer.Filter
+               @bind-Value:event="OnInput" />
+
+    <DetailsList ItemsSource="ReadonlyList"
+                 @ref="detailsList"
+                 Columns="ReadonlyColumns"
+                 TItem="GroupedDataItem"
+                 SubGroupSelector=@(item=> item.ObservableData)
+                 GroupTitleSelector=@(item=>item.DisplayName)
+                 LayoutMode="DetailsListLayoutMode.Justified"
+                 @bind-Selection="selection"
+                 SelectionMode="SelectionMode.Multiple">
+
+    </DetailsList>
+</Stack>
+
+@code {
+
+    Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
+
+    SourceCache<DataItem, string> dataSource = new SourceCache<DataItem, string>(x => x.Key);
+    public System.ComponentModel.BindingList<GroupedDataItem> ReadonlyList = new System.ComponentModel.BindingList<GroupedDataItem>();
+    int count = 0;
+
+    SourceCache<DetailsRowColumn<GroupedDataItem>, string> columnsSource = new SourceCache<DetailsRowColumn<GroupedDataItem>, string>(x => x.Key);
+    public ReadOnlyObservableCollection<DetailsRowColumn<GroupedDataItem>> ReadonlyColumns;
+
+    DetailsList<GroupedDataItem> detailsList;
+
+    ObservableDataContainer dataContainer = new ObservableDataContainer();
+
+    class ObservableDataContainer : AbstractNotifyPropertyChanged
+    {
+        private string filter = "";
+        public string Filter { get => filter; set => SetAndRaise(ref filter, value); }
+
+
+
+        private bool descending = false;
+        public bool Descending { get => descending; set => SetAndRaise(ref descending, value); }
+
+        private Func<GroupedDataItem, IComparable> sortSelector = x => x.KeyNumber;
+        public Func<GroupedDataItem, IComparable> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
+
+        public IObservable<Func<GroupedDataItem, bool>> DynamicDescriptionFilter { get; private set; }
+
+        public IObservable<SortExpressionComparer<GroupedDataItem>> DynamicSortExpression { get; private set; }
+
+        public IObservable<bool> IsFiltered { get; private set; }
+
+        public ObservableDataContainer()
+        {
+            DynamicDescriptionFilter = this.WhenValueChanged(@this => @this.Filter)
+                .Throttle(TimeSpan.FromMilliseconds(250))
+                .Select<string, Func<DataItem, bool>>(f => item => item.Description.Contains(f));
+
+            DynamicSortExpression = this.WhenValueChanged(@this => @this.SortSelector).CombineLatest(this.WhenValueChanged(@this => @this.Descending), (selector, isDescending) =>
+            {
+
+                if (isDescending)
+                {
+                    return SortExpressionComparer<GroupedDataItem>.Descending(selector);
+                }
+                else
+                {
+                    return SortExpressionComparer<GroupedDataItem>.Ascending(selector);
+                }
+            });
+
+            IsFiltered = this.WhenValueChanged(@this => @this.Filter).Select(x => !string.IsNullOrWhiteSpace(x));
+        }
+    }
+
+
+    protected override void OnInitialized()
+    {
+        columnsSource.AddOrUpdate(new DetailsRowColumn<GroupedDataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick });
+        columnsSource.AddOrUpdate(new DetailsRowColumn<GroupedDataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+        var descColumn = new DetailsRowColumn<GroupedDataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
+        columnsSource.AddOrUpdate(descColumn);
+
+
+        var data = new System.Collections.Generic.List<DataItem>();
+
+        for (var i = 0; i < 1000; i++)
+        {
+            count++;
+            data.Add(new DataItem(count));
+        }
+
+        dataSource.AddOrUpdate(data);
+
+        dataContainer.IsFiltered.Subscribe(isFiltered =>
+        {
+            descColumn.IsFiltered = isFiltered;
+            columnsSource.AddOrUpdate(descColumn);
+        });
+
+        dataSource.Connect()
+
+            .Group(x=> (x.KeyNumber - 1) / 10)
+            .Do(_ => System.Diagnostics.Debug.WriteLine("group has changed?"))
+            .Transform(x=> new GroupedDataItem(x, dataContainer.DynamicSortExpression))
+
+                //.Filter(dataContainer.DynamicDescriptionFilter)
+                .Bind(ReadonlyList)
+                .Subscribe();
+
+        columnsSource.Connect()
+            .Sort(SortExpressionComparer<DetailsRowColumn<GroupedDataItem>>.Ascending(x => x.Index))
+            .Bind(out ReadonlyColumns)
+            .Do(_ => StateHasChanged())  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
+            .Subscribe();
+
+
+
+        base.OnInitialized();
+    }
+
+    private void OnColumnClick(DetailsRowColumn<GroupedDataItem> column)
+    {
+
+        if (column.IsSorted)
+        {
+            column.IsSortedDescending = !column.IsSortedDescending;
+            //dataContainer.Descending = column.IsSortedDescending;
+            //dataContainer.SortSelector = GetSortSelector(column.Key);
+            columnsSource.AddOrUpdate(column);
+        }
+        else
+        {
+            var copyList = columnsSource.Items.ToList();
+            foreach (var col in copyList)
+            {
+                col.IsSorted = false;
+                if (col == column)
+                {
+                    col.IsSorted = true;
+                    col.IsSortedDescending = false;
+                }
+            }
+            columnsSource.AddOrUpdate(copyList);
+        }
+        dataContainer.Descending = column.IsSortedDescending;
+        dataContainer.SortSelector = column.FieldSelector; // GetSortSelector(column.Key); // column.FieldSelector;
+
+        detailsList?.ForceUpdate();
+
+    }
+
+    private Func<DataItem,IComparable> GetSortSelector(string key)
+    {
+        if (key == "Key")
+            return (item) => item.Key;
+        else if (key == "Name")
+            return (item) => item.DisplayName;
+        else
+            return item => item.Description;
+    }
+
+
+}

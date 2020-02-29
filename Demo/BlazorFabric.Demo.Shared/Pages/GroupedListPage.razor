@@ -4,16 +4,14 @@
 
     <Stack Style="height:calc(100% - 0px);">
         <Toggle OffText="Normal" OnText="Compact" Label="Enable compact mode" @bind-Checked="isCompact" />
-        <BlazorFabric.Label>Virtualized List with selection modes</BlazorFabric.Label>
-        <BlazorFabric.PrimaryButton Text="Add 2 items" OnClick="@ClickHandler3" />
-        <BlazorFabric.PrimaryButton Text="Add 10 more items" OnClick="@ClickHandler" />
-        <BlazorFabric.PrimaryButton Text="Add 5000 more items" OnClick="@ClickHandler2" />
+        <BlazorFabric.Label>Grouped List</BlazorFabric.Label>
+
 
         <SelectionZone @bind-Selection=@selection
                        SelectionMode=@SelectionMode.Multiple>
             <FocusZone Direction="FocusZoneDirection.Vertical"
                        Style="height:100%;overflow-y:hidden;">
-                <BlazorFabric.GroupedList RootGroup=@rootGroup
+                <BlazorFabric.GroupedList ItemsSource=@groupedData
                                           Compact=@isCompact
                                           TItem="GroupedDataItem"
                                           GroupTitleSelector=@(x=>x.DisplayName)
@@ -38,53 +36,17 @@
     string DebugText = "";
     bool isCompact;
     int count = 0;
-    GroupedDataItem rootGroup;
+    //GroupedDataItem rootGroup;
     System.Collections.Generic.List<DataItem> data;
     System.Collections.Generic.List<GroupedDataItem> groupedData;
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
     System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>> columns;
 
-    Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
-    {
-        System.Diagnostics.Debug.WriteLine("Clicked!");
-        for (var i = 0; i < 10; i++)
-        {
-            count++;
-            data.Add(new DataItem(count));
-        }
-        System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
-        return Task.CompletedTask;
-    }
-
-    Task ClickHandler2(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
-    {
-        System.Diagnostics.Debug.WriteLine("Clicked!");
-        for (var i = 0; i < 5000; i++)
-        {
-            count++;
-            data.Add(new DataItem(count));
-        }
-        System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
-        return Task.CompletedTask;
-    }
-
-    Task ClickHandler3(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
-    {
-        System.Diagnostics.Debug.WriteLine("Clicked!");
-        for (var i = 0; i < 2; i++)
-        {
-            count++;
-            data.Add(new DataItem(count));
-        }
-        System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
-        return Task.CompletedTask;
-    }
-
     protected override Task OnInitializedAsync()
     {
         columns = new System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>>();
-        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Key, Name = "Key" });
+        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Key, Name = "Key", MinWidth=60 });
         columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.DisplayName, Name = "Name" });
         columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Description, Name = "Description" });
 
@@ -95,13 +57,6 @@
             count++;
             data.Add(new DataItem(count));
         }
-        //var sourceCache = new SourceCache<DataItem, string>(x => x.DisplayName);
-        //var tree = sourceCache.Connect().TransformToTree<DataItem, string>(x => ((int.Parse(x.DisplayName) - 1) / 10).ToString()).Subscribe(x =>
-        //{
-
-        //});
-
-        //sourceCache.AddOrUpdate(data);
 
         groupedData = data.GroupBy(x =>
         {
@@ -125,9 +80,9 @@
             return subGroup;
         }).ToList();
 
-        groupedData.Add(new GroupedDataItem(new DataItem("TEST!") ) );
-        rootGroup = new GroupedDataItem(new DataItem("root"));
-        rootGroup.Data = groupedData;
+        //groupedData.Add(new GroupedDataItem(new DataItem("TEST!") ) );
+        //rootGroup = new GroupedDataItem(new DataItem("root"));
+        //rootGroup.Data = groupedData;
 
         return Task.CompletedTask;
     }

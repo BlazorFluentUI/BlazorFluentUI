@@ -30,6 +30,11 @@
                 <NavLinkGroup Name="Items & Lists" CollapseByDefault="false">
                     <NavFabricLink Name="List" Url="listPage" Id="listPage" Icon="List" OnClick=@OnLinkClicked />
                     <NavFabricLink Name="DetailsList" Url="detailsListPage" Id="detailsListPage" Icon="List" OnClick=@OnLinkClicked />
+                        <NavFabricLink Name="DetailsList-Grouped" 
+                                       NestedDepth="1" 
+                                       Url="detailsListGroupedPage" 
+                                       Id="detailsListGroupedPage"
+                                       NavMatchType="NavMatchType.AnchorIncluded" />
                     <NavFabricLink Name="GroupedList" Url="groupedListPage" Id="groupedListPage" Icon="Group" OnClick=@OnLinkClicked />
                     <NavFabricLink Name="Persona" Url="personaPage" Id="personaPage" Icon="Contact" OnClick=@OnLinkClicked />
                 </NavLinkGroup>

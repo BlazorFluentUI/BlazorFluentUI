@@ -83,6 +83,14 @@ namespace BlazorFabric
 
         Dictionary<string, double> _columnOverrides = new Dictionary<string, double>();
 
+        GroupedList<TItem> groupedList;
+        List<TItem> list;
+
+        public void ForceUpdate()
+        {
+            groupedList?.ForceUpdate();
+        }
+
         public override Task SetParametersAsync(ParameterView parameters)
         {
             bool shouldForceUpdates = false;
@@ -306,6 +314,11 @@ namespace BlazorFabric
 
             _columnOverrides[columnResizedArgs.Column.Key] = columnResizedArgs.NewWidth;
             AdjustColumns(ItemsSource, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true, columnResizedArgs.ColumnIndex);
+        }
+
+        private void OnColumnAutoResized(ItemContainer<DetailsRowColumn<TItem>> itemContainer)
+        {
+            // TO-DO - will require measuring row cells, jsinterop
         }
     }
 }

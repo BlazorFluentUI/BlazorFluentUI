@@ -171,6 +171,121 @@ namespace BlazorFabric
             await base.OnAfterRenderAsync(firstRender);
         }
 
+        private ICollection<Rule> CreateGlobalCss()
+        {
+
+            var GlobalCssRules = new HashSet<Rule>();
+            #region ms-Modal
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Modal" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:transparent;" +
+                        $"position:fixed;" +
+                        $"height:100%;" +
+                        $"width:100%;" +
+                        $"display:flex;" +
+                        $"align-items:center;" +
+                        $"justify-content:center;" +
+                        $"opacity:0;" +
+                        $"pointer-events:none;" +
+                        $"transition:opacity var(--animation-DURATION_2) var(--animation-EASING_FUNCTION_2);"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Modal.isModeless" },
+                Properties = new CssString()
+                {
+                    Css = $"position:absolute;"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Modal.isOpen.topOffsetFixed" },
+                Properties = new CssString()
+                {
+                    Css = $"align-items:flex-start;"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Modal.isOpen" },
+                Properties = new CssString()
+                {
+                    Css = $"opacity:1;" +
+                        $"pointer-events:auto;"
+                }
+            });
+            #endregion
+            #region ms-Modal-main
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Modal-main" },
+                Properties = new CssString()
+                {
+                    Css = $"box-shadow:var(--effects-Elevation64);" +
+                        $"border-radius:var(--effects - RoundedCorner2);" +
+                        $"background-color:{Theme.Palette.White};" +
+                        $"box-sizing:border-box;" +
+                        $"position:relative;" +
+                        $"text-align:left;" +
+                        $"outline:3px solid transparent;" +
+                        $"max-height:100%;" +
+                        $"overflow-y:auto;"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Modal.isModeless .ms-Modal-main" },
+                Properties = new CssString()
+                {
+                    Css = $"z-index:{Theme.ZIndex.Layer};"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Modal.isOpen.topOffsetFixed .ms-Modal-main" },
+                Properties = new CssString()
+                {
+                    Css = $"top: 0;" /*THIS ISN'T CORRECT*/
+                }
+            });
+            #endregion
+            #region ms-Modal-scrollableContent
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Modal-scrollableContent" },
+                Properties = new CssString()
+                {
+                    Css = $"overflow-y:auto;" +
+                        $"flex-grow:1;" +
+                        $"max-height: 100vh;"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@supports (-webkit-overflow-scrolling: touch)" },
+                Properties = new CssString()
+                {
+                    Css = $"max-height:100%;" /*THIS IS NOT CORRECT*/
+                }
+            });
+            #endregion
+            #region ms-Modal-hiddenModal
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Modal-hiddenModal" },
+                Properties = new CssString()
+                {
+                    Css = $"visibility: hidden;"
+                }
+            });
+            #endregion
+            return GlobalCssRules;
+        }
+
         [JSInvokable]
         public void ProcessKeyDown(string keyCode)
         {

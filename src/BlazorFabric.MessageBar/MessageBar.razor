@@ -1,6 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+
 @if (IsMultiline)
 {
     <div class=@($"ms-MessageBar--root {ClassName}") style=@Style>
@@ -13,9 +15,9 @@
 
                 <div class="ms-MessageBar-text" role="status" aria-live=@(MessageBarType == MessageBarType.Blocked || MessageBarType == MessageBarType.Error || MessageBarType == MessageBarType.SevereWarning ? "assertive" : "polite")>
                     <span class=@($"ms-MessageBar-innerText ms-MessageBar-multiline")>
-                            <span>
-                                @ChildContent
-                            </span>
+                        <span>
+                            @ChildContent
+                        </span>
                     </span>
                 </div>
 
@@ -51,9 +53,9 @@ else
                 @*ChildContent*@
                 <div class=@($"ms-MessageBar-text  {(HasDismiss ? "ms-MessageBar-dismissSingleLine" : "")}") role="status" aria-live=@(MessageBarType == MessageBarType.Blocked || MessageBarType == MessageBarType.Error || MessageBarType == MessageBarType.SevereWarning ? "assertive" : "polite")>
                     <span class=@($"ms-MessageBar-innerText {(ExpandSingelLine ? "ms-MessageBar-expandSingleLine" : "")}")>
-                            <span>
-                                @ChildContent
-                            </span>
+                        <span>
+                            @ChildContent
+                        </span>
                     </span>
                 </div>
 

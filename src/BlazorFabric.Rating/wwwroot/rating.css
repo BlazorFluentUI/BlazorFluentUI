@@ -1,4 +1,4 @@
-﻿.ms-RatingStar-root:hover .ms-RatingStar-back {
+﻿/*.ms-RatingStar-root:hover .ms-RatingStar-back {
     color: var(--palette-NeutralPrimary)
 }
 
@@ -63,7 +63,7 @@
 
     /*.ms-Rating-button:hover ~ .ms-RatingStar-back, .ms-RatingStar-front {
         color: var(--palette-NeutralSecondary);
-    }*/
+    }
 
     .ms-Rating-button:hover .ms-RatingStar-back {
         color: var(--palette-ThemePrimary);
@@ -87,8 +87,10 @@
     border: 1px solid transparent;
     outline: 1px solid var(--palette-NeutralSecondary);
     z-index: var(--zindex-FocusStyle);
-}
-@media screen and (-ms-high-contrast: active) {
+}*/
+
+/*/// NEEDED?*/
+/*@media screen and (-ms-high-contrast: active) {
     .ms-Fabric--isFocusVisible .ms-Rating-button:focus:after {
         left: -2px;
         top: -2px;
@@ -97,9 +99,8 @@
         border: none;
         outline-color: ButtonText;
     }
-}
-
-.ms-Rating--small {
+}*/
+/*.ms-Rating--small {
     font-size: 16px;
     line-height: 16px;
     height: 16px;
@@ -121,10 +122,10 @@
 }
 
 .ms-Rating-focuszone {
-    /* hotfix for space between buttons should be inline-block*/
-    /* switched back to inline-block, perhaps the focusStyles (position:relative) fixes the spacing */
-    display: inline-block;
-
+    */
+/* hotfix for space between buttons should be inline-block*/
+/* switched back to inline-block, perhaps the focusStyles (position:relative) fixes the spacing */
+/*   display: inline-block;
     outline: transparent;
     position: relative;
 }
@@ -146,9 +147,10 @@
     border: 1px solid transparent;
     outline: 1px solid var(--palette-NeutralSecondary);
     z-index: var(--zindex-FocusStyle);
-}
+}*/
 
-@media screen and (-ms-high-contrast: active) {
+/*/// NEEDED?*/
+/*@media screen and (-ms-high-contrast: active) {
     .ms-Fabric--isFocusVisible .ms-Rating-button:focus:after {
         left: -2px;
         top: -2px;
@@ -157,4 +159,4 @@
         border: none;
         outline-color: ButtonText;
     }
-}
+}*/

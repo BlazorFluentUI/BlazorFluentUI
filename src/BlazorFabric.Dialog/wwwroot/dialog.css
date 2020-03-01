@@ -1,22 +1,4 @@
-﻿.ms-Dialog {
-
-}
-
-.ms-Dialog-main{
-    width:288px;
-    outline:3px solid transparent;
-    display:flex;
-}
-
-.ms-Dialog-content.ms-Dialog--lgHeader {
-    border-top: 4px solid var(--palette-ThemePrimary);
-}
-.ms-Dialog-content.ms-Dialog--close{
-    flex-grow:1;
-    overflow-y:hidden;
-}
-
-.ms-Dialog-subText{
+﻿/*.ms-Dialog-subText{
     margin: 0 0 24px 0;
     color: var(--semanticColors-BodySubtext);
     line-height:1.5;
@@ -73,8 +55,9 @@
         color: var(--semanticColors-ButtonTextHovered);
         border-radius: var(--effects-RoundedCorner2);
     }
+*/
 
-.ms-Dialog-actions{
+/*.ms-Dialog-actions{
     position:relative;
     width:100%;
     min-height:24px;
@@ -97,18 +80,9 @@
 
 .ms-Dialog-actionsRight > * {
     margin: 0 4px;
-}
+}*/
 
-
-@media (min-width: 320px) {
-    .ms-Dialog-main {
-        width: auto;
-        max-width: 340px;
-        min-width: 288px;
-    }
-}
-
-@media (min-width: 320px) and (max-width: 479px) {
+/*@media (min-width: 320px) and (max-width: 479px) {
     .ms-Dialog-inner {
         padding: 0 16px 16px;
     }
@@ -120,4 +94,4 @@
     .ms-Dialog-topButton {
         padding: 15px 8px 0 0;
     }
-}
+}*/

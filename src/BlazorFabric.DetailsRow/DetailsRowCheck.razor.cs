@@ -1,4 +1,4 @@
-﻿using BlazorFabric.BaseComponent.FocusStyle;
+﻿using BlazorFabric.Style;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;

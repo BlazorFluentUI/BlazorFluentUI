@@ -34,7 +34,7 @@ namespace BlazorFabric
         private Rule ProgressIndicatorProgressTrackRule = new Rule();
         private Rule ProgressIndicatorProgressBarRule = new Rule();
 
-        private ICollection<Rule> ProgressIndicatorLocalRules { get; set; } = new List<Rule>();
+        private ICollection<IRule> ProgressIndicatorLocalRules { get; set; } = new List<IRule>();
 
         protected override void OnInitialized()
         {

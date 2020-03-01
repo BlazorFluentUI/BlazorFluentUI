@@ -1,23 +1,14 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.RenderTree;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
-using Microsoft.AspNetCore.Components.Web;
 using System.Reactive;
-using DynamicData;
-using System.Collections.ObjectModel;
-using DynamicData.Binding;
-using System.Collections.Specialized;
-using BlazorFabric.BaseComponent.FocusStyle;
+using BlazorFabric.Style;
 
 namespace BlazorFabric
 {

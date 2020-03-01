@@ -486,7 +486,7 @@ namespace BlazorFabric
             });
             checkboxRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkmark-checked" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkmark.ms-Checkbox-checkmark-checked" },
                 Properties = new CssString()
                 {
                     Css = $"opacity:1;"
@@ -497,7 +497,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
                 {
-                    Css = ".ms-Checkbox-checkmark {color:Window;MsHighContrastAdjust:none;}" +
+                    Css = ".ms-Checkbox-checkmark {color:Window;-ms-high-contrast-adjust:none;}" +
                             ".ms-Checkbox-checkmark-disabled {color:InactiveBorder;}"
                 }
             });

@@ -15,6 +15,8 @@ namespace BlazorFabric
 
         void RulesChanged(IGlobalCSSheet globalCSSheet);
 
-        string PrintRule(Rule rule);
+        string PrintRule(IRule rule);
+
+        void SetDisposedAction();
     }
 }

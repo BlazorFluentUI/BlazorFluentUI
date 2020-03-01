@@ -12,7 +12,7 @@
     <!--<AddRazorSupportForMvc>true</AddRazorSupportForMvc>-->
 
     <Authors>Lee McPherson</Authors>
-    <Product></Product>
+    <Product>BlazorFabric.BaseComponent</Product>
     <Description>Base classes from Blazor port of Office Fabric UI</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
@@ -77,6 +77,7 @@
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
+    <RootNamespace>BlazorFabric</RootNamespace>
   </PropertyGroup>
 
  

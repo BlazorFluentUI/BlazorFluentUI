@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace BlazorFabric.BaseComponent.FocusStyle
+namespace BlazorFabric.Style
 {
     public class FocusStyleMergeRules
     {

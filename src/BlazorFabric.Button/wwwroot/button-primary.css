@@ -40,7 +40,7 @@
     .ms-Button--primary {
         color: Window;
         background-color: WindowText;
-        MsHighContrastAdjust: none;
+        -ms-high-contrast-adjust: none;
     }
         .ms-Button--primary:hover {
             color: Window;
@@ -49,7 +49,7 @@
         .ms-Button--primary:active {
             color: Window;
             background-color: WindowText;
-            MsHighContrastAdjust: none;
+            -ms-high-contrast-adjust: none;
         }
 
         .ms-Button--primary.is-disabled {

@@ -2,7 +2,9 @@
 @inherits RatingBase
 @using Microsoft.AspNetCore.Components.Web
 
-<div class=@($"{(Disabled || ReadOnly ? "" : "ms-RatingStar-root")} {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
+<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+
+<div class=@($"{(Disabled || ReadOnly ? "" : "ms-RatingStar-root")} mediumFont {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
      @ref=@RootElementReference>
     <FocusZone ClassName=@($"ms-Rating-focuszone {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
                Direction="FocusZoneDirection.Horizontal"
@@ -11,8 +13,7 @@
                AriaReadonly=@ReadOnly
                IsFocusable=@ReadOnly
                Disabled=@ReadOnly
-               AllowFocusRoot=@ReadOnly
-               >
+               AllowFocusRoot=@ReadOnly>
         @for (int i = 1; i <= Max; i++)
         {
             var percantage = GetPercentageOf(i);

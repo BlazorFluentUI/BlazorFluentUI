@@ -57,6 +57,7 @@ namespace BlazorFabric
             builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<Rule>>( CreateGlobalCss ));
             builder.AddAttribute(3, "ReloadStyle", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<bool>(reloadStyle));
             builder.AddAttribute(4, "ReloadStyleChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck(EventCallback.Factory.Create(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => reloadStyle = __value, reloadStyle))));
+            builder.AddAttribute(5, "FixStyle", true);
 
             builder.CloseComponent();
             base.BuildRenderTree(builder);

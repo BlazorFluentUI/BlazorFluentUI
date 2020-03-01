@@ -1,6 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+
 @if (!IsOpen && !isAnimating)
 {
 
@@ -9,10 +11,10 @@ else
 {
     <Layer ClassName="ms-Modal-Layer">
         <Popup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
-                            ClassName=@(!IsOpen && !isAnimating ? "ms-Modal-hiddenModal" : "")
-                            AriaLabelledBy=@TitleAriaId
-                            AriaDescribedBy=@SubtitleAriaId
-                            OnDismiss=@OnDismiss>
+               ClassName=@(!IsOpen && !isAnimating ? "ms-Modal-hiddenModal" : "")
+               AriaLabelledBy=@TitleAriaId
+               AriaDescribedBy=@SubtitleAriaId
+               OnDismiss=@OnDismiss>
             <div class=@($"mediumFont ms-Modal{(isAnimating ? (IsOpen ? " fadeIn100" : " fadeOut200") : "")}{(IsOpen ? " isOpen" : "")}{(IsModeless ? " isModeless" : "")}{(TopOffsetFixed ? " topOffsetFixed" : "")} {ClassName}")
                  aria-hidden=@(!IsOpen && isAnimating)
                  style=@(Style)>
@@ -20,14 +22,12 @@ else
                 {
                     if (IsBlocking)
                     {
-                        <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay 
-                                              />
+                        <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay />
                     }
                     else
                     {
-                        <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay 
-                                              OnClick=@((ev) => OnDismiss.InvokeAsync(ev))
-                                              />
+                        <BlazorFabric.Overlay IsDarkThemed=@IsDarkOverlay
+                                              OnClick=@((ev) => OnDismiss.InvokeAsync(ev)) />
                     }
                 }
                 <FocusTrapZone ClassName=@($"ms-Modal-main {ContainerClass}")

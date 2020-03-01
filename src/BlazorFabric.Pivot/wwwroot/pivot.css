@@ -10,7 +10,7 @@ rootIsTabs: 'ms-Pivot--tabs',
 text: 'ms-Pivot-text' 
 */
 
-.ms-Pivot {
+/*.ms-Pivot {
     position: relative;
     color: var(--semanticColors-Link);
     white-space: nowrap;
@@ -31,14 +31,14 @@ text: 'ms-Pivot-text'
 
         .ms-Pivot.ms-Pivot--tabs .ms-Pivot-link:focus {
             outline-offset: -1px;
-        }
+        }*/
 
-        .ms-Pivot.ms-Pivot--tabs .ms-Pivot-link:hover {
+        /*.ms-Pivot.ms-Pivot--tabs .ms-Pivot-link:hover {
             color: var(--semanticColors-PrimaryButtonText);
             background-color: var(--semanticColors-PrimaryButtonBackground);
-        }
+        }*/
 
-        .ms-Pivot.ms-Pivot--tabs .ms-Pivot-link:not(.is-selected):hover.ms-Pivot-link:not(.is-selected):focus {
+        /*.ms-Pivot.ms-Pivot--tabs .ms-Pivot-link:not(.is-selected):hover.ms-Pivot-link:not(.is-selected):focus {
             color: var(--semanticColors-ButtonTextCheckedHovered);
         }
 
@@ -167,7 +167,7 @@ text: 'ms-Pivot-text'
         font-weight: var(--fontWeight-SemiBold);
         color: HighlightText;
         background: Highlight;
-        msHighContrastAdjust: none;
+        -ms-high-contrast-adjust: none;
     }
 }
 
@@ -191,4 +191,4 @@ text: 'ms-Pivot-text'
 .ms-Pivot-count {
     display: inline-block;
     vertical-align: top;
-}
+}*/

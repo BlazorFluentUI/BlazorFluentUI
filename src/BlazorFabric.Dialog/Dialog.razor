@@ -1,7 +1,9 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<Modal ClassName=@($"ms-Dialog {this.ClassName}") 
+<LocalCS @bind-Rules="@DialogLocalRules" />
+
+<Modal ClassName=@($"ms-Dialog {this.ClassName}")
        Style=@Style
        ElementToFocusOnDismiss=@ElementToFocusOnDismiss
        FirstFocusableSelector=@FirstFocusableSelector
@@ -11,11 +13,10 @@
        IsDarkOverlay=@IsDarkOverlay
        IsBlocking=@IsBlocking
        IsOpen=IsOpen
-       ContainerClass="ms-Dialog-main"
+       ContainerClass="@DialogMainRule.Selector.SelectorName"
        OnDismiss=@OnDismiss
        SubtitleAriaId=@(AriaDescribedBy != null ? AriaDescribedBy : SubText)
-       TitleAriaId=@(AriaLabelledBy != null ? AriaLabelledBy : Title)
-       >
+       TitleAriaId=@(AriaLabelledBy != null ? AriaLabelledBy : Title)>
     <DialogContent TitleId=@DefaultTitleTextId
                    SubTextId=@DefaultSubTextId
                    Title=@Title
@@ -27,7 +28,6 @@
                    ContentTemplate=@ChildContent
                    FooterTemplate=@FooterTemplate
                    DraggableHeaderClassName=@DraggableHeaderClassName
-                   IsMultiline=@IsMultiline
-                   />
+                   IsMultiline=@IsMultiline />
 
 </Modal>

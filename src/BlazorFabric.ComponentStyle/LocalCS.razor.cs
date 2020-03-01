@@ -4,19 +4,20 @@ using Microsoft.AspNetCore.Components;
 using System.Linq;
 using System.Reflection;
 using System;
+using System.Text.Encodings.Web;
 
 namespace BlazorFabric
 {
     public partial class LocalCS : ComponentBase, ILocalCSSheet, IDisposable
     {
         private string css;
-        private ICollection<Rule> rules;
+        private ICollection<IRule> rules;
 
         [Inject]
         public IComponentStyle ComponentStyle { get; set; }
 
         [Parameter]
-        public ICollection<Rule> Rules
+        public ICollection<IRule> Rules
         {
             get => rules;
             set
@@ -30,7 +31,7 @@ namespace BlazorFabric
             }
         }
 
-        [Parameter] public EventCallback<ICollection<Rule>> RulesChanged { get; set; }
+        [Parameter] public EventCallback<ICollection<IRule>> RulesChanged { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -56,15 +57,16 @@ namespace BlazorFabric
         {
             foreach (var rule in rules)
             {
-                if (rule.Selector.GetType() == typeof(IdSelector))
+                var innerRule = rule as Rule;
+                if (innerRule.Selector.GetType() == typeof(IdSelector) || innerRule.Selector.GetType() == typeof(MediaSelector))
                     continue;
-                if (string.IsNullOrWhiteSpace(rule.Selector.SelectorName))
+                if (string.IsNullOrWhiteSpace(innerRule.Selector.SelectorName))
                 {
-                    rule.Selector.SelectorName = $"css-{ComponentStyle.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
+                    innerRule.Selector.SelectorName = $"css-{ComponentStyle.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(innerRule)}";
                 }
                 else
                 {
-                    rule.Selector.SelectorName = $"{rule.Selector.SelectorName}-{ComponentStyle.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(rule)}";
+                    innerRule.Selector.SelectorName = $"{innerRule.Selector.SelectorName}-{ComponentStyle.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(innerRule)}";
                 }
             }
             RulesChanged.InvokeAsync(rules);

@@ -67,8 +67,8 @@ namespace BlazorFabric
         private bool isSelected;
         private Rule _localCheckCoverRule;
 
-        private ICollection<Rule> DetailsRowGlobalRules { get; set; } = new List<Rule>();
-        private ICollection<Rule> DetailsRowLocalRules { get; set; } = new List<Rule>();
+        private ICollection<IRule> DetailsRowGlobalRules { get; set; } = new List<IRule>();
+        private ICollection<IRule> DetailsRowLocalRules { get; set; } = new List<IRule>();
 
         protected override Task OnInitializedAsync()
         {
@@ -107,8 +107,8 @@ namespace BlazorFabric
         protected void CreateCss()
         {
             
-            DetailsRowLocalRules = new List<Rule>();
-            DetailsRowGlobalRules = new List<Rule>();
+            DetailsRowLocalRules = new List<IRule>();
+            DetailsRowGlobalRules = new List<IRule>();
 
             // Root
             var rootFocusStyleProps = new FocusStyleProps(this.Theme);

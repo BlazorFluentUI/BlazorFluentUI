@@ -183,12 +183,12 @@ namespace BlazorFabric
             return null;
         }
 
-        public string PrintRule(Rule rule)
+        public string PrintRule(IRule rule)
         {
             if (rule?.Properties == null)
                 return "";
             var ruleAsString = "";
-            ruleAsString += $"{rule.Selector.GetSelectorAsString()}{{";
+            ruleAsString += $"{(rule as Rule).Selector.GetSelectorAsString()}{{";
 
             if (rule.Properties is CssString)
             {

@@ -4,6 +4,6 @@ namespace BlazorFabric
 {
     public interface ILocalCSSheet
     {
-        ICollection<Rule> Rules { get; set; }
+        ICollection<IRule> Rules { get; set; }
     }
 }

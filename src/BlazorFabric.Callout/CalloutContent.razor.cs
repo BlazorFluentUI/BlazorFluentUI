@@ -69,7 +69,7 @@ namespace BlazorFabric
         private List<int> eventHandlerIds;
 
         #region Style
-        private ICollection<Rule> CalloutLocalRules { get; set; } = new List<Rule>();
+        private ICollection<IRule> CalloutLocalRules { get; set; } = new List<IRule>();
 
         private Rule CalloutRule = new Rule();
         private Rule CalloutMainRule = new Rule();

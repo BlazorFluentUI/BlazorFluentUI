@@ -16,7 +16,7 @@ namespace BlazorFabric
         [Parameter] public EventCallback<EventArgs> OnMouseEnter { get; set; }
         [Parameter] public EventCallback<EventArgs> OnMouseLeave { get; set; }
 
-        private ICollection<Rule> TooltipLocalRules { get; set; } = new List<Rule>();
+        private ICollection<IRule> TooltipLocalRules { get; set; } = new List<IRule>();
 
         private Rule TooltipRule = new Rule();
         private Rule TooltipAfterRule = new Rule();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlazorFabric.Themes.Default;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -38,6 +39,7 @@ namespace BlazorFabric
             theme.SemanticColors = MakeSemanticColorsFromPalette(theme.Palette, false);
             theme.SemanticTextColors = MakeSemanticTextColorsFromPalette(theme.Palette, false);
             theme.FontStyle = new FontStyle() { FontSize = new DefaultFontSize(), FontWeight = new DefaultFontWeight(), IconFontSize = new DefaultIconFontSize() };
+            theme.CommonStyle = new DefaultCommonStyle();
             return theme;
         }
 

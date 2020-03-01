@@ -1,4 +1,6 @@
-﻿namespace BlazorFabric
+﻿using BlazorFabric.Interfaces;
+
+namespace BlazorFabric
 {
     public interface ITheme
     {
@@ -6,6 +8,7 @@
         ISemanticTextColors SemanticTextColors { get; set; }
         ISemanticColors SemanticColors { get; set; }
         IFontStyle FontStyle { get; set; }
+        ICommonStyle CommonStyle { get; set; }
 
     }
 }

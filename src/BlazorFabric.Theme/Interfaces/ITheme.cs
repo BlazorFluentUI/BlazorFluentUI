@@ -9,6 +9,7 @@ namespace BlazorFabric
         ISemanticColors SemanticColors { get; set; }
         IFontStyle FontStyle { get; set; }
         ICommonStyle CommonStyle { get; set; }
+        IZIndex ZIndex { get; set; }
 
     }
 }

@@ -19,5 +19,221 @@ namespace BlazorFabric
         [Parameter] public string SubTextId { get; set; }
         [Parameter] public string Title { get; set; }
         [Parameter] public string TitleId { get; set; }
+
+
+        private ICollection<Rule> CreateGlobalCss()
+        {
+            // ToDo Button Selector for Icon when hidden isn't implement so far
+            // ToDo Headeer DraggableHeader isn't implement so far
+
+            var GlobalCssRules = new HashSet<Rule>();
+            #region ms-Dialog-content
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-content.ms-Dialog--lgHeader" },
+                Properties = new CssString()
+                {
+                    Css = $"border-top:4px solid {Theme.Palette.ThemePrimary};"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-content.ms-Dialog--close" },
+                Properties = new CssString()
+                {
+                    Css = $"flex-grow:1;" +
+                        $"overflow-y:hidden;"
+                }
+            });
+            #endregion
+            #region ms-Dialog-subText
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-subText" },
+                Properties = new CssString()
+                {
+                    Css = $"margin:0 0 24px 0;" +
+                        $"color:{Theme.SemanticTextColors.BodySubtext};" +
+                        $"line-height:1.5;" +
+                        $"word-break:break-word;" +
+                        $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                }
+            });
+            #endregion
+            #region ms-Dialog-header
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-header" },
+                Properties = new CssString()
+                {
+                    Css = $"position:relative;" +
+                        $"width:100%;" +
+                        $"box-sizing:border-box;"
+                }
+            });
+            #endregion
+            #region ms-Dialog-inner
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-inner" },
+                Properties = new CssString()
+                {
+                    Css = $"padding:0 24px 24px;"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = $"@media (min-width:{Theme.CommonStyle.ScreenWidthMinSmall}px) and (max-width:{Theme.CommonStyle.ScreenWidthMaxSmall}px)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-Dialog-inner{padding:0 16px 16px;}"
+                }
+            });
+            #endregion 
+            #region ms-Dialog-innerContent
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-innerContent" },
+                Properties = new CssString()
+                {
+                    Css = $"position:relative;" +
+                        $"width:100%;"
+                }
+            });
+            #endregion
+            #region ms-Dialog-title
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-title" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.BodyText};" +
+                        $"margin:0;" +
+                        $"padding:16px 46px 20px 24px;" +
+                        $"line-height:normal;"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog--lgHeader .ms-Dialog-title" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticColors.MenuHeader};"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog--multiline .ms-Dialog-title" },
+                Properties = new CssString()
+                {
+                    Css = $"font-size:{Theme.FontStyle.FontSize.XxLarge};"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = $"@media (min-width:{Theme.CommonStyle.ScreenWidthMinSmall}px) and (max-width:{Theme.CommonStyle.ScreenWidthMaxSmall}px)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-Dialog-title{padding:16px 46px 16px 16px;}"
+                }
+            });
+            #endregion 
+            #region ms-Dialog-topButton
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-topButton" },
+                Properties = new CssString()
+                {
+                    Css = $"display:flex;" +
+                        $"flex-direction:row;" +
+                        $"flex-wrap:nowrap;" +
+                        $"position:absolute;" +
+                        $"top:0;" +
+                        $"right:0;" +
+                        $"padding:15px 15px 0 0;"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-topButton > *" },
+                Properties = new CssString()
+                {
+                    Css = $"flex:0 0 auto;"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-topButton.ms-Dialog-button" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.ButtonText};"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-topButton.ms-Dialog-button:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.ButtonTextHovered};" +
+                        $"border-radius:var(--effects-RoundedCorner2);"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = $"@media (min-width:{Theme.CommonStyle.ScreenWidthMinSmall}px) and (max-width:{Theme.CommonStyle.ScreenWidthMaxSmall}px)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-Dialog-topButton{padding:15px 8px 0 0;}"
+                }
+            });
+            #endregion
+            // Footer
+            #region ms-Dialog-actions
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-actions" },
+                Properties = new CssString()
+                {
+                    Css = $"position:relative;" +
+                        $"width:100%;" +
+                        $"min-height:24px;" +
+                        $"line-height:24px;" +
+                        $"margin:16px 0 0;" +
+                        $"font-size:0;"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-actions .ms-Button" },
+                Properties = new CssString()
+                {
+                    Css = $"line-height:normal;"
+                }
+            });
+            #endregion
+            #region ms-Dialog-actionsRight
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-actionsRight" },
+                Properties = new CssString()
+                {
+                    Css = $"display: flex;" +
+                        $"flex-direction: row;" +
+                        $"justify-content: flex-end;" +
+                        $"margin-right:-4px;" +
+                        $"font-size:0;"
+                }
+            });
+            GlobalCssRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-actionsRight > * " },
+                Properties = new CssString()
+                {
+                    Css = $"margin:0 4px;"
+                }
+            });
+            #endregion
+            return GlobalCssRules;
+        }
     }
 }

@@ -144,15 +144,51 @@ namespace BlazorFabric
 
         }
 
-        private void OnAllSelected()
+        private bool ShouldAllBeSelected()
         {
-            if (Selection.SelectedItems.Count() != this.ItemsSource.Count())
+            if (SubGroupSelector == null)
             {
-                selectionZone.AddItems(ItemsSource);
+                if (Selection.SelectedItems.Count() == this.ItemsSource.Count())
+                    return true;
+                else
+                    return false;
             }
             else
             {
-                selectionZone.ClearSelection();
+                //source is grouped... need to recursively select them all.
+                var flattenedItems = this.ItemsSource?.SelectManyRecursive(x => SubGroupSelector(x));
+                if (flattenedItems.Count() == Selection.SelectedItems.Count())
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        private void OnAllSelected()
+        {
+            if (SubGroupSelector == null)
+            {
+                if (Selection.SelectedItems.Count() != this.ItemsSource.Count())
+                {
+                    selectionZone.AddItems(ItemsSource);
+                }
+                else
+                {
+                    selectionZone.ClearSelection();
+                }
+            }
+            else
+            {
+                //source is grouped... need to recursively select them all.
+                var flattenedItems = this.ItemsSource?.SelectManyRecursive(x => SubGroupSelector(x));
+                if (flattenedItems.Count() != Selection.SelectedItems.Count())
+                {
+                    selectionZone.AddItems(flattenedItems);
+                }
+                else
+                {
+                    selectionZone.ClearSelection();
+                }
             }
         }
 

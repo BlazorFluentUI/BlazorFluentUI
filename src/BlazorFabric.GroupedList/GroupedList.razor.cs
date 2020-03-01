@@ -274,6 +274,12 @@ namespace BlazorFabric
             await base.OnParametersSetAsync();
         }
 
+        //public void SelectAll()
+        //{
+        //    SelectionZone.AddItems(dataItems.)
+        //}
+
+
         public void Dispose()
         {
             _transformedDisposable?.Dispose();

@@ -25,7 +25,7 @@
                 {
                     <DetailsHeader Columns=@_adjustedColumns
                                    TItem="TItem"
-                                   IsAllSelected=@(ItemsSource.Count() == Selection.SelectedItems.Count())
+                                   IsAllSelected=@(ShouldAllBeSelected())
                                    OnAllSelected=@OnAllSelected
                                    OnColumnAutoResized=@OnColumnAutoResized
                                    OnColumnResized=@OnColumnResizedInternal/>

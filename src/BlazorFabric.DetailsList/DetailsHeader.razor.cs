@@ -287,7 +287,7 @@ namespace BlazorFabric
                 headerRules.Add(rule);
             headerRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DetailsHeader-cellIsCheck" },
+                Selector = new CssStringSelector() { SelectorName = "div.ms-DetailsHeader-cellIsCheck" },
                 Properties = new CssString()
                 {
                     Css = $"position:relative;" +

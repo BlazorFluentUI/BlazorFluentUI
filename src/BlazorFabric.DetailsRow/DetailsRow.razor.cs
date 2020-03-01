@@ -1,4 +1,4 @@
-﻿using BlazorFabric.BaseComponent.FocusStyle;
+﻿using BlazorFabric.Style;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -71,7 +71,7 @@ namespace BlazorFabric
         private bool isSelected;
         private Rule _localCheckCoverRule;
 
-        private ICollection<Rule> DetailsRowLocalRules { get; set; } = new List<Rule>();
+        private ICollection<IRule> DetailsRowLocalRules { get; set; } = new List<IRule>();
 
         protected override Task OnInitializedAsync()
         {

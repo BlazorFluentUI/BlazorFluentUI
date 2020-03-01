@@ -1,4 +1,6 @@
-﻿namespace BlazorFabric.Style
+﻿using System.Collections.Generic;
+
+namespace BlazorFabric.Style
 {
     public static class FocusStyle
     {

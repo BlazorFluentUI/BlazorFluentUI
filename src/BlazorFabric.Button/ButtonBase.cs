@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using BlazorFabric.Style;
 
 namespace BlazorFabric
 {
@@ -180,8 +181,377 @@ namespace BlazorFabric
 
         }
 
-        protected void StartRoot(RenderTreeBuilder builder, string buttonClassName)
+        protected ICollection<Rule> CreateBaseGlobalCss()
         {
+            var buttonRules = new HashSet<Rule>();
+
+            var props = new FocusStyleProps(this.Theme);
+            props.Inset = 1;
+            props.BorderColor = "transparent";
+            props.HighContrastStyle = "left:-2px;top:-2px;bottom:-2px;right:-2px;border:none;outline-color:ButtonText;";
+            var rootFocusStyles = FocusStyle.GetFocusStyle(props, ".ms-Button");
+
+            foreach (var rule in rootFocusStyles.AddRules)
+                buttonRules.Add(rule);
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button" },
+                Properties = new CssString()
+                {
+                    Css = rootFocusStyles.MergeRules +
+                          $"box-sizing:border-box;" +
+                          $"border: 1px solid {Theme.SemanticColors.ButtonBorder};"+
+                          $"user-select:none;"+
+                          $"display:inline-block;"+
+                          $"text-decoration:none;"+
+                          $"text-align:center;"+
+                          $"cursor:pointer;"+
+                          $"vertical-align:top;"+
+                          $"padding:0 16px;"+
+                          $"min-width:80px;"+
+                          $"height:32px;" +
+                          $"border-radius:var(--effects-RoundedCorner2);"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button:active > *" },
+                Properties = new CssString()
+                {
+                    Css = $"position:relative;" +
+                          $"left:0;"+
+                          $"top:0;"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-disabled" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.SemanticColors.DisabledBackground};" +
+                         $"color:{Theme.SemanticTextColors.DisabledText};" +
+                         $"cursor:default;"+
+                         $"pointer-events:none;"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button:hover, .ms-Button:focus" },
+                Properties = new CssString()
+                {
+                    Css = $"text-decoration:none;"+
+                         $"outline:0;" 
+                }
+            });
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button:link, .ms-Button:visited, .ms-Button:active" },
+                Properties = new CssString()
+                {
+                    Css = $"text-decoration:none;" 
+                }
+            });
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-Button{color: GrayText; border-color:GrayText;}"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-expanded" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.Palette.NeutralLight};" +
+                         $"color:{Theme.Palette.NeutralDark};" 
+                }
+            });
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--primary.is-expanded" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.Palette.ThemeDark};" +
+                         $"color:{Theme.Palette.White};"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-expanded .ms-Button-icon" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.Palette.ThemeDark};"
+                }
+            });
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--primary.is-expanded .ms-Button-icon" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.Palette.White};"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-expanded .ms-Button-menuIcon" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.Palette.NeutralPrimary};"
+                }
+            });
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--primary.is-expanded .ms-Button-menuIcon" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.Palette.White};"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-expanded:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.Palette.NeutralQuaternaryAlt};"
+                }
+            });
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--primary.is-expanded:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.Palette.ThemeDark};"
+                }
+            });
+
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-disabled .ms-Button-icon" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.DisabledText};" 
+                }
+            });
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-disabled .ms-Button-menuIcon" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                }
+            });
+
+            //FlexContainer
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-flexContainer" },
+                Properties = new CssString()
+                {
+                    Css = $"display:flex;"+
+                          $"height:100%;"+
+                          $"flex-wrap:nowrap;"+
+                          $"justify-content:center;"+
+                          $"align-items:center;"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-textContainer" },
+                Properties = new CssString()
+                {
+                    Css = $"display:block;" +
+                          $"flex-grow:1;" 
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-description" },
+                Properties = new CssString()
+                {
+                    Css = $"display:block;"
+                }
+            });
+
+            //Icon
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-icon" },
+                Properties = new CssString()
+                {
+                    Css = $"font-size:{Theme.FontStyle.FontSize.MediumPlus};" +  //originally FontSize.Icon
+                          $"margin:0px 4px;"+
+                          $"height:16px;"+
+                          $"line-height:16px;" +
+                          $"text-align:center;" +
+                          $"vertical-align:middle;" +
+                          $"flex-shrink:0;"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-menuIcon, .ms-Button-menuIcon .ms-Button-icon" },
+                Properties = new CssString()
+                {
+                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +  
+                          $"margin:0px 4px;" +
+                          $"height:16px;" +
+                          $"line-height:16px;" +
+                          $"text-align:center;" +
+                          $"vertical-align:middle;" +
+                          $"flex-shrink:0;"
+                }
+            });
+
+            //Label
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-label" },
+                Properties = new CssString()
+                {
+                    Css = $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};" +
+                          $"margin:0px 4px;" +
+                          $"line-height:100%;" +
+                          $"display:block;" 
+                }
+            });
+
+            //ScreenReaderText
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-screenReaderText" },
+                Properties = new CssString()
+                {
+                    Css = $"position:absolute;" +
+                          $"width:1px;" +
+                          $"height:1px;" +
+                          $"margin:-1px;" +
+                          $"padding:0px;" +
+                          $"border:0px;" +
+                          $"overflow:hidden;"
+                }
+            });
+
+            //Split stuff
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-splitContainer" },
+                Properties = new CssString()
+                {
+                    Css = $"display:inline-flex;" +
+                          $"position:relative;"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-splitContainer .ms-Button--default:not(.ms-Button-menuIcon)" },
+                Properties = new CssString()
+                {
+                    Css = $"border-top-right-radius:0;" +
+                          $"border-bottom-right-radius:0;" +
+                          $"border-right:none;"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-splitContainer .ms-Button--primary:not(.ms-Button-menuIcon)" },
+                Properties = new CssString()
+                {
+                    Css = $"border-top-right-radius:0;" +
+                          $"border-bottom-right-radius:0;" +
+                          $"border-right:none;"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-splitContainer .ms-Button-menuIcon" },
+                Properties = new CssString()
+                {
+                    Css = $"padding:6px;" +
+                          $"height:auto;" +
+                          $"box-sizing:border-box;" +
+                          $"border-radius:0;" +
+                          $"border-top-right-radius:var(--effects-RoundedCorner2);" +
+                          $"border-bottom-right-radius:var(--effects-RoundedCorner2);" +
+                          $"border-left:none;" +
+                          $"outline:transparent;"+
+                          $"user-select:none;"+
+                          $"display:inline-block;"+
+                          $"text-decoration:none;"+
+                          $"text-align:center;"+
+                          $"cursor:pointer;"+
+                          $"vertical-align:top;"+
+                          $"min-width:32px;"+
+                          $"width:32px;"+
+                          $"margin-left:-1px;"+
+                          $"margin-top:0px;" +
+                          $"margin-right:0px;" +
+                          $"margin-bottom:0px;"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-divider" },
+                Properties = new CssString()
+                {
+                    Css = $"position:absolute;" +
+                        $"width:1px;" +
+                        $"right:31px;" +
+                        $"top:8px;" +
+                        $"bottom:8px;"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button--primary.ms-Button-divider" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.Palette.White};"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button--default.ms-Button-divider" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.SemanticColors.BodyDivider};"
+                }
+            });
+
+            buttonRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button-divider.disabled" },
+                Properties = new CssString()
+                {
+                    Css = $"background-color:{Theme.SemanticColors.BodyDivider};"
+                }
+            });
+
+            return buttonRules;
+        }
+
+        protected void StartRoot(RenderTreeBuilder builder, string buttonClassName)
+        { 
+            
             isSplitButton = (Split && OnClick.HasDelegate && MenuItems != null);
             isCompoundButton = this.GetType() == typeof(CompoundButton);
             if (isSplitButton)

@@ -8,7 +8,7 @@
     .ms-Button.ms-Button--compound .ms-Button-flexContainer {
         flex-direction: row;
         align-items: flex-start;
-        min-width 100%;
+        min-width: 100%;
         margin: unset;
     }
 

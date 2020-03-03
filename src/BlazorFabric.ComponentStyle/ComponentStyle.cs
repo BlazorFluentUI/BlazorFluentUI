@@ -19,11 +19,11 @@ namespace BlazorFabric
 
         public ComponentStyle()
         {
-            LocalCSSheets = new HashSet<ILocalCSSheet>();
+            LocalCSSheets = new List<ILocalCSSheet>();
             GlobalCSSheets = new ObservableCollection<IGlobalCSSheet>();
             GlobalCSSheets.CollectionChanged += CollectionChanged;
-            GlobalRulesSheets = new HashSet<IGlobalCSSheet>();
-            GlobalCSRules = new HashSet<string>();
+            GlobalRulesSheets = new List<IGlobalCSSheet>();
+            GlobalCSRules = new List<string>();
         }
 
         public void SetDisposedAction()

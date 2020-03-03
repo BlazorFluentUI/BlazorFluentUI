@@ -3,7 +3,7 @@
 
 <GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
 
-<div role="tablist" aria-label=@AriaLabel>
+<div role="tablist" aria-label=@AriaLabel style="overflow:hidden;">
     <FocusZone Direction=FocusZoneDirection.Horizontal>
         <CascadingValue Name="Pivot" Value="@this">
             <div class=@($"ms-Pivot mediumFont normalize{(LinkFormat == PivotLinkFormat.Tabs ? " ms-Pivot--tabs" : "")}{(LinkSize == PivotLinkSize.Large ? " ms-Pivot--large" : "")}")>

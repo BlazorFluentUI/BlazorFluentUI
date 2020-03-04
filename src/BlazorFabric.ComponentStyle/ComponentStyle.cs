@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Reflection;
 
 namespace BlazorFabric
@@ -61,7 +60,6 @@ namespace BlazorFabric
             {
                 foreach (var item in e.OldItems)
                 {
-
                     if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).Component != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).Component))
                     {
                         GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()));
@@ -91,9 +89,10 @@ namespace BlazorFabric
         }
         public void RulesChanged(IGlobalCSSheet globalCSSheet)
         {
-            if (!globalCSSheet.IsGlobal)
-                return;
-            UpdateGlobalRules();
+            if (globalCSSheet.IsGlobal || globalCSSheet.FixStyle)
+                UpdateGlobalRules();
+            return;
+
         }
 
         private void UpdateGlobalRules()

@@ -53,7 +53,7 @@ namespace BlazorFabric
 
         protected override void OnParametersSet()
         {
-            if (ReloadStyle && IsGlobal)
+            if (ReloadStyle && (IsGlobal || FixStyle))
             {
                 ReloadStyle = false;
                 ReloadStyleChanged.InvokeAsync(false);

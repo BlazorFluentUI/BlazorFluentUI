@@ -1,6 +1,7 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
 <div role="navigation"
      @ref="RootElementReference"
      class=@($"mediumFont ms-Nav {(IsOnTop?"is-on-top":"")} {(IsOnTop?"slideRightIn40":"")} {ClassName}")

@@ -3,16 +3,17 @@ using System.Collections.Generic;
 
 namespace BlazorFabric
 {
-    public class MessageBarButton : ButtonBase
+    public class MessageBarButton : DefaultButton
     {
-        private ICollection<Rule> CreateGlobalCss()
+        protected override ICollection<Rule> CreateGlobalCss()
         {
-            var rules = CreateBaseGlobalCss();
+
+            var rules = base.CreateGlobalCss();
 
 
             rules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link)" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--messageBar" },
                 Properties = new CssString()
                 {
                     Css = $"height:24px;" +
@@ -27,7 +28,7 @@ namespace BlazorFabric
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            base.BuildRenderTree(builder);
+            //base.BuildRenderTree(builder);
 
             builder.OpenComponent<GlobalCS>(0);
             builder.AddAttribute(1, "Component", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(this));
@@ -35,7 +36,7 @@ namespace BlazorFabric
             builder.AddAttribute(3, "FixStyle", true);
             builder.CloseComponent();
 
-            StartRoot(builder, "ms-Button--messageBar");
+            StartRoot(builder, "ms-Button--default ms-Button--messageBar");
 
         }
 

@@ -7,7 +7,7 @@ namespace BlazorFabric
 {
     public class DefaultButton : ButtonBase
     {
-        private ICollection<Rule> CreateGlobalCss()
+        protected virtual ICollection<Rule> CreateGlobalCss()
         {
             var rules = CreateBaseGlobalCss();
 

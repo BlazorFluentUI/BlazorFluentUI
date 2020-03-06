@@ -4,7 +4,8 @@
 @inherits FabricComponentBase
 @implements IDisposable
 
-<div class=@("mediumFont ms-Overlay " + (IsDarkThemed ? "ms-Overlay--dark" : "") + " " + ClassName)
+<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<div class=@("mediumFont ms-Overlay " + (IsDarkThemed ? "ms-Overlay--dark" : "ms-Overlay--light") + " " + ClassName)
      @onclick="OnClick" />
 
 @code{
@@ -24,6 +25,51 @@
             await JSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.disableBodyScroll");
         }
 
+    }
+
+    private ICollection<Rule> CreateGlobalCss()
+    {
+        var overlayRules = new HashSet<Rule>();
+
+        overlayRules.Add(new Rule()
+        {
+            Selector = new CssStringSelector() { SelectorName = ".ms-Overlay" },
+            Properties = new CssString()
+            {
+                Css = $"top:0;"+
+                      $"right:0;"+
+                      $"bottom:0;"+
+                      $"left:0;"+
+                      $"position:absolute;"
+            }
+        });
+        overlayRules.Add(new Rule()
+        {
+            Selector = new CssStringSelector() { SelectorName = ".ms-Overlay--light" },
+            Properties = new CssString()
+            {
+                Css = $"background-color:{Theme.Palette.WhiteTranslucent40};"
+            }
+        });
+        overlayRules.Add(new Rule()
+        {
+            Selector = new CssStringSelector() { SelectorName = ".ms-Overlay--dark" },
+            Properties = new CssString()
+            {
+                Css = $"background-color:{Theme.Palette.BlackTranslucent40};"
+            }
+        });
+
+        overlayRules.Add(new Rule()
+        {
+            Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+            Properties = new CssString()
+            {
+                Css = ".ms-Overlay {border: 1px solid WindowText;opacity:0;}"
+            }
+        });
+
+        return overlayRules;
     }
 
     public async void Dispose()

@@ -45,7 +45,7 @@ namespace BlazorFabric
 
         [Parameter] public EventCallback OnDismiss { get; set; }
 
-        [Parameter] public EventCallback OnPositioned { get; set; }
+        [Parameter] public EventCallback<CalloutPositionedInfo> OnPositioned { get; set; }
 
         protected Rectangle Position { get; set; } = new Rectangle();
 
@@ -108,7 +108,7 @@ namespace BlazorFabric
             {
                 _finalPositionAnnounced = true;
                 // May have to limit this... 
-                await OnPositioned.InvokeAsync(null);
+                await OnPositioned.InvokeAsync(CalloutPosition);
             }
 
             isRenderedOnce = true;

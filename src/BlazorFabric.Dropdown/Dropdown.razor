@@ -3,6 +3,8 @@
 @using Microsoft.AspNetCore.Components.Web
 @typeparam TItem
 
+<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<LocalCS @bind-Rules="@DropdownLocalRules" />
 <div class="ms-Dropdown-root"
      style=@Style
      @ref=@RootElementReference>
@@ -27,7 +29,7 @@
              @onclick=@ClickHandler
              @onkeydown=@KeydownHandler
              @onfocus=@FocusHandler
-             class=@($"ms-Dropdown mediumFont {(isOpen?"is-open":"")} {(this.Label!=null ? "has-label" : "")} {(Disabled?"is-disabled":"")} {(Required?"is-required":"")} {(SelectedKeys.Count == 0 ?"has-placeholder":"")} {(ErrorMessage != null ?"has-error":"")}")>
+             class=@($"ms-Dropdown mediumFont {(isOpen?"is-open":"")} {(this.Label!=null ? "has-label" : "")} {(Disabled?"is-disabled":"")} {(Required?"is-required":"")} {(SelectedKeys.Count == 0 && SelectedKey == null ?"has-placeholder":"")} {(ErrorMessage != null ?"has-error":"")}")>
             <span id=@($"{id}-option")
                   class="ms-Dropdown-title"
                   aria-atomic="true"

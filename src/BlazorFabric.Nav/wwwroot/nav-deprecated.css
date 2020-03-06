@@ -1,5 +1,4 @@
-﻿/* Button Styles */
-.ms-Nav .ms-Button-textContainer{
+﻿/*.ms-Nav .ms-Button-textContainer{
     overflow:hidden;
 }
 .ms-Nav .ms-Button-label {
@@ -36,10 +35,8 @@
     color: var(--semanticColors-DisabledText);
 }
 .ms-Nav .ms-Nav-link {
-    /*getFocusStyles*/
     outline: transparent;
     position: relative;
-    /*endFocusStyles*/
     display: block;
     position: relative;
     height: 36px;
@@ -83,10 +80,8 @@
 }
 
 .ms-Nav-chevronButton {
-    /*getFocusStyles*/
     outline: transparent;
     position: relative;
-    /*endFocusStyles*/
     display:block;
     font-weight: var(--fontWeight-Regular);
     font-size: var(--fontSize-Small);
@@ -121,14 +116,14 @@
     height: 36px;
     border-bottom: 1px solid var(--semanticColors-BodyDivider);
 }
-/* i.e. is a link */
+
 .ms-Nav-compositeLink:not(.is-button) .ms-Nav-chevronButton {
     display: block;
     width: 26px;
     height: 34px;
     position: absolute;
     top: 1px;
-    /* NEED NESTING LEVEL HERE */ left: 1px; /* indentationSize(14) * nestingLevel + 1 */
+    left: 1px; 
     z-index: var(--zindex-Nav);
     padding:0;
     margin:0;
@@ -259,4 +254,4 @@
 
 .ms-Nav-group.is-expanded .ms-Nav-groupContent{
     display:block;
-}
+}*/

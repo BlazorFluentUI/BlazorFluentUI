@@ -14,5 +14,7 @@ namespace BlazorFabric.Themes.Default
         public int Layer => 1000000;
 
         public int KeytipLayer => 1000001;
+
+        public int Nav => 1;
     }
 }

@@ -29,7 +29,7 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="wwwroot\nav.css" />
+    <None Include="wwwroot\nav-deprecated.css" />
   </ItemGroup>
 
   <ItemGroup>

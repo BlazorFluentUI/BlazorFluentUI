@@ -775,7 +775,7 @@ namespace BlazorFabric
             };
             CalloutMainRule.Properties = new CssString()
             {
-                Css = $"background-color:{(BackgroundColor != null ? BackgroundColor : Theme?.Palette.White)};" +
+                Css = $"background-color:{(BackgroundColor != null ? BackgroundColor : Theme?.SemanticColors.MenuBackground)};" +
                         $"overflow-x:hidden;" +
                         $"overflow-y:{(overflowYHidden ? "hidden" : "auto")};" +
                         $"position:relative;" +

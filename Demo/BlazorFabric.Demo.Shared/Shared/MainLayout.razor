@@ -76,7 +76,8 @@
         customTheme = checkedState;
         if (checkedState)
         {
-            ThemeProvider.UpdateTheme(new DefaultPaletteDark());
+            var palette = new DefaultPaletteDark();
+            ThemeProvider.UpdateTheme(palette, new DefaultSemanticColorsDark(palette), new DefaultSemanticTextColorsDark(palette));
         }
         else
         {

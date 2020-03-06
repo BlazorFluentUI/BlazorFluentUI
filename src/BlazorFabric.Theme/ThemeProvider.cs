@@ -32,6 +32,37 @@ namespace BlazorFabric
             ThemeChanged.Invoke(this, new ThemeChangedArgs(_theme));
         }
 
+        /// <summary>
+        /// Override that allows modification of the SemanticColors instead of completely allowing the default palette->semanticColor conversions.  
+        /// Necessary for some dark mode conversions... i.e. MenuBackground is white in light mode but has drop shadow.  Dark mode menu can't be black (reverse) because there is no drop shadow.
+        /// </summary>
+        /// <param name="palette"></param>
+        /// <param name="semanticColorOverrides"></param>
+        /// <param name="semanticTextColorOverrides"></param>
+        public void UpdateTheme(IPalette palette, ISemanticColors semanticColorOverrides, ISemanticTextColors semanticTextColorOverrides)
+        {
+            _theme = CreateTheme(palette);
+            foreach (var prop in typeof(ISemanticColors).GetProperties())
+            {
+                if (prop.GetValue(semanticColorOverrides) != null)
+                {
+                    prop.SetValue(_theme.SemanticColors, prop.GetValue(semanticColorOverrides));
+                }
+            }
+            foreach (var prop in typeof(ISemanticTextColors).GetProperties())
+            {
+                if (prop.GetValue(semanticTextColorOverrides) != null)
+                {
+                    prop.SetValue(_theme.SemanticTextColors, prop.GetValue(semanticTextColorOverrides));
+                }
+            }
+            foreach (var comp in ThemeComponents)
+            {
+                comp.UpdateTheme();
+            }
+            ThemeChanged.Invoke(this, new ThemeChangedArgs(_theme));
+        }
+
         private ITheme CreateTheme(IPalette palette = null)
         {
             var theme = new Theme();

@@ -53,7 +53,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"margin:0 0 24px 0;" +
-                        $"color:{Theme.SemanticTextColors.BodySubtext};" +
+                        $"color:{Theme.SemanticTextColors.ButtonText};" +  //Was BodySubText, but this defaults to a very dark color in darkmode... bug?  Same bug found in React components.
                         $"line-height:1.5;" +
                         $"word-break:break-word;" +
                         $"font-weight:{Theme.FontStyle.FontWeight.Regular};"

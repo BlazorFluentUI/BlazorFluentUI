@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components.Web
 @inherits ResponsiveFabricComponentBase
   
+<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
 <BlazorFabric.Callout FabricComponentTarget=@FabricComponentTarget
                         IsBeakVisible=@((int)CurrentMode <= (int)ResponsiveMode.Medium ? true : IsBeakVisible)
                         BeakWidth=@BeakWidth
@@ -28,7 +29,7 @@
         }
         @if (Items != null && Items.Count() > 0)
         {
-            <FocusZone ClassName=@($"ms-ContextualMenu mediumFont")
+            <FocusZone ClassName=@($"ms-ContextualMenu")
                        @ref="_focusZoneReference"
                        Direction="FocusZoneDirection.Vertical"
                        IsCircularNavigation="true"

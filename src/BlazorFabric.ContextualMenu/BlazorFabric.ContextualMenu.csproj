@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\contextualMenu.css" />
+    <None Include="wwwroot\contextualMenu-deprecated.css" />
   </ItemGroup>
 
   <ItemGroup>

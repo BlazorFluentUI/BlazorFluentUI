@@ -1,6 +1,7 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
 <CascadingValue Value=@this Name="HostedContent">
     <div style=@Style>
         @ChildContent

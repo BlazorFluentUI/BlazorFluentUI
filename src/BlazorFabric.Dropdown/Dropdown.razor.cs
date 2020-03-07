@@ -694,7 +694,7 @@ namespace BlazorFabric
 
             dropdownRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-dropdownItems .ms-Dropdown-item.ms-Button" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-itemsWrapper .ms-Dropdown-dropdownItems .ms-Dropdown-item.ms-Button" },
                 Properties = new CssString()
                 {
                     Css = $"padding:0 8px;"  // not sure if this is still needed... a hack for specificity of css rules.
@@ -703,7 +703,7 @@ namespace BlazorFabric
 
             dropdownRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-dropdownItems .ms-Dropdown-item:not(.ms-Checkbox-checkbox):hover" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-itemsWrapper .ms-Dropdown-dropdownItems .ms-Dropdown-item:not(.ms-Checkbox-checkbox):hover" },
                 Properties = new CssString()
                 {
                     Css = $"color:{Theme.SemanticTextColors.MenuItemTextHovered};"+

@@ -91,27 +91,29 @@ namespace BlazorFabric
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
 
-            if (!isEventHandlersRegistered) //&& ComponentContext.IsConnected)
+            if (!isEventHandlersRegistered) 
             {
-                eventHandlerIds = await JSRuntime.InvokeAsync<List<int>>("BlazorFabricCallout.registerHandlers", this.RootElementReference, DotNetObjectReference.Create(this));
-
                 isEventHandlersRegistered = true;
 
-                if (!isMeasured && this.FabricComponentTarget != null && !isRenderedOnce)
+                eventHandlerIds = await JSRuntime.InvokeAsync<List<int>>("BlazorFabricCallout.registerHandlers", this.RootElementReference, DotNetObjectReference.Create(this));
+
+                
+
+                if (!isMeasured && this.FabricComponentTarget != null && firstRender)
                 {
                     await CalculateCalloutPositionAsync();
                 }
 
             }
 
-            if (isRenderedOnce && isMeasured && !_finalPositionAnnounced)
+            if (!firstRender && isMeasured && !_finalPositionAnnounced)
             {
                 _finalPositionAnnounced = true;
                 // May have to limit this... 
                 await OnPositioned.InvokeAsync(CalloutPosition);
             }
 
-            isRenderedOnce = true;
+            //isRenderedOnce = true;
 
             //FocusFirstElement();
 
@@ -143,8 +145,7 @@ namespace BlazorFabric
             //Need way to tie focus handler between all the callouts (linked contextualmenus)  ... only dimiss when ALL of them lost focus.
             System.Diagnostics.Debug.WriteLine($"Callout {PortalId} called dismiss from FocusHandler from {this.DirectionalHint}");
 
-            await OnDismiss.InvokeAsync(null);
-            //await HiddenChanged.InvokeAsync(true);
+            //await OnDismiss.InvokeAsync(null);
         }
 
         [JSInvokable]

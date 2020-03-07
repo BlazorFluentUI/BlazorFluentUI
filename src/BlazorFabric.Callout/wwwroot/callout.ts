@@ -22,13 +22,9 @@ namespace BlazorFabricCallout {
         var window = targetElement.ownerDocument.defaultView;
 
         var calloutDivId = Handler.addCallout(targetElement);
-        //window.addEventListener("scroll", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ScrollHandler"); } }, true);
-        //window.addEventListener("resize", (ev: Event) => calloutRef.invokeMethodAsync("ResizeHandler"), true);
-        //document.documentElement.addEventListener("focus", (ev: Event) => calloutRef.invokeMethodAsync("FocusHandler"), true);
-        //document.documentElement.addEventListener("click", clickHandler, true);
+        
         var scrollId = Handler.addListener(window, "scroll", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ScrollHandler"); }; }, true);
         var resizeId = Handler.addListener(window, "resize", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ResizeHandler"); }; }, true);
-
         var focusId = Handler.addListener(document.documentElement, "focus", (ev: Event) =>
         {
             var outsideCallout = true;

@@ -1,6 +1,25 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 var BlazorFabricPanel;
 (function (BlazorFabricPanel) {
+    var Handler = /** @class */ (function () {
+        function Handler() {
+        }
+        Handler.addListener = function (element, event, handler, capture) {
+            element.addEventListener(event, handler, capture);
+            this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
+            return this.i++;
+        };
+        Handler.removeListener = function (id) {
+            if (id in this.listeners) {
+                var h = this.listeners[id];
+                h.element.removeEventListener(h.event, h.handler, h.capture);
+                delete this.listeners[id];
+            }
+        };
+        Handler.i = 1;
+        Handler.listeners = {};
+        return Handler;
+    }());
     function registerSizeHandler(panel) {
         //var window = targetElement.ownerDocument.defaultView;
         var resizeId = Handler.addListener(window, "resize", function (ev) { panel.invokeMethodAsync("UpdateFooterPositionAsync"); }, false);
@@ -24,25 +43,6 @@ var BlazorFabricPanel;
         Handler.removeListener(id);
     }
     BlazorFabricPanel.unregisterHandler = unregisterHandler;
-    var Handler = /** @class */ (function () {
-        function Handler() {
-        }
-        Handler.addListener = function (element, event, handler, capture) {
-            element.addEventListener(event, handler, capture);
-            this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
-            return this.i++;
-        };
-        Handler.removeListener = function (id) {
-            if (id in this.listeners) {
-                var h = this.listeners[id];
-                h.element.removeEventListener(h.event, h.handler, h.capture);
-                delete this.listeners[id];
-            }
-        };
-        Handler.i = 1;
-        Handler.listeners = {};
-        return Handler;
-    }());
     var DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
     function makeElementScrollAllower(element) {
         var _previousClientY = 0;

@@ -4,10 +4,6 @@ var BlazorFabricCallout;
     function registerHandlers(targetElement, calloutRef) {
         var window = targetElement.ownerDocument.defaultView;
         var calloutDivId = Handler.addCallout(targetElement);
-        //window.addEventListener("scroll", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ScrollHandler"); } }, true);
-        //window.addEventListener("resize", (ev: Event) => calloutRef.invokeMethodAsync("ResizeHandler"), true);
-        //document.documentElement.addEventListener("focus", (ev: Event) => calloutRef.invokeMethodAsync("FocusHandler"), true);
-        //document.documentElement.addEventListener("click", clickHandler, true);
         var scrollId = Handler.addListener(window, "scroll", function (ev) { if (checkTarget(ev, targetElement)) {
             calloutRef.invokeMethodAsync("ScrollHandler");
         } ; }, true);

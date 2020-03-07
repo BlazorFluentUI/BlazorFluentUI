@@ -13,6 +13,26 @@ namespace BlazorFabricPanel {
         [K: number]: T;
     }
 
+    class Handler {
+
+        static i: number = 1;
+        static listeners: Map<EventParams> = {};
+
+        static addListener(element: HTMLElement | Window, event: string, handler: (ev: Event) => void, capture: boolean): number {
+            element.addEventListener(event, handler, capture);
+            this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
+            return this.i++;
+        }
+        static removeListener(id: number): void {
+            if (id in this.listeners) {
+                var h = this.listeners[id];
+                h.element.removeEventListener(h.event, h.handler, h.capture);
+                delete this.listeners[id];
+            }
+        }
+    }
+
+
     export function registerSizeHandler(panel: DotNetReferenceType): number {
         //var window = targetElement.ownerDocument.defaultView;
 
@@ -46,25 +66,7 @@ namespace BlazorFabricPanel {
         capture: boolean;
     }
     
-    class Handler {
-
-        static i: number = 1;
-        static listeners: Map<EventParams> = {};
-
-        static addListener(element: HTMLElement | Window, event: string, handler: (ev: Event) => void, capture: boolean): number {
-            element.addEventListener(event, handler, capture);
-            this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
-            return this.i++;
-        }
-        static removeListener(id: number): void {
-            if (id in this.listeners) {
-                var h = this.listeners[id];
-                h.element.removeEventListener(h.event, h.handler, h.capture);
-                delete this.listeners[id];
-            }
-        }
-    }
-
+    
     const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
 
     export function makeElementScrollAllower(element: HTMLElement) : number[] {

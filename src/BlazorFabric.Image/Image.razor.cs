@@ -34,7 +34,8 @@ namespace BlazorFabric
         private bool isLandscape = false;
         private ImageLoadState imageLoadState = ImageLoadState.NotLoaded;
         private bool hasRenderedOnce;
-        private bool _supportsObjectFit;
+
+        private static Nullable<bool> SupportsObjectFit;
 
         public override async Task SetParametersAsync(ParameterView parameters)
         {
@@ -42,8 +43,7 @@ namespace BlazorFabric
             parameters.TryGetValue("Src", out src);
             if (this.Src != src)
                 imageLoadState = ImageLoadState.NotLoaded;
-            //else if (hasRenderedOnce)
-            //    await ComputeCoverStyleAsync();
+
 
             await base.SetParametersAsync(parameters);
         }
@@ -58,7 +58,10 @@ namespace BlazorFabric
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            _supportsObjectFit = await JSRuntime.InvokeAsync<bool>("BlazorFabricBaseComponent.supportsObjectFit");
+            if (!SupportsObjectFit.HasValue)
+            {
+                SupportsObjectFit = await JSRuntime.InvokeAsync<bool>("BlazorFabricBaseComponent.supportsObjectFit");
+            }
             if (firstRender)
                 hasRenderedOnce = firstRender;
             else
@@ -83,6 +86,95 @@ namespace BlazorFabric
         {
             imageLoadState = ImageLoadState.Error;
             return OnLoadingStateChange.InvokeAsync(imageLoadState);
+        }
+
+        private ICollection<Rule> CreateGlobalCss()
+        {
+            var imageRules = new HashSet<Rule>();
+            // ROOT
+            imageRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Image" },
+                Properties = new CssString()
+                {
+                    Css = $"overflow:hidden;"
+                }
+            });
+
+            imageRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Image--maximizeFrame" },
+                Properties = new CssString()
+                {
+                    Css = $"height:100%;"+
+                          $"width:100%;"
+                }
+            });
+
+            imageRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Image--relative" },
+                Properties = new CssString()
+                {
+                    Css = $"position:relative;"
+                }
+            });
+
+            imageRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Image-image" },
+                Properties = new CssString()
+                {
+                    Css = $"display:block;"
+                }
+            });
+
+            imageRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Image-image--fitStyles" },
+                Properties = new CssString()
+                {
+                    Css = $"position:absolute;"+
+                          $"left:50%;" +
+                          $"top:50%;"+
+                          $"transform:translate(-50%,-50%);"
+                }
+            });
+
+            imageRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Image-image--contain" },
+                Properties = new CssString()
+                {
+                    Css = $"width:100%;" +
+                          $"height:100%;" +
+                          $"object-fit:contain;"
+                }
+            });
+
+            imageRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Image-image--cover" },
+                Properties = new CssString()
+                {
+                    Css = $"width:100%;" +
+                          $"height:100%;" +
+                          $"object-fit:cover;"
+                }
+            });
+
+            imageRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Image-image--none" },
+                Properties = new CssString()
+                {
+                    Css = $"width:auto;" +
+                          $"height:auto;"
+                }
+            });
+
+
+            return imageRules;
         }
 
         protected string GetRootClasses()
@@ -124,7 +216,7 @@ namespace BlazorFabric
             else
                 styles += "opacity:0;";
 
-            if (!_supportsObjectFit)
+            if (!SupportsObjectFit.HasValue || SupportsObjectFit.Value == false)
             {
                 if ((isLandscape && ImageFit == ImageFit.Contain) || (!isLandscape && ImageFit == ImageFit.Cover))
                 {

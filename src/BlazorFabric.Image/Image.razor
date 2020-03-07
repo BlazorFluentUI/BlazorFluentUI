@@ -1,17 +1,18 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-    <div class=@($"{ClassName} mediumFont ms-Image{GetRootClasses()}") 
-         style=@($"width:{this.Width}px; height: {this.Height}px;{Style}") 
-         @ref=@RootElementReference>
-        <img 
-             @onload=@this.OnImageLoaded
-             @onerror=@this.OnImageError
-             @ref=@imageRef
-             key=@((Src != null ? KEY_PREFIX + Src : ""))
-             class=@($"ms-Image-image{GetImageClasses()}")
-             style=@GetImageStyles()
-             src=@Src
-             alt=@Alt
-             role=@Role />
-    </div>
+<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<div class=@($"{ClassName} mediumFont ms-Image{GetRootClasses()}") 
+        style=@($"width:{this.Width}px; height: {this.Height}px;{Style}") 
+        @ref=@RootElementReference>
+    <img 
+            @onload=@this.OnImageLoaded
+            @onerror=@this.OnImageError
+            @ref=@imageRef
+            key=@((Src != null ? KEY_PREFIX + Src : ""))
+            class=@($"ms-Image-image{GetImageClasses()}")
+            style=@GetImageStyles()
+            src=@Src
+            alt=@Alt
+            role=@Role />
+</div>

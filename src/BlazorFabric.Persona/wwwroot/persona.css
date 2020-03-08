@@ -32,7 +32,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-
     color: var(--palette-NeutralPrimary);
     font-weight: var(--fontWeight-Regular);
     font-size: var(--fontSize-Medium);
@@ -116,4 +115,5 @@
 }
 
 .ms-Persona-icon {
+    -ms-high-contrast-adjust
 }

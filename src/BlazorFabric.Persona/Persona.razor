@@ -1,7 +1,10 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-    <div class=@($"{ClassName} mediumFont ms-Persona") style=@($"{GetRootStyles()} {Style}")>
+<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<LocalCS @bind-Rules=@PersonaLocalRules />
+
+    <div class=@($"{ClassName} mediumFont ms-Persona {PersonaRootRule.Selector.SelectorName}") style=@Style>
         
         <PersonaCoin AllowPhoneInitials=@AllowPhoneInitials CoinSize=@CoinSize ImageAlt=@ImageAlt  ImageShouldFadeIn=@ImageShouldFadeIn ImageShouldStartVisible=@ImageShouldStartVisible
                      ImageUrl=@ImageUrl  IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle  ShowInitialsUntilImageLoads=@ShowInitialsUntilImageLoads
@@ -9,8 +12,8 @@
 
         @if(!HidePersonalDetails || Size == PersonaSize.Size8)
         {
-        <div class="ms-Persona-details" style=@GetDetailsStyles()>
-            <div dir="auto" class="ms-Persona-primaryText" style=@GetPrimaryTextStyles() >
+        <div class=@($"ms-Persona-details {DetailsRule.Selector.SelectorName}") >
+            <div dir="auto" class=@($"ms-Persona-primaryText {PrimaryTextRule.Selector.SelectorName}") >
                 <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
                     <ChildContent>
                         @Text
@@ -20,7 +23,7 @@
                     </TooltipContent>
                 </TooltipHost>
             </div>
-            <div dir="auto" class="ms-Persona-secondaryText"  style=@GetSecondaryTextStyles() >
+            <div dir="auto" class=@($"ms-Persona-secondaryText {SecondaryTextRule.Selector.SelectorName}")   >
                 <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
                     <ChildContent>
                         @SecondaryText
@@ -30,7 +33,7 @@
                     </TooltipContent>
                 </TooltipHost>
             </div>
-            <div dir="auto" class="ms-Persona-tertiaryText" style=@GetTertiaryTextStyles() >
+            <div dir="auto" class=@($"ms-Persona-tertiaryText {TertiaryTextRule.Selector.SelectorName}") >
                 <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
                     <ChildContent>
                         @TertiaryText
@@ -40,7 +43,7 @@
                     </TooltipContent>
                 </TooltipHost>
             </div>
-            <div dir="auto" class="ms-Persona-optionalText" style=@GetOptionalTextStyles() >
+            <div dir="auto" class=@($"ms-Persona-optionalText {OptionalTextRule.Selector.SelectorName}") >
                 <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
                     <ChildContent>
                         @OptionalText

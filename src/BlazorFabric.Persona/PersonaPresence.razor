@@ -1,11 +1,14 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-    <div class=@($"ms-Persona-presence {ClassName}")
-         style=@GetSizeStyle()
-         title=@PresenceTitle>
-        @if (RenderIcon)
-        {
-            <Icon ClassName="ms-Persona-icon" IconName=@DetermineIcon(Presence, IsOutOfOffice) Style=@GetIconStyle() />
-        }
-    </div>
+<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<LocalCS @bind-Rules="PersonaPresenceLocalRules" />
+<div class=@($"ms-Persona-presence {PresenceRule.Selector.SelectorName} {PresenceAfterRule.Selector.SelectorName} {PresenceBeforeRule.Selector.SelectorName} {ClassName}")
+     style=@Style
+     title=@PresenceTitle>
+    @if (RenderIcon)
+    {
+        <Icon ClassName=@($"ms-Persona-icon {IconRule.Selector.SelectorName}") 
+              IconName=@DetermineIcon(Presence, IsOutOfOffice) />
+    }
+</div>

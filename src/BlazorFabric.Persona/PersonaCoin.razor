@@ -1,14 +1,15 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<LocalCS @bind-Rules="PersonaCoinLocalRules" />
 <div class=@($"{ClassName} mediumFont ms-Persona-coin") style=@Style>
     @if(Size != PersonaSize.Size8)
     {
-    <div class="ms-Persona-imageArea" style=@GetImageAreaStyle()>
+    <div class=@($"ms-Persona-imageArea {ImageAreaRule.Selector.SelectorName}")>
         @if (ShouldRenderInitials)
         {
-            <div class=@($"ms-Persona-initials{(ShowUnknownPersonaCoin? " ms-Personal-initials--showUnknownPersonaCoin" : "")}")
-                 style=@GetInitialsStyle()
+            <div class=@($"ms-Persona-initials {InitialsRule.Selector.SelectorName}{(ShowUnknownPersonaCoin? " ms-Personal-initials--showUnknownPersonaCoin" : "")}")
                  aria-hidden="true">
                 @if (ShowUnknownPersonaCoin)
                 {
@@ -30,13 +31,12 @@
         }
         @if (ImageUrl != null)
         {
-            var dimension = CoinSize != -1 ? CoinSize : sizeToPixels[Size];
+            var dimension = CoinSize != -1 ? CoinSize : PersonaSize.SizeToPixels(Size);
             <Image Src=@ImageUrl
-                   ClassName="ms-Persona-image"
+                   ClassName=@($"ms-Persona-image {ImageRule.Selector.SelectorName}")
                    ImageFit=@ImageFit.Cover
                    Width=@dimension
                    Height=@dimension
-                   Style=@GetImageStyle()
                    Alt=@ImageAlt 
                    ShouldFadeIn=@ImageShouldFadeIn
                    ShouldStartVisible=@ImageShouldStartVisible

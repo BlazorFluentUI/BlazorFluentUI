@@ -22,7 +22,7 @@ namespace BlazorFabric
         [Parameter] public string PresenceTitle { get; set; }  //tooltip on hover
         [Parameter] public bool ShowInitialsUntilImageLoads { get; set; }
         [Parameter] public bool ShowUnknownPersonaCoin { get; set; }
-        [Parameter] public PersonaSize Size { get; set; }
+        [Parameter] public string Size { get; set; }
         [Parameter] public string Text { get; set; }
 
         protected bool ShouldRenderInitials => !_isImageLoaded && (ShowInitialsUntilImageLoads && ImageUrl != null) || (ImageUrl == null || _isImageError || _hideImage);
@@ -36,6 +36,28 @@ namespace BlazorFabric
         Regex MULTIPLE_WHITESPACES_REGEX = new Regex(@"\s+");
         Regex UNSUPPORTED_TEXT_REGEX = new Regex(@"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]|[\uD840-\uD869][\uDC00-\uDED6]");
 
+        private ICollection<IRule> PersonaCoinLocalRules { get; set; } = new List<IRule>();
+        private Rule InitialsRule = new Rule();
+        private Rule ImageAreaRule = new Rule();
+        private Rule ImageRule = new Rule();
+        
+
+        protected override Task OnInitializedAsync()
+        {
+            CreateLocalCss();
+            return base.OnInitializedAsync();
+        }
+
+        protected override void OnThemeChanged()
+        {
+            SetStyle();
+        }
+        protected override Task OnParametersSetAsync()
+        {
+            SetStyle();
+            return base.OnParametersSetAsync();
+        }
+
         protected Task OnPhotoLoadingStateChange(ImageLoadState imageLoadState)
         {
             _isImageLoaded = (imageLoadState == ImageLoadState.Loaded);
@@ -43,79 +65,6 @@ namespace BlazorFabric
 
             return Task.CompletedTask;
         }
-
-        protected string GetInitialsStyle()
-        {
-            string style = "";
-            var dimension = CoinSize != -1 ? CoinSize : sizeToPixels[Size];
-
-            style += $"width:{dimension}px;height:{dimension}px;";
-            
-            style += $"background-color:{PersonaColorUtils.GetPersonaColorHexCode(PersonaColorUtils.GetInitialsColorFromName(Text))};";
-
-            style += $"line-height:{(dimension == 48 ? 46 : dimension)}px;";
-
-            if (dimension < 32)
-                style += $"font-size:var(--fontSize-XSmall);";
-            else if (dimension >= 32 && dimension < 40)
-                style += $"font-size:var(--fontSize-Medium);";
-            else if (dimension >= 40 && dimension < 56)
-                style += $"font-size:var(--fontSize-MediumPlus);";
-            else if (dimension >= 56 && dimension < 72)
-                style += $"font-size:var(--fontSize-XLarge);";
-            else if (dimension >= 72 && dimension < 100)
-                style += $"font-size:var(--fontSize-XxLarge);";
-            else if (dimension >= 100)
-                style += $"font-size:var(--fontSize-SuperLarge);";
-
-
-            return style;
-        }
-
-        protected string GetImageAreaStyle()
-        {
-            string style = "";
-            var dimension = CoinSize != -1 ? CoinSize : sizeToPixels[Size];
-            
-            style += $"width:{dimension}px;height:{dimension}px;";
-
-            if (dimension <=10)
-            {
-                style += "overflow:visible;background:transparent;height:0;width:0;";
-            }            
-
-            return style;
-        }
-        protected string GetImageStyle()
-        {
-            string style = "";
-            var dimension = CoinSize != -1 ? CoinSize : sizeToPixels[Size];
-
-            if (dimension > 10)
-            {
-                style += $"width:{dimension}px;height:{dimension}px;";
-            }
-            else
-            {
-                style += "overflow:visible;background:transparent;height:0;width:0;";
-            }
-
-            return style;
-        }
-
-
-        protected Dictionary<PersonaSize, int> sizeToPixels = new Dictionary<PersonaSize, int>()
-        {
-            [PersonaSize.Size8] = 8,
-            [PersonaSize.Size24] = 24,
-            [PersonaSize.Size32] = 32,
-            [PersonaSize.Size40] = 40,
-            [PersonaSize.Size48] = 48,
-            [PersonaSize.Size56] = 56,
-            [PersonaSize.Size72] = 72,
-            [PersonaSize.Size100] = 100,
-            [PersonaSize.Size120] = 120
-        };
        
         protected string GetInitials(string displayName, bool isRTL, bool allowPhoneInitials)
         {
@@ -169,5 +118,144 @@ namespace BlazorFabric
             
             return initials;
         }
+
+
+        private void CreateLocalCss()
+        {
+            InitialsRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-initials" };
+            ImageAreaRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-imageArea" };
+            ImageRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-image" };
+
+            PersonaCoinLocalRules.Add(InitialsRule);
+            PersonaCoinLocalRules.Add(ImageAreaRule);
+            PersonaCoinLocalRules.Add(ImageRule);
+        }
+
+        private void SetStyle()
+        {
+            var dimension = CoinSize != -1 ? CoinSize : PersonaSize.SizeToPixels(Size);
+            string fontSize = Theme.FontStyle.FontSize.Large;
+            if (dimension < 32)
+                fontSize = Theme.FontStyle.FontSize.XSmall;
+            else if (dimension >= 32 && dimension < 40)
+                fontSize = Theme.FontStyle.FontSize.Medium;
+            else if (dimension >= 40 && dimension < 56)
+                fontSize = Theme.FontStyle.FontSize.MediumPlus;
+            else if (dimension >= 56 && dimension < 72)
+                fontSize = Theme.FontStyle.FontSize.XLarge;
+            else if (dimension >= 72 && dimension < 100)
+                fontSize = Theme.FontStyle.FontSize.XxLarge;
+            else if (dimension >= 100)
+                fontSize = Theme.FontStyle.FontSize.SuperLarge;
+
+            InitialsRule.Properties = new CssString
+            {
+                Css = $"height:{dimension}px;" +
+                     $"background-color:{PersonaColorUtils.GetPersonaColorHexCode(PersonaColorUtils.GetInitialsColorFromName(Text))};" +
+                     $"line-height:{(dimension == 48 ? 46 : dimension)}px;"+
+                     $"font-size:{fontSize};"
+            };
+
+
+            ImageAreaRule.Properties = new CssString
+            {
+                Css = (dimension <= 10 ? 
+                    $"overflow:visible;"+
+                    $"background:transparent;"+
+                    $"height:0;"+
+                    $"width:0;"
+                    :
+                    $"width:{dimension}px;" +
+                    $"height:{dimension}px;"
+                   )
+            };
+
+            ImageRule.Properties = new CssString
+            {
+                Css = (dimension <= 10 ?
+                    $"overflow:visible;" +
+                    $"background:transparent;" +
+                    $"height:0;" +
+                    $"width:0;"
+                    :
+                    $"width:{dimension}px;" +
+                    $"height:{dimension}px;"
+                   )
+            };
+
+
+        }
+
+        private ICollection<Rule> CreateGlobalCss()
+        {
+            var personaCoinRules = new HashSet<Rule>();
+
+            personaCoinRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-size10WithoutPresenceIcon" },
+                Properties = new CssString()
+                {
+                    Css = $"font-size:{Theme.FontStyle.FontSize.XSmall};" +
+                          $"position:absolute;" +
+                          $"top:5px;" +
+                          $"right:auto;" +
+                          $"left:0;"
+                }
+            });
+
+            personaCoinRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-imageArea" },
+                Properties = new CssString()
+                {
+                    Css = $"position:relative;" +
+                          $"text-align:center;" +
+                          $"flex:0 0 auto;"
+                }
+            });
+
+            personaCoinRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-image" },
+                Properties = new CssString()
+                {
+                    Css = $"margin-right:10px;" +
+                        $"position:absolute;" +
+                        $"top:0;" +
+                        $"left:0;" +
+                        $"width:100%;" +
+                        $"height:100%;" +
+                        $"border:0;" +
+                        $"border-radius:50%;" +
+                        $"perspective:1px;"
+                }
+            });
+
+            personaCoinRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-initials" },
+                Properties = new CssString()
+                {
+                    Css = $"border-radius:50%;" +
+                        $"color:{Theme.Palette.White};" +
+                        $"font-size:{Theme.FontStyle.FontSize.Large};" +
+                        $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};"
+                }
+            });
+            personaCoinRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-initials--showUnknownPersonaCoin" },
+                Properties = new CssString()
+                {
+                    Css = $"color:rgb(168, 0, 0);" 
+                }
+            });
+
+
+            return personaCoinRules;
+        }
+
+
+
     }
 }

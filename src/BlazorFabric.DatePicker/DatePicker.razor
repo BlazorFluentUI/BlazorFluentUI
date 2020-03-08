@@ -1,12 +1,13 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<div class=@($"mediumFont ms-DatePicker{(IsDatePickerShown ? " ms-DatePicker--is-open" : "" )} {ClassName}")
+<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+
+<div class=@($"mediumFont ms-DatePicker{(IsDatePickerShown ? " ms-DatePicker--is-open" : "" )} {(Disabled ? " ms-DatePicker--is-disabled" : "" )} normalize {ClassName}")
      style=@Style>
     <div aria-haspopup="true"
          aria-owns=@(IsDatePickerShown ? calloutId : "")
-         @ref="datePickerDiv"
-         >
+         @ref="datePickerDiv">
         <TextField Label=@Label
                    @ref="textFieldComponent"
                    AriaLabel=@AriaLabel
@@ -35,8 +36,7 @@
                                  }
                              })
                    OnBlur=@OnTextFieldBlur
-                   OnFocus=@OnTextFieldFocus
-                   />
+                   OnFocus=@OnTextFieldFocus />
     </div>
     @if (IsDatePickerShown)
     {
@@ -48,8 +48,7 @@
                  FabricComponentTarget="textFieldComponent"
                  DirectionalHint="DirectionalHint.BottomLeftEdge"
                  ClassName="ms-DatePicker-callout"
-                 OnDismiss=@CalendarDismissed
-                 >
+                 OnDismiss=@CalendarDismissed>
             <FocusTrapZone IsClickableOutsideFocusTrap="true"
                            DisableFirstFocus=@DisableAutoFocus
                            ForceFocusInsideTrap="false">
@@ -69,8 +68,7 @@
                           MinDate=@MinDate
                           MaxDate=@MaxDate
                           ShowCloseButton=@ShowCloseButton
-                          AllFocusable=@AllFocusable
-                          />
+                          AllFocusable=@AllFocusable />
             </FocusTrapZone>
         </Callout>
     }

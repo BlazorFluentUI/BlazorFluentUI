@@ -453,7 +453,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-normalize {
+.normalize {
     box-shadow: none;
     margin: 0px;
     padding: 0px;

@@ -226,7 +226,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"box-shadow:var(--effects-Elevation64);" +
-                        $"border-radius:var(--effects - RoundedCorner2);" +
+                        $"border-radius:var(--effects-RoundedCorner2);" +
                         $"background-color:{Theme.Palette.White};" +
                         $"box-sizing:border-box;" +
                         $"position:relative;" +

@@ -15,7 +15,7 @@ namespace BlazorFabric
         [Parameter] public RenderFragment ChildContent { get; set; }
 
 
-        private ICollection<Rule> CssRules = new HashSet<Rule>();
+        private ICollection<IRule> CssRules = new HashSet<IRule>();
         private Rule msTextRule;
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)

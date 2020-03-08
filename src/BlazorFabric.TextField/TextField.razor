@@ -6,7 +6,7 @@
 <LocalCS @bind-Rules="@TextFieldLocalRules" />
 
 
-<div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(hasLabel ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )}")
+<div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(hasLabel ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )} {ClassName}")
      style=@Style
      @ref="RootElementReference"
      @onclick="OnClick">

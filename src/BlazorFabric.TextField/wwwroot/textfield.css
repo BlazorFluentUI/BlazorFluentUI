@@ -1,5 +1,5 @@
 ﻿/* LABEL STYLES */
-.ms-TextField.ms-TextField--underlined.is-disabled .ms-Label {
+/*.ms-TextField.ms-TextField--underlined.is-disabled .ms-Label {
     color: var(--palette-NeutralTertiary);
 }
 
@@ -16,10 +16,10 @@
     .ms-TextField.is-active .ms-Label {
         height: 31px;
     }
-}
+}*/
 
 
-/* TEXTFIELD STYLES  */
+/* TEXTFIELD STYLES  
 
 
 .ms-TextField {
@@ -49,7 +49,7 @@
 }
 
 .ms-TextField--underlined.is-disabled .ms-TextField-wrapper {
-    /*border-bottom-color: var(--semanticColors-DisabledBackground);*/
+    /*border-bottom-color: var(--semanticColors-DisabledBackground);
 }
 
 .ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.has-error) .ms-TextField-wrapper:hover {
@@ -67,7 +67,7 @@
 }
 
 .ms-TextField--underlined.is-focused:not(.has-error) .ms-TextField-wrapper {
-    /*border-bottom-color: var(--semanticColors-InputFocusBorderAlt);*/
+    /*border-bottom-color: var(--semanticColors-InputFocusBorderAlt);
 }
 
 @media screen and (-ms-high-contrast: active) {
@@ -76,7 +76,7 @@
         border-bottom-width: 2px;
     }
 }
-/*fluent addition*/
+/*fluent addition
 .ms-TextField-wrapper {
     border-color: var(--palette-NeutralSecondaryAlt);
 }
@@ -84,7 +84,7 @@
 
 /* FIELDGROUP */
 
-.ms-TextField-fieldGroup {
+/*.ms-TextField-fieldGroup {
     border: 1px solid var(--semanticColors-InputBorder);
     background: var(--semanticColors-InputBackground);
     cursor: text;
@@ -101,7 +101,7 @@
     }
 }
 
-.ms-TextField--multiline .ms-TextField-fieldGroup {
+/*.ms-TextField--multiline .ms-TextField-fieldGroup {
     min-height: 60px;
     height: auto;
     display: flex;
@@ -116,7 +116,7 @@
 }
 /*.ms-TextField.is-focused .ms-TextField-fieldGroup{
     border-color: var(--semanticColors-InputFocusBorderAlt);
-}*/
+}
 @media screen and (-ms-high-contrast: active) {
     .ms-TextField.is-focused .ms-TextField-fieldGroup {
         border-color: Highlight;
@@ -126,15 +126,11 @@
 
 .ms-TextField.is-disabled .ms-TextField-fieldGroup {
     background-color: var(--semanticColors-DisabledBackground);
-    /*border-color: var(--semanticColors-DisabledBackground);*/
+    /*border-color: var(--semanticColors-DisabledBackground);
     cursor: default;
 }
 
-.ms-TextField--underlined .ms-TextField-fieldGroup {
-    flex: 1 1 0px;
-    border: none;
-    text-align: left;
-}
+
 
 @media screen and (-ms-high-contrast: active) {
     .ms-TextField--underlined.is-focused .ms-TextField-fieldGroup {
@@ -175,7 +171,7 @@
         right: -14px;
     }
 }
-/* fluent addon */
+/* fluent addon 
 .ms-TextField-fieldGroup {
     border-radius: var(--effects-RoundedCorner2);
     border-color: var(--palette-NeutralSecondaryAlt);
@@ -184,7 +180,7 @@
     border-color: var(--palette-NeutralSecondaryAlt);
 }*/
 
-/* FIELD (the input) */
+/* FIELD (the input)
 .ms-TextField-field {
     border-radius: 0px;
     border: none;
@@ -224,7 +220,7 @@
         opacity: 1;
     }
 
-.ms-TextField--multiline.ms-TextField--unresizable .ms-TextField-field {
+/*.ms-TextField--multiline.ms-TextField--unresizable .ms-TextField-field {
     resize: none;
 }
 
@@ -239,14 +235,14 @@
 
 .ms-TextField--multiline.auto-adjust-height .ms-TextField-field {
     overflow: hidden;
-}
+}*/
 
-/*has-icon*/
+/*has-icon
 .ms-TextField:not(.is-disabled) .ms-TextField-field {
     color: var(--palette-NeutralDark);
 }
 
-.ms-TextField.is-disabled .ms-TextField-field {
+/*.ms-TextField.is-disabled .ms-TextField-field {
     background-color: transparent;
     color: var(--semanticColors-DisabledText);
 }
@@ -259,11 +255,11 @@
         color: var(--palette-NeutralTertiary);
     }
 
-.ms-TextField--underlined .ms-TextField-field {
+/*.ms-TextField--underlined .ms-TextField-field {
     text-align: left;
-}
+}*/
 
-@media screen and (-ms-high-contrast: active) {
+/*@media screen and (-ms-high-contrast: active) {
     .ms-TextField.is-focused:not(.ms-TextField--borderless) .ms-TextField-field {
         padding-left: 11px;
         padding-right: 11px;
@@ -272,11 +268,11 @@
     .ms-TextField.is-focused.ms-TextField--multiline:not(.ms-TextField--borderless) .ms-TextField-field {
         padding-top: 4px;
     }
-}
+}*/
 
 
 /* ICON */
-.ms-TextField--multiline .ms-TextField-icon {
+/*.ms-TextField--multiline .ms-TextField-icon {
     padding-right:24px;
     padding-bottom:8px;
     align-items:flex-end;
@@ -289,24 +285,25 @@
     top:auto;
     font-size:var(--fontSize-Medium);
     line-height:18px;
-}
+}*/
 
-.ms-TextField-description{
+/* DESCRIPTION */
+/*.ms-TextField-description{
     color: var(--semanticColors-BodySubtext);
     font-size: var(--fontSize-XSmall);
-}
+}*/
 
 /* ERROR MESSAGE */
-.ms-TextField--errorMessage {
+/*.ms-TextField--errorMessage {
     color: var(--palette-RedDark);
     margin: 0;
     padding-top: 5px;
     display: flex;
     align-items: center;
-}
+}*/
 
 /* PREFIX */
-.ms-TextField-prefix {
+/*.ms-TextField-prefix {
     background: var(--semanticColors-DisabledBackground);
     color: var(--semanticColors-InputPlaceholderText);
     display: flex;
@@ -319,10 +316,10 @@
 
 .ms-TextField.is-disabled .ms-TextField-prefix {
     color: var(--semanticColors-DisabledText);
-}
+}*/
 
 /* SUFFIX */
-.ms-TextField-suffix {
+/*.ms-TextField-suffix {
     background: var(--semanticColors-DisabledBackground);
     color: var(--semanticColors-InputPlaceholderText);
     display: flex;
@@ -335,14 +332,14 @@
 
 .ms-TextField.is-disabled .ms-TextField-suffix {
     color: var(--semanticColors-DisabledText);
-}
+}*/
 
 /* DESCRIPTION */
-.ms-TextField-description {
+/*.ms-TextField-description {
     color: var(--neutralColors-Gray130);
     font-size: var(--fontSize-Mini);
     margin: 0;
     padding-top: 5px;
     display: flex;
     align-items: center;
-}
+}*/

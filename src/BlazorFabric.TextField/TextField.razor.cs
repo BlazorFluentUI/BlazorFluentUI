@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorFabric.Style;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
@@ -79,6 +80,11 @@ namespace BlazorFabric
         private bool defaultErrorMessageIsSet;
         private string latestValidatedValue = "";
         private string currentValue;
+        private bool hasIcon;
+        private bool hasLabel;
+        private Rule TextField_Field_HasIcon = new Rule();
+
+        private ICollection<IRule> TextFieldLocalRules { get; set; } = new List<IRule>();
         private ICollection<Task> DeferredValidationTasks = new List<Task>();
 
         protected string CurrentValue
@@ -106,6 +112,13 @@ namespace BlazorFabric
 
             // to prevent changes after initialisation
             deferredValidationTime = DeferredValidationTime;
+            hasIcon = !string.IsNullOrWhiteSpace(IconName);
+            hasLabel = !string.IsNullOrWhiteSpace(Label);
+            if (hasIcon)
+            {
+                CreateLocalCss();
+            }
+
 
 
             return base.OnInitializedAsync();
@@ -126,6 +139,25 @@ namespace BlazorFabric
 
             return base.OnParametersSetAsync();
         }
+
+        protected override void OnThemeChanged()
+        {
+            if (hasIcon)
+            {
+                SetStyle();
+            }
+        }
+
+        private void CreateLocalCss()
+        {
+            if (hasIcon)
+            {
+                TextField_Field_HasIcon.Selector = new ClassSelector() { SelectorName = "ms-TextField-field" };
+
+                TextFieldLocalRules.Add(TextField_Field_HasIcon);
+            }
+        }
+
 
         protected async Task InputHandler(ChangeEventArgs args)
         {
@@ -247,9 +279,509 @@ namespace BlazorFabric
                 _ = Task.Run(() =>
                   {
                       Validate(value);
-                      InvokeAsync(()=>StateHasChanged());  //invokeasync required for serverside
+                      InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
                   }).ConfigureAwait(false);
             }
+        }
+
+        private void SetStyle()
+        {
+            if (hasIcon)
+            {
+                TextField_Field_HasIcon.Properties = new CssString()
+                {
+                    Css = $"padding-right:{(Multiline ? "40px" : "24px")};"
+                };
+            }
+        }
+
+        private ICollection<Rule> CreateGlobalCss()
+        {
+            var MyRules = new List<Rule>();
+            #region ms-TextField
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField" },
+                Properties = new CssString()
+                {
+                    Css = $"position: relative;"
+                }
+            });
+            #endregion
+            #region ms-TextField-wrapper
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined .ms-TextField-wrapper" },
+                Properties = new CssString()
+                {
+                    Css = $"display: flex;" +
+                        $"border-bottom:1px solid {Theme.SemanticColors.InputBorder};" +
+                        $"width:100%;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined.is-disabled .ms-TextField-wrapper" },
+                Properties = new CssString()
+                {
+                    Css = $"border-bottom-color:{Theme.SemanticColors.DisabledBackground};"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-TextField--underlined.is-disabled .ms-TextField-wrapper{border-color:gray;}"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.has-error) .ms-TextField-wrapper:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"border-bottom-color:{Theme.SemanticColors.InputBorderHovered};"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined:not(.is-disabled):not(.is-focused).has-error .ms-TextField-wrapper:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"border-bottom-color:{Theme.SemanticTextColors.ErrorText};"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-TextField--underlined:not(.is-disabled):not(.is-focused) .ms-TextField-wrapper:hover{border-bottom-color:Highlight;}"
+                }
+            });
+            var WrapperFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticColors.InputFocusBorderAlt, BorderRadius = "0", }, ".ms-TextField--underlined.is-focused .ms-TextField-wrapper", true);
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined.is-focused .ms-TextField-wrapper" },
+                Properties = new CssString()
+                {
+                    Css = "position:relative;" + WrapperFocusRules.MergeRules
+                }
+            });
+            MyRules.AddRange(WrapperFocusRules.AddRules);
+            var WrapperFocusErrorRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticTextColors.ErrorText, BorderRadius = "0", }, ".ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper", true);
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined.is-focused .ms-TextField-wrapper" },
+                Properties = new CssString()
+                {
+                    Css = "position:relative;" + WrapperFocusErrorRules.MergeRules
+                }
+            });
+            MyRules.AddRange(WrapperFocusErrorRules.AddRules);
+            #endregion
+            #region ms-TextField-fieldGroup
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField-fieldGroup" },
+                Properties = new CssString()
+                {
+                    Css = $"border:1px solid {Theme.SemanticColors.InputBorder};" +
+                        $"border-radius:var(--effects-RoundedCorner2);" +
+                        $"background:{Theme.SemanticColors.InputBackground};" +
+                        $"cursor:text;" +
+                        $"height:32px;" +
+                        $"display:flex;" +
+                        $"flex-direction: row;" +
+                        $"align-items:stretch;" +
+                        $"position:relative;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--multiline .ms-TextField-fieldGroup" },
+                Properties = new CssString()
+                {
+                    Css = $"min-height:60px;" +
+                        $"height:auto;" +
+                        $"display:flex;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"border-color:{Theme.SemanticColors.InputBorderHovered};"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover{border-color:Highlight;}"
+                }
+            });
+            var FieldGroupFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticColors.InputFocusBorderAlt, BorderRadius = "var(--effects-RoundedCorner2)", }, ".ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup");
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup" },
+                Properties = new CssString()
+                {
+                    Css = FieldGroupFocusRules.MergeRules
+                }
+            });
+            MyRules.AddRange(FieldGroupFocusRules.AddRules);
+            var FieldGroupErrorFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticTextColors.ErrorText, BorderRadius = "var(--effects-RoundedCorner2)", }, ".ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup");
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup" },
+                Properties = new CssString()
+                {
+                    Css = FieldGroupErrorFocusRules.MergeRules
+                }
+            });
+            MyRules.AddRange(FieldGroupErrorFocusRules.AddRules);
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-disabled .ms-TextField-fieldGroup" },
+                Properties = new CssString()
+                {
+                    Css = $"border-color:{Theme.SemanticColors.DisabledBackground};" +
+                        $"cursor:default;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-TextField.is-disabled .ms-TextField-fieldGroup{border-color:gray;}"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--borderless .ms-TextField-fieldGroup" },
+                Properties = new CssString()
+                {
+                    Css = $"border:none;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--borderless.is-focused .ms-TextField-fieldGroup" },
+                Properties = new CssString()
+                {
+                    Css = $"border:none;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--borderless.is-focused .ms-TextField-fieldGroup:after" },
+                Properties = new CssString()
+                {
+                    Css = $"border:none;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined .ms-TextField-fieldGroup" },
+                Properties = new CssString()
+                {
+                    Css = $"flex:1 1 0px;" +
+                        $"border:none;" +
+                        $"text-align:left;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined.is-disabled .ms-TextField-fieldGroup" },
+                Properties = new CssString()
+                {
+                    Css = $"background:none;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup" },
+                Properties = new CssString()
+                {
+                    Css = $"border-color:{Theme.SemanticTextColors.ErrorText};"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"border-color:{Theme.SemanticTextColors.ErrorText};"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.no-label.is-required .ms-TextField-fieldGroup:before"},
+                Properties = new CssString()
+                {
+                    Css = $"content:'*';" +
+                        $"color:{Theme.SemanticTextColors.ErrorText};" +
+                        $"position:absolute;" +
+                        $"top:-5px;" +
+                        $"right:-10px;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-TextField.no-label.is-required .ms-TextField-fieldGroup:before{right:-14px;}"
+                }
+            });
+            #endregion
+            #region ms-TextField-field
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField-field" },
+                Properties = new CssString()
+                {
+                    Css = $"border-radius:0;" +
+                        $"border:none;" +
+                        $"background:none;" +
+                        $"background-color:transparent;" +
+                        $"color:{Theme.SemanticTextColors.InputText};" +
+                        $"padding:0px 8px;" +
+                        $"width:100%;" +
+                        $"text-overflow:ellipsis;" +
+                        $"outline:0;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField-field:active,.ms-TextField-field:focus,.ms-TextField-field:hover" },
+                Properties = new CssString()
+                {
+                    Css = $"outline:0;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField-field::-ms-clear" },
+                Properties = new CssString()
+                {
+                    Css = $"display:none;"
+                }
+            });
+            MyRules.AddRange(PlaceHolderStyle.GetPlaceholderStyle(".ms-TextField-field", 
+                new CssString() 
+                { 
+                    Css = $"color:{Theme.SemanticTextColors.InputPlaceholderText};" +
+                        $"opacity:1;" 
+                }));
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--multiline.ms-TextField--unresizable .ms-TextField-field" },
+                Properties = new CssString()
+                {
+                    Css = $"resize:none;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--multiline .ms-TextField-field" },
+                Properties = new CssString()
+                {
+                    Css = $"min-height:inherit;" +
+                        $"line-height:17px;" +
+                        $"flex-grow:1;" +
+                        $"padding-top:6px;" +
+                        $"padding-bottom:6px;" +
+                        $"overflow:auto;" +
+                        $"width:100%;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--multiline.auto-adjust-height .ms-TextField-field" },
+                Properties = new CssString()
+                {
+                    Css = $"overflow:hidden;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-disabled .ms-TextField-field" },
+                Properties = new CssString()
+                {
+                    Css = $"backgroundColor:{Theme.SemanticColors.DisabledBackground};" +
+                        $"color:{Theme.SemanticTextColors.DisabledText};" +
+                        $"border-color:{Theme.SemanticColors.DisabledBackground};"
+                }
+            });
+            MyRules.AddRange(PlaceHolderStyle.GetPlaceholderStyle(".ms-TextField.is-disabled .ms-TextField-field",
+                new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                }));
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined .ms-TextField-field" },
+                Properties = new CssString()
+                {
+                    Css = $"text-align:left;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-TextField.is-focused:not(.ms-TextField--borderless) .ms-TextField-field{padding-left:11px;padding-right:11px;}" +
+                        ".ms-TextField.is-focused.ms-TextField--multiline:not(.ms-TextField--borderless) .ms-TextField-field{padding-top:4px;}"
+                }
+            });
+            #endregion
+            #region ms-TextField-icon
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--multiline .ms-TextField-icon" },
+                Properties = new CssString()
+                {
+                    Css = $"padding-right:24px;" +
+                        $"align-items:flex-end;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField-icon" },
+                Properties = new CssString()
+                {
+                    Css = $"pointer-events:none;" +
+                        $"position:absolute;" +
+                        $"bottom:6px;" +
+                        $"right:8px;" +
+                        $"top:auto;" +
+                        $"font-size:{Theme.FontStyle.FontSize.Medium};" +
+                        $"line-height:18px;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-disabled .ms-TextField-icon" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                }
+            });
+            #endregion
+            #region ms-TextField-description
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField-description" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.BodySubtext};" +
+                        $"font-size:{Theme.FontStyle.FontSize.XSmall};"
+                }
+            });
+            #endregion
+            #region ms-TextField-prefix
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField-prefix" },
+                Properties = new CssString()
+                {
+                    Css = $"background:{Theme.SemanticColors.DisabledBackground};" +
+                        $"color:{Theme.SemanticTextColors.InputPlaceholderText};" +
+                        $"display:flex;" +
+                        $"align-items:center;" +
+                        $"padding:0px 10px;" +
+                        $"line-height:1px;" +
+                        $"white-space:nowrap;" +
+                        $"flex-shrink:0;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-disabled .ms-TextField-prefix" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                }
+            });
+            #endregion
+            #region ms-TextField-suffix
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField-suffix" },
+                Properties = new CssString()
+                {
+                    Css = $"background:{Theme.SemanticColors.DisabledBackground};" +
+                        $"color:{Theme.SemanticTextColors.InputPlaceholderText};" +
+                        $"display:flex;" +
+                        $"align-items:center;" +
+                        $"padding:0px 10px;" +
+                        $"line-height:1px;" +
+                        $"white-space:nowrap;" +
+                        $"flex-shrink:0;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-disabled .ms-TextField-suffix" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                }
+            });
+            #endregion
+            #region ms-TextField--errorMessage
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField--errorMessage" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.SemanticTextColors.ErrorText};" +
+                        $"margin:0;" +
+                        $"padding-top:5px;" +
+                        $"display:flex;" +
+                        $"align-items:center;"
+                }
+            });
+            #endregion
+            #region SubComponentStyle_Label
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.ms-TextField--underlined.is-disabled .ms-Label" },
+                Properties = new CssString()
+                {
+                    Css = $"color:{Theme.Palette.NeutralTertiary};"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.ms-TextField--underlined .ms-Label" },
+                Properties = new CssString()
+                {
+                    Css = $"font-size:{Theme.FontStyle.FontSize.Medium};" +
+                        $"margin-right:8px;" +
+                        $"padding-left:12px;" +
+                        $"padding-right:0px;" +
+                        $"line-height:22px;" +
+                        $"height:32px;"
+                }
+            });
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-TextField.ms-TextField--underlined.is-focused .ms-Label{height:31px;}"
+                }
+            });
+            #endregion
+
+            return MyRules;
         }
     }
 }

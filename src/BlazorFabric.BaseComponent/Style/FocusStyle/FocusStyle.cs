@@ -22,7 +22,7 @@ namespace BlazorFabric.Style
 
             focusStyles.AddRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $".ms-Fabric--isFocusVisible {selectorName}{(focusStyleProps.IsFocusedOnly ? ":focus" : "")}:after" },
+                Selector = new CssStringSelector() { SelectorName = $".ms-Fabric--isFocusVisible {selectorName}{(focusStyleProps.IsFocusedOnly ? ":focus" : "")}::after" },
                 Properties = new CssString()
                 {
                     Css = $"content:'';" +
@@ -80,7 +80,7 @@ namespace BlazorFabric.Style
 
             focusStyles.AddRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $".ms-Fabric--isFocusVisible {selectorName}:after" },
+                Selector = new CssStringSelector() { SelectorName = $".ms-Fabric--isFocusVisible {selectorName}::after" },
                 Properties = new CssString()
                 {
                     Css = $"outline:{focusStyleProps.Width}px solid {focusStyleProps.OutlineColor};" +
@@ -98,7 +98,7 @@ namespace BlazorFabric.Style
 
             focusStyles.AddRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"{selectorName}:after" },
+                Selector = new CssStringSelector() { SelectorName = $"{selectorName}::after" },
                 Properties = new CssString()
                 {
                     Css = $"pointer-events:none;" +

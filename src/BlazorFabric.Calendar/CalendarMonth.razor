@@ -1,6 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />
+
 @if (IsYearPickerVisible)
 {
     <CalendarYear @key=@($"calendarYear_{NavigatedDate.Year}")

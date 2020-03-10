@@ -1,6 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />
+
 <div class="ms-Calendar-yearPicker">
     <div class="ms-Calendar-header">
         @if (OnHeaderSelect.HasDelegate)

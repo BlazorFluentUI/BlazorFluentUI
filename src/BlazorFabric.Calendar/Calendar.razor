@@ -1,6 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />
+
 <div class=@($"ms-Calendar {ClassName}") role="application" @ref="RootElementReference" style=@Style>
     <div class=@($"ms-Calendar-picker ms-Calendar-pickerIsOpened ms-Calendar-pickerIsFocused{(IsMonthPickerVisibleInternal ? " ms-Calendar-monthPickerVisible" : "")}{(IsMonthPickerVisibleInternal && IsDayPickerVisibleInternal ? " ms-Calendar-calendarsInline" : "")}{(!ShowMonthPickerAsOverlay && !IsDayPickerVisibleInternal ? " ms-Calendar-monthPickerOnly" : "")}{(ShowMonthPickerAsOverlay ? " ms-Calendar-monthPickerAsOverlay" : "")}")>
         <div class=@($"ms-Calendar-holder ms-slideDownIn10{(ShowMonthPickerAsOverlay && ShowGoToToday ? " ms-Calendar-holderWithButton" : "")}")>
@@ -27,12 +29,11 @@
                                      RestrictedDates=@RestrictedDates
                                      WorkWeekDays=@WorkWeekDays
                                      ShowCloseButton=@ShowCloseButton
-                                     AllFocusable=@AllFocusable
-                                     />
+                                     AllFocusable=@AllFocusable />
                     }
                     @if (IsDayPickerVisibleInternal && IsMonthPickerVisibleInternal)
                     {
-                        <div class="ms-Calendar-divider"/>
+                        <div class="ms-Calendar-divider" />
                     }
                     @if (IsMonthPickerVisibleInternal)
                     {
@@ -46,8 +47,7 @@
                                        DateTimeFormatter=@DateTimeFormatter
                                        MinDate=@MinDate
                                        MaxDate=@MaxDate
-                                       YearPickerHidden=@(YearPickerHidden || ShowMonthPickerAsOverlay)
-                                       />
+                                       YearPickerHidden=@(YearPickerHidden || ShowMonthPickerAsOverlay) />
                     }
                     @if (ShowGoToToday)
                     {
@@ -56,8 +56,7 @@
                                 @onclick=@(args => OnGotoToday(args))
                                 tabindex="0"
                                 disabled=@(!GoTodayEnabled)
-                                type="button"
-                                >
+                                type="button">
                             @GoToTodayString
                         </button>
                     }

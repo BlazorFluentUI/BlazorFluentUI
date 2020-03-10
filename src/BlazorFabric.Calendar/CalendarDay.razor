@@ -1,6 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
+<GlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />
+
 <div class="ms-Calendar-dayPicker"
      id=@DayPickerId>
     <div class="ms-Calendar-header">

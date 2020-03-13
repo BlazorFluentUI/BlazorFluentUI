@@ -12,6 +12,18 @@ https://blazorfabric.azurewebsites.net/
 https://t.me/blazorfabric
 
 ## Release Notes
+- v3.0.0
+    - Theming is now available on BlazorFabric
+      - Defaultwise There is a Light- and a Dark-Theme
+      - You also can create your own Theme and add it
+      - Theme is an CascadingValue, so that you can also use Colors and Styles for your own Components
+    - Add DetailsList
+    - Add DetailsList-Grouped
+    - Add GroupedList
+   	- Add Indeterminate State to Checkbox
+    - Uppon this release you don't need to add .css-files in index.html / _Host.cshtml because Components will self take care of css-classes and styles with help of GlobalCS and LocalCS
+
+
 - v2.2.0 (Jan 25, 2020)
 	- Added `Pivot`
 	- Fix #78 positioning problems with `Callout`
@@ -109,10 +121,10 @@ https://t.me/blazorfabric
 | Control      | State | Information                         |
 | :----------- | :---: | :---------------------------------- |
 | ActivityItem | ToDo  |                                     |
-| DetailsList  | ToDo  |                                     |
+| DetailsList  | Done  |                                     |
 | DocumentCard | ToDo  |                                     |
 | Facepile     | ToDo  |                                     |
-| GroupedList  | ToDo  |                                     |
+| GroupedList  | Done  |                                     |
 | HoverCard    | ToDo  |                                     |
 | List         | Done  | supports `INotifyCollectionChanged` |
 | Persona      | Done  |                                     |
@@ -175,14 +187,15 @@ https://t.me/blazorfabric
 | :--------------- | :---------: | :------------------------------------ |
 | ResponsiveLayout |    Done     |                                       |
 | RichTextEditor   | In Progress | Works with limited styles available   |
-| ComponentStyle   | In Progress |                                       |
+| GlobalCS		   | In Progress |                                       |
+| LocalCS		   | In Progress |                                       |
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 
 
 ## To use
 1. Install NuGet package for the control you want.  _BlazorFabric.*_  (be sure to select preview packages)
-2. The Blazor team has been inconsistent with how static files from component libraries are added to projects in the past.  Going forward, you'll need to **add all javascript and CSS assets from the component packages manually**.  You can just copy/paste the section from the test app's index.html.
+2. The Blazor team has been inconsistent with how static files from component libraries are added to projects in the past.  Going forward, you'll need to **add all javascript assets from the component packages manually**.  You can just copy/paste the section from the test app's index.html.
 You can also use my helper VSIX extension (may have major bugs!  Be sure to compile once for assets to show up.): https://marketplace.visualstudio.com/items?itemName=LeeMcPherson.BlazorLibraryAssetHelper&ssr=false#overview  
 3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.
 
@@ -194,15 +207,48 @@ Use the tool here to generate your own MS font package: https://uifabricicons.az
 
 (Remember that the assets package has a more restrictive license.  You are required to use it with/for some type of Microsoft product.  However, one of their engineers said that using it hosted on Azure would be enough... but I'm not a lawyer, so use caution.)
 
-4. If you're using any component that requires a `Layer` as part of its inner-workings (i.e. `Modal`, `Callout`, etc... anything that pops up over already drawn stuff), you need to wrap the `Router` with a `LayerHost`.
-```
-<BlazorFabric.Layer.LayerHost Style="display:flex; flex-direction: row;width:100vw">
-    <Router AppAssembly="typeof(Startup).Assembly" />
-</BlazorFabric.Layer.LayerHost>
-```
-
-5. Add "AddBlazorFabric" to Startup.cs in Service-Configuration-Method
+4. Add "AddBlazorFabric" to Startup.cs in Service-Configuration-Method
 
 ```
 	services.AddBlazorFabric();
 ```
+
+5. Add following to index.html / _Host.cshtml head Tag 
+
+```
+ServerSide:
+	<component type="typeof(GlobalRules)" render-mode="ServerPrerendered" />
+
+ClientSide:
+	<style id="staticcs"></style>
+```
+
+6. Add following to Startup.cs in Configure-Methode
+
+```
+ServerSide:
+	issn't needed
+
+ClientSide:
+	app.AddComponent<GlobalRules>("#staticcs");
+```
+
+
+7. For Theme's add following in `App.razor` as most outside Component. You can have a look in Demo application's `App.razor`
+
+```
+<FabricTheme>
+	<...>
+		<Router AppAssembly="typeof(Startup).Assembly" />
+	</...>
+</FabricTheme>
+```
+
+8. If you're using any component that requires a `Layer` as part of its inner-workings (i.e. `Modal`, `Callout`, etc... anything that pops up over already drawn stuff), you need to wrap the `Router` with a `LayerHost`.
+```
+<LayerHost Style="display:flex; flex-direction: row;width:100vw">
+    <Router AppAssembly="typeof(Startup).Assembly" />
+</LayerHost>
+```
+
+

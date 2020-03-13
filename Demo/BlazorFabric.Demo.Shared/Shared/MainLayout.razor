@@ -27,11 +27,7 @@
                         </div>
                     </StackItem>
                     <StackItem DisableShrink="true">
-                        <Checkbox Label="Show Theme-Toggle" @bind-Checked=@showToggle />
-                        @if (showToggle)
-                        {
-                            <Toggle Checked=customTheme CheckedChanged="@SwitchTheme" OnText="Dark Theme" OffText="Default Theme" />
-                        }
+                        <Toggle Checked=customTheme CheckedChanged="@SwitchTheme" OnText="Dark Theme" OffText="Default Theme" />
                     </StackItem>
                 </Stack>
             </ResponsiveLayout>
@@ -63,7 +59,6 @@
     public ThemeProvider ThemeProvider { get; set; }
 
     private bool customTheme;
-    private bool showToggle;
 
     protected override void OnInitialized()
     {

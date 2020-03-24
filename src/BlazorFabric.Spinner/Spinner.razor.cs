@@ -161,7 +161,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner-label" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemePrimary};" +
+                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};" + 
+                          $"color:{Theme.Palette.ThemePrimary};" +
                             $"margin:8px 0 0 0;" +
                             $"text-align:center;"
                 }

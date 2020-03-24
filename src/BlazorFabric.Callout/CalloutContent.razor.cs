@@ -768,8 +768,8 @@ namespace BlazorFabric
             {
                 Css = $"position:absolute;" +
                         $"box-sizing:border-box;" +
-                        $"border-radius:var(--effects-RoundedCorner2);" +
-                        $"box-shadow:var(--effects-Elevation16);" +
+                        $"border-radius:{Theme.Effects.RoundedCorner2};" +
+                        $"box-shadow:{Theme.Effects.Elevation16};" +
                         $"{(CalloutWidth != 0 ? $"width:{CalloutWidth}px;" : "")}" +
                         $"{(CalloutMaxWidth != 0 ? $"max-width:{CalloutMaxWidth}px;" : "")}" +
                         $"outline:transparent;"
@@ -780,7 +780,7 @@ namespace BlazorFabric
                         $"overflow-x:hidden;" +
                         $"overflow-y:{(overflowYHidden ? "hidden" : "auto")};" +
                         $"position:relative;" +
-                        $"border-radius: var(--effects-RoundedCorner2);"
+                        $"border-radius: {Theme.Effects.RoundedCorner2};"
             };
             CalloutBeakRule.Properties = new CssString()
             {
@@ -817,7 +817,7 @@ namespace BlazorFabric
                         $"bottom:0;" +
                         $"left:0;" +
                         $"background-color:{Theme?.SemanticColors.MenuBackground};" +
-                        $"border-radius:var(--effects-RoundedCorner2);"
+                        $"border-radius:{Theme.Effects.RoundedCorner2};"
                 }
             });
             calloutGlobalRules.Add(new Rule()

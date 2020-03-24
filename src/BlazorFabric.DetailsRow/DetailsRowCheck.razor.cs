@@ -53,7 +53,9 @@ namespace BlazorFabric
                     Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-check" },
                     Properties = new CssString()
                     {
-                        Css = focusStyles.MergeRules +
+                        Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};" +
+                            focusStyles.MergeRules +
                           $"display:flex;" +
                           $"align-items:center;" +
                           $"justify-content:center;" +

@@ -387,7 +387,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"border:1px solid {Theme.SemanticColors.InputBorder};" +
-                        $"border-radius:var(--effects-RoundedCorner2);" +
+                        $"border-radius:{Theme.Effects.RoundedCorner2};" +
                         $"background:{Theme.SemanticColors.InputBackground};" +
                         $"cursor:text;" +
                         $"height:32px;" +
@@ -423,7 +423,7 @@ namespace BlazorFabric
                     Css = ".ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover{border-color:Highlight;}"
                 }
             });
-            var FieldGroupFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticColors.InputFocusBorderAlt, BorderRadius = "var(--effects-RoundedCorner2)", }, ".ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup");
+            var FieldGroupFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticColors.InputFocusBorderAlt, BorderRadius = Theme.Effects.RoundedCorner2, }, ".ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup");
             MyRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup" },
@@ -433,7 +433,7 @@ namespace BlazorFabric
                 }
             });
             MyRules.AddRange(FieldGroupFocusRules.AddRules);
-            var FieldGroupErrorFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticTextColors.ErrorText, BorderRadius = "var(--effects-RoundedCorner2)", }, ".ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup");
+            var FieldGroupErrorFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticTextColors.ErrorText, BorderRadius = Theme.Effects.RoundedCorner2, }, ".ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup");
             MyRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup" },
@@ -741,7 +741,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField--errorMessage" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ErrorText};" +
+                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
+                        $"color:{Theme.SemanticTextColors.ErrorText};" +
                         $"margin:0;" +
                         $"padding-top:5px;" +
                         $"display:flex;" +

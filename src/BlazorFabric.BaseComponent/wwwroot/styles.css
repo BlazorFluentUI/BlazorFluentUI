@@ -184,21 +184,21 @@
     --semanticColors-PrimaryButtonText: var(--neutralColors-White);
 }
 
-:root{
+/*:root{
     --depths-Depth0: 0 0 0 0 transparent;
     --depths-Depth4: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
     --depths-Depth8: 0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132), 0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108);
     --depths-Depth16: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
     --depths-Depth64: 0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18);
-}
+}*/
 
-:root {
+/*:root {
     --effects-RoundedCorner2: 2px;
     --effects-Elevation4: var(--depths-Depth4);
     --effects-Elevation8: var(--depths-Depth8);
     --effects-Elevation16: var(--depths-Depth16);
     --effects-Elevation64: var(--depths-Depth64);
-}
+}*/
 
 :root {
     --fontSize-Mini: 10px;
@@ -251,14 +251,14 @@
 }
 
 
-.smallPlusFont {
+/*.smallPlusFont {
     font-size: var(--fontSize-Small);
     font-weight: var(--fontWeight-Regular);
-}
-.smallFont {
+}*/
+/*.smallFont {
     font-size: var(--fontSize-Small);
     font-weight: var(--fontWeight-Regular);
-}
+}*/
 .mediumFont{
     font-size: var(--fontSize-Medium);
     font-weight: var(--fontWeight-Regular);

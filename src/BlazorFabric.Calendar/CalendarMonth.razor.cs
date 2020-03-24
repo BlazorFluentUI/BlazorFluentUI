@@ -119,7 +119,7 @@ namespace BlazorFabric
             var isSelectedYear = SelectedDate.Year == NavigatedDate.Year;
 
             string classNames = "";
-            classNames += "smallFont ms-Calendar-monthOption";
+            classNames += "ms-Calendar-monthOption";
             if (HighlightCurrentMonth && isCurrentMonth)
                 classNames += " ms-Calendar-day--today ms-Calendar-monthIsCurrentMonth";
             if ((HighlightCurrentMonth || HighlightSelectedMonth) && isSelectedMonth && isSelectedYear)

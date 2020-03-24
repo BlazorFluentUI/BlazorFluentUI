@@ -225,8 +225,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Modal-main" },
                 Properties = new CssString()
                 {
-                    Css = $"box-shadow:var(--effects-Elevation64);" +
-                        $"border-radius:var(--effects-RoundedCorner2);" +
+                    Css = $"box-shadow:{Theme.Effects.Elevation64};" +
+                        $"border-radius:{Theme.Effects.RoundedCorner2};" +
                         $"background-color:{Theme.Palette.White};" +
                         $"box-sizing:border-box;" +
                         $"position:relative;" +

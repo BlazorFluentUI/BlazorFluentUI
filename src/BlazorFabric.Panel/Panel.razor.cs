@@ -517,7 +517,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"background-color:{Theme.SemanticColors.BodyBackground};" +
-                          $"box-shadow:var(--effects-Elevation64);"+
+                          $"box-shadow:{Theme.Effects.Elevation64};"+
                           $"pointer-events:auto;" +
                           $"position:absolute;" +
                           $"display:flex;" +

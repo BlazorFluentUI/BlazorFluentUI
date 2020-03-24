@@ -66,6 +66,16 @@ namespace BlazorFabric
             var columnRules = new HashSet<Rule>();
 
             // ROOT
+            columnRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".msDetailsColumn" },
+                Properties = new CssString()
+                {
+                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                }
+            });
+
             var cellStyles = DetailsHeader<TItem>.GetCellStyles(".ms-DetailsColumn", this.Theme);
             foreach (var rule in cellStyles)
                 columnRules.Add(rule);

@@ -384,7 +384,7 @@ namespace BlazorFabric
                             $"height:20px;" +
                             $"width:20px;" +
                             $"border:1px solid {Theme.Palette.NeutralPrimary};" +
-                            $"border-radius:var(--effects-RoundedCorner2);" +
+                            $"border-radius:{Theme.Effects.RoundedCorner2};" +
                             $"box-sizing:border-box;" +
                             $"transition-property: background, border, border-color;" +
                             $"transition-duration:200ms;" +
@@ -443,7 +443,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"content:'';" +
-                            $"border-radius:var(--effects-RoundedCorner2);" +
+                            $"border-radius:{Theme.Effects.RoundedCorner2};" +
                             $"position:absolute;" +
                             $"height:10px;" +
                             $"width:10px;" +

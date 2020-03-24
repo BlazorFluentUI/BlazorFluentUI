@@ -384,7 +384,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker-callout" },
                 Properties = new CssString()
                 {
-                    Css = $"box-shadow:var(--effects-Elevation8);"
+                    Css = $"box-shadow:{Theme.Effects.Elevation8};"
                 }
             });
             #endregion

@@ -55,7 +55,9 @@ namespace BlazorFabric
                             $"color:{Theme.SemanticTextColors.MenuItemText};" +
                             $"word-wrap:break-word;" +
                             $"overflow-wrap:break-word;" +
-                            $"overflow:hidden;"
+                            $"overflow:hidden;"+
+                            $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                            $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
                 }
             });
             tooltipGlobalRules.Add(new Rule()
@@ -78,7 +80,7 @@ namespace BlazorFabric
             TooltipRule.Properties = new CssString()
             {
                 Css = $"background:{Theme.SemanticColors.MenuBackground};" +
-                            $"box-shadow:var(--effects-Elevation8);" +
+                            $"box-shadow:{Theme.Effects.Elevation8};" +
                             $"padding:8px;" +
                             $"max-width:{MaxWidth}px;"
             };

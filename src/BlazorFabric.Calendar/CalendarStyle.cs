@@ -657,7 +657,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Calendar-monthOption,.ms-Calendar-yearOption" },
                 Properties = new CssString()
                 {
-                    Css = $"width:60px;" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
+                          $"width:60px;" +
                         $"height:60px;" +
                         $"line-height:100%;" +
                         $"cursor:pointer;" +

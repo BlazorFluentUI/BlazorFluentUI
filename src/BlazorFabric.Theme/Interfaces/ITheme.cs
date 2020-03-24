@@ -10,6 +10,8 @@ namespace BlazorFabric
         IFontStyle FontStyle { get; set; }
         ICommonStyle CommonStyle { get; set; }
         IZIndex ZIndex { get; set; }
+        IDepths Depths { get; set; }
+        IEffects Effects { get; set; }
 
     }
 }

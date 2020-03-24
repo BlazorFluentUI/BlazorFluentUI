@@ -222,7 +222,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu .ms-Callout" },
                 Properties = new CssString()
                 {
-                    Css = $"box-shadow:var(--effects-Elevation8);"
+                    Css = $"box-shadow:{Theme.Effects.Elevation8};"
                 }
             });
 

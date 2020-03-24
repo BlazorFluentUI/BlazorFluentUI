@@ -200,6 +200,8 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = rootFocusStyles.MergeRules +
+                          $"font-size:{Theme.FontStyle.FontSize.Medium};"+
+                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
                           $"box-sizing:border-box;" +
                           $"border: 1px solid {Theme.SemanticColors.ButtonBorder};"+
                           $"user-select:none;"+
@@ -211,7 +213,7 @@ namespace BlazorFabric
                           $"padding:0 16px;"+
                           $"min-width:80px;"+
                           $"height:32px;" +
-                          $"border-radius:var(--effects-RoundedCorner2);"
+                          $"border-radius:{Theme.Effects.RoundedCorner2};"
                 }
             });
 
@@ -381,7 +383,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button-description" },
                 Properties = new CssString()
                 {
-                    Css = $"display:block;"
+                    Css = $"display:block;"+
+                          $"font-size:{Theme.FontStyle.FontSize.Small};"+
+                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
                 }
             });
 
@@ -487,8 +491,8 @@ namespace BlazorFabric
                           $"height:auto;" +
                           $"box-sizing:border-box;" +
                           $"border-radius:0;" +
-                          $"border-top-right-radius:var(--effects-RoundedCorner2);" +
-                          $"border-bottom-right-radius:var(--effects-RoundedCorner2);" +
+                          $"border-top-right-radius:{Theme.Effects.RoundedCorner2};" +
+                          $"border-bottom-right-radius:{Theme.Effects.RoundedCorner2};" +
                           $"border-left:none;" +
                           $"outline:transparent;"+
                           $"user-select:none;"+
@@ -616,12 +620,12 @@ namespace BlazorFabric
             }
             if (isSplitButton)
             {
-                builder.AddAttribute(27, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont {(Disabled || PrimaryDisabled || commandDisabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
+                builder.AddAttribute(27, "class", $"ms-Button {buttonClassName} {this.ClassName} {(Disabled || PrimaryDisabled || commandDisabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}");
                 builder.AddAttribute(28, "disabled", (Disabled || PrimaryDisabled || commandDisabled) && !this.AllowDisabledFocus);
             }
             else
             {
-                builder.AddAttribute(27, "class", $"ms-Button {buttonClassName} {this.ClassName} mediumFont{(Disabled || commandDisabled ? " is-disabled" : "")}{(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}");
+                builder.AddAttribute(27, "class", $"ms-Button {buttonClassName} {this.ClassName} {(Disabled || commandDisabled ? " is-disabled" : "")}{(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}");
                 builder.AddAttribute(28, "disabled", (this.Disabled || commandDisabled) && !this.AllowDisabledFocus);
             }
             builder.AddAttribute(29, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
@@ -656,7 +660,7 @@ namespace BlazorFabric
                 if (isCompoundButton && (this as CompoundButton).SecondaryText != null)
                 {
                     builder.OpenElement(61, "span");
-                    builder.AddAttribute(62, "class", "ms-Button-description smallFont");
+                    builder.AddAttribute(62, "class", "ms-Button-description");
                     builder.AddContent(63, (this as CompoundButton).SecondaryText);
                     builder.CloseElement(); //closes div 61
                 }

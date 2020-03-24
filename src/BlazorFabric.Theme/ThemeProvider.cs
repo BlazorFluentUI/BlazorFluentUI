@@ -72,6 +72,8 @@ namespace BlazorFabric
             theme.FontStyle = new FontStyle() { FontSize = new DefaultFontSize(), FontWeight = new DefaultFontWeight(), IconFontSize = new DefaultIconFontSize() };
             theme.CommonStyle = new DefaultCommonStyle();
             theme.ZIndex = new DefaultZIndex();
+            theme.Effects = new DefaultEffects();
+            theme.Depths = new DefaultDepths();
             return theme;
         }
 

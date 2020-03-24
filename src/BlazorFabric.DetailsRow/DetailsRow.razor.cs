@@ -127,7 +127,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow" },
                 Properties = new CssString()
                 {
-                    Css = rootMergeStyleResults.MergeRules +
+                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
+                          rootMergeStyleResults.MergeRules +
                           $"border-bottom:1px solid {Theme.Palette.NeutralLighter};" +
                           $"background:{Theme.Palette.White};" +
                           $"color:{Theme.Palette.NeutralSecondary};" +

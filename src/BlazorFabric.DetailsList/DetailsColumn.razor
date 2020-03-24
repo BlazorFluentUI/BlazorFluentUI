@@ -6,7 +6,7 @@
 <div role="columnheader"
      aria-sort=@(Column.IsSorted ? (Column.IsSortedDescending ? "descending" : "ascending"): "none")
      aria-colindex=@ColumnIndex
-     class=@($"smallFont ms-DetailsColumn{(Column.ColumnActionsMode != ColumnActionsMode.Disabled ? " is-actionable" : "")}{(string.IsNullOrEmpty(Column.Name) ? " is-empty" : "")}{(Column.IsPadded ? " is-padded" : "")}{(Column.IsIconOnly ? " is-iconOnly" : "")}")
+     class=@($"ms-DetailsColumn{(Column.ColumnActionsMode != ColumnActionsMode.Disabled ? " is-actionable" : "")}{(string.IsNullOrEmpty(Column.Name) ? " is-empty" : "")}{(Column.IsPadded ? " is-padded" : "")}{(Column.IsIconOnly ? " is-iconOnly" : "")}")
      data-is-draggable=@IsDraggable
      draggable=@IsDraggable
      style=@($"width:{(Column.CalculatedWidth + DetailsRow<TItem>.CellLeftPadding + DetailsRow<TItem>.CellRightPadding + (Column.IsPadded ? DetailsRow<TItem>.CellExtraRightPadding : 0))}px;")>

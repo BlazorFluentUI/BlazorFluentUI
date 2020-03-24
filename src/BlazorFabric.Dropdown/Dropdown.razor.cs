@@ -269,15 +269,15 @@ namespace BlazorFabric
         {
             DropdownTitleOpenRule.Properties = new CssString()
             {
-                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"var(--effects-RoundedCorner2) var(--effects-RoundedCorner2) 0 0" : $"0 0 var(--effects-RoundedCorner2) var(--effects-RoundedCorner2)")};"
+                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"{Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2} 0 0" : $"0 0 {Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2}")};"
             };
             DropdownCalloutRule.Properties = new CssString()
             {
-                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"0 0 var(--effects-RoundedCorner2) var(--effects-RoundedCorner2)" : $"var(--effects-RoundedCorner2) var(--effects-RoundedCorner2) 0 0")};"
+                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"0 0 {Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2}" : $"{Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2} 0 0")};"
             };
             DropdownCalloutMainRule.Properties = new CssString()
             {
-                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"0 0 var(--effects-RoundedCorner2) var(--effects-RoundedCorner2)" : $"var(--effects-RoundedCorner2) var(--effects-RoundedCorner2) 0 0")};"
+                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"0 0 {Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2}" : $"{Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2} 0 0")};"
             };
 
 
@@ -347,7 +347,7 @@ namespace BlazorFabric
                           $"border-width:1px;" +
                           $"border-style:solid;" +
                           $"border-color:{Theme.SemanticColors.InputBorder};" +
-                          $"border-radius:var(--effects-RoundedCorner2);"+  //local style when is-open
+                          $"border-radius:{Theme.Effects.RoundedCorner2};"+  //local style when is-open
                           $"cursor:pointer;"+
                           $"display:block;"+
                           $"height:32px;"+
@@ -600,7 +600,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-errorMessage" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.RedDark};" +
+                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
+                          $"color:{Theme.Palette.RedDark};" +
                           $"padding-top:5px;"
                 }
             });
@@ -612,7 +614,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"border:none;" +
-                          $"box-shadow:var(--effects-Elevation8);"
+                          $"box-shadow:{Theme.Effects.Elevation8};"
                 }
             });
             #endregion

@@ -220,7 +220,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsHeader" },
                 Properties = new CssString()
                 {
-                    Css = $"display:flex;" +  // inline-block is seeing all the razor whitespace artifacts and adding extra spaces... switched to flex.  
+                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
+                          $"display:flex;" +  // inline-block is seeing all the razor whitespace artifacts and adding extra spaces... switched to flex.  
                           $"background:{Theme.SemanticColors.BodyBackground};" +
                           $"position:relative;" +
                           $"min-width:100%;" +

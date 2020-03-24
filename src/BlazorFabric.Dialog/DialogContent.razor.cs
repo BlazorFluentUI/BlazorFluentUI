@@ -175,7 +175,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"color:{Theme.SemanticTextColors.ButtonTextHovered};" +
-                        $"border-radius:var(--effects-RoundedCorner2);"
+                        $"border-radius:{Theme.Effects.RoundedCorner2};"
                 }
             });
             GlobalCssRules.Add(new Rule()

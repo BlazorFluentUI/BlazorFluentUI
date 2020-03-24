@@ -5,9 +5,11 @@ html, body {
 }*/
 
 html, body, button, input, textarea {
-    font-size: 15px;
     font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
+}
+html, body {
+    font-size: 15px;
 }
 body{
     margin:0;

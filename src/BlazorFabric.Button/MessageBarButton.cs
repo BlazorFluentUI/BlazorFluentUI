@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace BlazorFabric
 {
-    public class MessageBarButton : DefaultButton
+    public class MessageBarButton : DefaultButton, IHasPreloadableGlobalStyle
     {
-        protected override ICollection<Rule> CreateGlobalCss()
+        public override ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
 
-            var rules = base.CreateGlobalCss();
+            var rules = base.CreateGlobalCss(theme);
 
 
             rules.Add(new Rule()
@@ -32,7 +32,7 @@ namespace BlazorFabric
 
             builder.OpenComponent<GlobalCS>(0);
             builder.AddAttribute(1, "Component", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(this));
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFabric.Rule>>(CreateGlobalCss));
+            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFabric.Rule>>(()=>CreateGlobalCss(Theme)));
             builder.AddAttribute(3, "FixStyle", true);
             builder.CloseComponent();
 

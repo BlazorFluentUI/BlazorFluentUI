@@ -12,5 +12,6 @@ namespace BlazorFabric
         public IZIndex ZIndex { get; set; }
         public IEffects Effects { get; set; }
         public IDepths Depths { get; set; }
+        public IAnimation Animation { get; set; }
     }
 }

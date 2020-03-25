@@ -9,7 +9,7 @@ using System.Timers;
 
 namespace BlazorFabric
 {
-    public partial class Modal : FabricComponentBase, IDisposable
+    public partial class Modal : FabricComponentBase, IDisposable, IHasPreloadableGlobalStyle
     {
         [Parameter]
         public string ContainerClass { get; set; }
@@ -171,7 +171,7 @@ namespace BlazorFabric
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
 
             var GlobalCssRules = new HashSet<Rule>();
@@ -225,9 +225,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Modal-main" },
                 Properties = new CssString()
                 {
-                    Css = $"box-shadow:{Theme.Effects.Elevation64};" +
-                        $"border-radius:{Theme.Effects.RoundedCorner2};" +
-                        $"background-color:{Theme.Palette.White};" +
+                    Css = $"box-shadow:{theme.Effects.Elevation64};" +
+                        $"border-radius:{theme.Effects.RoundedCorner2};" +
+                        $"background-color:{theme.Palette.White};" +
                         $"box-sizing:border-box;" +
                         $"position:relative;" +
                         $"text-align:left;" +
@@ -241,7 +241,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Modal.isModeless .ms-Modal-main" },
                 Properties = new CssString()
                 {
-                    Css = $"z-index:{Theme.ZIndex.Layer};"
+                    Css = $"z-index:{theme.ZIndex.Layer};"
                 }
             });
             GlobalCssRules.Add(new Rule()

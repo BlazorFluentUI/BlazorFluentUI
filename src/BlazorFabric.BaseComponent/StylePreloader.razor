@@ -1,0 +1,15 @@
+﻿@namespace BlazorFabric
+@inherits FabricComponentBase
+
+<GlobalCS ComponentType=@(Component.GetType()) 
+          CreateGlobalCss=@(()=>Component.CreateGlobalCss(this.Theme)) 
+          FixStyle="true"/>
+
+@code {
+    [Parameter] public IHasPreloadableGlobalStyle Component { get; set; }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+        }
+}

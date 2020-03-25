@@ -3,7 +3,9 @@
 @using Microsoft.AspNetCore.Components.Web
 @typeparam TItem
 
-<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<StylePreloader Component=@(new CommandButton()) />
+
+<GlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <LocalCS @bind-Rules="@DropdownLocalRules" />
 <div class="ms-Dropdown-root"
      style=@Style

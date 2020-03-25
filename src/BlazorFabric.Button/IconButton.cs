@@ -11,7 +11,7 @@ namespace BlazorFabric
 
         private ICollection<Rule> CreateGlobalCss()
         {
-            var rules = CreateBaseGlobalCss();
+            var rules = CreateBaseGlobalCss(Theme);
 
             rules.Add(new Rule()
             {

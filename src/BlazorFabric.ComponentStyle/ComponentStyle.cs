@@ -38,21 +38,37 @@ namespace BlazorFabric
             GlobalCSRules.Clear();
         }
 
-        public bool ComponentStyleExist(object component)
+        //public bool ComponentStyleExist(object component)
+        //{
+        //    if (component == null)
+        //        return false;
+        //    var componentType = component.GetType();
+        //    return GlobalRulesSheets.Any(x => x.Component?.GetType() == componentType);
+        //}
+
+        public bool ComponentStyleExist(Type componentType)
         {
-            if (component == null)
+            if (componentType == null)
                 return false;
-            var componentType = component.GetType();
-            return GlobalRulesSheets.Any(x => x.Component?.GetType() == componentType);
+            return GlobalRulesSheets.Any(x => x.ComponentType == componentType);
         }
 
-        public bool StyleSheetIsNeeded(object component)
+        //public bool StyleSheetIsNeeded(object component)
+        //{
+        //    if (component == null)
+        //        return false;
+        //    var componentType = component.GetType();
+        //    return GlobalCSSheets.Any(x => x.Component?.GetType() == componentType);
+        //}
+
+        public bool StyleSheetIsNeeded(Type componentType)
         {
-            if (component == null)
+            if (componentType == null)
                 return false;
-            var componentType = component.GetType();
-            return GlobalCSSheets.Any(x => x.Component?.GetType() == componentType);
+            //var componentType = component.GetType();
+            return GlobalCSSheets.Any(x => x.ComponentType == componentType);
         }
+
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -60,16 +76,16 @@ namespace BlazorFabric
             {
                 foreach (var item in e.OldItems)
                 {
-                    if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).Component != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).Component))
-                    {
-                        GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()));
-                        RemoveOneStyleSheet((IGlobalCSSheet)item);
-                        GlobalRules.UpdateGlobalRules();
-                    }
-                    else if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).Component != null && ((IGlobalCSSheet)item).IsGlobal)
-                    {
-                        GlobalCSSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()).IsGlobal = true;
-                    }
+                    //if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).Component != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).Component))
+                    //{
+                    //    GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()));
+                    //    RemoveOneStyleSheet((IGlobalCSSheet)item);
+                    //    GlobalRules.UpdateGlobalRules();
+                    //}
+                    //else if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).Component != null && ((IGlobalCSSheet)item).IsGlobal)
+                    //{
+                    //    GlobalCSSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()).IsGlobal = true;
+                    //}
                 }
             }
 
@@ -77,7 +93,7 @@ namespace BlazorFabric
             {
                 foreach (var item in e.NewItems)
                 {
-                    if (!ComponentStyleExist(((IGlobalCSSheet)item).Component))
+                    if (!ComponentStyleExist(((IGlobalCSSheet)item).ComponentType))
                     {
                         GlobalRulesSheets.Add((IGlobalCSSheet)item);
                         ((IGlobalCSSheet)item).IsGlobal = true;

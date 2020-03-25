@@ -2,7 +2,7 @@
 @inherits FabricComponentBase
 @using Microsoft.AspNetCore.Components.Web
 
-<GlobalCS Component="this" CreateGlobalCss="CreateGlobalCss"/>
+<GlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme))/>
 
 @*<KeytipData keytipProps={keytipProps} disabled={disabled}>
     {(keytipAttributes: any): JSX.Element => (*@

@@ -2,6 +2,13 @@
 
 <h1>Dialog</h1>
 
+<StylePreloader Component=@(new PrimaryButton()) />
+<StylePreloader Component=@(new DefaultButton()) />
+<StylePreloader Component=@(new TextField()) />
+<StylePreloader Component=@(new Dropdown<DataItem>()) />
+<StylePreloader Component=@(new Checkbox()) />
+
+
 <Checkbox Label="Is Blocking Dialog" @bind-Checked=@isBlocking />
 <DefaultButton Text="Open Dialog" OnClick=@(args=> dialogOpen=true) />
 <Dialog Title="This is a dialog menu."

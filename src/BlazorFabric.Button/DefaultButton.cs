@@ -5,20 +5,20 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public class DefaultButton : ButtonBase
+    public class DefaultButton : ButtonBase, IHasPreloadableGlobalStyle
     {
-        protected virtual ICollection<Rule> CreateGlobalCss()
+        public virtual ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
-            var rules = CreateBaseGlobalCss();
+            var rules = CreateBaseGlobalCss(theme);
 
             rules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--default" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ButtonText};" +
-                          $"background-color:{Theme.Palette.White};" +
-                          $"border:1px solid {Theme.Palette.NeutralSecondaryAlt};"
+                    Css = $"color:{theme.SemanticTextColors.ButtonText};" +
+                          $"background-color:{theme.Palette.White};" +
+                          $"border:1px solid {theme.Palette.NeutralSecondaryAlt};"
                 }
             });
 
@@ -27,8 +27,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--default:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ButtonTextHovered};" +
-                          $"background-color:{Theme.Palette.NeutralLighter};" 
+                    Css = $"color:{theme.SemanticTextColors.ButtonTextHovered};" +
+                          $"background-color:{theme.Palette.NeutralLighter};" 
                 }
             });
 
@@ -37,8 +37,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--default:active" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ButtonTextChecked};" +
-                         $"background-color:{Theme.Palette.NeutralLight};"
+                    Css = $"color:{theme.SemanticTextColors.ButtonTextChecked};" +
+                         $"background-color:{theme.Palette.NeutralLight};"
                 }
             });
 
@@ -47,8 +47,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--default.is-checked:not(.is-disabled)" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ButtonTextChecked};" +
-                         $"background-color:{Theme.Palette.NeutralLight};"
+                    Css = $"color:{theme.SemanticTextColors.ButtonTextChecked};" +
+                         $"background-color:{theme.Palette.NeutralLight};"
                 }
             });
 
@@ -57,7 +57,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--default.is-checked:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralLight};"
+                    Css = $"background-color:{theme.Palette.NeutralLight};"
                 }
             });
 
@@ -66,8 +66,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--default.is-disabled" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralLighter};"+
-                          $"border-color:{Theme.Palette.NeutralLighter};"
+                    Css = $"background-color:{theme.Palette.NeutralLighter};"+
+                          $"border-color:{theme.Palette.NeutralLighter};"
                 }
             });
 
@@ -88,7 +88,7 @@ namespace BlazorFabric
         {
             builder.OpenComponent<GlobalCS>(0);
             builder.AddAttribute(1, "Component", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(this));
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFabric.Rule>>(CreateGlobalCss));
+            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFabric.Rule>>(()=>CreateGlobalCss(Theme)));
             builder.AddAttribute(3, "FixStyle", true);
             builder.CloseComponent();
 

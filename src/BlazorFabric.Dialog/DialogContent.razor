@@ -1,8 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
-
+<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss"/>
+<StylePreloader Component=@(new Overlay()) />
 
 <div class=@($"mediumFont ms-Dialog-content{(DialogType == DialogType.LargeHeader ? " ms-Dialog--lgHeader":"")}{(DialogType == DialogType.Close ? " ms-Dialog--close":"")}{(IsMultiline ? " ms-Dialog--multiline":"")} {this.ClassName}")>
     <div class="ms-Dialog-header" style=@(string.IsNullOrWhiteSpace(DraggableHeaderClassName) ? "" : "cursor: move;")>

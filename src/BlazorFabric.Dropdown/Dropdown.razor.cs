@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class Dropdown<TItem> : ResponsiveFabricComponentBase
+    public partial class Dropdown<TItem> : ResponsiveFabricComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public IEnumerable<string> DefaultSelectedKeys { get; set; }
@@ -283,7 +283,7 @@ namespace BlazorFabric
 
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var dropdownRules = new HashSet<Rule>();
             #region Root
@@ -296,10 +296,10 @@ namespace BlazorFabric
                           $"margin:0;"+
                           $"padding:0;"+
                           $"box-sizing:border-box;"+
-                          $"font-size:{Theme.FontStyle.FontSize.Medium};"+
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
-                          $"color:{Theme.SemanticTextColors.MenuItemText};" +
-                          $"border-color:{Theme.SemanticColors.FocusBorder};"+
+                          $"font-size:{theme.FontStyle.FontSize.Medium};"+
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
+                          $"color:{theme.SemanticTextColors.MenuItemText};" +
+                          $"border-color:{theme.SemanticColors.FocusBorder};"+
                           $"position:relative;"+
                           $"outline:0;"+
                           $"user-select:none;"
@@ -319,7 +319,7 @@ namespace BlazorFabric
                          $"left:0;" +
                          $"width:100%;" +
                          $"height:100%;" +
-                         $"border:2px solid {Theme.Palette.ThemePrimary};" +
+                         $"border:2px solid {theme.Palette.ThemePrimary};" +
                          $"border-radius:2px;"
                 }
             });
@@ -343,11 +343,11 @@ namespace BlazorFabric
                           $"margin:0;" +
                           $"padding:0;" +
                           $"box-sizing:border-box;" + 
-                          $"background-color:{Theme.SemanticColors.InputBackground};" +
+                          $"background-color:{theme.SemanticColors.InputBackground};" +
                           $"border-width:1px;" +
                           $"border-style:solid;" +
-                          $"border-color:{Theme.SemanticColors.InputBorder};" +
-                          $"border-radius:{Theme.Effects.RoundedCorner2};"+  //local style when is-open
+                          $"border-color:{theme.SemanticColors.InputBorder};" +
+                          $"border-radius:{theme.Effects.RoundedCorner2};"+  //local style when is-open
                           $"cursor:pointer;"+
                           $"display:block;"+
                           $"height:32px;"+
@@ -364,7 +364,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-open .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"border-color:{Theme.Palette.ThemePrimary};" 
+                    Css = $"border-color:{theme.Palette.ThemePrimary};" 
                 }
             });
             dropdownRules.Add(new Rule()
@@ -372,7 +372,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-placeholder .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.InputPlaceholderText};"
+                    Css = $"color:{theme.SemanticTextColors.InputPlaceholderText};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -380,7 +380,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-error .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"border-color:{Theme.Palette.Red};"
+                    Css = $"border-color:{theme.Palette.Red};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -388,7 +388,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-error.is-open .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"border-color:{Theme.Palette.RedDark};"
+                    Css = $"border-color:{theme.Palette.RedDark};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -396,9 +396,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-disabled .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.DisabledBackground};"+
+                    Css = $"background-color:{theme.SemanticColors.DisabledBackground};"+
                           $"border:none;"+
-                          $"color:{Theme.Palette.NeutralTertiary};"+
+                          $"color:{theme.Palette.NeutralTertiary};"+
                           $"cursor:default;"
                 }
             });
@@ -408,7 +408,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:hover .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"border-color:{Theme.Palette.NeutralPrimary};"
+                    Css = $"border-color:{theme.Palette.NeutralPrimary};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -416,7 +416,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-open:hover .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"border-color:{Theme.Palette.NeutralSecondary};"
+                    Css = $"border-color:{theme.Palette.NeutralSecondary};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -424,7 +424,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):hover .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemTextHovered};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};"
                 }
             });
 
@@ -433,7 +433,7 @@ namespace BlazorFabric
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:focus .ms-Dropdown-title" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"border-color:{Theme.Palette.NeutralPrimary};"
+            //        Css = $"border-color:{theme.Palette.NeutralPrimary};"
             //    }
             //});
             dropdownRules.Add(new Rule()
@@ -441,7 +441,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):focus .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemTextHovered};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};"
                 }
             });
 
@@ -451,7 +451,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:active .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"border-color:{Theme.Palette.ThemePrimary};"
+                    Css = $"border-color:{theme.Palette.ThemePrimary};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -459,7 +459,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):active .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemTextHovered};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};"
                 }
             });
 
@@ -468,7 +468,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):hover .ms-Dropdown-caretDown" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemText};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -476,7 +476,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):focus .ms-Dropdown-caretDown" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemText};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -484,7 +484,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):active .ms-Dropdown-caretDown" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemText};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
                 }
             });
 
@@ -493,7 +493,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-placeholder:not(.is-disabled):hover .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemText};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -501,7 +501,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-placeholder:not(.is-disabled):focus .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemText};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -509,7 +509,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-placeholder:not(.is-disabled):active .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemText};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
                 }
             });
 
@@ -518,7 +518,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-error:hover .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ErrorText};"
+                    Css = $"color:{theme.SemanticTextColors.ErrorText};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -526,7 +526,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-error:focus .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ErrorText};"
+                    Css = $"color:{theme.SemanticTextColors.ErrorText};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -534,7 +534,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-error:active .ms-Dropdown-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ErrorText};"
+                    Css = $"color:{theme.SemanticTextColors.ErrorText};"
                 }
             });
 
@@ -544,7 +544,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"content:'*';"+
-                          $"color:{Theme.SemanticTextColors.ErrorText};"+
+                          $"color:{theme.SemanticTextColors.ErrorText};"+
                           $"position:absolute;"+
                           $"top:-5px;"+
                           $"right:-10px;"
@@ -580,8 +580,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-caretDown" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralSecondary};" +
-                          $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                    Css = $"color:{theme.Palette.NeutralSecondary};" +
+                          $"font-size:{theme.FontStyle.FontSize.Small};" +
                           $"pointer-events:none;"
                 }
             });
@@ -590,7 +590,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-disabled .ms-Dropdown-caretDown" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralTertiary};"
+                    Css = $"color:{theme.Palette.NeutralTertiary};"
                 }
             });
             #endregion
@@ -600,9 +600,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-errorMessage" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
-                          $"color:{Theme.Palette.RedDark};" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
+                          $"color:{theme.Palette.RedDark};" +
                           $"padding-top:5px;"
                 }
             });
@@ -614,7 +614,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"border:none;" +
-                          $"box-shadow:{Theme.Effects.Elevation8};"
+                          $"box-shadow:{theme.Effects.Elevation8};"
                 }
             });
             #endregion
@@ -644,8 +644,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-itemHeader" },
                 Properties = new CssString()
                 {
-                    Css = $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};"+
-                          $"color:{Theme.SemanticColors.MenuHeader};"+
+                    Css = $"font-weight:{theme.FontStyle.FontWeight.SemiBold};"+
+                          $"color:{theme.SemanticColors.MenuHeader};"+
                           $"background:none;"+
                           $"background-color:transparent;"+
                           $"border:none;"+
@@ -665,7 +665,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"height:1px;" +
-                          $"background-color:{Theme.SemanticColors.BodyDivider};"
+                          $"background-color:{theme.SemanticColors.BodyDivider};"
                 }
             });
             #endregion
@@ -708,8 +708,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-itemsWrapper .ms-Dropdown-dropdownItems .ms-Dropdown-item:not(.ms-Checkbox-checkbox):hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemTextHovered};"+
-                          $"background-color:{Theme.SemanticColors.MenuItemBackgroundHovered};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};"+
+                          $"background-color:{theme.SemanticColors.MenuItemBackgroundHovered};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -725,8 +725,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item:active" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemTextHovered};" +
-                          $"background-color:{Theme.SemanticColors.MenuBackground};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};" +
+                          $"background-color:{theme.SemanticColors.MenuBackground};"
                 }
             });
 
@@ -735,8 +735,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.selected, .ms-Dropdown-item.ms-Button.ms-Button--action.selected" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemTextHovered};" +
-                         $"background-color:{Theme.SemanticColors.MenuItemBackgroundPressed};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};" +
+                         $"background-color:{theme.SemanticColors.MenuItemBackgroundPressed};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -744,7 +744,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.selected:hover:focus, .ms-Dropdown-item.ms-Button.ms-Button--action.selected:hover:focus" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.MenuItemBackgroundPressed};"
+                    Css = $"background-color:{theme.SemanticColors.MenuItemBackgroundPressed};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -752,7 +752,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.selected:focus, .ms-Dropdown-item.ms-Button.ms-Button--action.selected:focus" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.MenuItemBackgroundPressed};"
+                    Css = $"background-color:{theme.SemanticColors.MenuItemBackgroundPressed};"
                 }
             });
             dropdownRules.Add(new Rule()
@@ -760,7 +760,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.selected:active, .ms-Dropdown-item.ms-Button.ms-Button--action.selected:active" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.MenuItemBackgroundHovered};"
+                    Css = $"background-color:{theme.SemanticColors.MenuItemBackgroundHovered};"
                 }
             });
 
@@ -781,7 +781,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.is-disabled" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralTertiary};"+
+                    Css = $"color:{theme.Palette.NeutralTertiary};"+
                           $"cursor:default;"
                 }
             });

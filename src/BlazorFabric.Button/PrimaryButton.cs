@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class PrimaryButton : ButtonBase
+    public class PrimaryButton : ButtonBase, IHasPreloadableGlobalStyle
     {
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
-            var rules = CreateBaseGlobalCss();
+            var rules = CreateBaseGlobalCss(theme);
 
             rules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--primary" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.White};" +
-                          $"background-color:{Theme.Palette.ThemePrimary};" +
+                    Css = $"color:{theme.Palette.White};" +
+                          $"background-color:{theme.Palette.ThemePrimary};" +
                           $"border:none;"+
                           $"border-width:0px;"
                 }
@@ -30,7 +30,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"outline:none;" +
-                          $"border-color:{Theme.Palette.White};"
+                          $"border-color:{theme.Palette.White};"
                 }
             });
 
@@ -39,8 +39,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--primary:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.White};" +
-                          $"background-color:{Theme.Palette.ThemeDarkAlt};"
+                    Css = $"color:{theme.Palette.White};" +
+                          $"background-color:{theme.Palette.ThemeDarkAlt};"
                 }
             });
 
@@ -49,8 +49,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--primary:active" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.White};" +
-                         $"background-color:{Theme.Palette.ThemeDark};"
+                    Css = $"color:{theme.Palette.White};" +
+                         $"background-color:{theme.Palette.ThemeDark};"
                 }
             });
 
@@ -59,8 +59,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--primary.is-checked:not(.is-disabled)" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.White};" +
-                         $"background-color:{Theme.Palette.ThemeDark};"+
+                    Css = $"color:{theme.Palette.White};" +
+                         $"background-color:{theme.Palette.ThemeDark};"+
                          $"border:none;"
                 }
             });
@@ -70,8 +70,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--primary.is-checked:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.ThemePrimary};"+
-                          $"color:{Theme.Palette.White};"+
+                    Css = $"background-color:{theme.Palette.ThemePrimary};"+
+                          $"color:{theme.Palette.White};"+
                           $"border:none;"
                 }
             });
@@ -81,8 +81,8 @@ namespace BlazorFabric
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Button--default.is-disabled" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"background-color:{Theme.Palette.NeutralLighter};" +
-            //              $"boder-color:{Theme.Palette.NeutralLighter};"
+            //        Css = $"background-color:{theme.Palette.NeutralLighter};" +
+            //              $"boder-color:{theme.Palette.NeutralLighter};"
             //    }
             //});
 
@@ -106,7 +106,7 @@ namespace BlazorFabric
         {
             builder.OpenComponent<GlobalCS>(0);
             builder.AddAttribute(1, "Component", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(this));
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFabric.Rule>>(CreateGlobalCss));
+            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFabric.Rule>>(()=> CreateGlobalCss(Theme)));
             builder.AddAttribute(3, "FixStyle", true);
             builder.CloseComponent();
 

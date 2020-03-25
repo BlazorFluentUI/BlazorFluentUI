@@ -11,11 +11,18 @@ namespace BlazorFabric
         [Inject]
         public IComponentStyle ComponentStyle { get; set; }
 
+        private object component;
         /// <summary>
         /// P
         /// </summary>
         [Parameter]
-        public object Component { get; set; }
+        public object Component { get => component; set { component = value; ComponentType = component.GetType(); } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Parameter]
+        public Type ComponentType { get; set; }
 
         /// <summary>
         /// This will garantee that style will stay in header also when all GlobalCS Components related to the Property Component are disposed

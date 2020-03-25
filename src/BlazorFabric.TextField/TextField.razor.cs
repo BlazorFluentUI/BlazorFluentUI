@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class TextField : FabricComponentBase
+    public partial class TextField : FabricComponentBase, IHasPreloadableGlobalStyle 
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
@@ -295,7 +295,7 @@ namespace BlazorFabric
             }
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var MyRules = new List<Rule>();
             #region ms-TextField
@@ -315,7 +315,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"display: flex;" +
-                        $"border-bottom:1px solid {Theme.SemanticColors.InputBorder};" +
+                        $"border-bottom:1px solid {theme.SemanticColors.InputBorder};" +
                         $"width:100%;"
                 }
             });
@@ -324,7 +324,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined.is-disabled .ms-TextField-wrapper" },
                 Properties = new CssString()
                 {
-                    Css = $"border-bottom-color:{Theme.SemanticColors.DisabledBackground};"
+                    Css = $"border-bottom-color:{theme.SemanticColors.DisabledBackground};"
                 }
             });
             MyRules.Add(new Rule()
@@ -340,7 +340,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.has-error) .ms-TextField-wrapper:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"border-bottom-color:{Theme.SemanticColors.InputBorderHovered};"
+                    Css = $"border-bottom-color:{theme.SemanticColors.InputBorderHovered};"
                 }
             });
             MyRules.Add(new Rule()
@@ -348,7 +348,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined:not(.is-disabled):not(.is-focused).has-error .ms-TextField-wrapper:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"border-bottom-color:{Theme.SemanticTextColors.ErrorText};"
+                    Css = $"border-bottom-color:{theme.SemanticTextColors.ErrorText};"
                 }
             });
             MyRules.Add(new Rule()
@@ -359,7 +359,7 @@ namespace BlazorFabric
                     Css = ".ms-TextField--underlined:not(.is-disabled):not(.is-focused) .ms-TextField-wrapper:hover{border-bottom-color:Highlight;}"
                 }
             });
-            var WrapperFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticColors.InputFocusBorderAlt, BorderRadius = "0", }, ".ms-TextField--underlined.is-focused .ms-TextField-wrapper", true);
+            var WrapperFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(theme) { BorderColor = theme.SemanticColors.InputFocusBorderAlt, BorderRadius = "0", }, ".ms-TextField--underlined.is-focused .ms-TextField-wrapper", true);
             MyRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined.is-focused .ms-TextField-wrapper" },
@@ -369,7 +369,7 @@ namespace BlazorFabric
                 }
             });
             MyRules.AddRange(WrapperFocusRules.AddRules);
-            var WrapperFocusErrorRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticTextColors.ErrorText, BorderRadius = "0", }, ".ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper", true);
+            var WrapperFocusErrorRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(theme) { BorderColor = theme.SemanticTextColors.ErrorText, BorderRadius = "0", }, ".ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper", true);
             MyRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField--underlined.is-focused .ms-TextField-wrapper" },
@@ -386,9 +386,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField-fieldGroup" },
                 Properties = new CssString()
                 {
-                    Css = $"border:1px solid {Theme.SemanticColors.InputBorder};" +
-                        $"border-radius:{Theme.Effects.RoundedCorner2};" +
-                        $"background:{Theme.SemanticColors.InputBackground};" +
+                    Css = $"border:1px solid {theme.SemanticColors.InputBorder};" +
+                        $"border-radius:{theme.Effects.RoundedCorner2};" +
+                        $"background:{theme.SemanticColors.InputBackground};" +
                         $"cursor:text;" +
                         $"height:32px;" +
                         $"display:flex;" +
@@ -412,7 +412,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"border-color:{Theme.SemanticColors.InputBorderHovered};"
+                    Css = $"border-color:{theme.SemanticColors.InputBorderHovered};"
                 }
             });
             MyRules.Add(new Rule()
@@ -423,7 +423,7 @@ namespace BlazorFabric
                     Css = ".ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover{border-color:Highlight;}"
                 }
             });
-            var FieldGroupFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticColors.InputFocusBorderAlt, BorderRadius = Theme.Effects.RoundedCorner2, }, ".ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup");
+            var FieldGroupFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(theme) { BorderColor = theme.SemanticColors.InputFocusBorderAlt, BorderRadius = theme.Effects.RoundedCorner2, }, ".ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup");
             MyRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup" },
@@ -433,7 +433,7 @@ namespace BlazorFabric
                 }
             });
             MyRules.AddRange(FieldGroupFocusRules.AddRules);
-            var FieldGroupErrorFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(Theme) { BorderColor = Theme.SemanticTextColors.ErrorText, BorderRadius = Theme.Effects.RoundedCorner2, }, ".ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup");
+            var FieldGroupErrorFocusRules = FocusStyle.GetInputFocusStyle(new FocusStyleProps(theme) { BorderColor = theme.SemanticTextColors.ErrorText, BorderRadius = theme.Effects.RoundedCorner2, }, ".ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup");
             MyRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup" },
@@ -448,7 +448,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-disabled .ms-TextField-fieldGroup" },
                 Properties = new CssString()
                 {
-                    Css = $"border-color:{Theme.SemanticColors.DisabledBackground};" +
+                    Css = $"border-color:{theme.SemanticColors.DisabledBackground};" +
                         $"cursor:default;"
                 }
             });
@@ -507,7 +507,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup" },
                 Properties = new CssString()
                 {
-                    Css = $"border-color:{Theme.SemanticTextColors.ErrorText};"
+                    Css = $"border-color:{theme.SemanticTextColors.ErrorText};"
                 }
             });
             MyRules.Add(new Rule()
@@ -515,7 +515,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"border-color:{Theme.SemanticTextColors.ErrorText};"
+                    Css = $"border-color:{theme.SemanticTextColors.ErrorText};"
                 }
             });
             MyRules.Add(new Rule()
@@ -524,7 +524,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"content:'*';" +
-                        $"color:{Theme.SemanticTextColors.ErrorText};" +
+                        $"color:{theme.SemanticTextColors.ErrorText};" +
                         $"position:absolute;" +
                         $"top:-5px;" +
                         $"right:-10px;"
@@ -549,7 +549,7 @@ namespace BlazorFabric
                         $"border:none;" +
                         $"background:none;" +
                         $"background-color:transparent;" +
-                        $"color:{Theme.SemanticTextColors.InputText};" +
+                        $"color:{theme.SemanticTextColors.InputText};" +
                         $"padding:0px 8px;" +
                         $"width:100%;" +
                         $"text-overflow:ellipsis;" +
@@ -575,7 +575,7 @@ namespace BlazorFabric
             MyRules.AddRange(PlaceHolderStyle.GetPlaceholderStyle(".ms-TextField-field", 
                 new CssString() 
                 { 
-                    Css = $"color:{Theme.SemanticTextColors.InputPlaceholderText};" +
+                    Css = $"color:{theme.SemanticTextColors.InputPlaceholderText};" +
                         $"opacity:1;" 
                 }));
             MyRules.Add(new Rule()
@@ -613,15 +613,15 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-disabled .ms-TextField-field" },
                 Properties = new CssString()
                 {
-                    Css = $"backgroundColor:{Theme.SemanticColors.DisabledBackground};" +
-                        $"color:{Theme.SemanticTextColors.DisabledText};" +
-                        $"border-color:{Theme.SemanticColors.DisabledBackground};"
+                    Css = $"backgroundColor:{theme.SemanticColors.DisabledBackground};" +
+                        $"color:{theme.SemanticTextColors.DisabledText};" +
+                        $"border-color:{theme.SemanticColors.DisabledBackground};"
                 }
             });
             MyRules.AddRange(PlaceHolderStyle.GetPlaceholderStyle(".ms-TextField.is-disabled .ms-TextField-field",
                 new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                    Css = $"color:{theme.SemanticTextColors.DisabledText};"
                 }));
             MyRules.Add(new Rule()
             {
@@ -661,7 +661,7 @@ namespace BlazorFabric
                         $"bottom:6px;" +
                         $"right:8px;" +
                         $"top:auto;" +
-                        $"font-size:{Theme.FontStyle.FontSize.Medium};" +
+                        $"font-size:{theme.FontStyle.FontSize.Medium};" +
                         $"line-height:18px;"
                 }
             });
@@ -670,7 +670,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-disabled .ms-TextField-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                    Css = $"color:{theme.SemanticTextColors.DisabledText};"
                 }
             });
             #endregion
@@ -680,8 +680,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField-description" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.BodySubtext};" +
-                        $"font-size:{Theme.FontStyle.FontSize.XSmall};"
+                    Css = $"color:{theme.SemanticTextColors.BodySubtext};" +
+                        $"font-size:{theme.FontStyle.FontSize.XSmall};"
                 }
             });
             #endregion
@@ -691,8 +691,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField-prefix" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.DisabledBackground};" +
-                        $"color:{Theme.SemanticTextColors.InputPlaceholderText};" +
+                    Css = $"background:{theme.SemanticColors.DisabledBackground};" +
+                        $"color:{theme.SemanticTextColors.InputPlaceholderText};" +
                         $"display:flex;" +
                         $"align-items:center;" +
                         $"padding:0px 10px;" +
@@ -706,7 +706,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-disabled .ms-TextField-prefix" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                    Css = $"color:{theme.SemanticTextColors.DisabledText};"
                 }
             });
             #endregion
@@ -716,8 +716,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField-suffix" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.DisabledBackground};" +
-                        $"color:{Theme.SemanticTextColors.InputPlaceholderText};" +
+                    Css = $"background:{theme.SemanticColors.DisabledBackground};" +
+                        $"color:{theme.SemanticTextColors.InputPlaceholderText};" +
                         $"display:flex;" +
                         $"align-items:center;" +
                         $"padding:0px 10px;" +
@@ -731,7 +731,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.is-disabled .ms-TextField-suffix" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                    Css = $"color:{theme.SemanticTextColors.DisabledText};"
                 }
             });
             #endregion
@@ -741,9 +741,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField--errorMessage" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
-                        $"color:{Theme.SemanticTextColors.ErrorText};" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
+                        $"color:{theme.SemanticTextColors.ErrorText};" +
                         $"margin:0;" +
                         $"padding-top:5px;" +
                         $"display:flex;" +
@@ -757,7 +757,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.ms-TextField--underlined.is-disabled .ms-Label" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralTertiary};"
+                    Css = $"color:{theme.Palette.NeutralTertiary};"
                 }
             });
             MyRules.Add(new Rule()
@@ -765,7 +765,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField.ms-TextField--underlined .ms-Label" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Medium};" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.Medium};" +
                         $"margin-right:8px;" +
                         $"padding-left:12px;" +
                         $"padding-right:0px;" +

@@ -181,11 +181,11 @@ namespace BlazorFabric
 
         }
 
-        protected ICollection<Rule> CreateBaseGlobalCss()
+        protected ICollection<Rule> CreateBaseGlobalCss(ITheme theme)
         {
             var buttonRules = new HashSet<Rule>();
 
-            var props = new FocusStyleProps(this.Theme);
+            var props = new FocusStyleProps(theme);
             props.Inset = 1;
             props.BorderColor = "transparent";
             props.HighContrastStyle = "left:-2px;top:-2px;bottom:-2px;right:-2px;border:none;outline-color:ButtonText;";
@@ -200,10 +200,10 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = rootFocusStyles.MergeRules +
-                          $"font-size:{Theme.FontStyle.FontSize.Medium};"+
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
+                          $"font-size:{theme.FontStyle.FontSize.Medium};"+
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
                           $"box-sizing:border-box;" +
-                          $"border: 1px solid {Theme.SemanticColors.ButtonBorder};"+
+                          $"border: 1px solid {theme.SemanticColors.ButtonBorder};"+
                           $"user-select:none;"+
                           $"display:inline-block;"+
                           $"text-decoration:none;"+
@@ -213,7 +213,7 @@ namespace BlazorFabric
                           $"padding:0 16px;"+
                           $"min-width:80px;"+
                           $"height:32px;" +
-                          $"border-radius:{Theme.Effects.RoundedCorner2};"
+                          $"border-radius:{theme.Effects.RoundedCorner2};"
                 }
             });
 
@@ -233,8 +233,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-disabled" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.DisabledBackground};" +
-                         $"color:{Theme.SemanticTextColors.DisabledText};" +
+                    Css = $"background-color:{theme.SemanticColors.DisabledBackground};" +
+                         $"color:{theme.SemanticTextColors.DisabledText};" +
                          $"cursor:default;"+
                          $"pointer-events:none;"
                 }
@@ -271,8 +271,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-expanded" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralLight};" +
-                         $"color:{Theme.Palette.NeutralDark};" 
+                    Css = $"background-color:{theme.Palette.NeutralLight};" +
+                         $"color:{theme.Palette.NeutralDark};" 
                 }
             });
             buttonRules.Add(new Rule()
@@ -280,8 +280,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--primary.is-expanded" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.ThemeDark};" +
-                         $"color:{Theme.Palette.White};"
+                    Css = $"background-color:{theme.Palette.ThemeDark};" +
+                         $"color:{theme.Palette.White};"
                 }
             });
 
@@ -290,7 +290,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-expanded .ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDark};"
+                    Css = $"color:{theme.Palette.ThemeDark};"
                 }
             });
             buttonRules.Add(new Rule()
@@ -298,7 +298,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--primary.is-expanded .ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.White};"
+                    Css = $"color:{theme.Palette.White};"
                 }
             });
 
@@ -307,7 +307,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-expanded .ms-Button-menuIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralPrimary};"
+                    Css = $"color:{theme.Palette.NeutralPrimary};"
                 }
             });
             buttonRules.Add(new Rule()
@@ -315,7 +315,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--primary.is-expanded .ms-Button-menuIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.White};"
+                    Css = $"color:{theme.Palette.White};"
                 }
             });
 
@@ -324,7 +324,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-expanded:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralQuaternaryAlt};"
+                    Css = $"background-color:{theme.Palette.NeutralQuaternaryAlt};"
                 }
             });
             buttonRules.Add(new Rule()
@@ -332,7 +332,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--primary.is-expanded:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.ThemeDark};"
+                    Css = $"background-color:{theme.Palette.ThemeDark};"
                 }
             });
 
@@ -342,7 +342,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-disabled .ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledText};" 
+                    Css = $"color:{theme.SemanticTextColors.DisabledText};" 
                 }
             });
             buttonRules.Add(new Rule()
@@ -350,7 +350,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-disabled .ms-Button-menuIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                    Css = $"color:{theme.SemanticTextColors.DisabledText};"
                 }
             });
 
@@ -384,8 +384,8 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"display:block;"+
-                          $"font-size:{Theme.FontStyle.FontSize.Small};"+
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                          $"font-size:{theme.FontStyle.FontSize.Small};"+
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"
                 }
             });
 
@@ -395,7 +395,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.MediumPlus};" +  //originally FontSize.Icon
+                    Css = $"font-size:{theme.FontStyle.FontSize.MediumPlus};" +  //originally FontSize.Icon
                           $"margin:0px 4px;"+
                           $"height:16px;"+
                           $"line-height:16px;" +
@@ -410,7 +410,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button-menuIcon, .ms-Button-menuIcon .ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +  
+                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +  
                           $"margin:0px 4px;" +
                           $"height:16px;" +
                           $"line-height:16px;" +
@@ -426,7 +426,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button-label" },
                 Properties = new CssString()
                 {
-                    Css = $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};" +
+                    Css = $"font-weight:{theme.FontStyle.FontWeight.SemiBold};" +
                           $"margin:0px 4px;" +
                           $"line-height:100%;" +
                           $"display:block;" 
@@ -491,8 +491,8 @@ namespace BlazorFabric
                           $"height:auto;" +
                           $"box-sizing:border-box;" +
                           $"border-radius:0;" +
-                          $"border-top-right-radius:{Theme.Effects.RoundedCorner2};" +
-                          $"border-bottom-right-radius:{Theme.Effects.RoundedCorner2};" +
+                          $"border-top-right-radius:{theme.Effects.RoundedCorner2};" +
+                          $"border-bottom-right-radius:{theme.Effects.RoundedCorner2};" +
                           $"border-left:none;" +
                           $"outline:transparent;"+
                           $"user-select:none;"+
@@ -528,7 +528,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--primary.ms-Button-divider" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.White};"
+                    Css = $"background-color:{theme.Palette.White};"
                 }
             });
 
@@ -537,7 +537,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--default.ms-Button-divider" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.BodyDivider};"
+                    Css = $"background-color:{theme.SemanticColors.BodyDivider};"
                 }
             });
 
@@ -546,7 +546,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button-divider.disabled" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.BodyDivider};"
+                    Css = $"background-color:{theme.SemanticColors.BodyDivider};"
                 }
             });
 

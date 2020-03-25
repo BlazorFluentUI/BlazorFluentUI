@@ -74,6 +74,7 @@ namespace BlazorFabric
             theme.ZIndex = new DefaultZIndex();
             theme.Effects = new DefaultEffects();
             theme.Depths = new DefaultDepths();
+            theme.Animation = new DefaultAnimation();
             return theme;
         }
 

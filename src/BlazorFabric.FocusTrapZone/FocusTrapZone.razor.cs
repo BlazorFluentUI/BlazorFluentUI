@@ -78,15 +78,18 @@ namespace BlazorFabric
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
-            {
-                var props = new FocusTrapZoneProps(this, _firstBumper, _lastBumper);
-                _id = await jsRuntime.InvokeAsync<int>("BlazorFabricFocusTrapZone.register", props, DotNetObjectReference.Create(this)); //RootElementReference, _firstBumper, _lastBumper, Disabled, DotNetObjectReference.Create(this));
+            {                
+                RegisterFocusTrapZone();
             }
 
             await base.OnAfterRenderAsync(firstRender);
         }
 
-
+        private async void RegisterFocusTrapZone()
+        {
+            var props = new FocusTrapZoneProps(this, _firstBumper, _lastBumper);
+            _id = await jsRuntime.InvokeAsync<int>("BlazorFabricFocusTrapZone.register", props, DotNetObjectReference.Create(this));
+        }
      
 
         public async void Dispose()

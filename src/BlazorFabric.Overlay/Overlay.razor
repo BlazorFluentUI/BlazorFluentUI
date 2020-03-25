@@ -3,8 +3,9 @@
 @using Microsoft.JSInterop
 @inherits FabricComponentBase
 @implements IDisposable
+@implements IHasPreloadableGlobalStyle
 
-<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<GlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <div class=@("mediumFont ms-Overlay " + (IsDarkThemed ? "ms-Overlay--dark" : "ms-Overlay--light") + " " + ClassName)
      @onclick="OnClick" />
 
@@ -27,7 +28,7 @@
 
     }
 
-    private ICollection<Rule> CreateGlobalCss()
+    public ICollection<Rule> CreateGlobalCss(ITheme theme)
     {
         var overlayRules = new HashSet<Rule>();
 
@@ -48,7 +49,7 @@
             Selector = new CssStringSelector() { SelectorName = ".ms-Overlay--light" },
             Properties = new CssString()
             {
-                Css = $"background-color:{Theme.Palette.WhiteTranslucent40};"
+                Css = $"background-color:{theme.Palette.WhiteTranslucent40};"
             }
         });
         overlayRules.Add(new Rule()
@@ -56,7 +57,7 @@
             Selector = new CssStringSelector() { SelectorName = ".ms-Overlay--dark" },
             Properties = new CssString()
             {
-                Css = $"background-color:{Theme.Palette.BlackTranslucent40};"
+                Css = $"background-color:{theme.Palette.BlackTranslucent40};"
             }
         });
 

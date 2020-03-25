@@ -2,6 +2,7 @@
 @inherits FabricComponentBase
 
 <LocalCS @bind-Rules="@DialogLocalRules" />
+<StylePreloader Component=@(new Modal()) />
 
 <Modal ClassName=@($"ms-Dialog {this.ClassName}")
        Style=@Style

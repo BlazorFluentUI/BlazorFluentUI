@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class Label : FabricComponentBase
+    public partial class Label : FabricComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }
@@ -26,12 +26,12 @@ namespace BlazorFabric
         [Parameter]
         public string HtmlFor { get; set; }  //not being used for anything.
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var labelRules = new HashSet<Rule>();
-            labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Label" }, Properties = new CssString() { Css = $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};color:{Theme.SemanticTextColors.BodyText};box-sizing:border-box;box-shadow:none;margin:0;display:block;padding: 5px 0px;word-wrap:break-word;overflow-wrap:break-word;" } });
-            labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Label--disabled" }, Properties = new CssString() { Css = $"color:{Theme.SemanticTextColors.DisabledBodyText};" } });
-            labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Label--required::after" }, Properties = new CssString() { Css = $"content:' *';color:{Theme.SemanticTextColors.ErrorText};padding-right:12px;" } });
+            labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Label" }, Properties = new CssString() { Css = $"font-weight:{theme.FontStyle.FontWeight.SemiBold};color:{Theme.SemanticTextColors.BodyText};box-sizing:border-box;box-shadow:none;margin:0;display:block;padding: 5px 0px;word-wrap:break-word;overflow-wrap:break-word;" } });
+            labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Label--disabled" }, Properties = new CssString() { Css = $"color:{theme.SemanticTextColors.DisabledBodyText};" } });
+            labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Label--required::after" }, Properties = new CssString() { Css = $"content:' *';color:{theme.SemanticTextColors.ErrorText};padding-right:12px;" } });
             labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" }, Properties = new CssString() { Css = ".ms-Label--disabled{color:GrayText;}" } });
             return labelRules;
         }

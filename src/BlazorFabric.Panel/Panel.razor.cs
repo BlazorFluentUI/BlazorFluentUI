@@ -11,7 +11,7 @@ using System.Timers;
 
 namespace BlazorFabric
 {
-    public partial class Panel : FabricComponentBase, IDisposable
+    public partial class Panel : FabricComponentBase, IDisposable, IHasPreloadableGlobalStyle
     {
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
@@ -121,8 +121,6 @@ namespace BlazorFabric
 
         public Panel()
         {
-            Debug.WriteLine("Panel Created");
-
             HeaderTemplate = builder =>
             {
                 if (HeaderText != null)
@@ -474,7 +472,7 @@ namespace BlazorFabric
             }
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var panelRules = new HashSet<Rule>();
             
@@ -516,8 +514,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Panel-main" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.BodyBackground};" +
-                          $"box-shadow:{Theme.Effects.Elevation64};"+
+                    Css = $"background-color:{theme.SemanticColors.BodyBackground};" +
+                          $"box-shadow:{theme.Effects.Elevation64};"+
                           $"pointer-events:auto;" +
                           $"position:absolute;" +
                           $"display:flex;" +
@@ -577,7 +575,7 @@ namespace BlazorFabric
 
             panelRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {Theme.CommonStyle.ScreenWidthMinMedium}px)" },
+                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinMedium}px)" },
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel--sm .ms-Panel-main, .ms-Panel--md .ms-Panel-main, .ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
@@ -588,7 +586,7 @@ namespace BlazorFabric
 
             panelRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {Theme.CommonStyle.ScreenWidthMinLarge}px)" },
+                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinLarge}px)" },
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel--md .ms-Panel-main, .ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
@@ -599,7 +597,7 @@ namespace BlazorFabric
 
             panelRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {Theme.CommonStyle.ScreenWidthMinXLarge}px)" },
+                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinXLarge}px)" },
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel--md .ms-Panel-main, .ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
@@ -610,7 +608,7 @@ namespace BlazorFabric
 
             panelRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {Theme.CommonStyle.ScreenWidthMinUhfMobile}px)" },
+                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinUhfMobile}px)" },
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
@@ -621,7 +619,7 @@ namespace BlazorFabric
 
             panelRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {Theme.CommonStyle.ScreenWidthMinXXLarge}px)" },
+                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinXXLarge}px)" },
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
@@ -642,7 +640,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel-main {" +
-                          $"border-left:3px solid {Theme.SemanticColors.VariantBorder};border-right:3px solid {Theme.SemanticColors.VariantBorder};" +
+                          $"border-left:3px solid {theme.SemanticColors.VariantBorder};border-right:3px solid {theme.SemanticColors.VariantBorder};" +
                           "}"
                 }
             });
@@ -686,7 +684,7 @@ namespace BlazorFabric
 
             panelRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {Theme.CommonStyle.ScreenWidthMinXLarge}px)" },
+                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinXLarge}px)" },
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel-header {" +
@@ -700,7 +698,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Panel-headerText" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralPrimary};"+
+                    Css = $"color:{theme.Palette.NeutralPrimary};"+
                           $"line-height:27px;" +
                           $"margin:0;" +
                           $"overflow-wrap:break-word;"+
@@ -756,8 +754,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Panel-footer--isStick" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.BodyBackground};" +
-                          $"border-top-color:{Theme.SemanticColors.VariantBorder};"
+                    Css = $"background:{theme.SemanticColors.BodyBackground};" +
+                          $"border-top-color:{theme.SemanticColors.VariantBorder};"
                 }
             });
 

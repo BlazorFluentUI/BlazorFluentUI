@@ -17,7 +17,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"height:24px;" +
-                          $"border-color:{Theme.Palette.NeutralTertiaryAlt};"
+                          $"border-color:{theme.Palette.NeutralTertiaryAlt};"
                 }
             });
 

@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+<GlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme))/>
 <LocalCS @bind-Rules="@CalloutLocalRules" />
 
 <div class="ms-Callout-container" @ref="RootElementReference" style=@($"{(Hidden ? "visibility: hidden;" : "" )}")>

@@ -4,6 +4,11 @@
 @typeparam TItem
 
 <StylePreloader Component=@(new CommandButton()) />
+<StylePreloader Component=@(new Checkbox()) />
+<StylePreloader Component=@(new CalloutContent()) />
+<StylePreloader Component=@(new Panel()) />
+<StylePreloader Component="new Overlay()" />
+<StylePreloader Component="new IconButton()" />
 
 <GlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <LocalCS @bind-Rules="@DropdownLocalRules" />

@@ -1,7 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+
+<GlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 
 @if (!IsOpen && !isAnimating && !IsHiddenOnDismiss)
 {

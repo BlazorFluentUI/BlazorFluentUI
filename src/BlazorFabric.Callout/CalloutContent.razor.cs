@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class CalloutContent : FabricComponentBase, IDisposable
+    public partial class CalloutContent : FabricComponentBase, IDisposable, IHasPreloadableGlobalStyle
     {
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
@@ -795,7 +795,7 @@ namespace BlazorFabric
             };
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var calloutGlobalRules = new HashSet<Rule>();
             calloutGlobalRules.Add(new Rule()
@@ -816,8 +816,8 @@ namespace BlazorFabric
                         $"right:0;" +
                         $"bottom:0;" +
                         $"left:0;" +
-                        $"background-color:{Theme?.SemanticColors.MenuBackground};" +
-                        $"border-radius:{Theme.Effects.RoundedCorner2};"
+                        $"background-color:{theme.SemanticColors.MenuBackground};" +
+                        $"border-radius:{theme.Effects.RoundedCorner2};"
                 }
             });
             calloutGlobalRules.Add(new Rule()

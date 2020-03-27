@@ -50,6 +50,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 		MsIconSubsetUnicodeList.txt = MsIconSubsetUnicodeList.txt
 		nugetInfo.txt = nugetInfo.txt
+		TypescriptCommands.txt = TypescriptCommands.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFabric.CommandBar", "src\BlazorFabric.CommandBar\BlazorFabric.CommandBar.csproj", "{C9BE1FD4-E451-4EC5-898D-F7BE9250E335}"

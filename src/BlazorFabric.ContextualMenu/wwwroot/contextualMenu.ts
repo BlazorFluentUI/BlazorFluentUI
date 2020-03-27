@@ -1,4 +1,4 @@
-﻿/// <reference path="baseComponent.d.ts" />
+﻿/// <reference path="../../BlazorFabric.BaseComponent/wwwroot/baseComponent.ts" />
 
 namespace BlazorFabricContextualMenu {
 

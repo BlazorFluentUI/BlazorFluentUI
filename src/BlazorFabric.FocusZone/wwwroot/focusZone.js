@@ -1,4 +1,4 @@
-/// <reference path="baseComponent.d.ts" />
+/// <reference path="../../BlazorFabric.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFabricFocusZone;
 (function (BlazorFabricFocusZone) {
     var FocusZoneDirection;

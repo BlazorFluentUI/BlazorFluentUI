@@ -1,5 +1,5 @@
 ﻿//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-
+/// <reference path="../../BlazorFabric.FocusTrapZone/wwwroot/focusTrapZone.ts" />
 
 namespace BlazorFabricPanel {
 
@@ -45,7 +45,8 @@ namespace BlazorFabricPanel {
         var mouseDownId = Handler.addListener(document.body, "mousedown", (ev: Event) =>
         {
             //first get whether it is in the 
-            var contains = window["BlazorFabricFocusTrapZone"].elementContains(panelElement, ev.target);
+            var contains = BlazorFabricFocusTrapZone.elementContains(panelElement, <HTMLElement>ev.target);
+            //var contains = window["BlazorFabricFocusTrapZone"].elementContains(panelElement, ev.target);
             if (contains) {
                 ev.preventDefault();
             }

@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+<GlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 
 <div role="tablist" aria-label=@AriaLabel style="overflow:hidden;">
     <FocusZone Direction=FocusZoneDirection.Horizontal>

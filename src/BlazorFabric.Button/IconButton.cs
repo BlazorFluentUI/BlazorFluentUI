@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public class IconButton : ButtonBase
+    public class IconButton : ButtonBase, IHasPreloadableGlobalStyle
     {
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
-            var rules = CreateBaseGlobalCss(Theme);
+            var rules = CreateBaseGlobalCss(theme);
 
             rules.Add(new Rule()
             {
@@ -23,7 +23,7 @@ namespace BlazorFabric
                           $"height:32px;" +
                           $"background-color:transparent;"+
                           $"border:none;"+
-                          $"color:{Theme.SemanticTextColors.Link}"
+                          $"color:{theme.SemanticTextColors.Link}"
                 }
             });
                        
@@ -32,8 +32,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--icon:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDarkAlt};" +
-                          $"background-color:{Theme.Palette.NeutralLighter};"
+                    Css = $"color:{theme.Palette.ThemeDarkAlt};" +
+                          $"background-color:{theme.Palette.NeutralLighter};"
                 }
             });
 
@@ -42,8 +42,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--icon:active" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDark};" +
-                         $"background-color:{Theme.Palette.NeutralLight};"
+                    Css = $"color:{theme.Palette.ThemeDark};" +
+                         $"background-color:{theme.Palette.NeutralLight};"
                 }
             });
 
@@ -52,8 +52,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--icon.is-checked:not(.is-disabled)" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDark};" +
-                         $"background-color:{Theme.Palette.NeutralLight};" +
+                    Css = $"color:{theme.Palette.ThemeDark};" +
+                         $"background-color:{theme.Palette.NeutralLight};" +
                          $"border:none;"
                 }
             });
@@ -63,8 +63,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--icon.is-checked:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralQuaternaryAlt};" +
-                          $"color:{Theme.Palette.ThemeDark};" 
+                    Css = $"background-color:{theme.Palette.NeutralQuaternaryAlt};" +
+                          $"color:{theme.Palette.ThemeDark};" 
                 }
             });
 
@@ -73,7 +73,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--icon.is-disabled" },
                 Properties = new CssString()
                 {
-                    Css = $"boder-color:{Theme.Palette.NeutralQuaternaryAlt};"
+                    Css = $"boder-color:{theme.Palette.NeutralQuaternaryAlt};"
                 }
             });
 
@@ -99,7 +99,7 @@ namespace BlazorFabric
         {
             builder.OpenComponent<GlobalCS>(0);
             builder.AddAttribute(1, "Component", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(this));
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFabric.Rule>>(CreateGlobalCss));
+            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFabric.Rule>>(()=>CreateGlobalCss(Theme)));
             builder.AddAttribute(3, "FixStyle", true);
             builder.CloseComponent();
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlazorFabric.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,32 +19,32 @@ namespace BlazorFabric.Themes.Default
 
         public string EasingFunction2 => "cubic-bezier(0.1,0.25,0.75,0.9)";
 
-        public string SlideDownIn10 => throw new NotImplementedException();
+        //public string SlideDownIn10 => throw new NotImplementedException();
 
-        public string SlideDownIn20 => throw new NotImplementedException();
+        //public string SlideDownIn20 => throw new NotImplementedException();
 
-        public string SlideRightIn10 => throw new NotImplementedException();
+        //public string SlideRightIn10 => throw new NotImplementedException();
 
-        public string SlideRightIn40 => throw new NotImplementedException();
+        //public string SlideRightIn40 => throw new NotImplementedException();
 
-        public string SlideUpIn10 => throw new NotImplementedException();
+        //public string SlideUpIn10 => throw new NotImplementedException();
 
-        public string SlideLeftIn10 => throw new NotImplementedException();
+        //public string SlideLeftIn10 => throw new NotImplementedException();
 
-        public string SlideLeftIn40 => throw new NotImplementedException();
+        //public string SlideLeftIn40 => throw new NotImplementedException();
 
-        public string SlideRightOut40 => throw new NotImplementedException();
+        //public string SlideRightOut40 => throw new NotImplementedException();
 
-        public string SlideLeftOut40 => throw new NotImplementedException();
+        //public string SlideLeftOut40 => throw new NotImplementedException();
 
-        public string FadeIn100 => throw new NotImplementedException();
+        //public string FadeIn100 => throw new NotImplementedException();
 
-        public string FadeOut100 => throw new NotImplementedException();
+        //public string FadeOut100 => throw new NotImplementedException();
 
-        public string FadeIn200 => throw new NotImplementedException();
+        //public string FadeIn200 => throw new NotImplementedException();
 
-        public string FadeOut200 => throw new NotImplementedException();
+        //public string FadeOut200 => throw new NotImplementedException();
 
-        public string FadeIn400 => throw new NotImplementedException();
+        //public string FadeIn400 => throw new NotImplementedException();
     }
 }

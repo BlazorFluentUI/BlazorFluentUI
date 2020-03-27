@@ -15,21 +15,21 @@ namespace BlazorFabric
         string EasingFunction2 { get; }
 
 
-        string SlideDownIn10 { get; }
-        string SlideDownIn20 { get; }
-        string SlideRightIn10 { get; }
-        string SlideRightIn40 { get; }
-        string SlideUpIn10 { get; }
-        string SlideLeftIn10 { get; }
-        string SlideLeftIn40 { get; }
+        //string SlideDownIn10 { get; }
+        //string SlideDownIn20 { get; }
+        //string SlideRightIn10 { get; }
+        //string SlideRightIn40 { get; }
+        //string SlideUpIn10 { get; }
+        //string SlideLeftIn10 { get; }
+        //string SlideLeftIn40 { get; }
 
-        string SlideRightOut40 { get; }
-        string SlideLeftOut40 { get; }
+        //string SlideRightOut40 { get; }
+        //string SlideLeftOut40 { get; }
 
-        string FadeIn100 { get; }
-        string FadeOut100 { get; }
-        string FadeIn200 { get; }
-        string FadeOut200 { get; }
-        string FadeIn400 { get; }
+        //string FadeIn100 { get; }
+        //string FadeOut100 { get; }
+        //string FadeIn200 { get; }
+        //string FadeOut200 { get; }
+        //string FadeIn400 { get; }
     }
 }

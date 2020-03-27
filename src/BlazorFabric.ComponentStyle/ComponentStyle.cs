@@ -86,6 +86,16 @@ namespace BlazorFabric
                     //{
                     //    GlobalCSSheets.First(x => x.Component?.GetType() == ((IGlobalCSSheet)item).Component.GetType()).IsGlobal = true;
                     //}
+                    if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).ComponentType != null && !StyleSheetIsNeeded(((IGlobalCSSheet)item).ComponentType))
+                    {
+                        GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.ComponentType == ((IGlobalCSSheet)item).ComponentType));
+                        RemoveOneStyleSheet((IGlobalCSSheet)item);
+                        GlobalRules.UpdateGlobalRules();
+                    }
+                    else if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).ComponentType != null && ((IGlobalCSSheet)item).IsGlobal)
+                    {
+                        GlobalCSSheets.First(x => x.ComponentType == ((IGlobalCSSheet)item).ComponentType).IsGlobal = true;
+                    }
                 }
             }
 

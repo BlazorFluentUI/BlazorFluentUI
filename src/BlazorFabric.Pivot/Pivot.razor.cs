@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class Pivot : FabricComponentBase
+    public partial class Pivot : FabricComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public int? DefaultSelectedIndex { get; set; }
         [Parameter] public string DefaultSelectedKey { get; set; }
@@ -153,7 +153,7 @@ namespace BlazorFabric
             return;
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var MyRules = new List<Rule>();
             #region ms-Pivot-count
@@ -175,7 +175,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".is-selected.ms-Pivot-link" },
                 Properties = new CssString()
                 {
-                    Css = $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};"
+                    Css = $"font-weight:{theme.FontStyle.FontWeight.SemiBold};"
                 }
             });
             MyRules.Add(new Rule()
@@ -183,7 +183,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".is-selected.ms-Pivot-link::before" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.InputBackgroundChecked};"
+                    Css = $"background-color:{theme.SemanticColors.InputBackgroundChecked};"
                 }
             });
             MyRules.Add(new Rule()
@@ -211,7 +211,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Pivot-link" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ActionLink};" +
+                    Css = $"color:{theme.SemanticTextColors.ActionLink};" +
                             $"display:inline-block;" +
                             $"line-height:44px;" +
                             $"height:44px;" +
@@ -236,7 +236,7 @@ namespace BlazorFabric
                             $"left:8px;" +
                             $"position:absolute;" +
                             $"right:8px;" +
-                            $"transition:left var(--animation-DURATION_2) var(--animation-EASING_FUNCTION_2), right var(--animation-DURATION_2) var(--animation-EASING_FUNCTION_2);"
+                            $"transition:left {theme.Animation.Duration2} {theme.Animation.EasingFunction2}, right {theme.Animation.Duration2} {theme.Animation.EasingFunction2};"
                 }
             });
             MyRules.Add(new Rule()
@@ -247,7 +247,7 @@ namespace BlazorFabric
                     Css = $"color:transparent;" +
                             $"content:attr(data-content);" +
                             $"display:block;" +
-                            $"font-weight:{Theme.FontStyle.FontWeight.Bold}" +
+                            $"font-weight:{theme.FontStyle.FontWeight.Bold}" +
                             $"height:1px;" +
                             $"overflow:hidden;" +
                             $"visibility:hidden;"
@@ -258,8 +258,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Pivot-link:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.ButtonBackgroundHovered};" +
-                            $"color:{Theme.SemanticTextColors.ButtonTextHovered};" +
+                    Css = $"background-color:{theme.SemanticColors.ButtonBackgroundHovered};" +
+                            $"color:{theme.SemanticTextColors.ButtonTextHovered};" +
                             $"cursor:pointer;"
                 }
             });
@@ -268,8 +268,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Pivot-link:active" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.ButtonBackgroundPressed};" +
-                            $"color:{Theme.SemanticTextColors.ButtonTextHovered};"
+                    Css = $"background-color:{theme.SemanticColors.ButtonBackgroundPressed};" +
+                            $"color:{theme.SemanticTextColors.ButtonTextHovered};"
                 }
             });
             MyRules.Add(new Rule()
@@ -285,7 +285,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-Pivot-link:focus" },
                 Properties = new CssString()
                 {
-                    Css = $"outline:1px solid {Theme.SemanticColors.FocusBorder};"
+                    Css = $"outline:1px solid {theme.SemanticColors.FocusBorder};"
                 }
             });
             MyRules.Add(new Rule()
@@ -332,7 +332,7 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"position:relative;" +
-                            $"color:{Theme.SemanticTextColors.Link};" +
+                            $"color:{theme.SemanticTextColors.Link};" +
                             $"white-space:nowrap;"
                 }
             });
@@ -341,7 +341,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Pivot.ms-Pivot--large .ms-Pivot-link" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Large};"
+                    Css = $"font-size:{theme.FontStyle.FontSize.Large};"
                 }
             });
             MyRules.Add(new Rule()
@@ -352,7 +352,7 @@ namespace BlazorFabric
                     Css = $"margin-right:0;" +
                             $"height:44px;" +
                             $"line-height:44px;" +
-                            $"background-color:{Theme.SemanticColors.ButtonBackground};" +
+                            $"background-color:{theme.SemanticColors.ButtonBackground};" +
                             $"padding:0 10px;" +
                             $"vertical-align:top;"
                 }
@@ -370,7 +370,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Pivot.ms-Pivot--tabs .ms-Pivot-link:not(.is-selected):hover, .ms-Pivot.ms-Pivot--tabs .ms-Pivot-link:not(.is-selected):focus" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ButtonTextCheckedHovered};"
+                    Css = $"color:{theme.SemanticTextColors.ButtonTextCheckedHovered};"
                 }
             });
             MyRules.Add(new Rule()
@@ -378,8 +378,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Pivot.ms-Pivot--tabs .ms-Pivot-link:not(.is-selected):active, .ms-Pivot.ms-Pivot--tabs .ms-Pivot-link:not(.is-selected):hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.PrimaryButtonText};" +
-                            $"background-color:{Theme.SemanticColors.PrimaryButtonBackground};"
+                    Css = $"color:{theme.SemanticTextColors.PrimaryButtonText};" +
+                            $"background-color:{theme.SemanticColors.PrimaryButtonBackground};"
                 }
             });
             #endregion
@@ -392,9 +392,9 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Pivot--tabs.ms-Pivot .is-selected" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.PrimaryButtonBackground};" +
-                            $"color:{Theme.SemanticTextColors.PrimaryButtonText};" +
-                            $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                    Css = $"background-color:{theme.SemanticColors.PrimaryButtonBackground};" +
+                            $"color:{theme.SemanticTextColors.PrimaryButtonText};" +
+                            $"font-weight:{theme.FontStyle.FontWeight.Regular};"
                 }
             });
             MyRules.Add(new Rule()
@@ -418,8 +418,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Pivot--tabs.ms-Pivot .is-selected:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.PrimaryButtonBackgroundHovered};" +
-                            $"color:{Theme.SemanticTextColors.PrimaryButtonText};"
+                    Css = $"background-color:{theme.SemanticColors.PrimaryButtonBackgroundHovered};" +
+                            $"color:{theme.SemanticTextColors.PrimaryButtonText};"
                 }
             });
             MyRules.Add(new Rule()
@@ -427,8 +427,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Pivot--tabs.ms-Pivot .is-selected:active" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.PrimaryButtonBackgroundPressed};" +
-                            $"color:{Theme.SemanticTextColors.PrimaryButtonText};"
+                    Css = $"background-color:{theme.SemanticColors.PrimaryButtonBackgroundPressed};" +
+                            $"color:{theme.SemanticTextColors.PrimaryButtonText};"
                 }
             });
             MyRules.Add(new Rule()
@@ -446,7 +446,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
                 Properties = new CssString()
                 {
-                    Css = $".ms-Pivot--tabs.ms-Pivot .is-selected{{font-weight:{Theme.FontStyle.FontWeight.SemiBold};color:HighlightText;background-color:Highlight;-ms-high-contrast-adjust:none;}}"
+                    Css = $".ms-Pivot--tabs.ms-Pivot .is-selected{{font-weight:{theme.FontStyle.FontWeight.SemiBold};color:HighlightText;background-color:Highlight;-ms-high-contrast-adjust:none;}}"
                 }
             });
             #endregion

@@ -226,13 +226,13 @@
     --iconFontSize-Large: 20px;
 }
 
-:root {
+/*:root {
     --zindex-Nav: 1;
     --zindex-FocusStyle: 1;
     --zindex-Coachmark: 1000;
     --zindex-Layer: 1000000;
     --zindex-KeytipLayer: 1000001;
-}
+}*/
 
 :root {
     /*Can't be used in media queries!*/
@@ -272,7 +272,7 @@
     font-weight: var(--fontWeight-SemiBold);
 }
 
-:root {
+/*:root {
     --animation-DURATION_1: 0.167s;
     --animation-DURATION_2: 0.267s;
     --animation-DURATION_3: 0.367s;
@@ -444,22 +444,22 @@
 
 .fadeIn400 {
     animation: Fade_in var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_2);
-}
+}*/
 
 
-body {
+/*body {
     font-size: 15px;
     font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
-}
+}*/
 
-.normalize {
+/*.normalize {
     box-shadow: none;
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-}
+}*/
 
-.disabledBodyScroll{
+/*.disabledBodyScroll{
     overflow: hidden !important;
-}
+}*/

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace BlazorFabric
 {
-    public class ActionButton : ButtonBase
+    public class ActionButton : ButtonBase, IHasPreloadableGlobalStyle
     {
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
-            var rules = CreateBaseGlobalCss(Theme);
+            var rules = CreateBaseGlobalCss(theme);
 
             rules.Add(new Rule()
             {
@@ -26,7 +26,7 @@ namespace BlazorFabric
                     Css = $"padding:0px 4px;" +
                           $"height:40px;" +
                           $"background-color:transparent;" +
-                          $"color:{Theme.Palette.NeutralPrimary};"+
+                          $"color:{theme.Palette.NeutralPrimary};"+
                           $"border:1px solid transparent;"
                 }
             });
@@ -36,7 +36,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link):hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemePrimary};"
+                    Css = $"color:{theme.Palette.ThemePrimary};"
                 }
             });
             rules.Add(new Rule()
@@ -44,7 +44,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link) .ms-Button-icon:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemePrimary};"
+                    Css = $"color:{theme.Palette.ThemePrimary};"
                 }
             });
 
@@ -53,7 +53,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link):active" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.Black};"
+                    Css = $"color:{theme.Palette.Black};"
                 }
             });
 
@@ -62,7 +62,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link).is-expanded" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemePrimary};"
+                    Css = $"color:{theme.Palette.ThemePrimary};"
                 }
             });
             rules.Add(new Rule()
@@ -70,7 +70,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link) .ms-Button-icon:active" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDarker};"
+                    Css = $"color:{theme.Palette.ThemeDarker};"
                 }
             });
 
@@ -79,7 +79,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link).is-disabled" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralTertiary};"+
+                    Css = $"color:{theme.Palette.NeutralTertiary};"+
                           $"background-color:transparent;"
                 }
             });
@@ -89,7 +89,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link).is-checked:not(.is-disabled)" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.Black};"
+                    Css = $"color:{theme.Palette.Black};"
                 }
             });
 
@@ -98,7 +98,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link).is-checked .ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDarker};"
+                    Css = $"color:{theme.Palette.ThemeDarker};"
                 }
             });
 
@@ -116,7 +116,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link) .ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDarkAlt};"
+                    Css = $"color:{theme.Palette.ThemeDarkAlt};"
                 }
             });
 
@@ -134,7 +134,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link) .ms-Button-menuIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralSecondary};"
+                    Css = $"color:{theme.Palette.NeutralSecondary};"
                 }
             });
 
@@ -152,7 +152,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link) .ms-Button-label" },
                 Properties = new CssString()
                 {
-                    Css = $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                    Css = $"font-weight:{theme.FontStyle.FontWeight.Regular};"
                 }
             });
 
@@ -174,7 +174,7 @@ namespace BlazorFabric
         {
             builder.OpenComponent<GlobalCS>(0);
             builder.AddAttribute(1, "Component", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(this));
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFabric.Rule>>(CreateGlobalCss));
+            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFabric.Rule>>(()=>CreateGlobalCss(Theme)));
             builder.AddAttribute(3, "FixStyle", true);
             builder.CloseComponent();
 

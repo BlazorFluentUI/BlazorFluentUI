@@ -3,6 +3,8 @@
 
 <LocalCS @bind-Rules="@DialogLocalRules" />
 <StylePreloader Component=@(new Modal()) />
+<StylePreloader Component=@(new DialogContent()) />
+<StylePreloader Component=@(new Overlay()) />
 
 <Modal ClassName=@($"ms-Dialog {this.ClassName}")
        Style=@Style

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public partial class DialogContent : FabricComponentBase
+    public partial class DialogContent : FabricComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public string CloseButtonAriaLabel { get; set; } = "Close";  //need to localize
         [Parameter] public RenderFragment ContentTemplate { get; set; }
@@ -21,7 +21,7 @@ namespace BlazorFabric
         [Parameter] public string TitleId { get; set; }
 
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             // ToDo Button Selector for Icon when hidden isn't implement so far
             // ToDo Headeer DraggableHeader isn't implement so far
@@ -33,7 +33,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-content.ms-Dialog--lgHeader" },
                 Properties = new CssString()
                 {
-                    Css = $"border-top:4px solid {Theme.Palette.ThemePrimary};"
+                    Css = $"border-top:4px solid {theme.Palette.ThemePrimary};"
                 }
             });
             GlobalCssRules.Add(new Rule()
@@ -53,10 +53,10 @@ namespace BlazorFabric
                 Properties = new CssString()
                 {
                     Css = $"margin:0 0 24px 0;" +
-                        $"color:{Theme.SemanticTextColors.ButtonText};" +  //Was BodySubText, but this defaults to a very dark color in darkmode... bug?  Same bug found in React components.
+                        $"color:{theme.SemanticTextColors.ButtonText};" +  //Was BodySubText, but this defaults to a very dark color in darkmode... bug?  Same bug found in React components.
                         $"line-height:1.5;" +
                         $"word-break:break-word;" +
-                        $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                        $"font-weight:{theme.FontStyle.FontWeight.Regular};"
                 }
             });
             #endregion
@@ -83,7 +83,7 @@ namespace BlazorFabric
             });
             GlobalCssRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"@media (min-width:{Theme.CommonStyle.ScreenWidthMinSmall}px) and (max-width:{Theme.CommonStyle.ScreenWidthMaxSmall}px)" },
+                Selector = new CssStringSelector() { SelectorName = $"@media (min-width:{theme.CommonStyle.ScreenWidthMinSmall}px) and (max-width:{theme.CommonStyle.ScreenWidthMaxSmall}px)" },
                 Properties = new CssString()
                 {
                     Css = ".ms-Dialog-inner{padding:0 16px 16px;}"
@@ -107,7 +107,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.BodyText};" +
+                    Css = $"color:{theme.SemanticTextColors.BodyText};" +
                         $"margin:0;" +
                         $"padding:16px 46px 20px 24px;" +
                         $"line-height:normal;"
@@ -118,7 +118,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dialog--lgHeader .ms-Dialog-title" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticColors.MenuHeader};"
+                    Css = $"color:{theme.SemanticColors.MenuHeader};"
                 }
             });
             GlobalCssRules.Add(new Rule()
@@ -126,12 +126,12 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dialog--multiline .ms-Dialog-title" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.XxLarge};"
+                    Css = $"font-size:{theme.FontStyle.FontSize.XxLarge};"
                 }
             });
             GlobalCssRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"@media (min-width:{Theme.CommonStyle.ScreenWidthMinSmall}px) and (max-width:{Theme.CommonStyle.ScreenWidthMaxSmall}px)" },
+                Selector = new CssStringSelector() { SelectorName = $"@media (min-width:{theme.CommonStyle.ScreenWidthMinSmall}px) and (max-width:{theme.CommonStyle.ScreenWidthMaxSmall}px)" },
                 Properties = new CssString()
                 {
                     Css = ".ms-Dialog-title{padding:16px 46px 16px 16px;}"
@@ -166,7 +166,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-topButton.ms-Dialog-button" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ButtonText};"
+                    Css = $"color:{theme.SemanticTextColors.ButtonText};"
                 }
             });
             GlobalCssRules.Add(new Rule()
@@ -174,13 +174,13 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Dialog-topButton.ms-Dialog-button:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ButtonTextHovered};" +
-                        $"border-radius:{Theme.Effects.RoundedCorner2};"
+                    Css = $"color:{theme.SemanticTextColors.ButtonTextHovered};" +
+                        $"border-radius:{theme.Effects.RoundedCorner2};"
                 }
             });
             GlobalCssRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"@media (min-width:{Theme.CommonStyle.ScreenWidthMinSmall}px) and (max-width:{Theme.CommonStyle.ScreenWidthMaxSmall}px)" },
+                Selector = new CssStringSelector() { SelectorName = $"@media (min-width:{theme.CommonStyle.ScreenWidthMinSmall}px) and (max-width:{theme.CommonStyle.ScreenWidthMaxSmall}px)" },
                 Properties = new CssString()
                 {
                     Css = ".ms-Dialog-topButton{padding:15px 8px 0 0;}"

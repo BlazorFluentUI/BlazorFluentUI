@@ -28,6 +28,10 @@ namespace BlazorFabric
         {
             if (!addedToHost)
             {
+                if (LayerHost == null)
+                {
+                    throw new Exception("LayerHost is not present.  You need to add a LayerHost near the root of the app.");
+                }
                 LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style);
                 addedToHost = true;
             }

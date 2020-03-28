@@ -1,29 +1,7 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
+/// <reference path="../../BlazorFabric.FocusTrapZone/wwwroot/focusTrapZone.ts" />
 var BlazorFabricPanel;
 (function (BlazorFabricPanel) {
-    function registerSizeHandler(panel) {
-        //var window = targetElement.ownerDocument.defaultView;
-        var resizeId = Handler.addListener(window, "resize", function (ev) { panel.invokeMethodAsync("UpdateFooterPositionAsync"); }, false);
-        //var blurId = Handler.addListener(targetElement, "blur", (ev: Event) => { ev.preventDefault(); panel.invokeMethodAsync("OnBlur"); }, false);
-        return resizeId;
-    }
-    BlazorFabricPanel.registerSizeHandler = registerSizeHandler;
-    function registerMouseDownHandler(panelElement, panelDotNet) {
-        var mouseDownId = Handler.addListener(document.body, "mousedown", function (ev) {
-            //first get whether it is in the 
-            var contains = window["BlazorFabricFocusTrapZone"].elementContains(panelElement, ev.target);
-            if (contains) {
-                ev.preventDefault();
-            }
-            panelDotNet.invokeMethodAsync("DismissOnOuterClick", contains);
-        }, true);
-        return mouseDownId;
-    }
-    BlazorFabricPanel.registerMouseDownHandler = registerMouseDownHandler;
-    function unregisterHandler(id) {
-        Handler.removeListener(id);
-    }
-    BlazorFabricPanel.unregisterHandler = unregisterHandler;
     var Handler = /** @class */ (function () {
         function Handler() {
         }
@@ -43,6 +21,32 @@ var BlazorFabricPanel;
         Handler.listeners = {};
         return Handler;
     }());
+    function registerSizeHandler(panel) {
+        //var window = targetElement.ownerDocument.defaultView;
+        var resizeId = Handler.addListener(window, "resize", function (ev) { panel.invokeMethodAsync("UpdateFooterPositionAsync"); }, false);
+        //var blurId = Handler.addListener(targetElement, "blur", (ev: Event) => { ev.preventDefault(); panel.invokeMethodAsync("OnBlur"); }, false);
+        return resizeId;
+    }
+    BlazorFabricPanel.registerSizeHandler = registerSizeHandler;
+    function registerMouseDownHandler(panelElement, panelDotNet) {
+        var mouseDownId = Handler.addListener(document.body, "mousedown", function (ev) {
+            //first get whether click is inside panel
+            if (!ev.defaultPrevented) {
+                var contains = BlazorFabricFocusTrapZone.elementContains(panelElement, ev.target);
+                //var contains = window["BlazorFabricFocusTrapZone"].elementContains(panelElement, ev.target);
+                if (!contains) {
+                    ev.preventDefault();
+                    panelDotNet.invokeMethodAsync("DismissOnOuterClick", contains);
+                }
+            }
+        }, true);
+        return mouseDownId;
+    }
+    BlazorFabricPanel.registerMouseDownHandler = registerMouseDownHandler;
+    function unregisterHandler(id) {
+        Handler.removeListener(id);
+    }
+    BlazorFabricPanel.unregisterHandler = unregisterHandler;
     var DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
     function makeElementScrollAllower(element) {
         var _previousClientY = 0;

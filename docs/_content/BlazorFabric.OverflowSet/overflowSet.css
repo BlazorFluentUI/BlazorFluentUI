@@ -1,4 +1,4 @@
-﻿.ms-OverflowSet {
+﻿/*.ms-OverflowSet {
     position: relative;
     display: flex;
     flex-wrap: nowrap;
@@ -16,4 +16,4 @@
 .ms-OverflowSet-overflowButton {
     flex-shrink: 0;
     display: inherit;
-}
+}*/

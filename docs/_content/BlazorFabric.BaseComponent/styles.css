@@ -118,6 +118,7 @@
 }
 
 :root {
+    --semanticColors-ActionLink: var(--palette-NeutralPrimary);
     --semanticColors-BodyBackground: var(--palette-White);
     --semanticColors-BodyFrameBackground: var(--palette-White);
     --semanticColors-BodyFrameDivider: var(--palette-NeutralLight);
@@ -153,13 +154,14 @@
     --semanticColors-InputFocusBorderAlt: var(--palette-ThemePrimary);
     --semanticColors-SmallInputBorder: var(--palette-NeutralSecondary);
     --semanticColors-InputPlaceholderText: var(--palette-NeutralSecondary);
-    --semanticColors-ButtonBackground: var(--palette-NeutralLighter);
+    --semanticColors-ButtonBackground: var(--neutralColors-White);
     --semanticColors-ButtonBackgroundChecked: var(--palette-NeutralTertiaryAlt);
-    --semanticColors-ButtonBackgroundHovered: var(--palette-NeutralLight);
+    --semanticColors-ButtonBackgroundHovered: var(--palette-NeutralLighter);
+    --semanticColors-ButtonBackgroundPressed: var(--palette-NeutralLight);
     --semanticColors-ButtonBackgroundCheckedHovered: var(--palette-NeutralLight);
     --semanticColors-ButtonBorder: var(--palette-"transparent");
     --semanticColors-ButtonText: var(--palette-NeutralPrimary);
-    --semanticColors-ButtonTextHovered: var(--palette-Black);
+    --semanticColors-ButtonTextHovered: var(--palette-NeutralDark);
     --semanticColors-ButtonTextChecked: var(--palette-NeutralDark);
     --semanticColors-ButtonTextCheckedHovered: var(--palette-Black);
     --semanticColors-MenuItemBackgroundHovered: var(--palette-NeutralLighter);
@@ -175,23 +177,28 @@
     --semanticColors-ListHeaderBackgroundPressed: var(--palette-NeutralLight);
     --semanticColors-Link: var(--palette-ThemePrimary);
     --semanticColors-LinkHovered: var(--palette-ThemeDarker);
+    --semanticColors-PrimaryButtonBackground: var(--communicationColors-Primary);
+    --semanticColors-PrimaryButtonBackgroundHovered: var(--communicationColors-Shade10);
+    --semanticColors-PrimaryButtonBackgroundPressed: var(--communicationColors-Shade20);
+    --semanticColors-PrimaryButtonBackgroundDisabled: var(--palette-NeutralLighter);
+    --semanticColors-PrimaryButtonText: var(--neutralColors-White);
 }
 
-:root{
+/*:root{
     --depths-Depth0: 0 0 0 0 transparent;
     --depths-Depth4: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
     --depths-Depth8: 0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132), 0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108);
     --depths-Depth16: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
     --depths-Depth64: 0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18);
-}
+}*/
 
-:root {
+/*:root {
     --effects-RoundedCorner2: 2px;
     --effects-Elevation4: var(--depths-Depth4);
     --effects-Elevation8: var(--depths-Depth8);
     --effects-Elevation16: var(--depths-Depth16);
     --effects-Elevation64: var(--depths-Depth64);
-}
+}*/
 
 :root {
     --fontSize-Mini: 10px;
@@ -213,15 +220,19 @@
     --fontWeight-Regular: 400;
     --fontWeight-SemiBold: 600;
     --fontWeight-Bold: 700;
+    --iconFontSize-XSmall: 10px;
+    --iconFontSize-Small: 12px;
+    --iconFontSize-Medium: 16px;
+    --iconFontSize-Large: 20px;
 }
 
-:root {
+/*:root {
     --zindex-Nav: 1;
     --zindex-FocusStyle: 1;
     --zindex-Coachmark: 1000;
     --zindex-Layer: 1000000;
     --zindex-KeytipLayer: 1000001;
-}
+}*/
 
 :root {
     /*Can't be used in media queries!*/
@@ -240,14 +251,14 @@
 }
 
 
-.smallPlusFont {
+/*.smallPlusFont {
     font-size: var(--fontSize-Small);
     font-weight: var(--fontWeight-Regular);
-}
-.smallFont {
+}*/
+/*.smallFont {
     font-size: var(--fontSize-Small);
     font-weight: var(--fontWeight-Regular);
-}
+}*/
 .mediumFont{
     font-size: var(--fontSize-Medium);
     font-weight: var(--fontWeight-Regular);
@@ -261,7 +272,7 @@
     font-weight: var(--fontWeight-SemiBold);
 }
 
-:root {
+/*:root {
     --animation-DURATION_1: 0.167s;
     --animation-DURATION_2: 0.267s;
     --animation-DURATION_3: 0.367s;
@@ -433,22 +444,22 @@
 
 .fadeIn400 {
     animation: Fade_in var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_2);
-}
+}*/
 
 
-body {
+/*body {
     font-size: 15px;
     font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
-}
+}*/
 
-normalize {
+/*.normalize {
     box-shadow: none;
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-}
+}*/
 
-.disabledBodyScroll{
+/*.disabledBodyScroll{
     overflow: hidden !important;
-}
+}*/

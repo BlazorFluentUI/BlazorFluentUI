@@ -1,4 +1,4 @@
-﻿.bf-richTextEditor {
+﻿/*.bf-richTextEditor {
     position: relative;
 }
 
@@ -9,10 +9,10 @@
 .bf-richTextEditor-editor {
     border: 1px solid var(--semanticColors-InputBorder);
     background: var(--semanticColors-InputBackground);
-    cursor: text;
+    cursor: text;*/
     /*padding: 6px 8px;*/
-    margin-top: 0.1px; /* Odd rendering issue with hover for EdgeHTML */
-    min-height: 60px;
+    /*margin-top: 0.1px;*/ /* Odd rendering issue with hover for EdgeHTML */
+    /*min-height: 60px;
     height: auto;
 }
 
@@ -44,9 +44,9 @@
 }
 
 .bf-richTextEditor.is-disabled .bf-richTextEditor-editor {
-    background-color: var(--semanticColors-DisabledBackground);
+    background-color: var(--semanticColors-DisabledBackground);*/
     /*border-color: var(--semanticColors-DisabledBackground);*/
-    cursor: default;
+    /*cursor: default;
 }
 
 .bf-richTextEditor .ql-editor {
@@ -69,4 +69,4 @@
     overflow-y:hidden;
     position:absolute;
     top:50%;
-}
+}*/

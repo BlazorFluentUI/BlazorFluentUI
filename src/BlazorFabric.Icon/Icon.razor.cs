@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class Icon : FabricComponentBase
+    public partial class Icon : FabricComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public string IconName { get; set; }
         [Parameter] public IconType IconType { get; set; }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var iconRules = new HashSet<Rule>();
             iconRules.Add(new Rule()

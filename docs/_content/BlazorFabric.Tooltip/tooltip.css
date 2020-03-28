@@ -1,13 +1,14 @@
-﻿.ms-Tooltip{
+﻿/*.ms-Tooltip{
     background: var(--semanticColors-menuBackground);
     box-shadow: var(--effects-Elevation8);
     padding: 8px;
-    /* max-width is an inline style */
+    /* max-width is an inline style *//*
 }
 .ms-Tooltip::after{
     content:'';
     position:absolute;
     bottom:11.313px; /*hard coded beak gap width space*/
+/*
     left:11.313px;
     right:11.313px;
     top:11.313px;
@@ -32,4 +33,4 @@
 
 .ms-TooltipHost{
     display:inline;
-}
+}*/

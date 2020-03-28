@@ -19,14 +19,16 @@ var BlazorFabricList;
             top: element.scrollTop,
             left: element.scrollLeft,
             bottom: element.scrollTop + element.clientHeight,
-            right: element.scrollLeft + element.clientWidth,
+            right: element.scrollLeft + element.clientWidth
         };
         return rect;
     }
     BlazorFabricList.measureScrollWindow = measureScrollWindow;
     ;
     function measureElementRect(element) {
-        return element.getBoundingClientRect();
+        var rect = element.getBoundingClientRect();
+        var elementMeasurements = { height: rect.height, width: rect.width, left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, cheight: element.clientHeight, cwidth: element.clientWidth, test: "Random!" };
+        return elementMeasurements;
     }
     BlazorFabricList.measureElementRect = measureElementRect;
     ;

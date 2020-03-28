@@ -1,4 +1,4 @@
-/// <reference path="baseComponent.d.ts" />
+/// <reference path="../../BlazorFabric.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFabricFocusZone;
 (function (BlazorFabricFocusZone) {
     var FocusZoneDirection;
@@ -291,8 +291,10 @@ var BlazorFabricFocusZone;
                 this._updateTabIndexes();
                 // using a hack to detect whether the passed in HTMLElement is valid (came from a legitimate .NET ElementReference)
                 if ((this._focusZoneProps.defaultActiveElement).__internalId !== null) {
-                    this._activeElement = this._focusZoneProps.defaultActiveElement;
-                    this.focus();
+                    if (this._activeElement != this._focusZoneProps.defaultActiveElement) {
+                        this._activeElement = this._focusZoneProps.defaultActiveElement;
+                        this.focus();
+                    }
                 }
             }
         };

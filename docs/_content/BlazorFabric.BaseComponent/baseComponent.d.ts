@@ -20,6 +20,7 @@ declare namespace BlazorFabricBaseComponent {
     export function disableBodyScroll(): void;
     export function getClientHeight(element: HTMLElement): number;
     export function getScrollHeight(element: HTMLElement): number;
+    export function findScrollableParent(startingElement: HTMLElement | null): HTMLElement | null;
     export function measureElement(element: HTMLElement): IRectangle;
     export function getNaturalBounds(image: HTMLImageElement): IRectangle;
     export function supportsObjectFit(): boolean;
@@ -34,12 +35,23 @@ declare namespace BlazorFabricBaseComponent {
     export function getWindow(element: HTMLElement): Window;
     export function getWindowRect(): IRectangle;
     export function getElementId(element: HTMLElement): string;
+    export function registerKeyEventsForList(element: HTMLElement): string;
+    export function deregisterKeyEventsForList(guid: number): void;
+    export function registerWindowKeyDownEvent(dotnetRef: DotNetReferenceType, keyCode: string, functionName: string): string;
+    export function deregisterWindowKeyDownEvent(guid: number): void;
     export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string): string;
     export function deregisterResizeEvent(guid: number): void;
     export function findElementRecursive(element: HTMLElement | null, matchFunction: (element: HTMLElement) => boolean): HTMLElement | null;
     export function elementContainsAttribute(element: HTMLElement, attribute: string): string | null;
+    export function storeLastFocusedElement(): string;
+    export function restoreLastFocus(guid: string, restoreFocus?: boolean): void;
+    export function getActiveElement(): Element;
+    export function focusElement(element: HTMLElement): void;
+    export function focusFirstElementChild(element: HTMLElement): void;
     export function shouldWrapFocus(element: HTMLElement, noWrapDataAttribute: 'data-no-vertical-wrap' | 'data-no-horizontal-wrap'): boolean;
     export function getFocusableByIndexPath(parent: HTMLElement, path: number[]): ElementReferenceResult;
+    export function getFirstFocusable(rootElement: HTMLElement, currentElement: HTMLElement, includeElementsInFocusZones?: boolean): HTMLElement;
+    export function getLastFocusable(rootElement: HTMLElement, currentElement: HTMLElement, includeElementsInFocusZones?: boolean): HTMLElement;
     export function isElementTabbable(element: HTMLElement, checkTabIndex?: boolean): boolean;
     export function isElementVisible(element: HTMLElement | undefined | null): boolean;
     export function focusFirstChild(rootElement: HTMLElement): boolean;
@@ -56,6 +68,16 @@ declare namespace BlazorFabricBaseComponent {
     export function isElementFocusZone(element?: HTMLElement): boolean;
     export function isElementFocusSubZone(element?: HTMLElement): boolean;
     export function on(element: Element | Window, eventName: string, callback: (ev: Event) => void, options?: boolean): () => void;
+    export function debounce<T extends Function>(func: T, wait?: number, options?: {
+        leading?: boolean;
+        maxWait?: number;
+        trailing?: boolean;
+    }): ICancelable<T> & (() => void);
+    type ICancelable<T> = {
+        flush: () => T;
+        cancel: () => void;
+        pending: () => boolean;
+    };
     export const enum KeyCodes {
         backspace = 8,
         tab = 9,

@@ -1,9 +1,4 @@
-﻿/*
-    This file is to show how CSS and other static resources (such as images) can be
-    used from a library project/package.
-*/
-
-.ms-Dropdown {
+﻿.ms-Dropdown {
     color: var(--palette-NeutralPrimary);
     border-color: var(--palette-NeutralSecondary);
     position:relative;
@@ -64,6 +59,22 @@
 }
 .ms-Dropdown:not(.is-disabled):focus .ms-Dropdown-title {
     color: var(--semanticColors-MenuItemTextHovered);
+}
+
+.ms-Dropdown:focus::after{
+    pointer-events:none;
+    content: "";
+    position:absolute;
+    box-sizing:border-box;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    border:none;
+    border-radius:2px;
+}
+.ms-Dropdown:not(.is_disabled):focus::after {
+    border: 2px solid var(--palette-ThemePrimary);
 }
 
 .ms-Dropdown:active .ms-Dropdown-title {
@@ -209,21 +220,32 @@
         background-color: var(--palette-NeutralLighter);
     }
 
-.ms-Dropdown-item.selected{
-    background-color:var(--palette-NeutralLight);
-    color: var(--palette-NeutralDark);
-}
-    .ms-Dropdown-item.selected:hover:focus {
+/* Need to be very specific because other component selectors are overriding these if just ".ms-Dropdown-item.selected" */
+    .ms-Dropdown-item.selected,
+    .ms-Dropdown-item.ms-Button.ms-Button--action.selected {
         background-color: var(--palette-NeutralLight);
-    }
-    .ms-Dropdown-item.selected:focus {
-        background-color: var(--palette-NeutralLight);
-    }
-    .ms-Dropdown-item.selected:active {
         color: var(--palette-NeutralDark);
-        background-color: var(--palette-NeutralLight);
     }
-/* Skipping IsFocusVisible */
+        .ms-Dropdown-item.selected:hover:focus,
+        .ms-Dropdown-item.ms-Button.ms-Button--action.selected:hover:focus{
+            background-color: var(--palette-NeutralLight);
+        }
+        .ms-Dropdown-item.selected:focus,
+        .ms-Dropdown-item.ms-Button.ms-Button--action.selected:focus {
+            background-color: var(--palette-NeutralLight);
+        }
+        .ms-Dropdown-item.selected:active,
+        .ms-Dropdown-item.ms-Button.ms-Button--action.selected:active{
+            color: var(--palette-NeutralDark);
+            background-color: var(--palette-NeutralLight);
+        }
+
+.ms-Fabric--isFocusVisible .ms-Dropdown-item:focus:after {
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+}
 
 .ms-Dropdown-item.is-disabled{
     color:var(--palette-NeutralTertiary);
@@ -248,5 +270,5 @@
     display: inline-block;
 }
 .ms-Dropdown .ms-Panel-content{
-    padding:0;
+    padding: 0 0 20px;
 }

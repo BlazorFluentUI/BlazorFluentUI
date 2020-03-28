@@ -2,7 +2,9 @@
 
 tsc --outFile BlazorFabric.BaseComponent\wwwroot\blazorFabric.js BlazorFabric.BaseComponent\wwwroot\baseComponent.ts BlazorFabric.Callout\wwwroot\callout.ts BlazorFabric.ContextualMenu\wwwroot\contextualMenu.ts BlazorFabric.FocusTrapZone\wwwroot\focusTrapZone.ts BlazorFabric.FocusZone\wwwroot\focusZone.ts BlazorFabric.List\wwwroot\fabricList.ts BlazorFabric.Panel\wwwroot\panel.ts BlazorFabric.TextField\wwwroot\fabricTextField.ts 
 
-** Run this line inside the basecomponent wwwroot to minify the resulting unified js file.
+** Run this line inside the basecomponent wwwroot to minify the resulting unified js file. Second one is better as it can uglify (replace var names with shorter names, but not the top-level ones)
 
 jsmin -o blazorFabric.min.js blazorFabric.js
+
+uglifyjs --compress --mangle --output blazorFabric.min.js -- blazorFabric.js
 

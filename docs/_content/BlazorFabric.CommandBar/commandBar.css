@@ -1,4 +1,4 @@
-﻿.ms-CommandBar{
+﻿/*.ms-CommandBar{
     display:flex;
     background-color: var(--palette-White);
     padding: 0 14px 0 24px;
@@ -12,7 +12,7 @@
 }
 
 .ms-CommandBar-secondarySet {
-    flex-shrink:0;
-    display:flex;
-    align-items:stretch;
-}
+    flex-shrink: 0;
+    display: flex;
+    align-items: stretch;
+}*/

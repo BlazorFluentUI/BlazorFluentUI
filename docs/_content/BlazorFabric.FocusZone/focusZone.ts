@@ -1,4 +1,4 @@
-/// <reference path="baseComponent.d.ts" />
+/// <reference path="../../BlazorFabric.BaseComponent/wwwroot/baseComponent.ts" />
 
 namespace BlazorFabricFocusZone {
     interface Set<T> {
@@ -184,8 +184,10 @@ namespace BlazorFabricFocusZone {
 
                 // using a hack to detect whether the passed in HTMLElement is valid (came from a legitimate .NET ElementReference)
                 if ((<any>(this._focusZoneProps.defaultActiveElement)).__internalId !== null) {
-                    this._activeElement = this._focusZoneProps.defaultActiveElement;
-                    this.focus();
+                    if (this._activeElement != this._focusZoneProps.defaultActiveElement) {
+                        this._activeElement = this._focusZoneProps.defaultActiveElement;
+                        this.focus();
+                    }
                 }
             }
         }

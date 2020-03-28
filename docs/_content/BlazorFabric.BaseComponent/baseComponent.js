@@ -76,6 +76,35 @@ var BlazorFabricBaseComponent;
         return element.scrollHeight;
     }
     BlazorFabricBaseComponent.getScrollHeight = getScrollHeight;
+    function findScrollableParent(startingElement) {
+        var el = startingElement;
+        // First do a quick scan for the scrollable attribute.
+        while (el && el !== document.body) {
+            if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) === 'true') {
+                return el;
+            }
+            el = el.parentElement;
+        }
+        // If we haven't found it, then use the slower method: compute styles to evaluate if overflow is set.
+        el = startingElement;
+        while (el && el !== document.body) {
+            if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) !== 'false') {
+                var computedStyles = getComputedStyle(el);
+                var overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
+                if (overflowY && (overflowY === 'scroll' || overflowY === 'auto')) {
+                    return el;
+                }
+            }
+            el = el.parentElement;
+        }
+        // Fall back to window scroll.
+        if (!el || el === document.body) {
+            // tslint:disable-next-line:no-any
+            el = window;
+        }
+        return el;
+    }
+    BlazorFabricBaseComponent.findScrollableParent = findScrollableParent;
     function measureElement(element) {
         var rect = {
             width: element.clientWidth,
@@ -87,13 +116,16 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.measureElement = measureElement;
     function getNaturalBounds(image) {
-        var rect = {
-            width: image.naturalWidth,
-            height: image.naturalHeight,
-            left: 0,
-            top: 0
-        };
-        return rect;
+        if (image && image !== null) {
+            var rect = {
+                width: image.naturalWidth,
+                height: image.naturalHeight,
+                left: 0,
+                top: 0
+            };
+            return rect;
+        }
+        return null;
     }
     BlazorFabricBaseComponent.getNaturalBounds = getNaturalBounds;
     function supportsObjectFit() {
@@ -156,10 +188,76 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.getElementId = getElementId;
     var eventRegister = {};
+    var eventElementRegister = {};
+    /* Function for Dropdown, but could apply to focusing on any element after onkeydown outside of list containing is-element-focusable items */
+    function registerKeyEventsForList(element) {
+        if (element instanceof HTMLElement) {
+            var guid = Guid.newGuid();
+            eventElementRegister[guid] = [element, function (ev) {
+                    var elementToFocus;
+                    var containsExpandCollapseModifier = ev.altKey || ev.metaKey;
+                    switch (ev.keyCode) {
+                        case 38 /* up */:
+                            if (containsExpandCollapseModifier) {
+                                //should send a close window or something, maybe let Blazor handle it.
+                            }
+                            else {
+                                elementToFocus = getLastFocusable(element, element.lastChild, true);
+                            }
+                            break;
+                        case 40 /* down */:
+                            if (!containsExpandCollapseModifier) {
+                                elementToFocus = getFirstFocusable(element, element.firstChild, true);
+                            }
+                            break;
+                        default:
+                            return;
+                    }
+                    if (elementToFocus) {
+                        elementToFocus.focus();
+                    }
+                }];
+            element.addEventListener("keydown", eventElementRegister[guid][1]);
+            return guid;
+        }
+        else {
+            return null;
+        }
+    }
+    BlazorFabricBaseComponent.registerKeyEventsForList = registerKeyEventsForList;
+    function deregisterKeyEventsForList(guid) {
+        var tuple = eventElementRegister[guid];
+        if (tuple) {
+            var element = tuple[0];
+            var func = tuple[1];
+            element.removeEventListener("keydown", func);
+            eventElementRegister[guid] = null;
+        }
+    }
+    BlazorFabricBaseComponent.deregisterKeyEventsForList = deregisterKeyEventsForList;
+    function registerWindowKeyDownEvent(dotnetRef, keyCode, functionName) {
+        var guid = Guid.newGuid();
+        eventRegister[guid] = function (ev) {
+            if (ev.code == keyCode) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                dotnetRef.invokeMethodAsync(functionName, ev.code);
+            }
+        };
+        window.addEventListener("keydown", eventRegister[guid]);
+        return guid;
+    }
+    BlazorFabricBaseComponent.registerWindowKeyDownEvent = registerWindowKeyDownEvent;
+    function deregisterWindowKeyDownEvent(guid) {
+        var func = eventRegister[guid];
+        window.removeEventListener("keydown", func);
+        eventRegister[guid] = null;
+    }
+    BlazorFabricBaseComponent.deregisterWindowKeyDownEvent = deregisterWindowKeyDownEvent;
     function registerResizeEvent(dotnetRef, functionName) {
         var guid = Guid.newGuid();
         eventRegister[guid] = debounce(function (ev) {
-            dotnetRef.invokeMethodAsync(functionName);
+            dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
         }, 100, { leading: true });
         window.addEventListener("resize", eventRegister[guid]);
         return guid;
@@ -195,6 +293,48 @@ var BlazorFabricBaseComponent;
     }
     BlazorFabricBaseComponent.elementContainsAttribute = elementContainsAttribute;
     /* Focus stuff */
+    /* Since elements can be stored in Blazor and we don't want to create more js files, this will hold last focused elements for restoring focus later. */
+    var _lastFocus = {};
+    function storeLastFocusedElement() {
+        var element = document.activeElement;
+        var htmlElement = element;
+        if (htmlElement) {
+            var guid = Guid.newGuid();
+            _lastFocus[guid] = htmlElement;
+            return guid;
+        }
+        return null;
+    }
+    BlazorFabricBaseComponent.storeLastFocusedElement = storeLastFocusedElement;
+    function restoreLastFocus(guid, restoreFocus) {
+        if (restoreFocus === void 0) { restoreFocus = true; }
+        var htmlElement = _lastFocus[guid];
+        if (htmlElement != null) {
+            if (restoreFocus) {
+                htmlElement.focus();
+            }
+            delete _lastFocus[guid];
+        }
+    }
+    BlazorFabricBaseComponent.restoreLastFocus = restoreLastFocus;
+    function getActiveElement() {
+        return document.activeElement;
+    }
+    BlazorFabricBaseComponent.getActiveElement = getActiveElement;
+    function focusElement(element) {
+        element.focus();
+    }
+    BlazorFabricBaseComponent.focusElement = focusElement;
+    function focusFirstElementChild(element) {
+        var child = this.getFirstFocusable(element, element, true);
+        if (child) {
+            child.focus();
+        }
+        else {
+            element.focus();
+        }
+    }
+    BlazorFabricBaseComponent.focusFirstElementChild = focusFirstElementChild;
     function shouldWrapFocus(element, noWrapDataAttribute) {
         return elementContainsAttribute(element, noWrapDataAttribute) === 'true' ? false : true;
     }
@@ -213,6 +353,14 @@ var BlazorFabricBaseComponent;
         return { element: element, isNull: !element };
     }
     BlazorFabricBaseComponent.getFocusableByIndexPath = getFocusableByIndexPath;
+    function getFirstFocusable(rootElement, currentElement, includeElementsInFocusZones) {
+        return getNextElement(rootElement, currentElement, true /*checkNode*/, false /*suppressParentTraversal*/, false /*suppressChildTraversal*/, includeElementsInFocusZones);
+    }
+    BlazorFabricBaseComponent.getFirstFocusable = getFirstFocusable;
+    function getLastFocusable(rootElement, currentElement, includeElementsInFocusZones) {
+        return getPreviousElement(rootElement, currentElement, true /*checkNode*/, false /*suppressParentTraversal*/, true /*suppressChildTraversal*/, includeElementsInFocusZones);
+    }
+    BlazorFabricBaseComponent.getLastFocusable = getLastFocusable;
     function isElementTabbable(element, checkTabIndex) {
         // If this element is null or is disabled, it is not considered tabbable.
         if (!element || element.disabled) {
@@ -532,6 +680,7 @@ var BlazorFabricBaseComponent;
         resultFunction.pending = pending;
         return resultFunction;
     }
+    BlazorFabricBaseComponent.debounce = debounce;
     var RTL_LOCAL_STORAGE_KEY = 'isRTL';
     var _isRTL;
     function getRTL() {

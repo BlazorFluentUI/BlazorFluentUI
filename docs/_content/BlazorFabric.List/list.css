@@ -1,42 +1,24 @@
-﻿/*
-    This file is to show how CSS and other static resources (such as images) can be
-    used from a library project/package.
-*/
-
-.ms-List-root {
-    height:100%;
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
-
-.ms-List{
-    height:100%;
-}
-
-.ms-List-surface{
-    height:100%;
-    overflow-y:auto;
-}
-
-.ms-List-cell {
-    padding: 10px;
+﻿/*.ms-List-cell {
+    padding-top: 11px;
+    padding-bottom: 11px;
+    min-height: 42px;
+    min-width: 100%;
+    overflow: hidden;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--semanticColors-BodyDivider);
-    display: flex;
-
-    outline:transparent;
-    position:relative;
-
+    border-bottom: 1px solid var(--palette-NeutralLighter);
+    display: inline-flex;
+    outline: transparent;
+    position: relative;
 }
     .ms-List-cell:hover {
         background-color: var(--palette-NeutralLighter);
     }
-    .ms-List-cell.is-active {
+    .ms-List-cell.is-selected {
         background-color: var(--palette-NeutralLight);
     }
 
-    .ms-List-cell::-moz-focus-inner{
-        border:0;
+    .ms-List-cell::-moz-focus-inner {
+        border: 0;
     }
 
 .ms-Fabric--isFocusVisible .ms-List-cell:focus::after {
@@ -60,6 +42,6 @@
         border: none;
         outline-color: ButtonText;
     }
-}
+}*/
 
 

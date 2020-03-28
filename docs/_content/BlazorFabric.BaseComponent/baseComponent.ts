@@ -106,6 +106,42 @@
         return element.scrollHeight;
     }
 
+    export function findScrollableParent(startingElement: HTMLElement | null): HTMLElement | null {
+        let el: HTMLElement | null = startingElement;
+
+        // First do a quick scan for the scrollable attribute.
+        while (el && el !== document.body) {
+            if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) === 'true') {
+                return el;
+            }
+            el = el.parentElement;
+        }
+
+        // If we haven't found it, then use the slower method: compute styles to evaluate if overflow is set.
+        el = startingElement;
+
+        while (el && el !== document.body) {
+            if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) !== 'false') {
+                const computedStyles = getComputedStyle(el);
+                let overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
+
+                if (overflowY && (overflowY === 'scroll' || overflowY === 'auto')) {
+                    return el;
+                }
+            }
+
+            el = el.parentElement;
+        }
+
+        // Fall back to window scroll.
+        if (!el || el === document.body) {
+            // tslint:disable-next-line:no-any
+            el = window as any;
+        }
+
+        return el;
+    }
+
 
     export function measureElement(element: HTMLElement): IRectangle {
         var rect: IRectangle = {
@@ -118,13 +154,16 @@
     }
 
     export function getNaturalBounds(image: HTMLImageElement): IRectangle {
-        var rect: IRectangle = {
-            width: image.naturalWidth,
-            height: image.naturalHeight,
-            left: 0,
-            top: 0
+        if (image && image !== null) {
+            var rect: IRectangle = {
+                width: image.naturalWidth,
+                height: image.naturalHeight,
+                left: 0,
+                top: 0
+            }
+            return rect;
         }
-        return rect;
+        return null;
     }
 
     export function supportsObjectFit(): boolean {
@@ -197,16 +236,79 @@
 
     var eventRegister: Map<(ev: UIEvent) => void> = {};
 
+    var eventElementRegister: Map<[HTMLElement, (ev: UIEvent) => void]> = {};
+
+    /* Function for Dropdown, but could apply to focusing on any element after onkeydown outside of list containing is-element-focusable items */
+    export function registerKeyEventsForList(element: HTMLElement): string {
+        if (element instanceof HTMLElement) {
+            var guid = Guid.newGuid();
+            eventElementRegister[guid] = [element, (ev: KeyboardEvent) => {
+                let elementToFocus: HTMLElement;
+                const containsExpandCollapseModifier = ev.altKey || ev.metaKey;
+                switch (ev.keyCode) {
+                    case KeyCodes.up:
+                        if (containsExpandCollapseModifier) {
+                            //should send a close window or something, maybe let Blazor handle it.
+                        } else {
+                            elementToFocus = getLastFocusable(element, element.lastChild as HTMLElement, true);
+                        }
+                        break;
+                    case KeyCodes.down:
+                        if (!containsExpandCollapseModifier) {
+                            elementToFocus = getFirstFocusable(element, element.firstChild as HTMLElement, true);
+                        }
+                        break;
+                    default:
+                        return;
+                }
+                if (elementToFocus) {
+                    elementToFocus.focus();
+                }
+            }];
+            element.addEventListener("keydown", eventElementRegister[guid][1]);
+            return guid;
+        } else {
+            return null;
+        }
+    }
+    export function deregisterKeyEventsForList(guid: number) {
+        var tuple = eventElementRegister[guid];
+        if (tuple) {
+            var element = tuple[0];
+            var func = tuple[1];
+            element.removeEventListener("keydown", func);
+            eventElementRegister[guid] = null;
+        }
+    }
+
+
+    export function registerWindowKeyDownEvent(dotnetRef: DotNetReferenceType, keyCode:string, functionName: string): string {
+        var guid = Guid.newGuid();
+        eventRegister[guid] = (ev: KeyboardEvent) => {
+            if (ev.code == keyCode) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                dotnetRef.invokeMethodAsync(functionName, ev.code);
+            }
+        };
+        window.addEventListener("keydown", eventRegister[guid]);
+        return guid;
+    }
+
+    export function deregisterWindowKeyDownEvent(guid: number) {
+        var func = eventRegister[guid];
+        window.removeEventListener("keydown", func);
+        eventRegister[guid] = null;
+    }
+
     export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string) : string {
         var guid = Guid.newGuid();
         eventRegister[guid] = debounce((ev: UIEvent) => {
-            dotnetRef.invokeMethodAsync(functionName);
+            dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
         }, 100, { leading: true });
         window.addEventListener("resize", eventRegister[guid]);
         return guid;
     }
-
-
 
     export function deregisterResizeEvent(guid: number) {
         var func = eventRegister[guid];
@@ -239,6 +341,48 @@
 
 /* Focus stuff */
 
+    /* Since elements can be stored in Blazor and we don't want to create more js files, this will hold last focused elements for restoring focus later. */
+    var _lastFocus: Map<HTMLElement> = {};
+
+    export function storeLastFocusedElement(): string {
+        let element = document.activeElement;
+        let htmlElement = <HTMLElement>element;
+        if (htmlElement) {
+            let guid = Guid.newGuid();
+            _lastFocus[guid] = htmlElement;
+            return guid;
+        }
+        return null;
+    }
+
+    export function restoreLastFocus(guid: string, restoreFocus: boolean = true) {
+        var htmlElement = _lastFocus[guid];
+        if (htmlElement != null) {
+            if (restoreFocus) {
+                htmlElement.focus();
+            }
+            delete _lastFocus[guid];
+        }
+    }
+
+
+    export function getActiveElement(): Element {
+        return document.activeElement;
+    }
+
+    export function focusElement(element: HTMLElement) {
+        element.focus();
+    }
+
+    export function focusFirstElementChild(element: HTMLElement, ){
+        let child = this.getFirstFocusable(element,element, true );
+        if (child) {
+            child.focus();
+        } else {
+            element.focus();
+        }
+    }
+
     export function shouldWrapFocus(element: HTMLElement, noWrapDataAttribute: 'data-no-vertical-wrap' | 'data-no-horizontal-wrap'): boolean {
         return elementContainsAttribute(element, noWrapDataAttribute) === 'true' ? false : true;
     }
@@ -255,6 +399,28 @@
         element = isElementTabbable(element) && isElementVisible(element) ? element : getNextElement(parent, element, true) || getPreviousElement(parent, element);
 
         return { element: element as HTMLElement, isNull: !element };
+    }
+
+    export function getFirstFocusable(rootElement: HTMLElement, currentElement: HTMLElement, includeElementsInFocusZones?: boolean) {
+        return getNextElement(
+            rootElement,
+            currentElement,
+            true /*checkNode*/,
+            false /*suppressParentTraversal*/,
+            false /*suppressChildTraversal*/,
+            includeElementsInFocusZones
+        );
+    }
+
+    export function getLastFocusable(rootElement: HTMLElement, currentElement: HTMLElement, includeElementsInFocusZones?: boolean) {
+        return getPreviousElement(
+            rootElement,
+            currentElement,
+            true /*checkNode*/,
+            false /*suppressParentTraversal*/,
+            true /*suppressChildTraversal*/,
+            includeElementsInFocusZones
+        );
     }
 
     export function isElementTabbable(element: HTMLElement, checkTabIndex?: boolean): boolean {
@@ -595,7 +761,7 @@
     }
 
 
-    function debounce<T extends Function>(
+    export function debounce<T extends Function>(
         func: T,
         wait?: number,
         options?: {

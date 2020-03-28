@@ -1,9 +1,18 @@
-//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
+/// <reference path="../../BlazorFabric.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFabricContextualMenu;
 (function (BlazorFabricContextualMenu) {
     function registerHandlers(targetElement, contextualMenuItem) {
         var window = targetElement.ownerDocument.defaultView;
         var mouseClickId = Handler.addListener(targetElement, "click", function (ev) { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("ClickHandler"); }, false);
+        //var keyDownId = Handler.addListener(targetElement, "keydown", (ev: KeyboardEvent) => {
+        //    if (ev.keyCode === BlazorFabricBaseComponent.KeyCodes.right) {
+        //        ev.preventDefault();
+        //        contextualMenuItem.invokeMethodAsync("KeyDownHandler", true);
+        //    } else if (ev.keyCode === BlazorFabricBaseComponent.KeyCodes.left) {
+        //        ev.preventDefault();
+        //        contextualMenuItem.invokeMethodAsync("KeyDownHandler", false);
+        //    }
+        //}, false);
         var mouseEnterId = Handler.addListener(targetElement, "mouseenter", function (ev) { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("MouseEnterHandler"); }, false);
         return [mouseClickId, mouseEnterId];
     }

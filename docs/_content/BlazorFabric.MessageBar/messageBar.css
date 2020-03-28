@@ -1,4 +1,4 @@
-﻿ms-MessageBar--root {
+﻿/*ms-MessageBar--root {
     background: var(--semanticColors-BodyBackground);
 }
 
@@ -29,7 +29,7 @@
 
     .ms-MessageBar .ms-Link {
         color: var(--palette-ThemeDark);
-        /*@extend: .smallFont;*/
+        /*@extend: .smallFont;
         font-size: var(--fontSize-Small);
         font-weight: var(--fontWeight-Regular);
     }
@@ -73,14 +73,13 @@
 }
 
 .ms-MessageBar-icon {
-    font-size: var(--fontSize-Icon); /* IconFonSizes.Medium*/
+    font-size: var(--fontSize-Icon); IconFonSizes.Medium
     min-width: 16px;
     min-height: 16px;
     display: flex;
     flex-shrink: 0;
     margin: 8px 0 8px 12px;
 }
-
     .ms-MessageBar-icon .ms-Icon {
         color: var(--palette-NeutralSecondary);
     }
@@ -103,7 +102,7 @@
     display: flex;
     flex-grow: 1;
     margin: 8px;
-    /*@extend: .smallFont;*/
+    @extend: .smallFont;
     font-size: var(--fontSize-Small);
     font-weight: var(--fontWeight-Regular);
 }
@@ -129,7 +128,7 @@
     .ms-MessageBar-innerText.ms-MessageBar-expandSingleLine {
         overflow: visible;
         white-space: normal; /*pre-wrap;*/
-    }
+/*}
 
 .ms-MessageBar-dismissSingleLine {
 }
@@ -212,4 +211,4 @@
 
     .ms-MessageBar-actionsSingleLine .ms-MessageBar-dismissSingleLine {
         margin-right: 0px;
-    }
+    }*/

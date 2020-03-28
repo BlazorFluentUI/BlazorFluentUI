@@ -11,6 +11,9 @@ https://blazorfabric.azurewebsites.net/
 ## Telegram dev channel
 https://t.me/blazorfabric
 
+## See the wiki for all usage notes
+https://github.com/limefrogyank/BlazorFabric/wiki
+
 ## Release Notes
 - v3.0.0
     - Theming is now available on BlazorFabric

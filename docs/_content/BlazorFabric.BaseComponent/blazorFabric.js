@@ -2079,7 +2079,11 @@ var BlazorFabricFocusZone;
         return FocusZoneInternal;
     }());
 })(BlazorFabricFocusZone || (BlazorFabricFocusZone = {}));
-window.BlazorFabricFocusZone = BlazorFabricFocusZone;
+//interface Window {
+//    BlazorFabricFocusZone: typeof BlazorFabricFocusZone
+//}
+//window.BlazorFabricFocusZone = BlazorFabricFocusZone;
+window['BlazorFabricFocusZone'] = BlazorFabricFocusZone || {};
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 var BlazorFabricList;
 (function (BlazorFabricList) {

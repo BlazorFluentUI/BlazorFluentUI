@@ -147,7 +147,7 @@ namespace BlazorFabricFocusTrapZone {
 
             FocusTrapZoneInternal._focusStack.push(this);
 
-            this._previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss
+            this._previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss && (<any>elementToFocusOnDismiss).__internalId != null
                 ? elementToFocusOnDismiss
                 : (document.activeElement as HTMLElement);
             if (!disableFirstFocus && !elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {

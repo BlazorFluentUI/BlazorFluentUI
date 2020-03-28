@@ -344,6 +344,30 @@ namespace BlazorFabric
         private ICollection<Rule> CreateGlobalCss()
         {
             var MyRules = new List<Rule>();
+            #region ms-DatePicker
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker" },
+                Properties = new CssString()
+                {
+                    Css = //Normalize
+                          $"box-shadow:none;" +
+                          $"margin:0px;" +
+                          $"padding:0px;" +
+                          $"box-sizing:border-box;"
+                }
+            });
+            #endregion
+            #region ms-DatePicker-callout
+            MyRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker-callout" },
+                Properties = new CssString()
+                {
+                    Css = $"box-shadow:{Theme.Effects.Elevation8};"
+                }
+            });
+            #endregion
             #region ms-DatePicker-textField
             MyRules.Add(new Rule()
             {

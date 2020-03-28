@@ -2,7 +2,7 @@
 @inherits FabricComponentBase
 @typeparam TItem
 
-<GlobalCS Component=@this CreateGlobalCss=@CreateGlobalCss />
+<GlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <div role="columnheader"
      aria-sort=@(Column.IsSorted ? (Column.IsSortedDescending ? "descending" : "ascending"): "none")
      aria-colindex=@ColumnIndex

@@ -331,7 +331,12 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Pivot" },
                 Properties = new CssString()
                 {
-                    Css = $"position:relative;" +
+                    Css = //Normalize
+                          $"box-shadow:none;" +
+                          $"margin:0px;" +
+                          $"padding:0px;" +
+                          $"box-sizing:border-box;"+
+                          $"position:relative;" +
                             $"color:{theme.SemanticTextColors.Link};" +
                             $"white-space:nowrap;"
                 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public partial class DetailsRowCheck : FabricComponentBase
+    public partial class DetailsRowCheck : FabricComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter]
         public bool AnySelected { get; set; }
@@ -41,10 +41,10 @@ namespace BlazorFabric
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
-        protected ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var detailsRowRules = new HashSet<Rule>();
-            var focusProps = new FocusStyleProps(Theme);
+            var focusProps = new FocusStyleProps(theme);
             var focusStyles = FocusStyle.GetFocusStyle(focusProps, ".ms-DetailsRow-check");
 
             detailsRowRules.Add(
@@ -53,8 +53,8 @@ namespace BlazorFabric
                     Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-check" },
                     Properties = new CssString()
                     {
-                        Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};" +
+                        Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};" +
                             focusStyles.MergeRules +
                           $"display:flex;" +
                           $"align-items:center;" +

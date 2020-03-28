@@ -3,7 +3,7 @@
 
 <GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
 
-<div class=@($"mediumFont ms-DatePicker{(IsDatePickerShown ? " ms-DatePicker--is-open" : "" )} {(Disabled ? " ms-DatePicker--is-disabled" : "" )} normalize {ClassName}")
+<div class=@($"mediumFont ms-DatePicker{(IsDatePickerShown ? " ms-DatePicker--is-open" : "" )} {(Disabled ? " ms-DatePicker--is-disabled" : "" )} {ClassName}")
      style=@Style>
     <div aria-haspopup="true"
          aria-owns=@(IsDatePickerShown ? calloutId : "")

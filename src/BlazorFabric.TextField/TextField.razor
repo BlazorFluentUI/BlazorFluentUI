@@ -6,7 +6,7 @@
 <LocalCS @bind-Rules="@TextFieldLocalRules" />
 
 
-<div class=@($"ms-TextField mediumFont normalize {(this.Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(hasLabel ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )} {ClassName}")
+<div class=@($"ms-TextField mediumFont {(this.Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(hasLabel ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )} {ClassName}")
      style=@Style
      @ref="RootElementReference"
      @onclick="OnClick">
@@ -15,7 +15,7 @@
         {
             <BlazorFabric.Label Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</BlazorFabric.Label>
         }
-        <div class="ms-TextField-fieldGroup normalize">
+        <div class="ms-TextField-fieldGroup">
             @if (this.Prefix != null)
             {
                 <div class="ms-TextField-prefix">
@@ -36,7 +36,7 @@
                           value=@CurrentValue
                           @oninput=@InputHandler
                           @onchange=@ChangeHandler
-                          class="mediumFont normalize ms-TextField-field"
+                          class="mediumFont ms-TextField-field"
                           aria-label=@this.AriaLabel
                           aria-describedby=@this.descriptionId
                           aria-invalid=@(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? true : false)
@@ -57,7 +57,7 @@
                        @bind-value=@CurrentValue
                        @oninput=@InputHandler
                        autocomplete=@GetAutoCompleteString()
-                       class="mediumFont normalize ms-TextField-field"
+                       class="mediumFont ms-TextField-field"
                        aria-label=@this.AriaLabel
                        aria-describedby=@this.descriptionId
                        aria-invalid=@(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? true : false)

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public partial class DetailsColumn<TItem> : FabricComponentBase
+    public partial class DetailsColumn<TItem> : FabricComponentBase, IHasPreloadableGlobalStyle
     {
 
         [Parameter]
@@ -61,7 +61,7 @@ namespace BlazorFabric
             Column.OnColumnClick?.Invoke(Column);
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var columnRules = new HashSet<Rule>();
 
@@ -71,12 +71,12 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".msDetailsColumn" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"
                 }
             });
 
-            var cellStyles = DetailsHeader<TItem>.GetCellStyles(".ms-DetailsColumn", this.Theme);
+            var cellStyles = DetailsHeader<TItem>.GetCellStyles(".ms-DetailsColumn", theme);
             foreach (var rule in cellStyles)
                 columnRules.Add(rule);
 
@@ -85,8 +85,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn.is-actionable:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.BodyText};" +
-                            $"background:{Theme.SemanticColors.ListHeaderBackgroundHovered};"
+                    Css = $"color:{theme.SemanticTextColors.BodyText};" +
+                            $"background:{theme.SemanticColors.ListHeaderBackgroundHovered};"
                 }
             });
             columnRules.Add(new Rule()
@@ -94,7 +94,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn.is-actionable:active" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.ListHeaderBackgroundPressed};"
+                    Css = $"background:{theme.SemanticColors.ListHeaderBackgroundPressed};"
                 }
             });
             columnRules.Add(new Rule()
@@ -131,7 +131,7 @@ namespace BlazorFabric
                     Css = $"display:none;"+
                           $"position:absolute;" +
                           $"text-align:left;" +
-                          $"color:{Theme.Palette.NeutralTertiary};" +
+                          $"color:{theme.Palette.NeutralTertiary};" +
                           $"left:1px;" 
                 }
             });
@@ -142,7 +142,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn-nearIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.BodySubtext};" +
+                    Css = $"color:{theme.SemanticTextColors.BodySubtext};" +
                           $"opacity:1;" +
                           $"padding-left:8px;" 
                 }
@@ -154,7 +154,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn-sortIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.BodySubtext};" +
+                    Css = $"color:{theme.SemanticTextColors.BodySubtext};" +
                           $"opacity:1;" +
                           $"padding-left:4px;"+
                           $"position:relative;"+
@@ -168,7 +168,7 @@ namespace BlazorFabric
             //    Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn-iconClassName" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"color:{Theme.SemanticTextColors.BodySubtext};" +
+            //        Css = $"color:{theme.SemanticTextColors.BodySubtext};" +
             //              $"opacity:1;" +
             //              $"padding-left:8px;"
             //    }
@@ -180,15 +180,15 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn-filterChevron" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralTertiary};" +
+                    Css = $"color:{theme.Palette.NeutralTertiary};" +
                           $"padding-left:6px;"+
                           $"vertical-align:middle;"+
-                          $"font-size:{Theme.FontStyle.FontSize.Small};"
+                          $"font-size:{theme.FontStyle.FontSize.Small};"
                 }
             });
 
             //CellTitle
-            var cellTitleFocusStyles = FocusStyle.GetFocusStyle(new FocusStyleProps(Theme), ".ms-DetailsColumn-cellTitle");
+            var cellTitleFocusStyles = FocusStyle.GetFocusStyle(new FocusStyleProps(theme), ".ms-DetailsColumn-cellTitle");
             foreach (var rule in cellTitleFocusStyles.AddRules)
                 columnRules.Add(rule);
             columnRules.Add(new Rule()

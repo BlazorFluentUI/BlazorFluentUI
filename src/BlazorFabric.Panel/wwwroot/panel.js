@@ -30,13 +30,15 @@ var BlazorFabricPanel;
     BlazorFabricPanel.registerSizeHandler = registerSizeHandler;
     function registerMouseDownHandler(panelElement, panelDotNet) {
         var mouseDownId = Handler.addListener(document.body, "mousedown", function (ev) {
-            //first get whether it is in the 
-            var contains = BlazorFabricFocusTrapZone.elementContains(panelElement, ev.target);
-            //var contains = window["BlazorFabricFocusTrapZone"].elementContains(panelElement, ev.target);
-            if (contains) {
-                ev.preventDefault();
+            //first get whether click is inside panel
+            if (!ev.defaultPrevented) {
+                var contains = BlazorFabricFocusTrapZone.elementContains(panelElement, ev.target);
+                //var contains = window["BlazorFabricFocusTrapZone"].elementContains(panelElement, ev.target);
+                if (!contains) {
+                    ev.preventDefault();
+                    panelDotNet.invokeMethodAsync("DismissOnOuterClick", contains);
+                }
             }
-            panelDotNet.invokeMethodAsync("DismissOnOuterClick", contains);
         }, true);
         return mouseDownId;
     }

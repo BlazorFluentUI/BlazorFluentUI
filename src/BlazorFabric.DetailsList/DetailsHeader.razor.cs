@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class DetailsHeader<TItem> : FabricComponentBase
+    public partial class DetailsHeader<TItem> : FabricComponentBase, IHasPreloadableGlobalStyle
     {
         [CascadingParameter]
         private SelectionZone<TItem> SelectionZone { get; set; }
@@ -210,7 +210,7 @@ namespace BlazorFabric
         }
 
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var headerRules = new System.Collections.Generic.List<Rule>();
 
@@ -220,10 +220,10 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsHeader" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
+                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
                           $"display:flex;" +  // inline-block is seeing all the razor whitespace artifacts and adding extra spaces... switched to flex.  
-                          $"background:{Theme.SemanticColors.BodyBackground};" +
+                          $"background:{theme.SemanticColors.BodyBackground};" +
                           $"position:relative;" +
                           $"min-width:100%;" +
                           $"vertical-align:top;" +
@@ -233,7 +233,7 @@ namespace BlazorFabric
                           $"box-sizing:content-box;" +
                           $"padding-bottom:1px;" +
                           $"padding-top:16px;" +
-                          $"border-bottom:1px solid {Theme.SemanticColors.BodyDivider};" +
+                          $"border-bottom:1px solid {theme.SemanticColors.BodyDivider};" +
                           $"cursor:default;" +
                           $"user-select:none;"
                 }
@@ -284,7 +284,7 @@ namespace BlazorFabric
             });
 
             //CellIsCheck
-            var cellIsCheckCellStyles = GetCellStyles(".ms-DetailsHeader-cellIsCheck", Theme);
+            var cellIsCheckCellStyles = GetCellStyles(".ms-DetailsHeader-cellIsCheck", theme);
             foreach (var rule in cellIsCheckCellStyles)
                 headerRules.Add(rule);
             headerRules.Add(new Rule()
@@ -311,7 +311,7 @@ namespace BlazorFabric
             });
 
             //CallIsGroupExpander
-            var cellIsGroupExpanderCellStyles = GetCellStyles(".ms-DetailsHeader-cellIsGroupExpander", Theme);
+            var cellIsGroupExpanderCellStyles = GetCellStyles(".ms-DetailsHeader-cellIsGroupExpander", theme);
             foreach (var rule in cellIsGroupExpanderCellStyles)
                 headerRules.Add(rule);
             headerRules.Add(new Rule()
@@ -322,11 +322,11 @@ namespace BlazorFabric
                     Css = $"display:inline-flex;" +
                           $"align-items:center;" +
                           $"justify-content:center;" +
-                          $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                          $"font-size:{theme.FontStyle.FontSize.Small};" +
                           $"padding:0;" +
                           $"border:none;" +
                           $"width:36px;" +
-                          $"color:{Theme.Palette.NeutralSecondary};"
+                          $"color:{theme.Palette.NeutralSecondary};"
                 }
             });
             headerRules.Add(new Rule()
@@ -334,7 +334,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsHeader-cellIsGroupExpander:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralLighter};"
+                    Css = $"background-color:{theme.Palette.NeutralLighter};"
                 }
             });
             headerRules.Add(new Rule()
@@ -342,7 +342,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DetailsHeader-cellIsGroupExpander:active" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralLight};"
+                    Css = $"background-color:{theme.Palette.NeutralLight};"
                 }
             });
 
@@ -380,7 +380,7 @@ namespace BlazorFabric
                           $"bottom:0;" +
                           $"top:0;" +
                           $"width:1px;" +
-                          $"background:{Theme.Palette.NeutralTertiaryAlt};" +
+                          $"background:{theme.Palette.NeutralTertiaryAlt};" +
                           $"opacity:0;" +
                           $"left:50%;"
                 }
@@ -506,8 +506,8 @@ namespace BlazorFabric
                          $"top:34px;" +
                          $"overflow:visible;" +
                          $"z-index:10;" +
-                         $"border:1px solid {Theme.Palette.ThemePrimary};" +
-                         $"background:{Theme.Palette.White};"
+                         $"border:1px solid {theme.Palette.ThemePrimary};" +
+                         $"background:{theme.Palette.White};"
                 }
             });
 
@@ -521,8 +521,8 @@ namespace BlazorFabric
                          $"position:absolute;" +
                          $"top:-28px;" +
                          $"left:-6.5px;" +
-                         $"font-size:{Theme.FontStyle.FontSize.Medium};" +
-                         $"color:{Theme.Palette.ThemePrimary};" +
+                         $"font-size:{theme.FontStyle.FontSize.Medium};" +
+                         $"color:{theme.Palette.ThemePrimary};" +
                          $"overflow:visible;" +
                          $"z-index:10;"
                 }
@@ -541,7 +541,7 @@ namespace BlazorFabric
                          $"overflow:visible;" +
                          $"height:42px;" +
                          $"width:1px;" +
-                         $"background:{Theme.Palette.ThemePrimary};" +
+                         $"background:{theme.Palette.ThemePrimary};" +
                          $"z-index:10;"
                 }
             });

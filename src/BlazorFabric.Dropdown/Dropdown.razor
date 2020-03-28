@@ -62,37 +62,39 @@
             </span>
         </div>
     </KeytipData>
+
+    <Panel IsOpen=@((int)CurrentMode <= (int)ResponsiveMode.Medium && isOpen) IsLightDismiss="true" OnDismiss=@DismissHandler HasCloseButton="false">
+        <div class="ms-Dropdown-itemsWrapper"
+             @ref="panelReference"
+             tabindex="0">
+            @*FocusZone has no Role=listbox *@
+            <FocusZone Direction="FocusZoneDirection.Vertical"
+                       ClassName="ms-Dropdown-dropdownItems"
+                       AriaLabel=@($"{id}-label")>
+
+                <CascadingValue Value=@this>
+                    @if (ItemsSource != null)
+                    {
+                        foreach (var item in ItemsSource)
+                        {
+                            @ItemTemplate(item)
+                        }
+                    }
+                    else
+                    {
+                        @ChildContent
+                    }
+                </CascadingValue>
+
+            </FocusZone>
+        </div>
+    </Panel>
     @if (isOpen)
     {
         //render container
         @if ((int)CurrentMode <= (int)ResponsiveMode.Medium)
         {
-            <Panel IsOpen="true" IsLightDismiss="true" OnDismiss=@DismissHandler HasCloseButton="false">
-                <div class="ms-Dropdown-itemsWrapper"
-                     @ref="panelReference"
-                     tabindex="0">
-                    @*FocusZone has no Role=listbox *@
-                    <FocusZone Direction="FocusZoneDirection.Vertical"
-                               ClassName="ms-Dropdown-dropdownItems"
-                               AriaLabel=@($"{id}-label")>
 
-                        <CascadingValue Value=@this>
-                            @if (ItemsSource != null)
-                            {
-                                foreach (var item in ItemsSource)
-                                {
-                                    @ItemTemplate(item)
-                                }
-                            }
-                            else
-                            {
-                                @ChildContent
-                            }
-                        </CascadingValue>
-
-                    </FocusZone>
-                </div>
-            </Panel>
         }
         else
         {

@@ -304,7 +304,12 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField" },
                 Properties = new CssString()
                 {
-                    Css = $"position: relative;"
+                    Css = $"position:relative;" +
+                          //Normalize
+                          $"box-shadow:none;" +
+                          $"margin:0px;" +
+                          $"padding:0px;" +
+                          $"box-sizing:border-box;"
                 }
             });
             #endregion
@@ -386,7 +391,13 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField-fieldGroup" },
                 Properties = new CssString()
                 {
-                    Css = $"border:1px solid {theme.SemanticColors.InputBorder};" +
+                    Css = //Normalize
+                          $"box-shadow:none;" +
+                          $"margin:0px;" +
+                          $"padding:0px;" +
+                          $"box-sizing:border-box;"+
+
+                        $"border:1px solid {theme.SemanticColors.InputBorder};" +
                         $"border-radius:{theme.Effects.RoundedCorner2};" +
                         $"background:{theme.SemanticColors.InputBackground};" +
                         $"cursor:text;" +
@@ -545,7 +556,13 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-TextField-field" },
                 Properties = new CssString()
                 {
-                    Css = $"border-radius:0;" +
+                    Css = //Normalize
+                          $"box-shadow:none;" +
+                          $"margin:0px;" +
+                          $"padding:0px;" +
+                          $"box-sizing:border-box;" +
+
+                        $"border-radius:0;" +
                         $"border:none;" +
                         $"background:none;" +
                         $"background-color:transparent;" +

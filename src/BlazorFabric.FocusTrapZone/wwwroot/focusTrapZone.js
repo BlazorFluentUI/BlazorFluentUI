@@ -93,7 +93,7 @@ var BlazorFabricFocusTrapZone;
                 return;
             }
             FocusTrapZoneInternal._focusStack.push(this);
-            this._previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss
+            this._previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss && elementToFocusOnDismiss.__internalId != null
                 ? elementToFocusOnDismiss
                 : document.activeElement;
             if (!disableFirstFocus && !elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {

@@ -44,14 +44,15 @@ namespace BlazorFabricPanel {
     export function registerMouseDownHandler(panelElement: HTMLElement, panelDotNet: DotNetReferenceType): number {
         var mouseDownId = Handler.addListener(document.body, "mousedown", (ev: Event) =>
         {
-            //first get whether it is in the 
-            var contains = BlazorFabricFocusTrapZone.elementContains(panelElement, <HTMLElement>ev.target);
-            //var contains = window["BlazorFabricFocusTrapZone"].elementContains(panelElement, ev.target);
-            if (contains) {
-                ev.preventDefault();
+            //first get whether click is inside panel
+            if (!ev.defaultPrevented) {
+                var contains = BlazorFabricFocusTrapZone.elementContains(panelElement, <HTMLElement>ev.target);
+                //var contains = window["BlazorFabricFocusTrapZone"].elementContains(panelElement, ev.target);
+                if (!contains) {
+                    ev.preventDefault();
+                    panelDotNet.invokeMethodAsync("DismissOnOuterClick", contains);
+                }
             }
-            panelDotNet.invokeMethodAsync("DismissOnOuterClick", contains);
-
         }, true);
         return mouseDownId;
     }

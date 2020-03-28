@@ -48,7 +48,7 @@ namespace BlazorFabric
         private ITheme _theme;
         private bool reloadStyle;
 
-        static bool focusRectsInitialized = false;
+        [Inject] ScopedStatics ScopedStatics { get; set; }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
@@ -72,9 +72,9 @@ namespace BlazorFabric
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (!focusRectsInitialized)
+            if (!ScopedStatics.FocusRectsInitialized)
             {
-                focusRectsInitialized = true;
+                ScopedStatics.FocusRectsInitialized = true;
                 await JSRuntime.InvokeVoidAsync("BlazorFabricBaseComponent.initializeFocusRects");
             }
             await base.OnAfterRenderAsync(firstRender);

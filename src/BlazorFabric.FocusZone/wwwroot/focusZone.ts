@@ -1027,10 +1027,10 @@ namespace BlazorFabricFocusZone {
     }
 }
 
-    interface Window {
-        BlazorFabricFocusZone: typeof BlazorFabricFocusZone
-    }
+    //interface Window {
+    //    BlazorFabricFocusZone: typeof BlazorFabricFocusZone
+    //}
 
 
-window.BlazorFabricFocusZone = BlazorFabricFocusZone;
-
+//window.BlazorFabricFocusZone = BlazorFabricFocusZone;
+(<any>window)['BlazorFabricFocusZone'] = BlazorFabricFocusZone || {};

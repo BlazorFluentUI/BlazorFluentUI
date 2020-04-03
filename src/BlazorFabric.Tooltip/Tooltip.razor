@@ -1,7 +1,8 @@
 ﻿@namespace BlazorFabric
 @inherits FabricComponentBase
 
-<GlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+<GlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+<StylePreloader Component="new CalloutContent()" />
 <LocalCS @bind-Rules="@TooltipLocalRules" />
 
 <Callout ClassName=@($"mediumFont fadeIn200 {TooltipRule.Selector.SelectorName} {TooltipAfterRule.Selector.SelectorName} {ClassName}")

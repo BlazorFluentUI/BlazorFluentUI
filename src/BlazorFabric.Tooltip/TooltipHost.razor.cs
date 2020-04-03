@@ -8,7 +8,7 @@ using System.Timers;
 
 namespace BlazorFabric
 {
-    public partial class TooltipHost : FabricComponentBase, IDisposable
+    public partial class TooltipHost : FabricComponentBase, IDisposable, IHasPreloadableGlobalStyle
     {
         private static TooltipHost CurrentVisibleTooltip { get; set; }
 
@@ -186,7 +186,7 @@ namespace BlazorFabric
             }
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var tooltipHostRules = new HashSet<Rule>();
             tooltipHostRules.Add(new Rule()

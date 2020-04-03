@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFabric
 {
-    public partial class Tooltip : FabricComponentBase
+    public partial class Tooltip : FabricComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public int BeakWidth { get; set; } = 16;
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -42,7 +42,7 @@ namespace BlazorFabric
             TooltipLocalRules.Add(TooltipAfterRule);
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var tooltipGlobalRules = new HashSet<Rule>();
             tooltipGlobalRules.Add(new Rule()
@@ -52,12 +52,12 @@ namespace BlazorFabric
                 {
                     Css = $"position:relative;" +
                             $"z-index:1;" +
-                            $"color:{Theme.SemanticTextColors.MenuItemText};" +
+                            $"color:{theme.SemanticTextColors.MenuItemText};" +
                             $"word-wrap:break-word;" +
                             $"overflow-wrap:break-word;" +
                             $"overflow:hidden;"+
-                            $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                            $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                            $"font-size:{theme.FontStyle.FontSize.Small};" +
+                            $"font-weight:{theme.FontStyle.FontWeight.Regular};"
                 }
             });
             tooltipGlobalRules.Add(new Rule()

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class Calendar : FabricComponentBase
+    public partial class Calendar : FabricComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public bool AllFocusable { get; set; } = false;
         [Parameter] public bool AutoNavigateOnSelection { get; set; } = false;
@@ -202,6 +202,11 @@ namespace BlazorFabric
         private void NavigateMonthPickerDay(DateTime date)
         {
             NavigatedMonthDate = date;
+        }
+
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        {
+            return CalendarStyle.GetCalendarStyle(theme);
         }
     }
 }

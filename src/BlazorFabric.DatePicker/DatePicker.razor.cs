@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class DatePicker : FabricComponentBase
+    public partial class DatePicker : FabricComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public bool AllFocusable { get; set; } = false;
         [Parameter] public bool AllowTextInput { get; set; } = false;
@@ -341,7 +341,7 @@ namespace BlazorFabric
             return DateTime.Compare(minDate, date) > 0 || DateTime.Compare(maxDate, date) < 0;
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var MyRules = new List<Rule>();
             #region ms-DatePicker
@@ -364,7 +364,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker-callout" },
                 Properties = new CssString()
                 {
-                    Css = $"box-shadow:{Theme.Effects.Elevation8};"
+                    Css = $"box-shadow:{theme.Effects.Elevation8};"
                 }
             });
             #endregion
@@ -408,7 +408,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker-callout" },
                 Properties = new CssString()
                 {
-                    Css = $"box-shadow:{Theme.Effects.Elevation8};"
+                    Css = $"box-shadow:{theme.Effects.Elevation8};"
                 }
             });
             #endregion
@@ -418,8 +418,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker .ms-TextField-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralSecondary};" +
-                        $"font-size:{Theme.FontStyle.FontSize.MediumPlus};" +
+                    Css = $"color:{theme.Palette.NeutralSecondary};" +
+                        $"font-size:{theme.FontStyle.FontSize.MediumPlus};" +
                         $"line-height:18px;" +
                         $"pointer-events:none;" +
                         $"position:absolute;" +
@@ -442,7 +442,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker.ms-DatePicker--is-disabled .ms-Icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledText};" +
+                    Css = $"color:{theme.SemanticTextColors.DisabledText};" +
                         $"cursor:default;"
                 }
             });

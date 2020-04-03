@@ -2,6 +2,9 @@
 @inherits FabricComponentBase
 
 <GlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />
+<StylePreloader Component="new IconButton()"/>
+<StylePreloader Component="new Icon()" />
+<StylePreloader Component="new Tooltip()" />
 
 <div class=@($"ms-Calendar {ClassName}") role="application" @ref="RootElementReference" style=@Style>
     <div class=@($"ms-Calendar-picker ms-Calendar-pickerIsOpened ms-Calendar-pickerIsFocused{(IsMonthPickerVisibleInternal ? " ms-Calendar-monthPickerVisible" : "")}{(IsMonthPickerVisibleInternal && IsDayPickerVisibleInternal ? " ms-Calendar-calendarsInline" : "")}{(!ShowMonthPickerAsOverlay && !IsDayPickerVisibleInternal ? " ms-Calendar-monthPickerOnly" : "")}{(ShowMonthPickerAsOverlay ? " ms-Calendar-monthPickerAsOverlay" : "")}")>

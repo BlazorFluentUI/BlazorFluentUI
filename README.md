@@ -6,13 +6,13 @@ https://blazorfluentui.github.io/BlazorFluentUI/
 
 ## Server-side Demo (SignalR)
 
-https://blazorfabric.azurewebsites.net/ 
+https://blazorfluentui.azurewebsites.net/
 
 ## Telegram dev channel
 https://t.me/blazorfabric
 
 ## See the wiki for all usage notes
-https://github.com/limefrogyank/BlazorFabric/wiki
+https://github.com/BlazorFluentUI/BlazorFluentUI/wiki
 
 ## Release Notes
 - v3.0.0 

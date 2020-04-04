@@ -15,7 +15,7 @@ https://t.me/blazorfabric
 https://github.com/limefrogyank/BlazorFabric/wiki
 
 ## Release Notes
-- v3.0.0
+- v3.0.0 
     - Theming is now available on BlazorFabric
       - Defaultwise There is a Light- and a Dark-Theme
       - You also can create your own Theme and add it
@@ -23,9 +23,9 @@ https://github.com/limefrogyank/BlazorFabric/wiki
     - Add DetailsList
     - Add DetailsList-Grouped
     - Add GroupedList
-   	- Add Indeterminate State to Checkbox
-    - Uppon this release you don't need to add .css-files in index.html / _Host.cshtml because Components will self take care of css-classes and styles with help of GlobalCS and LocalCS
-
+    - Add Indeterminate State to Checkbox
+    - Upon this release you don't need to add .css-files in index.html / _Host.cshtml because Components will self take care of css-classes and styles with help of GlobalCS and LocalCS
+    - All javascript files have been combined into one minified file
 
 - v2.2.0 (Jan 25, 2020)
 	- Added `Pivot`

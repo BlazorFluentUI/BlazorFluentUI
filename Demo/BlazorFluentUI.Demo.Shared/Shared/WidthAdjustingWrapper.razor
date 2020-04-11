@@ -1,0 +1,47 @@
+﻿@*Deprecated in favor of ResponsiveLayout*@
+
+@using Microsoft.AspNetCore.Components
+
+<div class="wideScreen">
+    @ChildContent
+</div>
+<div class="narrowScreen">
+    <BFUIconButton IconName="GlobalNavButton" OnClick=@ShowMenu
+                ClassName="hamburgerButton" />
+
+    <BFUPanel Type=@PanelType.SmallFixedNear OnDismiss=@HideMenu IsOpen=@isPanelOpen ClassName="hiddenMenu">
+        <NavigationTemplate>
+            <BFUIconButton IconName="GlobalNavButton" OnClick=@HideMenu
+                        ClassName="hamburgerButton" />
+        </NavigationTemplate>
+        <ChildContent>
+            @ChildContent
+        </ChildContent>
+
+    </BFUPanel>
+</div>
+
+
+@code {
+
+    [Parameter] public RenderFragment ChildContent {get;set;}
+
+    private bool isMenuCollapsed = true;
+    private bool isPanelOpen = false;
+
+    void ShowMenu()
+    {
+        isPanelOpen = true;
+    }
+
+    void HideMenu()
+    {
+        isPanelOpen = false;
+    }
+
+    void OnNavLinkClick(BFUNavLink linkBase)
+    {
+        isPanelOpen = false;
+    }
+
+}

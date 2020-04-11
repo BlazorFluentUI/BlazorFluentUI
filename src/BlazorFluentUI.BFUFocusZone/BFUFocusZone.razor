@@ -1,0 +1,24 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<style>
+    .ms-FocusZone:focus{
+        outline:none;
+    }
+</style>
+
+<div class=@($"ms-FocusZone {ClassName}")
+     style=@Style
+     data-is-focusable=@(IsFocusable ? "true" : "false")
+     tabindex=@(IsFocusable ? 0 : -1)
+     aria-labelledby=@AriaLabelledBy
+     aria-describedby=@AriaDescribedBy
+     @ref=@RootElementReference
+     data-focuszone-id=@Id
+     aria-readonly=@AriaReadonly
+     aria-label=@AriaLabel
+     role=@Role
+     @onclick=@OnClick
+     >
+    @ChildContent
+</div>

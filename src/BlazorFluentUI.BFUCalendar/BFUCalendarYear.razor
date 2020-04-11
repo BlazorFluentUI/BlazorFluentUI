@@ -1,0 +1,68 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+@*<BFUGlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />*@
+
+<div class="ms-Calendar-yearPicker">
+    <div class="ms-Calendar-header">
+        @if (OnHeaderSelect.HasDelegate)
+        {
+            <div class="ms-Calendar-currentDecade ms-Calendar-headerToggleView"
+                 @onclick=@((args)=> OnHeaderSelect.InvokeAsync(true))
+                 aria-label=@RangeAriaLabel
+                 role="button"
+                 aria-atomic="true"
+                 aria-live="polite"
+                 tabindex="0">
+                @FromYear - @(FromYear + 12 - 1)
+            </div>
+        }
+        else
+        {
+            <div class="ms-Calendar-currentDecade">
+                @FromYear - @(FromYear + 12 - 1)
+            </div>
+        }
+        <div class="ms-Calendar-decadeComponents">
+            <div class="ms-Calendar-navContainer">
+                <button class=@($"ms-Calendar-prevDecade{(FromYear <= MinYear ? " ms-Calendar-prevDecadeIsDisabled":"")}")
+                        @onclick=@(args=> { if (FromYear > MinYear) { OnSelectPrevDecade(); } })
+                        type="button"
+                        tabindex="0"
+                        title=@PrevYearRangeAriaLabel
+                        disabled=@(FromYear <= MinYear)>
+                    <BFUIcon IconName="Up" />
+                </button>
+                <button class=@($"ms-Calendar-nextDecade{(FromYear + 12 -1 -1>= MaxYear ? " ms-Calendar-nextDecadeIsDisabled":"")}")
+                        @onclick=@(args=> { if ((FromYear + 12 -1 -1) < MaxYear) { OnSelectNextDecade(); } })
+                        type="button"
+                        tabindex="0"
+                        title=@NextYearRangeAriaLabel
+                        disabled=@(FromYear + 12 -1 -1 >= MaxYear)>
+                    <BFUIcon IconName="Down" />
+                </button>
+            </div>
+        </div>
+    </div>
+    <BFUFocusZone>
+        <div class="ms-Calendar-optionGrid"
+             role="grid">
+            <div role="row">
+                @for (var year = FromYear; year < FromYear + 12; year++)
+                {
+                    var currentYear = year;
+                    var isInBounds = (MinYear <= currentYear && MaxYear >= currentYear);
+                    <button class=@($"ms-Calendar-yearOption{(SelectedYear == currentYear ? " ms-Calendar-yearIsHighlighted":"")}{(!isInBounds ?" ms-Calendar-yearOptionIsDisabled":"")}")
+                            type="button"
+                            role="gridcell"
+                            @onclick=@(args => { if (isInBounds) { OnSelectYear.InvokeAsync(currentYear); } })
+                            disabled=@(!isInBounds)
+                            aria-label="String(year)"
+                            aria-selected=@(currentYear==SelectedYear)>
+                        @currentYear
+                    </button>
+                }
+            </div>
+        </div>
+    </BFUFocusZone>
+</div>

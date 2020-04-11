@@ -1,0 +1,179 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+@*<BFUGlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />*@
+
+<div class="ms-Calendar-dayPicker"
+     id=@DayPickerId>
+    <div class="ms-Calendar-header">
+        <div aria-live="polite" aria-relevant="text" aria-atomic="true"
+             id=@MonthAndYearId
+             class="ms-Calendar-monthAndYear">
+            @if (OnHeaderSelect.HasDelegate)
+            {
+                <div class="ms-Calendar-monthAndYear js-showMonthPicker ms-Calendar-headerToggleView"
+                     @onclick="OnHeaderSelectInternal"
+                     aria-label=@DateTimeFormatter.FormatMonthYear(NavigatedDate)
+                     role="button"
+                     tabindex="0">
+                    @DateTimeFormatter.FormatMonthYear(NavigatedDate)
+                </div>
+            }
+            else
+            {
+                <div class="ms-Calendar-monthAndYear">
+                    @DateTimeFormatter.FormatMonthYear(NavigatedDate)
+                </div>
+            }
+        </div>
+        <div class="ms-Calendar-monthComponents">
+            <div class="ms-Calendar-navContainer">
+                <button class=@($"ms-Calendar-prevMonth {(!PrevMonthInBounds ? "ms-Calendar-prevMonthIsDisabled" : "")}")
+                        aria-disabled=@(!PrevMonthInBounds)
+                        disabled=@(!PrevMonthInBounds)
+                        aria-controls=@DayPickerId
+                        @onclick=@(args => { if (PrevMonthInBounds) OnSelectPrevMonth(); })
+                        title=@(PreviousMonthAriaLabel + " " + NavigatedDate.AddMonths(-1).ToString("MMMM"))
+                        role="button"
+                        type="button">
+                    <BFUIcon IconName="Up" />
+                </button>
+                <button class=@($"ms-Calendar-nextMonth {(!NextMonthInBounds ? "ms-Calendar-nextMonthIsDisabled" : "")}")
+                        aria-disabled=@(!NextMonthInBounds)
+                        disabled=@(!NextMonthInBounds)
+                        aria-controls=@DayPickerId
+                        @onclick=@(args => { if (NextMonthInBounds) OnSelectNextMonth(); })
+                        title=@(NextMonthAriaLabel + " " + NavigatedDate.AddMonths(1).ToString("MMMM"))
+                        role="button"
+                        type="button">
+                    <BFUIcon IconName="Down" />
+                </button>
+
+                @if (ShowCloseButton)
+                {
+                    @*<BFUTooltipHost>
+                        <BFUTooltipContent>
+                            @(NextMonthAriaLabel + " " + NavigatedDate.AddMonths(1).ToString("MMMM"))
+                        </BFUTooltipContent>
+                        <ChildContent>*@
+                    <BFUIconButton IconName="Cancel"
+                                OnClick=@OnClose />
+                    @*</ChildContent>
+                        </BFUTooltipHost>*@
+                }
+
+            </div>
+        </div>
+    </div>
+    <BFUFocusZone>
+        <table class="ms-Calendar-table"
+               aria-readonly="true"
+               aria-multiselectable="false"
+               aria-labelledby=@MonthAndYearId
+               aria-activedescendant="#####"
+               role="grid">
+            <thead>
+                <tr>
+                    @if (ShowWeekNumbers)
+                    {
+                        <th class="ms-Calendar-weekday" />
+                    }
+                    @for (var i = 0; i < 7; i++)
+                    {
+                        <th class="ms-Calendar-weekday"
+                            role="columnheader"
+                            scope="col"
+                            @key=@i
+                            title=@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName((DayOfWeek)((i + (int)FirstDayOfWeek) % 7))
+                            aria-label=@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName((DayOfWeek)((i + (int)FirstDayOfWeek) % 7))
+                            data-is-focusable=@AllFocusable>
+                            @System.Globalization.DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName((DayOfWeek)((i + (int)FirstDayOfWeek) % 7))[0]
+                        </th>
+                    }
+                </tr>
+            </thead>
+            @*@onmouseleave=@((args) => { if (DateRangeType != DateRangeType.Day) OnTableMouseLeave(args); })
+                @onmouseup=@((args) => { if (DateRangeType != DateRangeType.Day) OnTableMouseUp(args); })*@
+            <tbody>
+                @for (var weekIndex = 0; weekIndex < Weeks.Count; weekIndex++)
+                {
+                    var copiedWeekIndex = weekIndex;
+                    <tr @key=@(WeekNumbers != null ? WeekNumbers[copiedWeekIndex] : copiedWeekIndex)>
+                        @if (ShowWeekNumbers && WeekNumbers != null)
+                        {
+                            <th class="ms-Calendar-weekNumbers"
+                                @key=@copiedWeekIndex
+                                title=@(WeekNumbers != null ? String.Format(WeekNumberFormatString, WeekNumbers[copiedWeekIndex]) : "")
+                                aria-label=@(WeekNumbers != null ? String.Format(WeekNumberFormatString, WeekNumbers[copiedWeekIndex]) : "")
+                                scope="row">
+                                <div class="ms-Calendar-day">
+                                    <span>@WeekNumbers[copiedWeekIndex]</span>
+                                </div>
+                            </th>
+                        }
+                        @for (var dayIndex = 0; dayIndex < Weeks[copiedWeekIndex].Count; dayIndex++)
+                        {
+                            var week = Weeks[copiedWeekIndex];
+                            var day = week[dayIndex];
+                            var isNavigatedDate = DateTime.Compare(NavigatedDate.Date, day.OriginalDate) == 0;
+
+                            @*@onmouseover=@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseOver(args); })
+                                @onmouseleave =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseLeave(args); })
+                                @onmousedown =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseDown(args); })
+                                @onmouseup =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseUp(args); })*@
+                            <td @key=@day.Key
+                                class=@GetDayClasses(day)
+                                @onmouseenter=@(args => {
+                                        if (DateRangeType != DateRangeType.Day && day.IsInBounds)
+                                        {
+                                            HoverWeek = copiedWeekIndex;
+                                            HoverMonth = day.OriginalDate.Month;
+                                        }
+                                    })
+                                @onmouseleave=@(args =>
+                                    {
+                                        if (DateRangeType != DateRangeType.Day && day.IsInBounds)
+                                        {
+                                            HoverWeek = -1;
+                                            HoverMonth = -1;
+                                        }
+                                    })
+                                @onmousedown=@(args =>
+                                   {
+                                       if (DateRangeType != DateRangeType.Day && day.IsInBounds)
+                                        {
+                                            PressWeek = copiedWeekIndex;
+                                            PressMonth = day.OriginalDate.Month;
+                                        }
+                                   })
+                                @onmouseup=@(args =>
+                                   {
+                                       if (DateRangeType != DateRangeType.Day && day.IsInBounds)
+                                        {
+                                            PressWeek = -1;
+                                            PressMonth = -1;
+                                        }
+                                   })
+                                role="gridcell">
+                                <button @key=@(day.Key + "button")
+                                        @onclick=@(day.IsInBounds ? day.OnSelected : null)
+                                        class=@($"ms-Calendar-day{(!day.IsInBounds ? " ms-Calendar-dayIsDisabled" : "")}{(day.IsToday ? " ms-Calendar-dayIsToday" : "")}")
+                                        disabled=@(!AllFocusable && !day.IsInBounds)
+                                        role="gridcell"
+                                        aria-label=@(DateTimeFormatter.FormatMonthDayYear(day.OriginalDate))
+                                        aria-readonly="true"
+                                        aria-selected=@day.IsSelected
+                                        data-is-focusable=@(AllFocusable || day.IsInBounds ? true : false)>
+                                    <span aria-hidden="true">@(DateTimeFormatter.FormatDay(day.OriginalDate))</span>
+                                </button>
+                            </td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </BFUFocusZone>
+
+</div>

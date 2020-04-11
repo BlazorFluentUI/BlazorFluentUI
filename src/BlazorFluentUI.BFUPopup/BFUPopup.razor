@@ -1,0 +1,15 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<div class=@ClassName
+     role=@Role
+     aria-label=@AriaLabel
+     aria-labelledby=@AriaLabelledBy
+     aria-describedby=@AriaDescribedBy
+     @onkeydown=@KeyDownHandler
+     style=@($"outline: none;{this.Style}")
+     @ref="RootElementReference">
+    @ChildContent
+</div>
+

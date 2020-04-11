@@ -1,5 +1,5 @@
 ﻿//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-/// <reference path="../../BlazorFabric.FocusTrapZone/wwwroot/focusTrapZone.ts" />
+/// <reference path="../../BlazorFluentUI.BFUFocusTrapZone/wwwroot/focusTrapZone.ts" />
 
 namespace BlazorFabricPanel {
 

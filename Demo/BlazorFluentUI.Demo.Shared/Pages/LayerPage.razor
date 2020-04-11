@@ -1,0 +1,18 @@
+﻿@page "/layerPage"
+
+<h1>Layer</h1>
+
+<h3>This is not in a layer</h3>
+
+<BFULayer>
+    <div style="position:absolute;left:50%;top:50%;width:200px;height:200px;background-color:@(Theme.SemanticColors.BodyBackgroundHovered);">
+        This <b>is</b> in a layer
+    </div>
+</BFULayer>
+
+@code{
+    [CascadingParameter(Name = "Theme")]
+    public ITheme Theme { get; set; }
+
+
+}

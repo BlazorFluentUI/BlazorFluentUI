@@ -1,0 +1,65 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+@if (LoadAllComponents)
+{
+    foreach (var type in componentTypes)
+    {
+        IHasPreloadableGlobalStyle instance = null;
+        if (type.IsGenericType)
+        {
+            var genericTypeArgs = type.GetGenericArguments();
+            var objectTypeArgs = new List<Type>();
+            foreach (var arg in genericTypeArgs)
+            {
+                objectTypeArgs.Add(typeof(object));
+            }
+            instance = (IHasPreloadableGlobalStyle)Activator.CreateInstance(type.MakeGenericType(objectTypeArgs.ToArray()));
+
+        }
+        else
+        {
+            instance = (IHasPreloadableGlobalStyle)Activator.CreateInstance(type);
+        }
+        <BFUGlobalCS ComponentType=@type 
+                  CreateGlobalCss=@(()=>instance.CreateGlobalCss(Theme)) 
+                  FixStyle="true"/>
+    }
+}
+else
+{
+    <BFUGlobalCS ComponentType=@(Component.GetType()) 
+              CreateGlobalCss=@(() => Component.CreateGlobalCss(this.Theme)) 
+              FixStyle="true"/>
+}
+
+@code {
+    [Parameter] public IHasPreloadableGlobalStyle Component { get; set; }
+
+
+    /// <summary>
+    /// If true, uses reflection to scan all assemblies for components that implement IHasPreloadableGlobalStyle
+    /// </summary>
+    [Parameter] public bool LoadAllComponents { get; set; }
+
+    private List<Type> componentTypes;
+
+    protected override void OnInitialized()
+    {
+        componentTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
+                .Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+                .ToList();
+
+        AppDomain.CurrentDomain.AssemblyLoad += (s, e) =>
+        {
+            componentTypes.AddRange(e.LoadedAssembly.GetTypes().Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract));
+            if (LoadAllComponents)
+            {
+                InvokeAsync(StateHasChanged);
+            }
+        };
+
+
+        base.OnParametersSet();
+    }
+}

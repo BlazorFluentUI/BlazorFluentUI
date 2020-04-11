@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Authors>Multiple authors (see github repo)</Authors>
     <Owners>Lee McPherson</Owners>
-    <RepositoryUrl>https://github.com/limefrogyank/BlazorFabric</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/limefrogyank/BlazorFabric</PackageProjectUrl>
-    <Product>BlazorFabric</Product>
+    <RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
+    <Product>BlazorFluentUI</Product>
     <Copyright>Copyright Lee McPherson 2019</Copyright>
-    <PackageTags>Blazor;Fabric;controls</PackageTags>
+    <PackageTags>Blazor;Fluent UI;Fluent;controls</PackageTags>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
@@ -26,7 +26,7 @@
   </ItemGroup>
   
   <!--<ItemGroup Condition="$(ProjectName.Contains('BaseComponent')) == false" > 
-    <Content Include="..\BlazorFabric.BaseComponent\tsconfig.json">
+    <Content Include="..\BlazorFluentUI.BFUBaseComponent\tsconfig.json">
 
     </Content>
   </ItemGroup>-->

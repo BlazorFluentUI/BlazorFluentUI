@@ -1,0 +1,70 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="new BFUCalendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />
+<BFUStylePreloader Component="new BFUIconButton()"/>
+<BFUStylePreloader Component="new BFUIcon()" />
+<BFUStylePreloader Component="new BFUTooltip()" />
+
+<div class=@($"ms-Calendar {ClassName}") role="application" @ref="RootElementReference" style=@Style>
+    <div class=@($"ms-Calendar-picker ms-Calendar-pickerIsOpened ms-Calendar-pickerIsFocused{(IsMonthPickerVisibleInternal ? " ms-Calendar-monthPickerVisible" : "")}{(IsMonthPickerVisibleInternal && IsDayPickerVisibleInternal ? " ms-Calendar-calendarsInline" : "")}{(!ShowMonthPickerAsOverlay && !IsDayPickerVisibleInternal ? " ms-Calendar-monthPickerOnly" : "")}{(ShowMonthPickerAsOverlay ? " ms-Calendar-monthPickerAsOverlay" : "")}")>
+        <div class=@($"ms-Calendar-holder ms-slideDownIn10{(ShowMonthPickerAsOverlay && ShowGoToToday ? " ms-Calendar-holderWithButton" : "")}")>
+            <div class="ms-Calendar--frame">
+                <div class=@($"ms-Calendar-wrap{(ShowGoToToday ? " ms-Calendar-goTodaySpacing" : "")}")>
+                    @if (IsDayPickerVisibleInternal)
+                    {
+                        <BFUCalendarDay SelectedDate=@SelectedDate
+                                     NavigatedDate=@NavigatedDayDate
+                                     Today=@Today
+                                     OnSelectDate=@OnSelectDateInternal
+                                     OnNavigateDate=@OnNavigateDayDate
+                                     OnDismiss=@OnDismiss
+                                     FirstDayOfWeek=@FirstDayOfWeek
+                                     DateRangeType=@DateRangeType
+                                     AutoNavigateOnSelection=@AutoNavigateOnSelection
+                                     OnHeaderSelect=@(args => { if (ShowMonthPickerAsOverlay) { OnHeaderSelect(args); } })
+                                     ShowWeekNumbers=@ShowWeekNumbers
+                                     FirstWeekOfYear=@FirstWeekOfYear
+                                     DateTimeFormatter=@DateTimeFormatter
+                                     ShowSixWeeksByDefault=@ShowSixWeeksByDefault
+                                     MinDate=@MinDate
+                                     MaxDate=@MaxDate
+                                     RestrictedDates=@RestrictedDates
+                                     WorkWeekDays=@WorkWeekDays
+                                     ShowCloseButton=@ShowCloseButton
+                                     AllFocusable=@AllFocusable />
+                    }
+                    @if (IsDayPickerVisibleInternal && IsMonthPickerVisibleInternal)
+                    {
+                        <div class="ms-Calendar-divider" />
+                    }
+                    @if (IsMonthPickerVisibleInternal)
+                    {
+                        <BFUCalendarMonth NavigatedDate=@NavigatedMonthDate
+                                       SelectedDate=@NavigatedDayDate
+                                       OnNavigateDate=@OnNavigateMonthDate
+                                       Today=@Today
+                                       HighlightCurrentMonth=@HighlightCurrentMonth
+                                       HighlightSelectedMonth=@HighlightSelectedMonth
+                                       OnHeaderSelect=@(args => { if (ShowMonthPickerAsOverlay) { OnHeaderSelect(args); } })
+                                       DateTimeFormatter=@DateTimeFormatter
+                                       MinDate=@MinDate
+                                       MaxDate=@MaxDate
+                                       YearPickerHidden=@(YearPickerHidden || ShowMonthPickerAsOverlay) />
+                    }
+                    @if (ShowGoToToday)
+                    {
+                        <button role="button"
+                                class=@($"ms-Calendar-goToday{(IsMonthPickerVisibleInternal ? " ms-Calendar-goTodayInlineMonth":"")}{(!GoTodayEnabled ? " ms-Calendar-goToTodayIsDisabled":"")}")
+                                @onclick=@(args => OnGotoToday(args))
+                                tabindex="0"
+                                disabled=@(!GoTodayEnabled)
+                                type="button">
+                            @GoToTodayString
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

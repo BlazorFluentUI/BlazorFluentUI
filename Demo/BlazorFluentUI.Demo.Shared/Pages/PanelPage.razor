@@ -1,0 +1,69 @@
+﻿@page  "/panelPage"
+
+<h1>Panel</h1>
+
+<BFUPrimaryButton Text="Open Panel" OnClick=@Click />
+
+<BFUPrimaryButton Text="Open Light Dismiss Panel" OnClick=@(() => lightDismissPanelOpen=true ) />
+
+<BFUPrimaryButton Text="Open Custom Nav Panel" OnClick=@(() => customNavPanelOpen=true ) />
+
+
+<BFUPanel IsOpen=@isOpen
+       OnDismiss=@PanelDismiss
+       Type=@PanelType.Medium
+       IsLightDismiss="false"
+       HeaderText="Panel Example">
+    <p>
+        Hey, there's some content in here.
+        <BFUTextField Description="Can I type here?" />
+    </p>
+</BFUPanel>
+
+<BFUPanel IsOpen=@lightDismissPanelOpen
+       OnDismiss=@(() => lightDismissPanelOpen = !lightDismissPanelOpen)
+       Type=@PanelType.Medium
+       IsLightDismiss="true"
+       HeaderText="Light Dismiss Panel">
+    <p>
+        This is a light dismiss panel...
+    </p>
+</BFUPanel>
+
+<BFUPanel IsOpen=@customNavPanelOpen
+       OnDismiss=@(() => customNavPanelOpen = !customNavPanelOpen)
+       Type=@PanelType.Medium
+       IsLightDismiss="false"
+       HeaderText="Custom Nav Panel">
+    <NavigationTemplate>
+        <BFUIconButton OnClick=@(() => customNavPanelOpen = false)
+                    IconName="GlobalNavButton" />
+    </NavigationTemplate>
+    <ChildContent>
+        <p>
+            This is a panel with a completely custom nav area (at the top)...
+        </p>
+    </ChildContent>
+</BFUPanel>
+
+@code {
+
+    bool isOpen = false;
+    bool lightDismissPanelOpen = false;
+    bool customNavPanelOpen = false;
+
+    Task Click(MouseEventArgs args)
+    {
+        isOpen = true;
+
+        return Task.CompletedTask;
+    }
+
+    Task PanelDismiss()
+    {
+        System.Diagnostics.Debug.WriteLine("Called PanelDismiss from page");
+        isOpen = false;
+        return Task.CompletedTask;
+    }
+
+}

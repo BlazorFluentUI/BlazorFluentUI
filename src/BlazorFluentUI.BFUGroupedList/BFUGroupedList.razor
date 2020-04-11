@@ -1,0 +1,37 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@typeparam TItem
+
+@if (dataItems != null)
+{
+    <BFUList TItem="GroupedListItem<TItem>"
+          @ref="listReference"
+          ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
+          ItemsSource=@dataItems
+          OnViewportChanged=@OnViewportChanged
+          >
+        <ItemTemplate>
+
+            @if (context.Item is HeaderItem<TItem>)
+            {
+                var header = (HeaderItem<TItem>)context.Item;
+                <BFUGroupHeader @bind-IsOpen=@header.IsOpen 
+                             CurrentlySelected=@(Selection != null ? Selection.SelectedItems.Contains(header.Item) : false)
+                             Count=@header.RecursiveCount
+                             GroupLevel=@header.Depth
+                             Name=@header.Name 
+                             Compact=@Compact 
+                             IsSelectionCheckVisible=@(Selection != null)
+                             OnClick=@(()=>OnHeaderClicked(header))
+                             OnToggle=@(()=>OnHeaderToggled(header))
+                             />
+            }
+            else
+            {
+                @ItemTemplate(context.Item)
+            }
+        </ItemTemplate>
+    </BFUList>
+        
+}
+   

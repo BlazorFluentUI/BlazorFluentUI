@@ -1,0 +1,62 @@
+﻿@page "/commandBarPage"
+
+<h1>CommandBar</h1>
+
+
+
+<BFUCommandBar Items=@items FarItems=@farItems OverflowItems=@overflowItems />
+
+<BFUCommandBar Items=@items />
+
+<em>@debugText</em>
+
+@code {
+    private System.Windows.Input.ICommand buttonCommand;
+    private string debugText;
+    private int commandCount = 0;
+
+    private List<BFUCommandBarItem> items;
+    private List<BFUCommandBarItem> farItems;
+    private List<BFUCommandBarItem> overflowItems;
+
+    private Action<ItemClickedArgs> OnClick => args =>
+    {
+        var item = farItems.FirstOrDefault(x => x.Key == args.Key);
+        if (item != null)
+        {
+            item.Checked = !item.Checked;
+        }
+    };
+
+    protected override Task OnInitializedAsync()
+    {
+        buttonCommand = new Utils.RelayCommand((p) =>
+        {
+            debugText = $"{p.ToString()} button was clicked. {commandCount++}";
+            StateHasChanged();
+        });
+
+        items = new List<BFUCommandBarItem> {
+            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new BFUCommandBarItem() {Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new BFUCommandBarItem() {Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new BFUCommandBarItem() {Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+        };
+
+        overflowItems = new List<BFUCommandBarItem> {
+            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="9",  Command=buttonCommand, CommandParameter="First Overflow"},
+            new BFUCommandBarItem() {Text= "Second", IconName="Home", Key="10", Command=buttonCommand, CommandParameter="Second Overflow"},
+            new BFUCommandBarItem() {Text= "Third", IconName="Home", Key="11", Command=buttonCommand, CommandParameter="Third Overflow"},
+            new BFUCommandBarItem() {Text= "Fourth", IconName="Home", Key="12", Command=buttonCommand, CommandParameter="Fourth Overflow"}
+        };
+
+        farItems = new List<BFUCommandBarItem> {
+            new BFUCommandBarItem() { Text= "First", IconName="Info", Key="5",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="First Far"},
+            new BFUCommandBarItem() {Text= "Second", IconName="Share", Key="6",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Second Far"},
+            new BFUCommandBarItem() {Text= "Third", IconName="Tiles", Key="7", IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Third Far"},
+            new BFUCommandBarItem() {Text= "Fourth", IconName="SortLines", Key="8",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Fourth Far"}
+        };
+
+        return Task.CompletedTask;
+    }
+}

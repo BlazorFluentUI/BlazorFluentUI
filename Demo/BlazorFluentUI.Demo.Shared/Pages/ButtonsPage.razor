@@ -1,0 +1,166 @@
+﻿@page "/buttonsPage"
+
+<h1>ButtonsPage</h1>
+@buttonDebug
+
+<BFUStack Tokens=@(new BFUStackTokens { ChildrenGap = new double[] { 5 } })>
+
+    <BFUToggle @bind-Checked="Disabled" DefaultChecked="false" InlineLabel="true" Label="Disable buttons" />
+
+    <BFUToggle @bind-Checked="Checked" DefaultChecked="false" InlineLabel="true" Label="Mark as Checked" />
+
+</BFUStack>
+
+<h4>Default Button</h4>
+<BFUStack Horizontal="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
+    <BFUDefaultButton Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) Disabled="Disabled" Checked="Checked" />
+    <BFUPrimaryButton Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) Disabled="Disabled" Checked="Checked" />
+</BFUStack>
+
+<h4>Compound Button</h4>
+<BFUStack Horizontal="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
+    <BFUCompoundButton Text="Standard" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Standard")) Disabled=Disabled Checked=Checked />
+    <BFUCompoundButton Text="Primary" Primary="true" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Primary")) Disabled=Disabled Checked=Checked />
+</BFUStack>
+
+<h4>Command Bar Button</h4>
+<BFUStack Horizontal="true" Style=@("height:44px")>
+    <BFUCommandBarButton IconName="Add"
+                      Text="New item"
+                      MenuItems="MenuProperties"
+                      Disabled="Disabled"
+                      Checked="Checked" />
+    <BFUCommandBarButton IconName="Mail" Text="Send mail" Disabled="Disabled" Checked="Checked" />
+</BFUStack>
+
+@*<h4>Split Button</h4>
+<BFUStack Horizontal="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
+    <BFUDefaultButton Split="true" Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) MenuItems="MenuProperties" Disabled="Disabled" Checked="Checked" />
+    <BFUPrimaryButton Split="true" Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) MenuItems="MenuProperties" Disabled="Disabled" Checked="Checked" />
+    <BFUDefaultButton Split="true" Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) MenuItems="MenuProperties" Disabled="Disabled" PrimaryDisabled="true" Checked="Checked" />
+    <BFUPrimaryButton Split="true" Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) MenuItems="MenuProperties" Disabled="true" PrimaryDisabled="true" Checked="Checked" />
+</BFUStack>*@
+
+<h4>Split Button</h4>
+    <BFUStack Horizontal="true" Wrap="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
+        <BFUDefaultButton Text="Standard"
+                       Split="true"
+                       MenuItems="MenuProperties"
+                       OnClick=@(() => OnClickHandler("Standart Split"))
+                       Disabled=Disabled
+                       Checked=Checked />
+        <BFUPrimaryButton Text="Primary"
+                       Split="true"
+                       MenuItems="MenuProperties"
+                       OnClick=@(() => OnClickHandler("Primary Split"))
+                       Disabled=Disabled
+                       Checked=Checked />
+        <BFUDefaultButton Text="Main action disabled"
+                       PrimaryDisabled="true"
+                       Split="true"
+                       MenuItems="MenuProperties"
+                       OnClick=@(() => OnClickHandler("Main Action Disabled Split"))
+                       Disabled=Disabled
+                       Checked=Checked />
+        <BFUPrimaryButton Text="Disabled"
+                       Disabled="true"
+                       Split="true"
+                       MenuItems="MenuProperties"
+                       OnClick=@(() => OnClickHandler("Disabled Split"))
+                       Checked=Checked />
+    </BFUStack>
+
+<h4>Icon Button</h4>
+<BFUStack Horizontal="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 8.0 } })>
+    <BFUIconButton OnClick=@(() => OnClickHandler("Icon")) IconName="Emoji2" AriaLabel="Emoji" Disabled=Disabled Checked=Checked />
+    <BFUIconButton MenuItems="MenuProperties" IconName="Emoji2" AriaLabel="Emoji" Disabled=Disabled Checked=Checked />
+</BFUStack>
+
+<h4>Action Button</h4>
+<BFUActionButton IconName="AddFriend" Disabled=Disabled Checked=Checked OnClick=@(() => OnClickHandler("Action"))>
+    Create account
+</BFUActionButton>
+
+<h4>Command Button</h4>
+<BFUCommandButton IconName="Add" Text="New item" MenuItems="MenuProperties" Disabled=Disabled Checked=Checked />
+
+<h4>Button-like Anchor</h4>
+<BFUDefaultButton Text="BlazorFluentUI GitHub" Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Disabled=Disabled Checked=Checked />
+
+<h4>Toggle Button</h4>
+<BFUDefaultButton Toggle="true"
+               Checked=@(muted || Checked)
+               Text=@(muted ? "Volume muted" : "Volume unmuted" )
+               IconName=@(muted ? "Volume0" : "Volume3")
+               OnClick=Mute
+               Disabled=Disabled />
+
+
+<h4>Using Command &amp; CommandParameter with Button</h4>
+<BFUStack Tokens=@(new BFUStackTokens { ChildrenGap = new double[] { 5 } })>
+    <BFUCheckbox Label="Enable Button" @bind-Checked="CommandEnabled" Style="max-width:200px;" />
+    <BFUStackItem>
+        <BFUPrimaryButton Command="buttonCommand" CommandParameter=@((Func<bool>)(() => CommandEnabled)) Text="Trigger ICommand" />
+    </BFUStackItem>
+    <div>
+        Command Result: @buttonDebug
+    </div>
+</BFUStack>
+
+@code {
+
+    Utils.RelayCommand buttonCommand;
+    bool commandEnabled = false;
+    bool CommandEnabled
+    {
+        get => commandEnabled;
+        set
+        {
+            commandEnabled = value;
+            buttonCommand.OnCanExecuteChanged();
+        }
+    }
+
+    int commandCount = 0;
+    bool isChecked = false;
+    bool muted;
+    string buttonDebug = "";
+    bool Checked;
+    bool Disabled;
+
+    bool isToggled = false;
+
+    IEnumerable<BFUContextualMenuItem> MenuProperties;
+
+    private void OnClickHandler(string button)
+    {
+        buttonDebug = $"{button.ToString()} button was clicked. {commandCount++}";
+    }
+
+    private void Mute()
+    {
+        muted = !muted;
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        MenuProperties = new System.Collections.Generic.List<BFUContextualMenuItem>()
+{
+            new BFUContextualMenuItem() { Key = "emailMessage", Text = "Email message", IconName="Mail"},
+            new BFUContextualMenuItem() { Key = "calendarEvent", Text = "Calendar event", IconName="Calendar"}
+        };
+        buttonCommand = new Utils.RelayCommand((p) =>
+        {
+            buttonDebug = $"Button with command was clicked. {commandCount++}";
+            StateHasChanged();
+        },
+            p =>
+            {
+                return ((Func<bool>)p).Invoke();
+            }
+        );
+
+        return base.OnInitializedAsync();
+    }
+
+}

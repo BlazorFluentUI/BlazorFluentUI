@@ -1,0 +1,10 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<CascadingValue Name="PortalId" Value=@Id>
+    <span class=@($"ms-Layer mediumFont {this.Style}{(this.IsFixed ? " ms-Layer--fixed" : "")}")>
+        <div class="ms-Layer-content" ref="RootElementRef">
+            @ChildContent
+        </div>
+    </span>
+</CascadingValue>

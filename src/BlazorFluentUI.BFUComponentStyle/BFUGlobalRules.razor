@@ -1,0 +1,6 @@
+﻿<style>
+@foreach(var rule in ComponentStyle.GlobalCSRules)
+{
+    <BFUCSS @key="rule.GetHashCode()" Value="@rule" />
+}
+</style>

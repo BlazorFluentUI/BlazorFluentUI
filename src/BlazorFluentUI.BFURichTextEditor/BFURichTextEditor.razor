@@ -1,0 +1,39 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+
+<div class=@($"bf-richTextEditor {this.ClassName}{(Disabled ? " is-disabled" : "")}")
+     style=@Style>
+    @if (!ReadOnly)
+    {
+        <BFUCommandBar Items=@items ClassName="bf-richTextEditor-commandBar" />
+    }
+    <div @ref=@RootElementReference
+         @onkeydown=@InterceptKeyPressAsync
+         @onfocusin=@OnFocusAsync
+         @onfocusout=@OnBlurAsync
+         class="bf-richTextEditor-editor">
+    </div>
+</div>
+
+<BFUDialog IsOpen=@isImageDialogOpen
+        Title="Insert Image"
+        FirstFocusableSelector="firstFocus"
+        ForceFocusInsideTrap="true"
+        OnDismiss=@(args => isImageDialogOpen=false)>
+    <ChildContent>
+        <BFUStack>
+            <BFUTextField ClassName="firstFocus" Label="Image Link" @bind-Value=@imageUrl @bind-Value:event="OnInput" />
+            <BFUTextField Label="Image Alternate Text" @bind-Value=@imageAlt @bind-Value:event="OnInput" />
+            <BFUStack Horizontal="true">
+                <BFUTextField Label="Horizontal Size" Placeholder="auto" Description="auto if empty" @bind-Value=@imageWidth @bind-Value:event="OnInput" />
+                <BFUTextField Label="Vertical Size" Placeholder="auto" Description="auto if empty" @bind-Value=@imageHeight @bind-Value:event="OnInput" />
+            </BFUStack>
+        </BFUStack>
+    </ChildContent>
+    <FooterTemplate>
+        <BFUDefaultButton Text="Cancel" OnClick=@(args=> isImageDialogOpen=false) />
+        <BFUPrimaryButton Text="Insert" OnClick=@(args=> InsertImageAsync()) />
+    </FooterTemplate>
+</BFUDialog>

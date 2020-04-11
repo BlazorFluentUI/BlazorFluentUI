@@ -1,0 +1,21 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+@if (CanSelect)
+{
+    <div role="checkbox"
+         id=@Id
+         class=@($"ms-DetailsRow-check ms-Check-checkHost {ClassName}{(IsHeader ? " is-header" : "")}{(IsVisible ? " is-visible" : "")}{(Checked ? " is-checked" : "")}{(CanSelect ? " can-select" : "")}")
+         aria-checked=@Checked
+         data-selection-toggle="true"
+         data-automationid="DetailsRowCheck"
+         data-is-focusable=@IsFocusable>
+            <BFUCheck UseFastIcons=@UseFastIcons Checked=@Checked />
+    </div>
+}
+else
+{
+    <div class="ms-DetailsRowCheck ms-DetailsRow-check" />
+}

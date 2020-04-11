@@ -1,0 +1,86 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+@if (IsOpen || isAnimating || IsHiddenOnDismiss)
+{
+    <BFULayer>
+        <BFUPopup Role="dialog" AriaLabelledBy=@HeaderText
+               OnDismiss="OnDismiss"
+               ClassName=@(!IsOpen && !isAnimating && IsHiddenOnDismiss ? "ms-Panel-hiddenPanel" : "")>
+            <div aria-hidden=@(!IsOpen && isAnimating)
+                 @ref="panelElement"
+                 style=@Style
+                 class=@($"mediumFont ms-Panel{(HasCloseButton?" ms-Panel--hasCloseButton":"")}{GetTypeCss()} {this.ClassName}")>
+                @if (IsBlocking && IsOpen)
+                {
+                    <BFUOverlay ClassName=@($"ms-Panel-overlay{(isAnimating && IsOpen ? " fadeIn100":"")}{(isAnimating && !IsOpen ? " fadeOut100":"")}")
+                             IsDarkThemed="false"
+                             OnClick=@((IsLightDismiss ? OnLightDismissClick : ThrowawayCallback))/>
+                }
+                <BFUFocusTrapZone FirstFocusableSelector=@FirstFocusableSelector
+                               IsClickableOutsideFocusTrap="true"
+                               ClassName=@($"ms-Panel-main{GetMainAnimation()}")
+                               Style=@((Type == PanelType.Custom || Type == PanelType.CustomNear) ? "width:" + CustomWidth + "px;" : "")
+                               ElementToFocusOnDismiss=@ElementToFocusOnDismiss>
+
+                    <div class="ms-Panel-commands"
+                         data-is-visible="true">
+                        @if (NavigationTemplate != null)
+                        {
+                            @NavigationTemplate
+                        }
+                        else
+                        {
+                            @if (NavigationContentTemplate == null && NavigationTemplate == null && !HasCloseButton)
+                            {
+
+                            }
+                            else
+                            {
+                                @if (NavigationContentTemplate == null)
+                                {
+                                    <div class="ms-Panel-navigation">
+                                        @if (HasCloseButton)
+                                        {
+                                            <BFUIconButton IconName="Cancel" 
+                                                        ClassName="ms-Panel-closeButton"
+                                                        OnClick=@onPanelClick
+                                                        AriaLabel=@CloseButtonAriaLabel
+                                                  />
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    @NavigationContentTemplate
+                                }
+
+                            }
+                        }
+                    </div>
+                    <div class="ms-Panel-contentInner">
+                        @HeaderTemplate
+                        <div @ref="scrollableContent" class=@($"ms-Panel-scrollableContent{(IsFooterAtBottom ? " ms-Panel-scrollableContent--isFooterAtBottom" :"")}") data-is-scrollable="true">
+                            <div class="ms-Panel-content">
+                                @ChildContent
+                            </div>
+                        </div>
+                        @if (FooterTemplate != null)
+                        {
+                            <div class=@($"ms-Panel-footer{(isFooterSticky?" ms-Panel-footer--isSticky":"")}")>
+                                <div class="ms-Panel-footerInner">
+                                    @FooterTemplate
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </BFUFocusTrapZone>
+            </div>
+        </BFUPopup>
+    </BFULayer>
+
+}

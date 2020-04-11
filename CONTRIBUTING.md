@@ -4,7 +4,7 @@ Any and all help is appreciated!  But here are some guidelines:
 
 If you want to add a new control, follow the format of all of the other controls. 
 1.  Namespace is `BlazorFabric`.
-2.  Control should use `FabricComponentBase` as the base class.
+2.  Control should use `BFUComponentBase` as the base class.
     1.   Add `Styles` and `ClassName` contents to the appropriate element.
 3.  Class names mimic the original fabric-react class names with some exceptions:
     1. where style depends on state, use a double dash followed by the state name to create your style. 

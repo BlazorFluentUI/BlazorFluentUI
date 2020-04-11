@@ -1,0 +1,13 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<div role="navigation"
+     @ref="RootElementReference"
+     class=@($"mediumFont ms-Nav {(IsOnTop?"is-on-top":"")} {(IsOnTop?"slideRightIn40":"")} {ClassName}")
+     style=@Style
+     aria-label=@AriaLabel>
+    <CascadingValue Value=@this.ExpandButtonAriaLabel>
+        @ChildContent
+    </CascadingValue>
+</div>

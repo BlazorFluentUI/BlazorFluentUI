@@ -1,0 +1,68 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+@if (this.DoNotLayer)
+{
+    <BFUCalloutContent AlignTargetEdge=@AlignTargetEdge
+                    AriaDescribedBy=@AriaDescribedBy
+                    AriaLabel=@AriaLabel
+                    AriaLabelledBy=@AriaLabelledBy
+                    BackgroundColor=@BackgroundColor
+                    BeakWidth=@BeakWidth
+                    Bounds=@Bounds
+                    CalloutMaxHeight=@CalloutMaxHeight
+                    CalloutMaxWidth=@CalloutMaxWidth
+                    CalloutWidth=@CalloutWidth
+                    ChildContent=@ChildContent
+                    ClassName=@ClassName
+                    CoverTarget=@CoverTarget
+                    DirectionalHint=@DirectionalHint
+                    DirectionalHintFixed=@DirectionalHintFixed
+                    DoNotLayer=@DoNotLayer
+                    FabricComponentTarget=@FabricComponentTarget
+                    GapSpace=@GapSpace
+                    HiddenChanged=@HiddenChanged
+                    IsBeakVisible=@IsBeakVisible
+                    MinPagePadding=@MinPagePadding
+                    OnDismiss=@OnDismiss
+                    PreventDismissOnLostFocus=@PreventDismissOnLostFocus
+                    PreventDismissOnResize=@PreventDismissOnResize
+                    PreventDismissOnScroll=@PreventDismissOnScroll
+                    HideOverflow=@HideOverflow
+                    SetInitialFocus=@SetInitialFocus
+                    />
+}
+else
+{
+<BFULayer>
+    <BFUCalloutContent AlignTargetEdge=@AlignTargetEdge
+                    AriaDescribedBy=@AriaDescribedBy
+                    AriaLabel=@AriaLabel
+                    AriaLabelledBy=@AriaLabelledBy
+                    BackgroundColor=@BackgroundColor
+                    BeakWidth=@BeakWidth
+                    Bounds=@Bounds
+                    CalloutMaxHeight=@CalloutMaxHeight
+                    CalloutMaxWidth=@CalloutMaxWidth
+                    CalloutWidth=@CalloutWidth
+                    ChildContent=@ChildContent
+                    ClassName=@ClassName
+                    CoverTarget=@CoverTarget
+                    DirectionalHint=@DirectionalHint
+                    DirectionalHintFixed=@DirectionalHintFixed
+                    DoNotLayer=@DoNotLayer
+                    FabricComponentTarget=@FabricComponentTarget
+                    GapSpace=@GapSpace
+                    HiddenChanged=@HiddenChanged
+                    IsBeakVisible=@IsBeakVisible
+                    MinPagePadding=@MinPagePadding
+                    OnDismiss=@OnDismiss
+                    PreventDismissOnLostFocus=@PreventDismissOnLostFocus
+                    PreventDismissOnResize=@PreventDismissOnResize
+                    PreventDismissOnScroll=@PreventDismissOnScroll
+                    HideOverflow=@HideOverflow
+                    OnPositioned=@OnPositioned
+
+                    />
+</BFULayer>
+}

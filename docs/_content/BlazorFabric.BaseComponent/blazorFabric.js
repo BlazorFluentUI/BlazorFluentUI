@@ -875,7 +875,7 @@ var BlazorFabricCallout;
     ;
 })(BlazorFabricCallout || (BlazorFabricCallout = {}));
 window['BlazorFabricCallout'] = BlazorFabricCallout || {};
-/// <reference path="../../BlazorFabric.BaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFabricContextualMenu;
 (function (BlazorFabricContextualMenu) {
     function registerHandlers(targetElement, contextualMenuItem) {
@@ -1299,7 +1299,7 @@ var BlazorFabricFocusTrapZone;
     //}
 })(BlazorFabricFocusTrapZone || (BlazorFabricFocusTrapZone = {}));
 window['BlazorFabricFocusTrapZone'] = BlazorFabricFocusTrapZone || {};
-/// <reference path="../../BlazorFabric.BaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFabricFocusZone;
 (function (BlazorFabricFocusZone) {
     var FocusZoneDirection;
@@ -2161,7 +2161,7 @@ var BlazorFabricList;
 })(BlazorFabricList || (BlazorFabricList = {}));
 window['BlazorFabricList'] = BlazorFabricList || {};
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-/// <reference path="../../BlazorFabric.FocusTrapZone/wwwroot/focusTrapZone.ts" />
+/// <reference path="../../BlazorFluentUI.BFUFocusTrapZone/wwwroot/focusTrapZone.ts" />
 var BlazorFabricPanel;
 (function (BlazorFabricPanel) {
     var Handler = /** @class */ (function () {

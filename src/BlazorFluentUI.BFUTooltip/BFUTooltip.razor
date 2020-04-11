@@ -1,0 +1,24 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+<BFUStylePreloader Component="new BFUCalloutContent()" />
+<BFULocalCS @bind-Rules="@TooltipLocalRules" />
+
+<BFUCallout ClassName=@($"mediumFont fadeIn200 {TooltipRule.Selector.SelectorName} {TooltipAfterRule.Selector.SelectorName} {ClassName}")
+         FabricComponentTarget=@FabricComponentTarget
+         DirectionalHint=@DirectionalHint
+         Style=@($"{Style}")
+         BeakWidth=@BeakWidth
+         GapSpace="0"
+         DoNotLayer="false"
+         IsBeakVisible="true">
+    <div class="ms-Tooltip-content"
+         @onmouseenter=@OnMouseEnter
+         @onmouseleave=@OnMouseLeave
+         role="tooltip">
+        <p class="ms-Tooltip-subtext">
+            @ChildContent
+        </p>
+    </div>
+</BFUCallout>

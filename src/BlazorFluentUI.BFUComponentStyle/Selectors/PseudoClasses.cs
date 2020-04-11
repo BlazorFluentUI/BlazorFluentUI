@@ -1,0 +1,39 @@
+namespace BlazorFluentUI
+{
+    public enum PseudoClasses
+    {
+        None,
+        Active,
+        AnyLink,
+        Checked,
+        Disabled,
+        Empty,
+        Enabled,
+        FirstChild,
+        FirstOfType,
+        Focus,
+        FocusWithin,
+        Hover,
+        InRange,
+        Invalid,
+        Lang,
+        LastChild,
+        LastOfType,
+        Link,
+        Matches,
+        Not,
+        NthChild,
+        NthLastChild,
+        NthLastOfType,
+        NthOfType,
+        OnlyOfType,
+        OnlyChild,
+        Optional,
+        OutOfRange,
+        PlaceholderShown,
+        Root,
+        Target,
+        Valid,
+        Visited
+    }
+}

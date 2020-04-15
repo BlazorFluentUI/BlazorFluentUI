@@ -90,7 +90,7 @@ namespace BlazorFabric
                     {
                         GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.ComponentType == ((IGlobalCSSheet)item).ComponentType));
                         RemoveOneStyleSheet((IGlobalCSSheet)item);
-                        GlobalRules.UpdateGlobalRules();
+                        GlobalRules?.UpdateGlobalRules();
                     }
                     else if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).ComponentType != null && ((IGlobalCSSheet)item).IsGlobal)
                     {
@@ -108,7 +108,7 @@ namespace BlazorFabric
                         GlobalRulesSheets.Add((IGlobalCSSheet)item);
                         ((IGlobalCSSheet)item).IsGlobal = true;
                         AddOneStyleSheet((IGlobalCSSheet)item);
-                        GlobalRules.UpdateGlobalRules();
+                        GlobalRules?.UpdateGlobalRules();
                     }
                 }
             }

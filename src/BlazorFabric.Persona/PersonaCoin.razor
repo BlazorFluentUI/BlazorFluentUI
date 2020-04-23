@@ -37,13 +37,15 @@
                    ImageFit=@ImageFit.Cover
                    Width=@dimension
                    Height=@dimension
-                   Alt=@ImageAlt 
+                   Alt=@ImageAlt
                    ShouldFadeIn=@ImageShouldFadeIn
                    ShouldStartVisible=@ImageShouldStartVisible
-                   OnLoadingStateChange=@OnPhotoLoadingStateChange
-                   />
+                   OnLoadingStateChange=@OnPhotoLoadingStateChange />
         }
+        @if (Presence != PersonaPresenceStatus.None)
+        {
         <PersonaPresence CoinSize=@CoinSize IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle Size=@Size />
+        }
     </div>
     }
     else

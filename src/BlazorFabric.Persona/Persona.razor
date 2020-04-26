@@ -4,16 +4,16 @@
 <GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
 <LocalCS @bind-Rules=@PersonaLocalRules />
 
-    <div class=@($"{ClassName} mediumFont ms-Persona {PersonaRootRule.Selector.SelectorName}") style=@Style>
-        
-        <PersonaCoin AllowPhoneInitials=@AllowPhoneInitials CoinSize=@CoinSize ImageAlt=@ImageAlt  ImageShouldFadeIn=@ImageShouldFadeIn ImageShouldStartVisible=@ImageShouldStartVisible
-                     ImageUrl=@ImageUrl  IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle  ShowInitialsUntilImageLoads=@ShowInitialsUntilImageLoads
-                     ShowUnknownPersonaCoin=@ShowUnknownPersonaCoin Size=@Size Text=@Text />
+<div @ref="RootElementReference" class=@($"{ClassName} mediumFont ms-Persona {PersonaRootRule.Selector.SelectorName}") style=@Style>
 
-        @if(!HidePersonalDetails || Size == PersonaSize.Size8)
-        {
-        <div class=@($"ms-Persona-details {DetailsRule.Selector.SelectorName}") >
-            <div dir="auto" class=@($"ms-Persona-primaryText {PrimaryTextRule.Selector.SelectorName}") >
+    <PersonaCoin AllowPhoneInitials=@AllowPhoneInitials CoinSize=@CoinSize ImageAlt=@ImageAlt ImageShouldFadeIn=@ImageShouldFadeIn ImageShouldStartVisible=@ImageShouldStartVisible
+                 ImageUrl=@ImageUrl IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle ShowInitialsUntilImageLoads=@ShowInitialsUntilImageLoads
+                 ShowUnknownPersonaCoin=@ShowUnknownPersonaCoin Size=@Size Text=@Text />
+
+    @if (!HidePersonalDetails || Size == PersonaSize.Size8)
+    {
+        <div class=@($"ms-Persona-details {DetailsRule.Selector.SelectorName}")>
+            <div dir="auto" class=@($"ms-Persona-primaryText {PrimaryTextRule.Selector.SelectorName}")>
                 <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
                     <ChildContent>
                         @Text
@@ -23,7 +23,7 @@
                     </TooltipContent>
                 </TooltipHost>
             </div>
-            <div dir="auto" class=@($"ms-Persona-secondaryText {SecondaryTextRule.Selector.SelectorName}")   >
+            <div dir="auto" class=@($"ms-Persona-secondaryText {SecondaryTextRule.Selector.SelectorName}")>
                 <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
                     <ChildContent>
                         @SecondaryText
@@ -33,7 +33,7 @@
                     </TooltipContent>
                 </TooltipHost>
             </div>
-            <div dir="auto" class=@($"ms-Persona-tertiaryText {TertiaryTextRule.Selector.SelectorName}") >
+            <div dir="auto" class=@($"ms-Persona-tertiaryText {TertiaryTextRule.Selector.SelectorName}")>
                 <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
                     <ChildContent>
                         @TertiaryText
@@ -43,7 +43,7 @@
                     </TooltipContent>
                 </TooltipHost>
             </div>
-            <div dir="auto" class=@($"ms-Persona-optionalText {OptionalTextRule.Selector.SelectorName}") >
+            <div dir="auto" class=@($"ms-Persona-optionalText {OptionalTextRule.Selector.SelectorName}")>
                 <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
                     <ChildContent>
                         @OptionalText
@@ -55,5 +55,5 @@
             </div>
             @ChildContent
         </div>
-        }
-    </div>
+    }
+</div>

@@ -1,6 +1,4 @@
-﻿<style>
-@foreach(var rule in ComponentStyle.GlobalCSRules)
+﻿@foreach(var rule in ComponentStyle.GlobalCSRules)
 {
     <CSS @key="rule.GetHashCode()" Value="@rule" />
 }
-</style>

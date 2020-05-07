@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace BlazorFabric
 {
@@ -20,6 +21,12 @@ namespace BlazorFabric
         [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
         [Parameter] public string OnText { get; set; }
 
+        [Parameter] public ICommand Command { get; set; }
+        [Parameter] public object CommandParameter { get; set; }
+
+        private ICommand command;
+        protected bool commandDisabled = false;
+
         protected bool IsChecked;
         protected string Id = Guid.NewGuid().ToString();
         protected string LabelId => Id + "-label";
@@ -30,7 +37,14 @@ namespace BlazorFabric
 
         private bool onOffMissing = false;
 
-        private ICollection<Rule> ToggleRules { get; set; } 
+        private ICollection<Rule> ToggleRules { get; set; }
+
+        private void Command_CanExecuteChanged(object sender, EventArgs e)
+        {
+            commandDisabled = !Command.CanExecute(CommandParameter);
+            InvokeAsync(StateHasChanged);
+        }
+
 
 
         protected string GetClassExtras()
@@ -81,6 +95,22 @@ namespace BlazorFabric
             if (string.IsNullOrWhiteSpace(OffText) && string.IsNullOrWhiteSpace(OnText))
                 onOffMissing = true;
 
+            if (Command == null && command != null)
+            {
+                command.CanExecuteChanged -= Command_CanExecuteChanged;
+                command = null;
+            }
+            if (Command != null && Command != command)
+            {
+                if (command != null)
+                {
+                    command.CanExecuteChanged -= Command_CanExecuteChanged;
+                }
+                command = Command;
+                commandDisabled = !command.CanExecute(CommandParameter);
+                Command.CanExecuteChanged += Command_CanExecuteChanged;
+            }
+
             return base.OnParametersSetAsync();
         }
 
@@ -95,6 +125,11 @@ namespace BlazorFabric
                     Debug.WriteLine($"Checked not set so switch to: {!IsChecked}");
                     IsChecked = !IsChecked;
                 }
+            }
+
+            if (Command != null)
+            {
+                Command.Execute(CommandParameter);
             }
 
             return CheckedChanged.InvokeAsync(!IsChecked);

@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace BlazorFabric
 {
     public class ComponentStyle : IComponentStyle
     {
+        public bool ClientSide { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY"));
+
+
         public GlobalRules GlobalRules { get; set; }
 
         public ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
@@ -90,7 +94,7 @@ namespace BlazorFabric
                     {
                         GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.ComponentType == ((IGlobalCSSheet)item).ComponentType));
                         RemoveOneStyleSheet((IGlobalCSSheet)item);
-                        GlobalRules.UpdateGlobalRules();
+                        GlobalRules?.UpdateGlobalRules();
                     }
                     else if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).ComponentType != null && ((IGlobalCSSheet)item).IsGlobal)
                     {
@@ -108,7 +112,7 @@ namespace BlazorFabric
                         GlobalRulesSheets.Add((IGlobalCSSheet)item);
                         ((IGlobalCSSheet)item).IsGlobal = true;
                         AddOneStyleSheet((IGlobalCSSheet)item);
-                        GlobalRules.UpdateGlobalRules();
+                        GlobalRules?.UpdateGlobalRules();
                     }
                 }
             }

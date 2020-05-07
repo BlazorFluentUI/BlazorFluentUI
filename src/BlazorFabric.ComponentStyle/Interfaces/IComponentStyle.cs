@@ -5,6 +5,8 @@ namespace BlazorFabric
 {
     public interface IComponentStyle
     {
+        bool ClientSide { get; }
+
         GlobalRules GlobalRules { get; set; }
 
         ICollection<ILocalCSSheet> LocalCSSheets { get; set; }

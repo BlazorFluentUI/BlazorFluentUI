@@ -83,7 +83,7 @@ namespace BlazorFabric
 
             MyRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Calendar-picker.ms-Calendar-picker--opened .ms-Calendar-holder" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Calendar-picker.ms-Calendar-pickerIsOpened .ms-Calendar-holder" },
                 Properties = new CssString()
                 {
                     Css = $"box-sizing:border-box;" +

@@ -1,6 +1,16 @@
-﻿<style>
-@foreach(var rule in ComponentStyle.GlobalCSRules)
+﻿@if (ComponentStyle.ClientSide)
 {
-    <CSS @key="rule.GetHashCode()" Value="@rule" />
+    @foreach (var rule in ComponentStyle.GlobalCSRules)
+    {
+        <CSS @key="rule.GetHashCode()" Value="@rule" />
+    }
 }
-</style>
+else
+{
+    <style>
+    @foreach (var rule in ComponentStyle.GlobalCSRules)
+    {
+        <CSS @key="rule.GetHashCode()" Value="@rule" />
+    }
+    </style>
+}

@@ -210,32 +210,80 @@ Use the tool here to generate your own MS font package: https://uifabricicons.az
 
 (Remember that the assets package has a more restrictive license.  You are required to use it with/for some type of Microsoft product.  However, one of their engineers said that using it hosted on Azure would be enough... but I'm not a lawyer, so use caution.)
 
-4. Add "AddBlazorFabric" to Startup.cs in Service-Configuration-Method
+4. Add "AddBlazorFabric" to ServiceProvider
 
+ServerSide: Startup.cs
 ```
+public void ConfigureServices(IServiceCollection services)
+{
+	...;
 	services.AddBlazorFabric();
+	...;
+}
 ```
 
-5. Add following to index.html / _Host.cshtml head Tag 
-
+ClientSide up to version 'Blazor WebAssembly 3.1.0' : Startup.cs
 ```
-ServerSide:
+public void ConfigureServices(IServiceCollection services)
+{
+	...;
+	services.AddBlazorFabric();
+	...;
+}
+```
+
+ClientSide from version 'Blazor WebAssembly 3.2.0 Preview 1'  : Program.cs
+```
+public static async Task Main(string[] args)
+{
+	...;
+	builder.Services.AddBlazorFabric();
+	...;
+}
+```
+
+5. Add css-class tag in
+
+ServerSide: Pages/_Host.cshtml
+```
+<head>
+	...;
 	<component type="typeof(GlobalRules)" render-mode="ServerPrerendered" />
-
-ClientSide:
+	...;
+</head>
+```
+ClientSide: wwwroot/index.html
+```
+<head>
+	...;
 	<style id="staticcs"></style>
+	...;
+</head>
 ```
 
-6. Add following to Startup.cs in Configure-Methode
+6. Add following to get controll over css-classes tag you created before
 
+ServerSide: issn't needed
+
+ClientSide up to version 'Blazor WebAssembly 3.1.0' : Startup.cs
 ```
-ServerSide:
-	issn't needed
-
-ClientSide:
+ public void Configure(IComponentsApplicationBuilder app)
+{
+	...;
 	app.AddComponent<GlobalRules>("#staticcs");
+	...;
+}
 ```
 
+ClientSide from version 'Blazor WebAssembly 3.2.0 Preview 1'  : Program.cs
+```
+public static async Task Main(string[] args)
+{
+	...;
+	builder.RootComponents.Add<GlobalRules>("#staticcs");
+	...;
+}
+```
 
 7. For Theme's add following in `App.razor` as most outside Component. You can have a look in Demo application's `App.razor`
 

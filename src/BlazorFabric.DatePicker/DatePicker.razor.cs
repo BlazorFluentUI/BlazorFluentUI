@@ -65,6 +65,12 @@ namespace BlazorFabric
         private bool _preventFocusOpeningPicker = false;
         private bool _oldIsDatePickerShown;
 
+        protected override Task OnInitializedAsync()
+        {
+            ErrorMessage = IsRequired && (Value == DateTime.MinValue) ? IsRequiredErrorMessage : null;
+            return base.OnInitializedAsync();
+        }
+
         public override Task SetParametersAsync(ParameterView parameters)
         {
             _oldIsDatePickerShown = IsDatePickerShown;

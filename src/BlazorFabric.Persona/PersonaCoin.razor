@@ -3,7 +3,7 @@
 
 <GlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
 <LocalCS @bind-Rules="PersonaCoinLocalRules" />
-<div class=@($"{ClassName} mediumFont ms-Persona-coin") style=@Style>
+<div @ref="RootElementReference" class=@($"{ClassName} mediumFont ms-Persona-coin") style=@Style>
     @if(Size != PersonaSize.Size8)
     {
     <div class=@($"ms-Persona-imageArea {ImageAreaRule.Selector.SelectorName}")>
@@ -37,13 +37,15 @@
                    ImageFit=@ImageFit.Cover
                    Width=@dimension
                    Height=@dimension
-                   Alt=@ImageAlt 
+                   Alt=@ImageAlt
                    ShouldFadeIn=@ImageShouldFadeIn
                    ShouldStartVisible=@ImageShouldStartVisible
-                   OnLoadingStateChange=@OnPhotoLoadingStateChange
-                   />
+                   OnLoadingStateChange=@OnPhotoLoadingStateChange />
         }
+        @if (Presence != PersonaPresenceStatus.None)
+        {
         <PersonaPresence CoinSize=@CoinSize IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle Size=@Size />
+        }
     </div>
     }
     else

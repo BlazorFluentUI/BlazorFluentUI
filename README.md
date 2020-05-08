@@ -1,4 +1,4 @@
-# BlazorFabric
+# BlazorFluentUI
 Simple port of Fluent UI (formerly Office Fabric) React components and style to Blazor
 
 ## Client-side Demo (web assembly)

@@ -1,5 +1,5 @@
 # BlazorFabric
-Simple port of Office Fabric React components and style to Blazor
+Simple port of Fluent UI (formerly Office Fabric) React components and style to Blazor
 
 ## Client-side Demo (web assembly)
 https://blazorfluentui.github.io/BlazorFluentUI/
@@ -15,6 +15,8 @@ https://t.me/blazorfabric
 https://github.com/BlazorFluentUI/BlazorFluentUI/wiki
 
 ## Release Notes
+- v3.0.1
+    - Various bug fixes
 - v3.0.0 
     - Theming is now available on BlazorFabric
       - Defaultwise There is a Light- and a Dark-Theme

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFabric
 {
-    public partial class Nav: FabricComponentBase
+    public partial class Nav: FabricComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
         //[Parameter] public string AriaLabel { get; set; }
@@ -31,7 +31,7 @@ namespace BlazorFabric
             StateHasChanged();
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var navRules = new HashSet<Rule>();
             // ROOT
@@ -74,8 +74,8 @@ namespace BlazorFabric
                 {
                     Css = $"display:block;" +
                           $"position:relative;" +
-                          $"color:{Theme.SemanticTextColors.BodyText};" +
-                          $"background-color:{Theme.SemanticColors.BodyBackground};"
+                          $"color:{theme.SemanticTextColors.BodyText};" +
+                          $"background-color:{theme.SemanticColors.BodyBackground};"
                 }
             });
 
@@ -84,12 +84,12 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink.is-disabled" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledText};" 
+                    Css = $"color:{theme.SemanticTextColors.DisabledText};" 
                 }
             });
 
 
-            var focusProps = new Style.FocusStyleProps(Theme);
+            var focusProps = new Style.FocusStyleProps(theme);
             var focusStyles = BlazorFabric.Style.FocusStyle.GetFocusStyle(focusProps, ".ms-Nav-link");
             foreach (var rule in focusStyles.AddRules)
                 navRules.Add(rule);
@@ -112,7 +112,7 @@ namespace BlazorFabric
                           $"overflow:hidden;" +
                           $"padding-left:20px;" +
                           $"padding-right:20px;" +
-                          $"color:{Theme.SemanticTextColors.BodyText};"
+                          $"color:{theme.SemanticTextColors.BodyText};"
                 }
             });
 
@@ -131,8 +131,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:hover:not(.is-disabled) .ms-Nav-link" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralLighterAlt};"+
-                          $"color:{Theme.SemanticTextColors.BodyText};"
+                    Css = $"background-color:{theme.Palette.NeutralLighterAlt};"+
+                          $"color:{theme.SemanticTextColors.BodyText};"
                 }
             });
 
@@ -141,8 +141,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink.is-selected .ms-Nav-link" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralLighter};" +
-                         $"color:{Theme.Palette.ThemePrimary};"
+                    Css = $"background-color:{theme.Palette.NeutralLighter};" +
+                         $"color:{theme.Palette.ThemePrimary};"
                 }
             });
 
@@ -151,7 +151,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink.is-selected .ms-Nav-link:after" },
                 Properties = new CssString()
                 {
-                    Css = $"border-left:2px solid {Theme.Palette.NeutralLighter};" +
+                    Css = $"border-left:2px solid {theme.Palette.NeutralLighter};" +
                           $"content:'';" +
                           $"position:absolute;" +
                           $"top:0;" +
@@ -167,7 +167,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink.is-disabled .ms-Nav-link" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledText};"
+                    Css = $"color:{theme.SemanticTextColors.DisabledText};"
                 }
             });
 
@@ -176,11 +176,11 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink.is-button .ms-Nav-link" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemePrimary};"
+                    Css = $"color:{theme.Palette.ThemePrimary};"
                 }
             });
 
-            //var focusProps = new Style.FocusStyleProps(Theme);
+            //var focusProps = new Style.FocusStyleProps(theme);
             var chevronButtonFocusStyles = BlazorFabric.Style.FocusStyle.GetFocusStyle(focusProps, ".ms-Nav-chevronButton");
             foreach (var rule in chevronButtonFocusStyles.AddRules)
                 navRules.Add(rule);
@@ -194,8 +194,8 @@ namespace BlazorFabric
                           $"display:block;" +
                           $"text-align:left;" +
                           $"line-height:44px;" +
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
-                          $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
+                          $"font-size:{theme.FontStyle.FontSize.Small};" +
                           $"margin:5px 0px;" +
                           $"padding:0px 20px 0px 28px;" +
                           $"border:none;" +
@@ -203,7 +203,7 @@ namespace BlazorFabric
                           $"white-space:nowrap;" +
                           $"overflow:hidden;" +
                           $"cursor:pointer;" +
-                          $"color:{Theme.SemanticTextColors.BodyText};"+
+                          $"color:{theme.SemanticTextColors.BodyText};"+
                           $"background-color:transparent;"
                 }
             });
@@ -220,8 +220,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav-chevronButton:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.BodyText};"+
-                          $"background-color:{Theme.Palette.NeutralLighterAlt};"
+                    Css = $"color:{theme.SemanticTextColors.BodyText};"+
+                          $"background-color:{theme.Palette.NeutralLighterAlt};"
                 }
             });
             navRules.Add(new Rule()
@@ -229,8 +229,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:hover .ms-Nav-chevronButton" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.BodyText};" +
-                          $"background-color:{Theme.Palette.NeutralLighterAlt};"
+                    Css = $"color:{theme.SemanticTextColors.BodyText};" +
+                          $"background-color:{theme.Palette.NeutralLighterAlt};"
                 }
             });
             navRules.Add(new Rule()
@@ -240,7 +240,7 @@ namespace BlazorFabric
                 {
                     Css = $"width:100%;" +
                           $"height:44px;"+
-                          $"border-bottom:1px solid {Theme.SemanticColors.BodyDivider};"
+                          $"border-bottom:1px solid {theme.SemanticColors.BodyDivider};"
                 }
             });
 
@@ -256,7 +256,7 @@ namespace BlazorFabric
                           $"position:absolute;" +
                           $"top:1px;" +
                           $"left:1px;" +
-                          $"z-index:{Theme.ZIndex.Nav};" +
+                          $"z-index:{theme.ZIndex.Nav};" +
                           $"padding:0;" +
                           $"margin:0;" 
                 }
@@ -399,8 +399,8 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.is-selected .ms-Nav-chevronButton" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemePrimary};"+
-                          $"background-color:{Theme.Palette.NeutralLighterAlt};"
+                    Css = $"color:{theme.Palette.ThemePrimary};"+
+                          $"background-color:{theme.Palette.NeutralLighterAlt};"
                 }
             });
             navRules.Add(new Rule()
@@ -408,7 +408,7 @@ namespace BlazorFabric
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.is-selected .ms-Nav-chevronButton:after" },
                 Properties = new CssString()
                 {
-                    Css = $"border-left:2px solid {Theme.Palette.ThemePrimary};" +
+                    Css = $"border-left:2px solid {theme.Palette.ThemePrimary};" +
                           $"content:'';"+
                           $"position:absolute;" +
                           $"top:0;" +
@@ -429,7 +429,7 @@ namespace BlazorFabric
                           $"left:8px;" +
                           $"height:36px;" +
                           $"line-height:36px;" +
-                          $"font-size:{Theme.FontStyle.FontSize.Small};" +
+                          $"font-size:{theme.FontStyle.FontSize.Small};" +
                           $"transition:transform .1s linear;"
                 }
             });

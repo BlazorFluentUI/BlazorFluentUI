@@ -5,6 +5,7 @@ using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -306,14 +307,15 @@ namespace BlazorFabric
 
             if (!IsOpen && _scrollerRegistered)
             {
+                var copied = _scrollerEventId.ToList();
+                _scrollerEventId.Clear();
                 _scrollerRegistered = false;
-                //var tempArray = _scrollerEventId.ToArray();
-                //_scrollerEventId.Clear();
-                foreach (var id in _scrollerEventId)
+
+                foreach (var id in copied)
                 {
                     await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", id);
                 }
-                _scrollerEventId.Clear();
+                
             }
         }
 

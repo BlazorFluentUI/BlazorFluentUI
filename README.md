@@ -262,7 +262,7 @@ ClientSide: wwwroot/index.html
 	...;
 </head>
 ```
-You may need to add an `@using BlazorFabric` or `@namespace BlazorFabric` to the top of your `_Hosts.cshmtl` to avoid a 'GlobalRules could not be found` error.
+You may need to add an `@using BlazorFabric` to the top of your `_Hosts.cshmtl` to avoid a 'GlobalRules could not be found` error.
 
 6. Add following to get controll over css-classes tag you created before
 

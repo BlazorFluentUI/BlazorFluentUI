@@ -15,7 +15,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\BlazorFabric.Theme\BlazorFabric.FabricTheme.csproj" />
-    <ProjectReference Include="..\BlazorFabric.Demo.Shared\BlazorFabric.Demo.Shared.csproj" />
+    <ProjectReference Include="..\BlazorFabric.Demo.Shared\BlazorFabric.Demo.Shared.csproj" Label="Shared" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <Examples Include="$(ProjectDir)..\BlazorFabric.Demo.Shared\Pages\**\*.*" />
+      <!--<Test Include="$(ProjectDir)wwwroot\examples\%(RecursiveDir)\*.razor" />-->
+      <!--<Readme Include="$(SolutionDir)README.md" />-->
+    </ItemGroup>
+
+    <Message Text="Copying the example files to the wwwroot/examples folder." Importance="High" />
+    <Copy SourceFiles="@(Examples)" DestinationFiles="$(ProjectDir)wwwroot\examples\%(RecursiveDir)%(Filename).md" />
+
+  </Target>
 </Project>

@@ -2,6 +2,7 @@
 @inherits FabricComponentBase
 @using Microsoft.AspNetCore.Components.Web
 
+<StylePreloader Component="new Icon()" />
 <div key={groupIndex}
      class=@($"ms-Nav-group {(this.isExpanded ? "is-expanded":"")} {ClassName}")
      style=@Style

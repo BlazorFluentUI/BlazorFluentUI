@@ -11,13 +11,27 @@
 
 </Stack>
 
-<h4>Default Button</h4>
-<Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
-    <DefaultButton Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) Disabled="Disabled" Checked="Checked" />
-    <PrimaryButton Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) Disabled="Disabled" Checked="Checked" />
+<Stack>
+    <Stack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.End" 
+           Style=@($"border-bottom: 1px solid {ThemeProvider.Theme.SemanticColors.BodyDivider}; margin-bottom:18.620px;")>
+        <div style="font-size:@ThemeProvider.Theme.FontStyle.FontSize.MediumPlus; font-weight:@ThemeProvider.Theme.FontStyle.FontWeight.SemiBold;">Default Button</div>
+        <div>
+            <CommandBarButton Text=@code1Label IconName="ChevronDown" OnClick=@(arg=> { showCode1 = !showCode1; code1Label = showCode1 ? "Hide Code" : "Show Code"; })/>
+        </div>
+    </Stack>
+    <div style="display:@(showCode1 ? "block" : "none");">
+        <pre style="padding: 20px; white-space:pre-wrap; word-wrap:break-word;background-color:@ThemeProvider.Theme.Palette.Black;color:@ThemeProvider.Theme.Palette.White;">
+            @(code1)
+        </pre>
+    </div>
+    <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
+        <DefaultButton Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) Disabled="Disabled" Checked="Checked" />
+        <PrimaryButton Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) Disabled="Disabled" Checked="Checked" />
+
+    </Stack>
 </Stack>
 
-<h4>Compound Button</h4>
+<h4 style="border-bottom: 1px solid @(ThemeProvider.Theme.SemanticColors.BodyDivider);">Compound Button</h4>
 <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
     <CompoundButton Text="Standard" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Standard")) Disabled=Disabled Checked=Checked />
     <CompoundButton Text="Primary" Primary="true" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Primary")) Disabled=Disabled Checked=Checked />
@@ -42,19 +56,21 @@
 </Stack>*@
 
 <h4>Split Button</h4>
-    <Stack Horizontal="true" Wrap="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
+        <Stack Horizontal="true" Wrap="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
         <DefaultButton Text="Standard"
                        Split="true"
                        MenuItems="MenuProperties"
                        OnClick=@(() => OnClickHandler("Standart Split"))
                        Disabled=Disabled
                        Checked=Checked />
+
         <PrimaryButton Text="Primary"
                        Split="true"
                        MenuItems="MenuProperties"
                        OnClick=@(() => OnClickHandler("Primary Split"))
                        Disabled=Disabled
                        Checked=Checked />
+
         <DefaultButton Text="Main action disabled"
                        PrimaryDisabled="true"
                        Split="true"
@@ -62,18 +78,22 @@
                        OnClick=@(() => OnClickHandler("Main Action Disabled Split"))
                        Disabled=Disabled
                        Checked=Checked />
+
         <PrimaryButton Text="Disabled"
                        Disabled="true"
                        Split="true"
                        MenuItems="MenuProperties"
                        OnClick=@(() => OnClickHandler("Disabled Split"))
                        Checked=Checked />
+
     </Stack>
 
 <h4>Icon Button</h4>
 <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 8.0 } })>
-    <IconButton OnClick=@(() => OnClickHandler("Icon")) IconName="Emoji2" AriaLabel="Emoji" Disabled=Disabled Checked=Checked />
-    <IconButton MenuItems="MenuProperties" IconName="Emoji2" AriaLabel="Emoji" Disabled=Disabled Checked=Checked />
+        <IconButton OnClick=@(() => OnClickHandler("Icon")) IconName="Emoji2" AriaLabel="Emoji" Disabled=Disabled Checked=Checked />
+
+        <IconButton MenuItems="MenuProperties" IconName="Emoji2" AriaLabel="Emoji" Disabled=Disabled Checked=Checked />
+
 </Stack>
 
 <h4>Action Button</h4>
@@ -84,8 +104,12 @@
 <h4>Command Button</h4>
 <CommandButton IconName="Add" Text="New item" MenuItems="MenuProperties" Disabled=Disabled Checked=Checked />
 
+
+
 <h4>Button-like Anchor</h4>
 <DefaultButton Text="BlazorFabric GitHub" Href="https://github.com/limefrogyank/BlazorFabric" Disabled=Disabled Checked=Checked />
+
+
 
 <h4>Toggle Button</h4>
 <DefaultButton Toggle="true"
@@ -96,18 +120,32 @@
                Disabled=Disabled />
 
 
+
+
+
 <h4>Using Command &amp; CommandParameter with Button</h4>
 <Stack Tokens=@(new StackTokens { ChildrenGap = new double[] { 5 } })>
-    <Checkbox Label="Enable Button" @bind-Checked="CommandEnabled" Style="max-width:200px;" />
-    <StackItem>
+        <Checkbox Label="Enable Button" @bind-Checked="CommandEnabled" Style="max-width:200px;" />
+
+        <StackItem>
         <PrimaryButton Command="buttonCommand" CommandParameter=@((Func<bool>)(() => CommandEnabled)) Text="Trigger ICommand" />
+
     </StackItem>
-    <div>
+        <div>
         Command Result: @buttonDebug
     </div>
 </Stack>
 
 @code {
+
+    [Inject] ThemeProvider ThemeProvider { get; set; }
+
+    string code1Label = "Show Code";
+    bool showCode1 = false;
+    string code1 = "<DefaultButton Text=\"Standard\" OnClick=@(() => OnClickHandler(\"Default Standard\")) Disabled=\"Disabled\" Checked=\"Checked\" />\n" +
+        "<PrimaryButton Text=\"Primary\" OnClick=@(() => OnClickHandler(\"Default Primary\")) Disabled=\"Disabled\" Checked=\"Checked\" />";
+
+
 
     Utils.RelayCommand buttonCommand;
     bool commandEnabled = false;

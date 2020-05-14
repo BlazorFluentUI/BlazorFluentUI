@@ -20,7 +20,7 @@ namespace BlazorFabric
 
             rules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action:not(.ms-Pivot-link)" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Button.ms-Button--action" }, //:not(.ms-Pivot-link)
                 Properties = new CssString()
                 {
                     Css = $"padding:0px 4px;" +

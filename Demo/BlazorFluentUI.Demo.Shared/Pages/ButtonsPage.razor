@@ -11,13 +11,26 @@
 
 </BFUStack>
 
-<h4>Default Button</h4>
-<BFUStack Horizontal="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
-    <BFUDefaultButton Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) Disabled="Disabled" Checked="Checked" />
-    <BFUPrimaryButton Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) Disabled="Disabled" Checked="Checked" />
+<BFUStack>
+    <BFUStack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.End"
+              Style=@($"border-bottom: 1px solid {ThemeProvider.Theme.SemanticColors.BodyDivider}; margin-bottom:18.620px;")>
+        <div style="font-size:@ThemeProvider.Theme.FontStyle.FontSize.MediumPlus; font-weight:@ThemeProvider.Theme.FontStyle.FontWeight.SemiBold;">Default Button</div>
+        <div>
+            <BFUCommandBarButton Text=@code1Label IconName="ChevronDown" OnClick=@(arg=> { showCode1 = !showCode1; code1Label = showCode1 ? "Hide Code" : "Show Code"; }) />
+        </div>
+    </BFUStack>
+    <div style="display:@(showCode1 ? "block" : "none");">
+        <pre style="padding: 20px; white-space:pre-wrap; word-wrap:break-word;background-color:@ThemeProvider.Theme.Palette.Black;color:@ThemeProvider.Theme.Palette.White;">
+            @(code1)
+        </pre>
+    </div>
+    <BFUStack Horizontal="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
+        <BFUDefaultButton Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) Disabled="Disabled" Checked="Checked" />
+        <BFUPrimaryButton Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) Disabled="Disabled" Checked="Checked" />
+    </BFUStack>
 </BFUStack>
 
-<h4>Compound Button</h4>
+<h4 style="border-bottom: 1px solid @(ThemeProvider.Theme.SemanticColors.BodyDivider);">Compound Button</h4>
 <BFUStack Horizontal="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
     <BFUCompoundButton Text="Standard" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Standard")) Disabled=Disabled Checked=Checked />
     <BFUCompoundButton Text="Primary" Primary="true" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Primary")) Disabled=Disabled Checked=Checked />
@@ -26,49 +39,49 @@
 <h4>Command Bar Button</h4>
 <BFUStack Horizontal="true" Style=@("height:44px")>
     <BFUCommandBarButton IconName="Add"
-                      Text="New item"
-                      MenuItems="MenuProperties"
-                      Disabled="Disabled"
-                      Checked="Checked" />
+                         Text="New item"
+                         MenuItems="MenuProperties"
+                         Disabled="Disabled"
+                         Checked="Checked" />
     <BFUCommandBarButton IconName="Mail" Text="Send mail" Disabled="Disabled" Checked="Checked" />
 </BFUStack>
 
 @*<h4>Split Button</h4>
-<BFUStack Horizontal="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
-    <BFUDefaultButton Split="true" Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) MenuItems="MenuProperties" Disabled="Disabled" Checked="Checked" />
-    <BFUPrimaryButton Split="true" Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) MenuItems="MenuProperties" Disabled="Disabled" Checked="Checked" />
-    <BFUDefaultButton Split="true" Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) MenuItems="MenuProperties" Disabled="Disabled" PrimaryDisabled="true" Checked="Checked" />
-    <BFUPrimaryButton Split="true" Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) MenuItems="MenuProperties" Disabled="true" PrimaryDisabled="true" Checked="Checked" />
-</BFUStack>*@
+    <BFUStack Horizontal="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
+        <BFUDefaultButton Split="true" Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) MenuItems="MenuProperties" Disabled="Disabled" Checked="Checked" />
+        <BFUPrimaryButton Split="true" Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) MenuItems="MenuProperties" Disabled="Disabled" Checked="Checked" />
+        <BFUDefaultButton Split="true" Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) MenuItems="MenuProperties" Disabled="Disabled" PrimaryDisabled="true" Checked="Checked" />
+        <BFUPrimaryButton Split="true" Text="Primary" OnClick=@(() => OnClickHandler("Default Primary")) MenuItems="MenuProperties" Disabled="true" PrimaryDisabled="true" Checked="Checked" />
+    </BFUStack>*@
 
 <h4>Split Button</h4>
-    <BFUStack Horizontal="true" Wrap="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
-        <BFUDefaultButton Text="Standard"
-                       Split="true"
-                       MenuItems="MenuProperties"
-                       OnClick=@(() => OnClickHandler("Standart Split"))
-                       Disabled=Disabled
-                       Checked=Checked />
-        <BFUPrimaryButton Text="Primary"
-                       Split="true"
-                       MenuItems="MenuProperties"
-                       OnClick=@(() => OnClickHandler("Primary Split"))
-                       Disabled=Disabled
-                       Checked=Checked />
-        <BFUDefaultButton Text="Main action disabled"
-                       PrimaryDisabled="true"
-                       Split="true"
-                       MenuItems="MenuProperties"
-                       OnClick=@(() => OnClickHandler("Main Action Disabled Split"))
-                       Disabled=Disabled
-                       Checked=Checked />
-        <BFUPrimaryButton Text="Disabled"
-                       Disabled="true"
-                       Split="true"
-                       MenuItems="MenuProperties"
-                       OnClick=@(() => OnClickHandler("Disabled Split"))
-                       Checked=Checked />
-    </BFUStack>
+<BFUStack Horizontal="true" Wrap="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 40.0 } })>
+    <BFUDefaultButton Text="Standard"
+                      Split="true"
+                      MenuItems="MenuProperties"
+                      OnClick=@(() => OnClickHandler("Standart Split"))
+                      Disabled=Disabled
+                      Checked=Checked />
+    <BFUPrimaryButton Text="Primary"
+                      Split="true"
+                      MenuItems="MenuProperties"
+                      OnClick=@(() => OnClickHandler("Primary Split"))
+                      Disabled=Disabled
+                      Checked=Checked />
+    <BFUDefaultButton Text="Main action disabled"
+                      PrimaryDisabled="true"
+                      Split="true"
+                      MenuItems="MenuProperties"
+                      OnClick=@(() => OnClickHandler("Main Action Disabled Split"))
+                      Disabled=Disabled
+                      Checked=Checked />
+    <BFUPrimaryButton Text="Disabled"
+                      Disabled="true"
+                      Split="true"
+                      MenuItems="MenuProperties"
+                      OnClick=@(() => OnClickHandler("Disabled Split"))
+                      Checked=Checked />
+</BFUStack>
 
 <h4>Icon Button</h4>
 <BFUStack Horizontal="true" Tokens=@(new BFUStackTokens() { ChildrenGap = new[] { 8.0 } })>
@@ -89,11 +102,11 @@
 
 <h4>Toggle Button</h4>
 <BFUDefaultButton Toggle="true"
-               Checked=@(muted || Checked)
-               Text=@(muted ? "Volume muted" : "Volume unmuted" )
-               IconName=@(muted ? "Volume0" : "Volume3")
-               OnClick=Mute
-               Disabled=Disabled />
+                  Checked=@(muted || Checked)
+                  Text=@(muted ? "Volume muted" : "Volume unmuted" )
+                  IconName=@(muted ? "Volume0" : "Volume3")
+                  OnClick=Mute
+                  Disabled=Disabled />
 
 
 <h4>Using Command &amp; CommandParameter with Button</h4>
@@ -108,6 +121,13 @@
 </BFUStack>
 
 @code {
+
+    [Inject] ThemeProvider ThemeProvider { get; set; }
+
+    string code1Label = "Show Code";
+    bool showCode1 = false;
+    string code1 = "<DefaultButton Text=\"Standard\" OnClick=@(() => OnClickHandler(\"Default Standard\")) Disabled=\"Disabled\" Checked=\"Checked\" />\n" +
+                   "<PrimaryButton Text=\"Primary\" OnClick=@(() => OnClickHandler(\"Default Primary\")) Disabled=\"Disabled\" Checked=\"Checked\" />";
 
     Utils.RelayCommand buttonCommand;
     bool commandEnabled = false;

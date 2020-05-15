@@ -363,3 +363,5 @@ healthchecksdb
 /BlazorFluentUI.BFUDetailsRow
 /src/BlazorFabric.Viewport
 /Demo/BlazorFabric.Demo.ClientSide/wwwroot/examples
+/Demo/BlazorFluentUI.Demo.ClientSide/wwwroot/md
+/Demo/BlazorFluentUI.Demo.ServerSide/wwwroot/md

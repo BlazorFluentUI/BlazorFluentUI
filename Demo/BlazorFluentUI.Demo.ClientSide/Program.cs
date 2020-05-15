@@ -12,10 +12,10 @@ namespace BlazorFluentUI.Demo.ClientSide
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            builder.RootComponents.Add<GlobalRules>("#staticcs");
-            builder.RootComponents.Add<BlazorFabric.Demo.ClientSide.App>("app");
+            builder.RootComponents.Add<BFUGlobalRules>("#staticcs");
+            builder.RootComponents.Add<BlazorFluentUI.Demo.Shared.App>("app");
 
-            builder.Services.AddBlazorFabric();
+            builder.Services.AddBlazorFluentUI();
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 

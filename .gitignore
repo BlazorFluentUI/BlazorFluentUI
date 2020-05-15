@@ -362,3 +362,4 @@ healthchecksdb
 /src/BlazorFluentUI.BFURichTextEditor/src/quill-1.3.7
 /BlazorFluentUI.BFUDetailsRow
 /src/BlazorFabric.Viewport
+/Demo/BlazorFabric.Demo.ClientSide/wwwroot/examples

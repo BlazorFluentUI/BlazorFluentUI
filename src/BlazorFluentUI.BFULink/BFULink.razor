@@ -1,4 +1,5 @@
-﻿@namespace BlazorFluentUI
+﻿
+@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
 <BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
@@ -11,7 +12,7 @@
 }
 else
 {
-    <button type="button" class=@($"ms-Link isButton {(Disabled ? "isDisabled" : "")} {ClassName}") disabled=@Disabled aria-disabled=@Disabled style=@Style>
+    <button type="button" @onclick="OnClick" class=@($"ms-Link isButton {(Disabled ? "isDisabled" : "")} {ClassName}") disabled=@Disabled aria-disabled=@Disabled style=@Style>
         @ChildContent
     </button>
 }

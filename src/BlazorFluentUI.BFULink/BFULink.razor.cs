@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System.Collections.Generic;
 
 namespace BlazorFluentUI
@@ -13,6 +14,9 @@ namespace BlazorFluentUI
 
         [Parameter]
         public string Href { get; set; }
+
+        [Parameter]
+        public EventCallback<MouseEventArgs> OnClick { get; set; }
 
         [Parameter]
         public string Target { get; set; }

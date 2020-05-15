@@ -208,7 +208,7 @@ namespace BlazorFluentUI
             #region ms-Pivot-link
             MyRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Pivot-link" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Pivot-link.ms-Button--default" },
                 Properties = new CssString()
                 {
                     Css = $"color:{theme.SemanticTextColors.ActionLink};" +

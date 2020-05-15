@@ -81,7 +81,7 @@ namespace BlazorFluentUI
 
             MyRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Calendar-picker.ms-Calendar-picker--opened .ms-Calendar-holder" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Calendar-picker.ms-Calendar-pickerIsOpened .ms-Calendar-holder" },
                 Properties = new CssString()
                 {
                     Css = $"box-sizing:border-box;" +
@@ -656,7 +656,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};" +
                           $"width:60px;" +
                         $"height:60px;" +
                         $"line-height:100%;" +

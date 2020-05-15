@@ -26,8 +26,9 @@ namespace BlazorFluentUI
             builder.CloseComponent();
 
             builder.OpenElement(3, As);
-            builder.AddAttribute(4, "class", $"{msTextRule.Selector.SelectorName}");
-            builder.AddContent(5, ChildContent);
+            builder.AddAttribute(4, "class", $"{msTextRule.Selector.SelectorName} {ClassName}");
+            builder.AddAttribute(5, "style", $"{Style}");
+            builder.AddContent(6, ChildContent);
             builder.CloseElement();
 
             base.BuildRenderTree(builder);

@@ -20,7 +20,7 @@ jobs:
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.201
+        dotnet-version: 3.1.300
     
     - name: Build App
       run: dotnet publish -c Release -o published Demo/BlazorFluentUI.Demo.ClientSide/

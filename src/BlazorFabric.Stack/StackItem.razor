@@ -1,9 +1,0 @@
-﻿@namespace BlazorFabric
-@inherits FabricComponentBase
-
-@if(ChildContent != null)
-{
-    <div class=@($"mediumFont ms-StackItem {ClassName}") style=@($"{GetStyles()}{Style}")>
-        @ChildContent
-    </div>
-}

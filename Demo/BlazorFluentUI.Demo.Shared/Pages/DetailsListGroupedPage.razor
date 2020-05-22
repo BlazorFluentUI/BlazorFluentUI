@@ -1,0 +1,142 @@
+﻿@page "/detailsListGroupedPage"
+
+@using DynamicData
+@using DynamicData.Binding
+@using System.Collections.ObjectModel
+@using System.Reactive.Linq
+@using System.Reactive.Subjects
+
+<BFUStack Style="height:100%;">
+    <h3>DetailsList - Grouped Data</h3>
+    <BFUDetailsList ItemsSource="ReadonlyList"
+                 @ref="detailsList"
+                 Columns="ReadonlyColumns"
+                 TItem="GroupedDataItem"
+                 SubGroupSelector=@(item=> item.ObservableData)
+                 GroupTitleSelector=@(item=>item.DisplayName)
+                 LayoutMode="DetailsListLayoutMode.Justified"
+                 @bind-Selection="selection"
+                 SelectionMode="SelectionMode.Multiple">
+    </BFUDetailsList>
+</BFUStack>
+
+@code {
+
+    Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
+
+    SourceCache<DataItem, string> dataSource = new SourceCache<DataItem, string>(x => x.Key);
+    public System.ComponentModel.BindingList<GroupedDataItem> ReadonlyList = new System.ComponentModel.BindingList<GroupedDataItem>();
+    int count = 0;
+
+    SourceCache<BFUDetailsRowColumn<GroupedDataItem>, string> columnsSource = new SourceCache<BFUDetailsRowColumn<GroupedDataItem>, string>(x => x.Key);
+    public ReadOnlyObservableCollection<BFUDetailsRowColumn<GroupedDataItem>> ReadonlyColumns;
+
+    BFUDetailsList<GroupedDataItem> detailsList;
+
+    ObservableDataContainer dataContainer = new ObservableDataContainer();
+
+    class ObservableDataContainer : AbstractNotifyPropertyChanged
+    {
+
+        private bool descending = false;
+        public bool Descending { get => descending; set => SetAndRaise(ref descending, value); }
+
+        private Func<GroupedDataItem, IComparable> sortSelector = x => x.KeyNumber;
+        public Func<GroupedDataItem, IComparable> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
+
+        public IObservable<SortExpressionComparer<GroupedDataItem>> DynamicSortExpression { get; private set; }
+
+        public IObservable<bool> IsFiltered { get; private set; }
+
+        public ObservableDataContainer()
+        {
+            DynamicSortExpression = this.WhenValueChanged(@this => @this.SortSelector).CombineLatest(this.WhenValueChanged(@this => @this.Descending), (selector, isDescending) =>
+            {
+
+                if (isDescending)
+                {
+                    return SortExpressionComparer<GroupedDataItem>.Descending(selector);
+                }
+                else
+                {
+                    return SortExpressionComparer<GroupedDataItem>.Ascending(selector);
+                }
+            });
+        }
+    }
+
+
+    protected override void OnInitialized()
+    {
+        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick });
+        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+        var descColumn = new BFUDetailsRowColumn<GroupedDataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
+        columnsSource.AddOrUpdate(descColumn);
+
+
+        var data = new System.Collections.Generic.List<DataItem>();
+
+        for (var i = 0; i < 1000; i++)
+        {
+            count++;
+            data.Add(new DataItem(count));
+        }
+
+        dataSource.AddOrUpdate(data);
+
+        dataSource.Connect()
+            .Group(x => (x.KeyNumber - 1) / 10)
+            .Transform(x => new GroupedDataItem(x, dataContainer.DynamicSortExpression))
+            .Bind(ReadonlyList)
+            .Subscribe();
+
+        columnsSource.Connect()
+            .Sort(SortExpressionComparer<BFUDetailsRowColumn<GroupedDataItem>>.Ascending(x => x.Index))
+            .Bind(out ReadonlyColumns)
+            .Do(_ => StateHasChanged())  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
+            .Subscribe();
+
+        base.OnInitialized();
+    }
+
+    private void OnColumnClick(BFUDetailsRowColumn<GroupedDataItem> column)
+    {
+
+        if (column.IsSorted)
+        {
+            column.IsSortedDescending = !column.IsSortedDescending;
+            columnsSource.AddOrUpdate(column);
+        }
+        else
+        {
+            var copyList = columnsSource.Items.ToList();
+            foreach (var col in copyList)
+            {
+                col.IsSorted = false;
+                if (col == column)
+                {
+                    col.IsSorted = true;
+                    col.IsSortedDescending = false;
+                }
+            }
+            columnsSource.AddOrUpdate(copyList);
+        }
+        dataContainer.Descending = column.IsSortedDescending;
+        dataContainer.SortSelector = column.FieldSelector;
+
+        detailsList?.ForceUpdate();  //needed because GroupedList uses a transformed version of ItemsSource that doesn't update automatically.
+
+    }
+
+    private Func<DataItem,IComparable> GetSortSelector(string key)
+    {
+        if (key == "Key")
+            return (item) => item.Key;
+        else if (key == "Name")
+            return (item) => item.DisplayName;
+        else
+            return item => item.Description;
+    }
+
+
+}

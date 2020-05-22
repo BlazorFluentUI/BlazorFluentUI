@@ -1,0 +1,18 @@
+﻿
+@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+
+@if ((Type != null && Type == LinkType.Anchor) || (Type == null && !string.IsNullOrWhiteSpace(Href)))
+{
+    <a href=@(Disabled ? "" : Href) target=@Target class=@($"ms-Link {(Disabled ? "isDisabled" : "")} {ClassName}") aria-disabled=@Disabled style=@Style>
+        @ChildContent
+    </a>
+}
+else
+{
+    <button type="button" @onclick="OnClick" class=@($"ms-Link isButton {(Disabled ? "isDisabled" : "")} {ClassName}") disabled=@Disabled aria-disabled=@Disabled style=@Style>
+        @ChildContent
+    </button>
+}

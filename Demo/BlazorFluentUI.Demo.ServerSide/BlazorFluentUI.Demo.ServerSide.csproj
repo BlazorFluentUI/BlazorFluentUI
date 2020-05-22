@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUTheme\BlazorFluentUI.BFUTheme.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.Demo.Shared\BlazorFluentUI.Demo.Shared.csproj" />
+  </ItemGroup>
+
+ <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <DemoSource Include="$(ProjectDir)..\BlazorFluentUI.Demo.Shared\Pages\**\*.*" />
+      <!--<Test Include="$(ProjectDir)wwwroot\examples\%(RecursiveDir)\*.razor" />-->
+      <!--<Readme Include="$(SolutionDir)README.md" />-->
+    </ItemGroup>
+
+    <Message Text="Copying the demo source files to the wwwroot/md folder." Importance="High" />
+    <Copy SourceFiles="@(DemoSource)" DestinationFiles="$(ProjectDir)wwwroot\md\%(RecursiveDir)%(Filename).md" />
+
+  </Target>
+
+</Project>

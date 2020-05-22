@@ -1,0 +1,57 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@typeparam TItem
+
+<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+<BFULocalCS @bind-Rules=@DetailsRowLocalRules />
+
+@*<div @onclick="args => SelectionZone.SelectItem(Item,true)" data-is-focusable="true">*@
+    <BFUFocusZone Direction=@FocusZoneDirection.Horizontal
+               AriaLabel=@AriaLabel
+               AriaDescribedBy=@AriaDescribedBy
+               ClassName=@($"fadeIn400 {(Compact ? "is-compact " : "")}{(isSelected ? "is-selected " : "")}{(IsRowHeader ? "is-row-header " : "")}{(IsCheckVisible ? "is-check-visible " : "")}ms-DetailsRow")
+               AllowFocusRoot="true"
+               IsFocusable="true"
+               OnClick=@(args=> SelectionZone.SelectItem(Item,true))>
+
+        @if (showCheckbox)
+        {
+            <div role="gridcell"
+                 aria-colindex="1"
+                 data-selection-toggle="true"
+                 class="ms-DetailsRow-checkCell"
+                 @onclick="args => SelectionZone.HandleToggle(Item,ItemIndex)"
+                 @onclick:stopPropagation="true">
+                <BFUDetailsRowCheck IsVisible=@(this.CheckboxVisibility == CheckboxVisibility.Always)
+                                 Compact=@Compact
+                                 Checked=@isSelected
+                                 UseFastIcons="true"
+                                 CanSelect=@canSelect />
+            </div>
+        }
+
+        <BFUGroupSpacer IndentWidth=@IndentWidth
+                     Count=@GroupNestingDepth />
+
+        @if (Item != null)
+        {
+            <BFUDetailsRowFields Item=@Item
+                              ItemIndex=@ItemIndex
+                              Columns=@Columns
+                              ColumnStartIndex=@((showCheckbox ? 1 : 0)) />
+
+            @if (columnMeasureInfo != null)
+            {
+                <span role="presentation" class="ms-DetailsRow-cellMeasurer ms-DetailsRow-cell">
+                    <BFUDetailsRowFields Item=@Item
+                                      ItemIndex=@ItemIndex
+                                      Columns=@Columns
+                                      ColumnStartIndex=@((showCheckbox ? 1 : 0) + Columns.Count()) />
+                </span>
+            }
+        }
+
+        <span role="checkbox" class="@($"ms-DetailsRow-checkCover {_localCheckCoverRule.Selector.SelectorName}")" aria-checked=@isSelected data-selection-toggle="true" />
+
+    </BFUFocusZone>
+@*</div>*@

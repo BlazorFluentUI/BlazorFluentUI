@@ -1,0 +1,146 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@typeparam TItem
+
+<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+<BFUFocusZone Role="row"
+           AriaLabel=@AriaLabel
+           ClassName=@($"ms-DetailsHeader{(IsAllSelected?" is-allSelected":"")}{(isResizingColumn?" is-resizingColumn":"")}")
+           Direction="FocusZoneDirection.Horizontal">
+    @if (showCheckbox)
+    {
+        <div class="ms-DetailsHeader-cellIsCheck"
+             aria-labelledby=@($"{id}-check")
+             @onclick=@OnSelectAllClicked
+             aria-colindex="1"
+             role="columnheader">
+            @if (ColumnHeaderTooltipTemplate != null)
+            {
+                @ColumnHeaderTooltipTemplate
+            }
+            else
+            {
+                // No tooltip is shown if you don't override ColumnHeaderTooltipTemplate and put in the TooltipHost
+                <span class="ms-DetailsHeader-checkTooltip">
+                    <BFUDetailsRowCheck Id=@($"{id}-check")
+                                     AriaLabel=@(SelectionMode == SelectionMode.Multiple ? AriaLabelForSelectAllCheckbox : AriaLabelForSelectionColumn)
+                                     AriaDescribedBy=@(!isCheckboxHidden
+                                    ? !string.IsNullOrEmpty(AriaLabelForSelectAllCheckbox)
+                                        ? $"{id}-checkTooltip"
+                                        : null
+                                    : !string.IsNullOrEmpty(AriaLabelForSelectionColumn)
+                                    ? $"{id}-checkTooltip"
+                                    : null)
+                                     IsFocusable=@(!isCheckboxHidden)
+                                     IsHeader="true"
+                                     Checked=@IsAllSelected
+                                     AnySelected="false"
+                                     CanSelect=@(!isCheckboxHidden)
+                                     ClassName="ms-DetailsHeader-check"
+                                     UseFastIcons=@UseFastIcons
+                                     IsVisible=@isCheckboxAlwaysVisible>
+                    </BFUDetailsRowCheck>
+                </span>
+            }
+        </div>
+    }
+    @if (GroupNestingDepth > 0 && CollapseAllVisibility == CollapseAllVisibility.Visible)
+    {
+        <div class="ms-DetailsHeader-cellIsGroupExpander"
+             @onclick=@OnToggleCollapseAll
+             data-is-focusable="true"
+             aria-label=@AriaLabelForToggleAllGroup
+             aria-expanded=@(!isAllCollapsed)
+             role=@(!string.IsNullOrEmpty(AriaLabelForToggleAllGroup) ? "button" : null)>
+            @if (UseFastIcons)
+            {
+                <BFUFontIcon ClassName=@($"ms-DetailsHeader-collapseButton{(isAllCollapsed ? " is-collapsed":"")}")
+                          IconName="ChevronRightMed" />
+            }
+            else
+            {
+                <BFUIcon ClassName=@($"ms-DetailsHeader-collapseButton{(isAllCollapsed ? " is-collapsed":"")}")
+                      IconName="ChevronRightMed" />
+            }
+        </div>
+    }
+    <BFUGroupSpacer IndentWidth=@IndentWidth
+                 Count=@(GroupNestingDepth-1) />
+    @for (var colIndex = 0; colIndex < Columns.Count(); colIndex++)
+    {
+        var isDraggable = (ColumnReorderProps != null) ? colIndex >= frozenColumnCountFromStart && colIndex < Columns.Count() - frozenColumnCountFromEnd : false;
+        @if (isDraggable || colIndex == Columns.Count() - frozenColumnCountFromEnd)
+        {
+            <div class="ms-DetailsHeader-dropHint"
+                    id=@($"columnDropHint_{colIndex}")>
+                @if (UseFastIcons)
+                {
+                    <BFUFontIcon ClassName="ms-DetailsHeader-dropHintCaret"
+                                AriaHidden="true"
+                                IconName="CircleShapeSolid" />
+                }
+                else
+                {
+                    <BFUIcon ClassName="ms-DetailsHeader-dropHintCaret"
+                            AriaHidden="true"
+                            IconName="CircleShapeSolid" />
+                }
+                <div aria-hidden="true"
+                        data-is-focusable="false"
+                        class="ms-DetailsHeader-dropHintLineStyle" />
+            </div>
+        }
+        <BFUDetailsColumn Column=@Columns.ElementAt(colIndex)
+                       ColumnIndex=@((showCheckbox ? 2 : 1) + colIndex)
+                       ParentId=@id
+                       IsDraggable=@isDraggable
+                       UpdateDragInfo=@UpdateDragInfo
+                       DragDropHelper=@dragDropHelper
+                       OnColumnClick=@OnColumnClick
+                       OnColumnContextMenu=@OnColumnContextMenu
+                       ColumnHeaderTooltipTemplate=@ColumnHeaderTooltipTemplate
+                       IsDropped=@(onDropIndexInfo.TargetIndex == colIndex)
+                       UseFastIcons=@UseFastIcons />
+        @if (Columns.ElementAt(colIndex).IsResizable)
+        {
+            <div aria-hidden="true"
+                 role="button"
+                 @onmousedown=@(args=>OnSizerMouseDown(args, colIndex))
+                 @onclick:stopPropagation="true"
+                 @onblur=@(() => { })
+                 class=@($"ms-DetailsHeader-cellSizer{(colIndex < Columns.Count() - 1 ? " ms-DetailsHeader-cellSizerStart" : " ms-DetailsHeader-cellSizerEnd")}")
+                 @ondblclick=@(() => { }) />
+        }
+    }
+    @if (ColumnReorderProps != null && frozenColumnCountFromEnd == 0)
+    {
+        <div class="ms-DetailsHeader-dropHint"
+             id=@($"columnDropHint_{Columns.Count()}")>
+            @if (UseFastIcons)
+            {
+                <BFUFontIcon ClassName="ms-DetailsHeader-dropHintCaret"
+                          AriaHidden="true"
+                          IconName="CircleShapeSolid" />
+            }
+            else
+            {
+                <BFUIcon ClassName="ms-DetailsHeader-dropHintCaret"
+                      AriaHidden="true"
+                      IconName="CircleShapeSolid" />
+            }
+            <div aria-hidden="true"
+                 data-is-focusable="false"
+                 class="ms-DetailsHeader-dropHintLineStyle" />
+        </div>
+    }
+    @if (isSizing)
+    {
+        <BFULayer>
+            <div class=@($"ms-DetailsHeader-sizingOverlay{(isSizing ? " is-sizing": "")}")
+                 @onmousemove=@OnSizerMouseMove
+                 @onmouseup=@OnSizerMouseUp ></div>
+        </BFULayer>
+    }
+
+</BFUFocusZone>

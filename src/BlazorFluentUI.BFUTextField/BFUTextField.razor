@@ -1,0 +1,105 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+<BFULocalCS @bind-Rules="@TextFieldLocalRules" />
+
+<div class=@($"ms-TextField mediumFont {(this.Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(hasLabel ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )} {ClassName}")
+     style=@Style
+     @ref="RootElementReference"
+     @onclick="OnClick">
+    <div class="ms-TextField-wrapper">
+        @if (hasLabel)
+        {
+            <BlazorFluentUI.BFULabel Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</BlazorFluentUI.BFULabel>
+        }
+        <div class="ms-TextField-fieldGroup">
+            @if (this.Prefix != null)
+            {
+                <div class="ms-TextField-prefix">
+                    <span style="padding-bottom: 1px;">@this.Prefix</span>
+                </div>
+            }
+            else if (this.PrefixContent != null)
+            {
+                <div class="ms-TextField-prefix">
+                    @PrefixContent
+                </div>
+            }
+            @if (this.Multiline)
+            {
+                <textarea id=@this.id
+                          @ref="textAreaRef"
+                          style=@inlineTextAreaStyle
+                          value=@CurrentValue
+                          @oninput=@InputHandler
+                          @onchange=@ChangeHandler
+                          class="mediumFont ms-TextField-field"
+                          aria-label=@this.AriaLabel
+                          aria-describedby=@this.descriptionId
+                          aria-invalid=@(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? true : false)
+                          readOnly=@this.ReadOnly
+                          placeholder=@this.Placeholder
+                          disabled=@this.Disabled
+                          resizable=false
+                          @onkeydown=@OnKeyDown
+                          @onkeyup=@OnKeyUp
+                          @onkeypress=@OnKeyPress
+                          @onfocus=@OnFocusInternal
+                          @onblur=@OnBlurInternal />
+            }
+            else
+            {
+                <input type="@TypeUtils.InputMap[this.InputType]"
+                       id=@this.id
+                       @bind-value=@CurrentValue
+                       @oninput=@InputHandler
+                       autocomplete=@GetAutoCompleteString()
+                       class="mediumFont ms-TextField-field"
+                       aria-label=@this.AriaLabel
+                       aria-describedby=@this.descriptionId
+                       aria-invalid=@(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? true : false)
+                       readOnly=@this.ReadOnly
+                       placeholder=@this.Placeholder
+                       disabled=@this.Disabled
+                       @onkeydown=@OnKeyDown
+                       @onkeyup=@OnKeyUp
+                       @onkeypress=@OnKeyPress
+                       @onfocus=@OnFocusInternal
+                       @onblur=@OnBlurInternal />
+            }
+            @if (hasIcon)
+            {
+                <BFUIcon ClassName="ms-TextField-icon" IconName=@IconName />
+            }
+            @if (this.Suffix != null)
+            {
+                <div class="ms-TextField-suffix">
+                    <span style="padding-bottom: 1px;">@this.Suffix</span>
+                </div>
+            }
+            else if (this.SuffixContent != null)
+            {
+                <div class="ms-TextField-suffix">
+                    @SuffixContent
+                </div>
+            }
+        </div>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(this.Description) || !string.IsNullOrWhiteSpace(this.ErrorMessage))
+    {
+        <span id="descriptionId">
+            <span class="ms-TextField-description">@this.Description</span>
+            @if (!string.IsNullOrWhiteSpace(this.ErrorMessage))
+            {
+                <div role="alert">
+                    <BlazorFluentUI.BFUDelayedRender Delay="100">
+                        <p class="slideDownIn20 ms-TextField--errorMessage">
+                            <span data-automation-id="error-message">@this.ErrorMessage</span>
+                        </p>
+                    </BlazorFluentUI.BFUDelayedRender>
+                </div>
+            }
+        </span>
+    }
+</div>

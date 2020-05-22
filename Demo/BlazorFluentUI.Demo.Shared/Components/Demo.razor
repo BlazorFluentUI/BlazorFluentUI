@@ -1,0 +1,103 @@
+﻿<BFUStack HorizontalAlign="Alignment.Start">
+    <BFUStack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.End"
+              Style=@($"border-bottom: 1px solid {ThemeProvider.Theme.SemanticColors.BodyDivider}; margin-bottom:18.620px;width:100%;")>
+        <div style="font-size:@ThemeProvider.Theme.FontStyle.FontSize.MediumPlus; font-weight:@ThemeProvider.Theme.FontStyle.FontWeight.SemiBold;">@Header</div>
+        <div>
+            <BFUCommandBarButton Text=@codeLabel IconName="ChevronDown" OnClick=@(arg=> { showCode = !showCode; showCCode = false; codeLabel = showCode ? "Hide Code" : "Show Code"; }) />
+        </div>
+    </BFUStack>
+    <div style="display:@(showCode ? "block" : "none");">
+        <pre style="padding: 20px; white-space:pre-wrap; word-wrap:break-word;background-color:@ThemeProvider.Theme.Palette.Black;color:@ThemeProvider.Theme.Palette.White;">
+           @codeLiteral
+           @if (!showCCode)
+           {
+            <BFULink OnClick="(args)=>showCCode=true">Show additional C# code...</BFULink>}
+           else
+           {
+            @ccodeLiteral
+           }</pre>
+    </div>
+    @ChildContent
+</BFUStack>
+
+
+@code {
+
+    [Inject] ThemeProvider ThemeProvider { get; set; }
+    [Inject] HttpClient HttpClient { get; set; }
+
+    ITheme Theme => ThemeProvider?.Theme;
+
+    string codeLabel = "Show Code";
+    bool showCode = false;
+
+    bool showCCode = false;
+
+    string codeLiteral = "";
+    string ccodeLiteral = "";
+
+    [Parameter] public string Header { get; set; }
+
+    [Parameter] public string MetadataPath { get; set; }
+
+    [Parameter] public int Key { get; set; } = -1;//This is required and must be unique.
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Key == -1)
+            throw new Exception("Must set Key with an integer 0 or greater and must be unique within page.");
+
+        // Source inspired by AntDesign (https://github.com/Append-IT/ant-design-blazor/blob/master/docs/Append.AntDesign.Documentation/Infrastructure/DocumentationService.cs)
+        var demoMetaData = await HttpClient.GetStringAsync($"md/{MetadataPath}.md");
+
+        var start = 0;
+        var end = demoMetaData.Length;
+        bool found = false;
+        while ((start <= end) && (!found))
+        {
+            int indexOfDemoBegin = demoMetaData.IndexOf("<Demo", start) + 6;
+            int keyValueBegin = demoMetaData.IndexOf("Key=\"", indexOfDemoBegin) + 5;
+            int keyValueEnd = demoMetaData.IndexOf("\"", keyValueBegin);
+            int keyValue = 0;
+            int.TryParse(demoMetaData.Substring(keyValueBegin, keyValueEnd - keyValueBegin), out keyValue);
+
+            if (keyValue == Key)
+            {
+                found = true;
+                var codeBegin = demoMetaData.IndexOf(">", indexOfDemoBegin) + 1;
+                var codeEnd = demoMetaData.IndexOf("</Demo>", indexOfDemoBegin);
+                codeLiteral = demoMetaData.Substring(codeBegin, codeEnd - codeBegin);
+            }
+
+            start = indexOfDemoBegin;
+        }
+
+        int ccodeIndex = demoMetaData.IndexOf("@code{");
+        if (ccodeIndex == -1)
+        {
+            ccodeIndex = demoMetaData.IndexOf("@code ");
+            if (ccodeIndex == -1)
+            {
+                await base.OnParametersSetAsync();
+                return; //can't find code block
+            }
+            ccodeIndex = demoMetaData.IndexOf("{", ccodeIndex) + 1;
+        }
+        else
+        {
+            ccodeIndex += 6;
+        }
+        var lastIndex = demoMetaData.LastIndexOf("}");
+
+        ccodeLiteral = "@code {\n" + demoMetaData.Substring(ccodeIndex, lastIndex - ccodeIndex) +"\n}";
+
+
+
+        await base.OnParametersSetAsync();
+    }
+
+}

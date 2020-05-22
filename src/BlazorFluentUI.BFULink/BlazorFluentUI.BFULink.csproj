@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <RestoreAdditionalProjectSources>
+      https://dotnet.myget.org/F/aspnetcore-dev/api/v3/index.json;
+      https://dotnet.myget.org/F/blazor-dev/api/v3/index.json;
+    </RestoreAdditionalProjectSources>
+    <LangVersion>7.3</LangVersion>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <AssemblyName>BlazorFluentUI.BFULink</AssemblyName>
+    <RootNamespace>BlazorFluentUI</RootNamespace>
+    <RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <Authors>Lee McPherson</Authors>
+    <Product>BlazorFluentUI.BFULink</Product>
+    <Description>Rating from Blazor port of Office Fabric UI</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorFluentUI.BFUBaseComponent\BlazorFluentUI.BFUBaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUKeytip\BlazorFluentUI.BFUKeytip.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUTheme\BlazorFluentUI.BFUTheme.csproj" />
+  </ItemGroup>
+
+</Project>

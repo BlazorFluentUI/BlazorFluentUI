@@ -1,10 +1,10 @@
 ** Run this line from the src directory to generate a unified javascript file of all projects.
 
-tsc --outFile BlazorFabric.BaseComponent\wwwroot\blazorFabric.js BlazorFabric.BaseComponent\wwwroot\baseComponent.ts BlazorFabric.Callout\wwwroot\callout.ts BlazorFabric.ContextualMenu\wwwroot\contextualMenu.ts BlazorFabric.FocusTrapZone\wwwroot\focusTrapZone.ts BlazorFabric.FocusZone\wwwroot\focusZone.ts BlazorFabric.List\wwwroot\fabricList.ts BlazorFabric.Panel\wwwroot\panel.ts BlazorFabric.TextField\wwwroot\fabricTextField.ts 
+tsc --outFile BlazorFluentUI.BFUBaseComponent\wwwroot\blazorFluentUi.js BlazorFluentUI.BFUBaseComponent\wwwroot\baseComponent.ts BlazorFluentUI.BFUCallout\wwwroot\callout.ts BlazorFluentUI.BFUContextualMenu\wwwroot\contextualMenu.ts BlazorFluentUI.BFUFocusTrapZone\wwwroot\focusTrapZone.ts BlazorFluentUI.BFUFocusZone\wwwroot\focusZone.ts BlazorFluentUI.BFUList\wwwroot\fabricList.ts BlazorFluentUI.BFUPanel\wwwroot\panel.ts BlazorFluentUI.BFUTextField\wwwroot\fabricTextField.ts 
 
 ** Run this line inside the basecomponent wwwroot to minify the resulting unified js file. Second one is better as it can uglify (replace var names with shorter names, but not the top-level ones)
 
-jsmin -o blazorFabric.min.js blazorFabric.js
+jsmin -o blazorFluentUi.min.js blazorFluentUi.js
 
-uglifyjs --compress --mangle --output blazorFabric.min.js -- blazorFabric.js
+uglifyjs --compress --mangle --output blazorFluentUi.min.js -- blazorFluentUi.js
 

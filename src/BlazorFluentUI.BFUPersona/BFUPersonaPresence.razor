@@ -1,0 +1,14 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<BFULocalCS @bind-Rules="PersonaPresenceLocalRules" />
+<div class=@($"ms-Persona-presence {PresenceRule.Selector.SelectorName} {PresenceAfterRule.Selector.SelectorName} {PresenceBeforeRule.Selector.SelectorName} {ClassName}")
+     style=@Style
+     title=@PresenceTitle>
+    @if (RenderIcon)
+    {
+        <BFUIcon ClassName=@($"ms-Persona-icon {IconRule.Selector.SelectorName}") 
+              IconName=@DetermineIcon(Presence, IsOutOfOffice) />
+    }
+</div>

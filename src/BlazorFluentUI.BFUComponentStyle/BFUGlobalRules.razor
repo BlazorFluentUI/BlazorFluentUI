@@ -1,0 +1,16 @@
+﻿@if (ComponentStyle.ClientSide)
+{
+    @foreach (var rule in ComponentStyle.GlobalCSRules)
+    {
+        <BFUCSS @key="rule.GetHashCode()" Value="@rule" />
+    }
+}
+else
+{
+    <style>
+        @foreach (var rule in ComponentStyle.GlobalCSRules)
+        {
+            <BFUCSS @key="rule.GetHashCode()" Value="@rule" />
+        }
+    </style>
+}

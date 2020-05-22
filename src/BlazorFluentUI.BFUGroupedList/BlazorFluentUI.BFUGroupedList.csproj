@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <AssemblyName>BlazorFluentUI.BFUGroupedList</AssemblyName>
+    <RootNamespace>BlazorFluentUI</RootNamespace>
+    <RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="DynamicData" Version="6.14.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorFluentUI.BFUBaseComponent\BlazorFluentUI.BFUBaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUCheck\BlazorFluentUI.BFUCheck.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUDetailsRow\BlazorFluentUI.BFUDetailsRow.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUFocusZone\BlazorFluentUI.BFUFocusZone.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUList\BlazorFluentUI.BFUList.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUSelectionZone\BlazorFluentUI.BFUSelectionZone.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUSpinner\BlazorFluentUI.BFUSpinner.csproj" />
+  </ItemGroup>
+
+</Project>

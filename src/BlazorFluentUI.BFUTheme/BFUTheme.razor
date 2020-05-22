@@ -1,0 +1,109 @@
+﻿@*This is a temporary solution until we find a better place for this css.*@
+    <style>
+    @BlazorFluentUI.Models.Keyframes.DefaultKeyFrames
+
+    body {
+        font-size: 15px;
+        font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .mediumFont {
+        font-size: @(ThemeProvider.Theme.FontStyle.FontSize.Medium);/*var(--fontSize-Medium);*/
+        font-weight: @(ThemeProvider.Theme.FontStyle.FontWeight.Regular);/*var(--fontWeight-Regular);*/
+    }
+
+    .largeFont {
+        font-size: @(ThemeProvider.Theme.FontStyle.FontSize.Large);/*var(--fontSize-Large);*/
+        font-weight: @(ThemeProvider.Theme.FontStyle.FontWeight.Regular);/*var(--fontWeight-Regular);*/
+    }
+
+    .xlargeFont {
+        font-size: @(ThemeProvider.Theme.FontStyle.FontSize.XLarge); /*var(--fontSize-XLarge);*/
+        font-weight: @(ThemeProvider.Theme.FontStyle.FontWeight.SemiBold); /*var(--fontWeight-SemiBold);*/
+    }
+
+    .disabledBodyScroll {
+        overflow: hidden !important;
+    }
+
+    .slideDownIn10 {
+        animation: Slide_down_in_10 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+    }
+
+    .slideDownIn20 {
+        animation: Slide_down_in_20 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+    }
+
+    .slideRightIn10 {
+        animation: Slide_right_in_10 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+    }
+
+    .slideRightIn40 {
+        animation: Slide_right_in_40 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+    }
+
+    .slideUpIn10 {
+        animation: Slide_up_in_10 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+    }
+
+    .slideLeftIn10 {
+        animation: Slide_left_in_10 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+    }
+
+    .slideLeftIn40 {
+        animation: Slide_left_in_40 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+    }
+
+    .slideRightOut40 {
+        animation: Slide_right_out_40 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+    }
+
+    .slideLeftOut40 {
+        animation: Slide_left_out_40 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+    }
+
+    .fadeIn100 {
+        animation: Fade_in @(ThemeProvider.Theme.Animation.Duration1) @(ThemeProvider.Theme.Animation.EasingFunction2);
+    }
+
+    .fadeOut100 {
+        animation: Fade_out @(ThemeProvider.Theme.Animation.Duration1) @(ThemeProvider.Theme.Animation.EasingFunction2);
+    }
+
+    .fadeIn200 {
+        animation: Fade_in @(ThemeProvider.Theme.Animation.Duration2) @(ThemeProvider.Theme.Animation.EasingFunction2);
+    }
+
+    .fadeOut200 {
+        animation: Fade_out @(ThemeProvider.Theme.Animation.Duration2) @(ThemeProvider.Theme.Animation.EasingFunction2);
+    }
+
+    .fadeIn400 {
+        animation: Fade_in @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction2);
+    }
+
+    </style>
+
+<CascadingValue Value="ThemeProvider.Theme" Name="Theme">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Inject]
+    public ThemeProvider ThemeProvider { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ThemeProvider.ThemeComponents.Add(this);
+        base.OnInitialized();
+    }
+
+    public void UpdateTheme()
+    {
+        InvokeAsync(() => StateHasChanged());
+    }
+}

@@ -1,0 +1,57 @@
+@using System.Reactive.Subjects
+@using Microsoft.JSInterop
+@namespace BlazorFluentUI
+
+@inherits BFUComponentBase
+
+@typeparam TItem
+
+@inject IJSRuntime JSRuntime
+
+<div @ref="RootElementReference" role="presentation" class="ms-List-page">
+    @{
+        var index = StartIndex;
+        foreach (var item in this.ItemsSource)
+        {
+            <BFUListItem IndexPosition=@index 
+                      Item=@item 
+                      ItemFocusable=@ItemFocusable
+                      >
+                @ItemTemplate(new ItemContainer<TItem>() { Item = item, Index = index })
+            </BFUListItem>
+            index++;
+        }
+    }
+</div>
+
+@code {
+    public double Width { get; set; }
+    public double Height { get; set; }
+
+
+    //[Parameter] public EventCallback<ItemContainer<TItem>> ItemClicked { get; set; }
+    [Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
+    [Parameter] public RenderFragment<ItemContainer<TItem>> ItemTemplate { get; set; }
+    [Parameter] public ISubject<(int index, double height)> PageMeasureSubject { get; set; }
+    //[Parameter] public IEnumerable<TItem> SelectedItems { get; set; }
+    [Parameter] public int StartIndex { get; set; }
+    [Parameter] public bool ItemFocusable { get; set; }
+    //[Parameter] public bool UseDefaultStyling { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var rect = await JSRuntime.InvokeAsync<ElementMeasurements>("BlazorFluentUiList.measureElementRect", RootElementReference);
+
+        this.Width = rect.width;
+
+        if (this.Height != rect.height)
+        {
+            //System.Diagnostics.Debug.WriteLine($"Page height changed {StartIndex}, from {this.Height} to {rect.height}");
+            this.Height = rect.height;
+
+            this.PageMeasureSubject.OnNext((this.StartIndex, this.Height));
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

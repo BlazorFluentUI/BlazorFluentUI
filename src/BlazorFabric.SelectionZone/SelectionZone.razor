@@ -1,9 +1,0 @@
-﻿@namespace BlazorFabric
-@inherits FabricComponentBase
-@typeparam TItem
-
-<div class=@($"ms-SelectionZone {ClassName}") style=@($"height:100%;overflow-y:hidden;{Style}")>
-    <CascadingValue Value=@this>
-        @ChildContent
-    </CascadingValue>
-</div>

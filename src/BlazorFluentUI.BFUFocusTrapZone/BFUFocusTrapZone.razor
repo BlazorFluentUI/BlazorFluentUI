@@ -1,0 +1,19 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<div class=@ClassName
+     @ref="RootElementReference"
+     aria-labelledby=@AriaLabelledBy
+     > 
+
+    <div @ref="_firstBumper" 
+         style="pointer-events:none;position:fixed;" 
+         tabindex=@(Disabled ? "-1" : "0")></div>
+
+        @ChildContent
+    
+    <div @ref="_lastBumper" 
+         style="pointer-events:none;position:fixed;" 
+         tabindex=@(Disabled ? "-1" : "0")></div>
+
+</div>

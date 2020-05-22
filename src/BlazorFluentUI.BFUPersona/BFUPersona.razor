@@ -1,0 +1,59 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<BFULocalCS @bind-Rules=@PersonaLocalRules />
+
+<div @ref="RootElementReference" class=@($"{ClassName} mediumFont ms-Persona {PersonaRootRule.Selector.SelectorName}") style=@Style>
+
+    <BFUPersonaCoin AllowPhoneInitials=@AllowPhoneInitials CoinSize=@CoinSize ImageAlt=@ImageAlt ImageShouldFadeIn=@ImageShouldFadeIn ImageShouldStartVisible=@ImageShouldStartVisible
+                    ImageUrl=@ImageUrl IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle ShowInitialsUntilImageLoads=@ShowInitialsUntilImageLoads
+                    ShowUnknownPersonaCoin=@ShowUnknownPersonaCoin Size=@Size Text=@Text />
+
+    @if (!HidePersonalDetails || Size == PersonaSize.Size8)
+    {
+        <div class=@($"ms-Persona-details {DetailsRule.Selector.SelectorName}")>
+            <div dir="auto" class=@($"ms-Persona-primaryText {PrimaryTextRule.Selector.SelectorName}")>
+                <BFUTooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @Text
+                    </ChildContent>
+                    <TooltipContent>
+                        @Text
+                    </TooltipContent>
+                </BFUTooltipHost>
+            </div>
+            <div dir="auto" class=@($"ms-Persona-secondaryText {SecondaryTextRule.Selector.SelectorName}")>
+                <BFUTooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @SecondaryText
+                    </ChildContent>
+                    <TooltipContent>
+                        @SecondaryText
+                    </TooltipContent>
+                </BFUTooltipHost>
+            </div>
+            <div dir="auto" class=@($"ms-Persona-tertiaryText {TertiaryTextRule.Selector.SelectorName}")>
+                <BFUTooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @TertiaryText
+                    </ChildContent>
+                    <TooltipContent>
+                        @TertiaryText
+                    </TooltipContent>
+                </BFUTooltipHost>
+            </div>
+            <div dir="auto" class=@($"ms-Persona-optionalText {OptionalTextRule.Selector.SelectorName}")>
+                <BFUTooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @OptionalText
+                    </ChildContent>
+                    <TooltipContent>
+                        @OptionalText
+                    </TooltipContent>
+                </BFUTooltipHost>
+            </div>
+            @ChildContent
+        </div>
+    }
+</div>

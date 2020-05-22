@@ -1,0 +1,75 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+<div class=@($"mediumFont ms-DatePicker{(IsDatePickerShown ? " ms-DatePicker--is-open" : "" )} {(Disabled ? " ms-DatePicker--is-disabled" : "" )} {ClassName}")
+     style=@Style>
+    <div aria-haspopup="true"
+         aria-owns=@(IsDatePickerShown ? calloutId : "")
+         @ref="datePickerDiv">
+        <BFUTextField Label=@Label
+                   @ref="textFieldComponent"
+                   AriaLabel=@AriaLabel
+                   AriaControls=@(IsDatePickerShown ? calloutId : "")
+                   Required=@IsRequired
+                   Disabled=@Disabled
+                   ErrorMessage=@GetErrorMessage()
+                   Placeholder=@Placeholder
+                   Borderless=@Borderless
+                   Value=@FormattedDate
+                   Underlined=@Underlined
+                   ReadOnly=@(!AllowTextInput)
+                   ClassName=@($"ms-DatePicker-textField")
+                   IconName="Calendar"
+                   OnKeyDown=@OnTextFieldKeyDown
+                   OnChange=@OnTextFieldChange
+                   OnClick=@(args => {
+                                 if (!DisableAutoFocus && !IsDatePickerShown && !Disabled)
+                                 {
+                                     ShowDatePickerPopup();
+                                     return;
+                                 }
+                                 if (AllowTextInput)
+                                 {
+                                     DismissDatePickerPopup();
+                                 }
+                             })
+                   OnBlur=@OnTextFieldBlur
+                   OnFocus=@OnTextFieldFocus />
+    </div>
+    @if (IsDatePickerShown)
+    {
+        <BFUCallout Role="dialog"
+                 AriaLabel=@PickerAriaLabel
+                 IsBeakVisible="false"
+                 GapSpace="0"
+                 DoNotLayer="false"
+                 FabricComponentTarget="textFieldComponent"
+                 DirectionalHint="DirectionalHint.BottomLeftEdge"
+                 ClassName="ms-DatePicker-callout"
+                 OnDismiss=@CalendarDismissed>
+            <BFUFocusTrapZone IsClickableOutsideFocusTrap="true"
+                           DisableFirstFocus=@DisableAutoFocus
+                           ForceFocusInsideTrap="false">
+                <BFUCalendar OnSelectDate=@OnSelectedDate
+                          OnDismiss=@CalendarDismissed
+                          IsMonthPickerVisible=@IsMonthPickerVisible
+                          ShowMonthPickerAsOverlay=@ShowMonthPickerAsOverlay
+                          Today=@Today
+                          Value=@Value
+                          FirstDayOfWeek=@FirstDayOfWeek
+                          HighlightCurrentMonth=@HighlightCurrentMonth
+                          HighlightSelectedMonth=@HighlightSelectedMonth
+                          ShowWeekNumbers=@ShowWeekNumbers
+                          FirstWeekOfYear=@FirstWeekOfYear
+                          ShowGoToToday=@ShowGoToToday
+                          DateTimeFormatter=@DateTimeFormatter
+                          MinDate=@MinDate
+                          MaxDate=@MaxDate
+                          ShowCloseButton=@ShowCloseButton
+                          AllFocusable=@AllFocusable />
+            </BFUFocusTrapZone>
+        </BFUCallout>
+    }
+</div>

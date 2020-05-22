@@ -1,0 +1,49 @@
+﻿@page "/"
+@model HostModel
+@namespace BlazorFluentUI.Demo.ServerSide.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlazorFluentUI.ServerSide</title>
+    <base href="~/" />
+
+    <link href="css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
+    <link rel="stylesheet" href="css/fabric-icons-inline.css" /> <!--These are icons for nav not automatically included in the above css.-->
+
+    <script src="_content/BlazorFluentUI.BFUBaseComponent/blazorFluentUi.min.js"></script>
+    @*<script src="_content/BlazorFluentUI.BFUBaseComponent/baseComponent.js"></script>
+        <script src="_content/BlazorFluentUI.BFUCallout/callout.js"></script>
+        <script src="_content/BlazorFluentUI.BFUContextualMenu/contextualMenu.js"></script>
+        <script src="_content/BlazorFluentUI.BFUFocusTrapZone/focusTrapZone.js"></script>
+        <script src="_content/BlazorFluentUI.BFUFocusZone/focusZone.js"></script>
+        <script src="_content/BlazorFluentUI.BFUList/fabricList.js"></script>
+        <script src="_content/BlazorFluentUI.BFUPanel/panel.js"></script>
+        <script src="_content/BlazorFluentUI.BFUTextField/fabricTextField.js"></script>*@
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="_content/BlazorFluentUI.BFURichTextEditor/richTextEditor.js"></script>
+
+    <component type="typeof(BFUGlobalRules)" render-mode="ServerPrerendered" />
+
+</head>
+<body>
+    @*<app>@(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))</app>*@
+    <app><component type="typeof(BlazorFluentUI.Demo.Shared.App)" render-mode="ServerPrerendered" /></app>
+
+    <!-- Polyfill to make server-side work with IE11 -->
+    <script type="text/javascript">
+        if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+            document.write('<script src="blazor.polyfill.min.js"><\/script>');
+            document.write('<script src="ie11CustomProperties.js"><\/script>');
+        }
+    </script>
+    <script type="text/javascript" src="blazor.polyfill.min.js"></script>
+
+
+    <script src="_framework/blazor.server.js"></script>
+</body>
+</html>

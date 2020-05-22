@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.0" PrivateAssets="all" />
+    <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUTheme\BlazorFluentUI.BFUTheme.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.Demo.Shared\BlazorFluentUI.Demo.Shared.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <DemoSource Include="$(ProjectDir)..\BlazorFluentUI.Demo.Shared\Pages\**\*.*" />
+      <!--<Test Include="$(ProjectDir)wwwroot\examples\%(RecursiveDir)\*.razor" />-->
+      <!--<Readme Include="$(SolutionDir)README.md" />-->
+    </ItemGroup>
+
+    <Message Text="Copying the demo source files to the wwwroot/md folder." Importance="High" />
+    <Copy SourceFiles="@(DemoSource)" DestinationFiles="$(ProjectDir)wwwroot\md\%(RecursiveDir)%(Filename).md" />
+
+  </Target>
+
+</Project>

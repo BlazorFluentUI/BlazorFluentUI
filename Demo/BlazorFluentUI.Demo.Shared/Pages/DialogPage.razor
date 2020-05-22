@@ -1,0 +1,87 @@
+﻿@page "/dialogPage"
+
+<h1>Dialog</h1>
+
+<BFUStylePreloader Component=@(new BFUPrimaryButton()) />
+<BFUStylePreloader Component=@(new BFUDefaultButton()) />
+<BFUStylePreloader Component=@(new BFUTextField()) />
+<BFUStylePreloader Component=@(new BFUDropdown<DataItem>()) />
+<BFUStylePreloader Component=@(new BFUCheckbox()) />
+
+
+<BFUCheckbox Label="Is Blocking Dialog" @bind-Checked=@isBlocking />
+<BFUDefaultButton Text="Open Dialog" OnClick=@(args=> dialogOpen=true) />
+<BFUDialog Title="This is a dialog menu."
+        SubText="This is the subtext area.  Below is the ChildContent area for components."
+        IsOpen=@dialogOpen
+        IsBlocking=@isBlocking
+        OnDismiss=@(args=> dialogOpen=false )>
+    <ChildContent>
+        <p>
+            <BFUTextField Label="Sample TextField" />
+        </p>
+        <p>
+            <BFUDropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler>
+                <ItemTemplate>
+                    <BFUDropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+                </ItemTemplate>
+            </BFUDropdown>
+        </p>
+    </ChildContent>
+    <FooterTemplate>
+        <BFUDefaultButton Text="Cancel" OnClick=@(args=> dialogOpen=false) />
+        <BFUPrimaryButton Text="OK" OnClick=@(args=> dialogOpen=false) />
+    </FooterTemplate>
+</BFUDialog>
+
+<BFUDefaultButton Text="Open Large Dialog" OnClick=@(args=> largeDialogOpen=true) />
+<BFUDialog Title="This is a large dialog menu."
+        SubText="This is the subtext area.  Below is the ChildContent area for components."
+        IsOpen=@largeDialogOpen
+        IsBlocking=@isBlocking
+        DialogType=@DialogType.LargeHeader
+        OnDismiss=@(args=> largeDialogOpen=false )>
+    <ChildContent>
+        <p>
+            <BFUTextField Label="Sample TextField" />
+        </p>
+        <p>
+            <BFUDropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler>
+                <ItemTemplate>
+                    <BFUDropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
+                </ItemTemplate>
+            </BFUDropdown>
+        </p>
+    </ChildContent>
+    <FooterTemplate>
+        <BFUDefaultButton Text="Cancel" OnClick=@(args=> largeDialogOpen=false) />
+        <BFUPrimaryButton Text="OK" OnClick=@(args=> largeDialogOpen=false) />
+    </FooterTemplate>
+</BFUDialog>
+
+@code {
+    bool dialogOpen = false;
+    bool largeDialogOpen = false;
+    string uncontrolledSingleSelectionResult;
+    bool isBlocking = false;
+
+    List<DataItem> items;
+
+    protected override Task OnInitializedAsync()
+    {
+        items = new List<DataItem>
+{
+            new DataItem("First"),
+            new DataItem("Second"),
+            new DataItem("Third"),
+            new DataItem("Fourth"),
+            new DataItem("Fifth")
+        };
+        return base.OnInitializedAsync();
+    }
+
+    void UncontrolledSingleChangeHandler((string key, bool isAdded) args)
+    {
+        uncontrolledSingleSelectionResult = args.key;
+    }
+}

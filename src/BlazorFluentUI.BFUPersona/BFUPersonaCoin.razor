@@ -1,0 +1,63 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<BFULocalCS @bind-Rules="PersonaCoinLocalRules" />
+<div @ref="RootElementReference" class=@($"{ClassName} mediumFont ms-Persona-coin") style=@Style>
+    @if (Size != PersonaSize.Size8)
+    {
+        <div class=@($"ms-Persona-imageArea {ImageAreaRule.Selector.SelectorName}")>
+            @if (ShouldRenderInitials)
+            {
+                <div class=@($"ms-Persona-initials {InitialsRule.Selector.SelectorName}{(ShowUnknownPersonaCoin? " ms-Personal-initials--showUnknownPersonaCoin" : "")}")
+                     aria-hidden="true">
+                    @if (ShowUnknownPersonaCoin)
+                    {
+                        <BFUIcon IconName="Help" />
+                    }
+                    else
+                    {
+                        var initials = GetInitials(Text, false, AllowPhoneInitials);
+                        if (initials != "")
+                        {
+                            <span>@initials</span>
+                        }
+                        else
+                        {
+                            <BFUIcon IconName="Contact" />
+                        }
+                    }
+                </div>
+            }
+            @if (ImageUrl != null)
+            {
+                var dimension = CoinSize != -1 ? CoinSize : PersonaSize.SizeToPixels(Size);
+                <BFUImage Src=@ImageUrl
+                          ClassName=@($"ms-Persona-image {ImageRule.Selector.SelectorName}")
+                          ImageFit=@ImageFit.Cover
+                          Width=@dimension
+                          Height=@dimension
+                          Alt=@ImageAlt
+                          ShouldFadeIn=@ImageShouldFadeIn
+                          ShouldStartVisible=@ImageShouldStartVisible
+                          OnLoadingStateChange=@OnPhotoLoadingStateChange />
+            }
+            @if (Presence != PersonaPresenceStatus.None)
+            {
+                <BFUPersonaPresence CoinSize=@CoinSize IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle Size=@Size />
+            }
+        </div>
+    }
+    else
+    {
+        if (Presence != PersonaPresenceStatus.None)
+        {
+            <BFUPersonaPresence CoinSize=@CoinSize IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle Size=@Size />
+        }
+        else
+        {
+            <BFUIcon IconName="Contact" ClassName="ms-Persona-size10WithoutPresenceIcon" />
+        }
+    }
+    @ChildContent
+</div>

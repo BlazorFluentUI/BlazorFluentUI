@@ -1,0 +1,35 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUStylePreloader Component="new BFUTooltip()" />
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+
+<div class=@($"ms-TooltipHost {ClassName}")
+     style=@Style
+     @ref=@RootElementReference
+     @onfocus=@(ev => OnTooltipMouseEnter(null))
+     @onblur=@(ev => OnTooltipMouseLeave(null))
+     @onmouseenter=@OnTooltipMouseEnter
+     @onmouseleave=@OnTooltipMouseLeave
+     @onkeydown=@OnTooltipKeyDown>
+
+    @ChildContent
+
+    @if (IsTooltipVisible)
+    {
+        <BFUTooltip DirectionalHint=@DirectionalHint
+                 FabricComponentTarget=@TargetElement
+                 OnMouseLeave=@OnTooltipMouseEnter
+                 OnMouseEnter=@OnTooltipMouseLeave>
+            @TooltipContent
+        </BFUTooltip>
+    }
+    @if (IsAriaPlaceholderRendered)
+    {
+        <div style="display:none;">
+            @TooltipContent
+        </div>
+    }
+
+</div>

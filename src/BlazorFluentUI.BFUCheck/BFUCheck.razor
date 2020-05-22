@@ -1,0 +1,21 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component=@this CreateGlobalCss=@CreateGlobalCss />
+
+<div class=@($"mediumFont ms-Check{(Checked ? " is-checked" : "")}")>
+    @if (UseFastIcons)
+    {
+        <BFUFontIcon IconName="CircleRing"
+                ClassName="ms-Check-circle" />
+        <BFUFontIcon IconName="StatusCircleCheckmark"
+                ClassName="ms-Check-check" />
+    }
+    else
+    {
+        <BFUIcon IconName="CircleRing"
+                ClassName="ms-Check-circle" />
+        <BFUIcon IconName="StatusCircleCheckmark"
+                ClassName="ms-Check-check" />
+    }
+</div>

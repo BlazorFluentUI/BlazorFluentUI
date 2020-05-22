@@ -1,0 +1,36 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+
+<div class=@($"mediumFont ms-Toggle {GetClassExtras()}") style=@Style>
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <BFULabel ClassName="ms-Toggle-label" HtmlFor=@Id>
+            @Label
+        </BFULabel>
+    }
+    <div class="ms-Toggle-container">
+        <BFUKeytipData>
+            <button class="ms-Toggle-pill"
+                    disabled=@(Disabled || commandDisabled)
+                    id=@Id
+                    type="button"
+                    role="switch"
+                    aria-disabled=@(Disabled || commandDisabled)
+                    aria-checked=@IsChecked
+                    aria-label=@AriaLabel
+                    data-is-focusable="true"
+                    @onclick=@OnClick
+                    aria-labelledby=@LabelledById>
+                <div class="ms-Toggle-thumb" />
+            </button>
+        </BFUKeytipData>
+        @if (!string.IsNullOrWhiteSpace(StateText))
+        {
+            <BFULabel HtmlFor=@Id ClassName="ms-Toggle-stateText">
+                @StateText
+            </BFULabel>
+        }
+    </div>
+</div>

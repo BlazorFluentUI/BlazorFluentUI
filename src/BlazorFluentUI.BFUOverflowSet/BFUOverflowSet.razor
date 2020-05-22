@@ -1,0 +1,58 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@typeparam TItem
+
+<BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss"/>
+
+
+@if (DoNotContainWithinFocusZone)
+{
+    <div class=@($"{ClassName} ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")
+         style=@Style>
+        @if (ItemTemplate != null && Items != null)
+        {
+            foreach (var item in Items)
+            {
+                <div @key=(GetKey(item)) class="ms-OverflowSet-item">@ItemTemplate(item)</div>
+            }
+        }
+        @if (OverflowTemplate != null && OverflowItems != null && OverflowItems.Count() > 0)
+        {
+            <div class="ms-OverflowSet-overflowButton">
+                @OverflowTemplate(this.OverflowItems)
+            </div>
+
+        }
+        @*else if (OverflowTemplate == null && OverflowItems != null && OverflowItems.Count() > 0)
+            {
+                <BlazorFluentUI.BFUOverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
+            }*@
+    </div>
+}
+else
+{
+    <BFUFocusZone ClassName=@($"{ClassName} ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")
+               Style=@Style
+               Direction=@(Vertical ? FocusZoneDirection.Vertical : FocusZoneDirection.Horizontal)
+               @ref=@focusZoneComponent>
+        @if (ItemTemplate != null && Items != null)
+        {
+            foreach (var item in Items)
+            {
+                <div @key=(GetKey(item)) class="ms-OverflowSet-item">@ItemTemplate(item)</div>
+            }
+        }
+        @if (OverflowTemplate != null && OverflowItems != null && OverflowItems.Count() > 0)
+        {
+            <div class="ms-OverflowSet-overflowButton">
+                @OverflowTemplate(this.OverflowItems)
+            </div>
+
+        }
+        @*else if (OverflowTemplate == null && OverflowItems != null && OverflowItems.Count() > 0)
+            {
+                <BlazorFluentUI.BFUOverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
+            }*@
+
+    </BFUFocusZone>
+}

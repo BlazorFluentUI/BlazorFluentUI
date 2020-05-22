@@ -1,0 +1,48 @@
+﻿@namespace BlazorFluentUI
+@using Microsoft.AspNetCore.Components
+
+@inherits ComponentBase
+
+@if (isRendered)
+{
+    @ChildContent
+}
+else
+{
+
+}
+
+@functions{
+    private bool isRendered = false;
+    private System.Timers.Timer timer;
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public int Delay { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        timer = new System.Timers.Timer();
+        timer.AutoReset = false;
+        timer.Elapsed += Timer_Elapsed;
+        return base.OnInitializedAsync();
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        timer.Interval = this.Delay;
+        return base.OnParametersSetAsync();
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        timer.Start();
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs args)
+    {
+        isRendered = true;
+        InvokeAsync(() => StateHasChanged());
+    }
+
+}

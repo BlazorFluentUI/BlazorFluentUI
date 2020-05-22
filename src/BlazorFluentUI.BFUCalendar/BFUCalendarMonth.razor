@@ -1,0 +1,101 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+@*<BFUGlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />*@
+
+@if (IsYearPickerVisible)
+{
+    <BFUCalendarYear @key=@($"calendarYear_{NavigatedDate.Year}")
+                  DateTimeFormatter=@DateTimeFormatter
+                  MinYear=@(MinDate.Year)
+                  MaxYear=@(MaxDate.Year)
+                  OnHeaderSelect=@(focus => { focusOnUpdate = focus; IsYearPickerVisible = false; })
+                  OnSelectYear=@OnSelectYear
+                  SelectedYear=@(NavigatedDate.Year)
+                  NavigatedYear=@(NavigatedDate.Year) />
+}
+else
+{
+    <div class="ms-Calendar-monthPicker">
+        <div class="ms-Calendar-header">
+            @if (OnHeaderSelect.HasDelegate || !YearPickerHidden)
+            {
+                <div class="mediumFont ms-Calendar-currentYear ms-Calendar-headerToggleView"
+                     @onclick=@OnHeaderSelectInternal
+                     aria-label=@DateTimeFormatter.FormatYear(NavigatedDate)
+                     role="button"
+                     aria-atomic="true"
+                     aria-live="polite"
+                     tabindex="0">
+                    @DateTimeFormatter.FormatYear(NavigatedDate)
+                </div>
+            }
+            else
+            {
+                <div class="mediumFont ms-Calendar-currentYear">
+                    @DateTimeFormatter.FormatYear(NavigatedDate)
+                </div>
+            }
+            <div class="ms-Calendar-yearComponents">
+                <div class="ms-Calendar-navContainer">
+                    <button class=@($"ms-Calendar-prevYear {(!IsPrevYearInBounds ? "ms-Calendar-prevYearIsDisabled" : "")}")
+                            aria-disabled=@(!IsPrevYearInBounds)
+                            disabled=@(!IsPrevYearInBounds)
+                            aria-controls=@MonthPickerId
+                            @onclick=@(args => { if (IsPrevYearInBounds) OnSelectPrevYear(); })
+                            title=@(PreviousYearAriaLabel + " " + NavigatedDate.AddYears(-1).ToString("yyy"))
+                            role="button"
+                            type="button">
+                        <BFUIcon IconName="Up" />
+                    </button>
+                    <button class=@($"ms-Calendar-nextYear {(!IsNextYearInBounds ? "ms-Calendar-nextYearIsDisabled" : "")}")
+                            aria-disabled=@(!IsNextYearInBounds)
+                            disabled=@(!IsNextYearInBounds)
+                            aria-controls=@MonthPickerId
+                            @onclick=@(args => { if (IsNextYearInBounds) OnSelectNextYear(); })
+                            title=@(NextYearAriaLabel + " " + NavigatedDate.AddYears(1).ToString("yyy"))
+                            role="button"
+                            type="button">
+                        <BFUIcon IconName="Down" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <BFUFocusZone>
+            <div class="ms-Calendar-optionGrid" role="grid" aria-readonly="true">
+
+                @foreach (var rowNum in RowIndexes)
+                {
+                    var monthsForRow = ShortMonthNames.Skip(rowNum * 4).Take(4).ToArray();
+                    <div @key=@($"monthRow_{rowNum}") role="row">
+                        @for (var i = 0; i < monthsForRow.Length; i++)
+                        {
+                            var index = i;
+                            var month = monthsForRow[index];
+                            var monthIndex = rowNum * 4 + index;
+                            var indexedMonth = NavigatedDate.AddMonths((monthIndex + 1) - NavigatedDate.Month);
+                            //var isCurrentMonth = (monthIndex + 1 == Today.Month && NavigatedDate.Year == Today.Year);
+                            var isNavigatedMonth = NavigatedDate.Month == (monthIndex + 1);
+                            //var isSelectedMonth = SelectedDate.Month == (monthIndex + 1);
+                            //var isSelectedYear = SelectedDate.Year == NavigatedDate.Year;
+
+                            var firstDayOfIndexedMonth = new DateTime(indexedMonth.Year, indexedMonth.Month, 1);
+                            var isInBounds = (DateTime.Compare(MinDate, firstDayOfIndexedMonth.AddMonths(1).AddDays(-1)) < 1) &&
+                                (DateTime.Compare(firstDayOfIndexedMonth, MaxDate) < 1);
+
+                            <button class=@(GetMonthClasses(monthIndex, isInBounds))
+                                    disabled=@(!isInBounds)
+                                    @key=@monthIndex
+                                    @onclick=@(args=> { if (isInBounds) { SelectMonthCallbacks[monthIndex](); } })
+                                    aria-label=@DateTimeFormatter.FormatMonthYear(indexedMonth)
+                                    aria-selected=@isNavigatedMonth
+                                    data-is-focusable=@(isInBounds ? true: false)>
+                                @month
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+        </BFUFocusZone>
+    </div>
+}

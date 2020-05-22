@@ -1,0 +1,95 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+<BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+
+@if (IsMultiline)
+{
+    <div class=@($"ms-MessageBar--root {ClassName}") style=@Style>
+        <div class=@($"ms-MessageBar ms-MessageBar-multiline {GetTypeCss()}")>
+            <div class="ms-MessageBar-content">
+
+                <div class=@($"ms-MessageBar-icon {GetTypeCss()}") aria-hidden="true">
+                    <BFUIcon IconName=@MessageBarIcon.IconMap[MessageBarType] />
+                </div>
+
+                <div class="ms-MessageBar-text" role="status" aria-live=@(MessageBarType == MessageBarType.Blocked || MessageBarType == MessageBarType.Error || MessageBarType == MessageBarType.SevereWarning ? "assertive" : "polite")>
+                    <span class=@($"ms-MessageBar-innerText ms-MessageBar-multiline")>
+                        <span>
+                            @ChildContent
+                        </span>
+                    </span>
+                </div>
+
+                @*DismissSingleLine*@
+                @if (HasDismiss)
+                {
+                    <BFUIconButton IconName="Clear"
+                                Disabled="false"
+                                ClassName="ms-MessageBar-dismissal"
+                                OnClick=@OnDismiss
+                                AriaLabel=@DismissButtonAriaLabel />
+                }
+            </div>
+            @*Action*@
+            @if (Actions != null)
+            {
+                <div class="ms-MessageBar-actions">@Actions</div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class=@($"ms-MessageBar--root {ClassName}") style=@Style>
+        <div class=@($"ms-MessageBar ms-MessageBar-singleline {GetTypeCss()} {(Truncated ? "ms-MessageBar-expandingSingleLine" : "")} {(HasDismiss ? "ms-MessageBar-dismissalSingleLine" : "")}")>
+            <div class="ms-MessageBar-content">
+
+                @*Icon*@
+                <div class=@($"ms-MessageBar-icon {GetTypeCss()}") aria-hidden="true">
+                    <BFUIcon IconName=@MessageBarIcon.IconMap[MessageBarType] />
+                </div>
+
+                @*ChildContent*@
+                <div class=@($"ms-MessageBar-text  {(HasDismiss ? "ms-MessageBar-dismissSingleLine" : "")}") role="status" aria-live=@(MessageBarType == MessageBarType.Blocked || MessageBarType == MessageBarType.Error || MessageBarType == MessageBarType.SevereWarning ? "assertive" : "polite")>
+                    <span class=@($"ms-MessageBar-innerText {(ExpandSingelLine ? "ms-MessageBar-expandSingleLine" : "")}")>
+                        <span>
+                            @ChildContent
+                        </span>
+                    </span>
+                </div>
+
+                @*ExpandSingleLine*@
+                @if (HasExpand)
+                {
+                    <div class="ms-MessageBar-expandSingleLine">
+                        <BFUIconButton Disabled="false"
+                                    ClassName="ms-MessageBar-expand"
+                                    OnClick=@Truncate
+                                    IconName=@( ExpandSingelLine ? "DoubleChevronUp" : "DoubleChevronDown" )
+                                    AriaLabel=@OverflowButtonAriaLabel />
+                    </div>
+                }
+
+                @*Action*@
+                @if (Actions != null)
+                {
+                    <div class=@($"ms-MessageBar-actionsSingleLine {(HasDismiss ? "ms-MessageBar-dismissSingleLine" : "")}")>@Actions</div>
+                }
+
+                @*DismissSingleLine*@
+                @if (HasDismiss)
+                {
+                    <div class="ms-MessageBar-dismissSingleLine">
+                        <BFUIconButton IconName="Clear"
+                                    Disabled="false"
+                                    ClassName="ms-MessageBar-dismissal"
+                                    OnClick=@OnDismiss
+                                    AriaLabel=@DismissButtonAriaLabel />
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+}

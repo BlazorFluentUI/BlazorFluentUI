@@ -1,0 +1,10 @@
+@namespace BlazorFluentUI
+@inherits ComponentBase
+
+<div style="height: @($"{this.Height}px")"></div>
+
+@code {
+
+    [Parameter] public double Height { get; set; }
+
+}

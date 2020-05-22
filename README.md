@@ -17,6 +17,12 @@ https://t.me/blazorfabric
 https://github.com/BlazorFluentUI/BlazorFluentUI/wiki
 
 ## Release Notes
+- v3.1.0
+    - **Breaking Changes** Namespace change to BlazorFluentUI
+    - **Breaking Changes** Component name changes to have "BFU" prefix to avoid name collisions
+    - Deprecation of BlazorFabric Nuget packages
+- v3.0.2
+    - Updates to non-preview packages for blazor wasm and some bug fixes 
 - v3.0.1
     - Various bug fixes
 - v3.0.0 

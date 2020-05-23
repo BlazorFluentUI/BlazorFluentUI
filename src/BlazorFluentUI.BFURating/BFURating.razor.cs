@@ -131,9 +131,9 @@ namespace BlazorFluentUI
             return fullStar;
         }
 
-        protected ICollection<Rule> CreateGlobalCss()
+        protected ICollection<IRule> CreateGlobalCss()
         {
-            var ratingGlobalRules = new HashSet<Rule>();
+            var ratingGlobalRules = new HashSet<IRule>();
             var FocusStyleRatingFocusZone = FocusStyle.GetFocusStyle(new FocusStyleProps(Theme), ".ms-Rating-focuszone");
             var FocusStyleRatingButton = FocusStyle.GetFocusStyle(new FocusStyleProps(Theme), ".ms-Rating-button");
             foreach (var rule in FocusStyleRatingFocusZone.AddRules)

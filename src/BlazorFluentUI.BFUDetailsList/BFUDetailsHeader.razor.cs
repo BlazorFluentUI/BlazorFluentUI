@@ -210,9 +210,9 @@ namespace BlazorFluentUI
         }
 
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var headerRules = new System.Collections.Generic.List<Rule>();
+            var headerRules = new List<IRule>();
 
             // ROOT           
             headerRules.Add(new Rule()

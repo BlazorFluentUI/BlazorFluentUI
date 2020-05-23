@@ -794,9 +794,9 @@ namespace BlazorFluentUI
             };
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var calloutGlobalRules = new HashSet<Rule>();
+            var calloutGlobalRules = new HashSet<IRule>();
             calloutGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Callout-container" },

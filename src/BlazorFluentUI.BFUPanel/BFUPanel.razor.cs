@@ -473,9 +473,9 @@ namespace BlazorFluentUI
             }
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var panelRules = new HashSet<Rule>();
+            var panelRules = new HashSet<IRule>();
             
             panelRules.Add(new Rule()
             {

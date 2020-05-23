@@ -4,6 +4,6 @@ namespace BlazorFluentUI
 {
     public interface IHasPreloadableGlobalStyle
     {
-        ICollection<Rule> CreateGlobalCss(ITheme theme);
+        ICollection<IRule> CreateGlobalCss(ITheme theme);
     }
 }

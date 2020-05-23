@@ -40,7 +40,7 @@ namespace BlazorFluentUI
         /// Function which create CSS-Rules which should be printed in head tag of index.html
         /// </summary>
         [Parameter]
-        public Func<ICollection<Rule>> CreateGlobalCss { get; set; }
+        public Func<ICollection<IRule>> CreateGlobalCss { get; set; }
 
         [Parameter]
         public EventCallback<bool> ReloadStyleChanged { get; set; }

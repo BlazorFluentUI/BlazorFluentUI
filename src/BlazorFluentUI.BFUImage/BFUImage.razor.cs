@@ -88,9 +88,9 @@ namespace BlazorFluentUI
             return OnLoadingStateChange.InvokeAsync(imageLoadState);
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var imageRules = new HashSet<Rule>();
+            var imageRules = new HashSet<IRule>();
             // ROOT
             imageRules.Add(new Rule()
             {

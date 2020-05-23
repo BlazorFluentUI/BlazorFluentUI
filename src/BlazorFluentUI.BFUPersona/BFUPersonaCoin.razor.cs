@@ -186,9 +186,9 @@ namespace BlazorFluentUI
 
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var personaCoinRules = new HashSet<Rule>();
+            var personaCoinRules = new HashSet<IRule>();
 
             personaCoinRules.Add(new Rule()
             {

@@ -123,9 +123,9 @@ namespace BlazorFluentUI
             };
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var progressIndicatorGlobalRules = new HashSet<Rule>();
+            var progressIndicatorGlobalRules = new HashSet<IRule>();
             progressIndicatorGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgress" },

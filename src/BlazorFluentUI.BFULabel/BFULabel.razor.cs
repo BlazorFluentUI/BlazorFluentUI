@@ -26,9 +26,9 @@ namespace BlazorFluentUI
         [Parameter]
         public string HtmlFor { get; set; }  //not being used for anything.
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var labelRules = new HashSet<Rule>();
+            var labelRules = new HashSet<IRule>();
             labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Label" }, Properties = new CssString() { Css = $"font-weight:{theme.FontStyle.FontWeight.SemiBold};color:{theme.SemanticTextColors.BodyText};box-sizing:border-box;box-shadow:none;margin:0;display:block;padding: 5px 0px;word-wrap:break-word;overflow-wrap:break-word;" } });
             labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Label--disabled" }, Properties = new CssString() { Css = $"color:{theme.SemanticTextColors.DisabledBodyText};" } });
             labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Label--required::after" }, Properties = new CssString() { Css = $"content:' *';color:{theme.SemanticTextColors.ErrorText};padding-right:12px;" } });

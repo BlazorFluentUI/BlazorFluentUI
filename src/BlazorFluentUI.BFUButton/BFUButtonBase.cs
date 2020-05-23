@@ -178,9 +178,9 @@ namespace BlazorFluentUI
 
         }
 
-        protected ICollection<Rule> CreateBaseGlobalCss(ITheme theme)
+        protected ICollection<IRule> CreateBaseGlobalCss(ITheme theme)
         {
-            var buttonRules = new HashSet<Rule>();
+            var buttonRules = new HashSet<IRule>();
 
             var props = new FocusStyleProps(theme);
             props.Inset = 1;

@@ -133,9 +133,9 @@ namespace BlazorFluentUI
             return CheckedChanged.InvokeAsync(!IsChecked);
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var MyRules = new List<Rule>();
+            var MyRules = new List<IRule>();
             MyRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Toggle" }, Properties = new CssString() { Css = $"margin-bottom:8px;" } });
             MyRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Toggle--inlineLabel" }, Properties = new CssString() { Css = "display:flex;align-items:center;" } });
             MyRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Toggle--disabled .ms-Toggle-label" }, Properties = new CssString() { Css = $"color:{Theme.SemanticTextColors.DisabledText};" } });

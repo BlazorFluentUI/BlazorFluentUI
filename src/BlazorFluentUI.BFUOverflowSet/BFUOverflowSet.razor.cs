@@ -45,9 +45,9 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var overflowSetRules = new HashSet<Rule>();
+            var overflowSetRules = new HashSet<IRule>();
             overflowSetRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet" },

@@ -215,18 +215,18 @@ public static async Task Main(string[] args)
 7. For Theme's add following in `App.razor` as most outside Component. You can have a look in Demo application's `App.razor`
 
 ```
-<FabricTheme>
+<BFUTheme>
 	<...>
 		<Router AppAssembly="typeof(Startup).Assembly" />
 	</...>
-</FabricTheme>
+</BFUTheme>
 ```
 
 8. If you're using any component that requires a `Layer` as part of its inner-workings (i.e. `Modal`, `Callout`, etc... anything that pops up over already drawn stuff), you need to wrap the `Router` with a `LayerHost`.
 ```
-<LayerHost Style="display:flex; flex-direction: row;width:100vw">
+<BFULayerHost Style="display:flex; flex-direction: row;width:100vw">
     <Router AppAssembly="typeof(Startup).Assembly" />
-</LayerHost>
+</BFULayerHost>
 ```
 
 

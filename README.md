@@ -142,7 +142,7 @@ ServerSide: Startup.cs
 public void ConfigureServices(IServiceCollection services)
 {
 	...;
-	services.AddBlazorFabric();
+	services.AddBlazorFluentUI();
 	...;
 }
 ```
@@ -152,7 +152,7 @@ ClientSide up to version 'Blazor WebAssembly 3.1.0' : Startup.cs
 public void ConfigureServices(IServiceCollection services)
 {
 	...;
-	services.AddBlazorFabric();
+	services.AddBlazorFluentUI();
 	...;
 }
 ```
@@ -162,7 +162,7 @@ ClientSide from version 'Blazor WebAssembly 3.2.0 Preview 1'  : Program.cs
 public static async Task Main(string[] args)
 {
 	...;
-	builder.Services.AddBlazorFabric();
+	builder.Services.AddBlazorFluentUI();
 	...;
 }
 ```
@@ -185,18 +185,18 @@ ClientSide: wwwroot/index.html
 	...;
 </head>
 ```
-You may need to add an `@using BlazorFabric` to the top of your `_Hosts.cshmtl` to avoid a 'GlobalRules could not be found` error.
+You may need to add an `@using BlazorFluentUI` to the top of your `_Hosts.cshmtl` to avoid a 'GlobalRules could not be found` error.
 
 6. Add following to get controll over css-classes tag you created before
 
-ServerSide: issn't needed
+ServerSide: isn't needed
 
 ClientSide up to version 'Blazor WebAssembly 3.1.0' : Startup.cs
 ```
  public void Configure(IComponentsApplicationBuilder app)
 {
 	...;
-	app.AddComponent<GlobalRules>("#staticcs");
+	app.AddComponent<GlobalRules>("#statics");
 	...;
 }
 ```
@@ -206,7 +206,7 @@ ClientSide from version 'Blazor WebAssembly 3.2.0 Preview 1'  : Program.cs
 public static async Task Main(string[] args)
 {
 	...;
-	builder.RootComponents.Add<GlobalRules>("#staticcs");
+	builder.RootComponents.Add<BFUGlobalRules>("#statics");
 	...;
 }
 ```

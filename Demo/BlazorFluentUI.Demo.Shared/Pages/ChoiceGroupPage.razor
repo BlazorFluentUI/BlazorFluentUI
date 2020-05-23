@@ -1,22 +1,36 @@
 ﻿@page "/choiceGroupPage"
 
 @using BlazorFluentUI.BFUChoiceGroup
+@using System.Collections.Generic
 
-<h3>ChoiceGroup</h3>
+<h1>ChoiceGroup</h1>
 
 <BFUStack>
-    <BFUChoiceGroup ItemsSource="this._stringItems" @bind-Value="this._selectedOption">
+    <h3>Datasource is a List&lt;string&gt;</h3>
+    <BFUChoiceGroup ItemsSource="this._stringItems" @bind-Value="this._selectedStringOption">
     </BFUChoiceGroup>
+    <br />
     <div>
-        Selected option: @_selectedOption
+        Selected option: @(_selectedStringOption ?? "none")
+    </div>
+</BFUStack>
+
+<BFUStack>
+    <h3>Datasource is a List&lt;CustomObject&gt;</h3>
+    <BFUChoiceGroup ItemsSource="this._customItems" @bind-Value="this._selectedCustomValue">
+    </BFUChoiceGroup>
+    <br />
+    <div>
+        Selected option: @(_selectedCustomValue?.Text ?? "none")
     </div>
 </BFUStack>
 
 @code {
 
-    private string _selectedOption = string.Empty;
+    private string _selectedStringOption = string.Empty;
+    private CustomValue _selectedCustomValue;
 
-    private System.Collections.Generic.List<string> _stringItems = new System.Collections.Generic.List<string>
+    private List<string> _stringItems = new List<string>
     {
         "Option A",
         "Option B",
@@ -24,9 +38,18 @@
         "Option D",
     };
 
-    protected override void OnParametersSet()
+    private List<CustomValue> _customItems = new List<CustomValue>
     {
-        base.OnParametersSet();
-        this._selectedOption = _stringItems.First();
+        new CustomValue{ Text = "Custom Option A" },
+        new CustomValue{ Text = "Custom Option B" },
+        new CustomValue{ Text = "Custom Option C (Disabled)", IsDisabled = true },
+        new CustomValue{ Text = "Custom Option D" },
+    };
+
+    private class CustomValue : IChoiceGroupOption
+    {
+        public string Text { get; set; }
+        public bool IsDisabled { get; set; } = false;
+        public bool IsVisible { get; set; } = true;
     }
 }

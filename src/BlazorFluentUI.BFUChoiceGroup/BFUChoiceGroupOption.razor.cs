@@ -38,7 +38,8 @@ namespace BlazorFluentUI.BFUChoiceGroup
 
         private async Task OnOptionClick(MouseEventArgs mouseEventArgs)
         {
-            await this.OnClick.InvokeAsync(new ChoiceGroupOptionClickedEventArgs { Item = this.Item, MouseEventArgs = mouseEventArgs });
+            if (!this.IsDisabled)
+                await this.OnClick.InvokeAsync(new ChoiceGroupOptionClickedEventArgs { Item = this.Item, MouseEventArgs = mouseEventArgs });
         }
 
         private ICollection<IRule> CreateLocalCss()

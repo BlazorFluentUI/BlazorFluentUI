@@ -1,5 +1,4 @@
-﻿using BlazorFluentUI;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

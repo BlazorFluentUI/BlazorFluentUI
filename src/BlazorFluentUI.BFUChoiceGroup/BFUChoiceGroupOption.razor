@@ -1,0 +1,22 @@
+﻿@inherits BFUComponentBase
+@typeparam TItem
+
+@if (this.IsVisible)
+{
+    <BFULocalCS Rules="@CreateLocalCss()" />
+    <div @ref=@RootElementReference class="ms-ChoiceField">
+        <div class="ms-ChoiceField-wrapper" @onclick="OnOptionClick">
+            <input type="radio" checked=@this._isSelected class="ms-ChoiceField-input" />
+            @if (!string.IsNullOrWhiteSpace(this.Label))
+            {
+                <label class="ms-ChoiceField-field">
+                    <span class="ms-ChoiceFieldLabel">@this.Label</span>
+                </label>
+            }
+            @if (this.Item != null && this.OptionTemplate != null)
+            {
+                @this.OptionTemplate(Item)
+            }
+        </div>
+    </div>
+}

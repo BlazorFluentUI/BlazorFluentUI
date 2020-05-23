@@ -1,0 +1,15 @@
+﻿@inherits BFUComponentBase
+@typeparam TItem
+
+<div>Hello</div>
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=> this.CreateGlobalCss(Theme)) />
+
+<div @ref=@RootElementReference class="ms-ChoiceFieldGroup">
+    <CascadingValue Value=this>
+        @foreach (var item in this.ItemsSource)
+        {
+            <BFUChoiceGroupOption Item="item" OptionTemplate="OptionTemplate" OnClick="OnChoiceOptionClicked">
+            </BFUChoiceGroupOption>
+        }
+    </CascadingValue>
+</div>

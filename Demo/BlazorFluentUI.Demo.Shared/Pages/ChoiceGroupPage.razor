@@ -1,0 +1,32 @@
+﻿@page "/choiceGroupPage"
+
+@using BlazorFluentUI.BFUChoiceGroup
+
+<h3>ChoiceGroup</h3>
+
+<BFUStack>
+    <BFUChoiceGroup ItemsSource="this._stringItems" @bind-Value="this._selectedOption">
+    </BFUChoiceGroup>
+    <div>
+        Selected option: @_selectedOption
+    </div>
+</BFUStack>
+
+@code {
+
+    private string _selectedOption = string.Empty;
+
+    private System.Collections.Generic.List<string> _stringItems = new System.Collections.Generic.List<string>
+    {
+        "Option A",
+        "Option B",
+        "Option C",
+        "Option D",
+    };
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        this._selectedOption = _stringItems.First();
+    }
+}

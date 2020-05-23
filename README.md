@@ -182,6 +182,7 @@ ClientSide: wwwroot/index.html
 <head>
 	...;
 	<style id="staticcs"></style>
+	<script src="_content/BlazorFluentUI.BFUBaseComponent/blazorFluentUi.min.js"></script>
 	...;
 </head>
 ```

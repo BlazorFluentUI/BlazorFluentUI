@@ -122,7 +122,7 @@ https://github.com/BlazorFluentUI/BlazorFluentUI/wiki
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 
 
 ## To use
-1. Install NuGet package for the control you want.  _BlazorFabric.*_  (be sure to select preview packages)
+1. Install NuGet package for the control you want.  _BlazorFluentUI.*_  (be sure to select preview packages)
 2. The Blazor team has been inconsistent with how static files from component libraries are added to projects in the past.  Going forward, you'll need to **add all javascript assets from the component packages manually**.  You can just copy/paste the section from the test app's index.html.
 You can also use my helper VSIX extension (may have major bugs!  Be sure to compile once for assets to show up.): https://marketplace.visualstudio.com/items?itemName=LeeMcPherson.BlazorLibraryAssetHelper&ssr=false#overview  
 3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.

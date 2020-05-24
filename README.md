@@ -123,7 +123,7 @@ There are no MergeStyles in this port.  It's just each control packaged into its
    (There is also a package that will install all packages at once:  *BlazorFluentUI.AllComponents*
 2. Add the javascript to your index.html or index.cshtml file:
 ```
-<script src="_content/BlazorFabric.BaseComponent/blazorFabric.min.js"></script>
+<script src="_content/BlazorFluentUI.BFUBaseComponent/blazorFluentUi.min.js"></script>
 ```
 3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.
 

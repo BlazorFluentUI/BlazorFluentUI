@@ -119,9 +119,12 @@ https://github.com/BlazorFluentUI/BlazorFluentUI/wiki
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 
 
 ## To use
-1. Install NuGet package for the control you want.  _BlazorFabric.*_  (be sure to select preview packages)
-2. The Blazor team has been inconsistent with how static files from component libraries are added to projects in the past.  Going forward, you'll need to **add all javascript assets from the component packages manually**.  You can just copy/paste the section from the test app's index.html.
-You can also use my helper VSIX extension (may have major bugs!  Be sure to compile once for assets to show up.): https://marketplace.visualstudio.com/items?itemName=LeeMcPherson.BlazorLibraryAssetHelper&ssr=false#overview  
+1. Install NuGet package for the control you want.  _BlazorFluentUI.*_  
+   (There is also a package that will install all packages at once:  *BlazorFluentUI.AllComponents*
+2. Add the javascript to your index.html or index.cshtml file:
+```
+<script src="_content/BlazorFabric.BaseComponent/blazorFabric.min.js"></script>
+```
 3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.
 
 `<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />`
@@ -132,34 +135,24 @@ Use the tool here to generate your own MS font package: https://uifabricicons.az
 
 (Remember that the assets package has a more restrictive license.  You are required to use it with/for some type of Microsoft product.  However, one of their engineers said that using it hosted on Azure would be enough... but I'm not a lawyer, so use caution.)
 
-4. Add "AddBlazorFabric" to ServiceProvider
+4. Add "AddBlazorFluentUI" to ServiceProvider
 
 ServerSide: Startup.cs
 ```
 public void ConfigureServices(IServiceCollection services)
 {
 	...;
-	services.AddBlazorFabric();
+	services.AddBlazorFluentUI();
 	...;
 }
 ```
 
-ClientSide up to version 'Blazor WebAssembly 3.1.0' : Startup.cs
-```
-public void ConfigureServices(IServiceCollection services)
-{
-	...;
-	services.AddBlazorFabric();
-	...;
-}
-```
-
-ClientSide from version 'Blazor WebAssembly 3.2.0 Preview 1'  : Program.cs
+ClientSide from version 'Blazor WebAssembly 3.2.0'  : Program.cs
 ```
 public static async Task Main(string[] args)
 {
 	...;
-	builder.Services.AddBlazorFabric();
+	builder.Services.AddBlazorFluentUI();
 	...;
 }
 ```
@@ -182,28 +175,18 @@ ClientSide: wwwroot/index.html
 	...;
 </head>
 ```
-You may need to add an `@using BlazorFabric` to the top of your `_Hosts.cshmtl` to avoid a 'GlobalRules could not be found` error.
+You may need to add an `@using BlazorFluentUI` to the top of your `_Hosts.cshmtl` to avoid a 'GlobalRules could not be found` error.
 
 6. Add following to get controll over css-classes tag you created before
 
 ServerSide: issn't needed
 
-ClientSide up to version 'Blazor WebAssembly 3.1.0' : Startup.cs
-```
- public void Configure(IComponentsApplicationBuilder app)
-{
-	...;
-	app.AddComponent<GlobalRules>("#staticcs");
-	...;
-}
-```
-
-ClientSide from version 'Blazor WebAssembly 3.2.0 Preview 1'  : Program.cs
+ClientSide from version 'Blazor WebAssembly 3.2.0'  : Program.cs
 ```
 public static async Task Main(string[] args)
 {
 	...;
-	builder.RootComponents.Add<GlobalRules>("#staticcs");
+	builder.RootComponents.Add<BFUGlobalRules>("#staticcs");
 	...;
 }
 ```
@@ -211,18 +194,18 @@ public static async Task Main(string[] args)
 7. For Theme's add following in `App.razor` as most outside Component. You can have a look in Demo application's `App.razor`
 
 ```
-<FabricTheme>
+<BFUTheme>
 	<...>
 		<Router AppAssembly="typeof(Startup).Assembly" />
 	</...>
-</FabricTheme>
+</BFUTheme>
 ```
 
-8. If you're using any component that requires a `Layer` as part of its inner-workings (i.e. `Modal`, `Callout`, etc... anything that pops up over already drawn stuff), you need to wrap the `Router` with a `LayerHost`.
+8. If you're using any component that requires a `Layer` as part of its inner-workings (i.e. `BFUModal`, `BFUCallout`, `BFUTooltip`, etc... anything that pops up over already drawn stuff), you need to wrap the `Router` with a `LayerHost`.
 ```
-<LayerHost Style="display:flex; flex-direction: row;width:100vw">
+<BFULayerHost Style="display:flex; flex-direction: row;width:100vw">
     <Router AppAssembly="typeof(Startup).Assembly" />
-</LayerHost>
+</BFULayerHost>
 ```
 
 

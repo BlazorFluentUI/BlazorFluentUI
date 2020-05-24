@@ -16,6 +16,15 @@ jobs:
     name: Build and Deploy Job
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.300
+    
+    - name: Build App
+      run: dotnet publish -c Release -o published Demo/BlazorFluentUI.Demo.ClientSide/
+    
     - name: Build And Deploy
       id: builddeploy
       uses: Azure/static-web-apps-deploy@v0.0.1-preview

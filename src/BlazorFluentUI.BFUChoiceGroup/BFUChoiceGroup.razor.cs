@@ -11,6 +11,9 @@ namespace BlazorFluentUI.BFUChoiceGroup
         [Parameter] public TItem Value { get; set; }
         [Parameter] public EventCallback<TItem> ValueChanged { get; set; }
         [Parameter] public FlexDirection ItemAlignment { get; set; } = FlexDirection.Column;
+        [Parameter] public string Id { get; set; }
+
+        private static int _currentAutoId = 0;
 
         public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
@@ -27,6 +30,13 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 "flex-wrap:wrap");
             #endregion
             return choiceGroupRules;
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            await base.OnParametersSetAsync();
+            if (string.IsNullOrWhiteSpace(this.Id))
+                this.Id = $"autoId_choiceGroup_{_currentAutoId++}";
         }
 
         private async Task OnChoiceOptionClicked(ChoiceGroupOptionClickedEventArgs choiceGroupOptionClickedEventArgs)

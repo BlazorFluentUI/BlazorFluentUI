@@ -15,9 +15,13 @@ namespace BlazorFluentUI.BFUChoiceGroup
         [Parameter] public RenderFragment<TItem> OptionTemplate { get; set; }
         [Parameter] public string Icon { get; set; }
         [Parameter] public EventCallback<ChoiceGroupOptionClickedEventArgs> OnClick { get; set; }
+        [Parameter] public string Id { get; set; }
         [CascadingParameter] protected BFUChoiceGroup<TItem> ChoiceGroup { get; set; }
 
+        private ICollection<IRule> LocalCssRules { get; set; } = new List<IRule>();
         private bool _isSelected = false;
+
+        private static int _currentAutoId = 0;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -34,20 +38,21 @@ namespace BlazorFluentUI.BFUChoiceGroup
             }
 
             this._isSelected = Equals(this.ChoiceGroup.Value, this.Item);
+
+            if (string.IsNullOrWhiteSpace(this.Id))
+                this.Id = $"autoId_choiceGroupOption_{_currentAutoId++}";
         }
 
-        private async Task OnOptionClick(MouseEventArgs mouseEventArgs)
+        protected override void OnThemeChanged()
         {
-            if (!this.IsDisabled)
-                await this.OnClick.InvokeAsync(new ChoiceGroupOptionClickedEventArgs { Item = this.Item, MouseEventArgs = mouseEventArgs });
+            base.OnThemeChanged();
+            this.CreateLocalCss();
         }
 
-        private ICollection<IRule> CreateLocalCss()
+        private void CreateLocalCss()
         {
-            var choiceGroupRules = new HashSet<IRule>();
-
             #region Root
-            choiceGroupRules.AddCssStringSelector("ms-ChoiceField").AppendCssStyles(
+            LocalCssRules.AddCssClassSelector("ms-ChoiceField").AppendCssStyles(
                 $"font-size:{Theme.FontStyle.FontSize.Medium}",
                 $"font-weight:{Theme.FontStyle.FontWeight.Regular}",
                 "display:flex",
@@ -62,18 +67,18 @@ namespace BlazorFluentUI.BFUChoiceGroup
 
 
             #region Label
-            choiceGroupRules.AddCssStringSelector("ms-ChoiceFieldLabel").AppendCssStyles(
+            LocalCssRules.AddCssClassSelector("ms-ChoiceFieldLabel").AppendCssStyles(
                 $"color: {Theme.Palette.NeutralDark}");
 
-            choiceGroupRules.AddCssStringSelector("ms-ChoiceFieldLabel:before").AppendCssStyles(
+            LocalCssRules.AddCssClassSelector("ms-ChoiceFieldLabel:before").AppendCssStyles(
                 $"color: {Theme.SemanticColors.InputBorderHovered}");
 
-            choiceGroupRules.AddCssStringSelector("ms-ChoiceFieldLabel.is-checked:before").AppendCssStyles(
+            LocalCssRules.AddCssClassSelector("ms-ChoiceFieldLabel.is-checked:before").AppendCssStyles(
                 $"color: {Theme.Palette.ThemeDark}");
 
             if (string.IsNullOrWhiteSpace(this.Icon) && this.OptionTemplate == null && !this._isSelected)
             {
-                choiceGroupRules.AddCssStringSelector("ms-ChoiceFieldLabel:after").AppendCssStyles(
+                LocalCssRules.AddCssClassSelector("ms-ChoiceFieldLabel:after").AppendCssStyles(
                     "content:''",
                     "transition-property:background-color",
                     "left:5",
@@ -84,12 +89,16 @@ namespace BlazorFluentUI.BFUChoiceGroup
             }
             else if (this._isSelected)
             {
-                choiceGroupRules.AddCssStringSelector("ms-ChoiceFieldLabel:after").AppendCssStyles(
+                LocalCssRules.AddCssClassSelector("ms-ChoiceFieldLabel:after").AppendCssStyles(
                     $"border-color: {Theme.Palette.ThemeDark}");
             }
             #endregion
+        }
 
-            return choiceGroupRules;
+        private async Task OnOptionClick(MouseEventArgs mouseEventArgs)
+        {
+            if (!this.IsDisabled)
+                await this.OnClick.InvokeAsync(new ChoiceGroupOptionClickedEventArgs { Item = this.Item, MouseEventArgs = mouseEventArgs });
         }
     }
 

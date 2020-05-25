@@ -13,7 +13,7 @@ namespace BlazorFluentUI
         /// <param name="selectorName"></param>
         /// <returns></returns>
         [Obsolete("We can remove this once IHasPreloadableGlobalStyle uses IRule instead of Rule in the CreateGlobalCss method.")]
-        public static IRule AddCssStringSelector(this HashSet<Rule> rules, string selectorName)
+        public static IRule AddCssStringSelector(this ICollection<Rule> rules, string selectorName)
         {
             if (string.IsNullOrWhiteSpace(selectorName))
                 throw new ArgumentNullException(nameof(selectorName));
@@ -30,7 +30,7 @@ namespace BlazorFluentUI
             rules.Add(rule);
             return rule;
         }
-        public static IRule AddCssStringSelector(this HashSet<IRule> rules, string selectorName)
+        public static IRule AddCssStringSelector(this ICollection<IRule> rules, string selectorName)
         {
             if (string.IsNullOrWhiteSpace(selectorName))
                 throw new ArgumentNullException(nameof(selectorName));
@@ -41,6 +41,23 @@ namespace BlazorFluentUI
             var rule = new Rule
             {
                 Selector = new CssStringSelector { SelectorName = selectorName },
+                Properties = new CssString(),
+            };
+
+            rules.Add(rule);
+            return rule;
+        }
+        public static IRule AddCssClassSelector(this ICollection<IRule> rules, string selectorName)
+        {
+            if (string.IsNullOrWhiteSpace(selectorName))
+                throw new ArgumentNullException(nameof(selectorName));
+
+            if (selectorName.StartsWith("."))
+                selectorName = selectorName.Substring(1);
+
+            var rule = new Rule
+            {
+                Selector = new ClassSelector { SelectorName = selectorName },
                 Properties = new CssString(),
             };
 

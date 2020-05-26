@@ -55,15 +55,33 @@ namespace BlazorFluentUI.BFUChoiceGroup
             #region Label
             choiceGroupOptionRules.AddCssStringSelector("ms-ChoiceFieldLabel").AppendCssStyles(
                 $"color: {Theme.Palette.NeutralDark}",
-                "display:inline-block",
+                "display:inline-block");
+
+            choiceGroupOptionRules.AddCssStringSelector(":not(.custom-content) .ms-ChoiceFieldLabel").AppendCssStyles(
                 "padding-left:26px");
 
+            choiceGroupOptionRules.AddCssStringSelector("custom-content .ms-ChoiceField").AppendCssStyles(
+                "display:inline-flex",
+                "font-size:0",
+                "margin:0 4px 4px 0",
+                "padding-left:0",
+                $"background-color:{theme.Palette.NeutralLighter}",
+                "height:100%");
+
             choiceGroupOptionRules.AddCssStringSelector("ms-ChoiceFieldLabel:before").AppendCssStyles(
-                $"color: {Theme.SemanticColors.InputBorderHovered}");
+                $"color: {Theme.SemanticColors.InputBorderHovered}",
+                $"border-color: {Theme.SemanticColors.InputBorderHovered}");
 
-            choiceGroupOptionRules.AddCssStringSelector("ms-ChoiceFieldLabel.is-checked:before").AppendCssStyles(
-                $"color: {Theme.Palette.ThemeDark}");
+            choiceGroupOptionRules.AddCssStringSelector("is-checked .ms-ChoiceFieldLabel:before").AppendCssStyles(
+                $"color: {Theme.Palette.ThemeDark}",
+                $"border-color: {Theme.Palette.ThemeDark}");
 
+            #endregion
+
+            #region ChoiceFieldWrapper
+            // TODO: flesh this out
+            choiceGroupOptionRules.AddCssStringSelector("ms-ChoiceField-wrapper:focus").AppendCssStyles(
+                "");
             #endregion
 
             #region Input
@@ -87,6 +105,9 @@ namespace BlazorFluentUI.BFUChoiceGroup
                  "user-select:none",
                  "min-height:20px");
 
+            this.AddFieldHoverOrFocusStyles(choiceGroupOptionRules, theme, "hover");
+            this.AddFieldHoverOrFocusStyles(choiceGroupOptionRules, theme, "focus");
+
             choiceGroupOptionRules.AddCssStringSelector("ms-ChoiceField-field:before").AppendCssStyles(
                 "content:''",
                 "display:inline-block",
@@ -106,7 +127,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 $"transition-timing-function:{_transitionTimingFunction}",
                 "border-radius:50%");
 
-            choiceGroupOptionRules.AddCssStringSelector("ms-ChoiceField-field.is-checked:before").AppendCssStyles(
+            choiceGroupOptionRules.AddCssStringSelector("is-checked .ms-ChoiceField-field:before").AppendCssStyles(
                 $"border-color:{theme.SemanticColors.InputBackgroundChecked}");
 
             choiceGroupOptionRules.AddCssStringSelector("ms-ChoiceField-field:after").AppendCssStyles(
@@ -122,7 +143,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 $"transition-timing-function:{_transitionTimingFunction}",
                 "box-sizing:border-box");
 
-            choiceGroupOptionRules.AddCssStringSelector("ms-ChoiceField-field.is-checked:after").AppendCssStyles(
+            choiceGroupOptionRules.AddCssStringSelector("is-checked .ms-ChoiceField-field:after").AppendCssStyles(
                 "border-width:5px",
                 "border-style:solid",
                 $"border-color:{Theme.SemanticColors.InputBackgroundChecked}",
@@ -194,6 +215,30 @@ namespace BlazorFluentUI.BFUChoiceGroup
                     $"border-color: {Theme.Palette.ThemeDark}");
             }
             #endregion
+        }
+
+        private void AddFieldHoverOrFocusStyles(HashSet<Rule> choiceGroupOptionRules, ITheme theme, string pseudoSelector)
+        {
+            choiceGroupOptionRules.AddCssStringSelector($"ms-ChoiceField:not(.is-disabled) .ms-ChoiceField-field:{pseudoSelector} .ms-ChoiceFieldLabel").AppendCssStyles(
+               $"color:{theme.Palette.NeutralDark}");
+
+            choiceGroupOptionRules.AddCssStringSelector($"ms-ChoiceField:not(.is-disabled) .is-checked .ms-ChoiceField-field:{pseudoSelector}:before").AppendCssStyles(
+                $"border-color:{theme.Palette.ThemeDark}");
+
+            choiceGroupOptionRules.AddCssStringSelector($"ms-ChoiceField:not(.is-disabled):not(.is-checked) .ms-ChoiceField-field:{pseudoSelector}:before").AppendCssStyles(
+                $"border-color:{theme.SemanticColors.InputBorderHovered}");
+
+            choiceGroupOptionRules.AddCssStringSelector($"ms-ChoiceField:not(.is-disabled):not(.is-checked):not(.custom-content) .ms-ChoiceField-field:{pseudoSelector}:after").AppendCssStyles(
+                "content:''",
+                "transition-property:background-color",
+                "left:5px",
+                "top:5px",
+                "width:10px",
+                "height:10px",
+                $"background-color:{theme.Palette.NeutralSecondary}");
+
+            choiceGroupOptionRules.AddCssStringSelector($"ms-ChoiceField:not(.is-disabled) .is-checked .ms-ChoiceField-field:{pseudoSelector}").AppendCssStyles(
+                $"border-color:{theme.Palette.ThemeDark}");
         }
 
         private async Task OnOptionClick(MouseEventArgs mouseEventArgs)

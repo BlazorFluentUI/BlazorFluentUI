@@ -19,12 +19,12 @@ namespace BlazorFluentUI.BFUChoiceGroup
         {
             var choiceGroupRules = new HashSet<Rule>();
             #region Root
-            choiceGroupRules.AddCssStringSelector("ms-ChoiceFieldGroup").AppendCssStyles(
+            choiceGroupRules.AddCssStringSelector(".ms-ChoiceFieldGroup").AppendCssStyles(
                 $"font-size:{theme.FontStyle.FontSize.Medium}",
                 $"font-weight:{theme.FontStyle.FontWeight.Regular}",
                 "display:block");
 
-            choiceGroupRules.AddCssStringSelector("ms-ChoiceFieldGroup-flexContainer").AppendCssStyles(
+            choiceGroupRules.AddCssStringSelector(".ms-ChoiceFieldGroup-flexContainer").AppendCssStyles(
                 "display:flex",
                 "flex-direction:row",
                 "flex-wrap:wrap");

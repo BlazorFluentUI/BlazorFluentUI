@@ -18,9 +18,6 @@ namespace BlazorFluentUI
             if (string.IsNullOrWhiteSpace(selectorName))
                 throw new ArgumentNullException(nameof(selectorName));
 
-            if (!selectorName.StartsWith(".") && !selectorName.StartsWith(":"))
-                selectorName = $".{selectorName}";
-
             var rule = new Rule
             {
                 Selector = new CssStringSelector { SelectorName = selectorName },
@@ -34,9 +31,6 @@ namespace BlazorFluentUI
         {
             if (string.IsNullOrWhiteSpace(selectorName))
                 throw new ArgumentNullException(nameof(selectorName));
-
-            if (!selectorName.StartsWith(".") && !selectorName.StartsWith(":"))
-                selectorName = $".{selectorName}";
 
             var rule = new Rule
             {

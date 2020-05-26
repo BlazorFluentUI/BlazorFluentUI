@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Windows.Input;
 
 namespace BlazorFluentUI
 {
-    public class BFUCommandBarItem : IBFUCommandBarItem
+    public class BFUNavBarItem : IBFUNavBarItem
     {
         public string CacheKey { get; set; }
 
@@ -15,7 +14,7 @@ namespace BlazorFluentUI
 
         public string AriaLabel { get; set; }
 
-        public bool CanCheck { get; set; } = true;
+        public bool CanCheck { get; set; }
 
         public bool Checked { get; set; }
 
@@ -33,7 +32,7 @@ namespace BlazorFluentUI
 
         public string IconName { get; set; }
 
-        //public object IconProps { get; set; }
+        public string Id { get; set; }
 
         public IEnumerable<IBFUContextualMenuItem> Items { get; set; }
 
@@ -42,6 +41,8 @@ namespace BlazorFluentUI
         public string Key { get; set; }
 
         public object KeytipProps { get; set; }
+
+        public NavMatchType NavMatchType { get; set; } = NavMatchType.AnchorIncluded;
 
         public Action<ItemClickedArgs> OnClick { get; set; }
 
@@ -59,11 +60,13 @@ namespace BlazorFluentUI
 
         public string Style { get; set; }
 
-        public string Target { get; set; }
-
+        public string Target { get; set; } //link <a> target
+  
         public string Text { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } //tooltip and ARIA
+
+        public string Url { get; set; }
         
     }
 }

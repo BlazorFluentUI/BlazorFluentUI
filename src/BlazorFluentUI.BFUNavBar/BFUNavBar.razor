@@ -1,0 +1,91 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using BlazorFluentUI.Internal
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+@if (Direction == LayoutDirection.Horizontal)
+{
+    <BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+    <BFUResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
+                    Data=@_currentData
+                    GetCacheKey=@(x => x.CacheKey)
+                    ClassName=@ClassName
+                    Style=@Style>
+        <DataTemplate Context="data">
+            <div class="mediumFont ms-NavBar-horizontal" role="menubar">
+                @*Primary*@
+                <BFUOverflowSet ClassName="ms-NavBar-horizontal-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
+                    <ItemTemplate>
+                        @if (context.IconOnly)
+                        {
+                            <BFUTooltipHost>
+                                <ChildContent>
+                                    <BFUCommandBarButton IconName=@context.IconName 
+                                                         Text=@(!context.IconOnly ? context.Text : null)
+                                                         MenuItems=@context.Items
+                                                         Href=@context.Url
+                                                         Disabled=@context.Disabled 
+                                                         AriaLabel=@context.AriaLabel 
+                                                         Checked=@context.Checked 
+                                                         ClassName=@context.ClassName
+                                                         Split=@context.Split Style=@context.Style />
+                                </ChildContent>
+                                <TooltipContent>
+                                    @context.Text
+                                </TooltipContent>
+                            </BFUTooltipHost>
+                        }
+                        else
+                        {
+                            <BFUCommandBarButton IconName=@context.IconName 
+                                                 Text=@(!context.IconOnly ? context.Text : null)
+                                                 MenuItems=@context.Items
+                                                 Href=@context.Url
+                                                 Disabled=@context.Disabled 
+                                                 AriaLabel=@context.AriaLabel 
+                                                 Checked=@context.Checked 
+                                                 ClassName=@context.ClassName
+                                                 Split=@context.Split Style=@context.Style />
+                        }
+                    </ItemTemplate>
+                    <OverflowTemplate>
+                        <BFUCommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@context />
+                    </OverflowTemplate>
+
+                </BFUOverflowSet>
+                <div class="ms-NavBar-horizontal-secondarySet">
+                    @FooterTemplate
+                </div>
+            </div>
+        </DataTemplate>
+    </BFUResizeGroup>
+}
+else
+{
+<BFUStack>
+    <BFUNav>
+        <BFUNavLinkGroup Name=@Header
+                         CollapseByDefault="false">
+            <GroupHeaderTemplate>
+                <h3>@context</h3>
+            </GroupHeaderTemplate>
+            <ChildContent>
+                @foreach (var item in Items)
+                {
+                    <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) Icon=@item.IconName />
+                }
+                @foreach (var item in OverflowItems)
+                {
+                    <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) Icon=@item.IconName />
+                }
+            </ChildContent>
+        </BFUNavLinkGroup>
+
+    </BFUNav>
+    <BFUStackItem Shrink="0">
+        @FooterTemplate
+    </BFUStackItem>
+</BFUStack>
+}

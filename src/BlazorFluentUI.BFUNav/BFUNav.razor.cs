@@ -90,13 +90,13 @@ namespace BlazorFluentUI
 
 
             var focusProps = new Style.FocusStyleProps(theme);
-            var focusStyles = BlazorFluentUI.Style.FocusStyle.GetFocusStyle(focusProps, ".ms-Nav-link");
+            var focusStyles = BlazorFluentUI.Style.FocusStyle.GetFocusStyle(focusProps, ".ms-Nav .ms-Nav-compositeLink .ms-Nav-link");
             foreach (var rule in focusStyles.AddRules)
                 navRules.Add(rule);
 
             navRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav-link" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink .ms-Nav-link" },
                 Properties = new CssString()
                 {
                     Css = focusStyles.MergeRules + 
@@ -148,10 +148,10 @@ namespace BlazorFluentUI
 
             navRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink.is-selected .ms-Nav-link:after" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink.is-selected .ms-Nav-link::after" },
                 Properties = new CssString()
                 {
-                    Css = $"border-left:2px solid {theme.Palette.NeutralLighter};" +
+                    Css = $"border-left:2px solid {theme.Palette.ThemePrimary};" +
                           $"content:'';" +
                           $"position:absolute;" +
                           $"top:0;" +
@@ -255,143 +255,143 @@ namespace BlazorFluentUI
                           $"height:42px;" +
                           $"position:absolute;" +
                           $"top:1px;" +
-                          $"left:1px;" +
+                          //$"left:1px;" +
                           $"z-index:{theme.ZIndex.Nav};" +
                           $"padding:0;" +
                           $"margin:0;" 
                 }
             });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:not(.is-button).depth-one .ms-Nav-chevronButton" },
-                Properties = new CssString()
-                {
-                    Css = $"left:15px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:not(.is-button).depth-two .ms-Nav-chevronButton" },
-                Properties = new CssString()
-                {
-                    Css = $"left:29px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:not(.is-button).depth-three .ms-Nav-chevronButton" },
-                Properties = new CssString()
-                {
-                    Css = $"left:43px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:not(.is-button).depth-four .ms-Nav-chevronButton" },
-                Properties = new CssString()
-                {
-                    Css = $"left:57px;"
-                }
-            });
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:not(.is-button).depth-one .ms-Nav-chevronButton" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"left:15px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:not(.is-button).depth-two .ms-Nav-chevronButton" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"left:29px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:not(.is-button).depth-three .ms-Nav-chevronButton" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"left:43px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:not(.is-button).depth-four .ms-Nav-chevronButton" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"left:57px;"
+            //    }
+            //});
 
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink .ms-Nav-link" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:27px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-one .ms-Nav-link" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:41px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-two .ms-Nav-link" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:55px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-three .ms-Nav-link" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:79px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-four .ms-Nav-link" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:83px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-five .ms-Nav-link" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:101px;"
-                }
-            });
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink .ms-Nav-link" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:27px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-one .ms-Nav-link" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:41px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-two .ms-Nav-link" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:55px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-three .ms-Nav-link" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:79px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-four .ms-Nav-link" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:83px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-five .ms-Nav-link" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:101px;"
+            //    }
+            //});
 
 
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink .ms-Nav-link.has-icon" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:3px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-one .ms-Nav-link.has-icon" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:17px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-two .ms-Nav-link.has-icon" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:31px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-three .ms-Nav-link.has-icon" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:45px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-four .ms-Nav-link.has-icon" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:59px;"
-                }
-            });
-            navRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-five .ms-Nav-link.has-icon" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:73px;"
-                }
-            });
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink .ms-Nav-link.has-icon" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:3px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-one .ms-Nav-link.has-icon" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:17px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-two .ms-Nav-link.has-icon" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:31px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-three .ms-Nav-link.has-icon" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:45px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-four .ms-Nav-link.has-icon" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:59px;"
+            //    }
+            //});
+            //navRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.depth-five .ms-Nav-link.has-icon" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"padding-left:73px;"
+            //    }
+            //});
 
 
             navRules.Add(new Rule()
@@ -405,7 +405,7 @@ namespace BlazorFluentUI
             });
             navRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.is-selected .ms-Nav-chevronButton:after" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-Nav .ms-Nav-compositeLink.is-selected .ms-Nav-chevronButton::after" },
                 Properties = new CssString()
                 {
                     Css = $"border-left:2px solid {theme.Palette.ThemePrimary};" +

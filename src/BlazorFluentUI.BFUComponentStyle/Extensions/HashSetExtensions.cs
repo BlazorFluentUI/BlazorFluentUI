@@ -47,6 +47,24 @@ namespace BlazorFluentUI
             rules.Add(rule);
             return rule;
         }
+        [Obsolete("We can remove this once IHasPreloadableGlobalStyle uses IRule instead of Rule in the CreateGlobalCss method.")]
+        public static IRule AddCssClassSelector(this ICollection<Rule> rules, string selectorName)
+        {
+            if (string.IsNullOrWhiteSpace(selectorName))
+                throw new ArgumentNullException(nameof(selectorName));
+
+            if (selectorName.StartsWith("."))
+                selectorName = selectorName.Substring(1);
+
+            var rule = new Rule
+            {
+                Selector = new ClassSelector { SelectorName = selectorName },
+                Properties = new CssString(),
+            };
+
+            rules.Add(rule);
+            return rule;
+        }
         public static IRule AddCssClassSelector(this ICollection<IRule> rules, string selectorName)
         {
             if (string.IsNullOrWhiteSpace(selectorName))

@@ -1,6 +1,8 @@
 ﻿@inherits BFUComponentBase
 @typeparam TItem
 
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=> this.CreateGlobalCss(Theme)) />
+
 @if (this.IsVisible)
 {
     <BFULocalCS @bind-Rules="@LocalCssRules" />
@@ -9,8 +11,8 @@
             <input type="radio" checked=@this._isSelected class="ms-ChoiceField-input" />
             @if (!string.IsNullOrWhiteSpace(this.Label))
             {
-                <label class="ms-ChoiceField-field">
-                    <span class="ms-ChoiceFieldLabel">@this.Label</span>
+                <label class="ms-ChoiceField-field @(this._isSelected ? "is-checked": "")">
+                    <span class="ms-ChoiceFieldLabel @(_choiceGroupOptionLabelRule.Selector.SelectorName)">@this.Label</span>
                 </label>
             }
             @if (this.Item != null && this.OptionTemplate != null)

@@ -29,8 +29,6 @@ namespace BlazorFluentUI
         [Parameter]
         public string HtmlFor { get; set; }  //not being used for anything.
 
-        private static int _currentAutoId = 0;
-
         public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var labelRules = new HashSet<Rule>();
@@ -46,7 +44,7 @@ namespace BlazorFluentUI
             base.OnParametersSet();
 
             if (string.IsNullOrWhiteSpace(this.Id))
-                this.Id = $"autoId_label_{_currentAutoId++}";
+                this.Id = Guid.NewGuid().ToString();
         }
     }
 }

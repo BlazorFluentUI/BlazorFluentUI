@@ -2,7 +2,7 @@
 {
     public interface IChoiceGroupOption
     {
-        string Text { get; }
+        string Label { get; }
         bool IsDisabled { get; }
         bool IsVisible { get; }
     }

@@ -22,7 +22,7 @@
         </BFUChoiceGroup>
         <br />
         <div>
-            Selected option: @(_selectedChoiceGroupOption?.Text ?? "none")
+            Selected option: @(_selectedChoiceGroupOption?.Label ?? "none")
         </div>
     </BFUStack>
 
@@ -35,16 +35,45 @@
         </BFUChoiceGroup>
         <br />
         <div>
-            Selected option: @(_selectedCustomObject?.Text ?? "none")
+            Selected option: @(_selectedCustomObject?.Label ?? "none")
         </div>
     </BFUStack>
+
+    <BFUStack>
+        <h3>Datasource is a List&lt;CustomObject&gt; using the "OptionTemplate"</h3>
+        <BFUChoiceGroup ItemsSource="this._customObjects2" @bind-Value="this._selectedCustomObject2" ItemAlignment="FlexDirection.Row">
+            <OptionTemplate Context="item">
+                <div style="width:200px;height:90px">
+                    <BFUIcon IconName="@item.IconName" Style="font-size:36px;margin-bottom:10px"></BFUIcon>
+                    @if (item.Id == 1)
+                    {
+                        <BFUDatePicker Disabled="_selectedCustomObject2?.Id != 1"></BFUDatePicker>
+                    }
+                    else if (item.Id == 3)
+                    {
+                        <BFUDropdown ItemsSource=@_months TItem="Month" Disabled="_selectedCustomObject2?.Id != 3" Placeholder="Select a Month">
+                            <ItemTemplate>
+                                <BFUDropdownItem TItem="Month" Text=@context.Name />
+                            </ItemTemplate>
+                        </BFUDropdown>
+                    }
+                </div>
+            </OptionTemplate>
+        </BFUChoiceGroup>
+        <br />
+        <div>
+            Selected option id: @(_selectedCustomObject2?.Id.ToString() ?? "none")
+        </div>
+    </BFUStack>
+
+    <div style="height:150px"></div>
 </div>
 
 @code {
-
     private string _selectedStringOption = string.Empty;
     private ChoiceGroupOption _selectedChoiceGroupOption;
     private CustomObject _selectedCustomObject;
+    private CustomObject _selectedCustomObject2;
 
     private List<string> _stringItems = new List<string>
     {
@@ -56,32 +85,61 @@
 
     private List<ChoiceGroupOption> _choiceGroupOptions = new List<ChoiceGroupOption>
     {
-        new ChoiceGroupOption{ Text = "Choice Group Option A" },
-        new ChoiceGroupOption{ Text = "Choice Group Option B" },
-        new ChoiceGroupOption{ Text = "Choice Group Option C (Disabled)", IsDisabled = true },
-        new ChoiceGroupOption{ Text = "Choice Group Option D" },
+        new ChoiceGroupOption{ Label = "Option A" },
+        new ChoiceGroupOption{ Label = "Option B" },
+        new ChoiceGroupOption{ Label = "Option C", IsDisabled = true },
+        new ChoiceGroupOption{ Label = "Option D" },
     };
 
     private List<CustomObject> _customObjects = new List<CustomObject>
     {
-        new CustomObject{ Text = "Custom Object 1", IconName= "PageLink"},
-        new CustomObject{ Text = "Custom Object 2", IconName= "Installation"},
-        new CustomObject{ Text = "Custom Object 3 (Disabled)", IconName= "CirclePlus", IsDisabled = true},
-        new CustomObject{ Text = "Custom Object 4", IconName= "Plug"},
+        new CustomObject{ Label = "Day", IconName= "CalendarDay"},
+        new CustomObject{ Label = "Week", IconName= "CalendarWeek"},
+        new CustomObject{ Label = "Month", IconName= "Calendar", IsDisabled = true},
     };
+
+    private List<CustomObject> _customObjects2 = new List<CustomObject>
+    {
+        new CustomObject{ Id = 1, Label = "Day", IconName= "CalendarDay"},
+        new CustomObject{ Id = 2, Label = "Week", IconName= "CalendarWeek", IsDisabled = true},
+        new CustomObject{ Id = 3, Label = "Month", IconName= "Calendar"},
+    };
+
+    private List<Month> _months = new List<Month>
+    {
+        new Month { Name = "January" },
+        new Month { Name = "February" },
+        new Month { Name = "March" },
+        new Month { Name = "April" },
+        new Month { Name = "May" },
+        new Month { Name = "June" },
+        new Month { Name = "July" },
+        new Month { Name = "August" },
+        new Month { Name = "September" },
+        new Month { Name = "October" },
+        new Month { Name = "November" },
+        new Month { Name = "December" },
+    };
+
 
     private class ChoiceGroupOption : IChoiceGroupOption
     {
-        public string Text { get; set; }
+        public string Label { get; set; }
         public bool IsDisabled { get; set; } = false;
         public bool IsVisible { get; set; } = true;
     }
 
     private class CustomObject : IChoiceGroupOption
     {
-        public string Text { get; set; }
+        public int Id { get; set; }
+        public string Label { get; set; }
         public bool IsDisabled { get; set; } = false;
         public bool IsVisible { get; set; } = true;
         public string IconName { get; set; }
+    }
+
+    private class Month
+    {
+        public string Name { get; set; }
     }
 }

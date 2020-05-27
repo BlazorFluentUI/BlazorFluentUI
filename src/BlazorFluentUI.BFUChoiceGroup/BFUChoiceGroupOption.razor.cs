@@ -266,7 +266,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
             }
             else if (this.Item is IChoiceGroupOption choiceGroupOption)
             {
-                this.Label = choiceGroupOption.Text;
+                this.Label = choiceGroupOption.Label;
                 this.IsVisible = choiceGroupOption.IsVisible;
                 this.IsDisabled = choiceGroupOption.IsDisabled;
             }

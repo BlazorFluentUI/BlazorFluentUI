@@ -9,15 +9,34 @@
     <div @ref=@RootElementReference class=@($"ms-ChoiceField{(this._isSelected ? " is-checked": "")}{(this.IsDisabled ? " is-disabled": "")}{(!string.IsNullOrWhiteSpace(this.Icon) || this.OptionTemplate != null ? " custom-content": "")}") style=@Style id="@this.Id">
         <div class="ms-ChoiceField-wrapper" @onclick="OnOptionClick">
             <input type="radio" checked=@this._isSelected class="ms-ChoiceField-input" disabled=@this.IsDisabled />
-            @if (!string.IsNullOrWhiteSpace(this.Label))
+            @if (string.IsNullOrWhiteSpace(this.Icon) && !string.IsNullOrWhiteSpace(this.Label))
             {
-                <label class="ms-ChoiceField-field">
+                <div class="ms-ChoiceField-field">
                     <span class="ms-ChoiceFieldLabel @(_choiceGroupOptionLabelRule.Selector.SelectorName)">@this.Label</span>
-                </label>
+                </div>
             }
-            @if (this.Item != null && this.OptionTemplate != null)
+            else if (!string.IsNullOrWhiteSpace(this.Icon) || (this.OptionTemplate != null && this.Item != null))
             {
-                @this.OptionTemplate(Item)
+                <div class="ms-ChoiceField-field custom-content">
+                    <div class="ms-ChoiceField-innerField">
+                        <div class="ms-ChoiceField-customContentWrapper">
+                            @if (!string.IsNullOrWhiteSpace(this.Icon))
+                            {
+
+                            }
+                            else if (this.Item != null && this.OptionTemplate != null)
+                            {
+                                @this.OptionTemplate(Item)
+                            }
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(this.Label))
+                    {
+                        <div class="ms-ChoiceField-labelWrapper">
+                            <span class="ms-ChoiceFieldLabel @(_choiceGroupOptionLabelRule.Selector.SelectorName)">@this.Label</span>
+                        </div>
+                    }
+                </div>
             }
         </div>
     </div>

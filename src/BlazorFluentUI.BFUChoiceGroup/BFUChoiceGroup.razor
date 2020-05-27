@@ -3,12 +3,25 @@
 
 <BFUGlobalCS Component="this" CreateGlobalCss=@(()=> this.CreateGlobalCss(Theme)) />
 
-<div @ref=@RootElementReference class=@($"ms-ChoiceFieldGroup{(this.ItemAlignment == FlexDirection.Row ? " ms-ChoiceFieldGroup-flexContainer" : "")}") style=@Style id="@this.Id">
-    <CascadingValue Value=this>
-        @foreach (var item in this.ItemsSource)
-        {
-            <BFUChoiceGroupOption Item="item" OptionTemplate="OptionTemplate" OnClick="OnChoiceOptionClicked">
-            </BFUChoiceGroupOption>
-        }
-    </CascadingValue>
+<BFUStylePreloader Component=@(new BFULabel()) />
+
+<div @ref=@RootElementReference
+     class="ms-ChoiceFieldGroup"
+     style=@Style
+     id="@Id"
+     role="radiogroup"
+     aria-labelledby=@($"{this.Id}_label")>
+    @if (!string.IsNullOrWhiteSpace(this.Label))
+    {
+        <BFULabel Id=@($"{this.Id}_label") Required=@Required>@this.Label</BFULabel>
+    }
+    <div class=@($"ms-ChoiceFieldGroup-flexContainer{(this.ItemAlignment == FlexDirection.Row ? " flex-direction-row" : "")}")>
+        <CascadingValue Value=this>
+            @foreach (var item in this.ItemsSource)
+            {
+                <BFUChoiceGroupOption Item="item" OptionTemplate="OptionTemplate" OnClick="OnChoiceOptionClicked">
+                </BFUChoiceGroupOption>
+            }
+        </CascadingValue>
+    </div>
 </div>

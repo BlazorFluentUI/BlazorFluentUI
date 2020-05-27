@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,14 +7,14 @@ namespace BlazorFluentUI.BFUChoiceGroup
 {
     public partial class BFUChoiceGroup<TItem> : BFUComponentBase, IHasPreloadableGlobalStyle
     {
+        [Parameter] public string Label { get; set; } = "Pick one";
         [Parameter] public IList<TItem> ItemsSource { get; set; }
         [Parameter] public RenderFragment<TItem> OptionTemplate { get; set; }
         [Parameter] public TItem Value { get; set; }
         [Parameter] public EventCallback<TItem> ValueChanged { get; set; }
         [Parameter] public FlexDirection ItemAlignment { get; set; } = FlexDirection.Column;
         [Parameter] public string Id { get; set; }
-
-        private static int _currentAutoId = 0;
+        [Parameter] public bool Required { get; set; } = false;
 
         public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
@@ -24,7 +25,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 $"font-weight:{theme.FontStyle.FontWeight.Regular}",
                 "display:block");
 
-            choiceGroupRules.AddCssStringSelector(".ms-ChoiceFieldGroup-flexContainer").AppendCssStyles(
+            choiceGroupRules.AddCssStringSelector(".ms-ChoiceFieldGroup-flexContainer.flex-direction-row").AppendCssStyles(
                 "display:flex",
                 "flex-direction:row",
                 "flex-wrap:wrap");
@@ -36,7 +37,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
         {
             await base.OnParametersSetAsync();
             if (string.IsNullOrWhiteSpace(this.Id))
-                this.Id = $"autoId_choiceGroup_{_currentAutoId++}";
+                this.Id = Guid.NewGuid().ToString();
         }
 
         private async Task OnChoiceOptionClicked(ChoiceGroupOptionClickedEventArgs choiceGroupOptionClickedEventArgs)

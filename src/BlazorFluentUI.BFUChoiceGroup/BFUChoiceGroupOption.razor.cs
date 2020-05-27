@@ -27,8 +27,6 @@ namespace BlazorFluentUI.BFUChoiceGroup
 
         private bool _isSelected = false;
 
-        private static int _currentAutoId = 0;
-
         public ICollection<Rule> CreateGlobalCss(ITheme theme)
         {
             var choiceGroupOptionRules = new HashSet<Rule>();
@@ -273,7 +271,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
             this._isSelected = Equals(this.ChoiceGroup.Value, this.Item);
 
             if (string.IsNullOrWhiteSpace(this.Id))
-                this.Id = $"autoId_choiceGroupOption_{_currentAutoId++}";
+                this.Id = this.Id = Guid.NewGuid().ToString();
         }
 
         private void AddFieldHoverOrFocusStyles(HashSet<Rule> rules, ITheme theme, string pseudoSelector)

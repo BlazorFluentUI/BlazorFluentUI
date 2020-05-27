@@ -47,13 +47,13 @@
                     <BFUIcon IconName="@item.IconName" Style="font-size:36px;margin-bottom:10px"></BFUIcon>
                     @if (item.Id == 1)
                     {
-                        <BFUDatePicker Disabled="_selectedCustomObject2?.Id != 1"></BFUDatePicker>
+                        <BFUDatePicker Disabled="_selectedCustomObject2?.Id != 1" @bind-Value="_selectedDate"></BFUDatePicker>
                     }
                     else if (item.Id == 3)
                     {
-                        <BFUDropdown ItemsSource=@_months TItem="Month" Disabled="_selectedCustomObject2?.Id != 3" Placeholder="Select a Month">
+                        <BFUDropdown ItemsSource=@_months TItem="Month" Disabled="_selectedCustomObject2?.Id != 3" Placeholder="Select a Month" @bind-SelectedKey=@_selectedMonth>
                             <ItemTemplate>
-                                <BFUDropdownItem TItem="Month" Text=@context.Name />
+                                <BFUDropdownItem TItem="Month" Text=@context.Name ItemKey="@context.Name" />
                             </ItemTemplate>
                         </BFUDropdown>
                     }
@@ -63,6 +63,12 @@
         <br />
         <div>
             Selected option id: @(_selectedCustomObject2?.Id.ToString() ?? "none")
+        </div>
+        <div>
+            Selected date: @(_selectedDate != DateTime.MinValue ? _selectedDate.ToShortDateString() : "none")
+        </div>
+        <div>
+            Selected month: @(_selectedMonth ?? "none")
         </div>
     </BFUStack>
 
@@ -74,6 +80,8 @@
     private ChoiceGroupOption _selectedChoiceGroupOption;
     private CustomObject _selectedCustomObject;
     private CustomObject _selectedCustomObject2;
+    private DateTime _selectedDate;
+    private string _selectedMonth;
 
     private List<string> _stringItems = new List<string>
     {
@@ -120,7 +128,6 @@
         new Month { Name = "November" },
         new Month { Name = "December" },
     };
-
 
     private class ChoiceGroupOption : IChoiceGroupOption
     {

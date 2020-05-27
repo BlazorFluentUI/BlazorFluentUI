@@ -3,7 +3,7 @@
 
 <BFUGlobalCS Component="this" CreateGlobalCss=@(()=> this.CreateGlobalCss(Theme)) />
 
-<div @ref=@RootElementReference class="ms-ChoiceFieldGroup" style=@Style id="@this.Id">
+<div @ref=@RootElementReference class=@($"ms-ChoiceFieldGroup{(this.ItemAlignment == FlexDirection.Row ? " ms-ChoiceFieldGroup-flexContainer" : "")}") style=@Style id="@this.Id">
     <CascadingValue Value=this>
         @foreach (var item in this.ItemsSource)
         {

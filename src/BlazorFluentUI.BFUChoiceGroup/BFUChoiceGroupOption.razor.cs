@@ -21,7 +21,6 @@ namespace BlazorFluentUI.BFUChoiceGroup
         [Parameter] public bool IsVisible { get; set; } = true;
         [Parameter] public TItem Item { get; set; }
         [Parameter] public RenderFragment<TItem> OptionTemplate { get; set; }
-        [Parameter] public string Icon { get; set; }
         [Parameter] public EventCallback<ChoiceGroupOptionClickedEventArgs> OnClick { get; set; }
         [Parameter] public string Id { get; set; }
         [CascadingParameter] protected BFUChoiceGroup<TItem> ChoiceGroup { get; set; }
@@ -59,10 +58,10 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 $"color: {Theme.Palette.NeutralDark}",
                 "display:inline-block");
 
-            choiceGroupOptionRules.AddCssStringSelector(":not(.custom-content) .ms-ChoiceFieldLabel").AppendCssStyles(
+            choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField:not(.custom-content) .ms-ChoiceFieldLabel").AppendCssStyles(
                 "padding-left:26px");
 
-            choiceGroupOptionRules.AddCssStringSelector(".custom-content .ms-ChoiceField").AppendCssStyles(
+            choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField.custom-content").AppendCssStyles(
                 "display:inline-flex",
                 "font-size:0",
                 "margin:0 4px 4px 0",
@@ -122,7 +121,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 "border: 1px solid transparent",
                 "justify-content:center",
                 "align-items:center",
-                "display-flex",
+                "display:flex",
                 "flex-direction:column");
 
             choiceGroupOptionRules.AddCssStringSelector(".is-checked.custom-content .ms-ChoiceField-field").AppendCssStyles(
@@ -238,13 +237,15 @@ namespace BlazorFluentUI.BFUChoiceGroup
 
             #region LabelWrapper
             choiceGroupOptionRules.AddCssStringSelector($".custom-content .ms-ChoiceField-labelWrapper").AppendCssStyles(
-               "display:block",
-               "position:relative",
-               "margin:4px 8px 2px 8px",
-               $"height:{_labelWrapperHeight}px",
-               $"line-height:{_labelWrapperLineHeight}px",
-               "overflow:hidden",
-               "white-space:pre-wrap");
+                $"font-size:{Theme.FontStyle.FontSize.Medium}",
+                $"font-weight:{Theme.FontStyle.FontWeight.Regular}",
+                "display:flex",
+                "position:relative",
+                "margin:4px 8px 2px 8px",
+                $"height:{_labelWrapperHeight}px",
+                $"line-height:{_labelWrapperLineHeight}px",
+                "overflow:hidden",
+                "white-space:pre-wrap");
             #endregion
 
             return choiceGroupOptionRules;
@@ -287,7 +288,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
         private void CreateLocalCss()
         {
             #region Root
-            if (string.IsNullOrWhiteSpace(this.Icon) && this.OptionTemplate == null && !this._isSelected)
+            if (this.OptionTemplate == null && !this._isSelected)
             {
                 _choiceGroupOptionLabelRule.SetCssStyles(
                     "content:''",

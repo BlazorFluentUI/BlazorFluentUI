@@ -1,0 +1,55 @@
+﻿@namespace BlazorFluentUI.BFUNavBarInternal
+
+@if (Items == null)
+{
+    <BFUNavLink Name=@Name 
+                Url=@Url 
+                NavMatchType=@NavMatchType 
+                Id=@Id 
+                NestedDepth=@NestedDepth 
+                Icon=@Icon 
+                @bind-IsExpanded=@IsExpanded/>
+}
+else
+{
+<BFUNavLink Name=@Name 
+            Url=@Url 
+            NavMatchType=@NavMatchType 
+            Id=@Id 
+            NestedDepth=@NestedDepth 
+            Icon=@Icon 
+            @bind-IsExpanded=@IsExpanded>
+    @foreach (IBFUNavBarItem subItem in Items)
+    {
+        <BFURecursiveNavLink Name=@subItem.Text 
+                             Url=@subItem.Url 
+                             NavMatchType=@subItem.NavMatchType 
+                             Id=@subItem.Id 
+                             NestedDepth=@(NestedDepth + 1) 
+                             Icon=@subItem.IconName 
+                             Items=@subItem.Items 
+                             @bind-IsExpanded=@IsExpanded/>
+    }
+</BFUNavLink>
+}
+@code{
+
+    [Parameter] public IEnumerable<IBFUContextualMenuItem> Items { get; set; }  //LINKS
+
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool ForceAnchor { get; set; } //unused for now
+    [Parameter] public string Icon { get; set; }
+    [Parameter] public bool IsButton { get; set; }
+    [Parameter] public bool IsExpanded { get; set; }
+    [Parameter] public EventCallback<bool> IsExpandedChanged { get; set; }
+    [Parameter] public string Name { get; set; }
+    [Parameter] public string Target { get; set; }  //link <a> target
+    [Parameter] public string Title { get; set; } //tooltip and ARIA
+    [Parameter] public string Id { get; set; }
+    [Parameter] public string Url { get; set; }
+    [Parameter] public int NestedDepth { get; set; } = 0;
+    [Parameter] public NavMatchType NavMatchType { get; set; } = NavMatchType.RelativeLinkOnly;
+    [Parameter] public EventCallback<BFUNavLink> OnClick { get; set; }
+
+
+}

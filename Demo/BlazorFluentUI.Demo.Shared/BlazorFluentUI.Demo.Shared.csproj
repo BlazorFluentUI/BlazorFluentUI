@@ -33,6 +33,7 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUList\BlazorFluentUI.BFUList.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUMessageBar\BlazorFluentUI.BFUMessageBar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUModal\BlazorFluentUI.BFUModal.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUNavBar\BlazorFluentUI.BFUNavBar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUNav\BlazorFluentUI.BFUNav.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUOverflowSet\BlazorFluentUI.BFUOverflowSet.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUPanel\BlazorFluentUI.BFUPanel.csproj" />

@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
+using System.Linq;
 
 namespace BlazorFluentUI.BFUContextualMenuInternal
 {
     public class ContextualMenuItem : BFUComponentBase, IDisposable
     {
-        [Inject] private IJSRuntime jsRuntime { get; set; }
+        //[Inject] private IJSRuntime jsRuntime { get; set; }
 
         [Parameter] public string Href { get; set; }
         [Parameter] public string Key { get; set; }
@@ -53,11 +54,20 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
 
         protected bool isSubMenuOpen = false;
 
-        private ElementReference linkElementReference;
-        private List<int> eventHandlerIds;
+        //private ElementReference linkElementReference;
+        //private List<int> eventHandlerIds;
         private Timer enterTimer = new Timer();
 
-        [JSInvokable] public void MouseEnterHandler()
+        //[JSInvokable] public void MouseEnterHandler()
+        //{
+        //    //if (ParentContextualMenu.SubmenuActiveKey == this.Key)
+        //    if (isSubMenuOpen)
+        //        return;
+        //    if (!enterTimer.Enabled)
+        //        enterTimer.Start();
+        //}
+
+        public void MouseEnterHandler(EventArgs args)
         {
             //if (ParentContextualMenu.SubmenuActiveKey == this.Key)
             if (isSubMenuOpen)
@@ -69,14 +79,14 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (eventHandlerIds == null)
-                eventHandlerIds = await jsRuntime.InvokeAsync<List<int>>("BlazorFluentUiContextualMenu.registerHandlers", this.RootElementReference, DotNetObjectReference.Create(this));
+            //if (eventHandlerIds == null)
+            //    eventHandlerIds = await jsRuntime.InvokeAsync<List<int>>("BlazorFluentUiContextualMenu.registerHandlers", this.RootElementReference, DotNetObjectReference.Create(this));
             await base.OnAfterRenderAsync(firstRender);
         }
 
         public void Dispose()
         {
-            jsRuntime.InvokeAsync<object>("BlazorFluentUiContextualMenu.unregisterHandlers", eventHandlerIds);
+            //jsRuntime.InvokeAsync<object>("BlazorFluentUiContextualMenu.unregisterHandlers", eventHandlerIds);
         }
 
         public override Task SetParametersAsync(ParameterView parameters)
@@ -146,8 +156,20 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             await OnKeyDown.InvokeAsync(args);
         }
         
-        [JSInvokable] 
-        public async void ClickHandler()
+        //[JSInvokable] 
+        //public async void ClickHandler()
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"ContextualMenuItem called click: {this.Key}");
+
+        //    await this.OnClick.InvokeAsync(new ItemClickedArgs() { MouseEventArgs = new MouseEventArgs(), Key = this.Key });
+        //    this.Command?.Execute(CommandParameter);
+
+        //    if (!CanCheck)
+        //        await this.DismissMenu.InvokeAsync(true);
+        //    //await ParentContextualMenu.OnDismiss.InvokeAsync(true);
+        //}
+
+        public async Task ClickHandler(MouseEventArgs args)
         {
             System.Diagnostics.Debug.WriteLine($"ContextualMenuItem called click: {this.Key}");
 
@@ -236,7 +258,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
 
         private void RenderItemKind(RenderTreeBuilder builder)
         {
-            if (this.Href!=null)
+            if (this.Href != null)
             {
                 RenderMenuAnchor(builder);
                 return;
@@ -256,9 +278,12 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             builder.OpenElement(21, "a");
             builder.AddAttribute(22, "href", this.Href);
             builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, KeyDownHandler));
-            //builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, this.OnClick));
+            builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, ()=> this.DismissMenu.InvokeAsync(true)));
+            //builder.AddAttribute(23, "onclick:preventDefault", true);
             builder.AddAttribute(24, "role", "menuitem");
-            builder.AddAttribute(25, "class", "ms-ContextualMenu-link mediumFont");
+            builder.AddAttribute(25, "class", $"ms-ContextualMenu-link ms-ContextualMenu-anchorLink mediumFont {(Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault(x => x.Checked == true) != null ? $" subgroup-is-checked" : "")}");  //the subgroup check is only for NavBar
+            builder.AddAttribute(27, "onmouseenter", EventCallback.Factory.Create(this, MouseEnterHandler));
+            builder.AddAttribute(28, "onmouseenter:preventDefault", true);
 
             RenderMenuItemContent(builder);
 
@@ -266,16 +291,24 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             builder.CloseElement();
         }
 
+        private IEnumerable<IBFUContextualMenuItem> GetChild(IEnumerable<IBFUContextualMenuItem> list)
+        {
+            return list.Concat(list.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items)));
+        }
+
         private void RenderButtonItem(RenderTreeBuilder builder)
         {
             builder.OpenElement(20, "div");
             //skip KeytipData
             builder.OpenElement(21, "button");
-            builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, KeyDownHandler));
-            //builder.AddAttribute(22, "onclick", ClickHandler);
-            builder.AddAttribute(24, "role", "menuitem");
-            builder.AddAttribute(25, "class", "ms-ContextualMenu-link mediumFont");
-            builder.AddElementReferenceCapture(26, (linkElement) => linkElementReference = linkElement);  //need this to register mouse events in javascript (not available in Blazor)
+            builder.AddAttribute(22, "onkeydown", EventCallback.Factory.Create(this, KeyDownHandler));
+            builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, ClickHandler));
+            builder.AddAttribute(24, "onclick:preventDefault", true);
+            builder.AddAttribute(25, "role", "menuitem");
+            builder.AddAttribute(26, "class", $"ms-ContextualMenu-link mediumFont {(Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault(x => x.Checked == true) != null ? $" subgroup-is-checked" : "")}");  //the subgroup check is only for NavBar
+            builder.AddAttribute(27, "onmouseenter", EventCallback.Factory.Create(this, MouseEnterHandler));
+            builder.AddAttribute(28, "onmouseenter:preventDefault", true);
+            //builder.AddElementReferenceCapture(29, (linkElement) => linkElementReference = linkElement);  //need this to register mouse events in javascript (not available in Blazor)
 
             RenderMenuItemContent(builder);
 

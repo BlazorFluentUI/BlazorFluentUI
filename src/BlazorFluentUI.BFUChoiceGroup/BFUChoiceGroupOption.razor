@@ -5,14 +5,13 @@
 
 @if (this.IsVisible)
 {
-    <BFULocalCS @bind-Rules="@LocalCssRules" />
     <div @ref=@RootElementReference class=@($"ms-ChoiceField{(this._isSelected ? " is-checked": "")}{(this.IsDisabled ? " is-disabled": "")}{(this.OptionTemplate != null ? " custom-content": "")}") style=@Style id="@this.Id">
         <div class="ms-ChoiceField-wrapper" @onclick="OnOptionClick">
             <input type="radio" checked=@this._isSelected class="ms-ChoiceField-input" disabled=@this.IsDisabled />
             @if (!string.IsNullOrWhiteSpace(this.Label) && this.OptionTemplate == null)
             {
                 <div class="ms-ChoiceField-field">
-                    <span class="ms-ChoiceFieldLabel @(_choiceGroupOptionLabelRule.Selector.SelectorName)">@this.Label</span>
+                    <span class="ms-ChoiceFieldLabel">@this.Label</span>
                 </div>
             }
             else if (this.OptionTemplate != null && this.Item != null)
@@ -26,7 +25,7 @@
                     @if (!string.IsNullOrWhiteSpace(this.Label))
                     {
                         <div class="ms-ChoiceField-labelWrapper">
-                            <span class="ms-ChoiceFieldLabel @(_choiceGroupOptionLabelRule.Selector.SelectorName)">@this.Label</span>
+                            <span class="ms-ChoiceFieldLabel">@this.Label</span>
                         </div>
                     }
                 </div>

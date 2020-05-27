@@ -25,13 +25,6 @@ namespace BlazorFluentUI.BFUChoiceGroup
         [Parameter] public string Id { get; set; }
         [CascadingParameter] protected BFUChoiceGroup<TItem> ChoiceGroup { get; set; }
 
-        private ICollection<IRule> LocalCssRules { get; set; } = new List<IRule>();
-        private Rule _choiceGroupOptionLabelRule = new Rule
-        {
-            Selector = new ClassSelector { SelectorName = "ms-ChoiceFieldLabel", PseudoElement = PseudoElements.After },
-            Properties = new CssString(),
-        };
-
         private bool _isSelected = false;
 
         private static int _currentAutoId = 0;
@@ -75,6 +68,18 @@ namespace BlazorFluentUI.BFUChoiceGroup
 
             choiceGroupOptionRules.AddCssStringSelector(".is-checked .ms-ChoiceFieldLabel:before").AppendCssStyles(
                 $"color: {Theme.Palette.ThemeDark}",
+                $"border-color: {Theme.Palette.ThemeDark}");
+
+            choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField:not(.is-checked):not(.custom-content) .ms-ChoiceFieldLabel:after").AppendCssStyles(
+                "content:''",
+                "transition-property:background-color",
+                "left:5px",
+                "top:5px",
+                "width:10px",
+                "height:10px",
+                $"background-color:{Theme.Palette.NeutralSecondary}");
+
+            choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField.is-checked .ms-ChoiceFieldLabel:after").AppendCssStyles(
                 $"border-color: {Theme.Palette.ThemeDark}");
 
             #endregion
@@ -251,12 +256,6 @@ namespace BlazorFluentUI.BFUChoiceGroup
             return choiceGroupOptionRules;
         }
 
-        protected override async Task OnInitializedAsync()
-        {
-            await base.OnInitializedAsync();
-            this.LocalCssRules.Add(this._choiceGroupOptionLabelRule);
-        }
-
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync();
@@ -275,36 +274,6 @@ namespace BlazorFluentUI.BFUChoiceGroup
 
             if (string.IsNullOrWhiteSpace(this.Id))
                 this.Id = $"autoId_choiceGroupOption_{_currentAutoId++}";
-
-            this.CreateLocalCss();
-        }
-
-        protected override void OnThemeChanged()
-        {
-            base.OnThemeChanged();
-            this.CreateLocalCss();
-        }
-
-        private void CreateLocalCss()
-        {
-            #region Root
-            if (this.OptionTemplate == null && !this._isSelected)
-            {
-                _choiceGroupOptionLabelRule.SetCssStyles(
-                    "content:''",
-                    "transition-property:background-color",
-                    "left:5px",
-                    "top:5px",
-                    "width:10px",
-                    "height:10px",
-                    $"background-color:{Theme.Palette.NeutralSecondary}");
-            }
-            else if (this._isSelected)
-            {
-                _choiceGroupOptionLabelRule.SetCssStyles(
-                    $"border-color: {Theme.Palette.ThemeDark}");
-            }
-            #endregion
         }
 
         private void AddFieldHoverOrFocusStyles(HashSet<Rule> rules, ITheme theme, string pseudoSelector)

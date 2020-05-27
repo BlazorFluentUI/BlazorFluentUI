@@ -4,33 +4,7 @@
 
 <h1>ContextualMenu</h1>
 
-<BFUDefaultButton Text="Show ContextualMenu" MenuItems=@contextualMenuItems>
-    @*<ContextualMenuContent>
-
-            <ContextualMenuItem Text="Header1" Key="Header1" ItemType=@ContextualMenuItemType.Header OnClick=@ClickHandler />
-            <ContextualMenuItem Text="Test1" Key="Test1" OnClick=@ClickHandler />
-            <ContextualMenuItem Text="Test2" Key="Test2" IconName="Mail" OnClick=@ClickHandler />
-            <ContextualMenuItem ItemType=@ContextualMenuItemType.Divider />
-            <ContextualMenuItem Text="Test3 Check" Key="Test3" CanCheck="true" OnClick=@ClickHandler />
-            <ContextualMenuItem Text="Header2" ItemType=@ContextualMenuItemType.Header OnClick=@ClickHandler />
-            <ContextualMenuItem Text="Test4" Key="Test4" OnClick=@ClickHandler />
-            <ContextualMenuItem Text="Contains Submenu5" Key="Test5" OnClick=@ClickHandler>
-                <SubmenuContent>
-                    <ContextualMenuItem Text="SubItem1" Key="TestS1" OnClick=@ClickHandler>
-                        <SubmenuContent>
-                            <ContextualMenuItem Text="SubSubItem1" Key="TestSS1" OnClick=@ClickHandler />
-                            <ContextualMenuItem Text="SubSubItem2" Key="TestSS2" OnClick=@ClickHandler />
-                            <ContextualMenuItem Text="SubSubItem3" Key="TestSS3" OnClick=@ClickHandler />
-                        </SubmenuContent>
-                    </ContextualMenuItem>
-                    <ContextualMenuItem Text="SubItem2" Key="TestS2" OnClick=@ClickHandler />
-                    <ContextualMenuItem Text="SubItem3" Key="TestS3" OnClick=@ClickHandler />
-                </SubmenuContent>
-            </ContextualMenuItem>
-            <ContextualMenuItem Text="Test6" Key="Test6" OnClick=@ClickHandler />
-
-    </ContextualMenuContent>*@
-</BFUDefaultButton>
+<BFUDefaultButton Text="Show ContextualMenu" MenuItems=@contextualMenuItems />
 
 <p>
     <em>@debugText</em>

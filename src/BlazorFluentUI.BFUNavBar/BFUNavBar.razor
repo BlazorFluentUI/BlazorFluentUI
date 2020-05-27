@@ -1,6 +1,7 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
-@using BlazorFluentUI.Internal
+@using BlazorFluentUI.BFUNavBarInternal 
+@using System.Linq
 
 <BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 
@@ -15,6 +16,9 @@
                     Style=@Style>
         <DataTemplate Context="data">
             <div class="mediumFont ms-NavBar-horizontal" role="menubar">
+                <div style="margin:8px 15px 0 -15px;">
+                    @HeaderTemplate(Header)
+                </div>
                 @*Primary*@
                 <BFUOverflowSet ClassName="ms-NavBar-horizontal-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
                     <ItemTemplate>
@@ -22,14 +26,14 @@
                         {
                             <BFUTooltipHost>
                                 <ChildContent>
-                                    <BFUCommandBarButton IconName=@context.IconName 
+                                    <BFUCommandBarButton IconName=@context.IconName
                                                          Text=@(!context.IconOnly ? context.Text : null)
                                                          MenuItems=@context.Items
                                                          Href=@context.Url
-                                                         Disabled=@context.Disabled 
-                                                         AriaLabel=@context.AriaLabel 
-                                                         Checked=@context.Checked 
-                                                         ClassName=@context.ClassName
+                                                         Disabled=@context.Disabled
+                                                         AriaLabel=@context.AriaLabel
+                                                         Checked=@context.Checked
+                                                         ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault             (x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
                                                          Split=@context.Split Style=@context.Style />
                                 </ChildContent>
                                 <TooltipContent>
@@ -39,14 +43,14 @@
                         }
                         else
                         {
-                            <BFUCommandBarButton IconName=@context.IconName 
+                            <BFUCommandBarButton IconName=@context.IconName
                                                  Text=@(!context.IconOnly ? context.Text : null)
                                                  MenuItems=@context.Items
                                                  Href=@context.Url
-                                                 Disabled=@context.Disabled 
-                                                 AriaLabel=@context.AriaLabel 
-                                                 Checked=@context.Checked 
-                                                 ClassName=@context.ClassName
+                                                 Disabled=@context.Disabled
+                                                 AriaLabel=@context.AriaLabel
+                                                 Checked=@context.Checked
+                                                 ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault(x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
                                                  Split=@context.Split Style=@context.Style />
                         }
                     </ItemTemplate>
@@ -64,28 +68,34 @@
 }
 else
 {
-<BFUStack>
-    <BFUNav>
-        <BFUNavLinkGroup Name=@Header
-                         CollapseByDefault="false">
-            <GroupHeaderTemplate>
-                <h3>@context</h3>
-            </GroupHeaderTemplate>
-            <ChildContent>
-                @foreach (var item in Items)
-                {
-                    <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) Icon=@item.IconName />
-                }
-                @foreach (var item in OverflowItems)
-                {
-                    <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) Icon=@item.IconName />
-                }
-            </ChildContent>
-        </BFUNavLinkGroup>
+    <BFUStack>
+        <BFUNav>
+            <BFUNavLinkGroup GroupHeaderTemplate=@HeaderTemplate
+                             Name=@Header
+                             CollapseByDefault="false">
+                <ChildContent>
+                    @foreach (var item in Items)
+                    {
+                        <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) Icon=@item.IconName
+                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" />
+                    }
+                    @foreach (var item in OverflowItems)
+                    {
+                        <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) Icon=@item.IconName
+                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" />
+                    }
+                </ChildContent>
+            </BFUNavLinkGroup>
 
-    </BFUNav>
-    <BFUStackItem Shrink="0">
-        @FooterTemplate
-    </BFUStackItem>
-</BFUStack>
+        </BFUNav>
+        <BFUStackItem Shrink="0">
+            @FooterTemplate
+        </BFUStackItem>
+    </BFUStack>
+}
+
+@code{
+    [Parameter]
+    public RenderFragment<string> HeaderTemplate { get; set; } = (header) =>@<div style="font-size:17px;font-weight:400;">@header</div>;
+
 }

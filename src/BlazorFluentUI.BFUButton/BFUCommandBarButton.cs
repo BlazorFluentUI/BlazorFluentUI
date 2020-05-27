@@ -209,9 +209,6 @@ namespace BlazorFluentUI
                 }
             });
 
-
-
-
             return rules;
         }
 

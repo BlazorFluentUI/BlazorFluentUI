@@ -11,6 +11,8 @@ namespace BlazorFluentUI
 
         string Id { get; set; }
 
+        bool IsExpanded { get; set; }
+
         NavMatchType NavMatchType { get; set; }
         bool RenderedInOverflow { get; set; }
         //tooltipHostProps

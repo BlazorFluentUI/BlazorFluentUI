@@ -14,7 +14,7 @@ namespace BlazorFluentUI
 
         public string AriaLabel { get; set; }
 
-        public bool CanCheck { get; set; }
+        public bool CanCheck { get; set; } = true;
 
         public bool Checked { get; set; }
 
@@ -28,11 +28,13 @@ namespace BlazorFluentUI
 
         public bool Disabled { get; set; }
 
-        public string Href { get; set; }
+        public string Href { get => Url; set => Url = value; }
 
         public string IconName { get; set; }
 
         public string Id { get; set; }
+
+        public bool IsExpanded { get; set; }
 
         public IEnumerable<IBFUContextualMenuItem> Items { get; set; }
 

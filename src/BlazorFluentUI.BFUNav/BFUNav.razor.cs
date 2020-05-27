@@ -131,7 +131,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink:hover:not(.is-disabled) .ms-Nav-link" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{theme.Palette.NeutralLighterAlt};"+
+                    Css = $"background-color:{theme.SemanticColors.BodyBackgroundHovered};"+
                           $"color:{theme.SemanticTextColors.BodyText};"
                 }
             });
@@ -141,8 +141,9 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Nav-compositeLink.is-selected .ms-Nav-link" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{theme.Palette.NeutralLighter};" +
-                         $"color:{theme.Palette.ThemePrimary};"
+                    Css = $"background-color:{theme.SemanticColors.BodyBackgroundChecked};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.SemiBold};"+
+                         $"color:{theme.SemanticTextColors.BodyTextChecked};"
                 }
             });
 
@@ -221,7 +222,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"color:{theme.SemanticTextColors.BodyText};"+
-                          $"background-color:{theme.Palette.NeutralLighterAlt};"
+                          $"background-color:{theme.SemanticColors.BodyBackgroundHovered};"
                 }
             });
             navRules.Add(new Rule()
@@ -230,7 +231,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"color:{theme.SemanticTextColors.BodyText};" +
-                          $"background-color:{theme.Palette.NeutralLighterAlt};"
+                          $"background-color:{theme.SemanticColors.BodyBackgroundHovered};"
                 }
             });
             navRules.Add(new Rule()

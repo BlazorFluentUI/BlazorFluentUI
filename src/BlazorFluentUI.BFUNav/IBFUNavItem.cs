@@ -9,5 +9,6 @@ namespace BlazorFluentUI
         string Name { get; set; }
         string Icon { get; set; }
         string Link { get; set; }
+        
     }
 }

@@ -23,12 +23,14 @@ namespace BlazorFluentUI
         [Parameter] public string Target { get; set; }  //link <a> target
         [Parameter] public string Title { get; set; } //tooltip and ARIA
         [Parameter] public string Id { get; set; }
+        [Parameter] public bool IsExpanded { get => isExpanded; set => isExpanded = value; }
         [Parameter] public string Url { get; set; }
 
         [Parameter] public int NestedDepth { get; set; }
         [Parameter] public NavMatchType NavMatchType { get; set; } = NavMatchType.RelativeLinkOnly;
 
         [Parameter] public EventCallback<BFUNavLink> OnClick { get; set; }
+        [Parameter] public EventCallback<bool> IsExpandedChanged { get; set; }
 
         [CascadingParameter(Name="ClearSelectionAction")] Action ClearSelectionAction { get; set; }
 
@@ -169,7 +171,8 @@ namespace BlazorFluentUI
         protected Task ExpandHandler(MouseEventArgs args)
         {
             isExpanded = !isExpanded;
-            return Task.CompletedTask;
+            return IsExpandedChanged.InvokeAsync(isExpanded);
+            //return Task.CompletedTask;
         }
 
         protected async Task ClickHandler(MouseEventArgs args)

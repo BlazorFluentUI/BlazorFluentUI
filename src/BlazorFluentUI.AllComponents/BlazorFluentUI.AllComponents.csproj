@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <AssemblyName>BlazorFluentUI.AllComponents</AssemblyName>
+    <RootNamespace>BlazorFluentUI</RootNamespace>
+    <Product>BlazorFluentUI.AllComponents</Product>
+    <Description>All components from the BlazorFluentUI library, a blazor clone of the Fluent UI React components</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.8.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorFluentUI.BFUBaseComponent\BlazorFluentUI.BFUBaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUButton\BlazorFluentUI.BFUButton.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUCalendar\BlazorFluentUI.BFUCalendar.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUCallout\BlazorFluentUI.BFUCallout.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUCheckbox\BlazorFluentUI.BFUCheckbox.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUCheck\BlazorFluentUI.BFUCheck.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUCommandBar\BlazorFluentUI.BFUCommandBar.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUComponentStyle\BlazorFluentUI.BFUComponentStyle.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUContextualMenu\BlazorFluentUI.BFUContextualMenu.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUDatePicker\BlazorFluentUI.BFUDatePicker.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUDelayedRender\BlazorFluentUI.BFUDelayedRender.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUDetailsList\BlazorFluentUI.BFUDetailsList.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUDetailsRow\BlazorFluentUI.BFUDetailsRow.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUDialog\BlazorFluentUI.BFUDialog.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUDropdown\BlazorFluentUI.BFUDropdown.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUFocusTrapZone\BlazorFluentUI.BFUFocusTrapZone.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUFocusZone\BlazorFluentUI.BFUFocusZone.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUGroupedList\BlazorFluentUI.BFUGroupedList.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUIcon\BlazorFluentUI.BFUIcon.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUImage\BlazorFluentUI.BFUImage.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUKeytip\BlazorFluentUI.BFUKeytip.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFULabel\BlazorFluentUI.BFULabel.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFULayer\BlazorFluentUI.BFULayer.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFULink\BlazorFluentUI.BFULink.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUList\BlazorFluentUI.BFUList.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUMessageBar\BlazorFluentUI.BFUMessageBar.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUModal\BlazorFluentUI.BFUModal.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUNav\BlazorFluentUI.BFUNav.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUOverflowSet\BlazorFluentUI.BFUOverflowSet.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUOverlay\BlazorFluentUI.BFUOverlay.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUPanel\BlazorFluentUI.BFUPanel.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUPersona\BlazorFluentUI.BFUPersona.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUPivot\BlazorFluentUI.BFUPivot.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUPopup\BlazorFluentUI.BFUPopup.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUProgressIndicator\BlazorFluentUI.BFUProgressIndicator.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFURating\BlazorFluentUI.BFURating.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUResizeGroup\BlazorFluentUI.BFUResizeGroup.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUResponsiveLayout\BlazorFluentUI.BFUResponsiveLayout.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFURichTextEditor\BlazorFluentUI.BFURichTextEditor.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUSelectionZone\BlazorFluentUI.BFUSelectionZone.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUSpinner\BlazorFluentUI.BFUSpinner.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUStack\BlazorFluentUI.BFUStack.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUTextField\BlazorFluentUI.BFUTextField.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUText\BlazorFluentUI.BFUText.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUTheme\BlazorFluentUI.BFUTheme.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUToggle\BlazorFluentUI.BFUToggle.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUTooltip\BlazorFluentUI.BFUTooltip.csproj" />
+  </ItemGroup>
+
+</Project>

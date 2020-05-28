@@ -44,7 +44,7 @@ namespace BlazorFluentUI
             base.OnParametersSet();
 
             if (string.IsNullOrWhiteSpace(this.Id))
-                this.Id = Guid.NewGuid().ToString();
+                this.Id = this.Id = $"g{Guid.NewGuid()}";
         }
     }
 }

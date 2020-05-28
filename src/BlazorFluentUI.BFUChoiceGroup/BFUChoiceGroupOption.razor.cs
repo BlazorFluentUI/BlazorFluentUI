@@ -271,7 +271,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
             this._isSelected = Equals(this.ChoiceGroup.Value, this.Item);
 
             if (string.IsNullOrWhiteSpace(this.Id))
-                this.Id = this.Id = Guid.NewGuid().ToString();
+                this.Id = this.Id = $"g{Guid.NewGuid()}";
         }
 
         private void AddFieldHoverOrFocusStyles(HashSet<Rule> rules, ITheme theme, string pseudoSelector)

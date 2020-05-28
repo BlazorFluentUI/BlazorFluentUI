@@ -37,7 +37,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
         {
             await base.OnParametersSetAsync();
             if (string.IsNullOrWhiteSpace(this.Id))
-                this.Id = Guid.NewGuid().ToString();
+                this.Id = this.Id = $"g{Guid.NewGuid()}";
         }
 
         private async Task OnChoiceOptionClicked(ChoiceGroupOptionClickedEventArgs choiceGroupOptionClickedEventArgs)

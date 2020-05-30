@@ -71,6 +71,8 @@ namespace BlazorFluentUI
         public EventCallback<string> OnChange { get; set; }
         [Parameter]
         public EventCallback<string> OnInput { get; set; }
+        [Parameter]
+        public EventCallback<string> ValueChanged { get; set; }
 
         protected string id = Guid.NewGuid().ToString();
         protected string descriptionId = Guid.NewGuid().ToString();
@@ -182,6 +184,7 @@ namespace BlazorFluentUI
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
             await OnChange.InvokeAsync((string)args.Value);
+            await ValueChanged.InvokeAsync((string)args.Value);
         }
 
         protected async Task OnFocusInternal(FocusEventArgs args)

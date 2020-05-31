@@ -347,9 +347,9 @@ namespace BlazorFluentUI
             return DateTime.Compare(minDate, date) > 0 || DateTime.Compare(maxDate, date) < 0;
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var MyRules = new List<Rule>();
+            var MyRules = new List<IRule>();
             #region ms-DatePicker
             MyRules.Add(new Rule()
             {

@@ -42,9 +42,9 @@ namespace BlazorFluentUI
             TooltipLocalRules.Add(TooltipAfterRule);
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var tooltipGlobalRules = new HashSet<Rule>();
+            var tooltipGlobalRules = new HashSet<IRule>();
             tooltipGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Tooltip-content" },

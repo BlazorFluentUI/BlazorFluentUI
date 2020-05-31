@@ -282,9 +282,9 @@ namespace BlazorFluentUI
 
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var dropdownRules = new HashSet<Rule>();
+            var dropdownRules = new HashSet<IRule>();
             #region Root
             dropdownRules.Add(new Rule()
             {

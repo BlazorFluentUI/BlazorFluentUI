@@ -58,9 +58,9 @@ namespace BlazorFluentUI
                     return " ms-Spinner--medium";
             }
         }
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var spinnerRules = new HashSet<Rule>();
+            var spinnerRules = new HashSet<IRule>();
             spinnerRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner" },

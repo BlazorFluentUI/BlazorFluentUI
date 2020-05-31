@@ -73,9 +73,9 @@ namespace BlazorFluentUI
         }
 
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var groupHeaderRules = new HashSet<Rule>();
+            var groupHeaderRules = new HashSet<IRule>();
 
             // Root
             var rootFocusStyleProps = new FocusStyleProps(this.Theme);

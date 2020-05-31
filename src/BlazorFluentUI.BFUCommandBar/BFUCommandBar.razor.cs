@@ -94,9 +94,9 @@ namespace BlazorFluentUI
             return string.Join(" ", primaryKey, farKey, overflowKey);
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var commandBarRules = new HashSet<Rule>();
+            var commandBarRules = new HashSet<IRule>();
             commandBarRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar" },

@@ -293,9 +293,9 @@ namespace BlazorFluentUI
             
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var personalRules = new HashSet<Rule>();
+            var personalRules = new HashSet<IRule>();
             // ROOT
             personalRules.Add(new Rule()
             {

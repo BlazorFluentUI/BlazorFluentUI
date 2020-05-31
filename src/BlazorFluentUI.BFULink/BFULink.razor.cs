@@ -24,9 +24,9 @@ namespace BlazorFluentUI
         [Parameter]
         public RenderFragment ChildContent { get; set; }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var linkRules = new HashSet<Rule>();
+            var linkRules = new HashSet<IRule>();
             linkRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Link" }, Properties = new CssString() { Css = $"color:{Theme.SemanticTextColors.Link};outline:none;font-size:inherit;font-weight:inherit;" } });
             linkRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Link.isButton" }, Properties = new CssString() { Css = "background:none;background-color:transparent;border:none;cursor:pointer;display:inline;margin:0;overflow:inherit;padding:0;text-align:left;text-overflow:inherit;user-select:text;border-bottom:1px solid transparent;" } });
             linkRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Link:not(.isButton)" }, Properties = new CssString() { Css = "text-decoration:none;" } });

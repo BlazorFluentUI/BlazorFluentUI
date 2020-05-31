@@ -11,9 +11,9 @@ namespace BlazorFluentUI
         [Parameter]
         public bool UseFastIcons { get; set; }
 
-        protected ICollection<Rule> CreateGlobalCss()
+        protected ICollection<IRule> CreateGlobalCss()
         {
-            var checkRules = new HashSet<Rule>();
+            var checkRules = new HashSet<IRule>();
 
             checkRules.Add(new Rule()
             {

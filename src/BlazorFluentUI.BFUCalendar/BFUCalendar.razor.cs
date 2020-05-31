@@ -204,7 +204,7 @@ namespace BlazorFluentUI
             NavigatedMonthDate = date;
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             return CalendarStyle.GetCalendarStyle(theme);
         }

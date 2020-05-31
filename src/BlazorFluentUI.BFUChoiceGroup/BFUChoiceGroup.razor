@@ -1,0 +1,27 @@
+﻿@inherits BFUComponentBase
+@typeparam TItem
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=> this.CreateGlobalCss(Theme)) />
+
+<BFUStylePreloader Component=@(new BFULabel()) />
+
+<div @ref=@RootElementReference
+     class="ms-ChoiceFieldGroup"
+     style=@Style
+     id="@Id"
+     role="radiogroup"
+     aria-labelledby=@($"{this.Id}_label")>
+    @if (!string.IsNullOrWhiteSpace(this.Label))
+    {
+        <BFULabel Id=@($"{this.Id}_label") Required=@Required>@this.Label</BFULabel>
+    }
+    <div class=@($"ms-ChoiceFieldGroup-flexContainer{(this.ItemAlignment == FlexDirection.Row ? " flex-direction-row" : "")}")>
+        <CascadingValue Value=this>
+            @foreach (var item in this.ItemsSource)
+            {
+                <BFUChoiceGroupOption Item="item" OptionTemplate="OptionTemplate" OnClick="OnChoiceOptionClicked">
+                </BFUChoiceGroupOption>
+            }
+        </CascadingValue>
+    </div>
+</div>

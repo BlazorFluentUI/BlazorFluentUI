@@ -9,6 +9,9 @@ namespace BlazorFluentUI
     public partial class BFULabel : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter]
+        public string Id { get; set; }
+
+        [Parameter]
         public RenderFragment ChildContent { get; set; }
 
         /// <summary>
@@ -34,6 +37,14 @@ namespace BlazorFluentUI
             labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = ".ms-Label--required::after" }, Properties = new CssString() { Css = $"content:' *';color:{theme.SemanticTextColors.ErrorText};padding-right:12px;" } });
             labelRules.Add(new Rule() { Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" }, Properties = new CssString() { Css = ".ms-Label--disabled{color:GrayText;}" } });
             return labelRules;
+        }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+
+            if (string.IsNullOrWhiteSpace(this.Id))
+                this.Id = this.Id = $"g{Guid.NewGuid()}";
         }
     }
 }

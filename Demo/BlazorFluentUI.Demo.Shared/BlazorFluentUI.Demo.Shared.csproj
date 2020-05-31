@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCalendar\BlazorFluentUI.BFUCalendar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCallout\BlazorFluentUI.BFUCallout.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCheckbox\BlazorFluentUI.BFUCheckbox.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUChoiceGroup\BlazorFluentUI.BFUChoiceGroup.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCommandBar\BlazorFluentUI.BFUCommandBar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUContextualMenu\BlazorFluentUI.BFUContextualMenu.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUDatePicker\BlazorFluentUI.BFUDatePicker.csproj" />

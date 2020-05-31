@@ -1,0 +1,35 @@
+﻿@inherits BFUComponentBase
+@typeparam TItem
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=> this.CreateGlobalCss(Theme)) />
+
+@if (this.IsVisible)
+{
+    <div @ref=@RootElementReference class=@($"ms-ChoiceField{(this._isSelected ? " is-checked": "")}{(this.IsDisabled ? " is-disabled": "")}{(this.OptionTemplate != null ? " custom-content": "")}") style=@Style id="@this.Id">
+        <div class="ms-ChoiceField-wrapper" @onclick="OnOptionClick">
+            <input id="@($"{this.Id}_input")" type="radio" checked=@this._isSelected class="ms-ChoiceField-input" disabled=@this.IsDisabled name="@ChoiceGroup.Id" />
+            @if (!string.IsNullOrWhiteSpace(this.Label) && this.OptionTemplate == null)
+            {
+                <label for="@($"{this.Id}_input")" class="ms-ChoiceField-field">
+                    <span class="ms-ChoiceFieldLabel">@this.Label</span>
+                </label>
+            }
+            else if (this.OptionTemplate != null && this.Item != null)
+            {
+                <div class="ms-ChoiceField-field custom-content">
+                    <div class="ms-ChoiceField-innerField">
+                        <div class="ms-ChoiceField-customContentWrapper">
+                            @this.OptionTemplate(Item)
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(this.Label))
+                    {
+                        <label for="@($"{this.Id}_input")" class="ms-ChoiceField-labelWrapper">
+                            <span class="ms-ChoiceFieldLabel">@this.Label</span>
+                        </label>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}

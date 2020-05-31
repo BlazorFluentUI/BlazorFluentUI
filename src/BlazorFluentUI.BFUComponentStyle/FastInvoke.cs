@@ -20,6 +20,7 @@ namespace BlazorFluentUI
 
             var action = lambda.Compile();
             return action;
+
         }
     }
 }

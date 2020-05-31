@@ -313,7 +313,7 @@ namespace BlazorFluentUI
 
                 foreach (var id in copied)
                 {
-                    await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", id);
+                    await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", id);
                 }
             }
         }

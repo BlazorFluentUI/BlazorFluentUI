@@ -54,7 +54,7 @@ namespace BlazorFluentUI
 
         [Inject] private IJSRuntime jSRuntime { get; set; }
 
-        protected double contentMaxHeight = 0;
+        protected double contentMaxHeight = -1;
         protected bool overflowYHidden = false;
 
         protected bool isRenderedOnce = false;

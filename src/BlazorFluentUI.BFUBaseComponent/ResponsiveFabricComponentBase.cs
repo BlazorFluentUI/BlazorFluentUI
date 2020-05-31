@@ -28,7 +28,7 @@ namespace BlazorFluentUI
                         break;
                     }
                 }
-                Debug.WriteLine($"ResponsiveMode: {CurrentMode}");
+                //Debug.WriteLine($"ResponsiveMode: {CurrentMode}");
 
                 _resizeRegistration = await jSRuntime.InvokeAsync<string>("BlazorFluentUiBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
                 StateHasChanged();  // we will never have window size until after first render, so re-render after this to update the component with ResponsiveMode info.
@@ -51,7 +51,7 @@ namespace BlazorFluentUI
 
             if (oldMode != CurrentMode)
             {
-                Debug.WriteLine($"ResponsiveMode: {CurrentMode}");
+                //Debug.WriteLine($"ResponsiveMode: {CurrentMode}");
                 StateHasChanged();
             }
             return Task.CompletedTask;
@@ -62,7 +62,7 @@ namespace BlazorFluentUI
             if (_resizeRegistration != null)
             {
                 await jSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.deregisterResizeEvent", _resizeRegistration);
-                Debug.WriteLine($"BFUResponsiveComponentBase unregistered");
+                //Debug.WriteLine($"BFUResponsiveComponentBase unregistered");
                 _resizeRegistration = null;
             }
         }

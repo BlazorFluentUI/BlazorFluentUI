@@ -2,6 +2,7 @@
 using BlazorFluentUI.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace BlazorFluentUI
@@ -59,6 +60,7 @@ namespace BlazorFluentUI
             //    }
             //}
             semanticTextColorOverrides.CopyTo(_theme.SemanticTextColors);
+
             foreach (var comp in ThemeComponents)
             {
                 comp.UpdateTheme();

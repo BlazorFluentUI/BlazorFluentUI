@@ -10,6 +10,10 @@ namespace BlazorFluentUI
 {
     public class ComponentStyle : IComponentStyle
     {
+        private static Dictionary<Type, List<PropertyInfo>> _propertyDictionary = new Dictionary<Type, List<PropertyInfo>>();
+        private static Dictionary<PropertyInfo, List<Attribute>> _attributeDictionary = new Dictionary<PropertyInfo, List<Attribute>>();
+        private static Dictionary<PropertyInfo, Func<IRuleProperties, object>> _rulePropertiesGetters = new Dictionary<PropertyInfo, Func<IRuleProperties, object>>();
+
         public bool ClientSide { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY"));
 
         public BFUGlobalRules GlobalRules { get; set; }
@@ -224,29 +228,29 @@ namespace BlazorFluentUI
             }
             else
             {
-                foreach (var property in rule.Properties.GetType().GetProperties())
+                foreach (var property in GetCachedProperties(rule.Properties.GetType()))
                 {
                     string cssProperty = "";
                     string cssValue = "";
                     Attribute attribute = null;
 
                     //Catch Ignore Propertie
-                    attribute = property.GetCustomAttribute(typeof(CsIgnoreAttribute));
+                    attribute = GetCachedCustomAttribute(property, typeof(CsIgnoreAttribute));  // property.GetCustomAttribute(typeof(CsIgnoreAttribute));
                     if (attribute != null)
                         continue;
 
                     if (property.Name == "CssString")
                     {
-                        ruleAsString += property.GetValue(rule.Properties)?.ToString();
+                        ruleAsString += GetCachedGetter(property).Invoke(rule.Properties)?.ToString();//property.GetValue(rule.Properties)?.ToString();
                         continue;
                     }
 
-                    attribute = property.GetCustomAttribute(typeof(CsPropertyAttribute));
+                    attribute = GetCachedCustomAttribute(property, typeof(CsPropertyAttribute));  //property.GetCustomAttribute(typeof(CsPropertyAttribute));
                     if (attribute != null)
                     {
                         if ((attribute as CsPropertyAttribute).IsCssStringProperty)
                         {
-                            ruleAsString += property.GetValue(rule.Properties)?.ToString();
+                            ruleAsString += GetCachedGetter(property).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
                             continue;
                         }
 
@@ -257,7 +261,7 @@ namespace BlazorFluentUI
                         cssProperty = property.Name;
                     }
 
-                    cssValue = property.GetValue(rule.Properties)?.ToString();
+                    cssValue = GetCachedGetter(property).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
                     if (cssValue != null)
                     {
                         ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
@@ -266,6 +270,46 @@ namespace BlazorFluentUI
             }
             ruleAsString += "}";
             return ruleAsString;
+        }
+
+        private List<PropertyInfo> GetCachedProperties(Type type)
+        {
+            List<PropertyInfo> properties;
+            if (_propertyDictionary.TryGetValue(type, out properties) == false)
+            {
+                properties = type.GetProperties().ToList();
+                _propertyDictionary.Add(type, properties);
+            }
+
+            return properties;
+        }
+
+        private Attribute GetCachedCustomAttribute(PropertyInfo property, Type attributeType)
+        {
+            Attribute attribute = null;
+            List<Attribute> attributes;
+            if (_attributeDictionary.TryGetValue(property, out attributes) == false)
+            {
+                attributes = property.GetCustomAttributes().ToList();
+                _attributeDictionary.Add(property, attributes);
+            }
+            if (attributes != null)
+            {
+                attribute = attributes.FirstOrDefault(x => x.GetType() ==  attributeType);
+            }
+
+            return attribute;
+        }
+
+        private Func<IRuleProperties, object> GetCachedGetter(PropertyInfo property)
+        {
+            Func<IRuleProperties,object> getter;
+            if (_rulePropertiesGetters.TryGetValue(property, out getter) == false)
+            {
+                getter = FastInvoke.BuildUntypedGetter<IRuleProperties>(property.GetGetMethod());
+            }
+
+            return getter;
         }
     }
 }

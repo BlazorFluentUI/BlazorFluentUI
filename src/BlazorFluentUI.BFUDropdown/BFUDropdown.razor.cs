@@ -160,18 +160,24 @@ namespace BlazorFluentUI
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
-            { 
-                dropDownBounds = await this.GetBoundsAsync();
+            {
+                GetDropdownBounds();
+                //dropDownBounds = await this.GetBoundsAsync();
                 //firstRender = false;
-                StateHasChanged();
+                //StateHasChanged();
             }
             if (isOpen && _registrationToken == null)
-                await RegisterListFocusAsync();
+                RegisterListFocusAsync();
 
             if (!isOpen && _registrationToken != null)
-                await DeregisterListFocusAsync();
+                DeregisterListFocusAsync();
 
             await base.OnAfterRenderAsync(firstRender);
+        }
+
+        private async void GetDropdownBounds()
+        {
+            dropDownBounds = await this.GetBoundsAsync();
         }
 
         protected override async Task OnParametersSetAsync()

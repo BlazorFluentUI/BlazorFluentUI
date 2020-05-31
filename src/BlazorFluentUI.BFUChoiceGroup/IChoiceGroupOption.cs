@@ -1,4 +1,4 @@
-﻿namespace BlazorFluentUI.BFUChoiceGroup
+﻿namespace BlazorFluentUI
 {
     public interface IChoiceGroupOption
     {

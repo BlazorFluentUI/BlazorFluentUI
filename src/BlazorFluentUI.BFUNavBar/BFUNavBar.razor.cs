@@ -110,9 +110,9 @@ namespace BlazorFluentUI
         }
 
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var navBarRules = new HashSet<Rule>();
+            var navBarRules = new HashSet<IRule>();
             navBarRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-NavBar-horizontal" },

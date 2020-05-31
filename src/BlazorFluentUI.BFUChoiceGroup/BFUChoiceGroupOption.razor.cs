@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI.BFUChoiceGroup
+namespace BlazorFluentUI
 {
     public partial class BFUChoiceGroupOption<TItem> : BFUComponentBase, IHasPreloadableGlobalStyle
     {
@@ -27,9 +27,9 @@ namespace BlazorFluentUI.BFUChoiceGroup
 
         private bool _isSelected = false;
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var choiceGroupOptionRules = new HashSet<Rule>();
+            var choiceGroupOptionRules = new HashSet<IRule>();
             #region Root
             choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField").AppendCssStyles(
                 $"font-size:{theme.FontStyle.FontSize.Medium}",
@@ -274,7 +274,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 this.Id = this.Id = $"g{Guid.NewGuid()}";
         }
 
-        private void AddFieldHoverOrFocusStyles(HashSet<Rule> rules, ITheme theme, string pseudoSelector)
+        private void AddFieldHoverOrFocusStyles(HashSet<IRule> rules, ITheme theme, string pseudoSelector)
         {
             rules.AddCssStringSelector($".ms-ChoiceField:not(.is-disabled) .ms-ChoiceField-field:{pseudoSelector} .ms-ChoiceFieldLabel").AppendCssStyles(
                $"color:{theme.Palette.NeutralDark}");
@@ -298,7 +298,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 $"border-color:{theme.Palette.ThemeDark}");
         }
 
-        private void AddFieldWithCustomContentRules(HashSet<Rule> rules, ITheme theme, string pseudoSelector)
+        private void AddFieldWithCustomContentRules(HashSet<IRule> rules, ITheme theme, string pseudoSelector)
         {
             rules.AddCssStringSelector($".ms-ChoiceField:not(.is-disabled).is-checked.custom-content .ms-ChoiceField-field:{pseudoSelector}").AppendCssStyles(
               $"border-color:{theme.Palette.ThemeDark}");
@@ -315,7 +315,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 $"border-color:{theme.SemanticColors.InputBorderHovered}");
         }
 
-        private void AddCustomContentWrapperStyle(HashSet<Rule> rules, ITheme theme)
+        private void AddCustomContentWrapperStyle(HashSet<IRule> rules, ITheme theme)
         {
             rules.AddCssStringSelector(".custom-content .ms-ChoiceField-customContentWrapper").AppendCssStyles(
                 "padding-bottom:2px",

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI.BFUChoiceGroup
+namespace BlazorFluentUI
 {
     public partial class BFUChoiceGroup<TItem> : BFUComponentBase, IHasPreloadableGlobalStyle
     {
@@ -18,7 +18,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var choiceGroupRules = new HashSet<Rule>();
+            var choiceGroupRules = new HashSet<IRule>();
             #region Root
             choiceGroupRules.AddCssStringSelector(".ms-ChoiceFieldGroup").AppendCssStyles(
                 $"font-size:{theme.FontStyle.FontSize.Medium}",

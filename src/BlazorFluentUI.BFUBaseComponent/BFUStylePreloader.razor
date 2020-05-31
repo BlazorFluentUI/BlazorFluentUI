@@ -3,7 +3,7 @@
 
 @if (LoadAllComponents)
 {
-    foreach (var type in componentTypes)
+    foreach (var type in Statics.ComponentTypes)
     {
         IHasPreloadableGlobalStyle instance = null;
         if (type.IsGenericType)
@@ -34,6 +34,7 @@ else
 }
 
 @code {
+    [Inject] private ScopedStatics Statics { get; set; }
     [Parameter] public IHasPreloadableGlobalStyle Component { get; set; }
 
 
@@ -42,23 +43,26 @@ else
     /// </summary>
     [Parameter] public bool LoadAllComponents { get; set; }
 
-    private List<Type> componentTypes;
+    //private List<Type> componentTypes = new List<Type>();
 
     protected override void OnInitialized()
     {
-        componentTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
-                .Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                .ToList();
-
-        AppDomain.CurrentDomain.AssemblyLoad += (s, e) =>
+        if (!Statics.AssembliesScanned)
         {
-            componentTypes.AddRange(e.LoadedAssembly.GetTypes().Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract));
-            if (LoadAllComponents)
-            {
-                InvokeAsync(StateHasChanged);
-            }
-        };
+            Statics.AssembliesScanned = true;
+            Statics.ComponentTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
+                  .Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+                  .ToList();
 
+            AppDomain.CurrentDomain.AssemblyLoad += (s, e) =>
+            {
+                Statics.ComponentTypes.AddRange(e.LoadedAssembly.GetTypes().Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract));
+                if (LoadAllComponents)
+                {
+                    InvokeAsync(StateHasChanged);
+                }
+            };
+        }
 
         base.OnParametersSet();
     }

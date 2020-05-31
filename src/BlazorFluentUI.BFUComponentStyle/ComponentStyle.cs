@@ -241,7 +241,7 @@ namespace BlazorFluentUI
 
                     if (property.Name == "CssString")
                     {
-                        ruleAsString += GetCachedGetter(property).Invoke(rule.Properties)?.ToString();//property.GetValue(rule.Properties)?.ToString();
+                        ruleAsString += property.GetValue(rule.Properties)?.ToString();//GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString();//property.GetValue(rule.Properties)?.ToString();
                         continue;
                     }
 
@@ -250,7 +250,7 @@ namespace BlazorFluentUI
                     {
                         if ((attribute as CsPropertyAttribute).IsCssStringProperty)
                         {
-                            ruleAsString += GetCachedGetter(property).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
+                            ruleAsString += property.GetValue(rule.Properties)?.ToString(); //GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
                             continue;
                         }
 
@@ -261,7 +261,7 @@ namespace BlazorFluentUI
                         cssProperty = property.Name;
                     }
 
-                    cssValue = GetCachedGetter(property).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
+                    cssValue = property.GetValue(rule.Properties)?.ToString();//GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
                     if (cssValue != null)
                     {
                         ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
@@ -301,12 +301,13 @@ namespace BlazorFluentUI
             return attribute;
         }
 
-        private Func<IRuleProperties, object> GetCachedGetter(PropertyInfo property)
+        private static Func<T, object> GetCachedGetter<T>(PropertyInfo property, Dictionary<PropertyInfo, Func<T,object>> cache) 
+            where T:class
         {
-            Func<IRuleProperties,object> getter;
-            if (_rulePropertiesGetters.TryGetValue(property, out getter) == false)
+            Func<T,object> getter;
+            if (cache.TryGetValue(property, out getter) == false)
             {
-                getter = FastInvoke.BuildUntypedGetter<IRuleProperties>(property.GetGetMethod());
+                getter = FastInvoke.BuildUntypedGetter<T>(property);
             }
 
             return getter;

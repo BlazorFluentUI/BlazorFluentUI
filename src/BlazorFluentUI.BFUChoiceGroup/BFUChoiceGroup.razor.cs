@@ -16,7 +16,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
         [Parameter] public string Id { get; set; }
         [Parameter] public bool Required { get; set; } = false;
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             var choiceGroupRules = new HashSet<Rule>();
             #region Root

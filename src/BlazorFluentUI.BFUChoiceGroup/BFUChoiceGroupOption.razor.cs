@@ -32,12 +32,12 @@ namespace BlazorFluentUI.BFUChoiceGroup
             var choiceGroupOptionRules = new HashSet<Rule>();
             #region Root
             choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField").AppendCssStyles(
-                $"font-size:{Theme.FontStyle.FontSize.Medium}",
-                $"font-weight:{Theme.FontStyle.FontWeight.Regular}",
+                $"font-size:{theme.FontStyle.FontSize.Medium}",
+                $"font-weight:{theme.FontStyle.FontWeight.Regular}",
                 "display:flex",
                 "align-items:center",
                 "box-sizing:border-box",
-                $"color:{Theme.SemanticTextColors.BodyText}",
+                $"color:{theme.SemanticTextColors.BodyText}",
                 "min-height:26px",
                 "border:none",
                 "position:relative",
@@ -46,7 +46,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
 
             #region Label
             choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceFieldLabel").AppendCssStyles(
-                $"color: {Theme.Palette.NeutralDark}",
+                $"color: {theme.Palette.NeutralDark}",
                 "display:inline-block");
 
             choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField:not(.custom-content) .ms-ChoiceFieldLabel").AppendCssStyles(
@@ -61,12 +61,12 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 "height:100%");
 
             choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceFieldLabel:before").AppendCssStyles(
-                $"color: {Theme.SemanticColors.InputBorderHovered}",
-                $"border-color: {Theme.SemanticColors.InputBorderHovered}");
+                $"color: {theme.SemanticColors.InputBorderHovered}",
+                $"border-color: {theme.SemanticColors.InputBorderHovered}");
 
             choiceGroupOptionRules.AddCssStringSelector(".is-checked .ms-ChoiceFieldLabel:before").AppendCssStyles(
-                $"color: {Theme.Palette.ThemeDark}",
-                $"border-color: {Theme.Palette.ThemeDark}");
+                $"color: {theme.Palette.ThemeDark}",
+                $"border-color: {theme.Palette.ThemeDark}");
 
             choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField:not(.is-checked):not(.custom-content) .ms-ChoiceFieldLabel:after").AppendCssStyles(
                 "content:''",
@@ -75,10 +75,10 @@ namespace BlazorFluentUI.BFUChoiceGroup
                 "top:5px",
                 "width:10px",
                 "height:10px",
-                $"background-color:{Theme.Palette.NeutralSecondary}");
+                $"background-color:{theme.Palette.NeutralSecondary}");
 
             choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField.is-checked .ms-ChoiceFieldLabel:after").AppendCssStyles(
-                $"border-color: {Theme.Palette.ThemeDark}");
+                $"border-color: {theme.Palette.ThemeDark}");
 
             #endregion
 
@@ -146,8 +146,8 @@ namespace BlazorFluentUI.BFUChoiceGroup
                $"border-color:{theme.Palette.NeutralLighter}");
 
             choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField-labelWrapper").AppendCssStyles(
-                $"font-size:{Theme.FontStyle.FontSize.Medium}",
-                $"font-weight:{Theme.FontStyle.FontWeight.Regular}");
+                $"font-size:{theme.FontStyle.FontSize.Medium}",
+                $"font-weight:{theme.FontStyle.FontWeight.Regular}");
 
             #endregion
 
@@ -208,7 +208,7 @@ namespace BlazorFluentUI.BFUChoiceGroup
             choiceGroupOptionRules.AddCssStringSelector(".is-checked .ms-ChoiceField-field:after").AppendCssStyles(
                 "border-width:5px",
                 "border-style:solid",
-                $"border-color:{Theme.SemanticColors.InputBackgroundChecked}",
+                $"border-color:{theme.SemanticColors.InputBackgroundChecked}",
                 "left:5px",
                 "top:5px",
                 "width:10px",
@@ -240,8 +240,8 @@ namespace BlazorFluentUI.BFUChoiceGroup
 
             #region LabelWrapper
             choiceGroupOptionRules.AddCssStringSelector($".custom-content .ms-ChoiceField-labelWrapper").AppendCssStyles(
-                $"font-size:{Theme.FontStyle.FontSize.Medium}",
-                $"font-weight:{Theme.FontStyle.FontWeight.Regular}",
+                $"font-size:{theme.FontStyle.FontSize.Medium}",
+                $"font-weight:{theme.FontStyle.FontWeight.Regular}",
                 "display:flex",
                 "position:relative",
                 "margin:4px 8px 2px 8px",

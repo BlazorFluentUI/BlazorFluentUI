@@ -90,11 +90,11 @@ namespace BlazorFluentUI
             }
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
             // ToDo SmallScreenSelector for innerText isn't implement so far
 
-            var messageBarGlobalRules = new HashSet<Rule>();
+            var messageBarGlobalRules = new HashSet<IRule>();
             #region ms-MessageBar
             messageBarGlobalRules.Add(new Rule()
             {

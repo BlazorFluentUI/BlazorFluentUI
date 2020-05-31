@@ -170,10 +170,10 @@ namespace BlazorFluentUI
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
 
-            var GlobalCssRules = new HashSet<Rule>();
+            var GlobalCssRules = new HashSet<IRule>();
             #region ms-Modal
             GlobalCssRules.Add(new Rule()
             {

@@ -54,7 +54,7 @@ namespace BlazorFluentUI
         {
             builder.OpenComponent<BFUGlobalCS>(0);
             builder.AddAttribute(1, "Component", new BFUComponentBase());
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<Rule>>( CreateGlobalCss ));
+            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<IRule>>( CreateGlobalCss ));
             builder.AddAttribute(3, "ReloadStyle", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<bool>(reloadStyle));
             builder.AddAttribute(4, "ReloadStyleChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck(EventCallback.Factory.Create(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => reloadStyle = __value, reloadStyle))));
             builder.AddAttribute(5, "FixStyle", true);
@@ -145,9 +145,9 @@ namespace BlazorFluentUI
             reloadStyle = true;
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var overallRules = new HashSet<Rule>();
+            var overallRules = new HashSet<IRule>();
             overallRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = "body" },

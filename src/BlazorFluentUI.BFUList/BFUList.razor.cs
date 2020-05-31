@@ -317,9 +317,9 @@ namespace BlazorFluentUI
         //    //Debug.WriteLine("list wants to rerender... but can't");
         //    return false;
         //}
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var listRules = new HashSet<Rule>();
+            var listRules = new HashSet<IRule>();
             //creates a method that pulls in focusstyles the way the react controls do it.
             var focusStyleProps = new FocusStyleProps(this.Theme);
             var mergeStyleResults = FocusStyle.GetFocusStyle(focusStyleProps, ".ms-List-cell-default");

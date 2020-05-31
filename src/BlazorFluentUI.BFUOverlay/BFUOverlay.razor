@@ -28,9 +28,9 @@
 
     }
 
-    public ICollection<Rule> CreateGlobalCss(ITheme theme)
+    public ICollection<IRule> CreateGlobalCss(ITheme theme)
     {
-        var overlayRules = new HashSet<Rule>();
+        var overlayRules = new HashSet<IRule>();
 
         overlayRules.Add(new Rule()
         {

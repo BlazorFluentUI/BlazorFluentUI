@@ -275,9 +275,9 @@ namespace BlazorFluentUI
             isImageDialogOpen = false;
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var richTextEditorGlobalRules = new HashSet<Rule>();
+            var richTextEditorGlobalRules = new HashSet<IRule>();
             richTextEditorGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".bf-richTextEditor" },

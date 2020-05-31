@@ -144,9 +144,9 @@ namespace BlazorFluentUI
         }
 
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var menuRules = new HashSet<Rule>();
+            var menuRules = new HashSet<IRule>();
             // ROOT
             menuRules.Add(new Rule()
             {

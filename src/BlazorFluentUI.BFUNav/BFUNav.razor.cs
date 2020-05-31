@@ -31,9 +31,9 @@ namespace BlazorFluentUI
             StateHasChanged();
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var navRules = new HashSet<Rule>();
+            var navRules = new HashSet<IRule>();
             // ROOT
             navRules.Add(new Rule()
             {

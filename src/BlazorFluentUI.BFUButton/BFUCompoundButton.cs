@@ -8,7 +8,7 @@ namespace BlazorFluentUI
     {
         [Parameter] public string SecondaryText { get; set; }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
             var rules = CreateBaseGlobalCss(Theme);
 
@@ -141,7 +141,7 @@ namespace BlazorFluentUI
             
             builder.OpenComponent<BFUGlobalCS>(0);
             builder.AddAttribute(1, "Component", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(this));
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFluentUI.Rule>>(CreateGlobalCss));
+            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<IRule>>(CreateGlobalCss));
             builder.AddAttribute(3, "FixStyle", true);
             builder.CloseComponent();
 

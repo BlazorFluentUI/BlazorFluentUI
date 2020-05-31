@@ -186,9 +186,9 @@ namespace BlazorFluentUI
             }
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var tooltipHostRules = new HashSet<Rule>();
+            var tooltipHostRules = new HashSet<IRule>();
             tooltipHostRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-TooltipHost" },

@@ -351,9 +351,9 @@ namespace BlazorFluentUI
             };
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var personaPresenceRules = new HashSet<Rule>();
+            var personaPresenceRules = new HashSet<IRule>();
 
             personaPresenceRules.Add(new Rule()
             {

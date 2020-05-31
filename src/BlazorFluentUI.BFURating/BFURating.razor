@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 
 <div class=@($"{(Disabled || ReadOnly ? "" : "ms-RatingStar-root")} mediumFont {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
      @ref=@RootElementReference>

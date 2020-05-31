@@ -129,7 +129,7 @@ namespace BlazorFluentUI
         {
             if (_oldIsDatePickerShown && !IsDatePickerShown)
             {
-                await OnAfterMenuDismiss.InvokeAsync(null);
+                _ = OnAfterMenuDismiss.InvokeAsync(null);
             }
             await base.OnAfterRenderAsync(firstRender);
         }

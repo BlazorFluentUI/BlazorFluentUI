@@ -167,10 +167,10 @@ namespace BlazorFluentUI
                 //StateHasChanged();
             }
             if (isOpen && _registrationToken == null)
-                RegisterListFocusAsync();
+                _ = RegisterListFocusAsync();
 
             if (!isOpen && _registrationToken != null)
-                DeregisterListFocusAsync();
+                _ = DeregisterListFocusAsync();
 
             await base.OnAfterRenderAsync(firstRender);
         }

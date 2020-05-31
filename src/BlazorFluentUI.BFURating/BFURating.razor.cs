@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFURating : BFUComponentBase
+    public partial class BFURating : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         private double rating = -1;
 
@@ -131,11 +131,11 @@ namespace BlazorFluentUI
             return fullStar;
         }
 
-        protected ICollection<IRule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             var ratingGlobalRules = new HashSet<IRule>();
-            var FocusStyleRatingFocusZone = FocusStyle.GetFocusStyle(new FocusStyleProps(Theme), ".ms-Rating-focuszone");
-            var FocusStyleRatingButton = FocusStyle.GetFocusStyle(new FocusStyleProps(Theme), ".ms-Rating-button");
+            var FocusStyleRatingFocusZone = FocusStyle.GetFocusStyle(new FocusStyleProps(theme), ".ms-Rating-focuszone");
+            var FocusStyleRatingButton = FocusStyle.GetFocusStyle(new FocusStyleProps(theme), ".ms-Rating-button");
             foreach (var rule in FocusStyleRatingFocusZone.AddRules)
                 ratingGlobalRules.Add(rule);
             foreach (var rule in FocusStyleRatingButton.AddRules)
@@ -147,7 +147,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-RatingStar-root:hover .ms-RatingStar-back" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralPrimary};"
+                    Css = $"color:{theme.Palette.NeutralPrimary};"
                 }
             });
             #endregion
@@ -189,7 +189,7 @@ namespace BlazorFluentUI
                 Selector = new ClassSelector() { SelectorName = "ms-RatingStar-back" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralSecondary};" +
+                    Css = $"color:{theme.Palette.NeutralSecondary};" +
                             $"width:100;"
                 }
             });
@@ -198,7 +198,7 @@ namespace BlazorFluentUI
                 Selector = new ClassSelector() { SelectorName = "ms-RatingStar-back--disabled" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledBodySubtext};" +
+                    Css = $"color:{theme.SemanticTextColors.DisabledBodySubtext};" +
                             $"width:100;"
                 }
             });
@@ -224,7 +224,7 @@ namespace BlazorFluentUI
                             $"text-align:center;" +
                             $"vertical-align:middle;" +
                             $"overflow:hidden;" +
-                            $"color:{Theme.Palette.NeutralPrimary};" +
+                            $"color:{theme.Palette.NeutralPrimary};" +
                             $"width:0px"
                 }
             });
@@ -256,7 +256,7 @@ namespace BlazorFluentUI
                 Selector = new ClassSelector() { SelectorName = "ms-Rating-button:not(.ms-Rating-button--disabled):hover ~.ms-Rating-button .ms-RatingStar-back" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralSecondary};"
+                    Css = $"color:{theme.Palette.NeutralSecondary};"
                 }
             });
             ratingGlobalRules.Add(new Rule()
@@ -264,7 +264,7 @@ namespace BlazorFluentUI
                 Selector = new ClassSelector() { SelectorName = "ms-Rating-button:not(.ms-Rating-button--disabled):hover ~.ms-Rating-button .ms-RatingStar-front" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralSecondary};"
+                    Css = $"color:{theme.Palette.NeutralSecondary};"
                 }
             });
             ratingGlobalRules.Add(new Rule()
@@ -285,7 +285,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Rating-button:hover .ms-RatingStar-back" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemePrimary}"
+                    Css = $"color:{theme.Palette.ThemePrimary}"
                 }
             });
             ratingGlobalRules.Add(new Rule()
@@ -293,7 +293,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Rating-button:hover .ms-RatingStar-front" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDark}"
+                    Css = $"color:{theme.Palette.ThemeDark}"
                 }
             });
             #endregion

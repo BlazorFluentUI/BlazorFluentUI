@@ -102,7 +102,7 @@ namespace BlazorFluentUI
         }
 
         protected ElementReference textAreaRef;
-        protected string inlineTextAreaStyle = "";
+        protected double autoAdjustedHeight = -1;
         protected bool isFocused = false;
 
         protected override Task OnInitializedAsync()
@@ -168,11 +168,14 @@ namespace BlazorFluentUI
                 ErrorMessage = "";
                 StateHasChanged();
             }
+
+            await AdjustInputHeightAsync();
+
             if (ValidateAllChanges())
             {
                 await DeferredValidation((string)args.Value).ConfigureAwait(false);
             }
-            await AdjustInputHeightAsync();
+            
             await OnInput.InvokeAsync((string)args.Value);
             //await InputChanged.InvokeAsync((string)args.Value);
             //if (this.OnInput != null)
@@ -218,7 +221,7 @@ namespace BlazorFluentUI
             if (!firstRendered)
             {
                 firstRendered = true;
-                await AdjustInputHeightAsync();
+                _ = AdjustInputHeightAsync();
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -227,8 +230,21 @@ namespace BlazorFluentUI
         {
             if (this.AutoAdjustHeight == true && this.Multiline)
             {
-                var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiTextField.getScrollHeight", textAreaRef);
-                inlineTextAreaStyle = $"height: {scrollHeight}px";
+                var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getScrollHeight", textAreaRef);
+                //inlineTextAreaStyle = $"height: {scrollHeight}px";
+                if (autoAdjustedHeight != scrollHeight)
+                {
+                    autoAdjustedHeight = scrollHeight;
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            else
+            {
+                if (autoAdjustedHeight != -1)
+                {
+                    autoAdjustedHeight = -1;
+                    await InvokeAsync(StateHasChanged);
+                }
             }
         }
 

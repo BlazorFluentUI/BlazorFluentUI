@@ -30,7 +30,7 @@
             {
                 <textarea id=@this.id
                           @ref="textAreaRef"
-                          style=@inlineTextAreaStyle
+                          style=@(autoAdjustedHeight != -1 ? $"height:{autoAdjustedHeight}px;" : "")
                           value=@CurrentValue
                           @oninput=@InputHandler
                           @onchange=@ChangeHandler

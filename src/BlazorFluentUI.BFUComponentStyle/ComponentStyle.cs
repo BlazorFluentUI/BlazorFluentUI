@@ -101,7 +101,7 @@ namespace BlazorFluentUI
                         GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.ComponentType == ((IGlobalCSSheet)item).ComponentType));
                         RemoveOneStyleSheet((IGlobalCSSheet)item);
                         GlobalRules?.UpdateGlobalRules();
-                        Debug.WriteLine($"Removed StyleSheet for {((IGlobalCSSheet)item).ComponentType}");
+                        //Debug.WriteLine($"Removed StyleSheet for {((IGlobalCSSheet)item).ComponentType}");
                     }
                     else if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).ComponentType != null && ((IGlobalCSSheet)item).IsGlobal)
                     {
@@ -116,7 +116,7 @@ namespace BlazorFluentUI
                 {
                     if (!ComponentStyleExist(((IGlobalCSSheet)item).ComponentType))
                     {
-                        Debug.WriteLine($"Added StyleSheet for {((IGlobalCSSheet)item).ComponentType}");
+                        //Debug.WriteLine($"Added StyleSheet for {((IGlobalCSSheet)item).ComponentType}");
                         GlobalRulesSheets.Add((IGlobalCSSheet)item);
                         ((IGlobalCSSheet)item).IsGlobal = true;
                         AddOneStyleSheet((IGlobalCSSheet)item);
@@ -310,11 +310,17 @@ namespace BlazorFluentUI
         private static Func<object, object> GetCachedGetter(PropertyInfo property, Dictionary<PropertyInfo, Func<object,object>> cache) 
         {
             Func<object,object> getter;
+            var start = DateTime.Now.Ticks;
             if (cache.TryGetValue(property, out getter) == false)
             {
                 var getterEmitter = Emit<Func<object, object>>.NewDynamicMethod().LoadArgument(0).CastClass(property.DeclaringType).Call(property.GetGetMethod()).Return();
                 getter = getterEmitter.CreateDelegate();
-                //getter = FastInvoke.BuildUntypedGetter(property);
+                cache.Add(property, getter);
+                //Debug.WriteLine($"Emit creation took: {TimeSpan.FromTicks(DateTime.Now.Ticks - start).TotalMilliseconds}ms");
+            }
+            else
+            {
+                //Debug.WriteLine($"Cached getter took: {TimeSpan.FromTicks(DateTime.Now.Ticks-start).TotalMilliseconds}ms");
             }
 
             return getter;

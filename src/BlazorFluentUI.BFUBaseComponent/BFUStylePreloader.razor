@@ -38,7 +38,7 @@ else
 @code {
     [Inject] private ScopedStatics Statics { get; set; }
     [Parameter] public IHasPreloadableGlobalStyle Component { get; set; }
-    [Parameter] public System.Reflection.Assembly Assembly { get; set; }
+    [Parameter] public System.Reflection.Assembly AppAssembly { get; set; }
 
     /// <summary>
     /// If true, uses reflection to scan all assemblies for components that implement IHasPreloadableGlobalStyle
@@ -105,14 +105,9 @@ else
 
     protected override Task OnParametersSetAsync()
     {
-
-        if (!Statics.AssembliesScanned && Assembly != null)
+        if (!Statics.AssembliesScanned && AppAssembly != null)
         {
-            Statics.ComponentTypes = GetTypesFromAssemblies(Assembly).ToList();
-            foreach (var type in Statics.ComponentTypes)
-            {
-                System.Diagnostics.Debug.WriteLine(type);
-            }
+            Statics.ComponentTypes = GetTypesFromAssemblies(AppAssembly).ToList();
         }
         return base.OnParametersSetAsync();
     }

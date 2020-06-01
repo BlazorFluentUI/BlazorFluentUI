@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 
 <div class=@($"mediumFont ms-Toggle {GetClassExtras()}") style=@Style>
     @if (!string.IsNullOrWhiteSpace(Label))

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -18,11 +19,20 @@ namespace BlazorFluentUI
         [Parameter]
         public object Component { get => component; set { component = value; ComponentType = component.GetType(); } }
 
+        private Type componentType;
         /// <summary>
         /// 
-        /// </summary>
+        /// </su
         [Parameter]
-        public Type ComponentType { get; set; }
+        public Type ComponentType { get => componentType; 
+            set 
+            {
+                if (value.IsGenericType && !value.IsGenericTypeDefinition)
+                    componentType = value.GetGenericTypeDefinition();
+                else
+                    componentType = value;
+            } 
+        }
 
         /// <summary>
         /// This will garantee that style will stay in header also when all GlobalCS Components related to the Property Component are disposed

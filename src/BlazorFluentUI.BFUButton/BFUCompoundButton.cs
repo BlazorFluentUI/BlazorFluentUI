@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace BlazorFluentUI
 {
-    public class BFUCompoundButton : BFUButtonBase
+    public class BFUCompoundButton : BFUButtonBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public string SecondaryText { get; set; }
 
-        private ICollection<IRule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var rules = CreateBaseGlobalCss(Theme);
+            var rules = CreateBaseGlobalCss(theme);
 
             rules.Add(new Rule()
             {
@@ -52,7 +52,7 @@ namespace BlazorFluentUI
                 {
                     Css = $"margin:0 0 5px 0;" +
                           $"line-height:100%;" +
-                          $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};"
+                          $"font-weight:{theme.FontStyle.FontWeight.SemiBold};"
                 }
             });
 
@@ -70,7 +70,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--default.ms-Button--compound .ms-Button-description" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralSecondary};"
+                    Css = $"color:{theme.Palette.NeutralSecondary};"
                 }
             });
             rules.Add(new Rule()
@@ -78,7 +78,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--default.ms-Button--compound .ms-Button-description:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralDark};"
+                    Css = $"color:{theme.Palette.NeutralDark};"
                 }
             });
             rules.Add(new Rule()
@@ -104,7 +104,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--primary.ms-Button--compound .ms-Button-description" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.White};"
+                    Css = $"color:{theme.Palette.White};"
                 }
             });
             rules.Add(new Rule()
@@ -112,7 +112,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button--primary.ms-Button--compound .ms-Button-description:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.White};"
+                    Css = $"color:{theme.Palette.White};"
                 }
             });
             rules.Add(new Rule()
@@ -141,7 +141,7 @@ namespace BlazorFluentUI
             
             builder.OpenComponent<BFUGlobalCS>(0);
             builder.AddAttribute(1, "Component", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(this));
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<IRule>>(CreateGlobalCss));
+            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<IRule>>(()=>CreateGlobalCss(Theme)));
             builder.AddAttribute(3, "FixStyle", true);
             builder.CloseComponent();
 

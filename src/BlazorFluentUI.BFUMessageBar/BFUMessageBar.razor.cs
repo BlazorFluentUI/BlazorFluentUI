@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUMessageBar : BFUComponentBase
+    public partial class BFUMessageBar : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter]
         public bool IsMultiline { get; set; } = true;
@@ -90,7 +90,7 @@ namespace BlazorFluentUI
             }
         }
 
-        private ICollection<IRule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             // ToDo SmallScreenSelector for innerText isn't implement so far
 
@@ -101,11 +101,11 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.Palette.NeutralLighter};" +
-                        $"color:{Theme.Palette.NeutralPrimary};" +
+                    Css = $"background:{theme.Palette.NeutralLighter};" +
+                        $"color:{theme.Palette.NeutralPrimary};" +
                         $"min-height:32px;" +
                         $"width:100%;" +
-                        $"display:flex;" + 
+                        $"display:flex;" +
                         $"word-break:break-word;"
                 }
             });
@@ -114,7 +114,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar.ms-MessageBar--error, .ms-MessageBar.ms-MessageBar--blocked" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.ErrorBackground};"
+                    Css = $"background:{theme.SemanticColors.ErrorBackground};"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -122,7 +122,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar.ms-MessageBar--severeWarning" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.BlockingBackground};"
+                    Css = $"background:{theme.SemanticColors.BlockingBackground};"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -130,7 +130,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar.ms-MessageBar--success" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.SuccessBackground};"
+                    Css = $"background:{theme.SemanticColors.SuccessBackground};"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -138,7 +138,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar.ms-MessageBar--warning" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.WarningBackground};"
+                    Css = $"background:{theme.SemanticColors.WarningBackground};"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -154,9 +154,9 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar .ms-Link" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDark};" +
-                        $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                        $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                    Css = $"color:{theme.Palette.ThemeDark};" +
+                        $"font-size:{theme.FontStyle.FontSize.Small};" +
+                        $"font-weight:{theme.FontStyle.FontWeight.Regular};"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -168,7 +168,7 @@ namespace BlazorFluentUI
                         ".ms-MessageBar.ms-MessageBar--error, .ms-MessageBar.ms-MessageBar--blocked, .ms-MessageBar.ms-MessageBar--severeWarning {background:rgba(255, 0, 0, 0.3); border:1px solid WindowText; color:WindowText}" +
                         ".ms-MessageBar.ms-MessageBar--success {background:rgba(48, 241, 73, 0.3); border:1px solid WindowText; color:WindowText}" +
                         ".ms-MessageBar.ms-MessageBar--warning {background:rgba(255, 254, 57, 0.3); border:1px solid WindowText; color:WindowText}" +
-                        ".ms-MessageBar {background:Window; border:1px solid WindowText; color:WindowText}" 
+                        ".ms-MessageBar {background:Window; border:1px solid WindowText; color:WindowText}"
                 }
             });
             #endregion
@@ -190,7 +190,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.IconFontSize.Medium};" +
+                    Css = $"font-size:{theme.FontStyle.IconFontSize.Medium};" +
                             $"min-width:16px;" +
                             $"min-height:16px;" +
                             $"display:flex;" +
@@ -203,7 +203,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar-icon .ms-Icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralSecondary};"
+                    Css = $"color:{theme.Palette.NeutralSecondary};"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -211,7 +211,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar-icon.ms-MessageBar--error .ms-Icon, .ms-MessageBar-icon.ms-MessageBar--blocked .ms-Icon, .ms-MessageBar-icon.ms-MessageBar--severeWarning .ms-Icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.ErrorText};"
+                    Css = $"color:{theme.SemanticTextColors.ErrorText};"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -219,7 +219,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar-icon.ms-MessageBar--success .ms-Icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.Green};"
+                    Css = $"color:{theme.Palette.Green};"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -227,7 +227,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar-icon.ms-MessageBar--warning .ms-Icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.WarningText};"
+                    Css = $"color:{theme.SemanticTextColors.WarningText};"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -249,8 +249,8 @@ namespace BlazorFluentUI
                             $"display:flex;" +
                             $"flex-grow:1;" +
                             $"margin:8px;" +
-                            $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                            $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                            $"font-size:{theme.FontStyle.FontSize.Small};" +
+                            $"font-weight:{theme.FontStyle.FontWeight.Regular};"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -324,10 +324,10 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar-dismissal .ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.XSmall};" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.XSmall};" +
                             $"height:10px;" +
                             $"line-height:10px;" +
-                            $"color:{Theme.Palette.NeutralPrimary});"
+                            $"color:{theme.Palette.NeutralPrimary});"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -372,10 +372,10 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-MessageBar-expand .ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.XSmall};" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.XSmall};" +
                             $"height:10px;" +
                             $"line-height:10px;" +
-                            $"color:{Theme.Palette.NeutralPrimary});"
+                            $"color:{theme.Palette.NeutralPrimary});"
                 }
             });
             messageBarGlobalRules.Add(new Rule()
@@ -414,7 +414,7 @@ namespace BlazorFluentUI
                             $"flex-shrink:0;" +
                             $"flex-basis:auto;" +
                             $"flex-Direction:row-reverse;" +
-                            $"align-items:center;" + 
+                            $"align-items:center;" +
                             $"margin:0 12px 8px 8px; "
                 }
             });

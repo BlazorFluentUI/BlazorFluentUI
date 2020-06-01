@@ -43,10 +43,11 @@ namespace BlazorFluentUI
         protected override void OnParametersSet()
         {
             css = "";
-            foreach(var rule in rules)
-            {
-                css += ComponentStyle.PrintRule(rule);
-            }
+            css = string.Join(string.Empty, Rules.Select(x=>ComponentStyle.PrintRule(x)));
+            //foreach(var rule in rules)
+            //{
+            //    css += ComponentStyle.PrintRule(rule);
+            //}
             base.OnParametersSet();
 
         }

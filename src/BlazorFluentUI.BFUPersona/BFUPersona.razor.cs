@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPersona : BFUComponentBase
+    public partial class BFUPersona : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public bool AllowPhoneInitials { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -293,7 +293,7 @@ namespace BlazorFluentUI
             
         }
 
-        private ICollection<IRule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             var personalRules = new HashSet<IRule>();
             // ROOT
@@ -306,7 +306,7 @@ namespace BlazorFluentUI
                           $"margin:0;"+
                           $"padding:0;"+
                           $"box-sizing:border-box;"+
-                          $"color:{Theme.SemanticTextColors.BodyText};"+
+                          $"color:{theme.SemanticTextColors.BodyText};"+
                           $"position:relative;"+
                           $"height:{PersonaSize.Size48};"+
                           $"min-width:{PersonaSize.Size48};"+
@@ -338,9 +338,9 @@ namespace BlazorFluentUI
                     Css = $"overflow: hidden;" +
                             $"text-overflow: ellipsis;" +
                             $"white-space: nowrap;" +
-                            $"color: {Theme.SemanticTextColors.BodyText};" +
-                            $"font-weight: {Theme.FontStyle.FontWeight.Regular};" +
-                            $"font-size: {Theme.FontStyle.FontSize.Medium};"
+                            $"color: {theme.SemanticTextColors.BodyText};" +
+                            $"font-weight: {theme.FontStyle.FontWeight.Regular};" +
+                            $"font-size: {theme.FontStyle.FontSize.Medium};"
                 }
             });
             personalRules.Add(new Rule()
@@ -348,7 +348,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Persona-primaryText:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color: {Theme.SemanticTextColors.InputTextHovered};"
+                    Css = $"color: {theme.SemanticTextColors.InputTextHovered};"
                 }
             });
 
@@ -360,9 +360,9 @@ namespace BlazorFluentUI
                     Css = $"overflow: hidden;" +
                             $"text-overflow: ellipsis;" +
                             $"white-space: nowrap;" +
-                            $"color: {Theme.SemanticTextColors.BodySubtext};" +
-                            $"font-weight: {Theme.FontStyle.FontWeight.Regular};" +
-                            $"font-size: {Theme.FontStyle.FontSize.Small};"
+                            $"color: {theme.SemanticTextColors.BodySubtext};" +
+                            $"font-weight: {theme.FontStyle.FontWeight.Regular};" +
+                            $"font-size: {theme.FontStyle.FontSize.Small};"
                 }
             });
 
@@ -374,9 +374,9 @@ namespace BlazorFluentUI
                     Css = $"overflow: hidden;" +
                             $"text-overflow: ellipsis;" +
                             $"white-space: nowrap;" +
-                            $"color: {Theme.SemanticTextColors.BodySubtext};" +
-                            $"font-weight: {Theme.FontStyle.FontWeight.Regular};" +
-                            $"font-size: {Theme.FontStyle.FontSize.Small};"
+                            $"color: {theme.SemanticTextColors.BodySubtext};" +
+                            $"font-weight: {theme.FontStyle.FontWeight.Regular};" +
+                            $"font-size: {theme.FontStyle.FontSize.Small};"
                 }
             });
 
@@ -388,9 +388,9 @@ namespace BlazorFluentUI
                     Css = $"overflow: hidden;" +
                             $"text-overflow: ellipsis;" +
                             $"white-space: nowrap;" +
-                            $"color: {Theme.SemanticTextColors.BodySubtext};" +
-                            $"font-weight: {Theme.FontStyle.FontWeight.Regular};" +
-                            $"font-size: {Theme.FontStyle.FontSize.Small};"
+                            $"color: {theme.SemanticTextColors.BodySubtext};" +
+                            $"font-weight: {theme.FontStyle.FontWeight.Regular};" +
+                            $"font-size: {theme.FontStyle.FontSize.Small};"
                 }
             });
 

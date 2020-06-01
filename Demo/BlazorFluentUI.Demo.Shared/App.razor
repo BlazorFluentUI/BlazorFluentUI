@@ -1,6 +1,6 @@
 ﻿@namespace BlazorFluentUI.Demo.Shared
 <BFUTheme>
-    <BFUStylePreloader LoadAllComponents="true" />
+    <BFUStylePreloader LoadAllComponents="true" Assembly="@System.Reflection.Assembly.GetExecutingAssembly()" />
     <BFULayerHost Style="display:flex; flex-direction: row;width:100vw;height:100vh;overflow:hidden;">
         <Router AppAssembly="typeof(MainLayout).Assembly">
             <Found Context="routeData">

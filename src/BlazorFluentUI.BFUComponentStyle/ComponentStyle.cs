@@ -5,6 +5,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Sigil.NonGeneric;
+using Sigil;
+using System.Diagnostics;
 
 namespace BlazorFluentUI
 {
@@ -12,7 +15,7 @@ namespace BlazorFluentUI
     {
         private static Dictionary<Type, List<PropertyInfo>> _propertyDictionary = new Dictionary<Type, List<PropertyInfo>>();
         private static Dictionary<PropertyInfo, List<Attribute>> _attributeDictionary = new Dictionary<PropertyInfo, List<Attribute>>();
-        private static Dictionary<PropertyInfo, Func<IRuleProperties, object>> _rulePropertiesGetters = new Dictionary<PropertyInfo, Func<IRuleProperties, object>>();
+        private static Dictionary<PropertyInfo, Func<object, object>> _rulePropertiesGetters = new Dictionary<PropertyInfo, Func<object, object>>();
 
         public bool ClientSide { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY"));
 
@@ -78,7 +81,7 @@ namespace BlazorFluentUI
 
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
+        {            
             if (e.OldItems != null)
             {
                 foreach (var item in e.OldItems)
@@ -98,6 +101,7 @@ namespace BlazorFluentUI
                         GlobalRulesSheets.Remove(GlobalRulesSheets.First(x => x.ComponentType == ((IGlobalCSSheet)item).ComponentType));
                         RemoveOneStyleSheet((IGlobalCSSheet)item);
                         GlobalRules?.UpdateGlobalRules();
+                        Debug.WriteLine($"Removed StyleSheet for {((IGlobalCSSheet)item).ComponentType}");
                     }
                     else if (!((IGlobalCSSheet)item).FixStyle && ((IGlobalCSSheet)item).ComponentType != null && ((IGlobalCSSheet)item).IsGlobal)
                     {
@@ -112,6 +116,7 @@ namespace BlazorFluentUI
                 {
                     if (!ComponentStyleExist(((IGlobalCSSheet)item).ComponentType))
                     {
+                        Debug.WriteLine($"Added StyleSheet for {((IGlobalCSSheet)item).ComponentType}");
                         GlobalRulesSheets.Add((IGlobalCSSheet)item);
                         ((IGlobalCSSheet)item).IsGlobal = true;
                         AddOneStyleSheet((IGlobalCSSheet)item);
@@ -120,6 +125,7 @@ namespace BlazorFluentUI
                 }
             }
         }
+
         public void RulesChanged(IGlobalCSSheet globalCSSheet)
         {
             if (globalCSSheet.IsGlobal || globalCSSheet.FixStyle)
@@ -241,7 +247,7 @@ namespace BlazorFluentUI
 
                     if (property.Name == "CssString")
                     {
-                        ruleAsString += property.GetValue(rule.Properties)?.ToString();//GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString();//property.GetValue(rule.Properties)?.ToString();
+                        ruleAsString += GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString();//property.GetValue(rule.Properties)?.ToString();
                         continue;
                     }
 
@@ -250,7 +256,7 @@ namespace BlazorFluentUI
                     {
                         if ((attribute as CsPropertyAttribute).IsCssStringProperty)
                         {
-                            ruleAsString += property.GetValue(rule.Properties)?.ToString(); //GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
+                            ruleAsString += GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
                             continue;
                         }
 
@@ -261,7 +267,7 @@ namespace BlazorFluentUI
                         cssProperty = property.Name;
                     }
 
-                    cssValue = property.GetValue(rule.Properties)?.ToString();//GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
+                    cssValue = GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
                     if (cssValue != null)
                     {
                         ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
@@ -301,13 +307,14 @@ namespace BlazorFluentUI
             return attribute;
         }
 
-        private static Func<T, object> GetCachedGetter<T>(PropertyInfo property, Dictionary<PropertyInfo, Func<T,object>> cache) 
-            where T:class
+        private static Func<object, object> GetCachedGetter(PropertyInfo property, Dictionary<PropertyInfo, Func<object,object>> cache) 
         {
-            Func<T,object> getter;
+            Func<object,object> getter;
             if (cache.TryGetValue(property, out getter) == false)
             {
-                getter = FastInvoke.BuildUntypedGetter<T>(property);
+                var getterEmitter = Emit<Func<object, object>>.NewDynamicMethod().LoadArgument(0).CastClass(property.DeclaringType).Call(property.GetGetMethod()).Return();
+                getter = getterEmitter.CreateDelegate();
+                //getter = FastInvoke.BuildUntypedGetter(property);
             }
 
             return getter;

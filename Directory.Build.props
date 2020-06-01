@@ -16,7 +16,7 @@
     <IsPackable>true</IsPackable>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 	  <PackageOutputPath>../../packages</PackageOutputPath>
-    <Version>3.1.1.2</Version>
+    <Version>3.1.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup Condition="$(ProjectName.Contains('Test')) == false">

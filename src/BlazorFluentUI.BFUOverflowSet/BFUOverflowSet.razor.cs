@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUOverflowSet<TItem> : BFUComponentBase
+    public partial class BFUOverflowSet<TItem> : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public bool Vertical { get; set; }
         [Parameter] public IEnumerable<TItem> Items { get; set; }
@@ -26,26 +26,7 @@ namespace BlazorFluentUI
 
         protected BFUFocusZone focusZoneComponent;
 
-        protected override Task OnParametersSetAsync()
-        {
-            //if (Items != null)
-            //{
-            //    var e = Items.GetEnumerator();
-            //    if (e.MoveNext())
-            //    {
-            //        if (!(e.Current is IOverflowSetItem))
-            //            throw new Exception("Your item class must implement IOverflowSetItem.");
-            //    }
-            //}
-
-            //There's actually no calculation.  This is not necessary.  ResizeGroup is what does this stuff.
-            //calculatedItems = new System.Collections.Generic.List<TItem>(Items);
-            //calculatedOverflowItems = new System.Collections.Generic.List<TItem>(OverflowItems);
-
-            return base.OnParametersSetAsync();
-        }
-
-        private ICollection<IRule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             var overflowSetRules = new HashSet<IRule>();
             overflowSetRules.Add(new Rule()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPersonaCoin : BFUComponentBase
+    public partial class BFUPersonaCoin : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public bool AllowPhoneInitials { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -186,7 +186,7 @@ namespace BlazorFluentUI
 
         }
 
-        private ICollection<IRule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             var personaCoinRules = new HashSet<IRule>();
 
@@ -195,7 +195,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Persona-size10WithoutPresenceIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.XSmall};" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.XSmall};" +
                           $"position:absolute;" +
                           $"top:5px;" +
                           $"right:auto;" +
@@ -237,9 +237,9 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"border-radius:50%;" +
-                        $"color:{Theme.Palette.White};" +
-                        $"font-size:{Theme.FontStyle.FontSize.Large};" +
-                        $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};"
+                        $"color:{theme.Palette.White};" +
+                        $"font-size:{theme.FontStyle.FontSize.Large};" +
+                        $"font-weight:{theme.FontStyle.FontWeight.SemiBold};"
                 }
             });
             personaCoinRules.Add(new Rule()

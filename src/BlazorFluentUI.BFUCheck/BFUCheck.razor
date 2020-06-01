@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component=@this CreateGlobalCss=@CreateGlobalCss />
+<BFUGlobalCS Component=@this CreateGlobalCss=@(() => CreateGlobalCss(Theme))/>
 
 <div class=@($"mediumFont ms-Check{(Checked ? " is-checked" : "")}")>
     @if (UseFastIcons)

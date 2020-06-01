@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUImage : BFUComponentBase
+    public partial class BFUImage : BFUComponentBase,IHasPreloadableGlobalStyle
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
@@ -88,7 +88,7 @@ namespace BlazorFluentUI
             return OnLoadingStateChange.InvokeAsync(imageLoadState);
         }
 
-        private ICollection<IRule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             var imageRules = new HashSet<IRule>();
             // ROOT

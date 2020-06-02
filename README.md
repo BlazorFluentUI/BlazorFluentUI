@@ -18,102 +18,102 @@ https://github.com/BlazorFluentUI/BlazorFluentUI/wiki
 ### Basic Inputs
 | Control     | State | Information      |
 | :---------- | :---: | :--------------- |
-| Button      | Done  |                  |
-| Checkbox    | Done  | except for icons |
-| ChoiceGroup | ToDo  |                  |
-| ComboBox    | ToDo  |                  |
-| Dropdown    | Done  |                  |
-| Label       | Done  |                  |
-| Link        | Done  |                  |
-| Rating      | Done  |                  |
-| SearchBox   | ToDo  |                  |
-| Slider      | ToDo  |                  |
-| SpinButton  | ToDo  |                  |
-| TextField   | Done  | except masking   |
-| Toggle      | Done  |                  |
+| Button      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+| Checkbox    | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | except for icons |
+| ChoiceGroup | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| ComboBox    | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| Dropdown    | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+| Label       | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+| Link        | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+| Rating      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+| SearchBox   | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| Slider      | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| SpinButton  | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| TextField   | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | except masking   |
+| Toggle      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
 
 ### Galleries & Pickers
 | Control           | State | Information |
 | :---------------- | :---: | :---------- |
-| Calendar          | Done  |             |
-| ColorPicker       | ToDo  |             |
-| DatePicker        | Done  |             |
-| PeoplePicker      | ToDo  |             |
-| Pickers           | ToDo  |             |
-| SwatchColorPicker | ToDo  |             |
+| Calendar          | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| ColorPicker       | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| DatePicker        | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| PeoplePicker      | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| Pickers           | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| SwatchColorPicker | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
 
 ### Items & Lists
 | Control      | State | Information                         |
 | :----------- | :---: | :---------------------------------- |
-| ActivityItem | ToDo  |                                     |
-| DetailsList  | Done  |                                     |
-| DocumentCard | ToDo  |                                     |
-| Facepile     | ToDo  |                                     |
-| GroupedList  | Done  |                                     |
-| HoverCard    | ToDo  |                                     |
-| List         | Done  | supports `INotifyCollectionChanged` |
-| Persona      | Done  |                                     |
+| ActivityItem | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
+| DetailsList  | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
+| DocumentCard | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
+| Facepile     | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
+| GroupedList  | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
+| HoverCard    | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
+| List         | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | supports `INotifyCollectionChanged` |
+| Persona      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
 
 ### Commands, Menus & Navs
 | Control        | State | Information |
 | :------------- | :---: | :---------- |
-| Breadcrumb     | ToDo  |             |
-| CommandBar     | Done  |             |
-| ContextualMenu | Done  |             |
-| Nav            | Done  |             |
-| OverflowSet    | Done  |             |
-| Pivot          | Done  |             |
+| Breadcrumb     | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| CommandBar     | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| ContextualMenu | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| Nav            | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| OverflowSet    | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| Pivot          | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
 
 ### Notification & Engagement
 | Control        | State | Information |
 | :------------- | :---: | :---------- |
-| Coachmark      | ToDo  |             |
-| MessageBar     | Done  |             |
-| TeachingBubble | ToDo  |             |
+| Coachmark      | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| MessageBar     | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| TeachingBubble | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
 
 ### Progress
 | Control           | State | Information |
 | :---------------- | :---: | :---------- |
-| ProgressIndicator | Done  |             |
-| Shimmer           | ToDo  |             |
-| Spinner           | Done  |             |
+| ProgressIndicator | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| Shimmer           | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| Spinner           | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
 
 ### Surfaces
 | Control        |    State    | Information                                                                                         |
 | :------------- | :---------: | :-------------------------------------------------------------------------------------------------- |
-| Callout        |    Done     |                                                                                                     |
-| Dialog         |    Done     | can't drag                                                                                          |
-| Modal          |    Done     | no modeless version                                                                                 |
-| Panel          |    Done     |                                                                                                     |
-| ScrollablePane |    ToDo     |                                                                                                     |
-| Tooltip        | In Progress | limited functionality.  will show, but can't interact with it yet, doesn't respond to overflow yet. |
+| Callout        |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                                                                                     |
+| Dialog         |    ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done     | can't drag                                                                                          |
+| Modal          |    ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done     | no modeless version                                                                                 |
+| Panel          |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                                                                                     |
+| ScrollablePane |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                                                                                     |
+| Tooltip        | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress | limited functionality.  will show, but can't interact with it yet, doesn't respond to overflow yet. |
 
 ### Utilities
 | Control          |    State    | Information                           |
 | :--------------- | :---------: | :------------------------------------ |
-| Announced        |    ToDo     |                                       |
-| FocusTrapZone    |    Done     |                                       |
-| FocusZone        |    Done     |                                       |
-| Icon             |    Done     | only MS icons                         |
-| Image            |    Done     |                                       |
-| Keytips          |    ToDo     |                                       |
-| Layer            | In Progress | only layers at root window right now. |
-| MarqueeSelection |    ToDo     |                                       |
-| Overlay          |    ToDo     |                                       |
-| ResizeGroup      |    Done     |                                       |
-| Selection        |    ToDo     |                                       |
-| Separator        |    ToDo     |                                       |
-| Stack            |    Done     |                                       |
-| Text             |    Done     |                                       |
-| Themes           |    ToDo     |                                       |
+| Announced        |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| FocusTrapZone    |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| FocusZone        |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| Icon             |    ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done     | only MS icons                         |
+| Image            |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| Keytips          |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| Layer            | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress | only layers at root window right now. |
+| MarqueeSelection |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| Overlay          |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| ResizeGroup      |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| Selection        |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| Separator        |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| Stack            |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| Text             |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| Themes           |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
 
 ### Non-Fabric-Component
 | Control          |    State    | Information                           |
 | :--------------- | :---------: | :------------------------------------ |
-| ResponsiveLayout |    Done     |                                       |
-| RichTextEditor   | In Progress | Works with limited styles available   |
-| GlobalCS		   | In Progress |                                       |
-| LocalCS		   | In Progress |                                       |
+| ResponsiveLayout |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| RichTextEditor   | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress | Works with limited styles available   |
+| GlobalCS		   | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress |                                       |
+| LocalCS		   | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress |                                       |
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 

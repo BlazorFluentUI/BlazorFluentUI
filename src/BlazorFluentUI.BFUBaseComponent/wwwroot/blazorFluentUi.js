@@ -2071,19 +2071,38 @@ var BlazorFluentUiList;
     }
     BlazorFluentUiList.measureElementRect = measureElementRect;
     ;
-    var FabricList = /** @class */ (function () {
-        function FabricList(scrollElement, rootElement, surfaceElement) {
-            this._scrollElement = scrollElement;
-            this._root = rootElement;
-            this._surface = surfaceElement;
-            //rootElement.addEventListener('focus', this._onFocus, false);
-            scrollElement.addEventListener('scroll', this._onScroll, false);
-            //scrollElement.addEventListener('scroll', this._onAsyncScroll, false);
+    var _ticking;
+    function initialize(component, scrollElement, contentElement) {
+        scrollElement.addEventListener('scroll', function (e) {
+            var lastKnownValues = {
+                containerRect: scrollElement.getBoundingClientRect(),
+                contentRect: readClientRectWithoutTransform(contentElement),
+                averageHeight: 40
+            };
+            if (!_ticking) {
+                window.requestIdleCallback(function () {
+                    component.invokeMethodAsync('OnScroll', lastKnownValues);
+                    _ticking = false;
+                });
+                _ticking = true;
+            }
+        });
+        for (var i = 0; i < contentElement.children.length; i++) {
         }
-        FabricList.prototype._onScroll = function (ev) {
+        return {
+            containerRect: scrollElement.getBoundingClientRect(),
+            contentRect: readClientRectWithoutTransform(contentElement),
+            averageHeight: 40
         };
-        return FabricList;
-    }());
+    }
+    BlazorFluentUiList.initialize = initialize;
+    function readClientRectWithoutTransform(elem) {
+        var rect = elem.getBoundingClientRect();
+        var translateY = parseFloat(elem.getAttribute('data-translateY'));
+        return {
+            top: rect.top - translateY, bottom: rect.bottom - translateY, left: rect.left, right: rect.right, height: rect.height, width: rect.width, x: 0, y: 0, toJSON: null
+        };
+    }
     function _expandRect(rect, pagesBefore, pagesAfter) {
         var top = rect.top - pagesBefore * rect.height;
         var height = rect.height + (pagesBefore + pagesAfter) * rect.height;
@@ -2236,15 +2255,12 @@ var BlazorFluentUiPanel;
     }
 })(BlazorFluentUiPanel || (BlazorFluentUiPanel = {}));
 window['BlazorFluentUiPanel'] = BlazorFluentUiPanel || {};
-var BlazorFluentUiTextField;
-(function (BlazorFluentUiTextField) {
-    function getScrollHeight(element) {
-        var paddingTop = window.getComputedStyle(element, null).getPropertyValue('padding-top');
-        var paddingBottom = window.getComputedStyle(element, null).getPropertyValue('padding-bottom');
-        var yPadding = parseInt(paddingTop) + parseInt(paddingBottom);
-        return element.scrollHeight - yPadding;
-    }
-    BlazorFluentUiTextField.getScrollHeight = getScrollHeight;
-    ;
-})(BlazorFluentUiTextField || (BlazorFluentUiTextField = {}));
-window['BlazorFluentUiTextField'] = BlazorFluentUiTextField || {};
+//namespace BlazorFluentUiTextField {
+//    export function getScrollHeight(element: HTMLElement): number {
+//        var paddingTop = window.getComputedStyle(element, null).getPropertyValue('padding-top');
+//        var paddingBottom = window.getComputedStyle(element, null).getPropertyValue('padding-bottom');
+//        var yPadding = parseInt(paddingTop) + parseInt(paddingBottom);
+//        return element.scrollHeight - yPadding;
+//    };
+//}
+//(<any>window)['BlazorFluentUiTextField'] = BlazorFluentUiTextField || {};

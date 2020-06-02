@@ -66,45 +66,49 @@ namespace BlazorFluentUiList {
         return elementMeasurements;
     };
 
- 
-  
-
- 
-  class FabricList {
-
-    private _surface: HTMLElement;
-    private _root: HTMLElement;
-    private _scrollElement: HTMLElement;
-  
-
-    constructor(scrollElement: HTMLDivElement, rootElement: HTMLDivElement, surfaceElement: HTMLDivElement) {
-      this._scrollElement = scrollElement;
-      this._root = rootElement;
-      this._surface = surfaceElement;
 
 
+    var _ticking: boolean;
 
-     
-      //rootElement.addEventListener('focus', this._onFocus, false);
+    export function initialize(component: DotNetReferenceType, scrollElement:HTMLElement, contentElement: HTMLElement): any {
+        scrollElement.addEventListener('scroll', e => {
+            const lastKnownValues = {
+                containerRect: scrollElement.getBoundingClientRect(),
+                contentRect: readClientRectWithoutTransform(contentElement),
+                averageHeight: 40
+            };
 
-      scrollElement.addEventListener('scroll', this._onScroll, false);
-      //scrollElement.addEventListener('scroll', this._onAsyncScroll, false);
+            if (!_ticking) {
+                (<any>window).requestIdleCallback(() => {
+                    component.invokeMethodAsync('OnScroll', lastKnownValues);
+                    _ticking = false;
+                });
+
+                _ticking = true;
+            }
+        });
+
+        for (var i = 0; i < contentElement.children.length; i++) {
+
+        }
+
+        return {
+            containerRect: scrollElement.getBoundingClientRect(),
+            contentRect: readClientRectWithoutTransform(contentElement),
+            averageHeight: 40
+        };
     }
 
-    
-    private _onScroll(ev: Event) {
-
-
+    function readClientRectWithoutTransform(elem): DOMRect {
+        const rect = elem.getBoundingClientRect();
+        const translateY = parseFloat(elem.getAttribute('data-translateY'));
+        return {
+            top: rect.top - translateY, bottom: rect.bottom - translateY, left: rect.left, right: rect.right, height: rect.height, width: rect.width, x: 0, y: 0, toJSON: null };
     }
+
   
-    
 
-    
-
-  }
-
-
-
+ 
   
 
   function _expandRect(rect: IRectangle, pagesBefore: number, pagesAfter: number): IRectangle {

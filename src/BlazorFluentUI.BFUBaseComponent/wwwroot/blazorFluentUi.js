@@ -1,13 +1,12 @@
 var BlazorFluentUiBaseComponent;
 (function (BlazorFluentUiBaseComponent) {
-    var _a;
-    var test = 12333;
-    var DATA_IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
-    var DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
-    var DATA_IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
-    var FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
-    var FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
-    var IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
+    const test = 12333;
+    const DATA_IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+    const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
+    const DATA_IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
+    const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
+    const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
+    const IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
     function initializeFocusRects() {
         if (!window.__hasInitializeFocusRects__) {
             window.__hasInitializeFocusRects__ = true;
@@ -26,17 +25,17 @@ var BlazorFluentUiBaseComponent;
             window.document.body.classList.add(IsFocusVisibleClassName);
         }
     }
-    var DirectionalKeyCodes = (_a = {},
-        _a[38 /* up */] = 1,
-        _a[40 /* down */] = 1,
-        _a[37 /* left */] = 1,
-        _a[39 /* right */] = 1,
-        _a[36 /* home */] = 1,
-        _a[35 /* end */] = 1,
-        _a[9 /* tab */] = 1,
-        _a[33 /* pageUp */] = 1,
-        _a[34 /* pageDown */] = 1,
-        _a);
+    const DirectionalKeyCodes = {
+        [38 /* up */]: 1,
+        [40 /* down */]: 1,
+        [37 /* left */]: 1,
+        [39 /* right */]: 1,
+        [36 /* home */]: 1,
+        [35 /* end */]: 1,
+        [9 /* tab */]: 1,
+        [33 /* pageUp */]: 1,
+        [34 /* pageDown */]: 1
+    };
     function isDirectionalKeyCode(which) {
         return !!DirectionalKeyCodes[which];
     }
@@ -60,7 +59,7 @@ var BlazorFluentUiBaseComponent;
         _bodyScrollDisabledCount++;
     }
     BlazorFluentUiBaseComponent.disableBodyScroll = disableBodyScroll;
-    var _disableIosBodyScroll = function (event) {
+    const _disableIosBodyScroll = (event) => {
         event.preventDefault();
     };
     // end
@@ -77,7 +76,7 @@ var BlazorFluentUiBaseComponent;
     }
     BlazorFluentUiBaseComponent.getScrollHeight = getScrollHeight;
     function findScrollableParent(startingElement) {
-        var el = startingElement;
+        let el = startingElement;
         // First do a quick scan for the scrollable attribute.
         while (el && el !== document.body) {
             if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) === 'true') {
@@ -89,8 +88,8 @@ var BlazorFluentUiBaseComponent;
         el = startingElement;
         while (el && el !== document.body) {
             if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) !== 'false') {
-                var computedStyles = getComputedStyle(el);
-                var overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
+                const computedStyles = getComputedStyle(el);
+                let overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
                 if (overflowY && (overflowY === 'scroll' || overflowY === 'auto')) {
                     return el;
                 }
@@ -143,7 +142,7 @@ var BlazorFluentUiBaseComponent;
             top: element.scrollTop,
             left: element.scrollLeft,
             bottom: element.scrollTop + element.clientHeight,
-            right: element.scrollLeft + element.clientWidth
+            right: element.scrollLeft + element.clientWidth,
         };
         return rect;
     }
@@ -151,7 +150,7 @@ var BlazorFluentUiBaseComponent;
     function measureScrollDimensions(element) {
         var dimensions = {
             scrollHeight: element.scrollHeight,
-            scrollWidth: element.scrollWidth
+            scrollWidth: element.scrollWidth,
         };
         return dimensions;
     }
@@ -193,9 +192,9 @@ var BlazorFluentUiBaseComponent;
     function registerKeyEventsForList(element) {
         if (element instanceof HTMLElement) {
             var guid = Guid.newGuid();
-            eventElementRegister[guid] = [element, function (ev) {
-                    var elementToFocus;
-                    var containsExpandCollapseModifier = ev.altKey || ev.metaKey;
+            eventElementRegister[guid] = [element, (ev) => {
+                    let elementToFocus;
+                    const containsExpandCollapseModifier = ev.altKey || ev.metaKey;
                     switch (ev.keyCode) {
                         case 38 /* up */:
                             if (containsExpandCollapseModifier) {
@@ -237,7 +236,7 @@ var BlazorFluentUiBaseComponent;
     BlazorFluentUiBaseComponent.deregisterKeyEventsForList = deregisterKeyEventsForList;
     function registerWindowKeyDownEvent(dotnetRef, keyCode, functionName) {
         var guid = Guid.newGuid();
-        eventRegister[guid] = function (ev) {
+        eventRegister[guid] = (ev) => {
             if (ev.code == keyCode) {
                 ev.preventDefault();
                 ev.stopPropagation();
@@ -256,7 +255,7 @@ var BlazorFluentUiBaseComponent;
     BlazorFluentUiBaseComponent.deregisterWindowKeyDownEvent = deregisterWindowKeyDownEvent;
     function registerResizeEvent(dotnetRef, functionName) {
         var guid = Guid.newGuid();
-        eventRegister[guid] = debounce(function (ev) {
+        eventRegister[guid] = debounce((ev) => {
             dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
         }, 100, { leading: true });
         window.addEventListener("resize", eventRegister[guid]);
@@ -269,17 +268,14 @@ var BlazorFluentUiBaseComponent;
         eventRegister[guid] = null;
     }
     BlazorFluentUiBaseComponent.deregisterResizeEvent = deregisterResizeEvent;
-    var Guid = /** @class */ (function () {
-        function Guid() {
-        }
-        Guid.newGuid = function () {
+    class Guid {
+        static newGuid() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
             });
-        };
-        return Guid;
-    }());
+        }
+    }
     function findElementRecursive(element, matchFunction) {
         if (!element || element === document.body) {
             return null;
@@ -288,7 +284,7 @@ var BlazorFluentUiBaseComponent;
     }
     BlazorFluentUiBaseComponent.findElementRecursive = findElementRecursive;
     function elementContainsAttribute(element, attribute) {
-        var elementMatch = findElementRecursive(element, function (testElement) { return testElement.hasAttribute(attribute); });
+        let elementMatch = findElementRecursive(element, (testElement) => testElement.hasAttribute(attribute));
         return elementMatch && elementMatch.getAttribute(attribute);
     }
     BlazorFluentUiBaseComponent.elementContainsAttribute = elementContainsAttribute;
@@ -296,18 +292,17 @@ var BlazorFluentUiBaseComponent;
     /* Since elements can be stored in Blazor and we don't want to create more js files, this will hold last focused elements for restoring focus later. */
     var _lastFocus = {};
     function storeLastFocusedElement() {
-        var element = document.activeElement;
-        var htmlElement = element;
+        let element = document.activeElement;
+        let htmlElement = element;
         if (htmlElement) {
-            var guid = Guid.newGuid();
+            let guid = Guid.newGuid();
             _lastFocus[guid] = htmlElement;
             return guid;
         }
         return null;
     }
     BlazorFluentUiBaseComponent.storeLastFocusedElement = storeLastFocusedElement;
-    function restoreLastFocus(guid, restoreFocus) {
-        if (restoreFocus === void 0) { restoreFocus = true; }
+    function restoreLastFocus(guid, restoreFocus = true) {
         var htmlElement = _lastFocus[guid];
         if (htmlElement != null) {
             if (restoreFocus) {
@@ -326,7 +321,7 @@ var BlazorFluentUiBaseComponent;
     }
     BlazorFluentUiBaseComponent.focusElement = focusElement;
     function focusFirstElementChild(element) {
-        var child = this.getFirstFocusable(element, element, true);
+        let child = this.getFirstFocusable(element, element, true);
         if (child) {
             child.focus();
         }
@@ -340,10 +335,9 @@ var BlazorFluentUiBaseComponent;
     }
     BlazorFluentUiBaseComponent.shouldWrapFocus = shouldWrapFocus;
     function getFocusableByIndexPath(parent, path) {
-        var element = parent;
-        for (var _i = 0, path_1 = path; _i < path_1.length; _i++) {
-            var index = path_1[_i];
-            var nextChild = element.children[Math.min(index, element.children.length - 1)];
+        let element = parent;
+        for (const index of path) {
+            const nextChild = element.children[Math.min(index, element.children.length - 1)];
             if (!nextChild) {
                 break;
             }
@@ -366,17 +360,17 @@ var BlazorFluentUiBaseComponent;
         if (!element || element.disabled) {
             return false;
         }
-        var tabIndex = 0;
-        var tabIndexAttributeValue = null;
+        let tabIndex = 0;
+        let tabIndexAttributeValue = null;
         if (element && element.getAttribute) {
             tabIndexAttributeValue = element.getAttribute('tabIndex');
             if (tabIndexAttributeValue) {
                 tabIndex = parseInt(tabIndexAttributeValue, 10);
             }
         }
-        var isFocusableAttribute = element.getAttribute ? element.getAttribute(DATA_IS_FOCUSABLE_ATTRIBUTE) : null;
-        var isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
-        var result = !!element &&
+        let isFocusableAttribute = element.getAttribute ? element.getAttribute(DATA_IS_FOCUSABLE_ATTRIBUTE) : null;
+        let isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
+        const result = !!element &&
             isFocusableAttribute !== 'false' &&
             (element.tagName === 'A' ||
                 element.tagName === 'BUTTON' ||
@@ -392,7 +386,7 @@ var BlazorFluentUiBaseComponent;
         if (!element || !element.getAttribute) {
             return false;
         }
-        var visibilityAttribute = element.getAttribute(DATA_IS_VISIBLE_ATTRIBUTE);
+        const visibilityAttribute = element.getAttribute(DATA_IS_VISIBLE_ATTRIBUTE);
         // If the element is explicitly marked with the visibility attribute, return that value as boolean.
         if (visibilityAttribute !== null && visibilityAttribute !== undefined) {
             return visibilityAttribute === 'true';
@@ -408,19 +402,17 @@ var BlazorFluentUiBaseComponent;
         return false;
     }
     BlazorFluentUiBaseComponent.focusFirstChild = focusFirstChild;
-    function getParent(child, allowVirtualParents) {
-        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
+    function getParent(child, allowVirtualParents = true) {
         return child && (child.parentNode && child.parentNode);
     }
     BlazorFluentUiBaseComponent.getParent = getParent;
-    function elementContains(parent, child, allowVirtualParents) {
-        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
-        var isContained = false;
+    function elementContains(parent, child, allowVirtualParents = true) {
+        let isContained = false;
         if (parent && child) {
             if (allowVirtualParents) {
                 isContained = false;
                 while (child) {
-                    var nextParent = getParent(child);
+                    let nextParent = getParent(child);
                     // console.log("NextParent: " + nextParent);
                     if (nextParent === parent) {
                         isContained = true;
@@ -440,7 +432,7 @@ var BlazorFluentUiBaseComponent;
         if (!currentElement || (currentElement === rootElement && suppressChildTraversal && !allowFocusRoot)) {
             return null;
         }
-        var isCurrentElementVisible = isElementVisible(currentElement);
+        let isCurrentElementVisible = isElementVisible(currentElement);
         // Check the current node, if it's not the first traversal.
         if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
             return currentElement;
@@ -449,7 +441,7 @@ var BlazorFluentUiBaseComponent;
         if (!suppressChildTraversal &&
             isCurrentElementVisible &&
             (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
-            var childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            const childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
             if (childMatch) {
                 return childMatch;
             }
@@ -458,7 +450,7 @@ var BlazorFluentUiBaseComponent;
             return null;
         }
         // Check its sibling.
-        var siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        const siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
         if (siblingMatch) {
             return siblingMatch;
         }
@@ -472,27 +464,27 @@ var BlazorFluentUiBaseComponent;
         if (!currentElement || (!allowFocusRoot && currentElement === rootElement)) {
             return null;
         }
-        var isCurrentElementVisible = isElementVisible(currentElement);
+        let isCurrentElementVisible = isElementVisible(currentElement);
         // Check its children.
         if (traverseChildren &&
             isCurrentElementVisible &&
             (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
-            var childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            const childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
             if (childMatch) {
                 if ((tabbable && isElementTabbable(childMatch, true)) || !tabbable) {
                     return childMatch;
                 }
-                var childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                const childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
                 if (childMatchSiblingMatch) {
                     return childMatchSiblingMatch;
                 }
-                var childMatchParent = childMatch.parentElement;
+                let childMatchParent = childMatch.parentElement;
                 // At this point if we have not found any potential matches
                 // start looking at the rest of the subtree under the currentParent.
                 // NOTE: We do not want to recurse here because doing so could
                 // cause elements to get skipped.
                 while (childMatchParent && childMatchParent !== currentElement) {
-                    var childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                    const childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
                     if (childMatchParentMatch) {
                         return childMatchParentMatch;
                     }
@@ -505,7 +497,7 @@ var BlazorFluentUiBaseComponent;
             return currentElement;
         }
         // Check its previous sibling.
-        var siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        const siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
         if (siblingMatch) {
             return siblingMatch;
         }
@@ -518,13 +510,13 @@ var BlazorFluentUiBaseComponent;
     BlazorFluentUiBaseComponent.getPreviousElement = getPreviousElement;
     /** Raises a click event. */
     function raiseClick(target) {
-        var event = createNewEvent('MouseEvents');
+        const event = createNewEvent('MouseEvents');
         event.initEvent('click', true, true);
         target.dispatchEvent(event);
     }
     BlazorFluentUiBaseComponent.raiseClick = raiseClick;
     function createNewEvent(eventName) {
-        var event;
+        let event;
         if (typeof Event === 'function') {
             // Chrome, Opera, Firefox
             event = new Event(eventName);
@@ -546,12 +538,12 @@ var BlazorFluentUiBaseComponent;
     BlazorFluentUiBaseComponent.isElementFocusSubZone = isElementFocusSubZone;
     function on(element, eventName, callback, options) {
         element.addEventListener(eventName, callback, options);
-        return function () { return element.removeEventListener(eventName, callback, options); };
+        return () => element.removeEventListener(eventName, callback, options);
     }
     BlazorFluentUiBaseComponent.on = on;
     function _expandRect(rect, pagesBefore, pagesAfter) {
-        var top = rect.top - pagesBefore * rect.height;
-        var height = rect.height + (pagesBefore + pagesAfter) * rect.height;
+        const top = rect.top - pagesBefore * rect.height;
+        const height = rect.height + (pagesBefore + pagesAfter) * rect.height;
         return {
             top: top,
             bottom: top + height,
@@ -577,30 +569,29 @@ var BlazorFluentUiBaseComponent;
         return targetRect;
     }
     function debounce(func, wait, options) {
-        var _this = this;
         if (this._isDisposed) {
-            var noOpFunction = (function () {
+            let noOpFunction = (() => {
                 /** Do nothing */
             });
-            noOpFunction.cancel = function () {
+            noOpFunction.cancel = () => {
                 return;
             };
             /* tslint:disable:no-any */
-            noOpFunction.flush = (function () { return null; });
+            noOpFunction.flush = (() => null);
             /* tslint:enable:no-any */
-            noOpFunction.pending = function () { return false; };
+            noOpFunction.pending = () => false;
             return noOpFunction;
         }
-        var waitMS = wait || 0;
-        var leading = false;
-        var trailing = true;
-        var maxWait = null;
-        var lastCallTime = 0;
-        var lastExecuteTime = new Date().getTime();
-        var lastResult;
+        let waitMS = wait || 0;
+        let leading = false;
+        let trailing = true;
+        let maxWait = null;
+        let lastCallTime = 0;
+        let lastExecuteTime = new Date().getTime();
+        let lastResult;
         // tslint:disable-next-line:no-any
-        var lastArgs;
-        var timeoutId = null;
+        let lastArgs;
+        let timeoutId = null;
         if (options && typeof options.leading === 'boolean') {
             leading = options.leading;
         }
@@ -610,30 +601,30 @@ var BlazorFluentUiBaseComponent;
         if (options && typeof options.maxWait === 'number' && !isNaN(options.maxWait)) {
             maxWait = options.maxWait;
         }
-        var markExecuted = function (time) {
+        let markExecuted = (time) => {
             if (timeoutId) {
-                _this.clearTimeout(timeoutId);
+                this.clearTimeout(timeoutId);
                 timeoutId = null;
             }
             lastExecuteTime = time;
         };
-        var invokeFunction = function (time) {
+        let invokeFunction = (time) => {
             markExecuted(time);
-            lastResult = func.apply(_this._parent, lastArgs);
+            lastResult = func.apply(this._parent, lastArgs);
         };
-        var callback = function (userCall) {
-            var now = new Date().getTime();
-            var executeImmediately = false;
+        let callback = (userCall) => {
+            let now = new Date().getTime();
+            let executeImmediately = false;
             if (userCall) {
                 if (leading && now - lastCallTime >= waitMS) {
                     executeImmediately = true;
                 }
                 lastCallTime = now;
             }
-            var delta = now - lastCallTime;
-            var waitLength = waitMS - delta;
-            var maxWaitDelta = now - lastExecuteTime;
-            var maxWaitExpired = false;
+            let delta = now - lastCallTime;
+            let waitLength = waitMS - delta;
+            let maxWaitDelta = now - lastExecuteTime;
+            let maxWaitExpired = false;
             if (maxWait !== null) {
                 // maxWait only matters when there is a pending callback
                 if (maxWaitDelta >= maxWait && timeoutId) {
@@ -647,31 +638,27 @@ var BlazorFluentUiBaseComponent;
                 invokeFunction(now);
             }
             else if ((timeoutId === null || !userCall) && trailing) {
-                timeoutId = _this.setTimeout(callback, waitLength);
+                timeoutId = this.setTimeout(callback, waitLength);
             }
             return lastResult;
         };
-        var pending = function () {
+        let pending = () => {
             return !!timeoutId;
         };
-        var cancel = function () {
+        let cancel = () => {
             if (pending()) {
                 // Mark the debounced function as having executed
                 markExecuted(new Date().getTime());
             }
         };
-        var flush = function () {
+        let flush = () => {
             if (pending()) {
                 invokeFunction(new Date().getTime());
             }
             return lastResult;
         };
         // tslint:disable-next-line:no-any
-        var resultFunction = (function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
+        let resultFunction = ((...args) => {
             lastArgs = args;
             return callback(true);
         });
@@ -681,17 +668,17 @@ var BlazorFluentUiBaseComponent;
         return resultFunction;
     }
     BlazorFluentUiBaseComponent.debounce = debounce;
-    var RTL_LOCAL_STORAGE_KEY = 'isRTL';
-    var _isRTL;
+    const RTL_LOCAL_STORAGE_KEY = 'isRTL';
+    let _isRTL;
     function getRTL() {
         if (_isRTL === undefined) {
             // Fabric supports persisting the RTL setting between page refreshes via session storage
-            var savedRTL = getItem(RTL_LOCAL_STORAGE_KEY);
+            let savedRTL = getItem(RTL_LOCAL_STORAGE_KEY);
             if (savedRTL !== null) {
                 _isRTL = savedRTL === '1';
                 setRTL(_isRTL);
             }
-            var doc = document;
+            let doc = document;
             if (_isRTL === undefined && doc) {
                 _isRTL = ((doc.body && doc.body.getAttribute('dir')) || doc.documentElement.getAttribute('dir')) === 'rtl';
                 //mergeStylesSetRTL(_isRTL);
@@ -700,9 +687,8 @@ var BlazorFluentUiBaseComponent;
         return !!_isRTL;
     }
     BlazorFluentUiBaseComponent.getRTL = getRTL;
-    function setRTL(isRTL, persistSetting) {
-        if (persistSetting === void 0) { persistSetting = false; }
-        var doc = document;
+    function setRTL(isRTL, persistSetting = false) {
+        let doc = document;
         if (doc) {
             doc.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
         }
@@ -714,7 +700,7 @@ var BlazorFluentUiBaseComponent;
     }
     BlazorFluentUiBaseComponent.setRTL = setRTL;
     function getItem(key) {
-        var result = null;
+        let result = null;
         try {
             result = window.sessionStorage.getItem(key);
         }
@@ -744,15 +730,15 @@ var BlazorFluentUiCallout;
     function registerHandlers(targetElement, calloutRef) {
         var window = targetElement.ownerDocument.defaultView;
         var calloutDivId = Handler.addCallout(targetElement);
-        var scrollId = Handler.addListener(window, "scroll", function (ev) { if (checkTarget(ev, targetElement)) {
+        var scrollId = Handler.addListener(window, "scroll", (ev) => { if (checkTarget(ev, targetElement)) {
             calloutRef.invokeMethodAsync("ScrollHandler");
         } ; }, true);
-        var resizeId = Handler.addListener(window, "resize", function (ev) { if (checkTarget(ev, targetElement)) {
+        var resizeId = Handler.addListener(window, "resize", (ev) => { if (checkTarget(ev, targetElement)) {
             calloutRef.invokeMethodAsync("ResizeHandler");
         } ; }, true);
-        var focusId = Handler.addListener(document.documentElement, "focus", function (ev) {
+        var focusId = Handler.addListener(document.documentElement, "focus", (ev) => {
             var outsideCallout = true;
-            for (var prop in Handler.targetCombinedElements) {
+            for (let prop in Handler.targetCombinedElements) {
                 if (Object.prototype.hasOwnProperty.call(Handler.targetCombinedElements, prop)) {
                     outsideCallout = checkTarget(ev, Handler.targetCombinedElements[prop]);
                     if (outsideCallout == false)
@@ -762,9 +748,9 @@ var BlazorFluentUiCallout;
             if (outsideCallout)
                 calloutRef.invokeMethodAsync("FocusHandler");
         }, true);
-        var clickId = Handler.addListener(document.documentElement, "click", function (ev) {
+        var clickId = Handler.addListener(document.documentElement, "click", (ev) => {
             var outsideCallout = true;
-            for (var prop in Handler.targetCombinedElements) {
+            for (let prop in Handler.targetCombinedElements) {
                 if (Object.prototype.hasOwnProperty.call(Handler.targetCombinedElements, prop)) {
                     outsideCallout = checkTarget(ev, Handler.targetCombinedElements[prop]);
                     if (outsideCallout == false)
@@ -781,45 +767,44 @@ var BlazorFluentUiCallout;
     function unregisterHandlers(ids) {
         Handler.removeCallout(ids[ids.length - 1]);
         var handlerIds = ids.slice(0, ids.length - 1);
-        for (var _i = 0, handlerIds_1 = handlerIds; _i < handlerIds_1.length; _i++) {
-            var id = handlerIds_1[_i];
+        for (let id of handlerIds) {
             Handler.removeListener(id);
         }
     }
     BlazorFluentUiCallout.unregisterHandlers = unregisterHandlers;
-    var Handler = /** @class */ (function () {
-        function Handler() {
-        }
-        Handler.addCallout = function (element) {
-            this.targetCombinedElements[this.i] = element;
-            return this.i++;
-        };
-        Handler.removeCallout = function (id) {
-            if (id in this.targetCombinedElements)
-                delete this.targetCombinedElements[id];
-        };
-        Handler.addListener = function (element, event, handler, capture) {
-            element.addEventListener(event, handler, capture);
-            this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
-            return this.i++;
-        };
-        Handler.removeListener = function (id) {
-            if (id in this.listeners) {
-                var h = this.listeners[id];
-                h.element.removeEventListener(h.event, h.handler, h.capture);
-                delete this.listeners[id];
+    let Handler = /** @class */ (() => {
+        class Handler {
+            static addCallout(element) {
+                this.targetCombinedElements[this.i] = element;
+                return this.i++;
             }
-        };
+            static removeCallout(id) {
+                if (id in this.targetCombinedElements)
+                    delete this.targetCombinedElements[id];
+            }
+            static addListener(element, event, handler, capture) {
+                element.addEventListener(event, handler, capture);
+                this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
+                return this.i++;
+            }
+            static removeListener(id) {
+                if (id in this.listeners) {
+                    var h = this.listeners[id];
+                    h.element.removeEventListener(h.event, h.handler, h.capture);
+                    delete this.listeners[id];
+                }
+            }
+        }
         Handler.i = 1;
         Handler.listeners = {};
         Handler.targetCombinedElements = {};
         return Handler;
-    }());
+    })();
     function clickHandler(ev) {
     }
     function checkTarget(ev, targetElement) {
-        var target = ev.target;
-        var isEventTargetOutsideCallout = !elementContains(targetElement, target);
+        const target = ev.target;
+        const isEventTargetOutsideCallout = !elementContains(targetElement, target);
         return isEventTargetOutsideCallout;
         //// complicated mess that includes mouse events for right-click menus...
         //if (
@@ -833,14 +818,13 @@ var BlazorFluentUiCallout;
         //}
         //return false;
     }
-    function elementContains(parent, child, allowVirtualParents) {
-        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
-        var isContained = false;
+    function elementContains(parent, child, allowVirtualParents = true) {
+        let isContained = false;
         if (parent && child) {
             if (allowVirtualParents) {
                 isContained = false;
                 while (child) {
-                    var nextParent = getParent(child);
+                    let nextParent = getParent(child);
                     // console.log("NextParent: " + nextParent);
                     if (nextParent === parent) {
                         isContained = true;
@@ -878,164 +862,164 @@ window['BlazorFluentUiCallout'] = BlazorFluentUiCallout || {};
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 var BlazorFluentUiFocusTrapZone;
 (function (BlazorFluentUiFocusTrapZone) {
-    var IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
-    var d = 445;
-    var IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
-    var FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
-    var FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
-    var FocusTrapZoneInternal = /** @class */ (function () {
-        function FocusTrapZoneInternal(focusTrapZoneProps, dotNetRef) {
-            var _this = this;
-            this._hasFocus = true;
-            this._onRootFocus = function (ev) {
-                //if (this.props.onFocus) {
-                //    this.props.onFocus(ev);
-                //}
-                _this._hasFocus = true;
-            };
-            this._onRootBlur = function (ev) {
-                //if (this.props.onBlur) {
-                //    this.props.onBlur(ev);
-                //}
-                var relatedTarget = ev.relatedTarget;
-                if (ev.relatedTarget === null) {
-                    // In IE11, due to lack of support, event.relatedTarget is always
-                    // null making every onBlur call to be "outside" of the ComboBox
-                    // even when it's not. Using document.activeElement is another way
-                    // for us to be able to get what the relatedTarget without relying
-                    // on the event
-                    relatedTarget = document.activeElement;
-                }
-                if (!elementContains(_this._props.rootElement, relatedTarget)) {
-                    _this._hasFocus = false;
-                }
-            };
-            this._onFirstBumperFocus = function () {
-                _this._onBumperFocus(true);
-            };
-            this._onLastBumperFocus = function () {
-                _this._onBumperFocus(false);
-            };
-            this._onBumperFocus = function (isFirstBumper) {
-                if (_this._props.disabled) {
-                    return;
-                }
-                var currentBumper = (isFirstBumper === _this._hasFocus ? _this._props.lastBumper : _this._props.firstBumper);
-                if (_this._props.rootElement) {
-                    var nextFocusable = isFirstBumper === _this._hasFocus
-                        ? getLastTabbable(_this._props.rootElement, currentBumper, true, false)
-                        : getFirstTabbable(_this._props.rootElement, currentBumper, true, false);
-                    if (nextFocusable) {
-                        if (_this._isBumper(nextFocusable)) {
-                            // This can happen when FTZ contains no tabbable elements. focus will take care of finding a focusable element in FTZ.
-                            _this.focus();
-                        }
-                        else {
-                            nextFocusable.focus();
+    const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+    const d = 445;
+    const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
+    const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
+    const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
+    let FocusTrapZoneInternal = /** @class */ (() => {
+        class FocusTrapZoneInternal {
+            constructor(focusTrapZoneProps, dotNetRef) {
+                this._hasFocus = true;
+                this._onRootFocus = (ev) => {
+                    //if (this.props.onFocus) {
+                    //    this.props.onFocus(ev);
+                    //}
+                    this._hasFocus = true;
+                };
+                this._onRootBlur = (ev) => {
+                    //if (this.props.onBlur) {
+                    //    this.props.onBlur(ev);
+                    //}
+                    let relatedTarget = ev.relatedTarget;
+                    if (ev.relatedTarget === null) {
+                        // In IE11, due to lack of support, event.relatedTarget is always
+                        // null making every onBlur call to be "outside" of the ComboBox
+                        // even when it's not. Using document.activeElement is another way
+                        // for us to be able to get what the relatedTarget without relying
+                        // on the event
+                        relatedTarget = document.activeElement;
+                    }
+                    if (!elementContains(this._props.rootElement, relatedTarget)) {
+                        this._hasFocus = false;
+                    }
+                };
+                this._onFirstBumperFocus = () => {
+                    this._onBumperFocus(true);
+                };
+                this._onLastBumperFocus = () => {
+                    this._onBumperFocus(false);
+                };
+                this._onBumperFocus = (isFirstBumper) => {
+                    if (this._props.disabled) {
+                        return;
+                    }
+                    const currentBumper = (isFirstBumper === this._hasFocus ? this._props.lastBumper : this._props.firstBumper);
+                    if (this._props.rootElement) {
+                        const nextFocusable = isFirstBumper === this._hasFocus
+                            ? getLastTabbable(this._props.rootElement, currentBumper, true, false)
+                            : getFirstTabbable(this._props.rootElement, currentBumper, true, false);
+                        if (nextFocusable) {
+                            if (this._isBumper(nextFocusable)) {
+                                // This can happen when FTZ contains no tabbable elements. focus will take care of finding a focusable element in FTZ.
+                                this.focus();
+                            }
+                            else {
+                                nextFocusable.focus();
+                            }
                         }
                     }
-                }
-            };
-            this._props = focusTrapZoneProps;
-            this._dotNetRef = dotNetRef;
-            this._props.rootElement.addEventListener("focus", this._onRootFocus, false);
-            this._props.rootElement.addEventListener("blur", this._onRootBlur, false);
-            this._props.firstBumper.addEventListener("focus", this._onFirstBumperFocus, false);
-            this._props.lastBumper.addEventListener("focus", this._onLastBumperFocus, false);
-            this._bringFocusIntoZone();
-        }
-        FocusTrapZoneInternal.prototype.unRegister = function () {
-            this._props.rootElement.removeEventListener("focus", this._onRootFocus, false);
-            this._props.rootElement.removeEventListener("blur", this._onRootBlur, false);
-            this._props.firstBumper.removeEventListener("focus", this._onFirstBumperFocus, false);
-            this._props.lastBumper.removeEventListener("focus", this._onLastBumperFocus, false);
-        };
-        FocusTrapZoneInternal.prototype.updateProps = function (props) {
-            this._prevProps = this._props;
-            this._props = props;
-            //bumpers and root should be the same...
-            if ((!this._prevProps.forceFocusInsideTrap && this._props.forceFocusInsideTrap) || (this._prevProps.disabled && !this._props.disabled)) {
+                };
+                this._props = focusTrapZoneProps;
+                this._dotNetRef = dotNetRef;
+                this._props.rootElement.addEventListener("focus", this._onRootFocus, false);
+                this._props.rootElement.addEventListener("blur", this._onRootBlur, false);
+                this._props.firstBumper.addEventListener("focus", this._onFirstBumperFocus, false);
+                this._props.lastBumper.addEventListener("focus", this._onLastBumperFocus, false);
                 this._bringFocusIntoZone();
             }
-            else if ((this._prevProps.forceFocusInsideTrap && !this._props.forceFocusInsideTrap) || (!this._prevProps.disabled && this._props.disabled)) {
-                this._returnFocusToInitiator();
+            unRegister() {
+                this._props.rootElement.removeEventListener("focus", this._onRootFocus, false);
+                this._props.rootElement.removeEventListener("blur", this._onRootBlur, false);
+                this._props.firstBumper.removeEventListener("focus", this._onFirstBumperFocus, false);
+                this._props.lastBumper.removeEventListener("focus", this._onLastBumperFocus, false);
             }
-        };
-        FocusTrapZoneInternal.prototype.setDisabled = function (disabled) {
-            this._props.disabled = disabled;
-        };
-        FocusTrapZoneInternal.prototype._bringFocusIntoZone = function () {
-            var _a = this._props, elementToFocusOnDismiss = _a.elementToFocusOnDismiss, _b = _a.disabled, disabled = _b === void 0 ? false : _b, _c = _a.disableFirstFocus, disableFirstFocus = _c === void 0 ? false : _c, rootElement = _a.rootElement;
-            if (disabled) {
-                return;
-            }
-            FocusTrapZoneInternal._focusStack.push(this);
-            this._previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss && elementToFocusOnDismiss.__internalId != null
-                ? elementToFocusOnDismiss
-                : document.activeElement;
-            if (!disableFirstFocus && !elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {
-                this.focus();
-            }
-        };
-        FocusTrapZoneInternal.prototype._returnFocusToInitiator = function () {
-            var _this = this;
-            var _a = this._props, ignoreExternalFocusing = _a.ignoreExternalFocusing, rootElement = _a.rootElement;
-            FocusTrapZoneInternal._focusStack = FocusTrapZoneInternal._focusStack.filter(function (value) {
-                return _this !== value;
-            });
-            var activeElement = document.activeElement;
-            if (!ignoreExternalFocusing &&
-                this._previouslyFocusedElementOutsideTrapZone &&
-                typeof this._previouslyFocusedElementOutsideTrapZone.focus === 'function' &&
-                (elementContains(rootElement, activeElement) || activeElement === document.body)) {
-                this._focusAsync(this._previouslyFocusedElementOutsideTrapZone);
-            }
-        };
-        FocusTrapZoneInternal.prototype._focusAsync = function (element) {
-            if (!this._isBumper(element)) {
-                focusAsync(element);
-            }
-        };
-        FocusTrapZoneInternal.prototype._isBumper = function (element) {
-            return element === this._props.firstBumper || element === this._props.lastBumper;
-        };
-        FocusTrapZoneInternal.prototype.focus = function () {
-            var _a = this._props, focusPreviouslyFocusedInnerElement = _a.focusPreviouslyFocusedInnerElement, firstFocusableSelector = _a.firstFocusableSelector, rootElement = _a.rootElement;
-            if (focusPreviouslyFocusedInnerElement &&
-                this._previouslyFocusedElementInTrapZone &&
-                elementContains(rootElement, this._previouslyFocusedElementInTrapZone)) {
-                // focus on the last item that had focus in the zone before we left the zone
-                this._focusAsync(this._previouslyFocusedElementInTrapZone);
-                return;
-            }
-            var focusSelector = firstFocusableSelector;
-            var _firstFocusableChild = null;
-            if (rootElement) {
-                if (focusSelector) {
-                    _firstFocusableChild = rootElement.querySelector('.' + focusSelector);
+            updateProps(props) {
+                this._prevProps = this._props;
+                this._props = props;
+                //bumpers and root should be the same...
+                if ((!this._prevProps.forceFocusInsideTrap && this._props.forceFocusInsideTrap) || (this._prevProps.disabled && !this._props.disabled)) {
+                    this._bringFocusIntoZone();
                 }
-                // Fall back to first element if query selector did not match any elements.
-                if (!_firstFocusableChild) {
-                    _firstFocusableChild = getNextElement(rootElement, rootElement.firstChild, false, false, false, true);
+                else if ((this._prevProps.forceFocusInsideTrap && !this._props.forceFocusInsideTrap) || (!this._prevProps.disabled && this._props.disabled)) {
+                    this._returnFocusToInitiator();
                 }
             }
-            if (_firstFocusableChild) {
-                this._focusAsync(_firstFocusableChild);
+            setDisabled(disabled) {
+                this._props.disabled = disabled;
             }
-        };
+            _bringFocusIntoZone() {
+                const { elementToFocusOnDismiss, disabled = false, disableFirstFocus = false, rootElement } = this._props;
+                if (disabled) {
+                    return;
+                }
+                FocusTrapZoneInternal._focusStack.push(this);
+                this._previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss && elementToFocusOnDismiss.__internalId != null
+                    ? elementToFocusOnDismiss
+                    : document.activeElement;
+                if (!disableFirstFocus && !elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {
+                    this.focus();
+                }
+            }
+            _returnFocusToInitiator() {
+                const { ignoreExternalFocusing, rootElement } = this._props;
+                FocusTrapZoneInternal._focusStack = FocusTrapZoneInternal._focusStack.filter((value) => {
+                    return this !== value;
+                });
+                const activeElement = document.activeElement;
+                if (!ignoreExternalFocusing &&
+                    this._previouslyFocusedElementOutsideTrapZone &&
+                    typeof this._previouslyFocusedElementOutsideTrapZone.focus === 'function' &&
+                    (elementContains(rootElement, activeElement) || activeElement === document.body)) {
+                    this._focusAsync(this._previouslyFocusedElementOutsideTrapZone);
+                }
+            }
+            _focusAsync(element) {
+                if (!this._isBumper(element)) {
+                    focusAsync(element);
+                }
+            }
+            _isBumper(element) {
+                return element === this._props.firstBumper || element === this._props.lastBumper;
+            }
+            focus() {
+                const { focusPreviouslyFocusedInnerElement, firstFocusableSelector, rootElement } = this._props;
+                if (focusPreviouslyFocusedInnerElement &&
+                    this._previouslyFocusedElementInTrapZone &&
+                    elementContains(rootElement, this._previouslyFocusedElementInTrapZone)) {
+                    // focus on the last item that had focus in the zone before we left the zone
+                    this._focusAsync(this._previouslyFocusedElementInTrapZone);
+                    return;
+                }
+                const focusSelector = firstFocusableSelector;
+                let _firstFocusableChild = null;
+                if (rootElement) {
+                    if (focusSelector) {
+                        _firstFocusableChild = rootElement.querySelector('.' + focusSelector);
+                    }
+                    // Fall back to first element if query selector did not match any elements.
+                    if (!_firstFocusableChild) {
+                        _firstFocusableChild = getNextElement(rootElement, rootElement.firstChild, false, false, false, true);
+                    }
+                }
+                if (_firstFocusableChild) {
+                    this._focusAsync(_firstFocusableChild);
+                }
+            }
+        }
         FocusTrapZoneInternal._focusStack = [];
         return FocusTrapZoneInternal;
-    }());
+    })();
     var count = 0;
     var focusTrapZones = {};
     function register(props, focusTrapZone) {
-        var currentId = count++;
+        let currentId = count++;
         focusTrapZones[currentId] = new FocusTrapZoneInternal(props, focusTrapZone);
         return currentId;
     }
     BlazorFluentUiFocusTrapZone.register = register;
     function unregister(id) {
-        var focusTrapZone = focusTrapZones[id];
+        let focusTrapZone = focusTrapZones[id];
         if (focusTrapZone) {
             focusTrapZone.unRegister();
         }
@@ -1043,27 +1027,26 @@ var BlazorFluentUiFocusTrapZone;
     }
     BlazorFluentUiFocusTrapZone.unregister = unregister;
     function updateProps(id, props) {
-        var focusTrapZone = focusTrapZones[id];
+        let focusTrapZone = focusTrapZones[id];
         if (focusTrapZone) {
             focusTrapZone.updateProps(props);
         }
     }
     BlazorFluentUiFocusTrapZone.updateProps = updateProps;
     function focus(id) {
-        var focusTrapZone = focusTrapZones[id];
+        let focusTrapZone = focusTrapZones[id];
         if (focusTrapZone) {
             focusTrapZone.focus();
         }
     }
     BlazorFluentUiFocusTrapZone.focus = focus;
-    function elementContains(parent, child, allowVirtualParents) {
-        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
-        var isContained = false;
+    function elementContains(parent, child, allowVirtualParents = true) {
+        let isContained = false;
         if (parent && child) {
             if (allowVirtualParents) {
                 isContained = false;
                 while (child) {
-                    var nextParent = getParent(child);
+                    let nextParent = getParent(child);
                     console.log("NextParent: " + nextParent);
                     if (nextParent === parent) {
                         isContained = true;
@@ -1079,12 +1062,11 @@ var BlazorFluentUiFocusTrapZone;
         return isContained;
     }
     BlazorFluentUiFocusTrapZone.elementContains = elementContains;
-    function getParent(child, allowVirtualParents) {
-        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
+    function getParent(child, allowVirtualParents = true) {
         return child && (child.parentNode && child.parentNode);
     }
     BlazorFluentUiFocusTrapZone.getParent = getParent;
-    var targetToFocusOnNextRepaint = undefined;
+    let targetToFocusOnNextRepaint = undefined;
     function focusAsync(element) {
         if (element) {
             // An element was already queued to be focused, so replace that one with the new element
@@ -1094,7 +1076,7 @@ var BlazorFluentUiFocusTrapZone;
             }
             targetToFocusOnNextRepaint = element;
             // element.focus() is a no-op if the element is no longer in the DOM, meaning this is always safe
-            window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(() => {
                 targetToFocusOnNextRepaint && targetToFocusOnNextRepaint.focus();
                 // We are done focusing for this frame, so reset the queued focus element
                 targetToFocusOnNextRepaint = undefined;
@@ -1105,7 +1087,7 @@ var BlazorFluentUiFocusTrapZone;
         if (!currentElement || (currentElement === rootElement && suppressChildTraversal && !allowFocusRoot)) {
             return null;
         }
-        var isCurrentElementVisible = isElementVisible(currentElement);
+        let isCurrentElementVisible = isElementVisible(currentElement);
         // Check the current node, if it's not the first traversal.
         if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
             return currentElement;
@@ -1114,7 +1096,7 @@ var BlazorFluentUiFocusTrapZone;
         if (!suppressChildTraversal &&
             isCurrentElementVisible &&
             (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
-            var childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            const childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
             if (childMatch) {
                 return childMatch;
             }
@@ -1123,7 +1105,7 @@ var BlazorFluentUiFocusTrapZone;
             return null;
         }
         // Check its sibling.
-        var siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        const siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
         if (siblingMatch) {
             return siblingMatch;
         }
@@ -1136,27 +1118,27 @@ var BlazorFluentUiFocusTrapZone;
         if (!currentElement || (!allowFocusRoot && currentElement === rootElement)) {
             return null;
         }
-        var isCurrentElementVisible = isElementVisible(currentElement);
+        let isCurrentElementVisible = isElementVisible(currentElement);
         // Check its children.
         if (traverseChildren &&
             isCurrentElementVisible &&
             (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
-            var childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            const childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
             if (childMatch) {
                 if ((tabbable && isElementTabbable(childMatch, true)) || !tabbable) {
                     return childMatch;
                 }
-                var childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                const childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
                 if (childMatchSiblingMatch) {
                     return childMatchSiblingMatch;
                 }
-                var childMatchParent = childMatch.parentElement;
+                let childMatchParent = childMatch.parentElement;
                 // At this point if we have not found any potential matches
                 // start looking at the rest of the subtree under the currentParent.
                 // NOTE: We do not want to recurse here because doing so could
                 // cause elements to get skipped.
                 while (childMatchParent && childMatchParent !== currentElement) {
-                    var childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                    const childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
                     if (childMatchParentMatch) {
                         return childMatchParentMatch;
                     }
@@ -1169,7 +1151,7 @@ var BlazorFluentUiFocusTrapZone;
             return currentElement;
         }
         // Check its previous sibling.
-        var siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        const siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
         if (siblingMatch) {
             return siblingMatch;
         }
@@ -1184,7 +1166,7 @@ var BlazorFluentUiFocusTrapZone;
         if (!element || !element.getAttribute) {
             return false;
         }
-        var visibilityAttribute = element.getAttribute(IS_VISIBLE_ATTRIBUTE);
+        const visibilityAttribute = element.getAttribute(IS_VISIBLE_ATTRIBUTE);
         // If the element is explicitly marked with the visibility attribute, return that value as boolean.
         if (visibilityAttribute !== null && visibilityAttribute !== undefined) {
             return visibilityAttribute === 'true';
@@ -1200,17 +1182,17 @@ var BlazorFluentUiFocusTrapZone;
         if (!element || element.disabled) {
             return false;
         }
-        var tabIndex = 0;
-        var tabIndexAttributeValue = null;
+        let tabIndex = 0;
+        let tabIndexAttributeValue = null;
         if (element && element.getAttribute) {
             tabIndexAttributeValue = element.getAttribute('tabIndex');
             if (tabIndexAttributeValue) {
                 tabIndex = parseInt(tabIndexAttributeValue, 10);
             }
         }
-        var isFocusableAttribute = element.getAttribute ? element.getAttribute(IS_FOCUSABLE_ATTRIBUTE) : null;
-        var isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
-        var result = !!element &&
+        let isFocusableAttribute = element.getAttribute ? element.getAttribute(IS_FOCUSABLE_ATTRIBUTE) : null;
+        let isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
+        const result = !!element &&
             isFocusableAttribute !== 'false' &&
             (element.tagName === 'A' ||
                 element.tagName === 'BUTTON' ||
@@ -1226,12 +1208,10 @@ var BlazorFluentUiFocusTrapZone;
     function isElementFocusSubZone(element) {
         return !!(element && element.getAttribute && element.getAttribute(FOCUSZONE_SUB_ATTRIBUTE) === 'true');
     }
-    function getFirstTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode) {
-        if (checkNode === void 0) { checkNode = true; }
+    function getFirstTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode = true) {
         return getNextElement(rootElement, currentElement, checkNode, false /*suppressParentTraversal*/, false /*suppressChildTraversal*/, includeElementsInFocusZones, false /*allowFocusRoot*/, true /*tabbable*/);
     }
-    function getLastTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode) {
-        if (checkNode === void 0) { checkNode = true; }
+    function getLastTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode = true) {
         return getPreviousElement(rootElement, currentElement, checkNode, false /*suppressParentTraversal*/, true /*traverseChildren*/, includeElementsInFocusZones, false /*allowFocusRoot*/, true /*tabbable*/);
     }
     //class Handler {
@@ -1255,7 +1235,7 @@ window['BlazorFluentUiFocusTrapZone'] = BlazorFluentUiFocusTrapZone || {};
 /// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiFocusZone;
 (function (BlazorFluentUiFocusZone) {
-    var FocusZoneDirection;
+    let FocusZoneDirection;
     (function (FocusZoneDirection) {
         /** Only react to up/down arrows. */
         FocusZoneDirection[FocusZoneDirection["vertical"] = 0] = "vertical";
@@ -1269,7 +1249,7 @@ var BlazorFluentUiFocusZone;
          */
         FocusZoneDirection[FocusZoneDirection["domOrder"] = 3] = "domOrder";
     })(FocusZoneDirection || (FocusZoneDirection = {}));
-    var FocusZoneTabbableElements;
+    let FocusZoneTabbableElements;
     (function (FocusZoneTabbableElements) {
         /** Tabbing is not allowed */
         FocusZoneTabbableElements[FocusZoneTabbableElements["none"] = 0] = "none";
@@ -1278,30 +1258,30 @@ var BlazorFluentUiFocusZone;
         /** Tabbing is allowed only on input elements */
         FocusZoneTabbableElements[FocusZoneTabbableElements["inputOnly"] = 2] = "inputOnly";
     })(FocusZoneTabbableElements || (FocusZoneTabbableElements = {}));
-    var IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
-    var IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
-    var FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
-    var FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
-    var IS_ENTER_DISABLED_ATTRIBUTE = 'data-disable-click-on-enter';
-    var TABINDEX = 'tabindex';
-    var NO_VERTICAL_WRAP = 'data-no-vertical-wrap';
-    var NO_HORIZONTAL_WRAP = 'data-no-horizontal-wrap';
-    var LARGE_DISTANCE_FROM_CENTER = 999999999;
-    var LARGE_NEGATIVE_DISTANCE_FROM_CENTER = -999999999;
-    var ALLOWED_INPUT_TYPES = ['text', 'number', 'password', 'email', 'tel', 'url', 'search'];
-    var ALLOW_VIRTUAL_ELEMENTS = false; // this is not used in Blazor... concept for React only
+    const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+    const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
+    const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
+    const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
+    const IS_ENTER_DISABLED_ATTRIBUTE = 'data-disable-click-on-enter';
+    const TABINDEX = 'tabindex';
+    const NO_VERTICAL_WRAP = 'data-no-vertical-wrap';
+    const NO_HORIZONTAL_WRAP = 'data-no-horizontal-wrap';
+    const LARGE_DISTANCE_FROM_CENTER = 999999999;
+    const LARGE_NEGATIVE_DISTANCE_FROM_CENTER = -999999999;
+    const ALLOWED_INPUT_TYPES = ['text', 'number', 'password', 'email', 'tel', 'url', 'search'];
+    const ALLOW_VIRTUAL_ELEMENTS = false; // this is not used in Blazor... concept for React only
     var count = 0;
     var allInstances = {};
     var outerZones = new Set();
-    var _disposeGlobalKeyDownListener;
+    let _disposeGlobalKeyDownListener;
     function register(props, focusZone) {
-        var currentId = count++;
+        let currentId = count++;
         allInstances[currentId] = new FocusZoneInternal(props, focusZone);
         return currentId;
     }
     BlazorFluentUiFocusZone.register = register;
     function unregister(id) {
-        var focusZone = allInstances[id];
+        let focusZone = allInstances[id];
         if (focusZone) {
             focusZone.unRegister();
         }
@@ -1309,25 +1289,24 @@ var BlazorFluentUiFocusZone;
     }
     BlazorFluentUiFocusZone.unregister = unregister;
     function updateFocusZone(id, props) {
-        var focusZone = allInstances[id];
+        let focusZone = allInstances[id];
         if (focusZone) {
             focusZone.updateFocusZone(props);
         }
     }
     BlazorFluentUiFocusZone.updateFocusZone = updateFocusZone;
-    var FocusZoneInternal = /** @class */ (function () {
-        function FocusZoneInternal(focusZoneProps, dotNetRef) {
-            var _this = this;
+    class FocusZoneInternal {
+        constructor(focusZoneProps, dotNetRef) {
             this._disposables = [];
-            this._onBlur = function () {
-                _this._setParkedFocus(false);
+            this._onBlur = () => {
+                this._setParkedFocus(false);
             };
-            this._onKeyDown = function (ev) {
-                if (_this._portalContainsElement(ev.target)) {
+            this._onKeyDown = (ev) => {
+                if (this._portalContainsElement(ev.target)) {
                     // If the event target is inside a portal do not process the event.
                     return;
                 }
-                var _a = _this._focusZoneProps, direction = _a.direction, disabled = _a.disabled, innerZoneKeystrokeTriggers = _a.innerZoneKeystrokeTriggers;
+                const { direction, disabled, innerZoneKeystrokeTriggers } = this._focusZoneProps;
                 if (disabled) {
                     return;
                 }
@@ -1338,21 +1317,21 @@ var BlazorFluentUiFocusZone;
                 if (ev.defaultPrevented) {
                     return;
                 }
-                if (document.activeElement === _this._root && _this._isInnerZone) {
+                if (document.activeElement === this._root && this._isInnerZone) {
                     // If this element has focus, it is being controlled by a parent.
                     // Ignore the keystroke.
                     return;
                 }
-                if (innerZoneKeystrokeTriggers && (innerZoneKeystrokeTriggers.indexOf(ev.keyCode) != -1) && _this._isImmediateDescendantOfZone(ev.target)) {
+                if (innerZoneKeystrokeTriggers && (innerZoneKeystrokeTriggers.indexOf(ev.keyCode) != -1) && this._isImmediateDescendantOfZone(ev.target)) {
                     // Try to focus
-                    var innerZone = _this._getFirstInnerZone();
+                    const innerZone = this._getFirstInnerZone();
                     if (innerZone) {
                         if (!innerZone.focus(true)) {
                             return;
                         }
                     }
                     else if (window.BlazorFluentUiBaseComponent.isElementFocusSubZone(ev.target)) {
-                        if (!_this.focusElement(window.BlazorFluentUiBaseComponent.getNextElement(ev.target, ev.target.firstChild, true))) {
+                        if (!this.focusElement(window.BlazorFluentUiBaseComponent.getNextElement(ev.target, ev.target.firstChild, true))) {
                             return;
                         }
                     }
@@ -1366,69 +1345,69 @@ var BlazorFluentUiFocusZone;
                 else {
                     switch (ev.which) {
                         case 32 /* space */:
-                            if (_this._tryInvokeClickForFocusable(ev.target)) {
+                            if (this._tryInvokeClickForFocusable(ev.target)) {
                                 break;
                             }
                             return;
                         case 37 /* left */:
-                            if (direction !== FocusZoneDirection.vertical && _this._moveFocusLeft()) {
+                            if (direction !== FocusZoneDirection.vertical && this._moveFocusLeft()) {
                                 break;
                             }
                             return;
                         case 39 /* right */:
-                            if (direction !== FocusZoneDirection.vertical && _this._moveFocusRight()) {
+                            if (direction !== FocusZoneDirection.vertical && this._moveFocusRight()) {
                                 break;
                             }
                             return;
                         case 38 /* up */:
-                            if (direction !== FocusZoneDirection.horizontal && _this._moveFocusUp()) {
+                            if (direction !== FocusZoneDirection.horizontal && this._moveFocusUp()) {
                                 break;
                             }
                             return;
                         case 40 /* down */:
-                            if (direction !== FocusZoneDirection.horizontal && _this._moveFocusDown()) {
+                            if (direction !== FocusZoneDirection.horizontal && this._moveFocusDown()) {
                                 break;
                             }
                             return;
                         case 9 /* tab */:
-                            if (_this._focusZoneProps.handleTabKey === FocusZoneTabbableElements.all ||
-                                (_this._focusZoneProps.handleTabKey === FocusZoneTabbableElements.inputOnly && _this._isElementInput(ev.target))) {
-                                var focusChanged = false;
-                                _this._processingTabKey = true;
+                            if (this._focusZoneProps.handleTabKey === FocusZoneTabbableElements.all ||
+                                (this._focusZoneProps.handleTabKey === FocusZoneTabbableElements.inputOnly && this._isElementInput(ev.target))) {
+                                let focusChanged = false;
+                                this._processingTabKey = true;
                                 if (direction === FocusZoneDirection.vertical ||
-                                    !_this._shouldWrapFocus(_this._activeElement, NO_HORIZONTAL_WRAP)) {
-                                    focusChanged = ev.shiftKey ? _this._moveFocusUp() : _this._moveFocusDown();
+                                    !this._shouldWrapFocus(this._activeElement, NO_HORIZONTAL_WRAP)) {
+                                    focusChanged = ev.shiftKey ? this._moveFocusUp() : this._moveFocusDown();
                                 }
                                 else if (direction === FocusZoneDirection.horizontal || direction === FocusZoneDirection.bidirectional) {
-                                    var tabWithDirection = window.BlazorFluentUiBaseComponent.getRTL() ? !ev.shiftKey : ev.shiftKey;
-                                    focusChanged = tabWithDirection ? _this._moveFocusLeft() : _this._moveFocusRight();
+                                    const tabWithDirection = window.BlazorFluentUiBaseComponent.getRTL() ? !ev.shiftKey : ev.shiftKey;
+                                    focusChanged = tabWithDirection ? this._moveFocusLeft() : this._moveFocusRight();
                                 }
-                                _this._processingTabKey = false;
+                                this._processingTabKey = false;
                                 if (focusChanged) {
                                     break;
                                 }
                             }
                             return;
                         case 36 /* home */:
-                            if (_this._isElementInput(ev.target) && !_this._shouldInputLoseFocus(ev.target, false)) {
+                            if (this._isElementInput(ev.target) && !this._shouldInputLoseFocus(ev.target, false)) {
                                 return;
                             }
-                            var firstChild = _this._root && _this._root.firstChild;
-                            if (_this._root && firstChild && _this.focusElement(window.BlazorFluentUiBaseComponent.getNextElement(_this._root, firstChild, true))) {
+                            const firstChild = this._root && this._root.firstChild;
+                            if (this._root && firstChild && this.focusElement(window.BlazorFluentUiBaseComponent.getNextElement(this._root, firstChild, true))) {
                                 break;
                             }
                             return;
                         case 35 /* end */:
-                            if (_this._isElementInput(ev.target) && !_this._shouldInputLoseFocus(ev.target, true)) {
+                            if (this._isElementInput(ev.target) && !this._shouldInputLoseFocus(ev.target, true)) {
                                 return;
                             }
-                            var lastChild = _this._root && _this._root.lastChild;
-                            if (_this._root && _this.focusElement(window.BlazorFluentUiBaseComponent.getPreviousElement(_this._root, lastChild, true, true, true))) {
+                            const lastChild = this._root && this._root.lastChild;
+                            if (this._root && this.focusElement(window.BlazorFluentUiBaseComponent.getPreviousElement(this._root, lastChild, true, true, true))) {
                                 break;
                             }
                             return;
                         case 13 /* enter */:
-                            if (_this._tryInvokeClickForFocusable(ev.target)) {
+                            if (this._tryInvokeClickForFocusable(ev.target)) {
                                 break;
                             }
                             return;
@@ -1439,69 +1418,69 @@ var BlazorFluentUiFocusZone;
                 ev.preventDefault();
                 ev.stopPropagation();
             };
-            this._onFocus = function (ev) {
-                if (_this._portalContainsElement(ev.target)) {
+            this._onFocus = (ev) => {
+                if (this._portalContainsElement(ev.target)) {
                     // If the event target is inside a portal do not process the event.
                     return;
                 }
-                var doNotAllowFocusEventToPropagate = _this._focusZoneProps.doNotAllowFocusEventToPropagate;
-                var isImmediateDescendant = _this._isImmediateDescendantOfZone(ev.target);
-                var newActiveElement;
-                _this._dotNetRef.invokeMethodAsync("JSOnFocusNotification");
+                const { doNotAllowFocusEventToPropagate } = this._focusZoneProps;
+                const isImmediateDescendant = this._isImmediateDescendantOfZone(ev.target);
+                let newActiveElement;
+                this._dotNetRef.invokeMethodAsync("JSOnFocusNotification");
                 if (isImmediateDescendant) {
                     newActiveElement = ev.target;
                 }
                 else {
-                    var parentElement = ev.target;
-                    while (parentElement && parentElement !== _this._root) {
-                        if (window.BlazorFluentUiBaseComponent.isElementTabbable(parentElement) && _this._isImmediateDescendantOfZone(parentElement)) {
+                    let parentElement = ev.target;
+                    while (parentElement && parentElement !== this._root) {
+                        if (window.BlazorFluentUiBaseComponent.isElementTabbable(parentElement) && this._isImmediateDescendantOfZone(parentElement)) {
                             newActiveElement = parentElement;
                             break;
                         }
                         parentElement = window.BlazorFluentUiBaseComponent.getParent(parentElement, ALLOW_VIRTUAL_ELEMENTS);
                     }
                 }
-                var initialElementFocused = !_this._activeElement;
+                const initialElementFocused = !this._activeElement;
                 // If the new active element is a child of this zone and received focus,
                 // update alignment an immediate descendant
-                if (newActiveElement && newActiveElement !== _this._activeElement) {
+                if (newActiveElement && newActiveElement !== this._activeElement) {
                     if (isImmediateDescendant || initialElementFocused) {
-                        _this._setFocusAlignment(newActiveElement, true, true);
+                        this._setFocusAlignment(newActiveElement, true, true);
                     }
-                    _this._activeElement = newActiveElement;
+                    this._activeElement = newActiveElement;
                     if (initialElementFocused) {
-                        _this._updateTabIndexes();
+                        this._updateTabIndexes();
                     }
                 }
-                _this._dotNetRef.invokeMethodAsync("JSOnActiveElementChanged");
+                this._dotNetRef.invokeMethodAsync("JSOnActiveElementChanged");
                 if (doNotAllowFocusEventToPropagate) {
                     ev.stopPropagation();
                 }
             };
-            this._onKeyDownCapture = function (ev) {
+            this._onKeyDownCapture = (ev) => {
                 if (ev.which === 9 /* tab */) {
-                    outerZones.forEach(function (zone) { return zone._updateTabIndexes(); });
+                    outerZones.forEach(zone => zone._updateTabIndexes());
                 }
             };
-            this._onMouseDown = function (ev) {
-                if (_this._portalContainsElement(ev.target)) {
+            this._onMouseDown = (ev) => {
+                if (this._portalContainsElement(ev.target)) {
                     // If the event target is inside a portal do not process the event.
                     return;
                 }
-                var disabled = _this._focusZoneProps.disabled;
+                const { disabled } = this._focusZoneProps;
                 if (disabled) {
                     return;
                 }
-                var target = ev.target;
-                var path = [];
-                while (target && target !== _this._root) {
+                let target = ev.target;
+                const path = [];
+                while (target && target !== this._root) {
                     path.push(target);
                     target = window.BlazorFluentUiBaseComponent.getParent(target, ALLOW_VIRTUAL_ELEMENTS);
                 }
                 while (path.length) {
                     target = path.pop();
                     if (target && window.BlazorFluentUiBaseComponent.isElementTabbable(target)) {
-                        _this._setActiveElement(target, true);
+                        this._setActiveElement(target, true);
                     }
                     if (window.BlazorFluentUiBaseComponent.isElementFocusZone(target)) {
                         // Stop here since the focus zone will take care of its own children.
@@ -1521,12 +1500,12 @@ var BlazorFluentUiFocusZone;
             this._root.addEventListener("mousedown", this._onMouseDown, false);
             this.initialized();
         }
-        FocusZoneInternal.prototype.updateFocusZone = function (props) {
+        updateFocusZone(props) {
             this._focusZoneProps = props;
             allInstances[props.id] = this;
             if (this._root) {
-                var windowElement = window.BlazorFluentUiBaseComponent.getWindow(this._root);
-                var parentElement = window.BlazorFluentUiBaseComponent.getParent(this._root, ALLOW_VIRTUAL_ELEMENTS);
+                const windowElement = window.BlazorFluentUiBaseComponent.getWindow(this._root);
+                let parentElement = window.BlazorFluentUiBaseComponent.getParent(this._root, ALLOW_VIRTUAL_ELEMENTS);
                 while (parentElement && parentElement !== document.body && parentElement.nodeType === 1) {
                     if (window.BlazorFluentUiBaseComponent.isElementFocusZone(parentElement)) {
                         this._isInnerZone = true;
@@ -1551,10 +1530,10 @@ var BlazorFluentUiFocusZone;
                     }
                 }
             }
-        };
-        FocusZoneInternal.prototype.initialized = function () {
-            var windowElement = window.BlazorFluentUiBaseComponent.getWindow(this._root);
-            var parentElement = window.BlazorFluentUiBaseComponent.getParent(this._root, ALLOW_VIRTUAL_ELEMENTS);
+        }
+        initialized() {
+            const windowElement = window.BlazorFluentUiBaseComponent.getWindow(this._root);
+            let parentElement = window.BlazorFluentUiBaseComponent.getParent(this._root, ALLOW_VIRTUAL_ELEMENTS);
             while (parentElement && parentElement !== document.body && parentElement.nodeType === 1) {
                 if (window.BlazorFluentUiBaseComponent.isElementFocusZone(parentElement)) {
                     this._isInnerZone = true;
@@ -1576,14 +1555,14 @@ var BlazorFluentUiFocusZone;
                 this._activeElement = this._focusZoneProps.defaultActiveElement;
                 this.focus();
             }
-        };
+        }
         /**
        * When focus is in the zone at render time but then all focusable elements are removed,
        * we "park" focus temporarily on the root. Once we update with focusable children, we restore
        * focus to the closest path from previous. If the user tabs away from the parked container,
        * we restore focusability to the pre-parked state.
        */
-        FocusZoneInternal.prototype._setParkedFocus = function (isParked) {
+        _setParkedFocus(isParked) {
             if (this._root && this._isParked !== isParked) {
                 this._isParked = isParked;
                 if (isParked) {
@@ -1605,26 +1584,25 @@ var BlazorFluentUiFocusZone;
                     }
                 }
             }
-        };
-        FocusZoneInternal.prototype.unRegister = function () {
+        }
+        unRegister() {
             if (!this._isInnerZone) {
-                outerZones["delete"](this);
+                outerZones.delete(this);
             }
-            this._disposables.forEach(function (d) { return d(); });
+            this._disposables.forEach(d => d());
             if (outerZones.size === 0 && _disposeGlobalKeyDownListener) {
                 _disposeGlobalKeyDownListener();
             }
             this._root.removeEventListener("keydown", this._onKeyDown, false);
             this._root.removeEventListener("focus", this._onFocus, false);
             this._root.removeEventListener("mousedown", this._onMouseDown, false);
-        };
-        FocusZoneInternal.prototype.focus = function (forceIntoFirstElement) {
-            if (forceIntoFirstElement === void 0) { forceIntoFirstElement = false; }
+        }
+        focus(forceIntoFirstElement = false) {
             if (this._root) {
                 if (!forceIntoFirstElement && this._root.getAttribute(IS_FOCUSABLE_ATTRIBUTE) === 'true' && this._isInnerZone) {
-                    var ownerZoneElement = this._getOwnerZone(this._root);
+                    const ownerZoneElement = this._getOwnerZone(this._root);
                     if (ownerZoneElement !== this._root) {
-                        var ownerZone = allInstances[ownerZoneElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
+                        const ownerZone = allInstances[ownerZoneElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
                         return !!ownerZone && ownerZone.focusElement(this._root);
                     }
                     return false;
@@ -1637,14 +1615,14 @@ var BlazorFluentUiFocusZone;
                     return true;
                 }
                 else {
-                    var firstChild = this._root.firstChild;
+                    const firstChild = this._root.firstChild;
                     return this.focusElement(window.BlazorFluentUiBaseComponent.getNextElement(this._root, firstChild, true));
                 }
             }
             return false;
-        };
-        FocusZoneInternal.prototype.focusElement = function (element) {
-            var onBeforeFocusExists = this._focusZoneProps.onBeforeFocusExists;
+        }
+        focusElement(element) {
+            const { onBeforeFocusExists } = this._focusZoneProps;
             if (onBeforeFocusExists && !this._dotNetRef.invokeMethodAsync("JSOnBeforeFocus")) {
                 return false;
             }
@@ -1657,8 +1635,8 @@ var BlazorFluentUiFocusZone;
                 return true;
             }
             return false;
-        };
-        FocusZoneInternal.prototype._updateTabIndexes = function (element) {
+        }
+        _updateTabIndexes(element) {
             if (!element && this._root) {
                 this._defaultFocusElement = null;
                 element = this._root;
@@ -1671,9 +1649,9 @@ var BlazorFluentUiFocusZone;
             if (this._activeElement && !window.BlazorFluentUiBaseComponent.isElementTabbable(this._activeElement)) {
                 this._activeElement = null;
             }
-            var childNodes = element && element.children;
-            for (var childIndex = 0; childNodes && childIndex < childNodes.length; childIndex++) {
-                var child = childNodes[childIndex];
+            const childNodes = element && element.children;
+            for (let childIndex = 0; childNodes && childIndex < childNodes.length; childIndex++) {
+                const child = childNodes[childIndex];
                 if (!window.BlazorFluentUiBaseComponent.isElementFocusZone(child)) {
                     // If the item is explicitly set to not be focusable then TABINDEX needs to be set to -1.
                     if (child.getAttribute && child.getAttribute(IS_FOCUSABLE_ATTRIBUTE) === 'false') {
@@ -1711,9 +1689,9 @@ var BlazorFluentUiFocusZone;
                 }
                 this._updateTabIndexes(child);
             }
-        };
-        FocusZoneInternal.prototype._getOwnerZone = function (element) {
-            var parentElement = window.BlazorFluentUiBaseComponent.getParent(element, ALLOW_VIRTUAL_ELEMENTS);
+        }
+        _getOwnerZone(element) {
+            let parentElement = window.BlazorFluentUiBaseComponent.getParent(element, ALLOW_VIRTUAL_ELEMENTS);
             while (parentElement && parentElement !== this._root && parentElement !== document.body) {
                 if (window.BlazorFluentUiBaseComponent.isElementFocusZone(parentElement)) {
                     return parentElement;
@@ -1721,9 +1699,9 @@ var BlazorFluentUiFocusZone;
                 parentElement = window.BlazorFluentUiBaseComponent.getParent(parentElement, ALLOW_VIRTUAL_ELEMENTS);
             }
             return parentElement;
-        };
-        FocusZoneInternal.prototype._setActiveElement = function (element, forceAlignment) {
-            var previousActiveElement = this._activeElement;
+        }
+        _setActiveElement(element, forceAlignment) {
+            const previousActiveElement = this._activeElement;
             this._activeElement = element;
             if (previousActiveElement) {
                 if (window.BlazorFluentUiBaseComponent.isElementFocusZone(previousActiveElement)) {
@@ -1737,33 +1715,33 @@ var BlazorFluentUiFocusZone;
                 }
                 this._activeElement.tabIndex = 0;
             }
-        };
-        FocusZoneInternal.prototype._setFocusAlignment = function (element, isHorizontal, isVertical) {
+        }
+        _setFocusAlignment(element, isHorizontal, isVertical) {
             if (this._focusZoneProps.direction === FocusZoneDirection.bidirectional && (!this._focusAlignment || isHorizontal || isVertical)) {
-                var rect = element.getBoundingClientRect();
-                var left = rect.left + rect.width / 2;
-                var top_1 = rect.top + rect.height / 2;
+                const rect = element.getBoundingClientRect();
+                const left = rect.left + rect.width / 2;
+                const top = rect.top + rect.height / 2;
                 if (!this._focusAlignment) {
                     this._focusAlignment = {
                         x: left,
-                        y: top_1
+                        y: top
                     };
                 }
                 if (isHorizontal) {
                     this._focusAlignment.x = left;
                 }
                 if (isVertical) {
-                    this._focusAlignment.y = top_1;
+                    this._focusAlignment.y = top;
                 }
             }
-        };
-        FocusZoneInternal.prototype._isImmediateDescendantOfZone = function (element) {
+        }
+        _isImmediateDescendantOfZone(element) {
             return this._getOwnerZone(element) === this._root;
-        };
+        }
         /**
    * Traverse to find first child zone.
    */
-        FocusZoneInternal.prototype._getFirstInnerZone = function (rootElement) {
+        _getFirstInnerZone(rootElement) {
             rootElement = rootElement || this._activeElement || this._root;
             if (!rootElement) {
                 return null;
@@ -1771,23 +1749,23 @@ var BlazorFluentUiFocusZone;
             if (window.BlazorFluentUiBaseComponent.isElementFocusZone(rootElement)) {
                 return allInstances[rootElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
             }
-            var child = rootElement.firstElementChild;
+            let child = rootElement.firstElementChild;
             while (child) {
                 if (window.BlazorFluentUiBaseComponent.isElementFocusZone(child)) {
                     return allInstances[child.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
                 }
-                var match = this._getFirstInnerZone(child);
+                const match = this._getFirstInnerZone(child);
                 if (match) {
                     return match;
                 }
                 child = child.nextElementSibling;
             }
             return null;
-        };
+        }
         /**
        * Walk up the dom try to find a focusable element.
        */
-        FocusZoneInternal.prototype._tryInvokeClickForFocusable = function (target) {
+        _tryInvokeClickForFocusable(target) {
             if (target === this._root) {
                 return false;
             }
@@ -1804,28 +1782,28 @@ var BlazorFluentUiFocusZone;
                 target = window.BlazorFluentUiBaseComponent.getParent(target, ALLOW_VIRTUAL_ELEMENTS);
             } while (target !== this._root);
             return false;
-        };
+        }
         /**
         * Returns true if the element is a descendant of the FocusZone through a React portal.
         */
-        FocusZoneInternal.prototype._portalContainsElement = function (element) {
+        _portalContainsElement(element) {
             // This might break our control when used inside a Layer...
             return false;
             //return element && !!this._root && BlazorFluentUiBaseComponent portalContainsElement(element, this._root.current);
-        };
-        FocusZoneInternal.prototype._isElementInput = function (element) {
+        }
+        _isElementInput(element) {
             if (element && element.tagName && (element.tagName.toLowerCase() === 'input' || element.tagName.toLowerCase() === 'textarea')) {
                 return true;
             }
             return false;
-        };
-        FocusZoneInternal.prototype._shouldInputLoseFocus = function (element, isForward) {
+        }
+        _shouldInputLoseFocus(element, isForward) {
             // If a tab was used, we want to focus on the next element.
             if (!this._processingTabKey && element && element.type && ALLOWED_INPUT_TYPES.indexOf(element.type.toLowerCase()) > -1) {
-                var selectionStart = element.selectionStart;
-                var selectionEnd = element.selectionEnd;
-                var isRangeSelected = selectionStart !== selectionEnd;
-                var inputValue = element.value;
+                const selectionStart = element.selectionStart;
+                const selectionEnd = element.selectionEnd;
+                const isRangeSelected = selectionStart !== selectionEnd;
+                const inputValue = element.value;
                 // We shouldn't lose focus in the following cases:
                 // 1. There is range selected.
                 // 2. When selection start is larger than 0 and it is backward.
@@ -1841,17 +1819,16 @@ var BlazorFluentUiFocusZone;
                 }
             }
             return true;
-        };
-        FocusZoneInternal.prototype._shouldWrapFocus = function (element, noWrapDataAttribute) {
+        }
+        _shouldWrapFocus(element, noWrapDataAttribute) {
             return !!this._focusZoneProps.checkForNoWrap ? window.BlazorFluentUiBaseComponent.shouldWrapFocus(element, noWrapDataAttribute) : true;
-        };
-        FocusZoneInternal.prototype._moveFocus = function (isForward, getDistanceFromCenter, ev, useDefaultWrap) {
-            if (useDefaultWrap === void 0) { useDefaultWrap = true; }
-            var element = this._activeElement;
-            var candidateDistance = -1;
-            var candidateElement = undefined;
-            var changedFocus = false;
-            var isBidirectional = this._focusZoneProps.direction === FocusZoneDirection.bidirectional;
+        }
+        _moveFocus(isForward, getDistanceFromCenter, ev, useDefaultWrap = true) {
+            let element = this._activeElement;
+            let candidateDistance = -1;
+            let candidateElement = undefined;
+            let changedFocus = false;
+            const isBidirectional = this._focusZoneProps.direction === FocusZoneDirection.bidirectional;
             if (!element || !this._root) {
                 return false;
             }
@@ -1860,13 +1837,13 @@ var BlazorFluentUiFocusZone;
                     return false;
                 }
             }
-            var activeRect = isBidirectional ? element.getBoundingClientRect() : null;
+            const activeRect = isBidirectional ? element.getBoundingClientRect() : null;
             do {
                 element = (isForward ? window.BlazorFluentUiBaseComponent.getNextElement(this._root, element) : window.BlazorFluentUiBaseComponent.getPreviousElement(this._root, element));
                 if (isBidirectional) {
                     if (element) {
-                        var targetRect = element.getBoundingClientRect();
-                        var elementDistance = getDistanceFromCenter(activeRect, targetRect);
+                        const targetRect = element.getBoundingClientRect();
+                        const elementDistance = getDistanceFromCenter(activeRect, targetRect);
                         if (elementDistance === -1 && candidateDistance === -1) {
                             candidateElement = element;
                             break;
@@ -1899,21 +1876,20 @@ var BlazorFluentUiFocusZone;
                 }
             }
             return changedFocus;
-        };
-        FocusZoneInternal.prototype._moveFocusDown = function () {
-            var _this = this;
-            var targetTop = -1;
-            var leftAlignment = this._focusAlignment.x;
-            if (this._moveFocus(true, function (activeRect, targetRect) {
-                var distance = -1;
+        }
+        _moveFocusDown() {
+            let targetTop = -1;
+            const leftAlignment = this._focusAlignment.x;
+            if (this._moveFocus(true, (activeRect, targetRect) => {
+                let distance = -1;
                 // ClientRect values can be floats that differ by very small fractions of a decimal.
                 // If the difference between top and bottom are within a pixel then we should treat
                 // them as equivalent by using Math.floor. For instance 5.2222 and 5.222221 should be equivalent,
                 // but without Math.Floor they will be handled incorrectly.
-                var targetRectTop = Math.floor(targetRect.top);
-                var activeRectBottom = Math.floor(activeRect.bottom);
+                const targetRectTop = Math.floor(targetRect.top);
+                const activeRectBottom = Math.floor(activeRect.bottom);
                 if (targetRectTop < activeRectBottom) {
-                    if (!_this._shouldWrapFocus(_this._activeElement, NO_VERTICAL_WRAP)) {
+                    if (!this._shouldWrapFocus(this._activeElement, NO_VERTICAL_WRAP)) {
                         return LARGE_NEGATIVE_DISTANCE_FROM_CENTER;
                     }
                     return LARGE_DISTANCE_FROM_CENTER;
@@ -1933,22 +1909,21 @@ var BlazorFluentUiFocusZone;
                 return true;
             }
             return false;
-        };
-        FocusZoneInternal.prototype._moveFocusUp = function () {
-            var _this = this;
-            var targetTop = -1;
-            var leftAlignment = this._focusAlignment.x;
-            if (this._moveFocus(false, function (activeRect, targetRect) {
-                var distance = -1;
+        }
+        _moveFocusUp() {
+            let targetTop = -1;
+            const leftAlignment = this._focusAlignment.x;
+            if (this._moveFocus(false, (activeRect, targetRect) => {
+                let distance = -1;
                 // ClientRect values can be floats that differ by very small fractions of a decimal.
                 // If the difference between top and bottom are within a pixel then we should treat
                 // them as equivalent by using Math.floor. For instance 5.2222 and 5.222221 should be equivalent,
                 // but without Math.Floor they will be handled incorrectly.
-                var targetRectBottom = Math.floor(targetRect.bottom);
-                var targetRectTop = Math.floor(targetRect.top);
-                var activeRectTop = Math.floor(activeRect.top);
+                const targetRectBottom = Math.floor(targetRect.bottom);
+                const targetRectTop = Math.floor(targetRect.top);
+                const activeRectTop = Math.floor(activeRect.top);
                 if (targetRectBottom > activeRectTop) {
-                    if (!_this._shouldWrapFocus(_this._activeElement, NO_VERTICAL_WRAP)) {
+                    if (!this._shouldWrapFocus(this._activeElement, NO_VERTICAL_WRAP)) {
                         return LARGE_NEGATIVE_DISTANCE_FROM_CENTER;
                     }
                     return LARGE_DISTANCE_FROM_CENTER;
@@ -1968,13 +1943,12 @@ var BlazorFluentUiFocusZone;
                 return true;
             }
             return false;
-        };
-        FocusZoneInternal.prototype._moveFocusLeft = function () {
-            var _this = this;
-            var shouldWrap = this._shouldWrapFocus(this._activeElement, NO_HORIZONTAL_WRAP);
-            if (this._moveFocus(window.BlazorFluentUiBaseComponent.getRTL(), function (activeRect, targetRect) {
-                var distance = -1;
-                var topBottomComparison;
+        }
+        _moveFocusLeft() {
+            const shouldWrap = this._shouldWrapFocus(this._activeElement, NO_HORIZONTAL_WRAP);
+            if (this._moveFocus(window.BlazorFluentUiBaseComponent.getRTL(), (activeRect, targetRect) => {
+                let distance = -1;
+                let topBottomComparison;
                 if (window.BlazorFluentUiBaseComponent.getRTL()) {
                     // When in RTL, this comparison should be the same as the one in _moveFocusRight for LTR.
                     // Going left at a leftmost rectangle will go down a line instead of up a line like in LTR.
@@ -1985,7 +1959,7 @@ var BlazorFluentUiFocusZone;
                 else {
                     topBottomComparison = parseFloat(targetRect.bottom.toFixed(3)) > parseFloat(activeRect.top.toFixed(3));
                 }
-                if (topBottomComparison && targetRect.right <= activeRect.right && _this._focusZoneProps.direction !== FocusZoneDirection.vertical) {
+                if (topBottomComparison && targetRect.right <= activeRect.right && this._focusZoneProps.direction !== FocusZoneDirection.vertical) {
                     distance = activeRect.right - targetRect.right;
                 }
                 else {
@@ -1999,13 +1973,12 @@ var BlazorFluentUiFocusZone;
                 return true;
             }
             return false;
-        };
-        FocusZoneInternal.prototype._moveFocusRight = function () {
-            var _this = this;
-            var shouldWrap = this._shouldWrapFocus(this._activeElement, NO_HORIZONTAL_WRAP);
-            if (this._moveFocus(!window.BlazorFluentUiBaseComponent.getRTL(), function (activeRect, targetRect) {
-                var distance = -1;
-                var topBottomComparison;
+        }
+        _moveFocusRight() {
+            const shouldWrap = this._shouldWrapFocus(this._activeElement, NO_HORIZONTAL_WRAP);
+            if (this._moveFocus(!window.BlazorFluentUiBaseComponent.getRTL(), (activeRect, targetRect) => {
+                let distance = -1;
+                let topBottomComparison;
                 if (window.BlazorFluentUiBaseComponent.getRTL()) {
                     // When in RTL, this comparison should be the same as the one in _moveFocusLeft for LTR.
                     // Going right at a rightmost rectangle will go up a line instead of down a line like in LTR.
@@ -2016,7 +1989,7 @@ var BlazorFluentUiFocusZone;
                 else {
                     topBottomComparison = parseFloat(targetRect.top.toFixed(3)) < parseFloat(activeRect.bottom.toFixed(3));
                 }
-                if (topBottomComparison && targetRect.left >= activeRect.left && _this._focusZoneProps.direction !== FocusZoneDirection.vertical) {
+                if (topBottomComparison && targetRect.left >= activeRect.left && this._focusZoneProps.direction !== FocusZoneDirection.vertical) {
                     distance = targetRect.left - activeRect.left;
                 }
                 else if (!shouldWrap) {
@@ -2028,9 +2001,8 @@ var BlazorFluentUiFocusZone;
                 return true;
             }
             return false;
-        };
-        return FocusZoneInternal;
-    }());
+        }
+    }
 })(BlazorFluentUiFocusZone || (BlazorFluentUiFocusZone = {}));
 //interface Window {
 //    BlazorFluentUiFocusZone: typeof BlazorFluentUiFocusZone
@@ -2071,41 +2043,55 @@ var BlazorFluentUiList;
     }
     BlazorFluentUiList.measureElementRect = measureElementRect;
     ;
-    var _ticking;
     function initialize(component, scrollElement, contentElement) {
-        scrollElement.addEventListener('scroll', function (e) {
-            var lastKnownValues = {
+        let _ticking;
+        let _cachedSizes = new Map();
+        let _averageHeight = 40;
+        let _lastDate;
+        scrollElement.addEventListener('scroll', e => {
+            var now = Date.now();
+            console.log(now - _lastDate + "ms since last onscroll.");
+            _lastDate = now;
+            for (var i = 0; i < contentElement.children.length; i++) {
+                let item = contentElement.children.item(i);
+                let itemIndex = item.getAttribute("data-index");
+                _cachedSizes.set(itemIndex, item.clientHeight);
+            }
+            if (_cachedSizes.size > 0) {
+                _averageHeight = [..._cachedSizes.values()].reduce((p, c, i, a) => p + c) / _cachedSizes.size;
+            }
+            const lastKnownValues = {
                 containerRect: scrollElement.getBoundingClientRect(),
+                scrollRect: measureScrollWindow(scrollElement),
                 contentRect: readClientRectWithoutTransform(contentElement),
-                averageHeight: 40
+                averageHeight: _averageHeight
             };
             if (!_ticking) {
-                window.requestIdleCallback(function () {
+                window.requestIdleCallback(() => {
                     component.invokeMethodAsync('OnScroll', lastKnownValues);
                     _ticking = false;
                 });
                 _ticking = true;
             }
         });
-        for (var i = 0; i < contentElement.children.length; i++) {
-        }
         return {
             containerRect: scrollElement.getBoundingClientRect(),
+            scrollRect: measureScrollWindow(scrollElement),
             contentRect: readClientRectWithoutTransform(contentElement),
-            averageHeight: 40
+            averageHeight: _averageHeight
         };
     }
     BlazorFluentUiList.initialize = initialize;
     function readClientRectWithoutTransform(elem) {
-        var rect = elem.getBoundingClientRect();
-        var translateY = parseFloat(elem.getAttribute('data-translateY'));
+        const rect = elem.getBoundingClientRect();
+        const translateY = parseFloat(elem.getAttribute('data-translateY'));
         return {
             top: rect.top - translateY, bottom: rect.bottom - translateY, left: rect.left, right: rect.right, height: rect.height, width: rect.width, x: 0, y: 0, toJSON: null
         };
     }
     function _expandRect(rect, pagesBefore, pagesAfter) {
-        var top = rect.top - pagesBefore * rect.height;
-        var height = rect.height + (pagesBefore + pagesAfter) * rect.height;
+        const top = rect.top - pagesBefore * rect.height;
+        const height = rect.height + (pagesBefore + pagesAfter) * rect.height;
         return {
             top: top,
             bottom: top + height,
@@ -2136,34 +2122,34 @@ window['BlazorFluentUiList'] = BlazorFluentUiList || {};
 /// <reference path="../../BlazorFluentUI.BFUFocusTrapZone/wwwroot/focusTrapZone.ts" />
 var BlazorFluentUiPanel;
 (function (BlazorFluentUiPanel) {
-    var Handler = /** @class */ (function () {
-        function Handler() {
-        }
-        Handler.addListener = function (element, event, handler, capture) {
-            element.addEventListener(event, handler, capture);
-            this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
-            return this.i++;
-        };
-        Handler.removeListener = function (id) {
-            if (id in this.listeners) {
-                var h = this.listeners[id];
-                h.element.removeEventListener(h.event, h.handler, h.capture);
-                delete this.listeners[id];
+    let Handler = /** @class */ (() => {
+        class Handler {
+            static addListener(element, event, handler, capture) {
+                element.addEventListener(event, handler, capture);
+                this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
+                return this.i++;
             }
-        };
+            static removeListener(id) {
+                if (id in this.listeners) {
+                    var h = this.listeners[id];
+                    h.element.removeEventListener(h.event, h.handler, h.capture);
+                    delete this.listeners[id];
+                }
+            }
+        }
         Handler.i = 1;
         Handler.listeners = {};
         return Handler;
-    }());
+    })();
     function registerSizeHandler(panel) {
         //var window = targetElement.ownerDocument.defaultView;
-        var resizeId = Handler.addListener(window, "resize", function (ev) { panel.invokeMethodAsync("UpdateFooterPositionAsync"); }, false);
+        var resizeId = Handler.addListener(window, "resize", (ev) => { panel.invokeMethodAsync("UpdateFooterPositionAsync"); }, false);
         //var blurId = Handler.addListener(targetElement, "blur", (ev: Event) => { ev.preventDefault(); panel.invokeMethodAsync("OnBlur"); }, false);
         return resizeId;
     }
     BlazorFluentUiPanel.registerSizeHandler = registerSizeHandler;
     function registerMouseDownHandler(panelElement, panelDotNet) {
-        var mouseDownId = Handler.addListener(document.body, "mousedown", function (ev) {
+        var mouseDownId = Handler.addListener(document.body, "mousedown", (ev) => {
             //first get whether click is inside panel
             if (!ev.defaultPrevented) {
                 var contains = BlazorFluentUiFocusTrapZone.elementContains(panelElement, ev.target);
@@ -2181,19 +2167,19 @@ var BlazorFluentUiPanel;
         Handler.removeListener(id);
     }
     BlazorFluentUiPanel.unregisterHandler = unregisterHandler;
-    var DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
+    const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
     function makeElementScrollAllower(element) {
-        var _previousClientY = 0;
-        var _element = null;
+        let _previousClientY = 0;
+        let _element = null;
         // remember the clientY for future calls of _preventOverscrolling
-        var _saveClientY = function (event) {
+        const _saveClientY = (event) => {
             if (event.targetTouches.length === 1) {
                 _previousClientY = event.targetTouches[0].clientY;
             }
         };
         // prevent the body from scrolling when the user attempts
         // to scroll past the top or bottom of the element
-        var _preventOverscrolling = function (event) {
+        const _preventOverscrolling = (event) => {
             // only respond to a single-finger touch
             if (event.targetTouches.length !== 1) {
                 return;
@@ -2204,8 +2190,8 @@ var BlazorFluentUiPanel;
             if (!_element) {
                 return;
             }
-            var clientY = event.targetTouches[0].clientY - _previousClientY;
-            var scrollableParent = findScrollableParent(event.target);
+            const clientY = event.targetTouches[0].clientY - _previousClientY;
+            const scrollableParent = findScrollableParent(event.target);
             if (scrollableParent) {
                 _element = scrollableParent;
             }
@@ -2226,7 +2212,7 @@ var BlazorFluentUiPanel;
     }
     BlazorFluentUiPanel.makeElementScrollAllower = makeElementScrollAllower;
     function findScrollableParent(startingElement) {
-        var el = startingElement;
+        let el = startingElement;
         // First do a quick scan for the scrollable attribute.
         while (el && el !== document.body) {
             if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) === 'true') {
@@ -2238,8 +2224,8 @@ var BlazorFluentUiPanel;
         el = startingElement;
         while (el && el !== document.body) {
             if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) !== 'false') {
-                var computedStyles = getComputedStyle(el);
-                var overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
+                const computedStyles = getComputedStyle(el);
+                let overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
                 if (overflowY && (overflowY === 'scroll' || overflowY === 'auto')) {
                     return el;
                 }

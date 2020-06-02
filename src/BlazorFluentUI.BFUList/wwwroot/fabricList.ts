@@ -68,14 +68,31 @@ namespace BlazorFluentUiList {
 
 
 
-    var _ticking: boolean;
+    
 
-    export function initialize(component: DotNetReferenceType, scrollElement:HTMLElement, contentElement: HTMLElement): any {
+
+    export function initialize(component: DotNetReferenceType, scrollElement: HTMLElement, contentElement: HTMLElement): any {
+        let _ticking: boolean;
+        let _cachedSizes: Map<string, number> = new Map<string, number>();
+        let _averageHeight: number = 40;
+        let _lastDate: number;
+
         scrollElement.addEventListener('scroll', e => {
+
+            for (var i = 0; i < contentElement.children.length; i++) {
+                let item = contentElement.children.item(i);
+                let itemIndex = item.getAttribute("data-index");
+                _cachedSizes.set(itemIndex, item.clientHeight);
+            }
+            if (_cachedSizes.size > 0) {
+                _averageHeight = [..._cachedSizes.values()].reduce((p, c, i, a) => p + c) / _cachedSizes.size;
+            }
+
             const lastKnownValues = {
                 containerRect: scrollElement.getBoundingClientRect(),
+                scrollRect: measureScrollWindow(scrollElement),
                 contentRect: readClientRectWithoutTransform(contentElement),
-                averageHeight: 40
+                averageHeight: _averageHeight
             };
 
             if (!_ticking) {
@@ -87,15 +104,12 @@ namespace BlazorFluentUiList {
                 _ticking = true;
             }
         });
-
-        for (var i = 0; i < contentElement.children.length; i++) {
-
-        }
-
+                
         return {
             containerRect: scrollElement.getBoundingClientRect(),
+            scrollRect: measureScrollWindow(scrollElement),
             contentRect: readClientRectWithoutTransform(contentElement),
-            averageHeight: 40
+            averageHeight: _averageHeight
         };
     }
 

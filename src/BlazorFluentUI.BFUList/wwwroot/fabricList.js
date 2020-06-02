@@ -32,41 +32,52 @@ var BlazorFluentUiList;
     }
     BlazorFluentUiList.measureElementRect = measureElementRect;
     ;
-    var _ticking;
     function initialize(component, scrollElement, contentElement) {
-        scrollElement.addEventListener('scroll', function (e) {
-            var lastKnownValues = {
+        let _ticking;
+        let _cachedSizes = new Map();
+        let _averageHeight = 40;
+        let _lastDate;
+        scrollElement.addEventListener('scroll', e => {
+            for (var i = 0; i < contentElement.children.length; i++) {
+                let item = contentElement.children.item(i);
+                let itemIndex = item.getAttribute("data-index");
+                _cachedSizes.set(itemIndex, item.clientHeight);
+            }
+            if (_cachedSizes.size > 0) {
+                _averageHeight = [..._cachedSizes.values()].reduce((p, c, i, a) => p + c) / _cachedSizes.size;
+            }
+            const lastKnownValues = {
                 containerRect: scrollElement.getBoundingClientRect(),
+                scrollRect: measureScrollWindow(scrollElement),
                 contentRect: readClientRectWithoutTransform(contentElement),
-                averageHeight: 40
+                averageHeight: _averageHeight
             };
             if (!_ticking) {
-                window.requestIdleCallback(function () {
+                window.requestIdleCallback(() => {
                     component.invokeMethodAsync('OnScroll', lastKnownValues);
                     _ticking = false;
                 });
                 _ticking = true;
             }
         });
-        for (var i = 0; i < contentElement.children.length; i++) {
-        }
         return {
             containerRect: scrollElement.getBoundingClientRect(),
+            scrollRect: measureScrollWindow(scrollElement),
             contentRect: readClientRectWithoutTransform(contentElement),
-            averageHeight: 40
+            averageHeight: _averageHeight
         };
     }
     BlazorFluentUiList.initialize = initialize;
     function readClientRectWithoutTransform(elem) {
-        var rect = elem.getBoundingClientRect();
-        var translateY = parseFloat(elem.getAttribute('data-translateY'));
+        const rect = elem.getBoundingClientRect();
+        const translateY = parseFloat(elem.getAttribute('data-translateY'));
         return {
             top: rect.top - translateY, bottom: rect.bottom - translateY, left: rect.left, right: rect.right, height: rect.height, width: rect.width, x: 0, y: 0, toJSON: null
         };
     }
     function _expandRect(rect, pagesBefore, pagesAfter) {
-        var top = rect.top - pagesBefore * rect.height;
-        var height = rect.height + (pagesBefore + pagesAfter) * rect.height;
+        const top = rect.top - pagesBefore * rect.height;
+        const height = rect.height + (pagesBefore + pagesAfter) * rect.height;
         return {
             top: top,
             bottom: top + height,

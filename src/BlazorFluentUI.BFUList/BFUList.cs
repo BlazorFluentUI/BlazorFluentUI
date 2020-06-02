@@ -38,7 +38,7 @@ namespace BlazorFluentUI
 
         //private int minRenderedPage;
         //private int maxRenderedPage;
-        private ElementMeasurements _lastScrollRect = new ElementMeasurements();
+        private Rectangle _lastScrollRect = new Rectangle();
         private ElementMeasurements _scrollRect = new ElementMeasurements();
         //private double _scrollHeight;
         private Rectangle surfaceRect = new Rectangle();
@@ -88,18 +88,6 @@ namespace BlazorFluentUI
 
         private IEnumerable<TItem> _itemsSource;
 
-        protected RenderFragment ItemPagesRender { get; set; }
-
-        private ISubject<(int index, double height)> pageMeasureSubject = new Subject<(int index, double height)>();
-        private IDisposable _heightSub;
-
-        private ISubject<Unit> _scrollSubject = new Subject<Unit>();
-        private IDisposable _scrollSubscription;
-
-        private ISubject<Unit> _scrollDoneSubject = new Subject<Unit>();
-        private IDisposable _scrollDoneSubscription;
-
-        private List<BFUListPage<TItem>> renderedPages = new List<BFUListPage<TItem>>();
 
         private List<TItem> selectedItems = new List<TItem>();
         private string _resizeRegistration;
@@ -147,8 +135,8 @@ namespace BlazorFluentUI
             foreach (var item in ItemsSource.Skip(numItemsToSkipBefore).Take(numItemsToShow))
             {
                 index++;
-                builder.OpenElement(30 + (index*2), "div");
-                builder.AddAttribute(31 + (index*2), "data-index", numItemsToSkipBefore + index);
+                builder.OpenElement( (numItemsToSkipBefore *2 + index*2), "div");
+                builder.AddAttribute( (numItemsToSkipBefore * 2 + index *2), "data-index", numItemsToSkipBefore + index);
                 ItemTemplate(new ItemContainer<TItem>() {Index = numItemsToSkipBefore + index, Item=item })(builder);
                 builder.CloseElement();
             }
@@ -157,9 +145,9 @@ namespace BlazorFluentUI
             builder.CloseElement();
 
             // Also emit a spacer that causes the total vertical height to add up to Items.Count()*numItems
-            builder.OpenElement(32 + numItemsToShow * 2, "div");
+            builder.OpenElement(28, "div");
             var numHiddenItems = ItemsSource.Count() - numItemsToShow;
-            builder.AddAttribute(32 + numItemsToShow * 2 + 1, "style", $"width: 1px; height: { numHiddenItems * averageHeight }px;");
+            builder.AddAttribute(29, "style", $"width: 1px; height: { numHiddenItems * averageHeight }px;");
             builder.CloseElement();
 
             builder.CloseElement();
@@ -261,61 +249,7 @@ namespace BlazorFluentUI
             return listRules;
         }
 
-        public void ForceUpdate()
-        {
-            MeasureContainerAsync();
-        }
-
-        private RenderFragment RenderPages(int startPage, int endPage, double leadingPadding = 0) => builder =>
-          {
-              try
-              {
-                  renderedPages.Clear();
-
-                  builder.OpenComponent(0, typeof(BFUListVirtualizationSpacer));
-                  builder.AddAttribute(1, "Height", _averagePageHeight * startPage);
-                  builder.CloseComponent();
-
-                  const int lineCount = 11;
-                  var totalItemsRendered = 0;
-                  for (var i = startPage; i <= endPage; i++)
-                  {
-                      builder.OpenComponent(i * lineCount + 2, typeof(BFUListPage<TItem>));
-                      builder.AddAttribute(i * lineCount + 3, "ItemTemplate", ItemTemplate);
-                      if (GetItemCountForPage != null)
-                      {
-                          totalItemsRendered += GetItemCountForPage(i, surfaceRect);
-                          builder.AddAttribute(i * lineCount + 4, "ItemsSource", ItemsSource.Skip(i * GetItemCountForPage(i, surfaceRect)).Take(GetItemCountForPage(i, surfaceRect)));
-                          builder.AddAttribute(i * lineCount + 5, "StartIndex", i * GetItemCountForPage(i, surfaceRect));
-                      }
-                      else
-                      {
-                          totalItemsRendered += DEFAULT_ITEMS_PER_PAGE;
-                          builder.AddAttribute(i * lineCount + 4, "ItemsSource", ItemsSource.Skip(i * DEFAULT_ITEMS_PER_PAGE).Take(DEFAULT_ITEMS_PER_PAGE));
-                          builder.AddAttribute(i * lineCount + 5, "StartIndex", i * DEFAULT_ITEMS_PER_PAGE);
-                      }
-                      builder.AddAttribute(i * lineCount + 6, "PageMeasureSubject", pageMeasureSubject);
-                      builder.AddComponentReferenceCapture(i * lineCount + 11, (comp) => renderedPages.Add((BFUListPage<TItem>)comp));
-
-                      builder.CloseComponent();
-                  }
-
-                  int totalPages = 0;
-                  if (GetItemCountForPage != null)
-                      totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)GetItemCountForPage(0, null));
-                  else
-                      totalPages = (int)Math.Ceiling(ItemsSource.Count() / (double)DEFAULT_ITEMS_PER_PAGE);
-                  builder.OpenComponent(totalPages * lineCount, typeof(BFUListVirtualizationSpacer));
-                  builder.AddAttribute(totalPages * lineCount + 1, "Height", _averagePageHeight * (totalPages - endPage - 1));
-                  builder.CloseComponent();
-              }
-              catch (Exception ex)
-              {
-                  Debug.WriteLine(ex.ToString());
-              }
-
-          };
-
+       
         
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -330,39 +264,34 @@ namespace BlazorFluentUI
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        private async Task MeasureContainerAsync()
-        {
-            _surfaceRect = await this.JSRuntime.InvokeAsync<ElementMeasurements>("BlazorFluentUiList.measureElementRect", this.surfaceDiv);
-            //var oldScrollHeight = _scrollHeight;
-            _lastScrollRect = _scrollRect;
-            _scrollRect = await this.JSRuntime.InvokeAsync<ElementMeasurements>("BlazorFluentUiList.measureScrollWindow", this.surfaceDiv);
+        //private async Task MeasureContainerAsync()
+        //{
+        //    _surfaceRect = await this.JSRuntime.InvokeAsync<ElementMeasurements>("BlazorFluentUiList.measureElementRect", this.surfaceDiv);
+        //    //var oldScrollHeight = _scrollHeight;
+        //    _lastScrollRect = _scrollRect;
+        //    _scrollRect = await this.JSRuntime.InvokeAsync<ElementMeasurements>("BlazorFluentUiList.measureScrollWindow", this.surfaceDiv);
 
-            //_scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getScrollHeight", this.surfaceDiv);
-            surfaceRect = new Rectangle(_surfaceRect.left, _surfaceRect.width, _surfaceRect.top, _surfaceRect.height);
+        //    //_scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getScrollHeight", this.surfaceDiv);
+        //    surfaceRect = new Rectangle(_surfaceRect.left, _surfaceRect.width, _surfaceRect.top, _surfaceRect.height);
 
-            if (_height != surfaceRect.height)
-            {
-                _height = surfaceRect.height;
-                _shouldRender = true;
-                StateHasChanged();
-            }
+        //    if (_height != surfaceRect.height)
+        //    {
+        //        _height = surfaceRect.height;
+        //        _shouldRender = true;
+        //        StateHasChanged();
+        //    }
 
             
-            if (_lastScrollRect.height != _scrollRect.height)
-                await OnListScrollerHeightChanged.InvokeAsync((_scrollRect.height, Data));
-        }
+        //    if (_lastScrollRect.height != _scrollRect.height)
+        //        await OnListScrollerHeightChanged.InvokeAsync((_scrollRect.height, Data));
+        //}
 
-        private async void HandleListScrollerHeightChanged(object sender, double height)
-        {
-            Debug.WriteLine($"Height changed: {height}");
-            await MeasureContainerAsync();
-            
-        }
+     
 
         [JSInvokable]
         public async void ResizeHandler(double width, double height)
         {
-            await MeasureContainerAsync();
+            //await MeasureContainerAsync();
 
             _viewport.Height = _surfaceRect.cheight;
             _viewport.Width = _surfaceRect.cwidth;
@@ -371,19 +300,51 @@ namespace BlazorFluentUI
             await OnViewportChanged.InvokeAsync(_viewport);
         }
 
-
         [JSInvokable]
-        public void OnScroll(ScrollEventArgs args)
-        {
+        public async void OnScroll(ScrollEventArgs args)
+        {            
             averageHeight = args.AverageHeight;
             // TODO: Support horizontal scrolling too
             var relativeTop = args.ContainerRect.Top - args.ContentRect.Top;
             numItemsToSkipBefore = Math.Max(0, (int)(relativeTop / averageHeight));
 
             var visibleHeight = args.ContainerRect.Bottom - (args.ContentRect.Top + numItemsToSkipBefore * averageHeight);
-            numItemsToShow = (int)Math.Ceiling(visibleHeight / averageHeight) + 3;
+            numItemsToShow = (int)Math.Ceiling(visibleHeight / averageHeight) * 3;
+
+            await UpdateViewportAsync(args.ScrollRect.width, args.ContainerRect.Width, args.ScrollRect.height, args.ContainerRect.Height);
+
+            _lastScrollRect = args.ScrollRect;
 
             StateHasChanged();
+        }
+
+        private async Task UpdateViewportAsync(double scrollWidth, double width, double scrollHeight, double height)
+        {
+            bool hasChanged = false;
+            if (_viewport.ScrollWidth != scrollWidth)
+            {
+                hasChanged = true;
+                _viewport.ScrollWidth = scrollWidth;
+            }
+            if (_viewport.Width != width)
+            {
+                hasChanged = true;
+                _viewport.Width = width;
+            }
+            if (_viewport.ScrollHeight != scrollHeight)
+            {
+                hasChanged = true;
+                _viewport.ScrollHeight = scrollHeight;
+            }
+            if (_viewport.Height != height)
+            {
+                hasChanged = true;
+                _viewport.Height = height;
+            }
+
+            if (hasChanged)
+                await OnViewportChanged.InvokeAsync(_viewport);
+
         }
 
 
@@ -391,8 +352,8 @@ namespace BlazorFluentUI
         {
             //if (OnListScrollerHeightChanged.HasDelegate)
             //    await OnListScrollerHeightChanged.InvokeAsync((0, Data));
-            _heightSub?.Dispose();
-            _scrollSubscription?.Dispose();
+            //_heightSub?.Dispose();
+            //_scrollSubscription?.Dispose();
 
             //_updatesSubscription?.Dispose();
             if (_itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
@@ -409,6 +370,7 @@ namespace BlazorFluentUI
         public class ScrollEventArgs
         {
             public DOMRect ContainerRect { get; set; }
+            public Rectangle ScrollRect { get; set; }
             public DOMRect ContentRect { get; set; }
 
             public double AverageHeight { get; set; }

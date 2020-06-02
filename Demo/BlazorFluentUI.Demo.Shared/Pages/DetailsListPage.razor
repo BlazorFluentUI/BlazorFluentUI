@@ -23,6 +23,7 @@
 
 @code {
 
+
     Selection<DataItem> selection = new Selection<DataItem>();
 
     SourceCache<DataItem, string> dataSource = new SourceCache<DataItem, string>(x => x.Key);
@@ -33,15 +34,12 @@
     public ReadOnlyObservableCollection<BFUDetailsRowColumn<DataItem>> ReadonlyColumns;
 
 
-
     ObservableDataContainer dataContainer = new ObservableDataContainer();
 
     class ObservableDataContainer : AbstractNotifyPropertyChanged
     {
         private string filter = "";
         public string Filter { get => filter; set => SetAndRaise(ref filter, value); }
-
-
 
         private bool descending = false;
         public bool Descending { get => descending; set => SetAndRaise(ref descending, value); }

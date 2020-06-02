@@ -5,7 +5,7 @@
 <BFUStylePreloader Component=@(new BFUPrimaryButton()) />
 <BFUStylePreloader Component=@(new BFUDefaultButton()) />
 <BFUStylePreloader Component=@(new BFUTextField()) />
-<BFUStylePreloader Component=@(new BFUDropdown<DataItem>()) />
+<BFUStylePreloader Component=@(new BFUDropdown()) />
 <BFUStylePreloader Component=@(new BFUCheckbox()) />
 
 
@@ -21,11 +21,9 @@
             <BFUTextField Label="Sample TextField" />
         </p>
         <p>
-            <BFUDropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler>
-                <ItemTemplate>
-                    <BFUDropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
-                </ItemTemplate>
-            </BFUDropdown>
+            <BFUDropdown ItemsSource=@items.Select(x=>new DropdownOption { Key=x.DisplayName, Text=x.DisplayName}) 
+                         Placeholder="Select an option" 
+                         OnChange=@UncontrolledSingleChangeHandler />
         </p>
     </ChildContent>
     <FooterTemplate>
@@ -46,11 +44,9 @@
             <BFUTextField Label="Sample TextField" />
         </p>
         <p>
-            <BFUDropdown ItemsSource=@items TItem="DataItem" Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler>
-                <ItemTemplate>
-                    <BFUDropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName />
-                </ItemTemplate>
-            </BFUDropdown>
+            <BFUDropdown ItemsSource=@items.Select(x=>new DropdownOption { Key=x.DisplayName, Text=x.DisplayName}) 
+                         Placeholder="Select an option" 
+                         OnChange=@UncontrolledSingleChangeHandler />
         </p>
     </ChildContent>
     <FooterTemplate>
@@ -80,8 +76,8 @@
         return base.OnInitializedAsync();
     }
 
-    void UncontrolledSingleChangeHandler((string key, bool isAdded) args)
+    void UncontrolledSingleChangeHandler(BFUDropdownChangeArgs args)
     {
-        uncontrolledSingleSelectionResult = args.key;
+        uncontrolledSingleSelectionResult = args.Key;
     }
 }

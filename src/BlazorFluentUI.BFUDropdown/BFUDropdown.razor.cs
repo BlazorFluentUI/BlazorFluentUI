@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorFluentUI.BFUDropdownInternal;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
@@ -7,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDropdown<TItem> : BFUResponsiveComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUDropdown : BFUResponsiveComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public IEnumerable<string> DefaultSelectedKeys { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public int DropdownWidth { get; set; } = 0;
         [Parameter] public string ErrorMessage { get; set; }
-        [Parameter] public IList<TItem> ItemsSource { get; set; }
-        [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
+        [Parameter] public IEnumerable<IDropdownOption> ItemsSource { get; set; }
+        [Parameter] public RenderFragment<IDropdownOption> ItemTemplate { get; set; }
         [Parameter] public string Label { get; set; }
         [Parameter] public bool MultiSelect { get; set; }
-        [Parameter] public EventCallback<(string itemKey, bool isAdded)> OnChange { get; set; } 
+        [Parameter] public EventCallback<BFUDropdownChangeArgs> OnChange { get; set; } 
         [Parameter] public string Placeholder { get; set; }
         [Parameter] public bool Required { get; set; }
         [Parameter] public ResponsiveMode ResponsiveMode { get; set; }
@@ -92,7 +93,7 @@ namespace BlazorFluentUI
                     throw new Exception("This key was already selected.");
 
                 if (OnChange.HasDelegate)
-                    OnChange.InvokeAsync((key, true));
+                    OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, true));
 
                 SelectedKeys.Add(key);
 
@@ -105,7 +106,7 @@ namespace BlazorFluentUI
                 {
                     SelectedKey = key;
                     if (OnChange.HasDelegate)
-                        OnChange.InvokeAsync((key, true));
+                        OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, true));
                     if (SelectedKeyChanged.HasDelegate)
                         SelectedKeyChanged.InvokeAsync(SelectedKey);
                 }
@@ -122,7 +123,7 @@ namespace BlazorFluentUI
                     throw new Exception("This key was not already selected.");
 
                 if (OnChange.HasDelegate)
-                    OnChange.InvokeAsync((key, false));
+                    OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, false));
 
                 SelectedKeys.Remove(key);  //this used to be following the next command.  A bug?  I moved it here...
 
@@ -136,7 +137,7 @@ namespace BlazorFluentUI
                 {
                     SelectedKey = null;
                     if (OnChange.HasDelegate)
-                        OnChange.InvokeAsync((key, false));
+                        OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, false));
 
                     if (SelectedKeyChanged.HasDelegate)
                         SelectedKeyChanged.InvokeAsync(SelectedKey);
@@ -187,6 +188,19 @@ namespace BlazorFluentUI
             {
                 foreach (var key in this.DefaultSelectedKeys)
                     AddSelection(key);
+            }
+            if (ItemTemplate == null)
+            {
+                ItemTemplate = (item) => (builder) =>
+                {
+                    builder.OpenComponent<BFUDropdownItem>(0);
+                    builder.AddAttribute(1, "Text", item.Text);
+                    builder.AddAttribute(2, "Key", item.Key);
+                    builder.AddAttribute(3, "ItemType", item.ItemType);
+                    builder.AddAttribute(4, "Disabled", item.Disabled);
+                    builder.AddAttribute(5, "Hidden", item.Hidden);
+                    builder.CloseComponent();
+                };
             }
         }
 

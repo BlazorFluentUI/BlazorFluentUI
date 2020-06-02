@@ -9,16 +9,11 @@
             @bind-Value="selectedDate1"
             Placeholder="Select a date..."
             FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeek)) />
-<BFUDropdown ItemsSource=@DaysOfWeek
+<BFUDropdown ItemsSource=@DaysOfWeek.Select(x=>new DropdownOption {Key=x.ToString(), Text=System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(x) })
           Style="max-width:300px; margin:0 0 15px 0;"
-          TItem="DayOfWeek"
           Placeholder="Select an option"
           @bind-SelectedKey=@selectedDayOfWeek
-          Label="Select the first day of the week">
-    <ItemTemplate>
-        <BFUDropdownItem TItem="DayOfWeek" ItemKey=@context.ToString() Text=@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(context) />
-    </ItemTemplate>
-</BFUDropdown>
+          Label="Select the first day of the week" />
 
 
 <h4>DatePicker Required</h4>

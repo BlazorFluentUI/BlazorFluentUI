@@ -8,5 +8,5 @@ jsmin -o blazorFluentUi.min.js blazorFluentUi.js
 
 // Needs uglify-es package which supports es6
 
-uglifyjs --compress --mangle --output blazorFluentUi.min.js -- blazorFluentUi.js
+uglifyjs --compress --mangle --output .\BlazorFluentUI.BFUBaseComponent\wwwroot\blazorFluentUi.min.js -- .\BlazorFluentUI.BFUBaseComponent\wwwroot\blazorFluentUi.js
 

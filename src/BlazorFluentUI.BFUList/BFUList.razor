@@ -1,0 +1,31 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+
+@typeparam TItem
+
+<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme))/>
+
+<div class=@($"ms-List mediumFont {ClassName}") role="list" @ref="RootElementReference"
+        style=@($"{Style}overflow-y:hidden;height:100%;")>
+    <div @ref="surfaceDiv" class="ms-List-surface" role="presentation" style="overflow-y:auto;height:100%;">
+
+        <div @key="@("spacerBefore")"
+             @ref="spacerBefore"
+             data-rendercount="@(++renderCount)"
+             class="spacer"
+             style="height: @(numItemsToSkipBefore * averageHeight)px;"></div>
+        @{
+            var index = 0;
+            foreach (var item in itemContainers.Skip(numItemsToSkipBefore).Take(numItemsToShow))
+            {
+                <div data-index="@(numItemsToSkipBefore + index)" @key="item">
+                    @{
+                        ItemTemplate(item)(__builder);
+                        index++;
+                    }
+                </div>
+            }
+        }
+        <div @key="@("spacerAfter")" @ref="spacerAfter" class="spacer" style="height: @(ItemsToSkipAfter * averageHeight)px;"></div>
+    </div>
+</div >

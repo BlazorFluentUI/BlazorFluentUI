@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace BlazorFluentUI
 {
-    public class BFUList<TItem> : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
+    public partial class BFUList<TItem> : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
     {
         //protected bool firstRender = false;
 
@@ -26,14 +26,22 @@ namespace BlazorFluentUI
         //protected ElementReference rootDiv;
         protected ElementReference surfaceDiv;
         protected ElementReference contentDiv;
+        protected ElementReference spacerBefore;
+        protected ElementReference spacerAfter;
 
-        private double _averagePageHeight = 100;
+        private bool hasMeasuredAverageHeightOnce = false;
+
+
+        long renderCount;
+        //private double _averagePageHeight = 100;
         private bool isFirstRender = true;
         private bool _shouldRender = false;
 
+        private int listId;
         private int numItemsToSkipBefore;
         private int numItemsToShow;
-        private double averageHeight = 50;
+        private double averageHeight = 43;
+        private int ItemsToSkipAfter => itemContainers.Count() - numItemsToSkipBefore - numItemsToShow;
 
 
         //private int minRenderedPage;
@@ -88,6 +96,8 @@ namespace BlazorFluentUI
 
         private IEnumerable<TItem> _itemsSource;
 
+        protected List<ItemContainer<TItem>> itemContainers = new List<ItemContainer<TItem>>();
+
 
         private List<TItem> selectedItems = new List<TItem>();
         private string _resizeRegistration;
@@ -102,62 +112,62 @@ namespace BlazorFluentUI
 
         //private ICollection<Rule> ListRules { get; set; } = new System.Collections.Generic.List<Rule>();
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            builder.OpenComponent<BFUGlobalCS>(0);
-            builder.AddAttribute(1, "Component", this);
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<IRule>>(() => CreateGlobalCss(Theme)));
-            builder.CloseComponent();
+        //protected override void BuildRenderTree(RenderTreeBuilder builder)
+        //{
+        //    builder.OpenComponent<BFUGlobalCS>(0);
+        //    builder.AddAttribute(1, "Component", this);
+        //    builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<IRule>>(() => CreateGlobalCss(Theme)));
+        //    builder.CloseComponent();
             
-            // Render actual content
-            builder.OpenElement(3, "div");
-            builder.AddAttribute(4, "class", $"ms-List mediumFont {ClassName}");
-            builder.AddAttribute(5, "role", "list");
-            builder.AddAttribute(6, "style", $"{Style}overflow-y:hidden;height:100%;");
-            builder.AddElementReferenceCapture(7, (element) => RootElementReference = element);
+        //    // Render actual content
+        //    builder.OpenElement(3, "div");
+        //    builder.AddAttribute(4, "class", $"ms-List mediumFont {ClassName}");
+        //    builder.AddAttribute(5, "role", "list");
+        //    builder.AddAttribute(6, "style", $"{Style}overflow-y:hidden;height:100%;");
+        //    builder.AddElementReferenceCapture(7, (element) => RootElementReference = element);
 
-            builder.OpenElement(11, "div");
-            builder.AddAttribute(12, "class", $"ms-List-surface");
-            builder.AddAttribute(13, "role", "presentation");
-            builder.AddAttribute(14, "style", $"overflow-y:auto;height:100%;");
-            builder.AddElementReferenceCapture(15, (element) => surfaceDiv = element);
+        //    builder.OpenElement(11, "div");
+        //    builder.AddAttribute(12, "class", $"ms-List-surface");
+        //    builder.AddAttribute(13, "role", "presentation");
+        //    builder.AddAttribute(14, "style", $"overflow-y:auto;height:100%;");
+        //    builder.AddElementReferenceCapture(15, (element) => surfaceDiv = element);
 
-            builder.OpenElement(21, "div");
-            var translateY = numItemsToSkipBefore * averageHeight;
-            builder.AddAttribute(22, "style", $"transform: translateY({ translateY }px);");
-            builder.AddAttribute(23, "data-translateY", translateY);
-            builder.AddAttribute(24, "role", "presentation");
-            builder.AddAttribute(25, "class", "ms-List-viewport");
-            builder.AddElementReferenceCapture(26, (element) => contentDiv = element);
+        //    builder.OpenElement(21, "div");
+        //    var translateY = numItemsToSkipBefore * averageHeight;
+        //    builder.AddAttribute(22, "style", $"transform: translateY({ translateY }px);");
+        //    builder.AddAttribute(23, "data-translateY", translateY);
+        //    builder.AddAttribute(24, "role", "presentation");
+        //    builder.AddAttribute(25, "class", "ms-List-viewport");
+        //    builder.AddElementReferenceCapture(26, (element) => contentDiv = element);
 
-            builder.OpenRegion(27);
-            int index = 0;
-            foreach (var item in ItemsSource.Skip(numItemsToSkipBefore).Take(numItemsToShow))
-            {
-                index++;
-                builder.OpenElement( (numItemsToSkipBefore *2 + index*2), "div");
-                builder.AddAttribute( (numItemsToSkipBefore * 2 + index *2), "data-index", numItemsToSkipBefore + index);
-                ItemTemplate(new ItemContainer<TItem>() {Index = numItemsToSkipBefore + index, Item=item })(builder);
-                builder.CloseElement();
-            }
-            builder.CloseRegion();
+        //    builder.OpenRegion(27);
+        //    int index = 0;
+        //    foreach (var item in ItemsSource.Skip(numItemsToSkipBefore).Take(numItemsToShow))
+        //    {
+        //        index++;
+        //        builder.OpenElement( (numItemsToSkipBefore *2 + index*2), "div");
+        //        builder.AddAttribute( (numItemsToSkipBefore * 2 + index *2), "data-index", numItemsToSkipBefore + index);
+        //        ItemTemplate(new ItemContainer<TItem>() {Index = numItemsToSkipBefore + index, Item=item })(builder);
+        //        builder.CloseElement();
+        //    }
+        //    builder.CloseRegion();
 
-            builder.CloseElement();
+        //    builder.CloseElement();
 
-            // Also emit a spacer that causes the total vertical height to add up to Items.Count()*numItems
-            builder.OpenElement(28, "div");
-            var numHiddenItems = ItemsSource.Count() - numItemsToShow;
-            builder.AddAttribute(29, "style", $"width: 1px; height: { numHiddenItems * averageHeight }px;");
-            builder.CloseElement();
+        //    // Also emit a spacer that causes the total vertical height to add up to Items.Count()*numItems
+        //    builder.OpenElement(28, "div");
+        //    var numHiddenItems = ItemsSource.Count() - numItemsToShow;
+        //    builder.AddAttribute(29, "style", $"width: 1px; height: { numHiddenItems * averageHeight }px;");
+        //    builder.CloseElement();
 
-            builder.CloseElement();
+        //    builder.CloseElement();
 
-            builder.CloseElement();
-
-            
+        //    builder.CloseElement();
 
             
-        }
+
+            
+        //}
 
         protected RenderFragment<RenderFragment<ItemContainer<TItem>>> ItemContainer { get; set; }
 
@@ -179,6 +189,10 @@ namespace BlazorFluentUI
                 }
 
                 _itemsSource = ItemsSource;
+                if (_itemsSource != null)
+                    itemContainers = _itemsSource.Select((x, i) => new ItemContainer<TItem> { Item = x, Index = i }).ToList();
+                else
+                    itemContainers.Clear();
 
                 if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
                 {
@@ -195,7 +209,40 @@ namespace BlazorFluentUI
 
 
         private void ListBase_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {            
+        {
+            switch (e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    {
+                        if (e.NewItems != null)
+                        {
+                            foreach (var item in e.NewItems)
+                            {
+                                itemContainers.Add(new ItemContainer<TItem>() { Item = (TItem)item, Index = itemContainers.Count });
+                            }
+                        }
+                        break;
+                    }
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                    {
+                        if (e.OldItems != null)
+                        {
+                            foreach (var item in e.OldItems)
+                            {
+                                var found = itemContainers.FirstOrDefault(x => x.Item.Equals((TItem)item));
+                                if (found != null)
+                                    itemContainers.Remove(found);
+                            }
+                        }
+                        break;
+                    }
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                    {
+                        //itemContainers.Clear();
+                        itemContainers = _itemsSource.Select((x, i) => new ItemContainer<TItem> { Item = x, Index = i }).ToList();
+                        break;
+                    }
+            }
             _shouldRender = true;
             InvokeAsync(StateHasChanged);
         }
@@ -257,36 +304,54 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 var objectRef = DotNetObjectReference.Create(this);
-                var initResult = await JSRuntime.InvokeAsync<ScrollEventArgs>("BlazorFluentUiList.initialize", objectRef, surfaceDiv, contentDiv);
-                OnScroll(initResult);
+                var initResult = await JSRuntime.InvokeAsync<DOMRect>("BlazorFluentUiList.initialize", objectRef, surfaceDiv, spacerBefore, spacerAfter);
+                this.listId = (int)initResult.Left;
+                await UpdateViewportAsync(initResult.Right, initResult.Width, initResult.Bottom, initResult.Height);
+            }
+
+            if (!hasMeasuredAverageHeightOnce)
+            {
+                var averageHeight = await JSRuntime.InvokeAsync<int>("BlazorFluentUiList.getInitialAverageHeight", this.listId);
+                if (averageHeight != 0)
+                {
+                    hasMeasuredAverageHeightOnce = true;
+                    this.averageHeight = averageHeight;
+                    StateHasChanged();
+                }
+
             }
 
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        //private async Task MeasureContainerAsync()
-        //{
-        //    _surfaceRect = await this.JSRuntime.InvokeAsync<ElementMeasurements>("BlazorFluentUiList.measureElementRect", this.surfaceDiv);
-        //    //var oldScrollHeight = _scrollHeight;
-        //    _lastScrollRect = _scrollRect;
-        //    _scrollRect = await this.JSRuntime.InvokeAsync<ElementMeasurements>("BlazorFluentUiList.measureScrollWindow", this.surfaceDiv);
+        [JSInvokable]
+        public async void OnSpacerVisible(string spacerType, DOMRect visibleRect, double containerHeight, double spacerBeforeHeight, double spacerAfterHeight)
+        {
+            // Reset to match values corresponding to this event
+            numItemsToSkipBefore = (int)Math.Round(spacerBeforeHeight / averageHeight);
+            numItemsToShow = itemContainers.Count() - numItemsToSkipBefore - (int)Math.Round(spacerAfterHeight / averageHeight);
 
-        //    //_scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getScrollHeight", this.surfaceDiv);
-        //    surfaceRect = new Rectangle(_surfaceRect.left, _surfaceRect.width, _surfaceRect.top, _surfaceRect.height);
+            if (spacerType == "before" && numItemsToSkipBefore > 0)
+            {
+                var visibleTop = visibleRect.Top;
+                var firstVisibleItemIndex = (int)Math.Floor(visibleTop / averageHeight);
+                numItemsToShow = (int)Math.Ceiling(containerHeight / averageHeight) + 1;
+                numItemsToSkipBefore = Math.Max(0, firstVisibleItemIndex);
+                StateHasChanged();
+            }
+            else if (spacerType == "after" && ItemsToSkipAfter > 0)
+            {
+                var visibleBottom = visibleRect.Top + visibleRect.Height;
+                var lastVisibleItemIndex = numItemsToSkipBefore + numItemsToShow + (int)Math.Ceiling(visibleBottom / averageHeight);
+                numItemsToShow = (int)Math.Ceiling(containerHeight / averageHeight) + 1;
+                numItemsToSkipBefore = Math.Max(0, lastVisibleItemIndex - numItemsToShow);
+                StateHasChanged();
+            }
 
-        //    if (_height != surfaceRect.height)
-        //    {
-        //        _height = surfaceRect.height;
-        //        _shouldRender = true;
-        //        StateHasChanged();
-        //    }
+            await UpdateViewportAsync(visibleRect.Right, visibleRect.Width, visibleRect.Bottom, visibleRect.Height);
+        }
 
-            
-        //    if (_lastScrollRect.height != _scrollRect.height)
-        //        await OnListScrollerHeightChanged.InvokeAsync((_scrollRect.height, Data));
-        //}
 
-     
 
         [JSInvokable]
         public async void ResizeHandler(double width, double height)

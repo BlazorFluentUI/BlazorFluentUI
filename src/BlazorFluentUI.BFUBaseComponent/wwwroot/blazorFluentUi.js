@@ -2043,43 +2043,90 @@ var BlazorFluentUiList;
     }
     BlazorFluentUiList.measureElementRect = measureElementRect;
     ;
-    function initialize(component, scrollElement, contentElement) {
-        let _ticking;
-        let _cachedSizes = new Map();
-        let _averageHeight = 40;
-        let _lastDate;
-        scrollElement.addEventListener('scroll', e => {
-            var now = Date.now();
-            console.log(now - _lastDate + "ms since last onscroll.");
-            _lastDate = now;
-            for (var i = 0; i < contentElement.children.length; i++) {
-                let item = contentElement.children.item(i);
-                let itemIndex = item.getAttribute("data-index");
-                _cachedSizes.set(itemIndex, item.clientHeight);
-            }
-            if (_cachedSizes.size > 0) {
-                _averageHeight = [..._cachedSizes.values()].reduce((p, c, i, a) => p + c) / _cachedSizes.size;
-            }
-            const lastKnownValues = {
-                containerRect: scrollElement.getBoundingClientRect(),
-                scrollRect: measureScrollWindow(scrollElement),
-                contentRect: readClientRectWithoutTransform(contentElement),
-                averageHeight: _averageHeight
-            };
-            if (!_ticking) {
-                window.requestIdleCallback(() => {
-                    component.invokeMethodAsync('OnScroll', lastKnownValues);
-                    _ticking = false;
+    var _lastId = 0;
+    var cachedLists = new Map();
+    class BFUList {
+        constructor(component, scrollElement, spacerBefore, spacerAfter) {
+            this.cachedSizes = new Map();
+            this.averageHeight = 40;
+            this.id = _lastId++;
+            this.component = component;
+            this.scrollElement = scrollElement;
+            this.spacerBefore = spacerBefore;
+            this.spacerAfter = spacerAfter;
+            const rootMargin = 50;
+            const intersectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.target.offsetHeight > 0) {
+                        window.requestIdleCallback(() => {
+                            const spacerType = entry.target === this.spacerBefore ? 'before' : 'after';
+                            const visibleRect = {
+                                top: entry.intersectionRect.top - entry.boundingClientRect.top,
+                                left: entry.intersectionRect.left - entry.boundingClientRect.left,
+                                width: entry.intersectionRect.width,
+                                height: entry.intersectionRect.height,
+                                bottom: this.scrollElement.scrollHeight,
+                                right: this.scrollElement.scrollWidth
+                            };
+                            this.component.invokeMethodAsync('OnSpacerVisible', spacerType, visibleRect, this.scrollElement.offsetHeight + 2 * rootMargin, this.spacerBefore.offsetHeight, this.spacerAfter.offsetHeight);
+                        });
+                    }
                 });
-                _ticking = true;
+            }, {
+                root: scrollElement, rootMargin: `${rootMargin}px`
+            });
+            intersectionObserver.observe(spacerBefore);
+            intersectionObserver.observe(spacerAfter);
+            // After each render, refresh the info about intersections
+            const mutationObserver = new MutationObserver(mutations => {
+                intersectionObserver.unobserve(spacerBefore);
+                intersectionObserver.unobserve(spacerAfter);
+                intersectionObserver.observe(spacerBefore);
+                intersectionObserver.observe(spacerAfter);
+            });
+            mutationObserver.observe(spacerBefore, { attributes: true });
+        }
+        //private onIntersectionRectChanged(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
+        //}
+        getInitialAverageHeight() {
+            let calculate = false;
+            let averageHeight = 0;
+            for (let i = 0; i < this.scrollElement.children.length; i++) {
+                let item = this.scrollElement.children.item(i);
+                let index = item.getAttribute("data-index");
+                if (index != null && !this.cachedSizes.has(index) && this.cachedSizes.get(index) != item.clientHeight) {
+                    this.cachedSizes.set(index, item.clientHeight);
+                    calculate = true;
+                }
             }
-        });
-        return {
-            containerRect: scrollElement.getBoundingClientRect(),
-            scrollRect: measureScrollWindow(scrollElement),
-            contentRect: readClientRectWithoutTransform(contentElement),
-            averageHeight: _averageHeight
+            if (calculate) {
+                averageHeight = [...this.cachedSizes.values()].reduce((p, c, i, a) => p + c) / this.cachedSizes.size;
+            }
+            return averageHeight;
+        }
+    }
+    function getInitialAverageHeight(id) {
+        let list = cachedLists.get(id);
+        if (list == null) {
+            return 0;
+        }
+        else {
+            return list.getInitialAverageHeight();
+        }
+    }
+    BlazorFluentUiList.getInitialAverageHeight = getInitialAverageHeight;
+    function initialize(component, scrollElement, spacerBefore, spacerAfter) {
+        let list = new BFUList(component, scrollElement, spacerBefore, spacerAfter);
+        cachedLists.set(list.id, list);
+        const visibleRect = {
+            top: 0,
+            left: list.id,
+            width: scrollElement.clientWidth,
+            height: scrollElement.clientHeight,
+            bottom: scrollElement.scrollHeight,
+            right: scrollElement.scrollWidth
         };
+        return visibleRect;
     }
     BlazorFluentUiList.initialize = initialize;
     function readClientRectWithoutTransform(elem) {

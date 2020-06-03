@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,22 +44,42 @@ namespace BlazorFluentUI
 
         private List<TItem> selectedItems = new List<TItem>();
 
+        private BehaviorSubject<List<TItem>> selectedItemsSubject = new BehaviorSubject<List<TItem>>(new List<TItem>());
+        public IObservable<List<TItem>> SelectedItemsObservable => selectedItemsSubject.AsObservable();
+
+        private bool doNotRenderOnce = false;
+
+        protected override bool ShouldRender()
+        {
+            //if (doNotRenderOnce)
+            //{
+            //    doNotRenderOnce = false;
+            //    return false;
+            //}
+            
+            return true;
+            //return base.ShouldRender();
+        }
+
         protected override async Task OnParametersSetAsync()
         {
             if (Selection != null && Selection.SelectedItems != selectedItems)
             {
                 selectedItems = new System.Collections.Generic.List<TItem>(Selection.SelectedItems);
+                selectedItemsSubject.OnNext(selectedItems);
                 //StateHasChanged();
             }
 
             if (SelectionMode == SelectionMode.Single && selectedItems.Count() > 1)
             {
                 selectedItems.Clear();
+                selectedItemsSubject.OnNext(selectedItems);
                 await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
             }
             else if (SelectionMode == SelectionMode.None && selectedItems.Count() > 0)
             {
                 selectedItems.Clear();
+                selectedItemsSubject.OnNext(selectedItems);
                 await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
             }
             await base.OnParametersSetAsync();
@@ -97,7 +119,11 @@ namespace BlazorFluentUI
             }
 
             if (hasChanged)
+            {
+                doNotRenderOnce = true;
+                selectedItemsSubject.OnNext(selectedItems);
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
         }
 
         public void AddItems(IEnumerable<TItem> items)
@@ -109,7 +135,11 @@ namespace BlazorFluentUI
             }
 
             if (items != null && items.Count() > 0)
+            {
+                doNotRenderOnce = true;
+                selectedItemsSubject.OnNext(selectedItems);
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
         }
                 
         public void RemoveItems(IEnumerable<TItem> items)
@@ -120,7 +150,11 @@ namespace BlazorFluentUI
             }
 
             if (items != null && items.Count() > 0)
+            {
+                doNotRenderOnce = true;
+                selectedItemsSubject.OnNext(selectedItems);
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
         }
 
         public void AddAndRemoveItems(IEnumerable<TItem> itemsToAdd, IEnumerable<TItem> itemsToRemove)
@@ -135,8 +169,12 @@ namespace BlazorFluentUI
                 selectedItems.Remove(item);
             }
 
-            if ((itemsToAdd != null && itemsToAdd.Count() > 0)||(itemsToRemove != null && itemsToRemove.Count() > 0))
+            if ((itemsToAdd != null && itemsToAdd.Count() > 0) || (itemsToRemove != null && itemsToRemove.Count() > 0))
+            {
+                doNotRenderOnce = true;
+                selectedItemsSubject.OnNext(selectedItems);
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
         }
 
         
@@ -146,6 +184,8 @@ namespace BlazorFluentUI
             if (selectedItems.Count>0)
             {
                 selectedItems.Clear();
+                doNotRenderOnce = true;
+                selectedItemsSubject.OnNext(selectedItems);
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
             }
         }
@@ -173,7 +213,11 @@ namespace BlazorFluentUI
             }
 
             if (hasChanged)
+            {
+                doNotRenderOnce = true;
+                selectedItemsSubject.OnNext(selectedItems);
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
         }
 
         // For end-users to let SelectionMode handle what to do.
@@ -204,7 +248,11 @@ namespace BlazorFluentUI
             }
 
             if (hasChanged)
+            {
+                doNotRenderOnce = true;
+                selectedItemsSubject.OnNext(selectedItems);
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+            }
         }
 
 

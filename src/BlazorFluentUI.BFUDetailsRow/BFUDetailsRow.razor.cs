@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -85,6 +86,8 @@ namespace BlazorFluentUI
             DetailsRowLocalRules.Add(_localCheckCoverRule);
         }
 
+
+
         protected override Task OnParametersSetAsync()
         {
             showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
@@ -93,7 +96,31 @@ namespace BlazorFluentUI
 
             if (Selection != null)
             {
-                isSelected = Selection.SelectedItems.Contains(this.Item);
+                //isSelected = Selection.SelectedItems.Contains(this.Item);
+                
+            }
+
+            if (SelectionZone != null)
+            {
+                SelectionZone.SelectedItemsObservable.Subscribe(x =>
+                {
+                    if (x.Contains(this.Item))
+                    {
+                        if (isSelected != true)
+                        {
+                            isSelected = true;
+                            StateHasChanged();
+                        }
+                    }
+                    else
+                    {
+                        if (isSelected != false)
+                        {
+                            isSelected = false;
+                            StateHasChanged();
+                        }
+                    }
+                });
             }
             //CreateCss();
             return base.OnParametersSetAsync();

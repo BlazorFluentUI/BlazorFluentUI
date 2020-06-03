@@ -160,18 +160,24 @@ namespace BlazorFluentUI
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
-            { 
-                dropDownBounds = await this.GetBoundsAsync();
+            {
+                GetDropdownBounds();
+                //dropDownBounds = await this.GetBoundsAsync();
                 //firstRender = false;
-                StateHasChanged();
+                //StateHasChanged();
             }
             if (isOpen && _registrationToken == null)
-                await RegisterListFocusAsync();
+                _ = RegisterListFocusAsync();
 
             if (!isOpen && _registrationToken != null)
-                await DeregisterListFocusAsync();
+                _ = DeregisterListFocusAsync();
 
             await base.OnAfterRenderAsync(firstRender);
+        }
+
+        private async void GetDropdownBounds()
+        {
+            dropDownBounds = await this.GetBoundsAsync();
         }
 
         protected override async Task OnParametersSetAsync()
@@ -282,9 +288,9 @@ namespace BlazorFluentUI
 
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var dropdownRules = new HashSet<Rule>();
+            var dropdownRules = new HashSet<IRule>();
             #region Root
             dropdownRules.Add(new Rule()
             {

@@ -59,9 +59,9 @@ namespace BlazorFluentUI
             Column.OnColumnClick?.Invoke(Column);
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var columnRules = new HashSet<Rule>();
+            var columnRules = new HashSet<IRule>();
 
             // ROOT
             columnRules.Add(new Rule()

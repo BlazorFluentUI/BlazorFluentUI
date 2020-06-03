@@ -8,9 +8,9 @@ namespace BlazorFluentUI
         [Parameter] public string IconName { get; set; }
         [Parameter] public IconType IconType { get; set; }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var iconRules = new HashSet<Rule>();
+            var iconRules = new HashSet<IRule>();
             iconRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Icon" },

@@ -71,9 +71,9 @@
         base.OnInitialized();
     }
 
-    private ICollection<Rule> CreateGlobalCss(ITheme theme)
+    private ICollection<IRule> CreateGlobalCss(ITheme theme)
     {
-        var themeGlobalRules = new HashSet<Rule>();
+        var themeGlobalRules = new HashSet<IRule>();
         if (customTheme)
         {
             // for Firefox
@@ -122,7 +122,7 @@
         // for webkit browsers
         themeGlobalRules.Add(new Rule()
         {
-            Selector = new CssStringSelector() { SelectorName = "*::-webkit-scrollbar" },
+            Selector = new CssStringSelector() { SelectorName = "div::-webkit-scrollbar" },
             Properties = new CssString()
             {
                 Css = $"width: inherit;"
@@ -130,7 +130,7 @@
         });
         themeGlobalRules.Add(new Rule()
         {
-            Selector = new CssStringSelector() { SelectorName = "*::-webkit-scrollbar-button" },
+            Selector = new CssStringSelector() { SelectorName = "div::-webkit-scrollbar-button" },
             Properties = new CssString()
             {
                 Css = $"background-color: {ThemeProvider.Theme.Palette.NeutralLighter};" +
@@ -139,7 +139,7 @@
         });
         themeGlobalRules.Add(new Rule()
         {
-            Selector = new CssStringSelector() { SelectorName = "*::-webkit-scrollbar-button:hover" },
+            Selector = new CssStringSelector() { SelectorName = "div::-webkit-scrollbar-button:hover" },
             Properties = new CssString()
             {
                 Css = $"background-color: {ThemeProvider.Theme.Palette.NeutralTertiary};"
@@ -147,7 +147,7 @@
         });
         themeGlobalRules.Add(new Rule()
         {
-            Selector = new CssStringSelector() { SelectorName = "*::-webkit-scrollbar-button:active" },
+            Selector = new CssStringSelector() { SelectorName = "div::-webkit-scrollbar-button:active" },
             Properties = new CssString()
             {
                 Css = $"background-color: {ThemeProvider.Theme.Palette.NeutralSecondary};"
@@ -155,7 +155,7 @@
         });
         themeGlobalRules.Add(new Rule()
         {
-            Selector = new CssStringSelector() { SelectorName = "*::-webkit-scrollbar-button:vertical:decrement::after" },
+            Selector = new CssStringSelector() { SelectorName = "div::-webkit-scrollbar-button:vertical:decrement::after" },
             Properties = new CssString()
             {
                 Css=$"border-width:0px 8px 8px 8px;"+
@@ -166,7 +166,7 @@
 
         themeGlobalRules.Add(new Rule()
         {
-            Selector = new CssStringSelector() { SelectorName = "*::-webkit-scrollbar-track" },
+            Selector = new CssStringSelector() { SelectorName = "div::-webkit-scrollbar-track" },
             Properties = new CssString()
             {
                 Css = $"background-color: {ThemeProvider.Theme.Palette.NeutralLighter};"
@@ -174,7 +174,7 @@
         });
         themeGlobalRules.Add(new Rule()
         {
-            Selector = new CssStringSelector() { SelectorName = "*::-webkit-scrollbar-thumb" },
+            Selector = new CssStringSelector() { SelectorName = "div::-webkit-scrollbar-thumb" },
             Properties = new CssString()
             {
                 Css = $"background-color: {ThemeProvider.Theme.Palette.NeutralTertiaryAlt};" +
@@ -183,7 +183,7 @@
         });
         themeGlobalRules.Add(new Rule()
         {
-            Selector = new CssStringSelector() { SelectorName = "*::-webkit-scrollbar-thumb:hover" },
+            Selector = new CssStringSelector() { SelectorName = "div::-webkit-scrollbar-thumb:hover" },
             Properties = new CssString()
             {
                 Css = $"background-color: {ThemeProvider.Theme.Palette.NeutralTertiary};"
@@ -191,7 +191,7 @@
         });
         themeGlobalRules.Add(new Rule()
         {
-            Selector = new CssStringSelector() { SelectorName = "*::-webkit-scrollbar-thumb:active" },
+            Selector = new CssStringSelector() { SelectorName = "div::-webkit-scrollbar-thumb:active" },
             Properties = new CssString()
             {
                 Css = $"background-color: {ThemeProvider.Theme.Palette.NeutralSecondary};"

@@ -29,9 +29,11 @@ namespace BlazorFluentUI
             if (Grow != null)
                 style += $"flex-grow:{(Grow.AsBooleanTrueExplicit == true ? "1" : Grow.AsString)};";
             
-            if (DisableShrink || (Grow!= null && Shrink != null))
+            if (DisableShrink || (Grow != null && Shrink != null))
                 style += "flex-shrink:0;";
-            
+            else if (Shrink != null)
+                style += $"flex-shrink:{Shrink.AsString};";
+
             if (Align != Alignment.Unset)
                 style += $"align-self:{CssUtils.AlignMap[Align]};";
             

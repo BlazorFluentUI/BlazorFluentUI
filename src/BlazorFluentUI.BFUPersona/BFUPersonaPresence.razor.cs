@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPersonaPresence : BFUComponentBase
+    public partial class BFUPersonaPresence : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public int CoinSize { get; set; }
         [Parameter] public bool IsOutOfOffice { get; set; }
@@ -351,9 +351,9 @@ namespace BlazorFluentUI
             };
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var personaPresenceRules = new HashSet<Rule>();
+            var personaPresenceRules = new HashSet<IRule>();
 
             personaPresenceRules.Add(new Rule()
             {
@@ -367,7 +367,7 @@ namespace BlazorFluentUI
                           $"top:auto;" +
                           $"right:-2px;" +
                           $"bottom:-2px;" +
-                          $"border:2px solid {Theme.SemanticColors.BodyBackground};" +
+                          $"border:2px solid {theme.SemanticColors.BodyBackground};" +
                           $"text-align:center;" +
                           $"box-sizing:content-box;" +
                           $"background-clip:content-box;" +
@@ -390,7 +390,7 @@ namespace BlazorFluentUI
                 Selector=new CssStringSelector() { SelectorName= ".ms-Persona-icon"},
                 Properties = new CssString
                 {
-                    Css = $"color:{Theme.SemanticColors.BodyBackground};"+
+                    Css = $"color:{theme.SemanticColors.BodyBackground};"+
                           $"font-size:6px;"+
                           $"line-height:{PersonaPresenceSize.Size12};"+
                           $"vertical-align:top;"

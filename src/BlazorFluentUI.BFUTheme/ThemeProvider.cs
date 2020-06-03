@@ -1,6 +1,8 @@
 ﻿using BlazorFluentUI.Themes.Default;
+using BlazorFluentUI.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace BlazorFluentUI
@@ -42,20 +44,23 @@ namespace BlazorFluentUI
         public void UpdateTheme(IPalette palette, ISemanticColors semanticColorOverrides, ISemanticTextColors semanticTextColorOverrides)
         {
             _theme = CreateTheme(palette);
-            foreach (var prop in typeof(ISemanticColors).GetProperties())
-            {
-                if (prop.GetValue(semanticColorOverrides) != null)
-                {
-                    prop.SetValue(_theme.SemanticColors, prop.GetValue(semanticColorOverrides));
-                }
-            }
-            foreach (var prop in typeof(ISemanticTextColors).GetProperties())
-            {
-                if (prop.GetValue(semanticTextColorOverrides) != null)
-                {
-                    prop.SetValue(_theme.SemanticTextColors, prop.GetValue(semanticTextColorOverrides));
-                }
-            }
+            //foreach (var prop in typeof(ISemanticColors).GetProperties())
+            //{
+            //    if (prop.GetValue(semanticColorOverrides) != null)
+            //    {
+            //        prop.SetValue(_theme.SemanticColors, prop.GetValue(semanticColorOverrides));
+            //    }
+            //}
+            semanticColorOverrides.CopyTo(_theme.SemanticColors);
+            //foreach (var prop in typeof(ISemanticTextColors).GetProperties())
+            //{
+            //    if (prop.GetValue(semanticTextColorOverrides) != null)
+            //    {
+            //        prop.SetValue(_theme.SemanticTextColors, prop.GetValue(semanticTextColorOverrides));
+            //    }
+            //}
+            semanticTextColorOverrides.CopyTo(_theme.SemanticTextColors);
+
             foreach (var comp in ThemeComponents)
             {
                 comp.UpdateTheme();

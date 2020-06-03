@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUGroupHeader : BFUComponentBase
+    public partial class BFUGroupHeader : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         
         bool isLoadingVisible;
@@ -73,12 +73,12 @@ namespace BlazorFluentUI
         }
 
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var groupHeaderRules = new HashSet<Rule>();
+            var groupHeaderRules = new HashSet<IRule>();
 
             // Root
-            var rootFocusStyleProps = new FocusStyleProps(this.Theme);
+            var rootFocusStyleProps = new FocusStyleProps(theme);
             var rootMergeStyleResults = FocusStyle.GetFocusStyle(rootFocusStyleProps, ".ms-GroupHeader");
             foreach (var rule in rootMergeStyleResults.AddRules)
                 groupHeaderRules.Add(rule);
@@ -89,7 +89,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = rootMergeStyleResults.MergeRules +
-                          $"border-bottom:1px solid {Theme.SemanticColors.ListBackground};" + // keep the border for height but color it so it's invisible.
+                          $"border-bottom:1px solid {theme.SemanticColors.ListBackground};" + // keep the border for height but color it so it's invisible.
                           $"cursor:default;" +
                           $"user-select:none;"
                 }
@@ -99,8 +99,8 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.ListItemBackgroundHovered};" + 
-                          $"color:{Theme.SemanticTextColors.ActionLinkHovered};" 
+                    Css = $"background:{theme.SemanticColors.ListItemBackgroundHovered};" + 
+                          $"color:{theme.SemanticTextColors.ActionLinkHovered};" 
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -145,7 +145,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.ListItemBackgroundChecked};"
+                    Css = $"background:{theme.SemanticColors.ListItemBackgroundChecked};"
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -153,7 +153,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background:{Theme.SemanticColors.ListItemBackgroundCheckedHovered};"
+                    Css = $"background:{theme.SemanticColors.ListItemBackgroundCheckedHovered};"
                 }
             });
             //groupHeaderRules.Add(new Rule()
@@ -251,10 +251,10 @@ namespace BlazorFluentUI
                           $"display:flex;" +
                           $"align-items:center;" +
                           $"justify-content:center;" +
-                          $"font-size:{Theme.FontStyle.FontSize.Small};"+
+                          $"font-size:{theme.FontStyle.FontSize.Small};"+
                           $"width:48px;" +
                           $"height:48px;"+
-                          $"color:{Theme.Palette.NeutralSecondary};"
+                          $"color:{theme.Palette.NeutralSecondary};"
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -270,7 +270,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-expand" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralPrimary};"
+                    Css = $"color:{theme.Palette.NeutralPrimary};"
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -278,7 +278,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-expand:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralLight};"
+                    Css = $"background-color:{theme.Palette.NeutralLight};"
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -286,7 +286,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-expand:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralQuaternary};"
+                    Css = $"background-color:{theme.Palette.NeutralQuaternary};"
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -294,7 +294,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader-expand:active" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralQuaternaryAlt};"
+                    Css = $"background-color:{theme.Palette.NeutralQuaternaryAlt};"
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -302,7 +302,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-selected .ms-GroupHeader-expand:active" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralTertiaryAlt};"
+                    Css = $"background-color:{theme.Palette.NeutralTertiaryAlt};"
                 }
             });
 
@@ -332,8 +332,8 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"padding-left:12px;" +
-                          $"font-size:{Theme.FontStyle.FontSize.MediumPlus};" +
-                          $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};"+
+                          $"font-size:{theme.FontStyle.FontSize.MediumPlus};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.SemiBold};"+
                           $"cursor:pointer;"+
                           $"outline:0;"+
                           $"white-space:nowrap;"+
@@ -345,7 +345,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader--compact .ms-GroupHeader-title" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Medium};" 
+                    Css = $"font-size:{theme.FontStyle.FontSize.Medium};" 
                 }
             });
             groupHeaderRules.Add(new Rule()
@@ -353,7 +353,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-GroupHeader.is-collapsed .ms-GroupHeader-title" },
                 Properties = new CssString()
                 {
-                    Css = $"font-weight:{Theme.FontStyle.FontWeight.Regular};"
+                    Css = $"font-weight:{theme.FontStyle.FontWeight.Regular};"
                 }
             });
 
@@ -367,7 +367,7 @@ namespace BlazorFluentUI
                     Css = $"position:absolute;" +
                           $"left:-26px;" +
                           $"font-size:20px;" + //used IconFontSize theme style which we haven't implemented yet.
-                          $"color:{Theme.Palette.NeutralSecondary};" +
+                          $"color:{theme.Palette.NeutralSecondary};" +
                           $"transition:transform var(--animation-DURATION_2) cubic-bezier(0.600, -0.280, 0.735, 0.045), opacity var(--animation-DURATION_4) cubic-bezier(0.390, 0.575, 0.565, 1.000);" +
                           $"opacity:0;" +
                           $"transform:rotate(0.2deg) scale(0.65);"+

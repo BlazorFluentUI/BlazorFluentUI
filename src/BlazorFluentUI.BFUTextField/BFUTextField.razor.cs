@@ -71,6 +71,8 @@ namespace BlazorFluentUI
         public EventCallback<string> OnChange { get; set; }
         [Parameter]
         public EventCallback<string> OnInput { get; set; }
+        [Parameter]
+        public EventCallback<string> ValueChanged { get; set; }
 
         protected string id = Guid.NewGuid().ToString();
         protected string descriptionId = Guid.NewGuid().ToString();
@@ -100,7 +102,7 @@ namespace BlazorFluentUI
         }
 
         protected ElementReference textAreaRef;
-        protected string inlineTextAreaStyle = "";
+        protected double autoAdjustedHeight = -1;
         protected bool isFocused = false;
 
         protected override Task OnInitializedAsync()
@@ -166,11 +168,14 @@ namespace BlazorFluentUI
                 ErrorMessage = "";
                 StateHasChanged();
             }
+
+            await AdjustInputHeightAsync();
+
             if (ValidateAllChanges())
             {
                 await DeferredValidation((string)args.Value).ConfigureAwait(false);
             }
-            await AdjustInputHeightAsync();
+            
             await OnInput.InvokeAsync((string)args.Value);
             //await InputChanged.InvokeAsync((string)args.Value);
             //if (this.OnInput != null)
@@ -182,6 +187,7 @@ namespace BlazorFluentUI
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
             await OnChange.InvokeAsync((string)args.Value);
+            await ValueChanged.InvokeAsync((string)args.Value);
         }
 
         protected async Task OnFocusInternal(FocusEventArgs args)
@@ -215,7 +221,7 @@ namespace BlazorFluentUI
             if (!firstRendered)
             {
                 firstRendered = true;
-                await AdjustInputHeightAsync();
+                _ = AdjustInputHeightAsync();
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -224,8 +230,21 @@ namespace BlazorFluentUI
         {
             if (this.AutoAdjustHeight == true && this.Multiline)
             {
-                var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiTextField.getScrollHeight", textAreaRef);
-                inlineTextAreaStyle = $"height: {scrollHeight}px";
+                var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getScrollHeight", textAreaRef);
+                //inlineTextAreaStyle = $"height: {scrollHeight}px";
+                if (autoAdjustedHeight != scrollHeight)
+                {
+                    autoAdjustedHeight = scrollHeight;
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            else
+            {
+                if (autoAdjustedHeight != -1)
+                {
+                    autoAdjustedHeight = -1;
+                    await InvokeAsync(StateHasChanged);
+                }
             }
         }
 
@@ -295,9 +314,9 @@ namespace BlazorFluentUI
             }
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var MyRules = new List<Rule>();
+            var MyRules = new List<IRule>();
             #region ms-TextField
             MyRules.Add(new Rule()
             {

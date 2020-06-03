@@ -4,9 +4,9 @@ namespace BlazorFluentUI
 {
     public static class CalendarStyle
     {
-        public static ICollection<Rule> GetCalendarStyle(ITheme theme)
+        public static ICollection<IRule> GetCalendarStyle(ITheme theme)
         {
-            var MyRules = new List<Rule>();
+            var MyRules = new List<IRule>();
 
             MyRules.Add(new Rule()
             {

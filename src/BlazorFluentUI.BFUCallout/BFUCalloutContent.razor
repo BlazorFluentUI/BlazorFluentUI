@@ -20,7 +20,7 @@
                             ClassName="@("ms-Callout-main " + CalloutMainRule.Selector.SelectorName)"
                             ShouldRestoreFocus="true"
                             OnDismiss=@OnDismiss
-                            Style=@($"max-height:{contentMaxHeight}px;{(overflowYHidden ? "overflow-y:hidden;" : "")}")>
+                            Style=@($"{(contentMaxHeight != -1 ? $"max-height:{contentMaxHeight}px;" : "")}{(overflowYHidden ? "overflow-y:hidden;" : "")}")>
             @ChildContent
         </BFUPopup>
     </div>

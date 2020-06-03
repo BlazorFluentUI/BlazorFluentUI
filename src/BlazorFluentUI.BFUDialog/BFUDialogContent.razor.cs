@@ -20,12 +20,12 @@ namespace BlazorFluentUI
         [Parameter] public string TitleId { get; set; }
 
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             // ToDo Button Selector for Icon when hidden isn't implement so far
             // ToDo Headeer DraggableHeader isn't implement so far
 
-            var GlobalCssRules = new HashSet<Rule>();
+            var GlobalCssRules = new HashSet<IRule>();
             #region ms-Dialog-content
             GlobalCssRules.Add(new Rule()
             {

@@ -12,5 +12,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
+    <PackageReference Include="Sigil" Version="5.0.0" />
   </ItemGroup>
 </Project>

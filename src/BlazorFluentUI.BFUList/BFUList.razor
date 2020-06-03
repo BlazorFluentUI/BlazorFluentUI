@@ -3,7 +3,7 @@
 
 @typeparam TItem
 
-<BFUGlobalCS Component=@this CreateGlobalCss=@CreateGlobalCss/>
+<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme))/>
 
 <div class=@($"ms-List mediumFont {ClassName}") role="list" @ref="RootElementReference"
         style=@($"{Style}overflow-y:hidden;height:100%;")>

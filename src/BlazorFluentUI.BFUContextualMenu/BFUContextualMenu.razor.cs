@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUContextualMenu : BFUResponsiveComponentBase, IDisposable
+    public partial class BFUContextualMenu : BFUResponsiveComponentBase, IDisposable, IHasPreloadableGlobalStyle
     {
         [Parameter] public bool AlignTargetEdge { get; set; }
         //[Parameter] public string AriaLabel { get; set; }
@@ -144,18 +144,18 @@ namespace BlazorFluentUI
         }
 
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var menuRules = new HashSet<Rule>();
+            var menuRules = new HashSet<IRule>();
             // ROOT
             menuRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Medium};"+
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};"+
-                          $"background-color:{Theme.SemanticColors.MenuBackground};" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.Medium};"+
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
+                          $"background-color:{theme.SemanticColors.MenuBackground};" +
                           $"min-width:180px;"
                 }
             });
@@ -185,9 +185,9 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-header" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{Theme.FontStyle.FontWeight.SemiBold};" +
-                          $"color:{Theme.SemanticColors.MenuHeader};" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.SemiBold};" +
+                          $"color:{theme.SemanticColors.MenuHeader};" +
                           $"background:none;"+
                           $"background-color:transparent;"+
                           $"border:none;"+
@@ -205,12 +205,12 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-title" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.MediumPlus};" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.MediumPlus};" +
                          $"padding-right:14px;" +
                          $"padding-left:14px;" +
                          $"padding-bottom:5px;" +
                          $"padding-top:5px;" +
-                         $"background-color:{Theme.SemanticColors.MenuItemBackgroundPressed};"
+                         $"background-color:{theme.SemanticColors.MenuItemBackgroundPressed};"
                 }
             });
 
@@ -219,11 +219,11 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu .ms-Callout" },
                 Properties = new CssString()
                 {
-                    Css = $"box-shadow:{Theme.Effects.Elevation8};"
+                    Css = $"box-shadow:{theme.Effects.Elevation8};"
                 }
             });
 
-            var focusProps = new Style.FocusStyleProps(Theme);
+            var focusProps = new Style.FocusStyleProps(theme);
             var focusStyles = BlazorFluentUI.Style.FocusStyle.GetFocusStyle(focusProps, ".ms-ContextualMenu-item");
             foreach (var rule in focusStyles.AddRules)
                 menuRules.Add(rule);
@@ -234,7 +234,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = focusStyles.MergeRules +
-                          $"color:{Theme.SemanticTextColors.BodyText};"+
+                          $"color:{theme.SemanticTextColors.BodyText};"+
                           $"position:relative;"+
                           $"box-sizing:border-box;"
                 }
@@ -247,7 +247,7 @@ namespace BlazorFluentUI
                 {
                     Css = $"display:block;"+
                           $"height:1px;"+
-                         $"background-color:{Theme.SemanticColors.BodyDivider};" +
+                         $"background-color:{theme.SemanticColors.BodyDivider};" +
                          $"position:relative;"
                 }
             });
@@ -262,7 +262,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = linkFocusStyles.MergeRules +
-                         $"color:{Theme.SemanticTextColors.BodyText};" +
+                         $"color:{theme.SemanticTextColors.BodyText};" +
                          $"background-color:transparent;" +
                          $"border:none;"+
                          $"width:100%;" +
@@ -280,7 +280,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-item.is-disabled .ms-ContextualMenu-link" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledBodyText};" +
+                    Css = $"color:{theme.SemanticTextColors.DisabledBodyText};" +
                          $"cursor:default;" +
                          $"pointer-events:none;"
                 }
@@ -292,7 +292,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"outline:0;"// +
-                         //$"background-color:{Theme.Palette.White};" //!!!!! This won't work with dark mode, doesn't seem to be needed for light mode.
+                         //$"background-color:{theme.Palette.White};" //!!!!! This won't work with dark mode, doesn't seem to be needed for light mode.
                 }
             });
 
@@ -301,8 +301,8 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-link:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.MenuItemTextHovered};" +
-                         $"background-color:{Theme.SemanticColors.MenuItemBackgroundHovered};"
+                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};" +
+                         $"background-color:{theme.SemanticColors.MenuItemBackgroundHovered};"
                 }
             });
 
@@ -311,7 +311,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-link:hover .ms-ContextualMenu-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDarkAlt};"
+                    Css = $"color:{theme.Palette.ThemeDarkAlt};"
                         
                 }
             });
@@ -321,7 +321,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-link:hover .ms-ContextualMenu-submenuIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralPrimary};"
+                    Css = $"color:{theme.Palette.NeutralPrimary};"
 
                 }
             });
@@ -331,7 +331,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-item.is-checked .ms-ContextualMenu-checkmarkIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralPrimary};"
+                    Css = $"color:{theme.Palette.NeutralPrimary};"
 
                 }
             });
@@ -341,7 +341,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-link:active" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.MenuItemBackgroundPressed};"
+                    Css = $"background-color:{theme.SemanticColors.MenuItemBackgroundPressed};"
 
                 }
             });
@@ -351,7 +351,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-link:active .ms-ContextualMenu-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.ThemeDark};"
+                    Css = $"color:{theme.Palette.ThemeDark};"
 
                 }
             });
@@ -360,7 +360,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-link:active .ms-ContextualMenu-submenuIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralPrimary};"
+                    Css = $"color:{theme.Palette.NeutralPrimary};"
 
                 }
             });
@@ -370,8 +370,8 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-item.is-expanded .ms-ContextualMenu-link" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.SemanticColors.MenuItemBackgroundPressed};"+
-                          $"color:{Theme.SemanticTextColors.BodyTextChecked};"
+                    Css = $"background-color:{theme.SemanticColors.MenuItemBackgroundPressed};"+
+                          $"color:{theme.SemanticTextColors.BodyTextChecked};"
 
                 }
             });
@@ -427,7 +427,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-secondaryText" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralSecondary};" +
+                    Css = $"color:{theme.Palette.NeutralSecondary};" +
                         $"padding-left:20px;" +
                         $"text-align:right;"
                 }
@@ -441,8 +441,8 @@ namespace BlazorFluentUI
                     Css = $"display:inline-block;" +
                         $"min-height:1px;" +
                         $"max-height:36px;"+
-                        $"font-size:{Theme.FontStyle.IconFontSize.Medium};"+
-                        $"width:{Theme.FontStyle.IconFontSize.Medium};"+
+                        $"font-size:{theme.FontStyle.IconFontSize.Medium};"+
+                        $"width:{theme.FontStyle.IconFontSize.Medium};"+
                         $"margin:0 4px;"+
                         $"vertical-align:middle;"+
                         $"flex-shrink:0;"
@@ -450,12 +450,12 @@ namespace BlazorFluentUI
             });
             menuRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $"@media only screen and (min-width: ${0}px) and (max-width: ${Theme.CommonStyle.ScreenWidthMaxMedium}px)" },
+                Selector = new CssStringSelector() { SelectorName = $"@media only screen and (min-width: ${0}px) and (max-width: ${theme.CommonStyle.ScreenWidthMaxMedium}px)" },
                 Properties = new CssString()
                 {
                     Css = ".ms-ContextualMenu-icon {" +
-                        $"font-size:{Theme.FontStyle.IconFontSize.Large};" +
-                        $"width:{Theme.FontStyle.IconFontSize.Large};" +
+                        $"font-size:{theme.FontStyle.IconFontSize.Large};" +
+                        $"width:{theme.FontStyle.IconFontSize.Large};" +
                         "}"
                 }
             });
@@ -465,7 +465,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-iconColor" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticColors.MenuIcon};"
+                    Css = $"color:{theme.SemanticColors.MenuIcon};"
                 }
             });
 
@@ -474,7 +474,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu.is-disabled .ms-ContextualMenu-iconColor" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.DisabledBodyText};"
+                    Css = $"color:{theme.SemanticTextColors.DisabledBodyText};"
                 }
             });
 
@@ -483,7 +483,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-checkmarkIcon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.SemanticTextColors.BodySubtext};"+
+                    Css = $"color:{theme.SemanticTextColors.BodySubtext};"+
                           $"margin: 0 4px;"
                 }
             });
@@ -495,12 +495,12 @@ namespace BlazorFluentUI
                 {
                     Css = $"height:36px;" +
                        $"line-height:36px;" +
-                       $"color:{Theme.Palette.NeutralSecondary};" +
+                       $"color:{theme.Palette.NeutralSecondary};" +
                        $"text-align:center;" +
                        $"display:inline-block;" +
                        $"vertical-align:middle;" +
                        $"flex-shrink:0;"+
-                       $"font-size:{Theme.FontStyle.IconFontSize.Small};"
+                       $"font-size:{theme.FontStyle.IconFontSize.Small};"
                 }
             });
 
@@ -509,7 +509,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-submenuIcon:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralPrimary};"
+                    Css = $"color:{theme.Palette.NeutralPrimary};"
                 }
             });
             menuRules.Add(new Rule()
@@ -517,7 +517,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-ContextualMenu-submenuIcon:active" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{Theme.Palette.NeutralPrimary};"
+                    Css = $"color:{theme.Palette.NeutralPrimary};"
                 }
             });
 

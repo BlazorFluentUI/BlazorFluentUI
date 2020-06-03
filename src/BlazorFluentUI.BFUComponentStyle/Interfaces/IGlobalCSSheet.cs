@@ -9,6 +9,6 @@ namespace BlazorFluentUI
         Type ComponentType { get; set; }
         bool IsGlobal { get; set; }
         bool FixStyle { get; set; }
-        Func<ICollection<Rule>> CreateGlobalCss { get; set; }
+        Func<ICollection<IRule>> CreateGlobalCss { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Windows.Input;
 
 namespace BlazorFluentUI
@@ -14,7 +15,7 @@ namespace BlazorFluentUI
 
         public string AriaLabel { get; set; }
 
-        public bool CanCheck { get; set; }
+        public bool CanCheck { get; set; } = true;
 
         public bool Checked { get; set; }
 

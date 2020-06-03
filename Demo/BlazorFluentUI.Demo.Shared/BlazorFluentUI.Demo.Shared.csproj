@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <RootNamespace>BlazorFluentUI.Demo.Shared</RootNamespace>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCalendar\BlazorFluentUI.BFUCalendar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCallout\BlazorFluentUI.BFUCallout.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCheckbox\BlazorFluentUI.BFUCheckbox.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUChoiceGroup\BlazorFluentUI.BFUChoiceGroup.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCommandBar\BlazorFluentUI.BFUCommandBar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUContextualMenu\BlazorFluentUI.BFUContextualMenu.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUDatePicker\BlazorFluentUI.BFUDatePicker.csproj" />
@@ -33,6 +35,7 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUList\BlazorFluentUI.BFUList.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUMessageBar\BlazorFluentUI.BFUMessageBar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUModal\BlazorFluentUI.BFUModal.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUNavBar\BlazorFluentUI.BFUNavBar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUNav\BlazorFluentUI.BFUNav.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUOverflowSet\BlazorFluentUI.BFUOverflowSet.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUPanel\BlazorFluentUI.BFUPanel.csproj" />

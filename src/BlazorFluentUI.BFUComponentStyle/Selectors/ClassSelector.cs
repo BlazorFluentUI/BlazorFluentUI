@@ -2,6 +2,7 @@ namespace BlazorFluentUI
 {
     public class ClassSelector : ISelector
     {
+        public string LiteralPrefix { get; set; } = "";
         public string SelectorName { get; set; }
         public PseudoElements PseudoElement { get; set; } = PseudoElements.None;
         public PseudoClass PseudoClass { get; set; }
@@ -23,7 +24,7 @@ namespace BlazorFluentUI
 
         public string GetSelectorAsString()
         {
-            return $".{(SelectorName != null ? SelectorName : "")}{(PseudoElement != PseudoElements.None ? PseudoMapper.PseudoElementsMappper[PseudoElement] : "")}{ToPseudoClass()}";
+            return $"{LiteralPrefix}.{(SelectorName != null ? SelectorName : "")}{(PseudoElement != PseudoElements.None ? PseudoMapper.PseudoElementsMappper[PseudoElement] : "")}{ToPseudoClass()}";
         }
     }
 }

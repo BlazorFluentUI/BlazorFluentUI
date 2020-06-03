@@ -5,7 +5,7 @@ namespace BlazorFluentUI
 {
     public class BFUMessageBarButton : BFUDefaultButton, IHasPreloadableGlobalStyle
     {
-        public override ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public override ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
 
             var rules = base.CreateGlobalCss(theme);
@@ -32,7 +32,7 @@ namespace BlazorFluentUI
 
             builder.OpenComponent<BFUGlobalCS>(0);
             builder.AddAttribute(1, "Component", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(this));
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<System.Collections.Generic.ICollection<BlazorFluentUI.Rule>>(()=>CreateGlobalCss(Theme)));
+            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<IRule>>(()=>CreateGlobalCss(Theme)));
             builder.AddAttribute(3, "FixStyle", true);
             builder.CloseComponent();
 

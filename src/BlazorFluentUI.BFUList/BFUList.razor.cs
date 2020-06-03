@@ -12,7 +12,7 @@ using BlazorFluentUI.Style;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUList<TItem> : BFUComponentBase, IDisposable
+    public partial class BFUList<TItem> : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
     {
         //protected bool firstRender = false;
 
@@ -317,11 +317,11 @@ namespace BlazorFluentUI
         //    //Debug.WriteLine("list wants to rerender... but can't");
         //    return false;
         //}
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var listRules = new HashSet<Rule>();
+            var listRules = new HashSet<IRule>();
             //creates a method that pulls in focusstyles the way the react controls do it.
-            var focusStyleProps = new FocusStyleProps(this.Theme);
+            var focusStyleProps = new FocusStyleProps(theme);
             var mergeStyleResults = FocusStyle.GetFocusStyle(focusStyleProps, ".ms-List-cell-default");
 
             listRules.Clear();
@@ -337,7 +337,7 @@ namespace BlazorFluentUI
                           $"min-width:100%;" +
                           $"overflow:hidden;" +
                           $"box-sizing:border-box;" +
-                          $"border-bottom:1px solid {Theme.Palette.NeutralLighter};" +
+                          $"border-bottom:1px solid {theme.Palette.NeutralLighter};" +
                           $"display:inline-flex;"
                           +
                           mergeStyleResults.MergeRules
@@ -350,7 +350,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default:hover" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralLighter};" 
+                    Css = $"background-color:{theme.Palette.NeutralLighter};" 
                 }
             });
             listRules.Add(new Rule()
@@ -358,7 +358,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default.is-selected" },
                 Properties = new CssString()
                 {
-                    Css = $"background-color:{Theme.Palette.NeutralLight};"
+                    Css = $"background-color:{theme.Palette.NeutralLight};"
                 }
             });
 
@@ -384,7 +384,7 @@ namespace BlazorFluentUI
             //              $"bottom:1px;" +
             //              $"right:1px;" +
             //              $"border:1px solid transparent;" +
-            //              $"outline:1px solid {Theme.Palette.NeutralSecondary};" +
+            //              $"outline:1px solid {theme.Palette.NeutralSecondary};" +
             //              $"z-index:var(--zindex-FocusStyle);"
             //    }
             //});

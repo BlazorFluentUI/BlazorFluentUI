@@ -152,9 +152,9 @@ namespace BlazorFluentUI
 
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var checkboxRules = new HashSet<Rule>();
+            var checkboxRules = new HashSet<IRule>();
             // ROOT
             checkboxRules.Add(new Rule()
             {

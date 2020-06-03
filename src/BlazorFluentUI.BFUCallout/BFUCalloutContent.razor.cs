@@ -54,7 +54,7 @@ namespace BlazorFluentUI
 
         [Inject] private IJSRuntime jSRuntime { get; set; }
 
-        protected double contentMaxHeight = 0;
+        protected double contentMaxHeight = -1;
         protected bool overflowYHidden = false;
 
         protected bool isRenderedOnce = false;
@@ -794,9 +794,9 @@ namespace BlazorFluentUI
             };
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var calloutGlobalRules = new HashSet<Rule>();
+            var calloutGlobalRules = new HashSet<IRule>();
             calloutGlobalRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-Callout-container" },

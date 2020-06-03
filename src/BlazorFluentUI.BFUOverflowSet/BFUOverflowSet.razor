@@ -2,7 +2,7 @@
 @inherits BFUComponentBase
 @typeparam TItem
 
-<BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss"/>
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme))/>
 
 
 @if (DoNotContainWithinFocusZone)

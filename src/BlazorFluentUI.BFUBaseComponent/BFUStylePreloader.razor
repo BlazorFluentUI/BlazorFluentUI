@@ -3,12 +3,14 @@
 
 @if (LoadAllComponents)
 {
-    foreach (var type in componentTypes)
+    foreach (var type in Statics.ComponentTypes)
     {
         IHasPreloadableGlobalStyle instance = null;
         if (type.IsGenericType)
         {
+            //System.Diagnostics.Debug.WriteLine($"Generic! {type}");
             var genericTypeArgs = type.GetGenericArguments();
+            //System.Diagnostics.Debug.WriteLine($"Generic args! {string.Join(",",genericTypeArgs.Select(x=>x.Name))}");
             var objectTypeArgs = new List<Type>();
             foreach (var arg in genericTypeArgs)
             {
@@ -34,32 +36,79 @@ else
 }
 
 @code {
+    [Inject] private ScopedStatics Statics { get; set; }
     [Parameter] public IHasPreloadableGlobalStyle Component { get; set; }
-
+    [Parameter] public System.Reflection.Assembly AppAssembly { get; set; }
 
     /// <summary>
     /// If true, uses reflection to scan all assemblies for components that implement IHasPreloadableGlobalStyle
     /// </summary>
     [Parameter] public bool LoadAllComponents { get; set; }
 
-    private List<Type> componentTypes;
+    //private List<Type> componentTypes = new List<Type>();
+
+    private static IEnumerable<Type> GetTypesFromAssemblies(System.Reflection.Assembly assembly)
+    {
+        var list = new List<string>();
+        var stack = new Stack<System.Reflection.Assembly>();
+
+        stack.Push(assembly);
+        List<Type> preloadableTypes = new List<Type>();
+        do
+        {
+            var scanningAssembly = stack.Pop();
+            //System.Diagnostics.Debug.WriteLine(scanningAssembly);
+            var moreTypes = scanningAssembly.GetTypes().Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
+            if (moreTypes.Count() > 0)
+                preloadableTypes.AddRange(moreTypes);
+            //System.Diagnostics.Debug.WriteLine(moreTypes.ToList());
+
+            foreach (var reference in scanningAssembly.GetReferencedAssemblies())
+            {
+                if (!list.Contains(reference.FullName))
+                {
+                    stack.Push(System.Reflection.Assembly.Load(reference));
+                    list.Add(reference.FullName);
+
+                }
+            }
+
+        }
+        while (stack.Count > 0);
+        return preloadableTypes;
+    }
 
     protected override void OnInitialized()
     {
-        componentTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
-                .Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                .ToList();
+        //if (!Statics.AssembliesScanned)
+        //{
 
-        AppDomain.CurrentDomain.AssemblyLoad += (s, e) =>
+        //    //foreach (var ass in asses)
+
+        //    Statics.AssembliesScanned = true;
+        //    Statics.ComponentTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
+        //          .Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+        //          .ToList();
+
+        //    AppDomain.CurrentDomain.AssemblyLoad += (s, e) =>
+        //    {
+        //        Statics.ComponentTypes.AddRange(e.LoadedAssembly.GetTypes().Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract));
+        //        if (LoadAllComponents)
+        //        {
+        //            InvokeAsync(StateHasChanged);
+        //        }
+        //    };
+        //}
+
+        base.OnInitialized();
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        if (!Statics.AssembliesScanned && AppAssembly != null)
         {
-            componentTypes.AddRange(e.LoadedAssembly.GetTypes().Where(x => typeof(IHasPreloadableGlobalStyle).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract));
-            if (LoadAllComponents)
-            {
-                InvokeAsync(StateHasChanged);
-            }
-        };
-
-
-        base.OnParametersSet();
+            Statics.ComponentTypes = GetTypesFromAssemblies(AppAssembly).ToList();
+        }
+        return base.OnParametersSetAsync();
     }
 }

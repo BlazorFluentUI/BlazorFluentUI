@@ -2,7 +2,7 @@
 @inherits BFUComponentBase
 
 
-<BFUGlobalCS Component=@this CreateGlobalCss=@CreateGlobalCss />
+<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <div class=@($"mediumFont ms-GroupHeader{(Compact ? " ms-GroupHeader--compact" : "")}{(!IsOpen ? " is-collapsed" : "")}{(CurrentlySelected ? " is-selected": "")}{(string.IsNullOrEmpty(ClassName) ? "":" " + ClassName)}")
      @onclick=@OnClick 
      data-is-focusable="true">

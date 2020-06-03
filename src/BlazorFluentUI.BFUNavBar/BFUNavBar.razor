@@ -1,0 +1,101 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using BlazorFluentUI.BFUNavBarInternal 
+@using System.Linq
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+@if (Direction == LayoutDirection.Horizontal)
+{
+    <BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+    <BFUResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
+                    Data=@_currentData
+                    GetCacheKey=@(x => x.CacheKey)
+                    ClassName=@ClassName
+                    Style=@Style>
+        <DataTemplate Context="data">
+            <div class="mediumFont ms-NavBar-horizontal" role="menubar">
+                <div style="margin:8px 15px 0 -15px;">
+                    @HeaderTemplate(Header)
+                </div>
+                @*Primary*@
+                <BFUOverflowSet ClassName="ms-NavBar-horizontal-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
+                    <ItemTemplate>
+                        @if (context.IconOnly)
+                        {
+                            <BFUTooltipHost>
+                                <ChildContent>
+                                    <BFUCommandBarButton IconName=@context.IconName
+                                                         Text=@(!context.IconOnly ? context.Text : null)
+                                                         MenuItems=@context.Items
+                                                         Href=@context.Url
+                                                         Disabled=@context.Disabled
+                                                         AriaLabel=@context.AriaLabel
+                                                         Checked=@context.Checked
+                                                         ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault             (x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
+                                                         Split=@context.Split Style=@context.Style />
+                                </ChildContent>
+                                <TooltipContent>
+                                    @context.Text
+                                </TooltipContent>
+                            </BFUTooltipHost>
+                        }
+                        else
+                        {
+                            <BFUCommandBarButton IconName=@context.IconName
+                                                 Text=@(!context.IconOnly ? context.Text : null)
+                                                 MenuItems=@context.Items
+                                                 Href=@context.Url
+                                                 Disabled=@context.Disabled
+                                                 AriaLabel=@context.AriaLabel
+                                                 Checked=@context.Checked
+                                                 ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault(x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
+                                                 Split=@context.Split Style=@context.Style />
+                        }
+                    </ItemTemplate>
+                    <OverflowTemplate>
+                        <BFUCommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@context />
+                    </OverflowTemplate>
+
+                </BFUOverflowSet>
+                <div class="ms-NavBar-horizontal-secondarySet">
+                    @FooterTemplate
+                </div>
+            </div>
+        </DataTemplate>
+    </BFUResizeGroup>
+}
+else
+{
+    <BFUStack>
+        <BFUNav>
+            <BFUNavLinkGroup GroupHeaderTemplate=@HeaderTemplate
+                             Name=@Header
+                             CollapseByDefault="false">
+                <ChildContent>
+                    @foreach (var item in Items)
+                    {
+                        <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) Icon=@item.IconName
+                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" />
+                    }
+                    @foreach (var item in OverflowItems)
+                    {
+                        <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) Icon=@item.IconName
+                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" />
+                    }
+                </ChildContent>
+            </BFUNavLinkGroup>
+
+        </BFUNav>
+        <BFUStackItem Shrink="0">
+            @FooterTemplate
+        </BFUStackItem>
+    </BFUStack>
+}
+
+@code{
+    [Parameter]
+    public RenderFragment<string> HeaderTemplate { get; set; } = (header) =>@<div style="font-size:17px;font-weight:400;">@header</div>;
+
+}

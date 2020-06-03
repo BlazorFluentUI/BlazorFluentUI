@@ -23,9 +23,9 @@ namespace BlazorFluentUI
             portalGeneratorReference.RemoveHostedContent(layerId);
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        private ICollection<IRule> CreateGlobalCss()
         {
-            var layerRules = new HashSet<Rule>();
+            var layerRules = new HashSet<IRule>();
             // ROOT
             layerRules.Add(new Rule()
             {

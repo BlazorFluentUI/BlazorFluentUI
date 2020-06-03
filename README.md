@@ -1,11 +1,10 @@
-# BlazorFabric
-Simple port of Office Fabric React components and style to Blazor
+# BlazorFluentUI
+Simple port of Fluent UI (formerly Office Fabric) React components and style to Blazor
 
 ## Client-side Demo (web assembly)
-https://blazorfluentui.github.io/BlazorFluentUI/
+https://www.blazorfluentui.net/
 
 ## Server-side Demo (SignalR)
-
 https://blazorfluentui.azurewebsites.net/
 
 ## Telegram dev channel
@@ -14,192 +13,118 @@ https://t.me/blazorfabric
 ## See the wiki for all usage notes
 https://github.com/BlazorFluentUI/BlazorFluentUI/wiki
 
-## Release Notes
-- v3.0.0 
-    - Theming is now available on BlazorFabric
-      - Defaultwise There is a Light- and a Dark-Theme
-      - You also can create your own Theme and add it
-      - Theme is an CascadingValue, so that you can also use Colors and Styles for your own Components
-    - Add DetailsList
-    - Add DetailsList-Grouped
-    - Add GroupedList
-    - Add Indeterminate State to Checkbox
-    - Upon this release you don't need to add .css-files in index.html / _Host.cshtml because Components will self take care of css-classes and styles with help of GlobalCS and LocalCS
-    - All javascript files have been combined into one minified file
-
-- v2.2.0 (Jan 25, 2020)
-	- Added `Pivot`
-	- Fix #78 positioning problems with `Callout`
-	- Heavy focus on keyboard-navigation.  Fixes to `ContextualMenu`, `Dropdown`
-	- Refactored `ResponsiveLayout` to use media queries in style tags for immediate effect... BREAKING CHANGES HERE.
-	- Added `ResponsiveWrapper` and `ResponsiveCascader` (not Fabric controls) that work using javascript.  Changes applied after 1st render.
-	- Minor changes to button css files.  Only need to include `button.css` to have them all load automatically.
-	- Many, many bug fixes.
-- v2.1.0
-	- Added `Text` (including custom styling)
-	- Upgraded `TextField` with PrefixContent and SuffixContent for non-text-only content
-	- Added non-Fabric `RichTextEditor` that uses Fabric controls (more functions TBA)
-	- Added `Dialog`
-	- Added non-Fabric `ComponentStyle` that uses unique css-class names for styles special for components and .Net-Classes to create css-classes to be more flexible in component-styling
-- v2.0.0
-	- Upgraded entire project to aspnetcore 3.1 (enables partial classes, stopProgation, preventDefault, and others)
-	- Upgraded demos to aspnetcore 3.1 and netstandard 2.1
-	- Added `Calendar`
-	- Added `DatePicker`
-- v1.3.6
-	- Custom NavigationTemplate close button inside `Panel` would not show the close animation, now it does.
-	- Fixed [#33](https://github.com/limefrogyank/BlazorFabric/issues/33)
-	- Fixed `Callout` positioning bug [#2](https://github.com/limefrogyank/BlazorFabric/issues/2)
-	- Added single string key binding to `Dropdown`
-	- Added `ProgressIndicator`
-	- Added `MessageBar`
-	- Fixed [#50](https://github.com/limefrogyank/BlazorFabric/issues/50)
-	- Added `Link`
-	- Added `FocusZone`
-	- Enhanced `Rating` with `FocusZone`
-- v1.3.5
-	- Added `Rating` (contributed by Eweol)
-	- Added autocomplete to `TextField` + style fixes include description field
-	- Added validation to `TextField` (contributed by Eweol) 
-	- Added `Keytip` placeholder... doesn't do anything yet.  But required internally for `Toggle`
-- v1.3.3
-	- Added `Toggle`
-	- Added password functionality to `TextField` (contributed by Eweol)
-	- Added `ResponsiveLayout` <- *not a Fabric control, but made so you don't have to use CSS media queries!* 
-	- Changed the demo's layout to use `ResponsiveLayout` and `Stack`, slowly removing CSS!
-- v1.3.2
-	- Added `Spinner`
-	- Added `Persona`
-	- Added `Image`
-	- Added `Tooltip`
-	- Added `Stack` <- *awesome abstraction of flexbox... the Fabric guys don't give this one enough credit*
-- v1.2.6 *(aspnetcore-3.0 out of preview!)*
-	- Fixed `Overlay` so that it blocks body scrolling
-	- Added `Panel`
-	- Added `FocusTrapZone` (and added it to `Modal` to make focus interactions work better)
-	- disregard previous fix!  Current guidelines are that devs must manually add js and css files to your html files.  See the sample for a copy/paste opportunity.
-- v1.2.2-preview9
-	- Fixed new components so they would automatically add their css/js to your index.html in client-side blazor
-	  (This is temporary.  You're supposed to add them in manually anyways.  This will stop working in a future version of Blazor)
-- v1.2.1-preview9
-	- Fixed wrong thread problem with `ContextualMenuItem` (using a timer)
-- v1.2.0-preview9
-	- Breaking changes: `ContextualMenu` attached to all buttons requires a new way to create menu items.  Use the built-in `ContextualMenuItem` class or create your own with the `IContextualMenuItem` interface.
-	- Added: `CommandBar`, `ResizeGroup`, `OverflowSet` and fixed `ContextualMenu` click/dismiss problems.
-- v1.1.1-preview9
-	- Fixed Button contextmenu icon
-- v1.1.0-preview9 
-    - Breaking changes: Changed all namespaces to `BlazorFabric`.  No more sub-namespaces using the control's name.
-
 ## Status of Controls
 
 ### Basic Inputs
 | Control     | State | Information      |
 | :---------- | :---: | :--------------- |
-| Button      | Done  |                  |
-| Checkbox    | Done  | except for icons |
-| ChoiceGroup | ToDo  |                  |
-| ComboBox    | ToDo  |                  |
-| Dropdown    | Done  |                  |
-| Label       | Done  |                  |
-| Link        | Done  |                  |
-| Rating      | Done  |                  |
-| SearchBox   | ToDo  |                  |
-| Slider      | ToDo  |                  |
-| SpinButton  | ToDo  |                  |
-| TextField   | Done  | except masking   |
-| Toggle      | Done  |                  |
+| Button      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+| Checkbox    | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | except for icons |
+| ChoiceGroup | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| ComboBox    | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| Dropdown    | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+| Label       | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+| Link        | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+| Rating      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+| SearchBox   | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| Slider      | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| SpinButton  | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| TextField   | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | except masking   |
+| Toggle      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
 
 ### Galleries & Pickers
 | Control           | State | Information |
 | :---------------- | :---: | :---------- |
-| Calendar          | Done  |             |
-| ColorPicker       | ToDo  |             |
-| DatePicker        | Done  |             |
-| PeoplePicker      | ToDo  |             |
-| Pickers           | ToDo  |             |
-| SwatchColorPicker | ToDo  |             |
+| Calendar          | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| ColorPicker       | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| DatePicker        | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| PeoplePicker      | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| Pickers           | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| SwatchColorPicker | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
 
 ### Items & Lists
 | Control      | State | Information                         |
 | :----------- | :---: | :---------------------------------- |
-| ActivityItem | ToDo  |                                     |
-| DetailsList  | Done  |                                     |
-| DocumentCard | ToDo  |                                     |
-| Facepile     | ToDo  |                                     |
-| GroupedList  | Done  |                                     |
-| HoverCard    | ToDo  |                                     |
-| List         | Done  | supports `INotifyCollectionChanged` |
-| Persona      | Done  |                                     |
+| ActivityItem | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
+| DetailsList  | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
+| DocumentCard | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
+| Facepile     | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
+| GroupedList  | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
+| HoverCard    | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
+| List         | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | supports `INotifyCollectionChanged` |
+| Persona      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
 
 ### Commands, Menus & Navs
 | Control        | State | Information |
 | :------------- | :---: | :---------- |
-| Breadcrumb     | ToDo  |             |
-| CommandBar     | Done  |             |
-| ContextualMenu | Done  |             |
-| Nav            | Done  |             |
-| OverflowSet    | Done  |             |
-| Pivot          | Done  |             |
+| Breadcrumb     | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| CommandBar     | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| ContextualMenu | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| Nav            | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| OverflowSet    | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| Pivot          | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
 
 ### Notification & Engagement
 | Control        | State | Information |
 | :------------- | :---: | :---------- |
-| Coachmark      | ToDo  |             |
-| MessageBar     | Done  |             |
-| TeachingBubble | ToDo  |             |
+| Coachmark      | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| MessageBar     | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| TeachingBubble | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
 
 ### Progress
 | Control           | State | Information |
 | :---------------- | :---: | :---------- |
-| ProgressIndicator | Done  |             |
-| Shimmer           | ToDo  |             |
-| Spinner           | Done  |             |
+| ProgressIndicator | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
+| Shimmer           | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+| Spinner           | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
 
 ### Surfaces
 | Control        |    State    | Information                                                                                         |
 | :------------- | :---------: | :-------------------------------------------------------------------------------------------------- |
-| Callout        |    Done     |                                                                                                     |
-| Dialog         |    Done     | can't drag                                                                                          |
-| Modal          |    Done     | no modeless version                                                                                 |
-| Panel          |    Done     |                                                                                                     |
-| ScrollablePane |    ToDo     |                                                                                                     |
-| Tooltip        | In Progress | limited functionality.  will show, but can't interact with it yet, doesn't respond to overflow yet. |
+| Callout        |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                                                                                     |
+| Dialog         |    ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done     | can't drag                                                                                          |
+| Modal          |    ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done     | no modeless version                                                                                 |
+| Panel          |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                                                                                     |
+| ScrollablePane |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                                                                                     |
+| Tooltip        | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress | limited functionality.  will show, but can't interact with it yet, doesn't respond to overflow yet. |
 
 ### Utilities
 | Control          |    State    | Information                           |
 | :--------------- | :---------: | :------------------------------------ |
-| Announced        |    ToDo     |                                       |
-| FocusTrapZone    |    Done     |                                       |
-| FocusZone        |    Done     |                                       |
-| Icon             |    Done     | only MS icons                         |
-| Image            |    Done     |                                       |
-| Keytips          |    ToDo     |                                       |
-| Layer            | In Progress | only layers at root window right now. |
-| MarqueeSelection |    ToDo     |                                       |
-| Overlay          |    ToDo     |                                       |
-| ResizeGroup      |    Done     |                                       |
-| Selection        |    ToDo     |                                       |
-| Separator        |    ToDo     |                                       |
-| Stack            |    Done     |                                       |
-| Text             |    Done     |                                       |
-| Themes           |    ToDo     |                                       |
+| Announced        |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| FocusTrapZone    |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| FocusZone        |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| Icon             |    ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done     | only MS icons                         |
+| Image            |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| Keytips          |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| Layer            | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress | only layers at root window right now. |
+| MarqueeSelection |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| Overlay          |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| ResizeGroup      |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| Selection        |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| Separator        |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
+| Stack            |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| Text             |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| Themes           |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
 
 ### Non-Fabric-Component
 | Control          |    State    | Information                           |
 | :--------------- | :---------: | :------------------------------------ |
-| ResponsiveLayout |    Done     |                                       |
-| RichTextEditor   | In Progress | Works with limited styles available   |
-| GlobalCS		   | In Progress |                                       |
-| LocalCS		   | In Progress |                                       |
+| ResponsiveLayout |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
+| RichTextEditor   | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress | Works with limited styles available   |
+| GlobalCS		   | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress |                                       |
+| LocalCS		   | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress |                                       |
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 
 
 ## To use
-1. Install NuGet package for the control you want.  _BlazorFabric.*_  (be sure to select preview packages)
-2. The Blazor team has been inconsistent with how static files from component libraries are added to projects in the past.  Going forward, you'll need to **add all javascript assets from the component packages manually**.  You can just copy/paste the section from the test app's index.html.
-You can also use my helper VSIX extension (may have major bugs!  Be sure to compile once for assets to show up.): https://marketplace.visualstudio.com/items?itemName=LeeMcPherson.BlazorLibraryAssetHelper&ssr=false#overview  
+1. Install NuGet package for the control you want.  _BlazorFluentUI.*_  
+   (There is also a package that will install all packages at once:  *BlazorFluentUI.AllComponents*
+2. Add the javascript to your index.html or index.cshtml file:
+```
+<script src="_content/BlazorFluentUI.BFUBaseComponent/blazorFluentUi.min.js"></script>
+```
 3. Optionally, add Microsoft's assets package to your index.html or \_Hosts.cshtml file.
 
 `<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />`
@@ -210,48 +135,77 @@ Use the tool here to generate your own MS font package: https://uifabricicons.az
 
 (Remember that the assets package has a more restrictive license.  You are required to use it with/for some type of Microsoft product.  However, one of their engineers said that using it hosted on Azure would be enough... but I'm not a lawyer, so use caution.)
 
-4. Add "AddBlazorFabric" to Startup.cs in Service-Configuration-Method
+4. Add "AddBlazorFluentUI" to ServiceProvider
 
+ServerSide: Startup.cs
 ```
-	services.AddBlazorFabric();
+public void ConfigureServices(IServiceCollection services)
+{
+	...;
+	services.AddBlazorFluentUI();
+	...;
+}
 ```
 
-5. Add following to index.html / _Host.cshtml head Tag 
-
+ClientSide from version 'Blazor WebAssembly 3.2.0'  : Program.cs
 ```
-ServerSide:
+public static async Task Main(string[] args)
+{
+	...;
+	builder.Services.AddBlazorFluentUI();
+	...;
+}
+```
+
+5. Add css-class tag in
+
+ServerSide: Pages/_Host.cshtml
+```
+<head>
+	...;
 	<component type="typeof(GlobalRules)" render-mode="ServerPrerendered" />
-
-ClientSide:
+	...;
+</head>
+```
+ClientSide: wwwroot/index.html
+```
+<head>
+	...;
 	<style id="staticcs"></style>
+	...;
+</head>
 ```
+You may need to add an `@using BlazorFluentUI` to the top of your `_Hosts.cshmtl` to avoid a 'GlobalRules could not be found` error.
 
-6. Add following to Startup.cs in Configure-Methode
+6. Add following to get controll over css-classes tag you created before
 
+ServerSide: issn't needed
+
+ClientSide from version 'Blazor WebAssembly 3.2.0'  : Program.cs
 ```
-ServerSide:
-	issn't needed
-
-ClientSide:
-	app.AddComponent<GlobalRules>("#staticcs");
+public static async Task Main(string[] args)
+{
+	...;
+	builder.RootComponents.Add<BFUGlobalRules>("#staticcs");
+	...;
+}
 ```
-
 
 7. For Theme's add following in `App.razor` as most outside Component. You can have a look in Demo application's `App.razor`
 
 ```
-<FabricTheme>
+<BFUTheme>
 	<...>
 		<Router AppAssembly="typeof(Startup).Assembly" />
 	</...>
-</FabricTheme>
+</BFUTheme>
 ```
 
-8. If you're using any component that requires a `Layer` as part of its inner-workings (i.e. `Modal`, `Callout`, etc... anything that pops up over already drawn stuff), you need to wrap the `Router` with a `LayerHost`.
+8. If you're using any component that requires a `Layer` as part of its inner-workings (i.e. `BFUModal`, `BFUCallout`, `BFUTooltip`, etc... anything that pops up over already drawn stuff), you need to wrap the `Router` with a `LayerHost`.
 ```
-<LayerHost Style="display:flex; flex-direction: row;width:100vw">
+<BFULayerHost Style="display:flex; flex-direction: row;width:100vw">
     <Router AppAssembly="typeof(Startup).Assembly" />
-</LayerHost>
+</BFULayerHost>
 ```
 
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCommandBar : BFUComponentBase
+    public partial class BFUCommandBar : BFUComponentBase, IHasPreloadableGlobalStyle
     {
 
         [Parameter] public IEnumerable<IBFUCommandBarItem> Items { get; set; }
@@ -94,16 +94,16 @@ namespace BlazorFluentUI
             return string.Join(" ", primaryKey, farKey, overflowKey);
         }
 
-        private ICollection<Rule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var commandBarRules = new HashSet<Rule>();
+            var commandBarRules = new HashSet<IRule>();
             commandBarRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar" },
                 Properties = new CssString()
                 {
                     Css = $"display:flex;" +
-                            $"background-color:{Theme.SemanticColors.BodyBackground};" +
+                            $"background-color:{theme.SemanticColors.BodyBackground};" +
                             $"padding:0 14px 0 24px;" +
                             $"height:44px;"
                 }

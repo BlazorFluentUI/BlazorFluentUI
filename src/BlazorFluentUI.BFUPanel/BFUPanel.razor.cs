@@ -313,7 +313,7 @@ namespace BlazorFluentUI
 
                 foreach (var id in copied)
                 {
-                    await JSRuntime.InvokeVoidAsync("BlazorFabricPanel.unregisterHandler", id);
+                    await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", id);
                 }
             }
         }
@@ -473,9 +473,9 @@ namespace BlazorFluentUI
             }
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var panelRules = new HashSet<Rule>();
+            var panelRules = new HashSet<IRule>();
             
             panelRules.Add(new Rule()
             {

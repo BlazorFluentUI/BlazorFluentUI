@@ -107,10 +107,10 @@ namespace BlazorFluentUI
         public static int CellRightPadding = 8;
         public static int CellExtraRightPadding = 24;
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             //DetailsRowLocalRules.Clear();
-            var detailsRowRules = new HashSet<Rule>();
+            var detailsRowRules = new HashSet<IRule>();
 
             // Root
             var rootFocusStyleProps = new FocusStyleProps(theme);

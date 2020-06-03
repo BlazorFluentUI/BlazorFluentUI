@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCheck : BFUComponentBase
+    public partial class BFUCheck : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter]
         public bool Checked { get; set; }
@@ -11,9 +11,9 @@ namespace BlazorFluentUI
         [Parameter]
         public bool UseFastIcons { get; set; }
 
-        protected ICollection<Rule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var checkRules = new HashSet<Rule>();
+            var checkRules = new HashSet<IRule>();
 
             checkRules.Add(new Rule()
             {
@@ -43,7 +43,7 @@ namespace BlazorFluentUI
                           $"left:1px;" +
                           $"border-radius:50%;" +
                           $"opacity:1;" +
-                          $"background:{Theme.SemanticColors.BodyBackground};" 
+                          $"background:{theme.SemanticColors.BodyBackground};" 
                 }
             });
 
@@ -63,7 +63,7 @@ namespace BlazorFluentUI
                 {
                     Css = $"content:'';" +
                           $"opacity:1;" +
-                          $"background:{Theme.Palette.ThemePrimary};"
+                          $"background:{theme.Palette.ThemePrimary};"
                 }
             });
 
@@ -85,7 +85,7 @@ namespace BlazorFluentUI
                   Selector = new CssStringSelector() { SelectorName = ".ms-Check-circle" },
                   Properties = new CssString()
                   {
-                      Css = $"color:{Theme.Palette.NeutralSecondary};" +
+                      Css = $"color:{theme.Palette.NeutralSecondary};" +
                             $"font-size:18px;" +
                             $"position:absolute;" +
                             $"left:0px;" +
@@ -102,7 +102,7 @@ namespace BlazorFluentUI
                   Selector = new CssStringSelector() { SelectorName = ".ms-Check.is-checked .ms-Check-circle" },
                   Properties = new CssString()
                   {
-                      Css = $"color:{Theme.Palette.White};" 
+                      Css = $"color:{theme.Palette.White};" 
                   }
               });
             checkRules.Add(new Rule()
@@ -132,8 +132,8 @@ namespace BlazorFluentUI
                           $"text-align:center;" +
                           $"vertical-align:middle;" +
                           $"opacity:0;" +
-                          $"color:{Theme.Palette.NeutralSecondary};" +
-                          $"font-size:{Theme.FontStyle.FontSize.MediumPlus};" +  //This is technically IconFontSize.Medium which is equivalent to FontSize.MediumPlus (16px)
+                          $"color:{theme.Palette.NeutralSecondary};" +
+                          $"font-size:{theme.FontStyle.FontSize.MediumPlus};" +  //This is technically IconFontSize.Medium which is equivalent to FontSize.MediumPlus (16px)
                           $"left:0.5px;" //isRTL ignored
                 }
             });
@@ -162,7 +162,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"opacity:1;"+
-                            $"color:{Theme.Palette.White};"+
+                            $"color:{theme.Palette.White};"+
                             $"font-weight:900;"
                 }
             });

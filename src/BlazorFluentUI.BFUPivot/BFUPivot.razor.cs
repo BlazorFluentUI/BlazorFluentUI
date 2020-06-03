@@ -153,9 +153,9 @@ namespace BlazorFluentUI
             return;
         }
 
-        public ICollection<Rule> CreateGlobalCss(ITheme theme)
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            var MyRules = new List<Rule>();
+            var MyRules = new List<IRule>();
             #region ms-Pivot-count
             MyRules.Add(new Rule()
             {

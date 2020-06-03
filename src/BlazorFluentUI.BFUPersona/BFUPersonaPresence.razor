@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@CreateGlobalCss />
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <BFULocalCS @bind-Rules="PersonaPresenceLocalRules" />
 <div class=@($"ms-Persona-presence {PresenceRule.Selector.SelectorName} {PresenceAfterRule.Selector.SelectorName} {PresenceBeforeRule.Selector.SelectorName} {ClassName}")
      style=@Style

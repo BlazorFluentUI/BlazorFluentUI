@@ -2,9 +2,7 @@
 
 <h1>Checkbox</h1>
 
-<h4>Basic Checkboxes</h4>
-
-<Demo Header="Callout" Key="0" MetadataPath="CalloutPage">
+<Demo Header="Basic Checkboxes" Key="0" MetadataPath="CheckboxPage">
     <BFUStack Tokens=stackTokens>
         <BFUCheckbox Label="Unchecked checkbox (uncontrolled)" CheckedChanged=FirstChange />
         <BFUCheckbox Label="Checked checkbox (uncontrolled)" DefaultChecked="true" CheckedChanged=FirstChange />
@@ -13,7 +11,7 @@
     </BFUStack>
 </Demo>
 
-<Demo Header="Other Implementation Examples" Key="0" MetadataPath="CalloutPage">
+<Demo Header="Other Implementation Examples" Key="0" MetadataPath="CheckboxPage">
     <BFUStack Tokens=stackTokens>
         <BFULabel>Controlled checkbox is @(_isFirstChecked ? "checked" : "unchecked").</BFULabel>
         <BFUCheckbox Label="Controlled checkbox" @bind-Checked=@_isFirstChecked />
@@ -23,7 +21,7 @@
     </BFUStack>
 </Demo>
 
-<Demo Header="Indeterminate Checkboxes" Key="0" MetadataPath="CalloutPage">
+<Demo Header="Indeterminate Checkboxes" Key="0" MetadataPath="CheckboxPage">
     <BFUStack Tokens=stackTokens>
         <BFULabel>Indeterminate checkbox (controlled) is @(_isIndeterminate ? "indeterminate" : (_isSecondChecked ? "checked" : "unchecked" )).</BFULabel>
         <BFUCheckbox Label="Indeterminate checkbox (uncontrolled)" DefaultIndeterminate="true" />

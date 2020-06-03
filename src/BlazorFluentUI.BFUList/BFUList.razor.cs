@@ -52,7 +52,10 @@ namespace BlazorFluentUI
         private Rectangle surfaceRect = new Rectangle();
         private double _height;
         public double CurrentHeight => _height;
+        
+        
         private bool _jsAvailable = false;
+        private bool _lastIsVirtualizing = true;
 
         //private object _lastVersion = null;
 
@@ -206,6 +209,8 @@ namespace BlazorFluentUI
                 _needsRemeasure = true;
             }
 
+
+            
             //CreateCss();
             await base.OnParametersSetAsync();
         }
@@ -303,9 +308,10 @@ namespace BlazorFluentUI
         
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
+        {            
             if (firstRender)
             {
+                _jsAvailable = true;
                 if (IsVirtualizing)
                 {
                     var objectRef = DotNetObjectReference.Create(this);
@@ -319,6 +325,25 @@ namespace BlazorFluentUI
                     await UpdateViewportAsync(viewportMeasurement.Right, viewportMeasurement.Width, viewportMeasurement.Bottom, viewportMeasurement.Height);
                 }
             }
+            else
+            {
+                if (_lastIsVirtualizing != IsVirtualizing)
+                {
+                    _lastIsVirtualizing = IsVirtualizing;  //need to make sure this area is run once, otherwise mulitple observers will be set for this viewport leading to blinking
+                    if (IsVirtualizing)
+                    {
+                        var objectRef = DotNetObjectReference.Create(this);
+                        var initResult = await JSRuntime.InvokeAsync<DOMRect>("BlazorFluentUiList.initialize", objectRef, surfaceDiv, spacerBefore, spacerAfter, true);
+                        this.listId = (int)initResult.Left;
+                        await UpdateViewportAsync(initResult.Right, initResult.Width, initResult.Bottom, initResult.Height);
+                    }
+                    else
+                    {
+                        await JSRuntime.InvokeVoidAsync("BlazorFluentUiList.removeList", this.listId);
+                    }
+                }                
+            }
+            
 
             if (IsVirtualizing)//(!hasMeasuredAverageHeightOnce)
             {

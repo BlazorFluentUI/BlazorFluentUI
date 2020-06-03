@@ -8,12 +8,13 @@
 
     <BFUStack Style="height:100%;">
         <h3>DetailsList</h3>
+        <BFUToggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
         <BFUTextField Label="Filter Description"
                    @bind-Value=@dataContainer.Filter
                    @bind-Value:event="OnInput"/>
 
         <BFUDetailsList ItemsSource="ReadonlyList"
-                        IsVirtualizing="false"
+                        IsVirtualizing="isVirtualizing"
                      Columns="ReadonlyColumns"
                      LayoutMode="DetailsListLayoutMode.Justified"
                      @bind-Selection="selection"
@@ -25,6 +26,7 @@
 
 @code {
 
+    bool isVirtualizing = true;
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
@@ -86,7 +88,7 @@
         var descColumn = new BFUDetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
         columnsSource.AddOrUpdate(descColumn);
 
-        for (var i = 0; i < 1000; i++)
+        for (var i = 0; i < 100; i++)
         {
             count++;
             dataSource.AddOrUpdate(new DataItem(count));

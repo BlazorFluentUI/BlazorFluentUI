@@ -44,7 +44,7 @@ var BlazorFluentUiList;
             this.spacerBefore = spacerBefore;
             this.spacerAfter = spacerAfter;
             const rootMargin = 50;
-            const intersectionObserver = new IntersectionObserver((entries, observer) => {
+            this.intersectionObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && entry.target.offsetHeight > 0) {
                         window.requestIdleCallback(() => {
@@ -64,19 +64,23 @@ var BlazorFluentUiList;
             }, {
                 root: scrollElement, rootMargin: `${rootMargin}px`
             });
-            intersectionObserver.observe(spacerBefore);
-            intersectionObserver.observe(spacerAfter);
+            this.intersectionObserver.observe(this.spacerBefore);
+            this.intersectionObserver.observe(this.spacerAfter);
             // After each render, refresh the info about intersections
-            const mutationObserver = new MutationObserver(mutations => {
-                intersectionObserver.unobserve(spacerBefore);
-                intersectionObserver.unobserve(spacerAfter);
-                intersectionObserver.observe(spacerBefore);
-                intersectionObserver.observe(spacerAfter);
+            this.mutationObserver = new MutationObserver(mutations => {
+                this.intersectionObserver.unobserve(this.spacerBefore);
+                this.intersectionObserver.unobserve(this.spacerAfter);
+                this.intersectionObserver.observe(this.spacerBefore);
+                this.intersectionObserver.observe(this.spacerAfter);
             });
-            mutationObserver.observe(spacerBefore, { attributes: true });
+            this.mutationObserver.observe(spacerBefore, { attributes: true });
         }
-        //private onIntersectionRectChanged(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
-        //}
+        disconnect() {
+            this.mutationObserver.disconnect();
+            this.intersectionObserver.unobserve(this.spacerBefore);
+            this.intersectionObserver.unobserve(this.spacerAfter);
+            this.intersectionObserver.disconnect();
+        }
         getInitialAverageHeight() {
             let calculate = false;
             let averageHeight = 0;
@@ -104,7 +108,10 @@ var BlazorFluentUiList;
         }
     }
     BlazorFluentUiList.getInitialAverageHeight = getInitialAverageHeight;
-    function initialize(component, scrollElement, spacerBefore, spacerAfter) {
+    function initialize(component, scrollElement, spacerBefore, spacerAfter, reset = false) {
+        //if (reset) {
+        //    scrollElement.scrollTo(0, 0);
+        //}
         let list = new BFUList(component, scrollElement, spacerBefore, spacerAfter);
         cachedLists.set(list.id, list);
         const visibleRect = {
@@ -118,6 +125,12 @@ var BlazorFluentUiList;
         return visibleRect;
     }
     BlazorFluentUiList.initialize = initialize;
+    function removeList(id) {
+        let list = cachedLists.get(id);
+        list.disconnect();
+        cachedLists.delete(id);
+    }
+    BlazorFluentUiList.removeList = removeList;
     function getViewport(scrollElement) {
         const visibleRect = {
             top: 0,

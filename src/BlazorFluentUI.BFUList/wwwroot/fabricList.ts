@@ -80,6 +80,9 @@ namespace BlazorFluentUiList {
         spacerBefore: HTMLElement;
         spacerAfter: HTMLElement;
 
+        intersectionObserver: IntersectionObserver;
+        mutationObserver: MutationObserver;
+
         constructor(component: DotNetReferenceType, scrollElement: HTMLElement, spacerBefore: HTMLElement, spacerAfter: HTMLElement) {
             this.id = _lastId++;
 
@@ -89,7 +92,7 @@ namespace BlazorFluentUiList {
             this.spacerAfter = spacerAfter;
 
             const rootMargin: number = 50;
-            const intersectionObserver: IntersectionObserver = new IntersectionObserver((entries, observer) => {
+            this.intersectionObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && (entry.target as HTMLElement).offsetHeight > 0) {
                         (<any>window).requestIdleCallback(() => {
@@ -109,22 +112,27 @@ namespace BlazorFluentUiList {
             }, {
                 root: scrollElement, rootMargin: `${rootMargin}px`
             });
-            intersectionObserver.observe(spacerBefore);
-            intersectionObserver.observe(spacerAfter);
+            this.intersectionObserver.observe(this.spacerBefore);
+            this.intersectionObserver.observe(this.spacerAfter);
 
             // After each render, refresh the info about intersections
-            const mutationObserver = new MutationObserver(mutations => {
-                intersectionObserver.unobserve(spacerBefore);
-                intersectionObserver.unobserve(spacerAfter);
-                intersectionObserver.observe(spacerBefore);
-                intersectionObserver.observe(spacerAfter);
+            this.mutationObserver = new MutationObserver(mutations => {
+                this.intersectionObserver.unobserve(this.spacerBefore);
+                this.intersectionObserver.unobserve(this.spacerAfter);
+                this.intersectionObserver.observe(this.spacerBefore);
+                this.intersectionObserver.observe(this.spacerAfter);
             });
-            mutationObserver.observe(spacerBefore, { attributes: true })
+            this.mutationObserver.observe(spacerBefore, { attributes: true })
         }
 
-        //private onIntersectionRectChanged(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
-            
-        //}
+        disconnect(): void {
+            this.mutationObserver.disconnect();
+
+            this.intersectionObserver.unobserve(this.spacerBefore);
+            this.intersectionObserver.unobserve(this.spacerAfter);
+            this.intersectionObserver.disconnect();
+
+        }
 
         getInitialAverageHeight(): number {
             let calculate: boolean = false;
@@ -155,7 +163,11 @@ namespace BlazorFluentUiList {
         }
     }
     
-    export function initialize(component: DotNetReferenceType, scrollElement: HTMLElement, spacerBefore: HTMLElement, spacerAfter: HTMLElement): any {
+    export function initialize(component: DotNetReferenceType, scrollElement: HTMLElement, spacerBefore: HTMLElement, spacerAfter: HTMLElement, reset: boolean=false): any {
+
+        //if (reset) {
+        //    scrollElement.scrollTo(0, 0);
+        //}
 
         let list: BFUList = new BFUList(component, scrollElement, spacerBefore, spacerAfter);
         cachedLists.set(list.id, list);
@@ -169,6 +181,12 @@ namespace BlazorFluentUiList {
             right: scrollElement.scrollWidth
         };
         return visibleRect;
+    }
+
+    export function removeList(id: number) {
+        let list = cachedLists.get(id);
+        list.disconnect();
+        cachedLists.delete(id);
     }
 
     export function getViewport(scrollElement: HTMLElement) :any {

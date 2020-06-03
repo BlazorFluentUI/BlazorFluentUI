@@ -41,6 +41,9 @@ namespace BlazorFluentUI
         public Func<TItem, string> GroupTitleSelector { get; set; }
 
         [Parameter]
+        public bool IsVirtualizing { get; set; } = true;
+
+        [Parameter]
         public Func<TItem, MouseEventArgs, Task> ItemClicked { get; set; }
 
         [Parameter]

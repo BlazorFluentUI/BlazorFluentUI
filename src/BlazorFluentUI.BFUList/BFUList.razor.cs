@@ -41,7 +41,7 @@ namespace BlazorFluentUI
         private int numItemsToSkipBefore;
         private int numItemsToShow;
         private double averageHeight = 43;
-        private int ItemsToSkipAfter => itemContainers.Count() - numItemsToSkipBefore - numItemsToShow;
+        private int ItemsToSkipAfter => _itemsSource.Count() - numItemsToSkipBefore - numItemsToShow;
 
 
         //private int minRenderedPage;
@@ -81,7 +81,7 @@ namespace BlazorFluentUI
         public IEnumerable<TItem> ItemsSource { get; set; }
 
         [Parameter] 
-        public RenderFragment<ItemContainer<TItem>> ItemTemplate { get; set; }
+        public RenderFragment<TItem> ItemTemplate { get; set; }
 
         [Parameter] 
         public EventCallback<(double, object)> OnListScrollerHeightChanged { get; set; }
@@ -102,7 +102,7 @@ namespace BlazorFluentUI
 
         private IEnumerable<TItem> _itemsSource;
 
-        protected List<ItemContainer<TItem>> itemContainers = new List<ItemContainer<TItem>>();
+        //protected List<ItemContainer<TItem>> itemContainers = new List<ItemContainer<TItem>>();
 
 
         private List<TItem> selectedItems = new List<TItem>();
@@ -175,7 +175,7 @@ namespace BlazorFluentUI
             
         //}
 
-        protected RenderFragment<RenderFragment<ItemContainer<TItem>>> ItemContainer { get; set; }
+        protected RenderFragment<RenderFragment<TItem>> ItemContainer { get; set; }
 
         protected override Task OnInitializedAsync()
         {
@@ -195,10 +195,10 @@ namespace BlazorFluentUI
                 }
 
                 _itemsSource = ItemsSource;
-                if (_itemsSource != null)
-                    itemContainers = _itemsSource.Select((x, i) => new ItemContainer<TItem> { Item = x, Index = i }).ToList();
-                else
-                    itemContainers.Clear();
+                //if (_itemsSource != null)
+                //    itemContainers = _itemsSource.Select((x, i) => new ItemContainer<TItem> { Item = x, Index = i }).ToList();
+                //else
+                //    itemContainers.Clear();
 
                 if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
                 {
@@ -218,39 +218,39 @@ namespace BlazorFluentUI
 
         private void ListBase_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            switch (e.Action)
-            {
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-                    {
-                        if (e.NewItems != null)
-                        {
-                            foreach (var item in e.NewItems)
-                            {
-                                itemContainers.Add(new ItemContainer<TItem>() { Item = (TItem)item, Index = itemContainers.Count });
-                            }
-                        }
-                        break;
-                    }
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-                    {
-                        if (e.OldItems != null)
-                        {
-                            foreach (var item in e.OldItems)
-                            {
-                                var found = itemContainers.FirstOrDefault(x => x.Item.Equals((TItem)item));
-                                if (found != null)
-                                    itemContainers.Remove(found);
-                            }
-                        }
-                        break;
-                    }
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-                    {
-                        //itemContainers.Clear();
-                        itemContainers = _itemsSource.Select((x, i) => new ItemContainer<TItem> { Item = x, Index = i }).ToList();
-                        break;
-                    }
-            }
+            //switch (e.Action)
+            //{
+            //    case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+            //        {
+            //            if (e.NewItems != null)
+            //            {
+            //                foreach (var item in e.NewItems)
+            //                {
+            //                    itemContainers.Add(new ItemContainer<TItem>() { Item = (TItem)item, Index = itemContainers.Count });
+            //                }
+            //            }
+            //            break;
+            //        }
+            //    case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+            //        {
+            //            if (e.OldItems != null)
+            //            {
+            //                foreach (var item in e.OldItems)
+            //                {
+            //                    var found = itemContainers.FirstOrDefault(x => x.Item.Equals((TItem)item));
+            //                    if (found != null)
+            //                        itemContainers.Remove(found);
+            //                }
+            //            }
+            //            break;
+            //        }
+            //    case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+            //        {
+            //            //itemContainers.Clear();
+            //            itemContainers = _itemsSource.Select((x, i) => new ItemContainer<TItem> { Item = x, Index = i }).ToList();
+            //            break;
+            //        }
+            //}
             _shouldRender = true;
             InvokeAsync(StateHasChanged);
         }
@@ -311,6 +311,7 @@ namespace BlazorFluentUI
         {            
             if (firstRender)
             {
+                _lastIsVirtualizing = IsVirtualizing;
                 _jsAvailable = true;
                 if (IsVirtualizing)
                 {
@@ -347,7 +348,8 @@ namespace BlazorFluentUI
 
             if (IsVirtualizing)//(!hasMeasuredAverageHeightOnce)
             {
-                var averageHeight = await JSRuntime.InvokeAsync<int>("BlazorFluentUiList.getInitialAverageHeight", this.listId);
+
+                var averageHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiList.getInitialAverageHeight", this.listId);
                 if (averageHeight != 0 && averageHeight != this.averageHeight)
                 {
                     hasMeasuredAverageHeightOnce = true;
@@ -365,7 +367,7 @@ namespace BlazorFluentUI
         {
             // Reset to match values corresponding to this event
             numItemsToSkipBefore = (int)Math.Round(spacerBeforeHeight / averageHeight);
-            numItemsToShow = itemContainers.Count() - numItemsToSkipBefore - (int)Math.Round(spacerAfterHeight / averageHeight);
+            numItemsToShow = _itemsSource.Count() - numItemsToSkipBefore - (int)Math.Round(spacerAfterHeight / averageHeight);
 
             if (spacerType == "before" && numItemsToSkipBefore > 0)
             {

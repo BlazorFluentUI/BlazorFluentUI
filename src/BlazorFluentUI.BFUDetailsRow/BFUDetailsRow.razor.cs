@@ -48,8 +48,8 @@ namespace BlazorFluentUI
         [Parameter]
         public TItem Item { get; set; }
 
-        [Parameter]
-        public int ItemIndex { get; set; }
+        //[Parameter]
+        //public int ItemIndex { get; set; }
 
         [Parameter]
         public double RowWidth { get; set; } = 0;

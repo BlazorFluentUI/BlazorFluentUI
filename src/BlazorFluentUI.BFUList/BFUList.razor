@@ -18,9 +18,9 @@
                  style="height: @(numItemsToSkipBefore * averageHeight)px;"></div>
 
             var index = 0;
-            foreach (var item in itemContainers.Skip(numItemsToSkipBefore).Take(numItemsToShow))
+            foreach (var item in _itemsSource.Skip(numItemsToSkipBefore).Take(numItemsToShow))
             {
-                <div data-index="@(numItemsToSkipBefore + index)" @key="item">
+                <div data-hash="@(item.GetHashCode())" @key="item">
                     @{
                         ItemTemplate(item)(__builder);
                         index++;
@@ -32,9 +32,9 @@
         else
         {
             var index = 0;
-            foreach (var item in itemContainers)
+            foreach (var item in _itemsSource)
             {
-                <div data-index="@(index)" @key="item">
+                <div data-hash="@(item.GetHashCode())" @key="item">
                     @{
                         ItemTemplate(item)(__builder);
                         index++;

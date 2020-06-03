@@ -46,16 +46,16 @@ namespace BlazorFluentUI
         public DetailsListLayoutMode LayoutMode { get; set; }
 
         [Parameter]
-        public EventCallback<ItemContainer<TItem>> OnItemContextMenu { get; set; }
+        public EventCallback<TItem> OnItemContextMenu { get; set; }
 
         [Parameter]
-        public EventCallback<ItemContainer<TItem>> OnItemInvoked { get; set; }
+        public EventCallback<TItem> OnItemInvoked { get; set; }
 
         [Parameter]
         public EventCallback<ColumnResizedArgs<TItem>> OnColumnResized { get; set; }
 
         [Parameter]
-        public RenderFragment<ItemContainer<TItem>> RowTemplate { get; set; }
+        public RenderFragment<TItem> RowTemplate { get; set; }
 
         [Parameter]
         public Selection<TItem> Selection { get; set; }

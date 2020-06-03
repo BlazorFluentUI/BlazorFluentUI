@@ -7,14 +7,15 @@
     <BFUList TItem="GroupedListItem<TItem>"
           @ref="listReference"
           ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
+          IsVirtualizing=@IsVirtualizing
           ItemsSource=@dataItems
           OnViewportChanged=@OnViewportChanged
           >
         <ItemTemplate>
 
-            @if (context.Item is HeaderItem<TItem>)
+            @if (context is HeaderItem<TItem>)
             {
-                var header = (HeaderItem<TItem>)context.Item;
+                var header = (HeaderItem<TItem>)context;
                 <BFUGroupHeader @bind-IsOpen=@header.IsOpen 
                              CurrentlySelected=@(Selection != null ? Selection.SelectedItems.Contains(header.Item) : false)
                              Count=@header.RecursiveCount
@@ -28,7 +29,7 @@
             }
             else
             {
-                @ItemTemplate(context.Item)
+                @ItemTemplate(context)
             }
         </ItemTemplate>
     </BFUList>

@@ -22,10 +22,10 @@ namespace BlazorFluentUI
         public bool IsSelectedOnFocus { get; set; } = true;
 
         [Parameter]
-        public EventCallback<ItemContainer<TItem>> OnItemContextMenu { get; set; }
+        public EventCallback<TItem> OnItemContextMenu { get; set; }
 
         [Parameter]
-        public EventCallback<ItemContainer<TItem>> OnItemInvoked { get; set; }
+        public EventCallback<TItem> OnItemInvoked { get; set; }
 
         [Parameter]
         public Selection<TItem> Selection { get; set; }
@@ -151,7 +151,7 @@ namespace BlazorFluentUI
         }
 
         // For end-users to let SelectionMode handle what to do.
-        public void HandleClick(TItem item, int index)
+        public void HandleClick(TItem item)
         {
             bool hasChanged = false;
             if (SelectionMode == SelectionMode.Multiple)
@@ -177,7 +177,7 @@ namespace BlazorFluentUI
         }
 
         // For end-users to let SelectionMode handle what to do.
-        public void HandleToggle(TItem item, int index)
+        public void HandleToggle(TItem item)
         {
             bool hasChanged = false;
             switch (SelectionMode)

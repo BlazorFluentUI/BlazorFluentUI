@@ -68,6 +68,9 @@ namespace BlazorFluentUI
         //[Parameter] 
         //public EventCallback<ItemContainer<TItem>> ItemClicked { get; set; }
 
+        [Parameter]
+        public bool IsVirtualizing { get; set; } = true;
+
         [Parameter] 
         public bool ItemFocusable { get; set; } = false;
 
@@ -303,16 +306,24 @@ namespace BlazorFluentUI
         {
             if (firstRender)
             {
-                var objectRef = DotNetObjectReference.Create(this);
-                var initResult = await JSRuntime.InvokeAsync<DOMRect>("BlazorFluentUiList.initialize", objectRef, surfaceDiv, spacerBefore, spacerAfter);
-                this.listId = (int)initResult.Left;
-                await UpdateViewportAsync(initResult.Right, initResult.Width, initResult.Bottom, initResult.Height);
+                if (IsVirtualizing)
+                {
+                    var objectRef = DotNetObjectReference.Create(this);
+                    var initResult = await JSRuntime.InvokeAsync<DOMRect>("BlazorFluentUiList.initialize", objectRef, surfaceDiv, spacerBefore, spacerAfter);
+                    this.listId = (int)initResult.Left;
+                    await UpdateViewportAsync(initResult.Right, initResult.Width, initResult.Bottom, initResult.Height);
+                }
+                else
+                {
+                     var viewportMeasurement = await JSRuntime.InvokeAsync<DOMRect>("BlazorFluentUiList.getViewport", surfaceDiv);
+                    await UpdateViewportAsync(viewportMeasurement.Right, viewportMeasurement.Width, viewportMeasurement.Bottom, viewportMeasurement.Height);
+                }
             }
 
-            if (!hasMeasuredAverageHeightOnce)
+            if (IsVirtualizing)//(!hasMeasuredAverageHeightOnce)
             {
                 var averageHeight = await JSRuntime.InvokeAsync<int>("BlazorFluentUiList.getInitialAverageHeight", this.listId);
-                if (averageHeight != 0)
+                if (averageHeight != 0 && averageHeight != this.averageHeight)
                 {
                     hasMeasuredAverageHeightOnce = true;
                     this.averageHeight = averageHeight;

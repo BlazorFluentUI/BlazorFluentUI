@@ -37,6 +37,9 @@ namespace BlazorFluentUI
         public bool IsHeaderVisible { get; set; } = true;
 
         [Parameter]
+        public bool IsVirtualizing { get; set; } = true;
+
+        [Parameter]
         public IEnumerable<TItem> ItemsSource { get; set; }
 
         [Parameter]

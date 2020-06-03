@@ -13,10 +13,12 @@
                    @bind-Value:event="OnInput"/>
 
         <BFUDetailsList ItemsSource="ReadonlyList"
+                        IsVirtualizing="false"
                      Columns="ReadonlyColumns"
                      LayoutMode="DetailsListLayoutMode.Justified"
                      @bind-Selection="selection"
-                     SelectionMode="SelectionMode.Multiple">
+                     SelectionMode="SelectionMode.Multiple"
+                        >
 
         </BFUDetailsList>
     </BFUStack>

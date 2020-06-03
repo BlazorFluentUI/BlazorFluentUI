@@ -118,6 +118,18 @@ var BlazorFluentUiList;
         return visibleRect;
     }
     BlazorFluentUiList.initialize = initialize;
+    function getViewport(scrollElement) {
+        const visibleRect = {
+            top: 0,
+            left: 0,
+            width: scrollElement.clientWidth,
+            height: scrollElement.clientHeight,
+            bottom: scrollElement.scrollHeight,
+            right: scrollElement.scrollWidth
+        };
+        return visibleRect;
+    }
+    BlazorFluentUiList.getViewport = getViewport;
     function readClientRectWithoutTransform(elem) {
         const rect = elem.getBoundingClientRect();
         const translateY = parseFloat(elem.getAttribute('data-translateY'));

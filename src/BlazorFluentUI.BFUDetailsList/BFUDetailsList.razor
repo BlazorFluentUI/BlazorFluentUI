@@ -54,6 +54,7 @@
                         @if (SubGroupSelector == null)
                         {
                             <BFUList ItemsSource=@ItemsSource
+                                     IsVirtualizing=@IsVirtualizing
                                   OnViewportChanged=@ViewportChangedHandler>
                                 <ItemTemplate>
                                     @if (RowTemplate != null)

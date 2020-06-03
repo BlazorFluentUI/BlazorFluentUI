@@ -171,7 +171,17 @@ namespace BlazorFluentUiList {
         return visibleRect;
     }
 
-
+    export function getViewport(scrollElement: HTMLElement) :any {
+        const visibleRect = {
+            top: 0,
+            left: 0,
+            width: scrollElement.clientWidth,
+            height: scrollElement.clientHeight,
+            bottom: scrollElement.scrollHeight,
+            right: scrollElement.scrollWidth
+        };
+        return visibleRect;
+    }
 
     function readClientRectWithoutTransform(elem): DOMRect {
         const rect = elem.getBoundingClientRect();

@@ -9,12 +9,14 @@
         style=@($"{Style}overflow-y:hidden;height:100%;")>
     <div @ref="surfaceDiv" class="ms-List-surface" role="presentation" style="overflow-y:auto;height:100%;">
 
-        <div @key="@("spacerBefore")"
-             @ref="spacerBefore"
-             data-rendercount="@(++renderCount)"
-             class="spacer"
-             style="height: @(numItemsToSkipBefore * averageHeight)px;"></div>
-        @{
+        @if (IsVirtualizing)
+        {
+            <div @key="@("spacerBefore")"
+                 @ref="spacerBefore"
+                 data-rendercount="@(++renderCount)"
+                 class="spacer"
+                 style="height: @(numItemsToSkipBefore * averageHeight)px;"></div>
+
             var index = 0;
             foreach (var item in itemContainers.Skip(numItemsToSkipBefore).Take(numItemsToShow))
             {
@@ -25,7 +27,21 @@
                     }
                 </div>
             }
+
+            <div @key="@("spacerAfter")" @ref="spacerAfter" class="spacer" style="height: @(ItemsToSkipAfter * averageHeight)px;"></div>
         }
-        <div @key="@("spacerAfter")" @ref="spacerAfter" class="spacer" style="height: @(ItemsToSkipAfter * averageHeight)px;"></div>
+        else
+        {
+            var index = 0;
+            foreach (var item in itemContainers)
+            {
+                <div data-index="@(index)" @key="item">
+                    @{
+                        ItemTemplate(item)(__builder);
+                        index++;
+                    }
+                </div>
+            }
+        }
     </div>
 </div >

@@ -44,7 +44,7 @@ namespace BlazorFluentUI
 
         private HashSet<TItem> selectedItems = new HashSet<TItem>();
 
-        private BehaviorSubject<ICollection<TItem>> selectedItemsSubject = new BehaviorSubject<ICollection<TItem>>(new HashSet<TItem>());
+        private BehaviorSubject<ICollection<TItem>> selectedItemsSubject;
         
         public IObservable<ICollection<TItem>> SelectedItemsObservable { get; private set; }
 
@@ -64,7 +64,8 @@ namespace BlazorFluentUI
 
         protected override void OnInitialized()
         {
-            SelectedItemsObservable = selectedItemsSubject.Do(x => doNotRenderOnce = true).AsObservable();
+            selectedItemsSubject = new BehaviorSubject<ICollection<TItem>>(selectedItems);
+            SelectedItemsObservable = selectedItemsSubject.AsObservable();
             base.OnInitialized();
         }
 
@@ -73,20 +74,20 @@ namespace BlazorFluentUI
             if (Selection != null && Selection.SelectedItems != selectedItems)
             {
                 selectedItems = new System.Collections.Generic.HashSet<TItem>(Selection.SelectedItems);
-                selectedItemsSubject.OnNext(selectedItems);
+                //selectedItemsSubject.OnNext(selectedItems);
                 //StateHasChanged();
             }
 
             if (SelectionMode == SelectionMode.Single && selectedItems.Count() > 1)
             {
                 selectedItems.Clear();
-                selectedItemsSubject.OnNext(selectedItems);
+                //selectedItemsSubject.OnNext(selectedItems);
                 await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
             }
             else if (SelectionMode == SelectionMode.None && selectedItems.Count() > 0)
             {
                 selectedItems.Clear();
-                selectedItemsSubject.OnNext(selectedItems);
+                //selectedItemsSubject.OnNext(selectedItems);
                 await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
             }
             await base.OnParametersSetAsync();

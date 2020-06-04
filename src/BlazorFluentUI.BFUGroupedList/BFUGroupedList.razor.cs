@@ -223,50 +223,53 @@ namespace BlazorFluentUI
                 }
             }
 
-            if (SelectionMode == SelectionMode.Single && Selection.SelectedItems.Count() > 1)
+            if (Selection != null)
             {
-                SelectionZone.ClearSelection();
-            }
-            else if (SelectionMode == SelectionMode.None && Selection.SelectedItems.Count() > 0)
-            {
-                Selection.ClearSelection();
-            }
-            else
-            {
-                bool hasChanged = false;
-                //make a copy of list
-                var selected = Selection.SelectedItems.ToList();
-            //check to see if a header needs to be turned OFF because all of its children are *not* selected.
-            restart:
-                var headers = selected.Where(x => SubGroupSelector(x) != null && SubGroupSelector(x).Count() > 0).ToList();
-                foreach (var header in headers)
+                if (SelectionMode == SelectionMode.Single && Selection.SelectedItems.Count() > 1)
                 {
-                    if (SubGroupSelector(header).Except(selected).Count() > 0)
-                    {
-                        hasChanged = true;
-                        selected.Remove(header);
-                        //start loop over again, simplest way to start over is a goto statement.  This is needed when a header turns off, but it's parent header needs to turn off, too.
-                        goto restart;
-                    }
+                    SelectionZone.ClearSelection();
                 }
-
-                //check to see if a header needs to be turned ON because all of its children *are* selected.
-                var potentialHeaders = dataItems.Where(x => selected.Contains(x.Item)).Select(x => x.Parent).Where(x => x != null).Distinct().ToList();
-                foreach (var header in potentialHeaders)
+                else if (SelectionMode == SelectionMode.None && Selection.SelectedItems.Count() > 0)
                 {
-                    if (header.Children.Select(x => x.Item).Except(selected).Count() == 0)
+                    Selection.ClearSelection();
+                }
+                else
+                {
+                    bool hasChanged = false;
+                    //make a copy of list
+                    var selected = Selection.SelectedItems.ToList();
+                //check to see if a header needs to be turned OFF because all of its children are *not* selected.
+                restart:
+                    var headers = selected.Where(x => SubGroupSelector(x) != null && SubGroupSelector(x).Count() > 0).ToList();
+                    foreach (var header in headers)
                     {
-                        if (!selected.Contains(header.Item))
+                        if (SubGroupSelector(header).Except(selected).Count() > 0)
                         {
-                            selected.Add(header.Item);
                             hasChanged = true;
+                            selected.Remove(header);
+                            //start loop over again, simplest way to start over is a goto statement.  This is needed when a header turns off, but it's parent header needs to turn off, too.
+                            goto restart;
                         }
                     }
-                }
 
-                if (hasChanged)
-                {
-                    SelectionZone.AddAndRemoveItems(selected.Except(Selection.SelectedItems).ToList(), Selection.SelectedItems.Except(selected).ToList());
+                    //check to see if a header needs to be turned ON because all of its children *are* selected.
+                    var potentialHeaders = dataItems.Where(x => selected.Contains(x.Item)).Select(x => x.Parent).Where(x => x != null).Distinct().ToList();
+                    foreach (var header in potentialHeaders)
+                    {
+                        if (header.Children.Select(x => x.Item).Except(selected).Count() == 0)
+                        {
+                            if (!selected.Contains(header.Item))
+                            {
+                                selected.Add(header.Item);
+                                hasChanged = true;
+                            }
+                        }
+                    }
+
+                    if (hasChanged)
+                    {
+                        SelectionZone.AddAndRemoveItems(selected.Except(Selection.SelectedItems).ToList(), Selection.SelectedItems.Except(selected).ToList());
+                    }
                 }
             }
 

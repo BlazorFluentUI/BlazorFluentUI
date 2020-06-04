@@ -64,9 +64,9 @@ namespace BlazorFluentUI
         [Parameter]
         public EventCallback<Viewport> OnViewportChanged { get; set; }
 
-        [Parameter] 
+        [Parameter]
         public Selection<TItem> Selection { get; set; }
-        
+
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
@@ -82,37 +82,43 @@ namespace BlazorFluentUI
 
         private void OnHeaderClicked(HeaderItem<TItem> headerItem)
         {
-            // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
-            //does selection contain this item already?
-            if (Selection.SelectedItems.Contains(headerItem.Item))
+            if (Selection != null)
             {
-                //deselect it and all children
-                var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-                SelectionZone.RemoveItems(items);
-            }
-            else
-            {
-                //select it and all children
-                var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item); 
-                SelectionZone.AddItems(items);
+                // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
+                //does selection contain this item already?
+                if (Selection.SelectedItems.Contains(headerItem.Item))
+                {
+                    //deselect it and all children
+                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+                    SelectionZone.RemoveItems(items);
+                }
+                else
+                {
+                    //select it and all children
+                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+                    SelectionZone.AddItems(items);
+                }
             }
         }
 
         private void OnHeaderToggled(HeaderItem<TItem> headerItem)
         {
-            // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
-            //does selection contain this item already?
-            if (Selection.SelectedItems.Contains(headerItem.Item))
+            if (Selection != null)
             {
-                //deselect it and all children
-                var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-                SelectionZone.RemoveItems(items);
-            }
-            else
-            {
-                //select it and all children
-                var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-                SelectionZone.AddItems(items);
+                // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
+                //does selection contain this item already?
+                if (Selection.SelectedItems.Contains(headerItem.Item))
+                {
+                    //deselect it and all children
+                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+                    SelectionZone.RemoveItems(items);
+                }
+                else
+                {
+                    //select it and all children
+                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+                    SelectionZone.AddItems(items);
+                }
             }
         }
 
@@ -219,19 +225,19 @@ namespace BlazorFluentUI
 
             if (SelectionMode == SelectionMode.Single && Selection.SelectedItems.Count() > 1)
             {
-                SelectionZone.ClearSelection(); 
+                SelectionZone.ClearSelection();
             }
             else if (SelectionMode == SelectionMode.None && Selection.SelectedItems.Count() > 0)
             {
-                Selection.ClearSelection(); 
+                Selection.ClearSelection();
             }
             else
             {
                 bool hasChanged = false;
                 //make a copy of list
                 var selected = Selection.SelectedItems.ToList();
-                //check to see if a header needs to be turned OFF because all of its children are *not* selected.
-                restart:
+            //check to see if a header needs to be turned OFF because all of its children are *not* selected.
+            restart:
                 var headers = selected.Where(x => SubGroupSelector(x) != null && SubGroupSelector(x).Count() > 0).ToList();
                 foreach (var header in headers)
                 {
@@ -245,7 +251,7 @@ namespace BlazorFluentUI
                 }
 
                 //check to see if a header needs to be turned ON because all of its children *are* selected.
-                var potentialHeaders = dataItems.Where(x=> selected.Contains(x.Item)).Select(x=>x.Parent).Where(x=>x!= null).Distinct().ToList();
+                var potentialHeaders = dataItems.Where(x => selected.Contains(x.Item)).Select(x => x.Parent).Where(x => x != null).Distinct().ToList();
                 foreach (var header in potentialHeaders)
                 {
                     if (header.Children.Select(x => x.Item).Except(selected).Count() == 0)

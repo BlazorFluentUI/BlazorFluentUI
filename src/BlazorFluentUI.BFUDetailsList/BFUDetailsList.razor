@@ -66,7 +66,7 @@
                                         <BFUDetailsRow Item=@context
                                                     Columns=@_adjustedColumns
                                                     SelectionMode=@SelectionMode
-                                                    Selection=@Selection
+                                                    
                                                     Compact=@Compact
                                                     CheckboxVisibility=@CheckboxVisibility />
                                     }
@@ -80,14 +80,13 @@
                                          OnViewportChanged=@ViewportChangedHandler
                                          SubGroupSelector=@SubGroupSelector
                                          GroupTitleSelector=@GroupTitleSelector
-                                            IsVirtualizing=@IsVirtualizing
-                                         Selection=@Selection
+                                         IsVirtualizing=@IsVirtualizing
                                          SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                                 <ItemTemplate>
                                     <BFUDetailsRow Item=@context.Item
                                                 Columns=@_adjustedColumns
                                                 SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
-                                                Selection=@Selection
+                                                
                                                 CheckboxVisibility=@CheckboxVisibility
                                                 Compact=@Compact />
                                 </ItemTemplate>

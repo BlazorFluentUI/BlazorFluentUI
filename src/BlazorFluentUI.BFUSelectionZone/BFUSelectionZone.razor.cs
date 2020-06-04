@@ -42,30 +42,37 @@ namespace BlazorFluentUI
         public bool SelectionPreservedOnEmptyClick { get; set; }
 
 
-        private List<TItem> selectedItems = new List<TItem>();
+        private HashSet<TItem> selectedItems = new HashSet<TItem>();
 
-        private BehaviorSubject<List<TItem>> selectedItemsSubject = new BehaviorSubject<List<TItem>>(new List<TItem>());
-        public IObservable<List<TItem>> SelectedItemsObservable => selectedItemsSubject.AsObservable();
+        private BehaviorSubject<ICollection<TItem>> selectedItemsSubject = new BehaviorSubject<ICollection<TItem>>(new HashSet<TItem>());
+        
+        public IObservable<ICollection<TItem>> SelectedItemsObservable { get; private set; }
 
         private bool doNotRenderOnce = false;
 
         protected override bool ShouldRender()
         {
-            //if (doNotRenderOnce)
-            //{
-            //    doNotRenderOnce = false;
-            //    return false;
-            //}
-            
+            if (doNotRenderOnce)
+            {
+                doNotRenderOnce = false;
+                return false;
+            }
+
             return true;
             //return base.ShouldRender();
+        }
+
+        protected override void OnInitialized()
+        {
+            SelectedItemsObservable = selectedItemsSubject.Do(x => doNotRenderOnce = true).AsObservable();
+            base.OnInitialized();
         }
 
         protected override async Task OnParametersSetAsync()
         {
             if (Selection != null && Selection.SelectedItems != selectedItems)
             {
-                selectedItems = new System.Collections.Generic.List<TItem>(Selection.SelectedItems);
+                selectedItems = new System.Collections.Generic.HashSet<TItem>(Selection.SelectedItems);
                 selectedItemsSubject.OnNext(selectedItems);
                 //StateHasChanged();
             }

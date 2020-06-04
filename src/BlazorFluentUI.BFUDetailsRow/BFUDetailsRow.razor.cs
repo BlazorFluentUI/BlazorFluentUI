@@ -55,8 +55,9 @@ namespace BlazorFluentUI
         [Parameter]
         public double RowWidth { get; set; } = 0;
 
-        [Parameter]
-        public Selection<TItem> Selection { get; set; }
+        //[Parameter]
+        //public Selection<TItem> Selection { get; set; }
+        //public bool IsSelected { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; }
@@ -92,13 +93,15 @@ namespace BlazorFluentUI
         {
             showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
 
-            canSelect = Selection != null;
+            canSelect = SelectionMode != SelectionMode.None;//Selection != null;
 
-            if (Selection != null)
-            {
-                //isSelected = Selection.SelectedItems.Contains(this.Item);
-                
-            }
+
+
+            //if (Selection != null)
+            //{
+            //    isSelected = Selection.SelectedItems.Contains(this.Item);
+
+            //}
 
             if (SelectionZone != null)
             {

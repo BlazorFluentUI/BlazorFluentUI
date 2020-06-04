@@ -93,10 +93,20 @@ namespace BlazorFluentUI
             groupedList?.ForceUpdate();
         }
 
+        protected bool GetSelectedStatus(TItem item)
+        {
+            if (Selection != null)
+            {
+                return Selection.SelectedItems.Contains(item);
+            }
+            else
+                return false;
+        }
+
         public override Task SetParametersAsync(ParameterView parameters)
         {
             bool shouldForceUpdates = false;
-            
+           
             var newLayoutMode = parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode");
             if (LayoutMode != newLayoutMode)
                 shouldForceUpdates = true;
@@ -123,12 +133,6 @@ namespace BlazorFluentUI
             return base.SetParametersAsync(parameters);
         }
 
-
-        protected override Task OnParametersSetAsync()
-        {
-
-            return base.OnParametersSetAsync();
-        }
 
         protected override Task OnAfterRenderAsync(bool firstRender)
         {

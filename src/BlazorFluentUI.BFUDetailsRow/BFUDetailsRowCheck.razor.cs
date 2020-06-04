@@ -36,7 +36,7 @@ namespace BlazorFluentUI
         public bool IsVisible { get; set; }
 
         [Parameter]
-        public bool Selected { get; set; }
+        public bool IsSelected { get; set; }
 
         [Parameter]
         public bool UseFastIcons { get; set; } = true;

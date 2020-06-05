@@ -18,7 +18,7 @@
                                 TItem="GroupedDataItem"
                                 GroupTitleSelector=@(x=>x.DisplayName)
                                 SubGroupSelector=@(x=>x.Data)
-                                Selection=@selection
+                                
                                 SelectionMode=@SelectionMode.Multiple>
                     <ItemTemplate>
                         <BFUDetailsRow Item=@context.Item
@@ -38,8 +38,8 @@
     bool isVirtualizing = false;
     int count = 0;
     //GroupedDataItem rootGroup;
-    List<DataItem> data;
-    List<GroupedDataItem> groupedData;
+    HashSet<DataItem> data;
+    HashSet<GroupedDataItem> groupedData;
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
     List<BFUDetailsRowColumn<GroupedDataItem>> columns;
@@ -51,7 +51,7 @@
         columns.Add(new BFUDetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.DisplayName, Name = "Name" });
         columns.Add(new BFUDetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Description, Name = "Description" });
 
-        data = new List<DataItem>();
+        data = new HashSet<DataItem>();
 
         for (var i = 0; i < 100; i++)
         {
@@ -79,7 +79,7 @@
             }).ToList();
 
             return subGroup;
-        }).ToList();
+        }).ToHashSet();
 
         //groupedData.Add(new GroupedDataItem(new DataItem("TEST!") ) );
         //rootGroup = new GroupedDataItem(new DataItem("root"));

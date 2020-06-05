@@ -17,12 +17,12 @@
             {
                 var header = (HeaderItem<TItem>)context;
                 <BFUGroupHeader @bind-IsOpen=@header.IsOpen 
-                             CurrentlySelected=@(Selection != null ? Selection.SelectedItems.Contains(header.Item) : false)
+                             
                              Count=@header.RecursiveCount
                              GroupLevel=@header.Depth
                              Name=@header.Name 
                              Compact=@Compact 
-                             IsSelectionCheckVisible=@(Selection != null)
+                             IsSelectionCheckVisible=@(SelectionZone != null)
                              OnClick=@(()=>OnHeaderClicked(header))
                              OnToggle=@(()=>OnHeaderToggled(header))
                              />

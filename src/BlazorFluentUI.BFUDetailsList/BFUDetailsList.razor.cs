@@ -88,20 +88,22 @@ namespace BlazorFluentUI
         BFUList<TItem> list;
         BFUSelectionZone<TItem> selectionZone;
 
+        protected bool isAllSelected;
+
         public void ForceUpdate()
         {
             groupedList?.ForceUpdate();
         }
 
-        protected bool GetSelectedStatus(TItem item)
-        {
-            if (Selection != null)
-            {
-                return Selection.SelectedItems.Contains(item);
-            }
-            else
-                return false;
-        }
+        //protected bool GetSelectedStatus(TItem item)
+        //{
+        //    if (Selection != null)
+        //    {
+        //        return Selection.SelectedItems.Contains(item);
+        //    }
+        //    else
+        //        return false;
+        //}
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
@@ -153,7 +155,7 @@ namespace BlazorFluentUI
         {
             if (SubGroupSelector == null)
             {
-                if (Selection.SelectedItems.Count() == this.ItemsSource.Count())
+                if (Selection.SelectedItems.Count() == this.ItemsSource.Count() && this.ItemsSource.Count() > 0)
                     return true;
                 else
                     return false;
@@ -162,7 +164,7 @@ namespace BlazorFluentUI
             {
                 //source is grouped... need to recursively select them all.
                 var flattenedItems = this.ItemsSource?.SelectManyRecursive(x => SubGroupSelector(x));
-                if (flattenedItems.Count() == Selection.SelectedItems.Count())
+                if (flattenedItems.Count() == Selection.SelectedItems.Count() && flattenedItems.Count() > 0)
                     return true;
                 else
                     return false;

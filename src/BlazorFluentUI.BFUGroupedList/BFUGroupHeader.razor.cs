@@ -54,8 +54,14 @@ namespace BlazorFluentUI
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
+        [CascadingParameter]
+        private BFUSelectionZone<object> SelectionZone { get; set; }
+
+        protected bool isSelected { get; set; }
+
          protected override Task OnInitializedAsync()
         {
+
             return base.OnInitializedAsync();
         }
 

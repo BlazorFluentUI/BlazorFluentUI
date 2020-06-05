@@ -16,8 +16,8 @@
             @if (context is HeaderItem<TItem>)
             {
                 var header = (HeaderItem<TItem>)context;
-                <BFUGroupHeader @bind-IsOpen=@header.IsOpen 
-                             
+                <BFUGroupHeader IsOpen=@header.IsOpen 
+                             OnOpenChanged=@((isOpen)=>header.IsOpen = isOpen)
                              Count=@header.RecursiveCount
                              GroupLevel=@header.Depth
                              Name=@header.Name 

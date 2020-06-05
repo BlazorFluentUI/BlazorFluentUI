@@ -60,7 +60,7 @@
         public ObservableDataContainer()
         {
             DynamicDescriptionFilter = this.WhenValueChanged(@this => @this.Filter)
-                .Throttle(TimeSpan.FromMilliseconds(250))
+                //.Throttle(TimeSpan.FromMilliseconds(250))  //this freezes the ui in wasm since there are no threads
                 .Select<string, Func<DataItem, bool>>(f => item => item.Description.Contains(f));
 
             DynamicSortExpression = this.WhenValueChanged(@this => @this.SortSelector).CombineLatest(this.WhenValueChanged(@this => @this.Descending), (selector, isDescending) =>

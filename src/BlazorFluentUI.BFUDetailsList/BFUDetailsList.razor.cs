@@ -89,38 +89,74 @@ namespace BlazorFluentUI
         BFUSelectionZone<TItem> selectionZone;
 
         protected bool isAllSelected;
+        private bool shouldRender = true;
+
+        private IReadOnlyDictionary<string, object> lastParameters = null;
 
         public void ForceUpdate()
         {
             groupedList?.ForceUpdate();
         }
 
-        //protected bool GetSelectedStatus(TItem item)
-        //{
-        //    if (Selection != null)
-        //    {
-        //        return Selection.SelectedItems.Contains(item);
-        //    }
-        //    else
-        //        return false;
-        //}
+        protected override bool ShouldRender()
+        {
+            if (!shouldRender)
+            {
+                shouldRender = true;
+                return false;
+            }
+            return true;
+            //return base.ShouldRender();
+        }
 
         public override Task SetParametersAsync(ParameterView parameters)
-        {
-            bool shouldForceUpdates = false;
-           
-            var newLayoutMode = parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode");
-            if (LayoutMode != newLayoutMode)
-                shouldForceUpdates = true;
-
-            if (parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility") != CheckboxVisibility
-                || parameters.GetValueOrDefault<IEnumerable<BFUDetailsRowColumn<TItem>>>("Columns") != Columns
-                || parameters.GetValueOrDefault<bool>("Compact") != Compact)
+        {            
+            shouldRender = false;
+            
+            var dictParameters = parameters.ToDictionary();
+            if (lastParameters == null)
             {
-                shouldForceUpdates = true;
+                shouldRender = true;
             }
+            else
+            {
+                var differences = dictParameters.Where(entry =>
+                {
+                    //if (entry.Value is Enum)
+                    //{
+                    //    return (int)lastParameters[entry.Key] != (int)entry.Value;
+                    //}
+                    //else
+                    //{
+                        return !lastParameters[entry.Key].Equals(entry.Value);
+                    //}
+                }
+                ).ToDictionary(entry => entry.Key, entry => entry.Value);
 
-            if (_viewport != null)
+                if (differences.Count> 0)
+                {
+                    shouldRender = true;
+                }
+            }
+            lastParameters = dictParameters;
+            //if (ItemsSource != parameters.GetValueOrDefault<IEnumerable<TItem>>("ItemsSource"))
+            //    shouldRender = true;
+           
+            //var newLayoutMode = parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode");
+            //if (LayoutMode != newLayoutMode)
+            //    shouldRender = true;
+
+            //if (parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility") != CheckboxVisibility
+            //    || parameters.GetValueOrDefault<IEnumerable<BFUDetailsRowColumn<TItem>>>("Columns") != Columns
+            //    || parameters.GetValueOrDefault<bool>("Compact") != Compact
+            //    || parameters.GetValueOrDefault<SelectionMode>("SelectionMode") != SelectionMode
+            //    || parameters.GetValueOrDefault<SelectionMode>("SelectionMode") != SelectionMode
+            //    )
+            //{
+            //    shouldRender = true;
+            //}
+
+            if (_viewport != null && _viewport != _lastViewport)
             {
                 AdjustColumns(
                     parameters.GetValueOrDefault<IEnumerable<TItem>>("ItemsSource"),

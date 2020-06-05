@@ -31,7 +31,7 @@ namespace BlazorFluentUI
         public bool IsOpen { get; set; }
 
         [Parameter]
-        public EventCallback<bool> IsOpenChanged { get; set; }
+        public Action<bool> OnOpenChanged { get; set; }
 
         [Parameter]
         public Func<object,bool> IsGroupLoading { get; set; }
@@ -46,10 +46,10 @@ namespace BlazorFluentUI
         public string Name { get; set; }
 
         [Parameter]
-        public EventCallback OnClick { get; set; }
+        public Action OnClick { get; set; }
 
         [Parameter]
-        public EventCallback OnToggle { get; set; }
+        public Action OnToggle { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
@@ -73,7 +73,7 @@ namespace BlazorFluentUI
 
         public void OnToggleOpen(MouseEventArgs mouseEventArgs)
         {
-            IsOpenChanged.InvokeAsync(!IsOpen);
+            OnOpenChanged(!IsOpen);
             //isLoadingVisible = !isCollapsed && IsGroupLoading != null; // && IsGroupLoading(group);
             
         }

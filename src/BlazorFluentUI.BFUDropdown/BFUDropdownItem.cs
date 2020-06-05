@@ -3,19 +3,19 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.BFUDropdownInternal
 {
-    public class BFUDropdownItem<TItem>: BFUComponentBase
+    public class BFUDropdownItem: BFUComponentBase
     {
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool Hidden { get; set; }
         [Parameter] public SelectableOptionMenuItemType ItemType { get; set; } = SelectableOptionMenuItemType.Normal;
-        [Parameter] public string ItemKey { get; set; }
+        [Parameter] public string Key { get; set; }
         //[Parameter] protected string Selected { get; set; }
         [Parameter] public string Text { get; set; }
-        [Parameter] public string Title { get; set; }
+        
 
-        [CascadingParameter] protected BFUDropdown<TItem> Dropdown { get; set; }
+        [CascadingParameter] protected BFUDropdown Dropdown { get; set; }
 
         private bool isSelected = false;
 
@@ -23,9 +23,9 @@ namespace BlazorFluentUI
         {
             if (this.Dropdown!= null && (this.Dropdown.SelectedKeys.Count > 0 || this.Dropdown.SelectedKey != null))
             {
-                if (this.Dropdown.SelectedKeys.Contains(this.ItemKey))
+                if (this.Dropdown.SelectedKeys.Contains(this.Key))
                     isSelected = true;
-                else if (this.Dropdown.SelectedKey == this.ItemKey)
+                else if (this.Dropdown.SelectedKey == this.Key)
                     isSelected = true;
                 else
                     isSelected = false;
@@ -68,7 +68,7 @@ namespace BlazorFluentUI
                 builder.AddAttribute(i + 3, "ClassName", $"ms-Dropdown-item {(Disabled ? "is-disabled" : "")} {(Hidden ? "is-hidden" : "")}  {(isSelected ? "selected" : "")}");
                 builder.AddAttribute(i + 4, "Label", this.Text);
                 builder.AddAttribute(i + 5, "Checked", isSelected);
-                builder.AddAttribute(i + 6, "CheckedChanged", EventCallback.Factory.Create<bool>(this, __value => { if (isSelected) { this.Dropdown.RemoveSelection(this.ItemKey); } else { this.Dropdown.AddSelection(this.ItemKey); } }));
+                builder.AddAttribute(i + 6, "CheckedChanged", EventCallback.Factory.Create<bool>(this, __value => { if (isSelected) { this.Dropdown.RemoveSelection(this.Key); } else { this.Dropdown.AddSelection(this.Key); } }));
                 builder.CloseComponent();
             }
             else
@@ -77,7 +77,7 @@ namespace BlazorFluentUI
                 //builder.AddAttribute(i + 1, "Key", this.Key);
                 builder.AddAttribute(i + 2, "Disabled", Disabled);
                 builder.AddAttribute(i + 3, "ClassName", $"ms-Dropdown-item {(Disabled ? "is-disabled" : "")} {(Hidden ? "is-hidden" : "")}  {(isSelected ? "selected" : "")}");
-                builder.AddAttribute(i + 4, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, __value => { this.Dropdown.ResetSelection(); this.Dropdown.AddSelection(this.ItemKey); }));
+                builder.AddAttribute(i + 4, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, __value => { this.Dropdown.ResetSelection(); this.Dropdown.AddSelection(this.Key); }));
                 builder.AddAttribute(i + 5, "ChildContent", (RenderFragment)((builder2) =>
                 {
                     builder2.OpenElement(i + 6, "span");

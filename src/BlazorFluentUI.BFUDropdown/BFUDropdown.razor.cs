@@ -15,8 +15,8 @@ namespace BlazorFluentUI
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public int DropdownWidth { get; set; } = 0;
         [Parameter] public string ErrorMessage { get; set; }
-        [Parameter] public IEnumerable<IDropdownOption> ItemsSource { get; set; }
-        [Parameter] public RenderFragment<IDropdownOption> ItemTemplate { get; set; }
+        [Parameter] public IEnumerable<IBFUDropdownOption> ItemsSource { get; set; }
+        [Parameter] public RenderFragment<IBFUDropdownOption> ItemTemplate { get; set; }
         [Parameter] public string Label { get; set; }
         [Parameter] public bool MultiSelect { get; set; }
         [Parameter] public EventCallback<BFUDropdownChangeArgs> OnChange { get; set; } 

@@ -21,7 +21,7 @@
             <BFUTextField Label="Sample TextField" />
         </p>
         <p>
-            <BFUDropdown ItemsSource=@items.Select(x=>new DropdownOption { Key=x.DisplayName, Text=x.DisplayName}) 
+            <BFUDropdown ItemsSource=@items.Select(x=>new BFUDropdownOption { Key=x.DisplayName, Text=x.DisplayName}) 
                          Placeholder="Select an option" 
                          OnChange=@UncontrolledSingleChangeHandler />
         </p>
@@ -44,7 +44,7 @@
             <BFUTextField Label="Sample TextField" />
         </p>
         <p>
-            <BFUDropdown ItemsSource=@items.Select(x=>new DropdownOption { Key=x.DisplayName, Text=x.DisplayName}) 
+            <BFUDropdown ItemsSource=@items.Select(x=>new BFUDropdownOption { Key=x.DisplayName, Text=x.DisplayName}) 
                          Placeholder="Select an option" 
                          OnChange=@UncontrolledSingleChangeHandler />
         </p>

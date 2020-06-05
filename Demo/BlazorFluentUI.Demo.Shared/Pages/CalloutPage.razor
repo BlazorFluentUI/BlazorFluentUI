@@ -4,7 +4,7 @@
 
 <BFUDropdown
           Style="max-width:300px;"
-          ItemsSource=@(Enum.GetValues(typeof(DirectionalHint)).Cast<DirectionalHint>().Select(x=>new DropdownOption{Key=x.ToString(), Text=x.ToString()}))
+          ItemsSource=@(Enum.GetValues(typeof(DirectionalHint)).Cast<DirectionalHint>().Select(x=>new BFUDropdownOption{Key=x.ToString(), Text=x.ToString()}))
           @bind-SelectedKey=@SelectedDirection />
 
 <div style="height:200px;"></div>

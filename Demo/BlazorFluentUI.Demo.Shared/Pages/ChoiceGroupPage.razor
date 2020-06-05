@@ -50,7 +50,7 @@
                     }
                     else if (item.Id == 3)
                     {
-                        <BFUDropdown ItemsSource=@_months.Select(x=>new DropdownOption { Key = x.Name, Text = x.Name }) 
+                        <BFUDropdown ItemsSource=@_months.Select(x=>new BFUDropdownOption { Key = x.Name, Text = x.Name }) 
                                      Disabled="_selectedCustomObject2?.Id != 3" 
                                      Placeholder="Select a Month" 
                                      @bind-SelectedKey=@_selectedMonth />

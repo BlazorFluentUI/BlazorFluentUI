@@ -70,7 +70,7 @@
     string controlledSingleSelectionResult = "Banana";
     List<string> controlledMultiSelectionResult = new List<string> { "Banana", "Orange" };
 
-    List<DropdownOption> items;
+    List<IBFUDropdownOption> items;
 
     protected override Task OnInitializedAsync()
     {
@@ -86,7 +86,7 @@
             new DataItem("Broccoli"),
             new DataItem("Carrot"),
             new DataItem("Lettuce")
-        }.Select(x => new DropdownOption { Key = x.Key, Text = x.DisplayName, ItemType = x.Type }).ToList();
+        }.Select(x => new BFUDropdownOption { Key = x.Key, Text = x.DisplayName, ItemType = x.Type }).Cast<IBFUDropdownOption>().ToList();
         return base.OnInitializedAsync();
     }
 

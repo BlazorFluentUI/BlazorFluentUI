@@ -11,7 +11,7 @@
             @DebugText
         </div>
 
-        <BFUDropdown ItemsSource=@(Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>().Select(x=>new DropdownOption {Key=x.ToString(), Text=x.ToString() }))
+        <BFUDropdown ItemsSource=@(Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>().Select(x=>new BFUDropdownOption {Key=x.ToString(), Text=x.ToString() }))
                   @bind-SelectedKey=SelectedMode
                   Style="max-width:300px;">
         </BFUDropdown>

@@ -8,25 +8,28 @@
 
     <BFUStack Style="height:100%;">
         <h3>DetailsList</h3>
-        <BFUToggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
+        <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
+            <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+            <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+        </BFUStack>
         <BFUTextField Label="Filter Description"
                    @bind-Value=@dataContainer.Filter
                    @bind-Value:event="OnInput"/>
 
         <BFUDetailsList ItemsSource="ReadonlyList"
                         IsVirtualizing="isVirtualizing"
-                     Columns="ReadonlyColumns"
-                     LayoutMode="DetailsListLayoutMode.Justified"
-                     @bind-Selection="selection"
-                     SelectionMode="SelectionMode.Multiple"
-                        >
-
-        </BFUDetailsList>
+                        Compact="isCompact"
+                        Columns="ReadonlyColumns"
+                        LayoutMode="DetailsListLayoutMode.Justified"
+                        @bind-Selection="selection"
+                        SelectionMode="SelectionMode.Multiple"
+                        />
     </BFUStack>
 
 @code {
 
     bool isVirtualizing = false;
+    bool isCompact = false;
 
     Selection<DataItem> selection = new Selection<DataItem>();
 

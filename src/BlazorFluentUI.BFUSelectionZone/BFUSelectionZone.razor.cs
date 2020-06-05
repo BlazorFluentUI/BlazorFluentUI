@@ -18,6 +18,9 @@ namespace BlazorFluentUI
         public bool DisableAutoSelectOnInputElements { get; set; }
 
         [Parameter]
+        public bool DisableRenderOnSelectionChanged { get; set; } = false;
+
+        [Parameter]
         public bool EnterModalOnTouch { get; set; }
 
         [Parameter]
@@ -52,11 +55,13 @@ namespace BlazorFluentUI
 
         protected override bool ShouldRender()
         {
-            if (doNotRenderOnce)
+            if (doNotRenderOnce && DisableRenderOnSelectionChanged)
             {
                 doNotRenderOnce = false;
                 return false;
             }
+            else
+                doNotRenderOnce = false;
 
             return true;
             //return base.ShouldRender();

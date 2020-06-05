@@ -94,12 +94,38 @@
     public ThemeProvider ThemeProvider { get; set; }
 
     [Parameter]
+    public IPalette InitialPalette { get; set; }
+    [Parameter]
+    public ISemanticColors InitialSemanticColors { get; set; }
+    [Parameter]
+    public ISemanticTextColors InitialSemanticTextColors { get; set; }
+
+    [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    private bool firstThemeCheck;
 
     protected override void OnInitialized()
     {
         ThemeProvider.ThemeComponents.Add(this);
         base.OnInitialized();
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        if (firstThemeCheck == false && InitialPalette != null)
+        {
+            firstThemeCheck = true;
+            if (InitialSemanticColors != null && InitialSemanticTextColors != null)
+            {
+                ThemeProvider.UpdateTheme(InitialPalette, InitialSemanticColors, InitialSemanticTextColors);
+            }
+            else
+            {
+                ThemeProvider.UpdateTheme(InitialPalette);
+            }
+        }
+        return base.OnParametersSetAsync();
     }
 
     public void UpdateTheme()

@@ -31,7 +31,7 @@ namespace BlazorFluentUI
             {
                 comp.UpdateTheme();
             }
-            ThemeChanged.Invoke(this, new BFUThemeChangedArgs(_theme));
+            ThemeChanged?.Invoke(this, new BFUThemeChangedArgs(_theme));
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace BlazorFluentUI
             {
                 comp.UpdateTheme();
             }
-            ThemeChanged.Invoke(this, new BFUThemeChangedArgs(_theme));
+            ThemeChanged?.Invoke(this, new BFUThemeChangedArgs(_theme));
         }
 
         private ITheme CreateTheme(IPalette palette = null)

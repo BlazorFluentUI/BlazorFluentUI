@@ -1,11 +1,13 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<style>
+@*<style>
     .ms-FocusZone:focus{
         outline:none;
     }
-</style>
+</style>*@
+
+<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 
 <div class=@($"ms-FocusZone {ClassName}")
      style=@Style

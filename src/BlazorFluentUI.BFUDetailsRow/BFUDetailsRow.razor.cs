@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -48,14 +49,15 @@ namespace BlazorFluentUI
         [Parameter]
         public TItem Item { get; set; }
 
-        [Parameter]
-        public int ItemIndex { get; set; }
+        //[Parameter]
+        //public int ItemIndex { get; set; }
 
         [Parameter]
         public double RowWidth { get; set; } = 0;
 
-        [Parameter]
-        public Selection<TItem> Selection { get; set; }
+        //[Parameter]
+        //public Selection<TItem> Selection { get; set; }
+        //public bool IsSelected { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; }
@@ -85,15 +87,43 @@ namespace BlazorFluentUI
             DetailsRowLocalRules.Add(_localCheckCoverRule);
         }
 
+
+
         protected override Task OnParametersSetAsync()
         {
             showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
 
-            canSelect = Selection != null;
+            canSelect = SelectionMode != SelectionMode.None;//Selection != null;
 
-            if (Selection != null)
+
+
+            //if (Selection != null)
+            //{
+            //    isSelected = Selection.SelectedItems.Contains(this.Item);
+
+            //}
+
+            if (SelectionZone != null)
             {
-                isSelected = Selection.SelectedItems.Contains(this.Item);
+                SelectionZone.SelectedItemsObservable.Subscribe(x =>
+                {
+                    if (x.Contains(this.Item))
+                    {
+                        if (isSelected != true)
+                        {
+                            isSelected = true;
+                            StateHasChanged();
+                        }
+                    }
+                    else
+                    {
+                        if (isSelected != false)
+                        {
+                            isSelected = false;
+                            StateHasChanged();
+                        }
+                    }
+                });
             }
             //CreateCss();
             return base.OnParametersSetAsync();

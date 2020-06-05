@@ -54,6 +54,7 @@
                         @if (SubGroupSelector == null)
                         {
                             <BFUList ItemsSource=@ItemsSource
+                                     IsVirtualizing=@IsVirtualizing
                                   OnViewportChanged=@ViewportChangedHandler>
                                 <ItemTemplate>
                                     @if (RowTemplate != null)
@@ -62,11 +63,10 @@
                                     }
                                     else
                                     {
-                                        <BFUDetailsRow Item=@context.Item
-                                                    ItemIndex=@context.Index
+                                        <BFUDetailsRow Item=@context
                                                     Columns=@_adjustedColumns
                                                     SelectionMode=@SelectionMode
-                                                    Selection=@Selection
+
                                                     Compact=@Compact
                                                     CheckboxVisibility=@CheckboxVisibility />
                                     }
@@ -80,14 +80,13 @@
                                          OnViewportChanged=@ViewportChangedHandler
                                          SubGroupSelector=@SubGroupSelector
                                          GroupTitleSelector=@GroupTitleSelector
-                                         Selection=@Selection
+                                         IsVirtualizing=@IsVirtualizing
                                          SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                                 <ItemTemplate>
                                     <BFUDetailsRow Item=@context.Item
-                                                ItemIndex=@context.Index
                                                 Columns=@_adjustedColumns
                                                 SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
-                                                Selection=@Selection
+                                                
                                                 CheckboxVisibility=@CheckboxVisibility
                                                 Compact=@Compact />
                                 </ItemTemplate>
@@ -109,8 +108,8 @@
                                 }
                                 else
                                 {
-                                    <BFUDetailsRow Item=@context.Item
-                                                ItemIndex=@context.Index
+                                    <BFUDetailsRow Item=@context
+                                                   TItem="TItem"
                                                 Columns=@_adjustedColumns
                                                 SelectionMode=@SelectionMode
                                                 Selection=@Selection

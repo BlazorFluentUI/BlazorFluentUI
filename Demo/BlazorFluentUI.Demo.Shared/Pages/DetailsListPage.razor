@@ -8,20 +8,25 @@
 
     <BFUStack Style="height:100%;">
         <h3>DetailsList</h3>
+        <BFUToggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
         <BFUTextField Label="Filter Description"
                    @bind-Value=@dataContainer.Filter
                    @bind-Value:event="OnInput"/>
 
         <BFUDetailsList ItemsSource="ReadonlyList"
+                        IsVirtualizing="isVirtualizing"
                      Columns="ReadonlyColumns"
                      LayoutMode="DetailsListLayoutMode.Justified"
                      @bind-Selection="selection"
-                     SelectionMode="SelectionMode.Multiple">
+                     SelectionMode="SelectionMode.Multiple"
+                        >
 
         </BFUDetailsList>
     </BFUStack>
 
 @code {
+
+    bool isVirtualizing = false;
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
@@ -33,15 +38,12 @@
     public ReadOnlyObservableCollection<BFUDetailsRowColumn<DataItem>> ReadonlyColumns;
 
 
-
     ObservableDataContainer dataContainer = new ObservableDataContainer();
 
     class ObservableDataContainer : AbstractNotifyPropertyChanged
     {
         private string filter = "";
         public string Filter { get => filter; set => SetAndRaise(ref filter, value); }
-
-
 
         private bool descending = false;
         public bool Descending { get => descending; set => SetAndRaise(ref descending, value); }
@@ -58,7 +60,7 @@
         public ObservableDataContainer()
         {
             DynamicDescriptionFilter = this.WhenValueChanged(@this => @this.Filter)
-                .Throttle(TimeSpan.FromMilliseconds(250))
+                //.Throttle(TimeSpan.FromMilliseconds(250))  //this freezes the ui in wasm since there are no threads
                 .Select<string, Func<DataItem, bool>>(f => item => item.Description.Contains(f));
 
             DynamicSortExpression = this.WhenValueChanged(@this => @this.SortSelector).CombineLatest(this.WhenValueChanged(@this => @this.Descending), (selector, isDescending) =>
@@ -86,7 +88,7 @@
         var descColumn = new BFUDetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
         columnsSource.AddOrUpdate(descColumn);
 
-        for (var i = 0; i < 1000; i++)
+        for (var i = 0; i < 100; i++)
         {
             count++;
             dataSource.AddOrUpdate(new DataItem(count));

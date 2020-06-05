@@ -66,45 +66,152 @@ namespace BlazorFluentUiList {
         return elementMeasurements;
     };
 
- 
-  
+    var _lastId: number = 0;
+    var cachedLists: Map<number, BFUList> = new Map<number, BFUList>();
+    
+    class BFUList {
+        cachedSizes: Map<string, number> = new Map<string, number>();
+        averageHeight: number = 40;
+        lastDate: number;
+        id: number;
 
- 
-  class FabricList {
+        component: DotNetReferenceType;
+        scrollElement: HTMLElement;
+        spacerBefore: HTMLElement;
+        spacerAfter: HTMLElement;
 
-    private _surface: HTMLElement;
-    private _root: HTMLElement;
-    private _scrollElement: HTMLElement;
-  
+        intersectionObserver: IntersectionObserver;
+        mutationObserver: MutationObserver;
 
-    constructor(scrollElement: HTMLDivElement, rootElement: HTMLDivElement, surfaceElement: HTMLDivElement) {
-      this._scrollElement = scrollElement;
-      this._root = rootElement;
-      this._surface = surfaceElement;
+        constructor(component: DotNetReferenceType, scrollElement: HTMLElement, spacerBefore: HTMLElement, spacerAfter: HTMLElement) {
+            this.id = _lastId++;
 
+            this.component = component;
+            this.scrollElement = scrollElement;
+            this.spacerBefore = spacerBefore;
+            this.spacerAfter = spacerAfter;
 
+            const rootMargin: number = 50;
+            this.intersectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && (entry.target as HTMLElement).offsetHeight > 0) {
+                        (<any>window).requestIdleCallback(() => {
+                            const spacerType = entry.target === this.spacerBefore ? 'before' : 'after';
+                            const visibleRect = {
+                                top: entry.intersectionRect.top - entry.boundingClientRect.top,
+                                left: entry.intersectionRect.left - entry.boundingClientRect.left,
+                                width: entry.intersectionRect.width,
+                                height: entry.intersectionRect.height,
+                                bottom: this.scrollElement.scrollHeight,
+                                right: this.scrollElement.scrollWidth
+                            };
+                            this.component.invokeMethodAsync('OnSpacerVisible', spacerType, visibleRect, this.scrollElement.offsetHeight + 2 * rootMargin, this.spacerBefore.offsetHeight, this.spacerAfter.offsetHeight);
+                        });
+                    }
+                });
+            }, {
+                root: scrollElement, rootMargin: `${rootMargin}px`
+            });
+            this.intersectionObserver.observe(this.spacerBefore);
+            this.intersectionObserver.observe(this.spacerAfter);
 
-     
-      //rootElement.addEventListener('focus', this._onFocus, false);
+            // After each render, refresh the info about intersections
+            this.mutationObserver = new MutationObserver(mutations => {
+                this.intersectionObserver.unobserve(this.spacerBefore);
+                this.intersectionObserver.unobserve(this.spacerAfter);
+                this.intersectionObserver.observe(this.spacerBefore);
+                this.intersectionObserver.observe(this.spacerAfter);
+            });
+            this.mutationObserver.observe(spacerBefore, { attributes: true })
+        }
 
-      scrollElement.addEventListener('scroll', this._onScroll, false);
-      //scrollElement.addEventListener('scroll', this._onAsyncScroll, false);
+        disconnect(): void {
+            this.mutationObserver.disconnect();
+
+            this.intersectionObserver.unobserve(this.spacerBefore);
+            this.intersectionObserver.unobserve(this.spacerAfter);
+            this.intersectionObserver.disconnect();
+
+        }
+
+        getInitialAverageHeight(): number {
+            let calculate: boolean = false;
+            let averageHeight: number = 0;
+            for (let i = 0; i < this.scrollElement.children.length; i++) {
+                let item = this.scrollElement.children.item(i);
+                let index = item.getAttribute("data-hash");
+                if (index != null && !this.cachedSizes.has(index) && this.cachedSizes.get(index) != item.clientHeight) {
+                    this.cachedSizes.set(index, item.clientHeight);
+                    calculate = true;
+                }
+            }
+            if (calculate) {
+                averageHeight = [...this.cachedSizes.values()].reduce((p, c, i, a) => p + c) / this.cachedSizes.size;
+            }
+
+            return averageHeight;
+        }
+
     }
 
-    
-    private _onScroll(ev: Event) {
-
-
+    export function getInitialAverageHeight(id: number) : number {
+        let list = cachedLists.get(id);
+        if (list == null) {
+            return 0;
+        } else {
+            return list.getInitialAverageHeight();
+        }
     }
+    
+    export function initialize(component: DotNetReferenceType, scrollElement: HTMLElement, spacerBefore: HTMLElement, spacerAfter: HTMLElement, reset: boolean=false): any {
+
+        //if (reset) {
+        //    scrollElement.scrollTo(0, 0);
+        //}
+
+        let list: BFUList = new BFUList(component, scrollElement, spacerBefore, spacerAfter);
+        cachedLists.set(list.id, list);
+
+        const visibleRect = {
+            top: 0,
+            left: list.id,
+            width: scrollElement.clientWidth,
+            height: scrollElement.clientHeight,
+            bottom: scrollElement.scrollHeight,
+            right: scrollElement.scrollWidth
+        };
+        return visibleRect;
+    }
+
+    export function removeList(id: number) {
+        let list = cachedLists.get(id);
+        list.disconnect();
+        cachedLists.delete(id);
+    }
+
+    export function getViewport(scrollElement: HTMLElement) :any {
+        const visibleRect = {
+            top: 0,
+            left: 0,
+            width: scrollElement.clientWidth,
+            height: scrollElement.clientHeight,
+            bottom: scrollElement.scrollHeight,
+            right: scrollElement.scrollWidth
+        };
+        return visibleRect;
+    }
+
+    function readClientRectWithoutTransform(elem): DOMRect {
+        const rect = elem.getBoundingClientRect();
+        const translateY = parseFloat(elem.getAttribute('data-translateY'));
+        return {
+            top: rect.top - translateY, bottom: rect.bottom - translateY, left: rect.left, right: rect.right, height: rect.height, width: rect.width, x: 0, y: 0, toJSON: null
+        };
+    }
+
   
-    
 
-    
-
-  }
-
-
-
+ 
   
 
   function _expandRect(rect: IRectangle, pagesBefore: number, pagesAfter: number): IRectangle {

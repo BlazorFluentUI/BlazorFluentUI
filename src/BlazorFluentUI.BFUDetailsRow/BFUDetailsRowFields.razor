@@ -29,7 +29,7 @@
              >
             @if (column.ColumnItemTemplate != null)
             {
-                column.ColumnItemTemplate(column.FieldSelector(Item));
+                @column.ColumnItemTemplate(column.FieldSelector(Item))
             }
             else
             {

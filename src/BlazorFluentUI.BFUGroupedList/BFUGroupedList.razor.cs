@@ -41,6 +41,9 @@ namespace BlazorFluentUI
         public Func<TItem, string> GroupTitleSelector { get; set; }
 
         [Parameter]
+        public bool IsVirtualizing { get; set; } = true;
+
+        [Parameter]
         public Func<TItem, MouseEventArgs, Task> ItemClicked { get; set; }
 
         [Parameter]
@@ -61,16 +64,16 @@ namespace BlazorFluentUI
         [Parameter]
         public EventCallback<Viewport> OnViewportChanged { get; set; }
 
-        [Parameter] 
-        public Selection<TItem> Selection { get; set; }
-        
+        //[Parameter]
+        //public Selection<TItem> Selection { get; set; }
+
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
         [Parameter]
         public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
 
-
+        
 
         protected override Task OnInitializedAsync()
         {
@@ -79,41 +82,48 @@ namespace BlazorFluentUI
 
         private void OnHeaderClicked(HeaderItem<TItem> headerItem)
         {
-            // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
-            //does selection contain this item already?
-            if (Selection.SelectedItems.Contains(headerItem.Item))
+            if (SelectionZone != null)
             {
-                //deselect it and all children
-                var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-                SelectionZone.RemoveItems(items);
-            }
-            else
-            {
-                //select it and all children
-                var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item); 
-                SelectionZone.AddItems(items);
+                // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
+                //does selection contain this item already?
+                if (SelectionZone.Selection.SelectedItems.Contains(headerItem.Item))
+                {
+                    //deselect it and all children
+                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+                    SelectionZone.RemoveItems(items);
+                }
+                else
+                {
+                    //select it and all children
+                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+                    SelectionZone.AddItems(items);
+                }
             }
         }
 
         private void OnHeaderToggled(HeaderItem<TItem> headerItem)
         {
-            // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
-            //does selection contain this item already?
-            if (Selection.SelectedItems.Contains(headerItem.Item))
+            if (SelectionZone != null)
             {
-                //deselect it and all children
-                var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-                SelectionZone.RemoveItems(items);
-            }
-            else
-            {
-                //select it and all children
-                var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-                SelectionZone.AddItems(items);
+                // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
+                //does selection contain this item already?
+                if (SelectionZone.Selection.SelectedItems.Contains(headerItem.Item))
+                {
+                    //deselect it and all children
+                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+
+                    SelectionZone.RemoveItems(items);
+                }
+                else
+                {
+                    //select it and all children
+                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+                    SelectionZone.AddItems(items);
+                }
             }
         }
 
-        private System.Collections.Generic.List<GroupedListItem<TItem>> GetChildrenRecursive(GroupedListItem<TItem> item)
+        private System.Collections.Generic.ICollection<GroupedListItem<TItem>> GetChildrenRecursive(GroupedListItem<TItem> item)
         {
             var groupedItems = new System.Collections.Generic.List<GroupedListItem<TItem>>();
             foreach (var child in item.Children)
@@ -125,7 +135,7 @@ namespace BlazorFluentUI
             return groupedItems;
         }
 
-        private System.Collections.Generic.List<GroupedListItem<TItem>> GetS(IEnumerable<TItem> items)
+        private System.Collections.Generic.IEnumerable<GroupedListItem<TItem>> GetS(IEnumerable<TItem> items)
         {
             var groupedItems = new System.Collections.Generic.List<GroupedListItem<TItem>>();
             foreach (var item in items)
@@ -214,52 +224,55 @@ namespace BlazorFluentUI
                 }
             }
 
-            if (SelectionMode == SelectionMode.Single && Selection.SelectedItems.Count() > 1)
-            {
-                SelectionZone.ClearSelection(); 
-            }
-            else if (SelectionMode == SelectionMode.None && Selection.SelectedItems.Count() > 0)
-            {
-                Selection.ClearSelection(); 
-            }
-            else
-            {
-                bool hasChanged = false;
-                //make a copy of list
-                var selected = Selection.SelectedItems.ToList();
-                //check to see if a header needs to be turned OFF because all of its children are *not* selected.
-                restart:
-                var headers = selected.Where(x => SubGroupSelector(x) != null && SubGroupSelector(x).Count() > 0).ToList();
-                foreach (var header in headers)
-                {
-                    if (SubGroupSelector(header).Except(selected).Count() > 0)
-                    {
-                        hasChanged = true;
-                        selected.Remove(header);
-                        //start loop over again, simplest way to start over is a goto statement.  This is needed when a header turns off, but it's parent header needs to turn off, too.
-                        goto restart;
-                    }
-                }
+            //if (Selection != null)
+            //{
+            //    if (SelectionMode == SelectionMode.Single && Selection.SelectedItems.Count() > 1)
+            //    {
+            //        SelectionZone.ClearSelection();
+            //    }
+            //    else if (SelectionMode == SelectionMode.None && Selection.SelectedItems.Count() > 0)
+            //    {
+            //        Selection.ClearSelection();
+            //    }
+            //    else
+            //    {
+            //        bool hasChanged = false;
+            //        //make a copy of list
+            //        var selected = Selection.SelectedItems.ToList();
+            //    //check to see if a header needs to be turned OFF because all of its children are *not* selected.
+            //    restart:
+            //        var headers = selected.Where(x => SubGroupSelector(x) != null && SubGroupSelector(x).Count() > 0).ToList();
+            //        foreach (var header in headers)
+            //        {
+            //            if (SubGroupSelector(header).Except(selected).Count() > 0)
+            //            {
+            //                hasChanged = true;
+            //                selected.Remove(header);
+            //                //start loop over again, simplest way to start over is a goto statement.  This is needed when a header turns off, but it's parent header needs to turn off, too.
+            //                goto restart;
+            //            }
+            //        }
 
-                //check to see if a header needs to be turned ON because all of its children *are* selected.
-                var potentialHeaders = dataItems.Where(x=> selected.Contains(x.Item)).Select(x=>x.Parent).Where(x=>x!= null).Distinct().ToList();
-                foreach (var header in potentialHeaders)
-                {
-                    if (header.Children.Select(x => x.Item).Except(selected).Count() == 0)
-                    {
-                        if (!selected.Contains(header.Item))
-                        {
-                            selected.Add(header.Item);
-                            hasChanged = true;
-                        }
-                    }
-                }
+            //        //check to see if a header needs to be turned ON because all of its children *are* selected.
+            //        var potentialHeaders = dataItems.Where(x => selected.Contains(x.Item)).Select(x => x.Parent).Where(x => x != null).Distinct().ToList();
+            //        foreach (var header in potentialHeaders)
+            //        {
+            //            if (header.Children.Select(x => x.Item).Except(selected).Count() == 0)
+            //            {
+            //                if (!selected.Contains(header.Item))
+            //                {
+            //                    selected.Add(header.Item);
+            //                    hasChanged = true;
+            //                }
+            //            }
+            //        }
 
-                if (hasChanged)
-                {
-                    SelectionZone.AddAndRemoveItems(selected.Except(Selection.SelectedItems).ToList(), Selection.SelectedItems.Except(selected).ToList());
-                }
-            }
+            //        if (hasChanged)
+            //        {
+            //            SelectionZone.AddAndRemoveItems(selected.Except(Selection.SelectedItems).ToList(), Selection.SelectedItems.Except(selected).ToList());
+            //        }
+            //    }
+            //}
 
             await base.OnParametersSetAsync();
         }

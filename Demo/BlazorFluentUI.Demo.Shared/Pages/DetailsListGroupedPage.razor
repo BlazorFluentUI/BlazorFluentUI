@@ -6,21 +6,24 @@
 @using System.Reactive.Linq
 @using System.Reactive.Subjects
 
-<BFUStack Style="height:100%;">
-    <h3>DetailsList - Grouped Data</h3>
-    <BFUDetailsList ItemsSource="ReadonlyList"
-                 @ref="detailsList"
-                 Columns="ReadonlyColumns"
-                 TItem="GroupedDataItem"
-                 SubGroupSelector=@(item=> item.ObservableData)
-                 GroupTitleSelector=@(item=>item.DisplayName)
-                 LayoutMode="DetailsListLayoutMode.Justified"
-                 @bind-Selection="selection"
-                 SelectionMode="SelectionMode.Multiple">
-    </BFUDetailsList>
-</BFUStack>
+    <BFUStack Style="height:100%;">
+        <h3>DetailsList - Grouped Data</h3>
+        <BFUToggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
+        <BFUDetailsList ItemsSource="ReadonlyList"
+                        @ref="detailsList"
+                        Columns="ReadonlyColumns"
+                        TItem="GroupedDataItem"
+                        IsVirtualizing="isVirtualizing"
+                        SubGroupSelector=@(item=> item.ObservableData)
+                        GroupTitleSelector=@(item=>item.DisplayName)
+                        LayoutMode="DetailsListLayoutMode.Justified"
+                        @bind-Selection="selection"
+                        SelectionMode="SelectionMode.Multiple">
+        </BFUDetailsList>
+    </BFUStack>
 
 @code {
+    bool isVirtualizing = false;
 
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
@@ -76,7 +79,7 @@
 
         var data = new System.Collections.Generic.List<DataItem>();
 
-        for (var i = 0; i < 1000; i++)
+        for (var i = 0; i < 100; i++)
         {
             count++;
             data.Add(new DataItem(count));

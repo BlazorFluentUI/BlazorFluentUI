@@ -63,7 +63,7 @@ namespace BlazorFluentUI
         public int MinimumPixelsForDrag { get; set; }
 
         [Parameter]
-        public EventCallback OnAllSelected { get; set; }
+        public Action OnAllSelected { get; set; }
 
         [Parameter]
         public EventCallback<ItemContainer<BFUDetailsRowColumn<TItem>>> OnColumnAutoResized { get; set; }
@@ -165,7 +165,7 @@ namespace BlazorFluentUI
         {
             if (!isCheckboxHidden)
             {
-                OnAllSelected.InvokeAsync(null);
+                OnAllSelected();
             }
         }
 

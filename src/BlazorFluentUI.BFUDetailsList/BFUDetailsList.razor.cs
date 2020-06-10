@@ -37,22 +37,25 @@ namespace BlazorFluentUI
         public bool IsHeaderVisible { get; set; } = true;
 
         [Parameter]
+        public bool IsVirtualizing { get; set; } = true;
+
+        [Parameter]
         public IEnumerable<TItem> ItemsSource { get; set; }
 
         [Parameter]
         public DetailsListLayoutMode LayoutMode { get; set; }
 
         [Parameter]
-        public EventCallback<ItemContainer<TItem>> OnItemContextMenu { get; set; }
+        public EventCallback<TItem> OnItemContextMenu { get; set; }
 
         [Parameter]
-        public EventCallback<ItemContainer<TItem>> OnItemInvoked { get; set; }
+        public EventCallback<TItem> OnItemInvoked { get; set; }
 
         [Parameter]
         public EventCallback<ColumnResizedArgs<TItem>> OnColumnResized { get; set; }
 
         [Parameter]
-        public RenderFragment<ItemContainer<TItem>> RowTemplate { get; set; }
+        public RenderFragment<TItem> RowTemplate { get; set; }
 
         [Parameter]
         public Selection<TItem> Selection { get; set; }
@@ -85,27 +88,75 @@ namespace BlazorFluentUI
         BFUList<TItem> list;
         BFUSelectionZone<TItem> selectionZone;
 
+        protected bool isAllSelected;
+        private bool shouldRender = true;
+
+        private IReadOnlyDictionary<string, object> lastParameters = null;
+
         public void ForceUpdate()
         {
             groupedList?.ForceUpdate();
         }
 
-        public override Task SetParametersAsync(ParameterView parameters)
+        protected override bool ShouldRender()
         {
-            bool shouldForceUpdates = false;
-            
-            var newLayoutMode = parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode");
-            if (LayoutMode != newLayoutMode)
-                shouldForceUpdates = true;
-
-            if (parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility") != CheckboxVisibility
-                || parameters.GetValueOrDefault<IEnumerable<BFUDetailsRowColumn<TItem>>>("Columns") != Columns
-                || parameters.GetValueOrDefault<bool>("Compact") != Compact)
+            if (!shouldRender)
             {
-                shouldForceUpdates = true;
+                shouldRender = true;
+                return false;
             }
+            return true;
+            //return base.ShouldRender();
+        }
 
-            if (_viewport != null)
+        public override Task SetParametersAsync(ParameterView parameters)
+        {            
+            shouldRender = false;
+            
+            var dictParameters = parameters.ToDictionary();
+            if (lastParameters == null)
+            {
+                shouldRender = true;
+            }
+            else
+            {
+                var differences = dictParameters.Where(entry =>
+                {
+                    //if (entry.Value is Enum)
+                    //{
+                    //    return (int)lastParameters[entry.Key] != (int)entry.Value;
+                    //}
+                    //else
+                    //{
+                        return !lastParameters[entry.Key].Equals(entry.Value);
+                    //}
+                }
+                ).ToDictionary(entry => entry.Key, entry => entry.Value);
+
+                if (differences.Count> 0)
+                {
+                    shouldRender = true;
+                }
+            }
+            lastParameters = dictParameters;
+            //if (ItemsSource != parameters.GetValueOrDefault<IEnumerable<TItem>>("ItemsSource"))
+            //    shouldRender = true;
+           
+            //var newLayoutMode = parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode");
+            //if (LayoutMode != newLayoutMode)
+            //    shouldRender = true;
+
+            //if (parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility") != CheckboxVisibility
+            //    || parameters.GetValueOrDefault<IEnumerable<BFUDetailsRowColumn<TItem>>>("Columns") != Columns
+            //    || parameters.GetValueOrDefault<bool>("Compact") != Compact
+            //    || parameters.GetValueOrDefault<SelectionMode>("SelectionMode") != SelectionMode
+            //    || parameters.GetValueOrDefault<SelectionMode>("SelectionMode") != SelectionMode
+            //    )
+            //{
+            //    shouldRender = true;
+            //}
+
+            if (_viewport != null && _viewport != _lastViewport)
             {
                 AdjustColumns(
                     parameters.GetValueOrDefault<IEnumerable<TItem>>("ItemsSource"),
@@ -120,12 +171,6 @@ namespace BlazorFluentUI
             return base.SetParametersAsync(parameters);
         }
 
-
-        protected override Task OnParametersSetAsync()
-        {
-
-            return base.OnParametersSetAsync();
-        }
 
         protected override Task OnAfterRenderAsync(bool firstRender)
         {
@@ -146,7 +191,7 @@ namespace BlazorFluentUI
         {
             if (SubGroupSelector == null)
             {
-                if (Selection.SelectedItems.Count() == this.ItemsSource.Count())
+                if (Selection.SelectedItems.Count() == this.ItemsSource.Count() && this.ItemsSource.Count() > 0)
                     return true;
                 else
                     return false;
@@ -155,7 +200,7 @@ namespace BlazorFluentUI
             {
                 //source is grouped... need to recursively select them all.
                 var flattenedItems = this.ItemsSource?.SelectManyRecursive(x => SubGroupSelector(x));
-                if (flattenedItems.Count() == Selection.SelectedItems.Count())
+                if (flattenedItems.Count() == Selection.SelectedItems.Count() && flattenedItems.Count() > 0)
                     return true;
                 else
                     return false;

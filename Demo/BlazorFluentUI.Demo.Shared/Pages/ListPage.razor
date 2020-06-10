@@ -11,14 +11,9 @@
             @DebugText
         </div>
 
-        <BFUDropdown ItemsSource="(Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>().ToList())"
+        <BFUDropdown ItemsSource=@(Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>().Select(x=>new BFUDropdownOption {Key=x.ToString(), Text=x.ToString() }))
                   @bind-SelectedKey=SelectedMode
                   Style="max-width:300px;">
-            <ItemTemplate>
-                <BFUDropdownItem TItem="SelectionMode"
-                              ItemKey=@context.ToString()
-                              Text=@context.ToString() />
-            </ItemTemplate>
         </BFUDropdown>
 
         <BFUPrimaryButton Text="Add 10 items" OnClick="@ClickHandler" />
@@ -36,15 +31,15 @@
                     <ItemTemplate>
 
                         <div style="display:flex; flex-direction:row;" 
-                             class=@($"ms-List-cell-default{(selection.SelectedItems.Contains(context.Item)?" is-selected":"")}")
+                             class=@($"ms-List-cell-default{(selection.SelectedItems.Contains(context)?" is-selected":"")}")
                              data-is-focusable="true"
                              @onclick=@(()=> {
-                                            selectionZone.HandleClick(context.Item, context.Index);
-                                            DebugText = context.Item.Key + " clicked";
+                                            selectionZone.HandleClick(context);
+                                            DebugText = context.Key + " clicked";
                                         })>
-                            <img height="25" width="25" src=@context.Item.ImgUrl />
-                            <em>This is item #@context.Item.Key.</em>
-                            <span style="margin-left:10px;">@context.Item.DisplayName</span>
+                            <img height="25" width="25" src=@context.ImgUrl />
+                            <em>This is item #@context.Key.</em>
+                            <span style="margin-left:10px;">@context.DisplayName</span>
                         </div>
                     </ItemTemplate>
                 </BFUList>

@@ -557,7 +557,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Panel--custom .ms-Panel-main" },
                 Properties = new CssString()
                 {
-                    Css = $"max-width:100vh;"
+                    Css = $"max-width:100vw;"
                 }
             });
 
@@ -568,7 +568,7 @@ namespace BlazorFluentUI
                 {
                     Css = $"right:auto;"+
                           $"left:0;"+
-                          $"max-width:100vh;"
+                          $"max-width:100vw;"
                 }
             });
 

@@ -2,81 +2,76 @@
 
 @using System.Collections.Generic
 
-    <div style="margin:20px">
-        <h1>ChoiceGroup</h1>
+<div style="margin:20px">
+    <h1>ChoiceGroup</h1>
 
-        <Demo Header="Datasource is a List&lt;string&gt;" Key="0" MetadataPath="ChoiceGroupPage">
-            <BFUStack>
-                <BFUChoiceGroup ItemsSource="this._stringItems" @bind-Value="this._selectedStringOption" Required="true">
-                </BFUChoiceGroup>
-                <br />
-                <div>
-                    Selected option: @(_selectedStringOption ?? "none")
-                </div>
-            </BFUStack>
-        </Demo>
+    <BFUStack>
+        <h3>Datasource is a List&lt;string&gt;</h3>
+        <BFUChoiceGroup ItemsSource="this._stringItems" @bind-Value="this._selectedStringOption" Required="true">
+        </BFUChoiceGroup>
+        <br />
+        <div>
+            Selected option: @(_selectedStringOption ?? "none")
+        </div>
+    </BFUStack>
 
-        <Demo Header="Datasource is a List&lt;IChoiceGroupOption&gt;" Key="0" MetadataPath="ChoiceGroupPage">
-            <BFUStack>
-                <BFUChoiceGroup ItemsSource="this._choiceGroupOptions" @bind-Value="this._selectedChoiceGroupOption">
-                </BFUChoiceGroup>
-                <br />
-                <div>
-                    Selected option: @(_selectedChoiceGroupOption?.Label ?? "none")
-                </div>
-            </BFUStack>
-        </Demo>
+    <BFUStack>
+        <h3>Datasource is a List&lt;IChoiceGroupOption&gt;</h3>
+        <BFUChoiceGroup ItemsSource="this._choiceGroupOptions" @bind-Value="this._selectedChoiceGroupOption">
+        </BFUChoiceGroup>
+        <br />
+        <div>
+            Selected option: @(_selectedChoiceGroupOption?.Label ?? "none")
+        </div>
+    </BFUStack>
 
-        <Demo Header="Datasource is a List&lt;string&gt;" Key="0" MetadataPath="ChoiceGroupPage">
-            <BFUStack>
-                <BFUChoiceGroup ItemsSource="this._customObjects" @bind-Value="this._selectedCustomObject" ItemAlignment="FlexDirection.Row">
-                    <OptionTemplate Context="item">
-                        <BFUIcon IconName="@item.IconName" Style="font-size:36px"></BFUIcon>
-                    </OptionTemplate>
-                </BFUChoiceGroup>
-                <br />
-                <div>
-                    Selected option: @(_selectedCustomObject?.Label ?? "none")
-                </div>
-            </BFUStack>
-        </Demo>
+    <BFUStack>
+        <h3>Datasource is a List&lt;CustomObject&gt; using the "OptionTemplate"</h3>
+        <BFUChoiceGroup ItemsSource="this._customObjects" @bind-Value="this._selectedCustomObject" ItemAlignment="FlexDirection.Row">
+            <OptionTemplate Context="item">
+                <BFUIcon IconName="@item.IconName" Style="font-size:36px"></BFUIcon>
+            </OptionTemplate>
+        </BFUChoiceGroup>
+        <br />
+        <div>
+            Selected option: @(_selectedCustomObject?.Label ?? "none")
+        </div>
+    </BFUStack>
 
-        <Demo Header="Datasource is a List&lt;CustomObject&gt; using the OptionTemplate" Key="0" MetadataPath="ChoiceGroupPage">
-            <BFUStack>
-                <BFUChoiceGroup ItemsSource="this._customObjects2" @bind-Value="this._selectedCustomObject2" ItemAlignment="FlexDirection.Row">
-                    <OptionTemplate Context="item">
-                        <div style="width:200px;height:90px">
-                            <BFUIcon IconName="@item.IconName" Style="font-size:36px;margin-bottom:10px"></BFUIcon>
-                            @if (item.Id == 1)
-                            {
-                                <BFUDatePicker Disabled="_selectedCustomObject2?.Id != 1" @bind-Value="_selectedDate"></BFUDatePicker>
-                            }
-                            else if (item.Id == 3)
-                            {
-                                <BFUDropdown ItemsSource=@_months TItem="Month" Disabled="_selectedCustomObject2?.Id != 3" Placeholder="Select a Month" @bind-SelectedKey=@_selectedMonth>
-                                    <ItemTemplate>
-                                        <BFUDropdownItem TItem="Month" Text=@context.Name ItemKey="@context.Name" />
-                                    </ItemTemplate>
-                                </BFUDropdown>
-                            }
-                        </div>
-                    </OptionTemplate>
-                </BFUChoiceGroup>
-                <br />
-                <div>
-                    Selected option id: @(_selectedCustomObject2?.Id.ToString() ?? "none")
+    <BFUStack>
+        <h3>Datasource is a List&lt;CustomObject&gt; using the "OptionTemplate"</h3>
+        <BFUChoiceGroup ItemsSource="this._customObjects2" @bind-Value="this._selectedCustomObject2" ItemAlignment="FlexDirection.Row">
+            <OptionTemplate Context="item">
+                <div style="width:200px;height:90px">
+                    <BFUIcon IconName="@item.IconName" Style="font-size:36px;margin-bottom:10px"></BFUIcon>
+                    @if (item.Id == 1)
+                    {
+                        <BFUDatePicker Disabled="_selectedCustomObject2?.Id != 1" @bind-Value="_selectedDate"></BFUDatePicker>
+                    }
+                    else if (item.Id == 3)
+                    {
+                        <BFUDropdown ItemsSource=@_months.Select(x=>new BFUDropdownOption { Key = x.Name, Text = x.Name }) 
+                                     Disabled="_selectedCustomObject2?.Id != 3" 
+                                     Placeholder="Select a Month" 
+                                     @bind-SelectedKey=@_selectedMonth />
+                    }
                 </div>
-                <div>
-                    Selected date: @(_selectedDate != DateTime.MinValue ? _selectedDate.ToShortDateString() : "none")
-                </div>
-                <div>
-                    Selected month: @(_selectedMonth ?? "none")
-                </div>
-            </BFUStack>
-        </Demo>
+            </OptionTemplate>
+        </BFUChoiceGroup>
+        <br />
+        <div>
+            Selected option id: @(_selectedCustomObject2?.Id.ToString() ?? "none")
+        </div>
+        <div>
+            Selected date: @(_selectedDate != DateTime.MinValue ? _selectedDate.ToShortDateString() : "none")
+        </div>
+        <div>
+            Selected month: @(_selectedMonth ?? "none")
+        </div>
+    </BFUStack>
 
-        <div style="height:150px"></div>
-    </div>
+    <div style="height:150px"></div>
+</div>
 
 @code {
     private string _selectedStringOption;

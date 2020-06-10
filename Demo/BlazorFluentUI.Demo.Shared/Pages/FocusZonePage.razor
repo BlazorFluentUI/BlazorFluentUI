@@ -46,8 +46,8 @@
                 left: 4px;
                 top: 4px;
                 bottom: 4px;
-                border: 1px solid var(--palette-White);
-                outline: 2px solid var(--palette-ThemePrimary);
+                border: 1px solid @(Theme.Palette.White);
+                outline: 2px solid @(Theme.Palette.ThemePrimary);
             }
 </style>
 
@@ -69,6 +69,10 @@
 @code {
     bool isFocusTrapped = false;
     string debugText = "";
+
+    [Inject] public ThemeProvider ThemeProvider { get; set; }
+
+    public ITheme Theme => ThemeProvider.Theme;
 
     System.Collections.Generic.List<string> items = new System.Collections.Generic.List<string>();
 

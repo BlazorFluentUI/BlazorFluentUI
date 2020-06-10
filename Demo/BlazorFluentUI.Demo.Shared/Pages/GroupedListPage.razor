@@ -3,29 +3,30 @@
 
 
     <BFUStack Style="height:calc(100% - 0px);">
+        <BFUToggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
         <BFUToggle OffText="Normal" OnText="Compact" Label="Enable compact mode" @bind-Checked="isCompact" />
         <BFULabel>Grouped List</BFULabel>
 
 
         <BFUSelectionZone @bind-Selection=@selection
-                       SelectionMode=@SelectionMode.Multiple>
+                          DisableRenderOnSelectionChanged="true"
+                          SelectionMode=@SelectionMode.Multiple>
             <BFUFocusZone Direction="FocusZoneDirection.Vertical"
-                       Style="height:100%;overflow-y:hidden;">
+                          Style="height:100%;overflow-y:hidden;">
                 <BFUGroupedList ItemsSource=@groupedData
-                                          Compact=@isCompact
-                                          TItem="GroupedDataItem"
-                                          GroupTitleSelector=@(x=>x.DisplayName)
-                                          SubGroupSelector=@(x=>x.Data)
-                                          Selection=@selection
-                                          SelectionMode=@SelectionMode.Multiple>
+                                Compact=@isCompact
+                                IsVirtualizing=@isVirtualizing
+                                TItem="GroupedDataItem"
+                                GroupTitleSelector=@(x=>x.DisplayName)
+                                SubGroupSelector=@(x=>x.Data)
+                                
+                                SelectionMode=@SelectionMode.Multiple>
                     <ItemTemplate>
                         <BFUDetailsRow Item=@context.Item
-                                    ItemIndex=@context.Index
-                                    Columns=@columns
-                                    Compact=@isCompact
-                                    GroupNestingDepth=@context.Depth
-                                    Selection=@selection
-                                    SelectionMode=@SelectionMode.Multiple />
+                                       Columns=@columns
+                                       Compact=@isCompact
+                                       GroupNestingDepth=@context.Depth
+                                       SelectionMode=@SelectionMode.Multiple />
                     </ItemTemplate>
                 </BFUGroupedList>
             </BFUFocusZone>
@@ -35,10 +36,11 @@
 @code {
     string DebugText = "";
     bool isCompact;
+    bool isVirtualizing = false;
     int count = 0;
     //GroupedDataItem rootGroup;
-    List<DataItem> data;
-    List<GroupedDataItem> groupedData;
+    HashSet<DataItem> data;
+    HashSet<GroupedDataItem> groupedData;
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
     List<BFUDetailsRowColumn<GroupedDataItem>> columns;
@@ -50,7 +52,7 @@
         columns.Add(new BFUDetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.DisplayName, Name = "Name" });
         columns.Add(new BFUDetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Description, Name = "Description" });
 
-        data = new List<DataItem>();
+        data = new HashSet<DataItem>();
 
         for (var i = 0; i < 100; i++)
         {
@@ -78,7 +80,7 @@
             }).ToList();
 
             return subGroup;
-        }).ToList();
+        }).ToHashSet();
 
         //groupedData.Add(new GroupedDataItem(new DataItem("TEST!") ) );
         //rootGroup = new GroupedDataItem(new DataItem("root"));

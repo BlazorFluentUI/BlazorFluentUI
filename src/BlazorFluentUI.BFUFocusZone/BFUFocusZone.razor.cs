@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BlazorFluentUI
 {
 
-    public partial class BFUFocusZone : BFUComponentBase, IDisposable
+    public partial class BFUFocusZone : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
     {
         [Inject] private IJSRuntime jsRuntime { get; set; }
 
@@ -100,34 +100,6 @@ namespace BlazorFluentUI
             base.OnAfterRender(firstRender);
         }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            //if (firstRender)
-            //{
-            //    if (_registrationTask == null)
-            //    {
-            //        RegisterFocusZoneAsync();
-            //        //_registrationTask = RegisterFocusZoneAsync();
-            //        //_registrationId = await _registrationTask;
-            //    }
-            //    else if (!_registrationTask.IsCompleted)
-            //    {
-            //        //await _registrationTask;
-            //    }
-            //    _jsAvailable = true;
-            //}
-            //else
-            //{
-            //    //update focusZone
-            //    //if (_registrationTask != null && !_registrationTask.IsCompleted)
-            //    //    await _registrationTask;
-
-            //    if (_registrationId != -1)
-            //        await UpdateFocusZoneAsync();
-
-            //}
-            await base.OnAfterRenderAsync(firstRender);
-        }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -201,6 +173,15 @@ namespace BlazorFluentUI
                 UnregisterFocusZoneAsync();
                 
             }
+        }
+
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
+        {
+            var rules = new HashSet<IRule>();
+
+            rules.AddCssClassSelector(".ms-FocusZone:focus").AppendCssStyles("outline:none;");
+
+            return rules;
         }
     }
 }

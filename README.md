@@ -190,8 +190,9 @@ public static async Task Main(string[] args)
 	...;
 }
 ```
+7. For simplicity, add a `@using BlazorFluentUI` to your `_Imports.razor` file.  If you don't, you'll have to add this using statement to every one of your pages.  Almost every component is prefixed with BFU*, so you won't find many name collisions.
 
-7. For Theme's add following in `App.razor` as most outside Component. You can have a look in Demo application's `App.razor`
+8. For Theme's add following in `App.razor` as most outside Component. You can have a look in Demo application's `App.razor`
 
 ```
 <BFUTheme>
@@ -200,12 +201,19 @@ public static async Task Main(string[] args)
 	</...>
 </BFUTheme>
 ```
+If you're creating your own theme and don't need to dynamically change it during runtime, you can set the `InitialPalette` and optionally, the `InitialSemanticColors` and `InitialSemanticTextColors` on `BFUTheme`.  
 
-8. If you're using any component that requires a `Layer` as part of its inner-workings (i.e. `BFUModal`, `BFUCallout`, `BFUTooltip`, etc... anything that pops up over already drawn stuff), you need to wrap the `Router` with a `LayerHost`.
+9. If you're using any component that requires a `Layer` as part of its inner-workings (i.e. `BFUModal`, `BFUCallout`, `BFUTooltip`, etc... anything that pops up over already drawn stuff), you need to wrap the `Router` with a `LayerHost`.
 ```
 <BFULayerHost Style="display:flex; flex-direction: row;width:100vw">
     <Router AppAssembly="typeof(Startup).Assembly" />
 </BFULayerHost>
 ```
 
+10. For client-side (webassembly), until AOT compiling has been enabled in Blazor, it is suggested that you add `BFUStylePreloader` just after the `BFUTheme`.  This will scan the assemblies for components that implement `IHasPreloadableGlobalStyles` and automatically load them into the page style.  For server-side, it is not necessary. 
+```
+<BFUTheme>
+	<BFUStylePreloader AppAssembly="typeof(MainLayout).Assembly" LoadAllComponents=true /> 
+	...
+```
 

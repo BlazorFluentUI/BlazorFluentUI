@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUSpinner : BFUComponentBase
+    public partial class BFUSpinner : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter] public string Label { get; set; }
         [Parameter] public SpinnerLabelPosition LabelPosition { get; set; } = SpinnerLabelPosition.Bottom;
@@ -58,7 +58,7 @@ namespace BlazorFluentUI
                     return " ms-Spinner--medium";
             }
         }
-        private ICollection<IRule> CreateGlobalCss()
+        public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             var spinnerRules = new HashSet<IRule>();
             spinnerRules.Add(new Rule()
@@ -104,8 +104,8 @@ namespace BlazorFluentUI
                 {
                     Css = $"box-sizing:border-box;" +
                     $"border-radius:50%;" +
-                    $"border:1.5px solid {Theme.Palette.ThemeLight};" +
-                    $"border-top-color:{Theme.Palette.ThemePrimary};" +
+                    $"border:1.5px solid {theme.Palette.ThemeLight};" +
+                    $"border-top-color:{theme.Palette.ThemePrimary};" +
                     $"animation-name:spinAnimation;" +
                     $"animation-duration:1.3s;" +
                     $"animation-iteration-count:infinite;" +
@@ -161,9 +161,9 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Spinner-label" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{Theme.FontStyle.FontWeight.Regular};" + 
-                          $"color:{Theme.Palette.ThemePrimary};" +
+                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};" + 
+                          $"color:{theme.Palette.ThemePrimary};" +
                             $"margin:8px 0 0 0;" +
                             $"text-align:center;"
                 }

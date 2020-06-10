@@ -2,14 +2,10 @@
 
 <h1>Callout</h1>
 
-<BFUDropdown TItem=@DirectionalHint
-             Style="max-width:300px;"
-             ItemsSource=@(Enum.GetValues(typeof(DirectionalHint)).Cast<DirectionalHint>().ToList())
-             @bind-SelectedKey=@SelectedDirection>
-    <ItemTemplate>
-        <BFUDropdownItem TItem=@DirectionalHint ItemKey=@context.ToString() Text=@context.ToString() />
-    </ItemTemplate>
-</BFUDropdown>
+<BFUDropdown
+          Style="max-width:300px;"
+          ItemsSource=@(Enum.GetValues(typeof(DirectionalHint)).Cast<DirectionalHint>().Select(x=>new BFUDropdownOption{Key=x.ToString(), Text=x.ToString()}))
+          @bind-SelectedKey=@SelectedDirection />
 
 <Demo Header="Callout" Key="0" MetadataPath="CalloutPage">
 

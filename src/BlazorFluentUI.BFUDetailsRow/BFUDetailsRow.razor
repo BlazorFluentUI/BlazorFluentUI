@@ -20,7 +20,7 @@
                  aria-colindex="1"
                  data-selection-toggle="true"
                  class="ms-DetailsRow-checkCell"
-                 @onclick="args => SelectionZone.HandleToggle(Item,ItemIndex)"
+                 @onclick="args => SelectionZone.HandleToggle(Item)"
                  @onclick:stopPropagation="true">
                 <BFUDetailsRowCheck IsVisible=@(this.CheckboxVisibility == CheckboxVisibility.Always)
                                  Compact=@Compact
@@ -36,7 +36,6 @@
         @if (Item != null)
         {
             <BFUDetailsRowFields Item=@Item
-                              ItemIndex=@ItemIndex
                               Columns=@Columns
                               ColumnStartIndex=@((showCheckbox ? 1 : 0)) />
 
@@ -44,7 +43,7 @@
             {
                 <span role="presentation" class="ms-DetailsRow-cellMeasurer ms-DetailsRow-cell">
                     <BFUDetailsRowFields Item=@Item
-                                      ItemIndex=@ItemIndex
+                                      
                                       Columns=@Columns
                                       ColumnStartIndex=@((showCheckbox ? 1 : 0) + Columns.Count()) />
                 </span>

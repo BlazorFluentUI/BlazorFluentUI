@@ -6,18 +6,18 @@
             <BFUCommandBarButton Text=@codeLabel IconName="ChevronDown" OnClick=@(arg=> { showCode = !showCode; showCCode = false; codeLabel = showCode ? "Hide Code" : "Show Code"; }) />
         </div>
     </BFUStack>
+    @ChildContent
     <div style="display:@(showCode ? "block" : "none");">
         <pre style="padding: 20px; white-space:pre-wrap; word-wrap:break-word;background-color:@ThemeProvider.Theme.Palette.Black;color:@ThemeProvider.Theme.Palette.White;">
            @codeLiteral
            @if (!showCCode)
            {
-            <BFULink OnClick="(args)=>showCCode=true">Show additional C# code...</BFULink>}
+        <BFULink OnClick="(args)=>showCCode=true">Show additional C# code...</BFULink>}
            else
            {
             @ccodeLiteral
            }</pre>
     </div>
-    @ChildContent
 </BFUStack>
 
 

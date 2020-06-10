@@ -7,27 +7,31 @@
           ItemsSource=@(Enum.GetValues(typeof(DirectionalHint)).Cast<DirectionalHint>().Select(x=>new BFUDropdownOption{Key=x.ToString(), Text=x.ToString()}))
           @bind-SelectedKey=@SelectedDirection />
 
-<div style="height:200px;"></div>
-<div style="display:inline;overflow-x:auto;">
-    <div style="width:300px"></div>
-    <BFUDefaultButton Text="Show Callout" OnClick=ClickHandler @ref="calloutTarget" />
-    <div style="width:300px"></div>
-</div>
-<div style="height:400px;"></div>
-@if (!calloutHidden)
-{
-    <BFUCallout FabricComponentTarget=@calloutTarget
-             DirectionalHint=@((DirectionalHint)Enum.Parse(typeof(DirectionalHint),SelectedDirection))
-             OnDismiss=@DismissHandler>
-        <div Style="max-width:300px; padding:20px;">
-            <h2>Callout Test</h2>
-            <p style="min-width: 150px;">
-                There are a few things in here.
-            </p>
-            <BFUPrimaryButton Text="Ok" />
-        </div>
-    </BFUCallout>
-}
+<Demo Header="Callout" Key="0" MetadataPath="CalloutPage">
+
+    <div style="height:200px;"></div>
+    <div style="display:inline;overflow-x:auto;">
+        <div style="width:300px"></div>
+        <BFUDefaultButton Text="Show Callout" OnClick=ClickHandler @ref="calloutTarget" />
+        <div style="width:300px"></div>
+    </div>
+    <div style="height:400px;"></div>
+    @if (!calloutHidden)
+    {
+        <BFUCallout FabricComponentTarget=@calloutTarget
+                    DirectionalHint=@((DirectionalHint)Enum.Parse(typeof(DirectionalHint),SelectedDirection))
+                    OnDismiss=@DismissHandler>
+            <div Style="max-width:300px; padding:20px;">
+                <h2>Callout Test</h2>
+                <p style="min-width: 150px;">
+                    There are a few things in here.
+                </p>
+                <BFUPrimaryButton Text="Ok" />
+            </div>
+        </BFUCallout>
+    }
+
+</Demo>
 
 @code {
 

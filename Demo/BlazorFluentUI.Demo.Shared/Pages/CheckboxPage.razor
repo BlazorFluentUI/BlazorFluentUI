@@ -2,31 +2,34 @@
 
 <h1>Checkbox</h1>
 
-<h4>Basic Checkboxes</h4>
-<BFUStack Tokens=stackTokens>
-    <BFUCheckbox Label="Unchecked checkbox (uncontrolled)" CheckedChanged=FirstChange />
-    <BFUCheckbox Label="Checked checkbox (uncontrolled)" DefaultChecked="true" CheckedChanged=FirstChange />
-    <BFUCheckbox Label="Disabled checkbox" Disabled="true" />
-    <BFUCheckbox Label="Disabled checked checkbox" Disabled="true" DefaultChecked="true" />
-</BFUStack>
+<Demo Header="Basic Checkboxes" Key="0" MetadataPath="CheckboxPage">
+    <BFUStack Tokens=stackTokens>
+        <BFUCheckbox Label="Unchecked checkbox (uncontrolled)" CheckedChanged=FirstChange />
+        <BFUCheckbox Label="Checked checkbox (uncontrolled)" DefaultChecked="true" CheckedChanged=FirstChange />
+        <BFUCheckbox Label="Disabled checkbox" Disabled="true" />
+        <BFUCheckbox Label="Disabled checked checkbox" Disabled="true" DefaultChecked="true" />
+    </BFUStack>
+</Demo>
 
-<h4>Other Implementation Examples</h4>
-<BFUStack Tokens=stackTokens>
-    <BFULabel>Controlled checkbox is @(_isFirstChecked ? "checked" : "unchecked").</BFULabel>
-    <BFUCheckbox Label="Controlled checkbox" @bind-Checked=@_isFirstChecked />
-    <BFUCheckbox Label='Checkbox rendered with boxSide "end"' BoxSide="BoxSide.End" />
-    @*<BFUCheckbox Label="Checkbox with extra props for the input" inputProps={inputProps} />*@
-    @*<BFUCheckbox Label="Checkbox with link inside the label" onRenderLabel={_renderLabelWithLink} />*@
-</BFUStack>
+<Demo Header="Other Implementation Examples" Key="0" MetadataPath="CheckboxPage">
+    <BFUStack Tokens=stackTokens>
+        <BFULabel>Controlled checkbox is @(_isFirstChecked ? "checked" : "unchecked").</BFULabel>
+        <BFUCheckbox Label="Controlled checkbox" @bind-Checked=@_isFirstChecked />
+        <BFUCheckbox Label='Checkbox rendered with boxSide "end"' BoxSide="BoxSide.End" />
+        @*<BFUCheckbox Label="Checkbox with extra props for the input" inputProps={inputProps} />*@
+        @*<BFUCheckbox Label="Checkbox with link inside the label" onRenderLabel={_renderLabelWithLink} />*@
+    </BFUStack>
+</Demo>
 
-<h4>Indeterminate Checkboxes</h4>
-<BFUStack Tokens=stackTokens>
-    <BFULabel>Indeterminate checkbox (controlled) is @(_isIndeterminate ? "indeterminate" : (_isSecondChecked ? "checked" : "unchecked" )).</BFULabel>
-    <BFUCheckbox Label="Indeterminate checkbox (uncontrolled)" DefaultIndeterminate="true" />
-    <BFUCheckbox Label="Indeterminate checkbox which defaults to true when clicked (uncontrolled)" DefaultIndeterminate="true" DefaultChecked="true" />
-    <BFUCheckbox Label="Disabled indeterminate checkbox" Disabled="true" DefaultIndeterminate="true" />
-    <BFUCheckbox Label="Indeterminate checkbox (controlled)" @bind-Indeterminate=@_isIndeterminate @bind-Checked=@_isSecondChecked />
-</BFUStack>
+<Demo Header="Indeterminate Checkboxes" Key="0" MetadataPath="CheckboxPage">
+    <BFUStack Tokens=stackTokens>
+        <BFULabel>Indeterminate checkbox (controlled) is @(_isIndeterminate ? "indeterminate" : (_isSecondChecked ? "checked" : "unchecked" )).</BFULabel>
+        <BFUCheckbox Label="Indeterminate checkbox (uncontrolled)" DefaultIndeterminate="true" />
+        <BFUCheckbox Label="Indeterminate checkbox which defaults to true when clicked (uncontrolled)" DefaultIndeterminate="true" DefaultChecked="true" />
+        <BFUCheckbox Label="Disabled indeterminate checkbox" Disabled="true" DefaultIndeterminate="true" />
+        <BFUCheckbox Label="Indeterminate checkbox (controlled)" @bind-Indeterminate=@_isIndeterminate @bind-Checked=@_isSecondChecked />
+    </BFUStack>
+</Demo>
 
 @code{
 

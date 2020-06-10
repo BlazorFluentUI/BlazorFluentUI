@@ -1,24 +1,22 @@
 ﻿@page "/detailsListPageBasic"
 
-@using System.Collections.ObjectModel
-
-    <BFUStack Style="height:100%;">
-        <h3>DetailsList</h3>
-        <BFUDetailsList ItemsSource="InputList"
-                        Columns="Columns"
-                        LayoutMode="DetailsListLayoutMode.Justified"
-                        @bind-Selection="selection"
-                        SelectionMode="SelectionMode.Multiple">
-        </BFUDetailsList>
-    </BFUStack>
+<BFUStack Style="height:100%;">
+    <h3>DetailsList</h3>
+    <BFUDetailsList ItemsSource="InputList"
+                    Columns="Columns"
+                    LayoutMode="DetailsListLayoutMode.Justified"
+                    @bind-Selection="selection"
+                    SelectionMode="SelectionMode.Multiple">
+    </BFUDetailsList>
+</BFUStack>
 
 @code {
 
-    ObservableCollection<DataItem> InputList = new ObservableCollection<DataItem>();
+    List<DataItem> InputList = new List<DataItem>();
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
-    public ObservableCollection<BFUDetailsRowColumn<DataItem>> Columns = new ObservableCollection<BFUDetailsRowColumn<DataItem>>();
+    public List<BFUDetailsRowColumn<DataItem>> Columns = new List<BFUDetailsRowColumn<DataItem>>();
 
     protected override void OnInitialized()
     {
@@ -39,7 +37,7 @@
 
     private void OnColumnClick(BFUDetailsRowColumn<DataItem> column)
     {
-        InputList = new ObservableCollection<DataItem>(column.IsSorted ? InputList.OrderBy(x => x.DisplayName) : InputList.OrderByDescending(x => x.DisplayName));
+        InputList = new List<DataItem>(column.IsSorted ? InputList.OrderBy(x => x.DisplayName) : InputList.OrderByDescending(x => x.DisplayName));
         column.IsSorted = !column.IsSorted;
         StateHasChanged();
     }

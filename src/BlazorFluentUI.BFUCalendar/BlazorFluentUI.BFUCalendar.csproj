@@ -5,6 +5,7 @@
     <RazorLangVersion>3.0</RazorLangVersion>
     <AssemblyName>BlazorFluentUI.BFUCalendar</AssemblyName>
     <RootNamespace>BlazorFluentUI</RootNamespace>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 

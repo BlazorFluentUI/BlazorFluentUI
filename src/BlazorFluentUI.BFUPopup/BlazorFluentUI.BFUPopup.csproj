@@ -11,6 +11,7 @@
     <RazorLangVersion>3.0</RazorLangVersion>
     <AssemblyName>BlazorFluentUI.BFUPopup</AssemblyName>
     <RootNamespace>BlazorFluentUI</RootNamespace>
+    <Nullable>enable</Nullable>
     <RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>
     <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>

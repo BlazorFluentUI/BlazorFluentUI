@@ -58,7 +58,7 @@ namespace BlazorFluentUI
         public RenderFragment<TItem> RowTemplate { get; set; }
 
         [Parameter]
-        public Selection<TItem> Selection { get; set; }
+        public Selection<TItem> Selection { get; set; } = new Selection<TItem>();
 
         [Parameter]
         public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
@@ -106,13 +106,12 @@ namespace BlazorFluentUI
                 return false;
             }
             return true;
-            //return base.ShouldRender();
         }
 
         public override Task SetParametersAsync(ParameterView parameters)
-        {            
+        {
             shouldRender = false;
-            
+
             var dictParameters = parameters.ToDictionary();
             if (lastParameters == null)
             {
@@ -122,39 +121,16 @@ namespace BlazorFluentUI
             {
                 var differences = dictParameters.Where(entry =>
                 {
-                    //if (entry.Value is Enum)
-                    //{
-                    //    return (int)lastParameters[entry.Key] != (int)entry.Value;
-                    //}
-                    //else
-                    //{
-                        return !lastParameters[entry.Key].Equals(entry.Value);
-                    //}
+                    return !lastParameters[entry.Key].Equals(entry.Value);
                 }
                 ).ToDictionary(entry => entry.Key, entry => entry.Value);
 
-                if (differences.Count> 0)
+                if (differences.Count > 0)
                 {
                     shouldRender = true;
                 }
             }
             lastParameters = dictParameters;
-            //if (ItemsSource != parameters.GetValueOrDefault<IEnumerable<TItem>>("ItemsSource"))
-            //    shouldRender = true;
-           
-            //var newLayoutMode = parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode");
-            //if (LayoutMode != newLayoutMode)
-            //    shouldRender = true;
-
-            //if (parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility") != CheckboxVisibility
-            //    || parameters.GetValueOrDefault<IEnumerable<BFUDetailsRowColumn<TItem>>>("Columns") != Columns
-            //    || parameters.GetValueOrDefault<bool>("Compact") != Compact
-            //    || parameters.GetValueOrDefault<SelectionMode>("SelectionMode") != SelectionMode
-            //    || parameters.GetValueOrDefault<SelectionMode>("SelectionMode") != SelectionMode
-            //    )
-            //{
-            //    shouldRender = true;
-            //}
 
             if (_viewport != null && _viewport != _lastViewport)
             {
@@ -191,19 +167,16 @@ namespace BlazorFluentUI
         {
             if (SubGroupSelector == null)
             {
-                if (Selection.SelectedItems.Count() == this.ItemsSource.Count() && this.ItemsSource.Count() > 0)
-                    return true;
-                else
-                    return false;
+                return Selection.SelectedItems.Count() == ItemsSource.Count() && ItemsSource.Any();
             }
             else
             {
                 //source is grouped... need to recursively select them all.
-                var flattenedItems = this.ItemsSource?.SelectManyRecursive(x => SubGroupSelector(x));
-                if (flattenedItems.Count() == Selection.SelectedItems.Count() && flattenedItems.Count() > 0)
-                    return true;
-                else
+                var flattenedItems = ItemsSource?.SelectManyRecursive(x => SubGroupSelector(x));
+                if (flattenedItems == null)
                     return false;
+
+                return flattenedItems.Count() == Selection.SelectedItems.Count() && flattenedItems.Any();
             }
         }
 
@@ -244,7 +217,7 @@ namespace BlazorFluentUI
                 AdjustColumns(ItemsSource, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true);
         }
 
-        private void AdjustColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<BFUDetailsRowColumn<TItem>> newColumns,bool forceUpdate,int resizingColumnIndex = -1)
+        private void AdjustColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<BFUDetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex = -1)
         {
             _adjustedColumns = GetAdjustedColumns(newItems, newLayoutMode, newSelectionMode, newCheckboxVisibility, newColumns, forceUpdate, resizingColumnIndex);
         }
@@ -312,14 +285,14 @@ namespace BlazorFluentUI
             }
 
             int count = 0;
-            var fixedWidth = fixedColumns.Aggregate<BFUDetailsRowColumn<TItem>, double, double>(0, (total, column) =>  total + GetPaddedWidth(column, ++count == 0), x => x);
+            var fixedWidth = fixedColumns.Aggregate<BFUDetailsRowColumn<TItem>, double, double>(0, (total, column) => total + GetPaddedWidth(column, ++count == 0), x => x);
 
             var remainingColumns = newColumns.Skip(resizingColumnIndex).Take(newColumns.Count() - resizingColumnIndex);
             var remainingWidth = viewportWidth - fixedWidth;
 
-            var adjustedColumns = GetJustifiedColumns(remainingColumns,newCheckboxVisibility,newSelectionMode, remainingWidth, resizingColumnIndex);
+            var adjustedColumns = GetJustifiedColumns(remainingColumns, newCheckboxVisibility, newSelectionMode, remainingWidth, resizingColumnIndex);
 
-            return Enumerable.Concat(fixedColumns, adjustedColumns);            
+            return Enumerable.Concat(fixedColumns, adjustedColumns);
         }
 
         private IEnumerable<BFUDetailsRowColumn<TItem>> GetJustifiedColumns(IEnumerable<BFUDetailsRowColumn<TItem>> newColumns, CheckboxVisibility newCheckboxVisibility, SelectionMode newSelectionMode, double viewportWidth, int resizingColumnIndex)
@@ -351,7 +324,7 @@ namespace BlazorFluentUI
                 var minWidth = !double.IsNaN(col.MinWidth) ? col.MinWidth : 100;
                 var overflowWidth = totalWidth - availableWidth;
 
-                if (col.CalculatedWidth - minWidth >=overflowWidth || !col.IsCollapsible)
+                if (col.CalculatedWidth - minWidth >= overflowWidth || !col.IsCollapsible)
                 {
                     var originalWidth = col.CalculatedWidth;
                     col.CalculatedWidth = Math.Max(col.CalculatedWidth - overflowWidth, minWidth);
@@ -366,7 +339,7 @@ namespace BlazorFluentUI
             }
 
             //Then expand columns starting at the beginning, until we've filled the width.
-            for (var i=0; i<adjustedColumns.Count && totalWidth < availableWidth; i++)
+            for (var i = 0; i < adjustedColumns.Count && totalWidth < availableWidth; i++)
             {
                 var col = adjustedColumns[i];
                 var isLast = i == adjustedColumns.Count - 1;

@@ -8,11 +8,11 @@
             Style="max-width:300px; margin:0 0 15px 0;"
             @bind-Value="selectedDate1"
             Placeholder="Select a date..."
-            FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeek)) />
+            FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeekOption?.Text)) />
 <BFUDropdown ItemsSource=@DaysOfWeek.Select(x=>new BFUDropdownOption {Key=x.ToString(), Text=System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(x) })
           Style="max-width:300px; margin:0 0 15px 0;"
           Placeholder="Select an option"
-          @bind-SelectedKey=@selectedDayOfWeek
+          @bind-SelectedOption=@selectedDayOfWeekOption
           Label="Select the first day of the week" />
 
 
@@ -55,7 +55,8 @@
     DateTime selectedDate2;
     DateTime selectedDate3;
 
-    string selectedDayOfWeek = DayOfWeek.Sunday.ToString();
+    //string selectedDayOfWeek = DayOfWeek.Sunday.ToString();
+    IBFUDropdownOption selectedDayOfWeekOption = new BFUDropdownOption { Key = DayOfWeek.Sunday.ToString(), Text = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(DayOfWeek.Sunday) };
     List<DayOfWeek> DaysOfWeek = Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>().ToList(); // new System.Collections.Generic.List<DayOfWeek>();
 
 }

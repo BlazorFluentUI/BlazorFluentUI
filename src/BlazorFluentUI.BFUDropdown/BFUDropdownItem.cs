@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI.BFUDropdownInternal
@@ -21,11 +23,12 @@ namespace BlazorFluentUI.BFUDropdownInternal
 
         protected override Task OnParametersSetAsync()
         {
-            if (this.Dropdown!= null && (this.Dropdown.SelectedKeys.Count > 0 || this.Dropdown.SelectedKey != null))
+            if (this.Dropdown!= null && 
+                (this.Dropdown.SelectedOptions.Count() > 0|| this.Dropdown.SelectedOption != null))
             {
-                if (this.Dropdown.SelectedKeys.Contains(this.Key))
+                if (this.Dropdown.SelectedOptions.FirstOrDefault(x => x.Key == this.Key) != null)
                     isSelected = true;
-                else if (this.Dropdown.SelectedKey == this.Key)
+                else if (this.Dropdown.SelectedOption?.Key == this.Key)
                     isSelected = true;
                 else
                     isSelected = false;
@@ -58,6 +61,25 @@ namespace BlazorFluentUI.BFUDropdownInternal
 
         }
 
+        private void ApplyChange()
+        {
+            if (Dropdown.MultiSelect)
+            {
+                if (isSelected) 
+                { 
+                    this.Dropdown.RemoveSelection(this.Key); 
+                } 
+                else { 
+                    this.Dropdown.AddSelection(this.Key); 
+                }
+            }
+            else
+            {
+                this.Dropdown.ResetSelection(); 
+                this.Dropdown.AddSelection(this.Key);
+            }
+        }
+
         private void BuildOption(RenderTreeBuilder builder, int i=0)
         {
             if (Dropdown.MultiSelect)
@@ -68,7 +90,7 @@ namespace BlazorFluentUI.BFUDropdownInternal
                 builder.AddAttribute(i + 3, "ClassName", $"ms-Dropdown-item {(Disabled ? "is-disabled" : "")} {(Hidden ? "is-hidden" : "")}  {(isSelected ? "selected" : "")}");
                 builder.AddAttribute(i + 4, "Label", this.Text);
                 builder.AddAttribute(i + 5, "Checked", isSelected);
-                builder.AddAttribute(i + 6, "CheckedChanged", EventCallback.Factory.Create<bool>(this, __value => { if (isSelected) { this.Dropdown.RemoveSelection(this.Key); } else { this.Dropdown.AddSelection(this.Key); } }));
+                builder.AddAttribute(i + 6, "CheckedChanged", EventCallback.Factory.Create<bool>(this, __value => { ApplyChange(); }));
                 builder.CloseComponent();
             }
             else
@@ -77,7 +99,7 @@ namespace BlazorFluentUI.BFUDropdownInternal
                 //builder.AddAttribute(i + 1, "Key", this.Key);
                 builder.AddAttribute(i + 2, "Disabled", Disabled);
                 builder.AddAttribute(i + 3, "ClassName", $"ms-Dropdown-item {(Disabled ? "is-disabled" : "")} {(Hidden ? "is-hidden" : "")}  {(isSelected ? "selected" : "")}");
-                builder.AddAttribute(i + 4, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, __value => { this.Dropdown.ResetSelection(); this.Dropdown.AddSelection(this.Key); }));
+                builder.AddAttribute(i + 4, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, __value => { ApplyChange(); }));
                 builder.AddAttribute(i + 5, "ChildContent", (RenderFragment)((builder2) =>
                 {
                     builder2.OpenElement(i + 6, "span");

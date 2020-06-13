@@ -19,7 +19,7 @@ namespace BlazorFluentUI
 
         public bool ClientSide { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY"));
 
-        public BFUGlobalRules GlobalRules { get; set; }
+        public BFUGlobalRules? GlobalRules { get; set; }
 
         public ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
         public ObservableCollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
@@ -37,7 +37,8 @@ namespace BlazorFluentUI
 
         public void SetDisposedAction()
         {
-            GlobalRules.OnDispose = Disposed;
+            if (GlobalRules != null)
+                GlobalRules.OnDispose = Disposed;
         }
 
         public void Disposed()
@@ -141,7 +142,7 @@ namespace BlazorFluentUI
             {
                 GlobalCSRules.Clear();
                 GlobalCSRules = newRules;
-                GlobalRules.UpdateGlobalRules();
+                GlobalRules?.UpdateGlobalRules();
             }
         }
 
@@ -181,7 +182,7 @@ namespace BlazorFluentUI
             }
         }
 
-        private ICollection<string> GetAllGlobalCSRules()
+        private ICollection<string>? GetAllGlobalCSRules()
         {
             var globalCSRules = new HashSet<string>();
             var update = false;
@@ -223,22 +224,26 @@ namespace BlazorFluentUI
 
         public string PrintRule(IRule rule)
         {
-            if (rule?.Properties == null)
+            if (rule == null)
+                return "";
+            if (rule.Properties == null)
                 return "";
             var ruleAsString = "";
-            ruleAsString += $"{(rule as Rule).Selector.GetSelectorAsString()}{{";
+            
+            ruleAsString += $"{(rule as Rule)?.Selector?.GetSelectorAsString()}{{";
 
             if (rule.Properties is CssString)
             {
-                return ruleAsString + (rule.Properties as CssString).Css + "}";
+                return ruleAsString + (rule.Properties as CssString)?.Css + "}";
             }
             else
             {
-                foreach (var property in GetCachedProperties(rule.Properties.GetType()))
+                var type = rule.Properties.GetType();
+                foreach (var property in GetCachedProperties(type))
                 {
                     string cssProperty = "";
                     string cssValue = "";
-                    Attribute attribute = null;
+                    Attribute? attribute = null;
 
                     //Catch Ignore Propertie
                     attribute = GetCachedCustomAttribute(property, typeof(CsIgnoreAttribute));  // property.GetCustomAttribute(typeof(CsIgnoreAttribute));
@@ -254,20 +259,23 @@ namespace BlazorFluentUI
                     attribute = GetCachedCustomAttribute(property, typeof(CsPropertyAttribute));  //property.GetCustomAttribute(typeof(CsPropertyAttribute));
                     if (attribute != null)
                     {
-                        if ((attribute as CsPropertyAttribute).IsCssStringProperty)
+                        var propAttribute = attribute as CsPropertyAttribute;
+                        if (propAttribute != null)
                         {
-                            ruleAsString += GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
-                            continue;
+                            if (propAttribute.IsCssStringProperty)
+                            {
+                                ruleAsString += GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
+                                continue;
+                            }
+                            cssProperty = propAttribute.PropertyName;
                         }
-
-                        cssProperty = (attribute as CsPropertyAttribute).PropertyName;
                     }
                     else
                     {
                         cssProperty = property.Name;
                     }
 
-                    cssValue = GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
+                    cssValue = GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties).ToString(); //property.GetValue(rule.Properties)?.ToString();
                     if (cssValue != null)
                     {
                         ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";
@@ -290,9 +298,9 @@ namespace BlazorFluentUI
             return properties;
         }
 
-        private Attribute GetCachedCustomAttribute(PropertyInfo property, Type attributeType)
+        private Attribute? GetCachedCustomAttribute(PropertyInfo property, Type attributeType)
         {
-            Attribute attribute = null;
+            Attribute? attribute = null;
             List<Attribute> attributes;
             if (_attributeDictionary.TryGetValue(property, out attributes) == false)
             {

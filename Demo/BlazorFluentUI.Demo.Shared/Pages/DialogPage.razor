@@ -78,6 +78,6 @@
 
     void UncontrolledSingleChangeHandler(BFUDropdownChangeArgs args)
     {
-        uncontrolledSingleSelectionResult = args.Key;
+        uncontrolledSingleSelectionResult = args.Option?.Key;
     }
 }

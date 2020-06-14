@@ -274,8 +274,8 @@ namespace BlazorFluentUI
                     {
                         cssProperty = property.Name;
                     }
-
-                    cssValue = GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties).ToString(); //property.GetValue(rule.Properties)?.ToString();
+                    // getter could return null so check for null before ToString call.
+                    cssValue = GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString(); //property.GetValue(rule.Properties)?.ToString();
                     if (cssValue != null)
                     {
                         ruleAsString += $"{cssProperty.ToLower()}:{(string.IsNullOrEmpty(cssValue) ? "\"\"" : cssValue)};";

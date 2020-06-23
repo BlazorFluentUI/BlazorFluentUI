@@ -1,0 +1,15 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+<div class=@($"{BaseClassName} {ClassName}")
+     data-is-focusable="@Actionable"
+     style="@Style"
+     @onkeydown="@(Actionable ? EventCallback.Factory.Create<KeyboardEventArgs>(this, KeyDownHandler) : EventCallback<KeyboardEventArgs>.Empty)"
+     @onclick="@(Actionable ? EventCallback.Factory.Create<MouseEventArgs>(this, OnClickHandler) : EventCallback<MouseEventArgs>.Empty)"
+     @onclick:preventDefault>
+
+    @ChildContent
+</div>

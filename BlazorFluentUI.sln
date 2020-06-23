@@ -139,6 +139,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUNavBar", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUChoiceGroup", "src\BlazorFluentUI.BFUChoiceGroup\BlazorFluentUI.BFUChoiceGroup.csproj", "{B4B9BB51-9B0B-4CDB-BE38-F56BAD19598F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUDocumentCard", "src\BlazorFluentUI.BFUDocumentCard\BlazorFluentUI.BFUDocumentCard.csproj", "{64CCAC60-097F-4F7A-B212-8D5F53F23E13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -365,6 +367,10 @@ Global
 		{B4B9BB51-9B0B-4CDB-BE38-F56BAD19598F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4B9BB51-9B0B-4CDB-BE38-F56BAD19598F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4B9BB51-9B0B-4CDB-BE38-F56BAD19598F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64CCAC60-097F-4F7A-B212-8D5F53F23E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64CCAC60-097F-4F7A-B212-8D5F53F23E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64CCAC60-097F-4F7A-B212-8D5F53F23E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64CCAC60-097F-4F7A-B212-8D5F53F23E13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -429,6 +435,7 @@ Global
 		{C2770245-5501-476A-9F85-7964DD343026} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{D49CED54-F6B7-442E-B0D3-0191E4820C96} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{B4B9BB51-9B0B-4CDB-BE38-F56BAD19598F} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{64CCAC60-097F-4F7A-B212-8D5F53F23E13} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

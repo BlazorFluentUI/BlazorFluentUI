@@ -1,18 +1,14 @@
 ﻿@page "/listPage"
 @using System.Linq 
 
-
-    @*<BFUDefaultButton OnClick=@(_=> basicList1.ScrollToIndexAsync(2700) ) 
-                   Text="Scroll to item 2700"/>*@
-    @*<div style="display:flex; flex-direction:column; height: calc(100vh - 73.5px);">
-        <div style="display:flex;flex-direction:column;flex-grow:1;height:100%;">*@
     <BFUStack Style="height:100%;">
         <div style="height:20px;">
             @DebugText
         </div>
 
-        <BFUDropdown ItemsSource=@(Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>().Select(x=>new BFUDropdownOption {Key=x.ToString(), Text=x.ToString() }))
-                  @bind-SelectedKey=SelectedMode
+        <BFUDropdown ItemsSource=@selectionModeOptions
+                  @bind-SelectedOption=selectedModeOption
+                  
                   Style="max-width:300px;">
         </BFUDropdown>
 
@@ -22,7 +18,7 @@
         <BFULabel>Virtualized List with selection modes</BFULabel>
         
         
-        <BFUSelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedMode))
+        <BFUSelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
                        @bind-Selection="selection"
                        @ref="selectionZone">
             <BFUFocusZone Style="height:100%;overflow-y:hidden;">
@@ -52,9 +48,25 @@
     int count = 0;
     System.Collections.ObjectModel.ObservableCollection<DataItem> data;
     string DebugText = "";
-    string SelectedMode = SelectionMode.Single.ToString();
+    IBFUDropdownOption selectedModeOption;
+    List<IBFUDropdownOption> selectionModeOptions;
+
     Selection<DataItem> selection = new Selection<DataItem>();
     BFUSelectionZone<DataItem> selectionZone;
+
+    protected override Task OnInitializedAsync()
+    {
+        data = new System.Collections.ObjectModel.ObservableCollection<DataItem>();
+
+        selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()
+            .Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() })
+            .Cast<IBFUDropdownOption>()
+            .ToList();
+        selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Single");
+
+        return Task.CompletedTask;
+    }
+
 
     Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
@@ -95,17 +107,6 @@
         return Task.CompletedTask;
     }
 
-    protected override Task OnInitializedAsync()
-    {
-        data = new System.Collections.ObjectModel.ObservableCollection<DataItem>();
-        //for (var i = 0; i < 10; i++)
-        //{
-        //    count++;
-        //    data.Add(new DataItem(i));
-        //}
-
-        return Task.CompletedTask;
-    }
 
 
 }

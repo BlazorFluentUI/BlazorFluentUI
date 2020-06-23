@@ -4,8 +4,8 @@
 
 <BFUDropdown
           Style="max-width:300px;"
-          ItemsSource=@(Enum.GetValues(typeof(DirectionalHint)).Cast<DirectionalHint>().Select(x=>new BFUDropdownOption{Key=x.ToString(), Text=x.ToString()}))
-          @bind-SelectedKey=@SelectedDirection />
+          ItemsSource=@options
+          @bind-SelectedOption=@selectedOption />
 
 <Demo Header="Callout" Key="0" MetadataPath="CalloutPage">
 
@@ -19,7 +19,7 @@
     @if (!calloutHidden)
     {
         <BFUCallout FabricComponentTarget=@calloutTarget
-                    DirectionalHint=@((DirectionalHint)Enum.Parse(typeof(DirectionalHint),SelectedDirection))
+                    DirectionalHint=@((DirectionalHint)Enum.Parse(typeof(DirectionalHint),selectedOption.Key))
                     OnDismiss=@DismissHandler>
             <div Style="max-width:300px; padding:20px;">
                 <h2>Callout Test</h2>
@@ -35,12 +35,22 @@
 
 @code {
 
-    bool isInitialized = false;
-    bool calloutHidden = true;
+        bool isInitialized = false;
+        bool calloutHidden = true;
 
-    BFUComponentBase calloutTarget;
+        BFUComponentBase calloutTarget;
 
-    string SelectedDirection = DirectionalHint.BottomLeftEdge.ToString();
+        List<IBFUDropdownOption> options;
+        IBFUDropdownOption selectedOption;
+        //string SelectedDirection = DirectionalHint.BottomLeftEdge.ToString();
+
+    protected override Task OnInitializedAsync()
+    {
+        options = Enum.GetValues(typeof(DirectionalHint)).Cast<DirectionalHint>().Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() }).Cast<IBFUDropdownOption>().ToList();
+        selectedOption = options.FirstOrDefault(x => x.Key == "BottomLeftEdge");
+
+        return base.OnInitializedAsync();
+    }
 
     Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {

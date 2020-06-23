@@ -5,6 +5,7 @@
     <RazorLangVersion>3.0</RazorLangVersion>
     <AssemblyName>BlazorFluentUI.AllComponents</AssemblyName>
     <RootNamespace>BlazorFluentUI</RootNamespace>
+    <Nullable>enable</Nullable>
     <Product>BlazorFluentUI.AllComponents</Product>
     <Description>All components from the BlazorFluentUI library, a blazor clone of the Fluent UI React components</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>

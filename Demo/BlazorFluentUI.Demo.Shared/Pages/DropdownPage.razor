@@ -2,73 +2,62 @@
 
 <h1>Dropdown</h1>
 
-<h3>Uncontrolled Single Selection</h3>
-@*<BlazorFluentUI.BFULabel>Selected: @uncontrolledSingleSelectionResult</BlazorFluentUI.BFULabel>*@
-<div style="max-width:300px;">
-    <BFUDropdown ItemsSource=@items  Placeholder="Select an option" OnChange=@UncontrolledSingleChangeHandler
-              Label=@($"Selected: {uncontrolledSingleSelectionResult}")>
-        @*<ItemTemplate>
-            <BFUDropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
-        </ItemTemplate>*@
-    </BFUDropdown>
-</div>
+<Demo Header="Uncontrolled Single Selection" Key="0" MetadataPath="DropdownPage">
+    <BFUDropdown ItemsSource=@items
+                 Placeholder="Select an option"
+                 OnChange=@UncontrolledSingleChangeHandler
+                 Label=@($"Selected: {uncontrolledSingleSelectionResult?.Text}")
+                 Style="width:300px;" />
+</Demo>
 
-<h3>Uncontrolled Multi-Selection</h3>
-<BlazorFluentUI.BFULabel>Selected: @string.Join(", ", uncontrolledMultiSelectionResult)</BlazorFluentUI.BFULabel>
-<div style="max-width:300px;">
-    <BFUDropdown ItemsSource=@items  MultiSelect="true" Placeholder="Select options..." OnChange=@UncontrolledMultiChangeHandler>
-        @*<ItemTemplate>
-            <BFUDropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
-        </ItemTemplate>*@
-    </BFUDropdown>
-</div>
+<Demo Header="Uncontrolled Multi-Selection" Key="1" MetadataPath="DropdownPage">
+    <BlazorFluentUI.BFULabel>Selected: @string.Join(", ", uncontrolledMultiSelectionResult.Select(x=>x.Text))</BlazorFluentUI.BFULabel>
+    <BFUDropdown ItemsSource=@items
+                 MultiSelect="true"
+                 Placeholder="Select options..."
+                 OnChange=@UncontrolledMultiChangeHandler
+                 Style="width:300px;" />
+</Demo>
 
-<h3>Controlled Single Selection</h3>
-<BlazorFluentUI.BFULabel>Selected: @string.Join(", ", controlledSingleSelectionResult)</BlazorFluentUI.BFULabel>
-<div style="max-width:300px;">
-    <BFUDropdown ItemsSource=@items Placeholder="Select an option" @bind-SelectedKey=@controlledSingleSelectionResult>
-        @*<ItemTemplate>
-            <BFUDropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
-        </ItemTemplate>*@
-    </BFUDropdown>
-</div>
+<Demo Header="Controlled Single Selection" Key="2" MetadataPath="DropdownPage">
+    <BlazorFluentUI.BFULabel>Selected: @(controlledSingleSelectionResult?.Text)</BlazorFluentUI.BFULabel>
+    <BFUDropdown ItemsSource=@items 
+                 Placeholder="Select an option" 
+                 @bind-SelectedOption=@controlledSingleSelectionResult 
+                 Style="width:300px;" />
+</Demo>
 
-<h3>Controlled Multi-Selection</h3>
-<BlazorFluentUI.BFULabel>Selected: @string.Join(", ", controlledMultiSelectionResult)</BlazorFluentUI.BFULabel>
-<div style="max-width:300px;">
-    <BFUDropdown ItemsSource=@items MultiSelect="true" Placeholder="Select options..." @bind-SelectedKeys=@controlledMultiSelectionResult @bind-SelectedKeys:event="SelectedKeysChanged">
-        @*<ItemTemplate>
-            <BFUDropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
-        </ItemTemplate>*@
-    </BFUDropdown>
-</div>
+<Demo Header="Controlled Multi-Selection" Key="3" MetadataPath="DropdownPage">
+    <BlazorFluentUI.BFULabel>Selected: @string.Join(", ", controlledMultiSelectionResult.Select(x=>x.Text))</BlazorFluentUI.BFULabel>
+    <BFUDropdown ItemsSource=@items 
+                 MultiSelect="true" 
+                 Placeholder="Select options..." 
+                 @bind-SelectedOptions=@controlledMultiSelectionResult 
+                 Style="width:300px;" />
+</Demo>
 
-<h3>Disabled</h3>
-<div style="max-width:300px;">
-    <BFUDropdown ItemsSource=@items Disabled="true" Placeholder="Select an option">
-        @*<ItemTemplate>
-            <BFUDropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
-        </ItemTemplate>*@
-    </BFUDropdown>
-</div>
+<Demo Header="Disabled" Key="4" MetadataPath="DropdownPage">
+    <BFUDropdown ItemsSource=@items 
+                 Disabled="true" 
+                 Placeholder="Select an option"
+                 Style="width:300px;" />
+</Demo>
 
-<h3>Disabled with Selected</h3>
-<div style="max-width:300px;">
-    <BFUDropdown ItemsSource=@items Disabled="true" Placeholder="Select an option" @bind-SelectedKey=@controlledSingleSelectionResult>
-        @*<ItemTemplate>
-            <BFUDropdownItem TItem="DataItem" ItemKey=@context.DisplayName Text=@context.DisplayName ItemType=@context.Type />
-        </ItemTemplate>*@
-    </BFUDropdown>
-</div>
-
+<Demo Header="Disabled with Selected" Key="5" MetadataPath="DropdownPage">
+    <BFUDropdown ItemsSource=@items
+                 Disabled="true"
+                 Placeholder="Select an option"
+                 @bind-SelectedOption=@controlledSingleSelectionResult
+                 Style="width:300px;" />
+</Demo>
 
 @code {
 
-    string uncontrolledSingleSelectionResult;
-    List<string> uncontrolledMultiSelectionResult = new List<string>();
+    IBFUDropdownOption uncontrolledSingleSelectionResult;
+    IEnumerable<IBFUDropdownOption> uncontrolledMultiSelectionResult = new List<IBFUDropdownOption>();
 
-    string controlledSingleSelectionResult = "Banana";
-    List<string> controlledMultiSelectionResult = new List<string> { "Banana", "Orange" };
+    IBFUDropdownOption controlledSingleSelectionResult;
+    IEnumerable<IBFUDropdownOption> controlledMultiSelectionResult;
 
     List<IBFUDropdownOption> items;
 
@@ -87,20 +76,25 @@
             new DataItem("Carrot"),
             new DataItem("Lettuce")
         }.Select(x => new BFUDropdownOption { Key = x.Key, Text = x.DisplayName, ItemType = x.Type }).Cast<IBFUDropdownOption>().ToList();
+
+        controlledSingleSelectionResult = items.First(x => x.Key == "Banana");
+
+        controlledMultiSelectionResult = items.Where(x => x.Key == "Banana" || x.Key == "Orange");
+
         return base.OnInitializedAsync();
     }
 
     void UncontrolledSingleChangeHandler(BFUDropdownChangeArgs args)
     {
-        uncontrolledSingleSelectionResult = args.Key;
+        uncontrolledSingleSelectionResult = args.Option;
     }
 
     void UncontrolledMultiChangeHandler(BFUDropdownChangeArgs args)
     {
         if (args.IsAdded)
-            uncontrolledMultiSelectionResult.Add(args.Key);
+            uncontrolledMultiSelectionResult = uncontrolledMultiSelectionResult.Append(args.Option);
         else
-            uncontrolledMultiSelectionResult.Remove(args.Key);
+            uncontrolledMultiSelectionResult = uncontrolledMultiSelectionResult.Where(x=> x != args.Option);
     }
 
 }

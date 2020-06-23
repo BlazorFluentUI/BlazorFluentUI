@@ -34,18 +34,18 @@
              @onclick=@ClickHandler
              @onkeydown=@KeydownHandler
              @onfocus=@FocusHandler
-             class=@($"ms-Dropdown mediumFont {(isOpen?"is-open":"")} {(this.Label!=null ? "has-label" : "")} {(Disabled?"is-disabled":"")} {(Required?"is-required":"")} {(SelectedKeys.Count == 0 && SelectedKey == null ?"has-placeholder":"")} {(ErrorMessage != null ?"has-error":"")}")>
+             class=@($"ms-Dropdown mediumFont {(isOpen?"is-open":"")} {(this.Label!=null ? "has-label" : "")} {(Disabled?"is-disabled":"")} {(Required?"is-required":"")} {(SelectedOptions.Count() == 0 && SelectedOption == null ?"has-placeholder":"")} {(ErrorMessage != null ?"has-error":"")}")>
             <span id=@($"{id}-option")
                   class="ms-Dropdown-title"
                   aria-atomic="true"
                   role="menuitem">
-                @if (SelectedKeys.Count > 0)
+                @if (SelectedOptions.Count() > 0)
                 {
-                    <span>@String.Join(", ", SelectedKeys)</span>
+                    <span>@String.Join(", ", SelectedOptions.Select(x => x.Text))</span>
                 }
-                else if (SelectedKey != null)
+                else if (SelectedOption != null)
                 {
-                    <span>@SelectedKey</span>
+                    <span>@SelectedOption.Text</span>
                 }
                 else
                 {

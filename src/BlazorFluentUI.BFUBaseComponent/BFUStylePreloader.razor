@@ -5,7 +5,7 @@
 {
     foreach (var type in Statics.ComponentTypes)
     {
-        IHasPreloadableGlobalStyle instance = null;
+        IHasPreloadableGlobalStyle? instance = null;
         if (type.IsGenericType)
         {
             //System.Diagnostics.Debug.WriteLine($"Generic! {type}");

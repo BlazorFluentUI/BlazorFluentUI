@@ -4,29 +4,35 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
     public partial class BFUDropdown : BFUResponsiveComponentBase, IHasPreloadableGlobalStyle
     {
-        [Parameter] public RenderFragment ChildContent { get; set; }
-        [Parameter] public IEnumerable<string> DefaultSelectedKeys { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
+        [Parameter] public IEnumerable<string>? DefaultSelectedKeys { get; set; }
+        [Parameter] public IEnumerable<IBFUDropdownOption>? DefaultSelectedOptions { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public int DropdownWidth { get; set; } = 0;
-        [Parameter] public string ErrorMessage { get; set; }
+        [Parameter] public string? ErrorMessage { get; set; }
         [Parameter] public IEnumerable<IBFUDropdownOption> ItemsSource { get; set; }
-        [Parameter] public RenderFragment<IBFUDropdownOption> ItemTemplate { get; set; }
-        [Parameter] public string Label { get; set; }
+        [Parameter] public RenderFragment<IBFUDropdownOption>? ItemTemplate { get; set; }
+        [Parameter] public string? Label { get; set; }
         [Parameter] public bool MultiSelect { get; set; }
         [Parameter] public EventCallback<BFUDropdownChangeArgs> OnChange { get; set; } 
-        [Parameter] public string Placeholder { get; set; }
+        [Parameter] public string? Placeholder { get; set; }
         [Parameter] public bool Required { get; set; }
         [Parameter] public ResponsiveMode ResponsiveMode { get; set; }
-        [Parameter] public string SelectedKey { get; set; }
-        [Parameter] public EventCallback<string> SelectedKeyChanged { get; set; }
-        [Parameter] public List<string> SelectedKeys { get; set; } = new List<string>();
-        [Parameter] public EventCallback<List<string>> SelectedKeysChanged { get; set; }
+        //[Parameter] [Obsolete] public string? SelectedKey { get; set; }
+        [Parameter] public IBFUDropdownOption? SelectedOption { get; set; }
+        [Parameter] public EventCallback<IBFUDropdownOption?> SelectedOptionChanged { get; set; }
+        //[Parameter] [Obsolete] public EventCallback<string> SelectedKeyChanged { get; set; }
+        //[Parameter] [Obsolete] public List<string> SelectedKeys { get; set; } = new List<string>();
+        [Parameter] public IEnumerable<IBFUDropdownOption> SelectedOptions { get; set; } = new List<IBFUDropdownOption>();
+        //[Parameter] [Obsolete] public EventCallback<List<string>> SelectedKeysChanged { get; set; }
+        [Parameter] public EventCallback<IEnumerable<IBFUDropdownOption>> SelectedOptionsChanged { get; set; }
 
         [Inject]
         private IJSRuntime jSRuntime { get; set; }
@@ -69,82 +75,139 @@ namespace BlazorFluentUI
 
         public void ResetSelection()
         {
-            SelectedKeys.Clear();
-            SelectedKey = null;
+            //SelectedKeys.Clear();
+            SelectedOptions = Enumerable.Empty<IBFUDropdownOption>();
+            //SelectedKey = null;
 
             if (MultiSelect)
             {
-                if (SelectedKeysChanged.HasDelegate)
-                    SelectedKeysChanged.InvokeAsync(SelectedKeys);
+                //if (SelectedKeysChanged.HasDelegate)
+                //    SelectedKeysChanged.InvokeAsync(SelectedKeys);
+                if (SelectedOptionsChanged.HasDelegate)
+                    SelectedOptionsChanged.InvokeAsync(SelectedOptions);
             }
             else
             {
-                if (SelectedKeyChanged.HasDelegate)
-                    SelectedKeyChanged.InvokeAsync(SelectedKey);
+                //if (SelectedKeyChanged.HasDelegate)
+                //    SelectedKeyChanged.InvokeAsync(SelectedKey);
+                if (SelectedOptionChanged.HasDelegate)
+                    SelectedOptionChanged.InvokeAsync(SelectedOption);
             }
             StateHasChanged();
         }
 
+       
         public void AddSelection(string key)
         {
+            var option = ItemsSource.FirstOrDefault(x => x.Key == key);
+            if (option == null)
+                return;
+
             if (MultiSelect)
-            {
-                if (SelectedKeys.Contains(key))
-                    throw new Exception("This key was already selected.");
+            {                
+                if (SelectedOptions.Contains(option))
+                    throw new Exception("This option was already selected somehow.");
 
                 if (OnChange.HasDelegate)
-                    OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, true));
+                    OnChange.InvokeAsync(new BFUDropdownChangeArgs(option, true));
 
-                SelectedKeys.Add(key);
+                SelectedOptions = SelectedOptions.Append(option).ToList();
 
-                if (SelectedKeysChanged.HasDelegate)
-                    SelectedKeysChanged.InvokeAsync(SelectedKeys);
+                if (SelectedOptionsChanged.HasDelegate)
+                    SelectedOptionsChanged.InvokeAsync(SelectedOptions);
+
+                //if (SelectedKeys.Contains(key))
+                //    throw new Exception("This key was already selected.");
+
+                //if (OnChange.HasDelegate)
+                //    OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, true));
+
+                //SelectedKeys.Add(key);
+
+                //if (SelectedKeysChanged.HasDelegate)
+                //    SelectedKeysChanged.InvokeAsync(SelectedKeys);
             }
             else
             {
-                if (SelectedKey!= key)
+                if (SelectedOption != option)
                 {
-                    SelectedKey = key;
+                    SelectedOption = option;
                     if (OnChange.HasDelegate)
-                        OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, true));
-                    if (SelectedKeyChanged.HasDelegate)
-                        SelectedKeyChanged.InvokeAsync(SelectedKey);
+                        OnChange.InvokeAsync(new BFUDropdownChangeArgs(option, true));
+                    if (SelectedOptionChanged.HasDelegate)
+                        SelectedOptionChanged.InvokeAsync(SelectedOption);
                 }
                 isOpen = false;
+                //if (SelectedKey!= key)
+                //{
+                //    SelectedKey = key;
+                //    if (OnChange.HasDelegate)
+                //        OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, true));
+                //    if (SelectedKeyChanged.HasDelegate)
+                //        SelectedKeyChanged.InvokeAsync(SelectedKey);
+                //}
+                //isOpen = false;
             }
             StateHasChanged();
         }
-
+        
         public void RemoveSelection(string key)
         {
+            var option = ItemsSource.FirstOrDefault(x => x.Key == key);
+            if (option == null)
+                return;
+
             if (MultiSelect)
             {
-                if (!SelectedKeys.Contains(key))
-                    throw new Exception("This key was not already selected.");
+                if (!SelectedOptions.Contains(option))
+                    throw new Exception("This option was not already selected.");
 
                 if (OnChange.HasDelegate)
-                    OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, false));
+                    OnChange.InvokeAsync(new BFUDropdownChangeArgs(option, false));
 
-                SelectedKeys.Remove(key);  //this used to be following the next command.  A bug?  I moved it here...
+                SelectedOptions = SelectedOptions.Where(x => x != option).ToList();
 
-                if (SelectedKeysChanged.HasDelegate)
-                    SelectedKeysChanged.InvokeAsync(SelectedKeys);
+                if (SelectedOptionsChanged.HasDelegate)
+                    SelectedOptionsChanged.InvokeAsync(SelectedOptions);
+
+
+                //if (!SelectedKeys.Contains(key))
+                //    throw new Exception("This key was not already selected.");
+
+                //if (OnChange.HasDelegate)
+                //    OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, false));
+
+                //SelectedKeys.Remove(key);  //this used to be following the next command.  A bug?  I moved it here...
+
+                //if (SelectedKeysChanged.HasDelegate)
+                //    SelectedKeysChanged.InvokeAsync(SelectedKeys);
 
             }
             else
             {
-                if (SelectedKey != null)
+                if (SelectedOption != null)
                 {
-                    SelectedKey = null;
+                    SelectedOption = null;
                     if (OnChange.HasDelegate)
-                        OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, false));
+                        OnChange.InvokeAsync(new BFUDropdownChangeArgs(option, false));
 
-                    if (SelectedKeyChanged.HasDelegate)
-                        SelectedKeyChanged.InvokeAsync(SelectedKey);
+                    if (SelectedOptionChanged.HasDelegate)
+                        SelectedOptionChanged.InvokeAsync(SelectedOption);
                 }
+                //if (SelectedKey != null)
+                //{
+                //    SelectedKey = null;
+                //    if (OnChange.HasDelegate)
+                //        OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, false));
+
+                //    if (SelectedKeyChanged.HasDelegate)
+                //        SelectedKeyChanged.InvokeAsync(SelectedKey);
+                //}
             }
             StateHasChanged();
         }
+
+       
 
         [JSInvokable]
         public override async Task OnResizedAsync(double windowWidth, double windowHeight)
@@ -188,6 +251,11 @@ namespace BlazorFluentUI
             {
                 foreach (var key in this.DefaultSelectedKeys)
                     AddSelection(key);
+            }
+            if (this.DefaultSelectedOptions != null)
+            {
+                foreach (var option in this.DefaultSelectedOptions)
+                    AddSelection(option.Key);
             }
             if (ItemTemplate == null)
             {
@@ -268,7 +336,7 @@ namespace BlazorFluentUI
             return Task.CompletedTask;
         }
 
-        protected async Task DismissHandler()
+        protected void DismissHandler()
         {
             isOpen = false;
         }

@@ -250,8 +250,6 @@ namespace BlazorFluentUiList {
 
 }
 
-
-
-
 (<any>window)['BlazorFluentUiList'] = BlazorFluentUiList || {};
+
 

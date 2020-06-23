@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -11,22 +12,42 @@ namespace BlazorFluentUI
     {
         [Parameter]
         public RenderFragment? ChildContent { get; set; }
+
+        /// <summary>
+        /// Compact layout. Displays the preview beside the details, rather than above.
+        /// </summary>
         [Parameter]
         public bool Compact { get; set; }
 
-        [Inject]
-        private IJSRuntime jSRuntime { get; set; }
+        /// <summary>
+        /// Function to call when the card is clicked or keyboard Enter/Space is pushed.
+        /// </summary>
+        [Parameter] public EventCallback OnClick { get; set; }
 
-        [Inject]
-        private NavigationManager NavigationManager { get; set; }
-
-        [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
-        [Parameter] public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
-
+        /// <summary>
+        /// A URL to navigate to when the card is clicked. If a function has also been provided, it will be used instead of the URL.
+        /// </summary>
         [Parameter] public string? OnClickHref { get; set; }
+
+        /// <summary>
+        /// A target browser context for opening the link. If not specified, will open in the same tab/window.
+        /// </summary>
         [Parameter] public string? OnClickTarget { get; set; }
+
+        [Inject]
+        internal IJSRuntime jSRuntime { get; set; }
+
+        [Inject]
+        internal NavigationManager NavigationManager { get; set; }
+
         public string? BaseClassName { get; set; }
 
+        /// <summary>
+        /// Can the component react on click or key events.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if actionable; otherwise, <c>false</c>.
+        /// </value>
         public bool Actionable { get; set; }
 
         public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
@@ -63,15 +84,15 @@ namespace BlazorFluentUI
         {
             if (keyboardEventArgs.Code == "Space" || keyboardEventArgs.Code == "Enter")
             {
-                await OnKeyDown.InvokeAsync(keyboardEventArgs).ConfigureAwait(false);
+                await OnClickHandler();
             }
         }
 
-        private async void OnClickHandler(MouseEventArgs mouseEventArgs)
+        private async Task OnClickHandler()
         {
             if (OnClick.HasDelegate)
             {
-                await OnClick.InvokeAsync(mouseEventArgs).ConfigureAwait(false);
+                await OnClick.InvokeAsync(null).ConfigureAwait(false);
             }
             else if (!OnClick.HasDelegate && !string.IsNullOrWhiteSpace(OnClickHref))
             {
@@ -84,6 +105,11 @@ namespace BlazorFluentUI
                     await jSRuntime.InvokeVoidAsync("open", OnClickHref, "_blank", "noreferrer nofollow").ConfigureAwait(false);
                 }
             }
+        }
+
+        private async void MouseClickHandler(MouseEventArgs mouseEventArgs)
+        {
+            await OnClickHandler();
         }
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)

@@ -7,8 +7,9 @@
 <div class=@($"{BaseClassName} {ClassName}")
      data-is-focusable="@Actionable"
      style="@Style"
+     role="@AriaRoleDescription"
      @onkeydown="@(Actionable ? EventCallback.Factory.Create<KeyboardEventArgs>(this, KeyDownHandler) : EventCallback<KeyboardEventArgs>.Empty)"
-     @onclick="@(Actionable ? EventCallback.Factory.Create<MouseEventArgs>(this, OnClickHandler) : EventCallback<MouseEventArgs>.Empty)"
+     @onclick="@(Actionable ? EventCallback.Factory.Create<MouseEventArgs>(this, MouseClickHandler) : EventCallback<MouseEventArgs>.Empty)"
      @onclick:preventDefault>
 
     @ChildContent

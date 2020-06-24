@@ -8,6 +8,18 @@ using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
+    public enum DocumentCardType
+    {
+        /// <summary>
+        /// Standard DocumentCard.
+        /// </summary>
+        Normal = 0,
+        /// <summary>
+        /// Compact layout. Displays the preview beside the details, rather than above.
+        /// </summary>
+        Compact = 1
+    }
+
     public partial class BFUDocumentCard : BFUComponentBase
     {
         [Parameter]
@@ -17,7 +29,7 @@ namespace BlazorFluentUI
         /// Compact layout. Displays the preview beside the details, rather than above.
         /// </summary>
         [Parameter]
-        public bool Compact { get; set; }
+        public DocumentCardType Type { get; set; }
 
         /// <summary>
         /// Function to call when the card is clicked or keyboard Enter/Space is pushed.
@@ -43,7 +55,7 @@ namespace BlazorFluentUI
         public string? BaseClassName { get; set; }
 
         /// <summary>
-        /// Can the component react on click or key events.
+        /// True when the card has a click action.
         /// </summary>
         /// <value>
         ///   <c>true</c> if actionable; otherwise, <c>false</c>.
@@ -77,7 +89,7 @@ namespace BlazorFluentUI
 
         private void SetBaseClassName()
         {
-            BaseClassName = $"{GlobalClassNames["root"]} {(Compact ? GlobalClassNames["rootCompact"] : "")} {(Actionable ? GlobalClassNames["rootActionable"] : "")}";
+            BaseClassName = $"{GlobalClassNames["root"]} {(Type == DocumentCardType.Compact ? GlobalClassNames["rootCompact"] : "")} {(Actionable ? GlobalClassNames["rootActionable"] : "")}";
         }
 
         private async void KeyDownHandler(KeyboardEventArgs keyboardEventArgs)

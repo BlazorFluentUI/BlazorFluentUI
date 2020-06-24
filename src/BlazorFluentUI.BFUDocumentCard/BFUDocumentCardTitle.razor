@@ -1,3 +1,11 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 @using Microsoft.AspNetCore.Components.Web
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+@if (!ShouldTruncate)
+{
+    <div class="@this.ClassName" title="@Title" style="white-space: nowrap">
+        @Title
+    </div>
+}

@@ -9,3 +9,17 @@
         @Title
     </div>
 }
+else if (ShouldTruncate && !string.IsNullOrWhiteSpace(TruncatedTitleFirstPiece) && !string.IsNullOrWhiteSpace(TruncatedTitleSecondPiece))
+{
+<div class="@this.ClassName" title="@Title" @ref=_elementReference>
+    @TruncatedTitleFirstPiece
+    \u2026
+    @TruncatedTitleSecondPiece
+</div>
+}
+else
+{
+    <div class="@this.ClassName" title="@Title">
+        @Title
+    </div> 
+}

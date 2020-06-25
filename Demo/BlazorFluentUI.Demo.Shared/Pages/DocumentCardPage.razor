@@ -2,9 +2,43 @@
 
 <h1>DocumentCard</h1>
 
-<Demo Header="Default DocumentCard" Key="0" MetadataPath="DocumentCardPage">
-    <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="google.de">
-        <BFUDocumentCardTitle ShouldTruncate="false" Title="My Heading"></BFUDocumentCardTitle>
-    </BFUDocumentCard>
+<Demo Header="Compact Style" Key="0" MetadataPath="DocumentCardPage">
+    <BFUStack Style="width:100%;">
+        <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <BFUDocumentCardDetails>
+                <BFUDocumentCardTitle ShouldTruncate="false" Title="My Heading"></BFUDocumentCardTitle>
+                <BFUDocumentCardActivity Activity="Test activity" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
+            </BFUDocumentCardDetails>
+        </BFUDocumentCard>
+        <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <BFUDocumentCardDetails>
+                <BFUDocumentCardTitle ShouldTruncate="false" Title="My Heading"></BFUDocumentCardTitle>
+                <BFUDocumentCardActivity Activity="Test activity" People="@persons"></BFUDocumentCardActivity>
+            </BFUDocumentCardDetails>
+        </BFUDocumentCard>
+    </BFUStack>
 </Demo>
+
+@code {
+    DocumentCardActivityPerson[] persons;
+
+    public DocumentCardPage()
+    {
+        List<DocumentCardActivityPerson> p = new List<DocumentCardActivityPerson>();
+        p.Add(new DocumentCardActivityPerson()
+        {
+            Name = "Albert Einstein",
+            AllowPhoneInitials = true
+        });
+        p.Add(new DocumentCardActivityPerson()
+        {
+            Name = "Marie Curie",
+            AllowPhoneInitials = true,
+            ProfileImageSrc = "personFace.jpg"
+        });
+
+        persons = p.ToArray();
+    }
+
+}
 

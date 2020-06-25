@@ -20,7 +20,7 @@ namespace BlazorFluentUI
         Compact = 1
     }
 
-    public partial class BFUDocumentCard : BFUComponentBase
+    public partial class BFUDocumentCard : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Parameter]
         public RenderFragment? ChildContent { get; set; }
@@ -47,10 +47,10 @@ namespace BlazorFluentUI
         [Parameter] public string? OnClickTarget { get; set; }
 
         [Inject]
-        internal IJSRuntime jSRuntime { get; set; }
+        internal IJSRuntime? jSRuntime { get; set; }
 
         [Inject]
-        internal NavigationManager NavigationManager { get; set; }
+        internal NavigationManager? NavigationManager { get; set; }
 
         public string? BaseClassName { get; set; }
 
@@ -96,7 +96,7 @@ namespace BlazorFluentUI
         {
             if (keyboardEventArgs.Code == "Space" || keyboardEventArgs.Code == "Enter")
             {
-                await OnClickHandler();
+                await OnClickHandler().ConfigureAwait(false);
             }
         }
 
@@ -121,7 +121,7 @@ namespace BlazorFluentUI
 
         private async void MouseClickHandler(MouseEventArgs mouseEventArgs)
         {
-            await OnClickHandler();
+            await OnClickHandler().ConfigureAwait(false);
         }
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
@@ -157,7 +157,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = $".{GlobalClassNames["rootActionable"]}:hover:after" },
                 Properties = new CssString()
                 {
-                    Css = "content:'\" \"';" +
+                    Css = "content:' ';" +
                           $"position: absolute;" +
                           "top: 0;" +
                           "right: 0;" +

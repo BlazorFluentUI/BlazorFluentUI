@@ -27,7 +27,7 @@
         Gray, //special
         Cyan,
         Rust,
-       
+
     }
 
     internal static class PersonaColorUtils
@@ -64,7 +64,8 @@
                 return color;
 
             var hashCode = 0;
-            for (var iLen = displayName.Length - 1; iLen >= 0; iLen--) {
+            for (var iLen = displayName.Length - 1; iLen >= 0; iLen--)
+            {
                 var ch = displayName[iLen];
                 var shift = iLen % 8;
                 hashCode ^= (ch << shift) + (ch >> (8 - shift));
@@ -136,5 +137,5 @@
     }
 
 
-    
+
 }

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardTitle : BFUComponentBase
+    // TODO: support for ShouldTruncate = true
+    public partial class BFUDocumentCardTitle : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         /// <summary>
         /// Title text.
@@ -30,7 +32,17 @@ namespace BlazorFluentUI
         ///   <c>true</c> if [show as secondary title]; otherwise, <c>false</c>.
         /// </value>
         [Parameter] public bool ShowAsSecondaryTitle { get; set; }
-        
+
+        [Inject]
+        internal IJSRuntime? jSRuntime { get; set; }
+
+        private string? TruncatedTitleFirstPiece { get; set; }
+        private string? TruncatedTitleSecondPiece { get; set; }
+
+        private bool _needMeasurement;
+
+        private ElementReference? _elementReference;
+
 
         public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
         {
@@ -41,6 +53,18 @@ namespace BlazorFluentUI
         {
             ShouldTruncate = true;
             ClassName = GlobalClassNames["root"];
+        }
+
+        protected override void OnParametersSet()
+        {
+            _needMeasurement = ShouldTruncate;
+            base.OnParametersSet();
+        }
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            base.OnAfterRender(firstRender);
+            //TruncateTitle();
         }
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
@@ -63,5 +87,14 @@ namespace BlazorFluentUI
             });
             return documentCardTitleRules;
         }
+
+        //private void TruncateTitle()
+        //{
+        //    if (_elementReference == null || !_elementReference.HasValue)
+        //    {
+        //        return;
+        //    }
+
+        //}
     }
 }

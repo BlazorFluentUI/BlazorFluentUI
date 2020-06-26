@@ -138,14 +138,21 @@ namespace BlazorFluentUI
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            
+            //base.BuildRenderTree(builder);  
+            // I don't think these base.BuildRenderTree(builder) calls are needed.  In fact, they have the conflicting sequence numbers.
+            // Also, the BaseComponent method has redundant components.  As far as I know, the ComponentBase class has nothing inside the BuildRenderTree method.
+
             builder.OpenComponent<BFUGlobalCS>(0);
             builder.AddAttribute(1, "Component", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(this));
             builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<IRule>>(()=>CreateGlobalCss(Theme)));
             builder.AddAttribute(3, "FixStyle", true);
             builder.CloseComponent();
 
-            base.BuildRenderTree(builder);
+            builder.OpenComponent<BFUStylePreloader>(4);
+            builder.AddAttribute(5, "Component", new BFUPrimaryButton());
+            builder.CloseComponent();
+
+            
 
             StartRoot(builder, "ms-Button--compound");
 

@@ -7,6 +7,7 @@
             BorderColor = theme.Palette.White;
             OutlineColor = theme.Palette.NeutralSecondary;
             BorderRadius = theme.Effects.RoundedCorner2;
+            ZIndex = theme.ZIndex.FocusStyle;
         }
         public double Inset = 0;
         public double Width = 1;
@@ -16,6 +17,7 @@
         public string BorderRadius;
         public string OutlineColor;
         public bool IsFocusedOnly = true;
+        public int ZIndex;
     }
 
 }

@@ -33,7 +33,7 @@ namespace BlazorFluentUI.Style
                           $"right:{focusStyleProps.Inset + 1}px;" +
                           $"border:{focusStyleProps.Width}px solid {focusStyleProps.BorderColor};" +
                           $"outline:{focusStyleProps.Width}px solid {focusStyleProps.OutlineColor};" +
-                          $"z-index:var(--zindex-FocusStyle);"
+                          $"z-index:{focusStyleProps.ZIndex};"
                 }
             });
             focusStyles.AddRules.Add(new Rule()

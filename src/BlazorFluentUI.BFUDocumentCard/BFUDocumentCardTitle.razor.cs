@@ -41,9 +41,6 @@ namespace BlazorFluentUI
 
         private bool _needMeasurement;
 
-        private ElementReference? _elementReference;
-
-
         public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
         {
             {"root", "ms-DocumentCardTitle"}

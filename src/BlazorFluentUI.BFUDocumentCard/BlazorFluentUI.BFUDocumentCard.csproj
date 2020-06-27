@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFluentUI.BFUBaseComponent\BlazorFluentUI.BFUBaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFULink\BlazorFluentUI.BFULink.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUPersona\BlazorFluentUI.BFUPersona.csproj" />
   </ItemGroup>
 

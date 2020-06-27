@@ -3,14 +3,16 @@
 <h1>DocumentCard</h1>
 
 <Demo Header="Compact Style" Key="0" MetadataPath="DocumentCardPage">
-    <BFUStack Style="width:100%;">
+    <BFUStack Style="width:100%;" Tokens="@(new BFUStackTokens() { ChildrenGap = new [] {20d}})">
         <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <BFUDocumentCardPreview PreviewImages="@images.Take(1).ToArray()"></BFUDocumentCardPreview>
             <BFUDocumentCardDetails>
                 <BFUDocumentCardTitle ShouldTruncate="false" Title="My Heading"></BFUDocumentCardTitle>
                 <BFUDocumentCardActivity Activity="Test activity" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
             </BFUDocumentCardDetails>
         </BFUDocumentCard>
         <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <BFUDocumentCardPreview PreviewImages="@images"></BFUDocumentCardPreview>
             <BFUDocumentCardDetails>
                 <BFUDocumentCardTitle ShouldTruncate="false" Title="My Heading"></BFUDocumentCardTitle>
                 <BFUDocumentCardActivity Activity="Test activity" People="@persons"></BFUDocumentCardActivity>
@@ -21,6 +23,7 @@
 
 @code {
     DocumentCardActivityPerson[] persons;
+    DocumentPreviewImage[] images;
 
     public DocumentCardPage()
     {
@@ -38,6 +41,74 @@
         });
 
         persons = p.ToArray();
+
+        List<DocumentPreviewImage> i = new List<DocumentPreviewImage>();
+        i.Add(new DocumentPreviewImage()
+        {
+            Width = 144,
+            Name = "A preview image",
+            PreviewImageSrc = "sampleImage.jpg",
+            IconSrc = "smallSampleImage.jpg",
+            LinkProperties = new LinkProperties()
+            {
+                Href = "https://www.bing.com",
+                Target = "_blank"
+            }
+        });
+
+        i.Add(new DocumentPreviewImage()
+        {
+            Width = 144,
+            Name = "A preview image",
+            PreviewImageSrc = "sampleImage.jpg",
+            IconSrc = "smallSampleImage.jpg",
+            LinkProperties = new LinkProperties()
+            {
+                Href = "https://www.bing.com",
+                Target = "_blank"
+            }
+        });
+
+        i.Add(new DocumentPreviewImage()
+        {
+            Width = 144,
+            Name = "A preview image",
+            PreviewImageSrc = "sampleImage.jpg",
+            IconSrc = "smallSampleImage.jpg",
+            LinkProperties = new LinkProperties()
+            {
+                Href = "https://www.bing.com",
+                Target = "_blank"
+            }
+        });
+
+        i.Add(new DocumentPreviewImage()
+        {
+            Width = 144,
+            Name = "A preview image",
+            PreviewImageSrc = "sampleImage.jpg",
+            IconSrc = "smallSampleImage.jpg",
+            LinkProperties = new LinkProperties()
+            {
+                Href = "https://www.bing.com",
+                Target = "_blank"
+            }
+        });
+
+        i.Add(new DocumentPreviewImage()
+        {
+            Width = 144,
+            Name = "A preview image",
+            PreviewImageSrc = "sampleImage.jpg",
+            IconSrc = "smallSampleImage.jpg",
+            LinkProperties = new LinkProperties()
+            {
+                Href = "https://www.bing.com",
+                Target = "_blank"
+            }
+        });
+
+        images = i.ToArray();
     }
 
 }

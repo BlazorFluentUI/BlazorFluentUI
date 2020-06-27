@@ -80,6 +80,11 @@ namespace BlazorFluentUI
             SetActionable();
             SetBaseClassName();
             base.OnParametersSet();
+            if (!string.IsNullOrWhiteSpace(AriaRoleDescription))
+            {
+                // Aria role assigned to the documentCard (Eg. button, link).
+                AriaRoleDescription = OnClick.HasDelegate ? "button" : "link";
+            }
         }
 
         private void SetActionable()
@@ -133,7 +138,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-DocumentCard" },
                 Properties = new CssString()
                 {
-                    Css = "WebkitFontSmoothing:antialiased;" +
+                    Css = "webkit-font-smoothing:antialiased;" +
                           $"background-color:{theme.Palette.White};" +
                           $"border:1px solid {theme.Palette.NeutralLight};" +
                           "max-width:320px;" +
@@ -220,6 +225,11 @@ namespace BlazorFluentUI
             });
 
             return documentCardRules;
+        }
+
+        public async Task Focus()
+        {
+            await jSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.focusElement", RootElementReference).ConfigureAwait(false);
         }
     }
 }

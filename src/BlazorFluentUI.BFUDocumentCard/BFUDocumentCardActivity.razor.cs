@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 // ReSharper disable InconsistentNaming
 
@@ -13,9 +14,17 @@ namespace BlazorFluentUI
         /// Describes the activity that has taken place, such as "Created Feb 23, 2016".
         /// </summary>
         [Parameter] public string? Activity { get; set; }
+
+        /// <summary>
+        /// One or more people who are involved in this activity.
+        /// </summary>
         [Parameter] public DocumentCardActivityPerson[]? People { get; set; }
 
         public bool MultiPeople => People != null && People.Length > 1;
+
+        private ICollection<IRule> BFUDocumentCardActivityLocalRules { get; set; } = new List<IRule>();
+
+        private Rule DetailsRule = new Rule();
 
         private const int VERTICAL_PADDING = 8;
         private const int HORIZONTAL_PADDING = 16;
@@ -37,6 +46,37 @@ namespace BlazorFluentUI
         {
             base.OnParametersSet();
             ClassName = $".{GlobalClassNames["root"]} {(People != null && People.Length > 1 ? GlobalClassNames["multiplePeople"] : "")}";
+            SetStyle();
+        }
+
+        protected override Task OnInitializedAsync()
+        {
+            CreateLocalCss();
+            SetStyle();
+            return base.OnInitializedAsync();
+        }
+
+        protected override void OnThemeChanged()
+        {
+            SetStyle();
+        }
+
+        private void SetStyle()
+        {
+            DetailsRule.Properties = new CssString()
+            {
+                Css = $"left: {(People != null && People.Length > 1 ? $"{HORIZONTAL_PADDING + IMAGE_SIZE * 1.5 + PERSONA_TEXT_GUTTER}px" : $"{HORIZONTAL_PADDING + IMAGE_SIZE + PERSONA_TEXT_GUTTER}px")};" +
+                      $"height: {IMAGE_SIZE}px;" +
+                      "position: absolute;" +
+                      $"top: {VERTICAL_PADDING}px;" +
+                      $"width:calc(100% - {HORIZONTAL_PADDING - IMAGE_SIZE + PERSONA_TEXT_GUTTER + HORIZONTAL_PADDING}px)"
+            };
+        }
+
+        private void CreateLocalCss()
+        {
+            DetailsRule.Selector = new ClassSelector() { SelectorName = $"{GlobalClassNames["details"]}" };
+            BFUDocumentCardActivityLocalRules.Add(DetailsRule);
         }
 
         public string? GetNameString()
@@ -115,21 +155,7 @@ namespace BlazorFluentUI
                     Css = $"margin-left: -16px;"
                 }
             });
-
-            documentCardActivityRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = $".{GlobalClassNames["details"]}" },
-                Properties = new CssString()
-                {
-                    Css = $"left: {(People != null && People.Length > 1 ? $"{HORIZONTAL_PADDING + IMAGE_SIZE * 1.5 + PERSONA_TEXT_GUTTER}px" : $"{HORIZONTAL_PADDING + IMAGE_SIZE + PERSONA_TEXT_GUTTER}px")};" +
-                          $"height: {IMAGE_SIZE}px;" +
-                          "position: absolute;" +
-                          $"top: {VERTICAL_PADDING}px;" +
-                          $"width:calc(100% - {HORIZONTAL_PADDING - IMAGE_SIZE + PERSONA_TEXT_GUTTER + HORIZONTAL_PADDING}px)"
-
-                }
-            });
-
+            
             documentCardActivityRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = $".{GlobalClassNames["name"]}" },

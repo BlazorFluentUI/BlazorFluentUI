@@ -3,8 +3,9 @@
 @using Microsoft.AspNetCore.Components.Web
 
 <BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+<BFULocalCS @bind-Rules="@BFUDocumentCardActivityLocalRules" />
 
-<div class=@($"{GlobalClassNames["root"]}")>
+<div class=@($"{GlobalClassNames["root"]}") @ref=RootElementReference>
     @if (People != null)
     {
         <div class="@GlobalClassNames["avatars"]">
@@ -17,7 +18,7 @@
             }
         </div>
     }
-    <div class="@GlobalClassNames["details"]">
+    <div class=@($"{GlobalClassNames["details"]} {DetailsRule.Selector.SelectorName}")>
         <span class="@GlobalClassNames["name"]">@GetNameString()</span>
         <span class="@GlobalClassNames["activity"]">@Activity</span>
     </div>

@@ -49,7 +49,6 @@ namespace BlazorFluentUI
         public BFUDocumentCardTitle()
         {
             ShouldTruncate = true;
-            ClassName = GlobalClassNames["root"];
         }
 
         protected override void OnParametersSet()

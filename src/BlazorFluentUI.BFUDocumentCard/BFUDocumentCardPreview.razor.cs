@@ -16,7 +16,7 @@ namespace BlazorFluentUI
         ///  One or more preview images to display.
         /// </summary>
         [Parameter]
-        public DocumentPreviewImage[]? PreviewImages { get; set; }
+        public BFUDocumentPreviewImage[]? PreviewImages { get; set; }
 
         /// <summary>
         /// The function return string that will describe the number of overflow documents.
@@ -90,7 +90,7 @@ namespace BlazorFluentUI
         {
             RootRule.Properties = new CssString()
             {
-                Css = $"font-size={Theme.FontStyle.FontSize.Small};" +
+                Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
                       $"background-color: {(IsFileList ? Theme.Palette.White : Theme.Palette.NeutralLighterAlt)};" +
                       $"border-bottom:1px solid {Theme.Palette.NeutralLight};" +
                       $"overflow: hidden;" +

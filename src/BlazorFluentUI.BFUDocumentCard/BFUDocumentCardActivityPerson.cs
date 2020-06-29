@@ -1,6 +1,6 @@
 ﻿namespace BlazorFluentUI
 {
-    public class DocumentCardActivityPerson
+    public class BFUDocumentCardActivityPerson
     {
         /// <summary>
         ///  The name of the person.
@@ -27,7 +27,7 @@
         /// </summary>
         public PersonaInitialsColor? InitialsColor { get; set; }
 
-        public DocumentCardActivityPerson()
+        public BFUDocumentCardActivityPerson()
         {
             InitialsColor = PersonaInitialsColor.Blue;
         }

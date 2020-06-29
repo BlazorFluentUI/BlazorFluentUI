@@ -18,7 +18,7 @@ namespace BlazorFluentUI
         /// The actions available for this document.
         /// </summary>
         [Parameter]
-        public object[] ButtonProps { get; set; }
+        public BFUDocumentCardAction[]? Actions { get; set; }
 
         private ICollection<IRule> DocumentCardActionsRules { get; set; } = new List<IRule>();
 
@@ -91,6 +91,29 @@ namespace BlazorFluentUI
                     $"margin-right: 4px;" +
                     $"color: {Theme.Palette.NeutralSecondary};" +
                     $"cursor: pointer"
+            };
+
+            ActionButtonRule.Properties = new CssString()
+            {
+                Css = $"font-size: {Theme.FontStyle.FontSize.MediumPlus};" +
+                $"height: {ACTION_SIZE}px;" +
+                $"width: {ACTION_SIZE}px;" 
+            };
+            ActionButtonHoverRule.Properties = new CssString()
+            {
+                Css = $"color: {Theme.SemanticTextColors.ButtonText};" +
+                $"cursor: pointer;" 
+            };
+            ViewsRule.Properties = new CssString()
+            {
+                Css = $"text-align: right;" +
+                $"line-height: {ACTION_SIZE}px;"
+            };
+            ActionButtonRule.Properties = new CssString()
+            {
+                Css = $"margin-right: 8px;" +
+                $"font-size: {Theme.FontStyle.FontSize.Medium};" +
+                $"vertical-align: top;"
             };
         }
     }

@@ -1,0 +1,9 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<BFULocalCS @bind-Rules="@BFUDocumentCardLocationRules" />
+
+<a class=@($"{RootRule.Selector.SelectorName} {ClassName}") href="@LocationHref" @onclick="OnClick.HasValue ? OnClick.Value : EventCallback.Empty" style="@Style" @ref="RootElementReference" aria-label="@AriaLabel">
+    @Location
+</a>

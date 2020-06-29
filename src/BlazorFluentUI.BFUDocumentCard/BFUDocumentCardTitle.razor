@@ -5,13 +5,13 @@
 
 @if (!ShouldTruncate)
 {
-    <div class="@this.ClassName" title="@Title" style="white-space: nowrap" @ref=RootElementReference>
+    <div class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" style=@($"white-space: nowrap; {Style}") @ref=RootElementReference>
         @Title
     </div>
 }
 else if (ShouldTruncate && !string.IsNullOrWhiteSpace(TruncatedTitleFirstPiece) && !string.IsNullOrWhiteSpace(TruncatedTitleSecondPiece))
 {
-<div class="@this.ClassName" title="@Title" @ref=RootElementReference>
+<div class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" @ref=RootElementReference style=@Style>
     @TruncatedTitleFirstPiece
     \u2026
     @TruncatedTitleSecondPiece
@@ -19,7 +19,7 @@ else if (ShouldTruncate && !string.IsNullOrWhiteSpace(TruncatedTitleFirstPiece) 
 }
 else
 {
-    <div class="@this.ClassName" title="@Title" @ref=RootElementReference>
+    <div class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" @ref=RootElementReference style=@Style>
         @Title
     </div> 
 }

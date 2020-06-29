@@ -5,7 +5,7 @@
 <BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <BFULocalCS @bind-Rules="@BFUDocumentCardActivityLocalRules" />
 
-<div class=@($"{GlobalClassNames["root"]}") @ref=RootElementReference>
+<div class=@($"{GlobalClassNames["root"]} {ClassName}") style=@Style @ref=RootElementReference>
     @if (People != null)
     {
         <div class="@GlobalClassNames["avatars"]">

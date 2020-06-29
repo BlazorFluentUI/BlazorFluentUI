@@ -18,7 +18,7 @@ namespace BlazorFluentUI
         /// <summary>
         /// One or more people who are involved in this activity.
         /// </summary>
-        [Parameter] public DocumentCardActivityPerson[]? People { get; set; }
+        [Parameter] public BFUDocumentCardActivityPerson[]? People { get; set; }
 
         public bool MultiPeople => People != null && People.Length > 1;
 

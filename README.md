@@ -163,7 +163,7 @@ ServerSide: Pages/_Host.cshtml
 ```
 <head>
 	...;
-	<component type="typeof(GlobalRules)" render-mode="ServerPrerendered" />
+	<component type="typeof(BFUGlobalRules)" render-mode="ServerPrerendered" />
 	...;
 </head>
 ```

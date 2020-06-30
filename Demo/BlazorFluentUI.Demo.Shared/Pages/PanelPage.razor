@@ -17,6 +17,13 @@
     <p>
         Hey, there's some content in here.
         <BFUTextField Description="Can I type here?" />
+
+        <BlazorFluentUI.BFULabel>Selected: @string.Join(", ", controlledMultiSelectionResult.Select(x => x.Text))</BlazorFluentUI.BFULabel>
+        <BFUDropdown ItemsSource=@items
+                     MultiSelect="true"
+                     Placeholder="Select options..."
+                     @bind-SelectedOptions=@controlledMultiSelectionResult
+                     Style="width:300px;" />
     </p>
 </BFUPanel>
 
@@ -52,6 +59,9 @@
     bool lightDismissPanelOpen = false;
     bool customNavPanelOpen = false;
 
+    IEnumerable<IBFUDropdownOption> controlledMultiSelectionResult;
+    List<IBFUDropdownOption> items;
+
     Task Click(MouseEventArgs args)
     {
         isOpen = true;
@@ -64,6 +74,27 @@
         System.Diagnostics.Debug.WriteLine("Called PanelDismiss from page");
         isOpen = false;
         return Task.CompletedTask;
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        items = new List<DataItem>
+        {
+            new DataItem("Fruits", SelectableOptionMenuItemType.Header),
+            new DataItem("Apple"),
+            new DataItem("Banana"),
+            new DataItem("Orange"),
+            new DataItem("Grape"),
+            new DataItem("divider1", SelectableOptionMenuItemType.Divider),
+            new DataItem("Vegetables", SelectableOptionMenuItemType.Header),
+            new DataItem("Broccoli"),
+            new DataItem("Carrot"),
+            new DataItem("Lettuce")
+        }.Select(x => new BFUDropdownOption { Key = x.Key, Text = x.DisplayName, ItemType = x.Type }).Cast<IBFUDropdownOption>().ToList();
+
+        controlledMultiSelectionResult = items.Where(x => x.Key == "Banana" || x.Key == "Orange");
+
+        return base.OnInitializedAsync();
     }
 
 }

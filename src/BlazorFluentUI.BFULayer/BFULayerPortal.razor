@@ -2,8 +2,10 @@
 @inherits BFUComponentBase
 
 <CascadingValue Name="PortalId" Value=@Id>
-    <span class=@($"ms-Layer mediumFont {this.Style}{(this.IsFixed ? " ms-Layer--fixed" : "")}")>
-        <div class="ms-Layer-content" ref="RootElementRef">
+    <span class=@($"ms-Layer mediumFont {(this.IsFixed ? " ms-Layer--fixed" : "")}")
+          @ref=@RootElementReference
+          data-parent-layer-id=@Id>
+        <div class="ms-Layer-content">
             @ChildContent
         </div>
     </span>

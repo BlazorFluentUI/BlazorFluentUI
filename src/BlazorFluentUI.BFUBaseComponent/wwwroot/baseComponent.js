@@ -410,9 +410,44 @@ var BlazorFluentUiBaseComponent;
     BlazorFluentUiBaseComponent.focusFirstChild = focusFirstChild;
     function getParent(child, allowVirtualParents) {
         if (allowVirtualParents === void 0) { allowVirtualParents = true; }
-        return child && (child.parentNode && child.parentNode);
+        return child && ((allowVirtualParents && getVirtualParent(child)) || (child.parentNode && child.parentNode));
     }
     BlazorFluentUiBaseComponent.getParent = getParent;
+    function setVirtualParent(child, parent) {
+        var virtualChild = child;
+        var virtualParent = parent;
+        if (!virtualChild._virtual) {
+            virtualChild._virtual = {
+                children: []
+            };
+        }
+        var oldParent = virtualChild._virtual.parent;
+        if (oldParent && oldParent !== parent) {
+            // Remove the child from its old parent.
+            var index = oldParent._virtual.children.indexOf(virtualChild);
+            if (index > -1) {
+                oldParent._virtual.children.splice(index, 1);
+            }
+        }
+        virtualChild._virtual.parent = virtualParent || undefined;
+        if (virtualParent) {
+            if (!virtualParent._virtual) {
+                virtualParent._virtual = {
+                    children: []
+                };
+            }
+            virtualParent._virtual.children.push(virtualChild);
+        }
+    }
+    BlazorFluentUiBaseComponent.setVirtualParent = setVirtualParent;
+    function getVirtualParent(child) {
+        var parent;
+        if (child && !!child._virtual) {
+            parent = child._virtual.parent;
+        }
+        return parent;
+    }
+    BlazorFluentUiBaseComponent.getVirtualParent = getVirtualParent;
     function elementContains(parent, child, allowVirtualParents) {
         if (allowVirtualParents === void 0) { allowVirtualParents = true; }
         var isContained = false;
@@ -421,7 +456,6 @@ var BlazorFluentUiBaseComponent;
                 isContained = false;
                 while (child) {
                     var nextParent = getParent(child);
-                    // console.log("NextParent: " + nextParent);
                     if (nextParent === parent) {
                         isContained = true;
                         break;

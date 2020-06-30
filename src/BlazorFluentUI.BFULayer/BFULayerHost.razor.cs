@@ -13,14 +13,19 @@ namespace BlazorFluentUI
 
         protected BFULayerPortalGenerator? portalGeneratorReference;
 
-        public void AddOrUpdateHostedContent(string layerId, RenderFragment? renderFragment, string style, ElementReference parent)
+        public void AddOrUpdateHostedContent(string layerId, RenderFragment? renderFragment)
         {
-            portalGeneratorReference?.AddOrUpdateHostedContent(layerId, renderFragment, style, parent);
+            portalGeneratorReference?.AddOrUpdateHostedContent(layerId, renderFragment);
         }
 
         public void RemoveHostedContent(string layerId)
         {
             portalGeneratorReference?.RemoveHostedContent(layerId);
+        }
+
+        public void SetVirtualParent(ElementReference parent, string childPortalId)
+        {
+            portalGeneratorReference?.SetVirtualParent(parent, childPortalId);
         }
 
         private ICollection<IRule> CreateGlobalCss()

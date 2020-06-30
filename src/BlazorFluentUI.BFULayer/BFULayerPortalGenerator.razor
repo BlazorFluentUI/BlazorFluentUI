@@ -1,6 +1,6 @@
 ﻿@foreach (var portalPair in portalFragments)
 {
-    <BFULayerPortal @key=@portalPair.id Id=@portalPair.id Style=@portalPair.style @ref=@portals[portalPair.id]>
-        @portalPair.fragment
+    <BFULayerPortal @key=@portalPair.Id Id=@portalPair.Id @ref=@portals[portalPair.Id!] >
+        @portalPair.Fragment
     </BFULayerPortal> 
 }

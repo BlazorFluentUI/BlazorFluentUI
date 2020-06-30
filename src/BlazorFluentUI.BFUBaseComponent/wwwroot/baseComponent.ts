@@ -18,6 +18,13 @@
         isNull: boolean;
     }
 
+    interface IVirtualElement extends HTMLElement {
+        _virtual: {
+            parent?: IVirtualElement;
+            children: IVirtualElement[];
+        };
+    }
+
     export function initializeFocusRects(): void {
         if (!(<any>window).__hasInitializeFocusRects__) {
             (<any>window).__hasInitializeFocusRects__ = true;
@@ -484,7 +491,42 @@
     }
 
     export function getParent(child: HTMLElement, allowVirtualParents: boolean = true): HTMLElement | null {
-        return child && (child.parentNode && (child.parentNode as HTMLElement));
+        return child && ((allowVirtualParents && getVirtualParent(child)) || (child.parentNode && (child.parentNode as HTMLElement)));
+    }
+
+    export function setVirtualParent(child: HTMLElement, parent: HTMLElement) {
+        let virtualChild = <IVirtualElement>child;
+        let virtualParent = <IVirtualElement>parent;
+        if (!virtualChild._virtual) {
+            virtualChild._virtual = {
+                children: []
+            };
+        }
+        let oldParent = virtualChild._virtual.parent;
+        if (oldParent && oldParent !== parent) {
+            // Remove the child from its old parent.
+            let index = oldParent._virtual.children.indexOf(virtualChild);
+            if (index > -1) {
+                oldParent._virtual.children.splice(index, 1);
+            }
+        }
+        virtualChild._virtual.parent = virtualParent || undefined;
+        if (virtualParent) {
+            if (!virtualParent._virtual) {
+                virtualParent._virtual = {
+                    children: []
+                };
+            }
+            virtualParent._virtual.children.push(virtualChild);
+        }
+    }
+
+    export function getVirtualParent(child: HTMLElement): HTMLElement | undefined {
+        let parent: HTMLElement | undefined;
+        if (child && !!(<IVirtualElement>child)._virtual) {
+            parent = (child as IVirtualElement)._virtual.parent;
+        }
+        return parent;
     }
 
     export function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {
@@ -494,7 +536,6 @@
                 isContained = false;
                 while (child) {
                     let nextParent: HTMLElement | null = getParent(child);
-                    // console.log("NextParent: " + nextParent);
                     if (nextParent === parent) {
                         isContained = true;
                         break;

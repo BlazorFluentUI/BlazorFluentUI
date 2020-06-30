@@ -32,7 +32,7 @@ namespace BlazorFluentUI
                 {
                     throw new Exception("LayerHost is not present.  You need to add a LayerHost near the root of the app.");
                 }
-                LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style, _element);
+                LayerHost.AddOrUpdateHostedContent(id, ChildContent);
                 addedToHost = true;
             }
             return base.OnParametersSetAsync();
@@ -42,7 +42,7 @@ namespace BlazorFluentUI
         {
             if (LayerHost != null) 
             {
-                LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style, _element);
+                LayerHost.AddOrUpdateHostedContent(id, ChildContent);
                 addedToHost = true;
             }
             return true;
@@ -52,12 +52,14 @@ namespace BlazorFluentUI
         {
             builder.OpenElement(0, "span");
             builder.AddAttribute(1, "class", "ms-layer");
-            builder.AddElementReferenceCapture(2, element => _element = element);
+            builder.AddAttribute(2, "style", this.Style);
+            builder.AddElementReferenceCapture(3, element => _element=element);
             builder.CloseElement();
         }
 
         protected override void OnAfterRender(bool firstRender)
         {
+            //await JSRuntime.InvokeVoidAsync("AddOrUpdateVirtualParent", _element);
             base.OnAfterRender(firstRender);
         }
 

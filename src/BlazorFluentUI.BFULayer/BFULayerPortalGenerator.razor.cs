@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
@@ -13,8 +14,33 @@ namespace BlazorFluentUI
 
         //private int sequenceCount = 0;
         private Dictionary<string, int> portalSequenceStarts = new Dictionary<string, int>();
-        private List<(string id, RenderFragment? fragment, string style, ElementReference parent)> portalFragments = new List<(string id, RenderFragment? fragment, string style, ElementReference parent)>();
+        private List<PortalDetails> portalFragments = new List<PortalDetails>();
         private Dictionary<string, BFULayerPortal> portals = new Dictionary<string, BFULayerPortal>();
+
+        protected override Task OnInitializedAsync()
+        {
+            //portals.CollectionChanged += Portals_CollectionChanged;
+            return base.OnInitializedAsync();
+        }
+
+        private void Portals_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+
+                    break;
+            }
+
+        }
+
+        public void SetVirtualParent(ElementReference parent, string childPortalId)
+        {
+            if (portals.ContainsKey(childPortalId))
+            {
+                portals[childPortalId].SetVirtualParentAsync(parent);
+            }
+        }
 
         //protected override void BuildRenderTree(RenderTreeBuilder builder)
         //{
@@ -40,21 +66,22 @@ namespace BlazorFluentUI
         //    }
         //}
 
-        public void AddOrUpdateHostedContent(string layerId, RenderFragment? renderFragment, string style, ElementReference parent)
+        public void AddOrUpdateHostedContent(string layerId, RenderFragment? renderFragment)
         {
-            var foundPortalFragment = portalFragments.FirstOrDefault(x => x.id == layerId);
+            var foundPortalFragment = portalFragments.FirstOrDefault(x => x.Id == layerId);
             if (foundPortalFragment != null)
-            if (foundPortalFragment != default((string,RenderFragment?,string,ElementReference)))
             {
-                foundPortalFragment.fragment = renderFragment;
-                foundPortalFragment.style = style;
+                foundPortalFragment.Fragment = renderFragment;
+//                foundPortalFragment.Parent = parent;
                 //System.Diagnostics.Debug.WriteLine($"Rerendering layer: {layerId}");
                 portals[layerId].Rerender();
             }
             else
             {
+                if (layerId == null)
+                    throw new Exception("The Layer Id should not be null.");
                 //System.Diagnostics.Debug.WriteLine($"Adding new layer: {layerId}, {portalFragments.Count} layer(s) in host currently.");
-                portalFragments.Add((layerId, renderFragment, style)); //should render the first time and not after unless explicitly set.
+                portalFragments.Add(new PortalDetails { Id = layerId, Fragment = renderFragment }); //should render the first time and not after unless explicitly set.
                 InvokeAsync(StateHasChanged);
             }
            
@@ -63,7 +90,7 @@ namespace BlazorFluentUI
         public void RemoveHostedContent(string layerId)
         {
             //System.Diagnostics.Debug.WriteLine($"Disposing layer contents: {layerId}");
-            portalFragments.Remove(portalFragments.First(x => x.id == layerId));
+            portalFragments.Remove(portalFragments.First(x => x.Id == layerId));
             if (portals.ContainsKey(layerId))
                 portals.Remove(layerId);
             portalSequenceStarts.Remove(layerId);

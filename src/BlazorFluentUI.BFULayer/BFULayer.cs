@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using System;
 using System.Diagnostics;
@@ -12,15 +13,16 @@ namespace BlazorFluentUI
 
     public class BFULayer : BFUComponentBase, IDisposable
     {        
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
         
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
 
-        [CascadingParameter(Name = "HostedContent")] protected BFULayerHost LayerHost { get; set; }
+        [CascadingParameter(Name = "HostedContent")] protected BFULayerHost? LayerHost { get; set; }
 
         private bool addedToHost = false;
 
         public string id = Guid.NewGuid().ToString();
+        private ElementReference _element;
 
         protected override Task OnParametersSetAsync()
         {
@@ -30,7 +32,7 @@ namespace BlazorFluentUI
                 {
                     throw new Exception("LayerHost is not present.  You need to add a LayerHost near the root of the app.");
                 }
-                LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style);
+                LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style, _element);
                 addedToHost = true;
             }
             return base.OnParametersSetAsync();
@@ -38,29 +40,31 @@ namespace BlazorFluentUI
 
         protected override bool ShouldRender()
         {
-            if (LayerHost != null) // && ComponentContext.IsConnected)
+            if (LayerHost != null) 
             {
-                LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style);
+                LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style, _element);
                 addedToHost = true;
             }
-            return false;
+            return true;
         }
 
-        //public void Rerender()
-        //{
-        //    StateHasChanged();
-        //}
+        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        {
+            builder.OpenElement(0, "span");
+            builder.AddAttribute(1, "class", "ms-layer");
+            builder.AddElementReferenceCapture(2, element => _element = element);
+            builder.CloseElement();
+        }
 
         protected override void OnAfterRender(bool firstRender)
         {
-            //if (layerElement == null)
             base.OnAfterRender(firstRender);
         }
 
         public void Dispose()
         {
             Debug.WriteLine($"Layer disposed: {this.id}");
-            LayerHost.RemoveHostedContent(this.id);
+            LayerHost?.RemoveHostedContent(this.id);
             addedToHost = false;
         }
     }

@@ -50,7 +50,7 @@ https://github.com/BlazorFluentUI/BlazorFluentUI/wiki
 | DocumentCard | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
 | Facepile     | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
 | GroupedList  | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
-| HoverCard    | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
+| HoverCard    | ![#fff4ce](https://via.placeholder.com/15/a80000/000000?text=+) In Progress  | Missing focus styles and ShouldTruncate doesn't work yet.                                    |
 | List         | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | supports `INotifyCollectionChanged` |
 | Persona      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
 

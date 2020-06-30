@@ -56,7 +56,7 @@ declare namespace BlazorFluentUiBaseComponent {
     export function isElementVisible(element: HTMLElement | undefined | null): boolean;
     export function focusFirstChild(rootElement: HTMLElement): boolean;
     export function getParent(child: HTMLElement, allowVirtualParents?: boolean): HTMLElement | null;
-    export function setVirtualParent(child: HTMLElement, parent: HTMLElement): void;
+    export function addOrUpdateVirtualParent(parent: HTMLElement): void;
     export function getVirtualParent(child: HTMLElement): HTMLElement | undefined;
     export function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents?: boolean): boolean;
     export function getNextElement(rootElement: HTMLElement, currentElement: HTMLElement | null, checkNode?: boolean, suppressParentTraversal?: boolean, suppressChildTraversal?: boolean, includeElementsInFocusZones?: boolean, allowFocusRoot?: boolean, tabbable?: boolean): HTMLElement | null;

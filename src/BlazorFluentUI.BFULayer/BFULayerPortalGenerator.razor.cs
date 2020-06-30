@@ -34,13 +34,13 @@ namespace BlazorFluentUI
 
         }
 
-        public void SetVirtualParent(ElementReference parent, string childPortalId)
-        {
-            if (portals.ContainsKey(childPortalId))
-            {
-                portals[childPortalId].SetVirtualParentAsync(parent);
-            }
-        }
+        //public void SetVirtualParent(ElementReference parent, string childPortalId)
+        //{
+        //    if (portals.ContainsKey(childPortalId))
+        //    {
+        //        portals[childPortalId].SetVirtualParentAsync(parent);
+        //    }
+        //}
 
         //protected override void BuildRenderTree(RenderTreeBuilder builder)
         //{

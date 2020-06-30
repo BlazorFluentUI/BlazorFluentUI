@@ -53,14 +53,15 @@ namespace BlazorFluentUI
             builder.OpenElement(0, "span");
             builder.AddAttribute(1, "class", "ms-layer");
             builder.AddAttribute(2, "style", this.Style);
-            builder.AddElementReferenceCapture(3, element => _element=element);
+            builder.AddAttribute(3, "data-layer-id", this.id);
+            builder.AddElementReferenceCapture(4, element => _element=element);
             builder.CloseElement();
         }
 
-        protected override void OnAfterRender(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            //await JSRuntime.InvokeVoidAsync("AddOrUpdateVirtualParent", _element);
-            base.OnAfterRender(firstRender);
+            await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.addOrUpdateVirtualParent", _element);
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         public void Dispose()

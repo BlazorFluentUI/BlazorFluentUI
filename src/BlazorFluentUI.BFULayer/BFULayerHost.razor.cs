@@ -23,10 +23,10 @@ namespace BlazorFluentUI
             portalGeneratorReference?.RemoveHostedContent(layerId);
         }
 
-        public void SetVirtualParent(ElementReference parent, string childPortalId)
-        {
-            portalGeneratorReference?.SetVirtualParent(parent, childPortalId);
-        }
+        //public void SetVirtualParent(ElementReference parent, string childPortalId)
+        //{
+        //    portalGeneratorReference?.SetVirtualParent(parent, childPortalId);
+        //}
 
         private ICollection<IRule> CreateGlobalCss()
         {

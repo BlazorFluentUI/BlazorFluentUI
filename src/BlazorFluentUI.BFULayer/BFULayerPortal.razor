@@ -3,7 +3,8 @@
 
 <CascadingValue Name="PortalId" Value=@Id>
     <span class=@($"ms-Layer mediumFont {(this.IsFixed ? " ms-Layer--fixed" : "")}")
-          @ref=@RootElementReference>
+          @ref=@RootElementReference
+          data-parent-layer-id=@Id>
         <div class="ms-Layer-content">
             @ChildContent
         </div>

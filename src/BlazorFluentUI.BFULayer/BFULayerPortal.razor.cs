@@ -41,10 +41,10 @@ namespace BlazorFluentUI
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        public async Task SetVirtualParentAsync(ElementReference parent)
-        {
-            await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.setVirtualParent", RootElementReference, parent);
-        }
+        //public async Task SetVirtualParentAsync(ElementReference parent)
+        //{
+        //    await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.setVirtualParent", RootElementReference, parent);
+        //}
 
         //public void SetChildContent(string layerId, RenderFragment renderFragment, bool isFixed)
         //{

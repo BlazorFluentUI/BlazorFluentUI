@@ -1,0 +1,22 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<BFULocalCS @bind-Rules="@BFUDocumentCardImageRules" />
+
+<div class=@($"{RootRule.Selector.SelectorName} {ClassName}") style="@Style" @ref="RootElementReference">
+    @if (!string.IsNullOrWhiteSpace(ImageSource))
+    {
+        <BFUImage Height="@Height" Width="@Width" ImageFit="@ImageFit" Src="@ImageSource" Role="presentation" Alt="" OnLoadingStateChange="LoadStateChanged"></BFUImage>
+        @if (ImageLoaded)
+        {
+            <div class="@CenteredIconWrapperRule.Selector.SelectorName">
+                <BFUIcon ClassName="@CenteredIconRule.Selector.SelectorName" IconName="@IconName"></BFUIcon>
+            </div>
+        }
+        else
+        {
+            <BFUIcon ClassName="@CornerIconRule.Selector.SelectorName" IconName="@IconName"></BFUIcon>
+        }
+    }
+</div>

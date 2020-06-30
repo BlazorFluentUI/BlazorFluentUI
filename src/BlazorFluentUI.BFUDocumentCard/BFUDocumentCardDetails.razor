@@ -1,0 +1,7 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<BFULocalCS @bind-Rules="@DocumentCardDetailsLocalRules" />
+
+<div @ref="RootElementReference" class=@($"{MainRule.Selector.SelectorName} ms-DocumentCardDetails {ClassName}") style="@Style">@ChildContent</div>

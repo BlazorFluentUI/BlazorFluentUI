@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUDatePicker\BlazorFluentUI.BFUDatePicker.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUDetailsList\BlazorFluentUI.BFUDetailsList.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUDialog\BlazorFluentUI.BFUDialog.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUDocumentCard\BlazorFluentUI.BFUDocumentCard.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUDropdown\BlazorFluentUI.BFUDropdown.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUFocusTrapZone\BlazorFluentUI.BFUFocusTrapZone.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUFocusZone\BlazorFluentUI.BFUFocusZone.csproj" />

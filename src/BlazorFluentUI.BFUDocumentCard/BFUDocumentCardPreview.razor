@@ -1,0 +1,56 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<BFULocalCS @bind-Rules="@DocumentCardDetailsLocalRules" />
+
+<div class=@($"{RootRule.Selector.SelectorName} {ClassName}") @ref=RootElementReference style=@Style>
+    @if (!IsFileList && PreviewImages != null)
+    {
+
+        @if (PreviewImages[0].PreviewIconProps != null)
+        {
+            <div class="@PreviewIconRule.Selector.SelectorName" style="@($"width:{PreviewImages[0].Width}px; height:{PreviewImages[0].Height}px; {PreviewImages[0].Styles}")">
+                <BFUIcon IconName="@PreviewImages[0].PreviewIconProps?.IconName" Style="@PreviewImages[0].PreviewIconProps?.Styles"></BFUIcon>
+            </div>
+        }
+        else
+        {
+            <div>
+                <BFUImage Width="@PreviewImages[0].Width" Height="@PreviewImages[0].Height" ImageFit="@PreviewImages[0].ImageFit"
+                          Src="@PreviewImages[0].PreviewImageSrc" AriaRoleDescription="presentation" Alt="">
+
+                </BFUImage>
+                @if (!string.IsNullOrWhiteSpace(PreviewImages[0].IconSrc))
+                {
+                    <BFUImage ClassName="@IconRule.Selector.SelectorName" Width="32" Height="32" Src="@PreviewImages[0].IconSrc" AriaRoleDescription="presentation" Alt=""
+                              Style="@($"{PreviewImages[0].Styles}")">
+
+                    </BFUImage>
+                }
+            </div>
+        }
+
+    }
+    else if (PreviewImages?.Length > 1)
+    {
+        <div>
+            <ul class="@FileListRule.Selector.SelectorName">
+                @foreach (var item in PreviewImages.Take(LIST_ITEM_COUNT))
+                {
+                    <li>
+                        <BFUImage ClassName="@FileListIconRule.Selector.SelectorName" Width="16" Height="16" Src="@PreviewImages[0].IconSrc" AriaRoleDescription="presentation" Alt=""
+                                  Style="@($"{item.Styles}")">
+
+                        </BFUImage>
+                        <BFULink Href="@item.LinkProperties?.Href" Target="@item.LinkProperties?.Target" ClassName="@FileListLinkRule.Selector.SelectorName">@item.Name</BFULink>
+                    </li>
+                }
+            </ul>
+            @if (OverflowDocumentCount > 0)
+            {
+                <span class="@FileListOverflowTextRule.Selector.SelectorName">@GetOverflowDocumentCountText(OverflowDocumentCount)</span>
+            }
+        </div>
+    }
+</div>

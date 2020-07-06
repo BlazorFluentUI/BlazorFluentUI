@@ -93,6 +93,8 @@ namespace BlazorFluentUI
 
         private IReadOnlyDictionary<string, object> lastParameters = null;
 
+        protected SelectAllVisibility selectAllVisibility = SelectAllVisibility.None;
+
         public void ForceUpdate()
         {
             groupedList?.ForceUpdate();
@@ -142,6 +144,28 @@ namespace BlazorFluentUI
                     parameters.GetValueOrDefault<IEnumerable<BFUDetailsRowColumn<TItem>>>("Columns"),
                     true
                     );
+            }
+
+            var selectionMode = parameters.GetValueOrDefault<SelectionMode>("SelectionMode");
+            if (selectionMode == SelectionMode.None)
+            {
+                selectAllVisibility = SelectAllVisibility.None;
+            }
+            else if (selectionMode == SelectionMode.Single)
+            {
+                selectAllVisibility = SelectAllVisibility.Hidden;
+            }
+            else if (selectionMode == SelectionMode.Multiple)
+            {
+                //disable if collapsed groups
+                //TBD!
+
+                selectAllVisibility = SelectAllVisibility.Visible;
+            }
+
+            if (parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility") == CheckboxVisibility.Hidden)
+            {
+                selectAllVisibility = SelectAllVisibility.None;
             }
 
             return base.SetParametersAsync(parameters);

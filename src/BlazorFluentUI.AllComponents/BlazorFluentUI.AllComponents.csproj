@@ -36,6 +36,7 @@
     <ProjectReference Include="..\BlazorFluentUI.BFUDetailsList\BlazorFluentUI.BFUDetailsList.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUDetailsRow\BlazorFluentUI.BFUDetailsRow.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUDialog\BlazorFluentUI.BFUDialog.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFUDocumentCard\BlazorFluentUI.BFUDocumentCard.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUDropdown\BlazorFluentUI.BFUDropdown.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUFocusTrapZone\BlazorFluentUI.BFUFocusTrapZone.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUFocusZone\BlazorFluentUI.BFUFocusZone.csproj" />

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using System;
 using System.Diagnostics;
@@ -12,15 +13,16 @@ namespace BlazorFluentUI
 
     public class BFULayer : BFUComponentBase, IDisposable
     {        
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
         
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
 
-        [CascadingParameter(Name = "HostedContent")] protected BFULayerHost LayerHost { get; set; }
+        [CascadingParameter(Name = "HostedContent")] protected BFULayerHost? LayerHost { get; set; }
 
         private bool addedToHost = false;
 
         public string id = Guid.NewGuid().ToString();
+        private ElementReference _element;
 
         protected override Task OnParametersSetAsync()
         {
@@ -30,7 +32,7 @@ namespace BlazorFluentUI
                 {
                     throw new Exception("LayerHost is not present.  You need to add a LayerHost near the root of the app.");
                 }
-                LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style);
+                LayerHost.AddOrUpdateHostedContent(id, ChildContent);
                 addedToHost = true;
             }
             return base.OnParametersSetAsync();
@@ -38,29 +40,34 @@ namespace BlazorFluentUI
 
         protected override bool ShouldRender()
         {
-            if (LayerHost != null) // && ComponentContext.IsConnected)
+            if (LayerHost != null) 
             {
-                LayerHost.AddOrUpdateHostedContent(id, ChildContent, Style);
+                LayerHost.AddOrUpdateHostedContent(id, ChildContent);
                 addedToHost = true;
             }
-            return false;
+            return true;
         }
 
-        //public void Rerender()
-        //{
-        //    StateHasChanged();
-        //}
-
-        protected override void OnAfterRender(bool firstRender)
+        protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            //if (layerElement == null)
-            base.OnAfterRender(firstRender);
+            builder.OpenElement(0, "span");
+            builder.AddAttribute(1, "class", "ms-layer");
+            builder.AddAttribute(2, "style", this.Style);
+            builder.AddAttribute(3, "data-layer-id", this.id);
+            builder.AddElementReferenceCapture(4, element => _element=element);
+            builder.CloseElement();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.addOrUpdateVirtualParent", _element);
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         public void Dispose()
         {
             Debug.WriteLine($"Layer disposed: {this.id}");
-            LayerHost.RemoveHostedContent(this.id);
+            LayerHost?.RemoveHostedContent(this.id);
             addedToHost = false;
         }
     }

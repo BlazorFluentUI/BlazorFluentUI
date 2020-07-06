@@ -1,0 +1,9 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<BFULocalCS @bind-Rules="@DocumentCardLogoRules" />
+
+<div class=@($"{RootRule.Selector.SelectorName} {ClassName}") style="@Style">
+    <BFUIcon IconName="@LogoIcon"></BFUIcon>
+</div>

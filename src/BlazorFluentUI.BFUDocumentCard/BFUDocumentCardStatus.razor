@@ -1,0 +1,13 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<BFULocalCS @bind-Rules="@DocumentCardStatusRules" />
+
+<div class=@($"{RootRule.Selector.SelectorName} {ClassName}") style="@Style">
+    @if (!string.IsNullOrWhiteSpace(StatusIcon))
+    {
+        <BFUIcon IconName="@StatusIcon" Style="padding:8px;"></BFUIcon>
+    }
+    @Status
+</div>

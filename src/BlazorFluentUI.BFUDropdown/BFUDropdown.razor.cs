@@ -17,7 +17,7 @@ namespace BlazorFluentUI
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public int DropdownWidth { get; set; } = 0;
         [Parameter] public string? ErrorMessage { get; set; }
-        [Parameter] public IEnumerable<IBFUDropdownOption> ItemsSource { get; set; }
+        [Parameter] public IEnumerable<IBFUDropdownOption>? ItemsSource { get; set; }
         [Parameter] public RenderFragment<IBFUDropdownOption>? ItemTemplate { get; set; }
         [Parameter] public string? Label { get; set; }
         [Parameter] public bool MultiSelect { get; set; }
@@ -35,7 +35,7 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<IEnumerable<IBFUDropdownOption>> SelectedOptionsChanged { get; set; }
 
         [Inject]
-        private IJSRuntime jSRuntime { get; set; }
+        private IJSRuntime? jSRuntime { get; set; }
 
         protected bool isOpen { get; set; }
 
@@ -46,10 +46,10 @@ namespace BlazorFluentUI
         private ElementReference calloutReference;
         private ElementReference panelReference;
         private ElementReference _chosenReference;
-        private string _registrationToken;
+        private string? _registrationToken;
 
-        private BFUFocusZone calloutFocusZone;
-        private CalloutPositionedInfo _calloutPositionedInfo;
+        private BFUFocusZone? calloutFocusZone;
+        private CalloutPositionedInfo? _calloutPositionedInfo;
 
         //private bool firstRender = true;
 

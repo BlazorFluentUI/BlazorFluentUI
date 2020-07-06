@@ -1,5 +1,6 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 /// <reference path="../../BlazorFluentUI.BFUFocusTrapZone/wwwroot/focusTrapZone.ts" />
+/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiPanel;
 (function (BlazorFluentUiPanel) {
     var Handler = /** @class */ (function () {
@@ -32,7 +33,7 @@ var BlazorFluentUiPanel;
         var mouseDownId = Handler.addListener(document.body, "mousedown", function (ev) {
             //first get whether click is inside panel
             if (!ev.defaultPrevented) {
-                var contains = BlazorFluentUiFocusTrapZone.elementContains(panelElement, ev.target);
+                var contains = BlazorFluentUiBaseComponent.elementContains(panelElement, ev.target);
                 //var contains = window["BlazorFluentUiFocusTrapZone"].elementContains(panelElement, ev.target);
                 if (!contains) {
                     ev.preventDefault();

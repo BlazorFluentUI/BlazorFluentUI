@@ -1,4 +1,5 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
+/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiFocusTrapZone;
 (function (BlazorFluentUiFocusTrapZone) {
     var IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
@@ -29,7 +30,7 @@ var BlazorFluentUiFocusTrapZone;
                     // on the event
                     relatedTarget = document.activeElement;
                 }
-                if (!elementContains(_this._props.rootElement, relatedTarget)) {
+                if (!BlazorFluentUiBaseComponent.elementContains(_this._props.rootElement, relatedTarget)) {
                     _this._hasFocus = false;
                 }
             };
@@ -96,7 +97,7 @@ var BlazorFluentUiFocusTrapZone;
             this._previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss && elementToFocusOnDismiss.__internalId != null
                 ? elementToFocusOnDismiss
                 : document.activeElement;
-            if (!disableFirstFocus && !elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {
+            if (!disableFirstFocus && !BlazorFluentUiBaseComponent.elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {
                 this.focus();
             }
         };
@@ -110,7 +111,7 @@ var BlazorFluentUiFocusTrapZone;
             if (!ignoreExternalFocusing &&
                 this._previouslyFocusedElementOutsideTrapZone &&
                 typeof this._previouslyFocusedElementOutsideTrapZone.focus === 'function' &&
-                (elementContains(rootElement, activeElement) || activeElement === document.body)) {
+                (BlazorFluentUiBaseComponent.elementContains(rootElement, activeElement) || activeElement === document.body)) {
                 this._focusAsync(this._previouslyFocusedElementOutsideTrapZone);
             }
         };
@@ -126,7 +127,7 @@ var BlazorFluentUiFocusTrapZone;
             var _a = this._props, focusPreviouslyFocusedInnerElement = _a.focusPreviouslyFocusedInnerElement, firstFocusableSelector = _a.firstFocusableSelector, rootElement = _a.rootElement;
             if (focusPreviouslyFocusedInnerElement &&
                 this._previouslyFocusedElementInTrapZone &&
-                elementContains(rootElement, this._previouslyFocusedElementInTrapZone)) {
+                BlazorFluentUiBaseComponent.elementContains(rootElement, this._previouslyFocusedElementInTrapZone)) {
                 // focus on the last item that had focus in the zone before we left the zone
                 this._focusAsync(this._previouslyFocusedElementInTrapZone);
                 return;
@@ -179,34 +180,29 @@ var BlazorFluentUiFocusTrapZone;
         }
     }
     BlazorFluentUiFocusTrapZone.focus = focus;
-    function elementContains(parent, child, allowVirtualParents) {
-        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
-        var isContained = false;
-        if (parent && child) {
-            if (allowVirtualParents) {
-                isContained = false;
-                while (child) {
-                    var nextParent = getParent(child);
-                    console.log("NextParent: " + nextParent);
-                    if (nextParent === parent) {
-                        isContained = true;
-                        break;
-                    }
-                    child = nextParent;
-                }
-            }
-            else if (parent.contains) {
-                isContained = parent.contains(child);
-            }
-        }
-        return isContained;
-    }
-    BlazorFluentUiFocusTrapZone.elementContains = elementContains;
-    function getParent(child, allowVirtualParents) {
-        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
-        return child && (child.parentNode && child.parentNode);
-    }
-    BlazorFluentUiFocusTrapZone.getParent = getParent;
+    //export function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {
+    //    let isContained = false;
+    //    if (parent && child) {
+    //        if (allowVirtualParents) {
+    //            isContained = false;
+    //            while (child) {
+    //                let nextParent: HTMLElement | null = getParent(child);
+    //                console.log("NextParent: " + nextParent);
+    //                if (nextParent === parent) {
+    //                    isContained = true;
+    //                    break;
+    //                }
+    //                child = nextParent;
+    //            }
+    //        } else if (parent.contains) {
+    //            isContained = parent.contains(child);
+    //        }
+    //    }
+    //    return isContained;
+    //}
+    //export function getParent(child: HTMLElement, allowVirtualParents: boolean = true): HTMLElement | null {
+    //    return child && (child.parentNode && (child.parentNode as HTMLElement));
+    //}
     var targetToFocusOnNextRepaint = undefined;
     function focusAsync(element) {
         if (element) {

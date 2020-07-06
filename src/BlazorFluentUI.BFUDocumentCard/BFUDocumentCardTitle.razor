@@ -1,0 +1,25 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using Microsoft.AspNetCore.Components.Web
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+
+@if (!ShouldTruncate)
+{
+    <div class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" style=@($"white-space: nowrap; {Style}") @ref=RootElementReference>
+        @Title
+    </div>
+}
+else if (ShouldTruncate && !string.IsNullOrWhiteSpace(TruncatedTitleFirstPiece) && !string.IsNullOrWhiteSpace(TruncatedTitleSecondPiece))
+{
+<div class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" @ref=RootElementReference style=@Style>
+    @TruncatedTitleFirstPiece
+    \u2026
+    @TruncatedTitleSecondPiece
+</div>
+}
+else
+{
+    <div class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" @ref=RootElementReference style=@Style>
+        @Title
+    </div> 
+}

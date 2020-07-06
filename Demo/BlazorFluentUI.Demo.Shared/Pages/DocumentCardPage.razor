@@ -1,0 +1,234 @@
+﻿@page "/documentcard"
+
+<h1>DocumentCard</h1>
+
+<Demo Header="Default Style" Key="0" MetadataPath="DocumentCardPage">
+    <BFUStack Style="width:100%;" Tokens="@(new BFUStackTokens() { ChildrenGap = new [] {20d}})">
+        <BFUDocumentCard Type="DocumentCardType.Normal" OnClickHref="http://bing.com">
+            <BFUDocumentCardPreview PreviewImages="@defaultImages.Take(1).ToArray()"></BFUDocumentCardPreview>
+            <BFUDocumentCardTitle Title="this is a title"></BFUDocumentCardTitle>
+            <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
+        </BFUDocumentCard>
+    </BFUStack>
+</Demo>
+
+<Demo Header="Compact Style" Key="1" MetadataPath="DocumentCardPage">
+    <BFUStack Style="width:100%;" Tokens="@(new BFUStackTokens() { ChildrenGap = new [] {20d}})">
+        <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <BFUDocumentCardPreview PreviewImages="@images.Take(1).ToArray()"></BFUDocumentCardPreview>
+            <BFUDocumentCardDetails>
+                <BFUDocumentCardTitle ShouldTruncate="false" Title="My Heading"></BFUDocumentCardTitle>
+                <BFUDocumentCardActivity Activity="Test activity" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
+            </BFUDocumentCardDetails>
+        </BFUDocumentCard>
+        <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <BFUDocumentCardPreview PreviewImages="@images"></BFUDocumentCardPreview>
+            <BFUDocumentCardDetails>
+                <BFUDocumentCardTitle ShouldTruncate="false" Title="My Heading"></BFUDocumentCardTitle>
+                <BFUDocumentCardActivity Activity="Test activity" People="@persons"></BFUDocumentCardActivity>
+            </BFUDocumentCardDetails>
+        </BFUDocumentCard>
+        <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <BFUDocumentCardPreview PreviewImages="@previewImagesUsingIcon"></BFUDocumentCardPreview>
+            <BFUDocumentCardDetails>
+                <BFUDocumentCardTitle ShouldTruncate="true" Title="View and share files"></BFUDocumentCardTitle>
+                <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
+            </BFUDocumentCardDetails>
+        </BFUDocumentCard>
+        <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <BFUDocumentCardPreview PreviewImages="@previewOutlookUsingIcon"></BFUDocumentCardPreview>
+            <BFUDocumentCardDetails>
+                <BFUDocumentCardTitle ShouldTruncate="true" Title="View and share files"></BFUDocumentCardTitle>
+                <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
+            </BFUDocumentCardDetails>
+        </BFUDocumentCard>
+    </BFUStack>
+</Demo>
+
+<Demo Header="Commands" Key="2" MetadataPath="DocumentCardPage">
+    <BFUStack Style="width:100%;margin-bottom:50px;" Tokens="@(new BFUStackTokens() { ChildrenGap = new [] {20d}})">
+        <BFUDocumentCard Type="DocumentCardType.Normal">
+            <BFUDocumentCardPreview PreviewImages="@images"></BFUDocumentCardPreview>
+            <BFUDocumentCardLocation Location="Github" LocationHref="https://www.github.com"></BFUDocumentCardLocation>
+            <BFUDocumentCardTitle Title="this is a title"></BFUDocumentCardTitle>
+            <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
+            <BFUDocumentCardActions Actions="@actions" Views="342"></BFUDocumentCardActions>
+        </BFUDocumentCard>
+    </BFUStack>
+</Demo>
+
+@code {
+    [Inject] public ThemeProvider ThemeProvider { get; set; }
+
+    public ITheme Theme => ThemeProvider.Theme;
+
+    BFUDocumentPreviewImage[] defaultImages;
+    BFUDocumentPreviewImage[] previewImagesUsingIcon;
+    BFUDocumentPreviewImage[] previewOutlookUsingIcon;
+    BFUDocumentCardActivityPerson[] persons;
+    BFUDocumentPreviewImage[] images;
+    BFUDocumentCardAction[] actions;
+
+    protected override Task OnParametersSetAsync()
+    {
+        previewImagesUsingIcon = new BFUDocumentPreviewImage[]
+        {
+            new BFUDocumentPreviewImage()
+            {
+                PreviewIconProps = new BFUIconProperties()
+                {
+                    IconName = "Mail",
+                    Styles = $"color: white; font-size: {Theme.FontStyle.FontSize.SuperLarge};"
+            },
+                Width = 144,
+                Styles = $"background-color:{Theme.Palette.ThemePrimary}"
+        }
+               };
+        previewOutlookUsingIcon = new BFUDocumentPreviewImage[]
+   {
+            new BFUDocumentPreviewImage()
+            {
+                PreviewIconProps = new BFUIconProperties()
+                {
+                    IconName = "OutlookLogo",
+                    Styles = $"color: #0078d7; font-size: {Theme.FontStyle.FontSize.SuperLarge};background-color:{Theme.Palette.NeutralLighterAlt};"
+            },
+                Width = 144,
+                Styles = $"background-color:{Theme.Palette.NeutralLighterAlt}"
+        }
+          };
+
+        actions = new BFUDocumentCardAction[]
+        {
+            new BFUDocumentCardAction()
+            {
+                IconName = "Share",
+                OnClickHandler = EventCallback.Factory.Create<MouseEventArgs>(this, ClickHandler)
+            },
+             new BFUDocumentCardAction()
+            {
+                IconName = "Pin",
+                OnClickHandler = EventCallback.Factory.Create<MouseEventArgs>(this, ClickHandler)
+            },
+              new BFUDocumentCardAction()
+            {
+                IconName = "Ringer",
+                OnClickHandler = EventCallback.Factory.Create<MouseEventArgs>(this, ClickHandler)
+            }
+
+        };
+        return base.OnParametersSetAsync();
+    }
+
+    public void ClickHandler(MouseEventArgs e)
+    {
+        Console.WriteLine("Clicked");
+    }
+
+    public DocumentCardPage()
+    {
+        defaultImages = new BFUDocumentPreviewImage[]
+        {
+            new BFUDocumentPreviewImage()
+            {
+                Width = 318,
+                Height = 196,
+                ImageFit = ImageFit.Cover,
+                Name = "A preview image",
+                PreviewImageSrc = "sampleImage.jpg",
+                IconSrc = "smallSampleImage.jpg",
+                LinkProperties = new LinkProperties()
+                {
+                    Href = "https://www.bing.com",
+                    Target = "_blank"
+                }
+            }
+                                    };
+
+
+        List<BFUDocumentCardActivityPerson> p = new List<BFUDocumentCardActivityPerson>();
+        p.Add(new BFUDocumentCardActivityPerson()
+        {
+            Name = "Albert Einstein",
+            AllowPhoneInitials = true
+        });
+        p.Add(new BFUDocumentCardActivityPerson()
+        {
+            Name = "Marie Curie",
+            AllowPhoneInitials = true,
+            ProfileImageSrc = "personFace.jpg"
+        });
+
+        persons = p.ToArray();
+
+        List<BFUDocumentPreviewImage> i = new List<BFUDocumentPreviewImage>();
+        i.Add(new BFUDocumentPreviewImage()
+        {
+            Width = 144,
+            Name = "A preview image",
+            PreviewImageSrc = "sampleImage.jpg",
+            IconSrc = "smallSampleImage.jpg",
+            LinkProperties = new LinkProperties()
+            {
+                Href = "https://www.bing.com",
+                Target = "_blank"
+            }
+        });
+
+        i.Add(new BFUDocumentPreviewImage()
+        {
+            Width = 144,
+            Name = "A preview image",
+            PreviewImageSrc = "sampleImage.jpg",
+            IconSrc = "smallSampleImage.jpg",
+            LinkProperties = new LinkProperties()
+            {
+                Href = "https://www.bing.com",
+                Target = "_blank"
+            }
+        });
+
+        i.Add(new BFUDocumentPreviewImage()
+        {
+            Width = 144,
+            Name = "A preview image",
+            PreviewImageSrc = "sampleImage.jpg",
+            IconSrc = "smallSampleImage.jpg",
+            LinkProperties = new LinkProperties()
+            {
+                Href = "https://www.bing.com",
+                Target = "_blank"
+            }
+        });
+
+        i.Add(new BFUDocumentPreviewImage()
+        {
+            Width = 144,
+            Name = "A preview image",
+            PreviewImageSrc = "sampleImage.jpg",
+            IconSrc = "smallSampleImage.jpg",
+            LinkProperties = new LinkProperties()
+            {
+                Href = "https://www.bing.com",
+                Target = "_blank"
+            }
+        });
+
+        i.Add(new BFUDocumentPreviewImage()
+        {
+            Width = 144,
+            Name = "A preview image",
+            PreviewImageSrc = "sampleImage.jpg",
+            IconSrc = "smallSampleImage.jpg",
+            LinkProperties = new LinkProperties()
+            {
+                Href = "https://www.bing.com",
+                Target = "_blank"
+            }
+        });
+
+        images = i.ToArray();
+    }
+
+}
+

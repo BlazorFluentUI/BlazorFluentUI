@@ -69,11 +69,12 @@
                  Count=@(GroupNestingDepth-1) />
     @for (var colIndex = 0; colIndex < Columns.Count(); colIndex++)
     {
-        var isDraggable = (ColumnReorderProps != null) ? colIndex >= frozenColumnCountFromStart && colIndex < Columns.Count() - frozenColumnCountFromEnd : false;
-        @if (isDraggable || colIndex == Columns.Count() - frozenColumnCountFromEnd)
+        var currentColIndex = colIndex;
+        var isDraggable = (ColumnReorderProps != null) ? currentColIndex >= frozenColumnCountFromStart && currentColIndex < Columns.Count() - frozenColumnCountFromEnd : false;
+        @if (isDraggable || currentColIndex == Columns.Count() - frozenColumnCountFromEnd)
         {
             <div class="ms-DetailsHeader-dropHint"
-                    id=@($"columnDropHint_{colIndex}")>
+                    id=@($"columnDropHint_{currentColIndex}")>
                 @if (UseFastIcons)
                 {
                     <BFUFontIcon ClassName="ms-DetailsHeader-dropHintCaret"
@@ -91,8 +92,8 @@
                         class="ms-DetailsHeader-dropHintLineStyle" />
             </div>
         }
-        <BFUDetailsColumn Column=@Columns.ElementAt(colIndex)
-                       ColumnIndex=@((showCheckbox ? 2 : 1) + colIndex)
+        <BFUDetailsColumn Column=@Columns.ElementAt(currentColIndex)
+                       ColumnIndex=@((showCheckbox ? 2 : 1) + currentColIndex)
                        ParentId=@id
                        IsDraggable=@isDraggable
                        UpdateDragInfo=@UpdateDragInfo
@@ -100,16 +101,16 @@
                        OnColumnClick=@OnColumnClick
                        OnColumnContextMenu=@OnColumnContextMenu
                        ColumnHeaderTooltipTemplate=@ColumnHeaderTooltipTemplate
-                       IsDropped=@(onDropIndexInfo.TargetIndex == colIndex)
+                       IsDropped=@(onDropIndexInfo.TargetIndex == currentColIndex)
                        UseFastIcons=@UseFastIcons />
-        @if (Columns.ElementAt(colIndex).IsResizable)
+        @if (Columns.ElementAt(currentColIndex).IsResizable)
         {
             <div aria-hidden="true"
                  role="button"
-                 @onmousedown=@(args=>OnSizerMouseDown(args, colIndex))
+                 @onmousedown=@(args=>OnSizerMouseDown(args, (showCheckbox ? 2 : 1) + currentColIndex ))
                  @onclick:stopPropagation="true"
                  @onblur=@(() => { })
-                 class=@($"ms-DetailsHeader-cellSizer{(colIndex < Columns.Count() - 1 ? " ms-DetailsHeader-cellSizerStart" : " ms-DetailsHeader-cellSizerEnd")}")
+                 class=@($"ms-DetailsHeader-cellSizer{(currentColIndex < Columns.Count() - 1 ? " ms-DetailsHeader-cellSizerStart" : " ms-DetailsHeader-cellSizerEnd")}")
                  @ondblclick=@(() => { }) />
         }
     }

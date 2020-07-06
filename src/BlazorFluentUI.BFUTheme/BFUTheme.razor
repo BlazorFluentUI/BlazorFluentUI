@@ -86,7 +86,9 @@
     </style>
 
 <CascadingValue Value="ThemeProvider.Theme" Name="Theme">
-    @ChildContent
+    <div dir="ltr"> @*This is a fix to allow some fonts to display properly.  We may want to move this later.*@
+        @ChildContent
+    </div>
 </CascadingValue>
 
 @code {

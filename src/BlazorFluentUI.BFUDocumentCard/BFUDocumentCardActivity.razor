@@ -1,0 +1,25 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
+<BFULocalCS @bind-Rules="@BFUDocumentCardActivityLocalRules" />
+
+<div class=@($"{GlobalClassNames["root"]} {ClassName}") style=@Style @ref=RootElementReference>
+    @if (People != null)
+    {
+        <div class="@GlobalClassNames["avatars"]">
+            @foreach (var people in People.Take(2).Reverse())
+            {
+                <div class="@GlobalClassNames["avatar"]">
+                    <BFUPersonaCoin Text="@people.Name" ImageUrl="@people.ProfileImageSrc" AllowPhoneInitials="@people.AllowPhoneInitials" AriaRoleDescription="presentation"
+                                    Size="@PersonaPresenceSize.Size32" CoinSize="32"></BFUPersonaCoin>
+                </div>
+            }
+        </div>
+    }
+    <div class=@($"{GlobalClassNames["details"]} {DetailsRule.Selector.SelectorName}")>
+        <span class="@GlobalClassNames["name"]">@GetNameString()</span>
+        <span class="@GlobalClassNames["activity"]">@Activity</span>
+    </div>
+</div>

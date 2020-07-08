@@ -11,6 +11,10 @@
         <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
             <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
             <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+            <BFUDropdown ItemsSource=@selectionModeOptions
+                         @bind-SelectedOption=selectedModeOption
+                         Style="max-width:300px;">
+            </BFUDropdown>
         </BFUStack>
         <BFUTextField Label="Filter Description"
                    @bind-Value=@dataContainer.Filter
@@ -22,7 +26,7 @@
                         Columns="ReadonlyColumns"
                         LayoutMode="DetailsListLayoutMode.Justified"
                         @bind-Selection="selection"
-                        SelectionMode="SelectionMode.Multiple"
+                        SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
                         />
     </BFUStack>
 
@@ -34,6 +38,9 @@
 
     bool isVirtualizing = false;
     bool isCompact = false;
+    IBFUDropdownOption selectedModeOption;
+    List<IBFUDropdownOption> selectionModeOptions;
+
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
@@ -102,8 +109,14 @@
 
     protected override void OnInitialized()
     {
+        selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()
+           .Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() })
+           .Cast<IBFUDropdownOption>()
+           .ToList();
+        selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Single");
+
         // We load the column data into the columnsSource SourceCache.
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index=0, OnColumnClick = this.OnColumnClick });
+        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index=0, OnColumnClick = this.OnColumnClick, IsResizable = true });
         columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable=true });
         var descColumn = new BFUDetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
         columnsSource.AddOrUpdate(descColumn);

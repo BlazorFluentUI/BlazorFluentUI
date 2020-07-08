@@ -28,7 +28,7 @@ There are no MergeStyles in this port.  It's just each control packaged into its
 | :---------- | :---: | :--------------- |
 | Button      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
 | Checkbox    | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | except for icons |
-| ChoiceGroup | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| ChoiceGroup | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
 | ComboBox    | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
 | Dropdown    | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
 | Label       | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |

@@ -3,31 +3,29 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <AssemblyName>BlazorFluentUI.BFUList</AssemblyName>
-    <RootNamespace>BlazorFluentUI</RootNamespace>
-    <RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
-    <Product>BlazorFluentUI.BFUList</Product>
-    <Nullable>enable</Nullable>
+    <nullable>enable</nullable>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <PackageReference Include="DynamicData" Version="6.14.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.5" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.8.3">
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Reactive" Version="4.3.2" />
   </ItemGroup>
+
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFluentUI.BFUBaseComponent\BlazorFluentUI.BFUBaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.BFULabel\BlazorFluentUI.BFULabel.csproj" />
   </ItemGroup>
 
+
   <PropertyGroup>
-    <TypeScriptTarget>ES6</TypeScriptTarget>
-    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptTarget>ES2016</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
     <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
@@ -40,6 +38,5 @@
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
   </PropertyGroup>
-
 
 </Project>

@@ -140,6 +140,7 @@ namespace BlazorFluentUI
 
             isResizingColumn = isSizing;
 
+            // TBD
             if (ColumnReorderProps!= null && ColumnReorderProps.ToString() == "something")
             {
                 frozenColumnCountFromStart = 1234;
@@ -148,14 +149,14 @@ namespace BlazorFluentUI
             {
                 frozenColumnCountFromStart = 0;
             }
-            if (ColumnReorderProps != null && ColumnReorderProps.ToString() == "something")
-            {
-                frozenColumnCountFromEnd = 1234;
-            }
-            else
-            {
-                frozenColumnCountFromEnd = 0;
-            }
+            //if (ColumnReorderProps != null && ColumnReorderProps.ToString() == "something")
+            //{
+            //    frozenColumnCountFromEnd = 1234;
+            //}
+            //else
+            //{
+            //    frozenColumnCountFromEnd = 0;
+            //}
 
             return base.OnParametersSetAsync();
         }

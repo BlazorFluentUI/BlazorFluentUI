@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUTextField : BFUComponentBase, IHasPreloadableGlobalStyle 
+    public partial class BFUTextField : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
@@ -163,28 +163,20 @@ namespace BlazorFluentUI
 
         protected async Task InputHandler(ChangeEventArgs args)
         {
-            Console.WriteLine("InputHandler");
             if (!defaultErrorMessageIsSet && OnGetErrorMessage != null && !string.IsNullOrWhiteSpace(ErrorMessage))
             {
                 ErrorMessage = "";
-                Console.WriteLine("StateHasChanged");
                 StateHasChanged();
             }
 
-            await AdjustInputHeightAsync().ConfigureAwait(false);
+            await AdjustInputHeightAsync();
 
             if (ValidateAllChanges())
             {
-                Console.WriteLine("ValidateAllChanges");
                 await DeferredValidation((string)args.Value).ConfigureAwait(false);
             }
 
-            if (OnInput.HasDelegate)
-            {
-                Console.WriteLine("OnInput");
-                await OnInput.InvokeAsync((string)args.Value);
-            }
-
+            await OnInput.InvokeAsync((string)args.Value);
             //await InputChanged.InvokeAsync((string)args.Value);
             //if (this.OnInput != null)
             //{
@@ -194,21 +186,12 @@ namespace BlazorFluentUI
 
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
-            Console.WriteLine("ChangeHandler");
-            if (OnInput.HasDelegate)
-            {
-                await OnInput.InvokeAsync((string)args.Value);
-            }
-            if (ValueChanged.HasDelegate)
-            {
-                await ValueChanged.InvokeAsync((string)args.Value);
-            }
-            
+            await OnChange.InvokeAsync((string)args.Value);
+            await ValueChanged.InvokeAsync((string)args.Value);
         }
 
         protected async Task OnFocusInternal(FocusEventArgs args)
         {
-            Console.WriteLine("OnFocusInternal");
             if (OnFocus.HasDelegate)
                 await OnFocus.InvokeAsync(args);
 
@@ -222,7 +205,6 @@ namespace BlazorFluentUI
 
         protected async Task OnBlurInternal(FocusEventArgs args)
         {
-            Console.WriteLine("OnBlurInternal");
             if (OnBlur.HasDelegate)
                 await OnBlur.InvokeAsync(args);
 
@@ -236,11 +218,9 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            Console.WriteLine("OnAfterRenderAsync");
             if (!firstRendered)
             {
                 firstRendered = true;
-                Console.WriteLine("AdjustInputHeightAsync");
                 _ = AdjustInputHeightAsync();
             }
             await base.OnAfterRenderAsync(firstRender);
@@ -250,7 +230,6 @@ namespace BlazorFluentUI
         {
             if (this.AutoAdjustHeight == true && this.Multiline)
             {
-                Console.WriteLine("Multiline");
                 var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getScrollHeight", textAreaRef);
                 //inlineTextAreaStyle = $"height: {scrollHeight}px";
                 if (autoAdjustedHeight != scrollHeight)
@@ -263,7 +242,6 @@ namespace BlazorFluentUI
             {
                 if (autoAdjustedHeight != -1)
                 {
-                    Console.WriteLine(autoAdjustedHeight + "autoAdjustedHeight");
                     autoAdjustedHeight = -1;
                     await InvokeAsync(StateHasChanged);
                 }
@@ -290,7 +268,6 @@ namespace BlazorFluentUI
 
         private void Validate(string value)
         {
-            Console.WriteLine("Validate");
             if (value == null || latestValidatedValue == value)
                 return;
 
@@ -310,7 +287,6 @@ namespace BlazorFluentUI
 
         private async Task DeferredValidation(string value)
         {
-            Console.WriteLine("DeferredValidation");
             DeferredValidationTasks.Add(Task.Run(async () =>
             {
                 await Task.Delay(deferredValidationTime);
@@ -320,10 +296,10 @@ namespace BlazorFluentUI
             if (TaskCount == DeferredValidationTasks.Count())
             {
                 _ = Task.Run(() =>
-                  {
-                      Validate(value);
-                      InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
-                  }).ConfigureAwait(false);
+                {
+                    Validate(value);
+                    InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
+                }).ConfigureAwait(false);
             }
         }
 
@@ -438,7 +414,7 @@ namespace BlazorFluentUI
                           $"box-shadow:none;" +
                           $"margin:0px;" +
                           $"padding:0px;" +
-                          $"box-sizing:border-box;"+
+                          $"box-sizing:border-box;" +
 
                         $"border:1px solid {theme.SemanticColors.InputBorder};" +
                         $"border-radius:{theme.Effects.RoundedCorner2};" +
@@ -574,7 +550,7 @@ namespace BlazorFluentUI
             });
             MyRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.no-label.is-required .ms-TextField-fieldGroup:before"},
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.no-label.is-required .ms-TextField-fieldGroup:before" },
                 Properties = new CssString()
                 {
                     Css = $"content:'*';" +
@@ -632,11 +608,11 @@ namespace BlazorFluentUI
                     Css = $"display:none;"
                 }
             });
-            MyRules.AddRange(PlaceHolderStyle.GetPlaceholderStyle(".ms-TextField-field", 
-                new CssString() 
-                { 
+            MyRules.AddRange(PlaceHolderStyle.GetPlaceholderStyle(".ms-TextField-field",
+                new CssString()
+                {
                     Css = $"color:{theme.SemanticTextColors.InputPlaceholderText};" +
-                        $"opacity:1;" 
+                        $"opacity:1;"
                 }));
             MyRules.Add(new Rule()
             {
@@ -802,7 +778,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};" +
                         $"color:{theme.SemanticTextColors.ErrorText};" +
                         $"margin:0;" +
                         $"padding-top:5px;" +

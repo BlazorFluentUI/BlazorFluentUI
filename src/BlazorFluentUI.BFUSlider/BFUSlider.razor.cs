@@ -70,7 +70,7 @@ namespace BlazorFluentUI
             {"titleLabel", "ms-Slider-titleLabel" },
             {"lineContainer", "ms-Slider-lineContainer" }
         };
-        
+        private bool shouldFocus;
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
@@ -500,13 +500,14 @@ namespace BlazorFluentUI
         protected override Task OnInitializedAsync()
         {
             timer.Interval = 1000;
+            timer.AutoReset = false;
             timer.Elapsed += Timer_Elapsed;
             return base.OnInitializedAsync();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            _ = InvokeAsync(()=>_ = ValueChanged.InvokeAsync(value));
+            _ = InvokeAsync(() => _ = ValueChanged.InvokeAsync(value));
         }
 
         protected override async Task OnParametersSetAsync()
@@ -555,6 +556,13 @@ namespace BlazorFluentUI
                     await JSRuntime.InvokeVoidAsync("BlazorFluentUiSlider.registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
                 }
             }
+
+            if (shouldFocus)
+            {
+                shouldFocus = false;
+                await Focus();
+            }
+
             await base.OnAfterRenderAsync(firstRender);
         }
 
@@ -578,6 +586,14 @@ namespace BlazorFluentUI
 
             var newValue = Math.Min(Max, Math.Max(Min, current + diff));
             UpdateValue(newValue, newValue);
+
+            ClearOnKeyDownTimer();
+            SetOnKeyDownTimer();
+        }
+
+        public async Task Focus()
+        {
+            await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.focusElement", slideBox).ConfigureAwait(false);
         }
 
         private void ClearOnKeyDownTimer()
@@ -585,7 +601,7 @@ namespace BlazorFluentUI
             timer.Stop();
         }
 
-        private void SetOnKeyDownTimer(KeyboardEventArgs args)
+        private void SetOnKeyDownTimer()
         {
             timer.Start();
         }
@@ -651,8 +667,8 @@ namespace BlazorFluentUI
             _renderedValue = value;  // _renderedValue is only different during mouse move... falls back to Value when done.
             UpdateState();
             _ = ValueChanged.InvokeAsync(value);
-            
-          
+
+            shouldFocus = true;
         }
 
         public void UpdateValue(double value, double renderedValue)

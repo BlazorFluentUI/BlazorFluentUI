@@ -1,4 +1,4 @@
-﻿<BFUStack HorizontalAlign="Alignment.Start">
+﻿<BFUStack HorizontalAlign="Alignment.Start" Style="width:100%;">
     <BFUStack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.End"
               Style=@($"border-bottom: 1px solid {ThemeProvider.Theme.SemanticColors.BodyDivider}; margin-bottom:18.620px;width:100%;")>
         <div style="font-size:@ThemeProvider.Theme.FontStyle.FontSize.MediumPlus; font-weight:@ThemeProvider.Theme.FontStyle.FontWeight.SemiBold;">@Header</div>
@@ -6,7 +6,9 @@
             <BFUCommandBarButton Text=@codeLabel IconName="ChevronDown" OnClick=@(arg=> { showCode = !showCode; showCCode = false; codeLabel = showCode ? "Hide Code" : "Show Code"; }) />
         </div>
     </BFUStack>
-    @ChildContent
+    <div style="width:100%;">
+        @ChildContent
+    </div>
     <div style="display:@(showCode ? "block" : "none");">
         <pre style="padding: 20px; white-space:pre-wrap; word-wrap:break-word;background-color:@ThemeProvider.Theme.Palette.Black;color:@ThemeProvider.Theme.Palette.White;">
            @codeLiteral

@@ -163,20 +163,28 @@ namespace BlazorFluentUI
 
         protected async Task InputHandler(ChangeEventArgs args)
         {
+            Console.WriteLine("InputHandler");
             if (!defaultErrorMessageIsSet && OnGetErrorMessage != null && !string.IsNullOrWhiteSpace(ErrorMessage))
             {
                 ErrorMessage = "";
+                Console.WriteLine("StateHasChanged");
                 StateHasChanged();
             }
 
-            await AdjustInputHeightAsync();
+            await AdjustInputHeightAsync().ConfigureAwait(false);
 
             if (ValidateAllChanges())
             {
+                Console.WriteLine("ValidateAllChanges");
                 await DeferredValidation((string)args.Value).ConfigureAwait(false);
             }
-            
-            await OnInput.InvokeAsync((string)args.Value);
+
+            if (OnInput.HasDelegate)
+            {
+                Console.WriteLine("OnInput");
+                await OnInput.InvokeAsync((string)args.Value);
+            }
+
             //await InputChanged.InvokeAsync((string)args.Value);
             //if (this.OnInput != null)
             //{
@@ -186,12 +194,21 @@ namespace BlazorFluentUI
 
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
-            await OnChange.InvokeAsync((string)args.Value);
-            await ValueChanged.InvokeAsync((string)args.Value);
+            Console.WriteLine("ChangeHandler");
+            if (OnInput.HasDelegate)
+            {
+                await OnInput.InvokeAsync((string)args.Value);
+            }
+            if (ValueChanged.HasDelegate)
+            {
+                await ValueChanged.InvokeAsync((string)args.Value);
+            }
+            
         }
 
         protected async Task OnFocusInternal(FocusEventArgs args)
         {
+            Console.WriteLine("OnFocusInternal");
             if (OnFocus.HasDelegate)
                 await OnFocus.InvokeAsync(args);
 
@@ -205,6 +222,7 @@ namespace BlazorFluentUI
 
         protected async Task OnBlurInternal(FocusEventArgs args)
         {
+            Console.WriteLine("OnBlurInternal");
             if (OnBlur.HasDelegate)
                 await OnBlur.InvokeAsync(args);
 
@@ -218,9 +236,11 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            Console.WriteLine("OnAfterRenderAsync");
             if (!firstRendered)
             {
                 firstRendered = true;
+                Console.WriteLine("AdjustInputHeightAsync");
                 _ = AdjustInputHeightAsync();
             }
             await base.OnAfterRenderAsync(firstRender);
@@ -230,6 +250,7 @@ namespace BlazorFluentUI
         {
             if (this.AutoAdjustHeight == true && this.Multiline)
             {
+                Console.WriteLine("Multiline");
                 var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getScrollHeight", textAreaRef);
                 //inlineTextAreaStyle = $"height: {scrollHeight}px";
                 if (autoAdjustedHeight != scrollHeight)
@@ -242,6 +263,7 @@ namespace BlazorFluentUI
             {
                 if (autoAdjustedHeight != -1)
                 {
+                    Console.WriteLine(autoAdjustedHeight + "autoAdjustedHeight");
                     autoAdjustedHeight = -1;
                     await InvokeAsync(StateHasChanged);
                 }
@@ -268,6 +290,7 @@ namespace BlazorFluentUI
 
         private void Validate(string value)
         {
+            Console.WriteLine("Validate");
             if (value == null || latestValidatedValue == value)
                 return;
 
@@ -287,6 +310,7 @@ namespace BlazorFluentUI
 
         private async Task DeferredValidation(string value)
         {
+            Console.WriteLine("DeferredValidation");
             DeferredValidationTasks.Add(Task.Run(async () =>
             {
                 await Task.Delay(deferredValidationTime);

@@ -9,7 +9,7 @@ namespace BlazorFluentUiDocumentCard {
         resizeFunction: (e: any) => void;
 
         stateChanged() {
-            this.dotnet.invokeMethod("UpdateTitle", this.state.truncatedTitleFirstPiece, this.state.truncatedTitleSecondPiece);
+            this.dotnet.invokeMethodAsync("UpdateTitle", this.state.truncatedTitleFirstPiece, this.state.truncatedTitleSecondPiece);
         }
     }
 
@@ -54,7 +54,7 @@ namespace BlazorFluentUiDocumentCard {
             
             setTimeout(() => {
                 console.log('resize');
-                title.dotnet.invokeMethod("UpdateneedMeasurement");
+                title.dotnet.invokeMethodAsync("UpdateneedMeasurement");
                 title.state.truncatedTitleFirstPiece = '';
                 title.state.truncatedTitleSecondPiece = '';
         

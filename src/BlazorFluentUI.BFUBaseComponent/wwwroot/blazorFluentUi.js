@@ -929,7 +929,7 @@ var BlazorFluentUiDocumentCard;
 (function (BlazorFluentUiDocumentCard) {
     class CardTitleMap {
         stateChanged() {
-            this.dotnet.invokeMethod("UpdateTitle", this.state.truncatedTitleFirstPiece, this.state.truncatedTitleSecondPiece);
+            this.dotnet.invokeMethodAsync("UpdateTitle", this.state.truncatedTitleFirstPiece, this.state.truncatedTitleSecondPiece);
         }
     }
     class CardTitleState {
@@ -963,7 +963,7 @@ var BlazorFluentUiDocumentCard;
             title.state.watchResize = false;
             setTimeout(() => {
                 console.log('resize');
-                title.dotnet.invokeMethod("UpdateneedMeasurement");
+                title.dotnet.invokeMethodAsync("UpdateneedMeasurement");
                 title.state.truncatedTitleFirstPiece = '';
                 title.state.truncatedTitleSecondPiece = '';
                 truncateTitle(title);

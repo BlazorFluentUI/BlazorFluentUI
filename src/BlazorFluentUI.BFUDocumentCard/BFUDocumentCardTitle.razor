@@ -3,23 +3,23 @@
 @using Microsoft.AspNetCore.Components.Web
 <BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 
-@if (!ShouldTruncate)
+@if (_needMeasurement)
 {
-    <div class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" style=@($"white-space: nowrap; {Style}") @ref=RootElementReference>
+    <div id="@Id" class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" style=@($"white-space: nowrap; {Style}") @ref=RootElementReference>
         @Title
     </div>
 }
 else if (ShouldTruncate && !string.IsNullOrWhiteSpace(TruncatedTitleFirstPiece) && !string.IsNullOrWhiteSpace(TruncatedTitleSecondPiece))
 {
-<div class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" @ref=RootElementReference style=@Style>
+<div id="@Id" class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" @ref=RootElementReference style=@Style>
     @TruncatedTitleFirstPiece
-    \u2026
+    &hellip;
     @TruncatedTitleSecondPiece
 </div>
 }
 else
 {
-    <div class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" @ref=RootElementReference style=@Style>
+    <div id="@Id" class=@($"{GlobalClassNames["root"]} {ClassName}") title="@Title" @ref=RootElementReference style=@Style>
         @Title
     </div> 
 }

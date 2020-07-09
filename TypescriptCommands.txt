@@ -1,6 +1,6 @@
 ** Run this line from the src directory to generate a unified javascript file of all projects.
 
-tsc --target es6 --outFile BlazorFluentUI.BFUBaseComponent\wwwroot\blazorFluentUi.js BlazorFluentUI.BFUBaseComponent\wwwroot\baseComponent.ts BlazorFluentUI.BFUCallout\wwwroot\callout.ts BlazorFluentUI.BFUFocusTrapZone\wwwroot\focusTrapZone.ts BlazorFluentUI.BFUFocusZone\wwwroot\focusZone.ts BlazorFluentUI.BFUList\wwwroot\fabricList.ts BlazorFluentUI.BFUPanel\wwwroot\panel.ts BlazorFluentUI.BFUSlider\wwwroot\slider.ts BlazorFluentUI.BFUTextField\wwwroot\fabricTextField.ts BlazorFluentUI.BFUBaseComponent\wwwroot\requestIdleCallbackPolyfill.js --allowJs
+tsc --target es6 --outFile BlazorFluentUI.BFUBaseComponent\wwwroot\blazorFluentUi.js BlazorFluentUI.BFUBaseComponent\wwwroot\baseComponent.ts BlazorFluentUI.BFUCallout\wwwroot\callout.ts BlazorFluentUI.BFUDocumentCard\wwwroot\documentCard.ts BlazorFluentUI.BFUCallout\wwwroot\callout.ts BlazorFluentUI.BFUFocusTrapZone\wwwroot\focusTrapZone.ts BlazorFluentUI.BFUFocusZone\wwwroot\focusZone.ts BlazorFluentUI.BFUList\wwwroot\fabricList.ts BlazorFluentUI.BFUPanel\wwwroot\panel.ts BlazorFluentUI.BFUSlider\wwwroot\slider.ts BlazorFluentUI.BFUTextField\wwwroot\fabricTextField.ts BlazorFluentUI.BFUBaseComponent\wwwroot\requestIdleCallbackPolyfill.js --allowJs
 
 ** Run this line inside the basecomponent wwwroot to minify the resulting unified js file. Second one is better as it can uglify (replace var names with shorter names, but not the top-level ones)
 

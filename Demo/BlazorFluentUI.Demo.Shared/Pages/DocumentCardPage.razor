@@ -6,7 +6,7 @@
     <BFUStack Style="width:100%;" Tokens="@(new BFUStackTokens() { ChildrenGap = new [] {20d}})">
         <BFUDocumentCard Type="DocumentCardType.Normal" OnClickHref="http://bing.com">
             <BFUDocumentCardPreview PreviewImages="@defaultImages.Take(1).ToArray()"></BFUDocumentCardPreview>
-            <BFUDocumentCardTitle Title="this is a title"></BFUDocumentCardTitle>
+            <BFUDocumentCardTitle Title="this is a title a long title a really long title very long indeed this is a title a long title a really long title very long indeed" ShouldTruncate="true"></BFUDocumentCardTitle>
             <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
         </BFUDocumentCard>
     </BFUStack>
@@ -31,14 +31,14 @@
         <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
             <BFUDocumentCardPreview PreviewImages="@previewImagesUsingIcon"></BFUDocumentCardPreview>
             <BFUDocumentCardDetails>
-                <BFUDocumentCardTitle ShouldTruncate="true" Title="View and share files"></BFUDocumentCardTitle>
+                <BFUDocumentCardTitle ShouldTruncate="false" Title="View and share files"></BFUDocumentCardTitle>
                 <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
             </BFUDocumentCardDetails>
         </BFUDocumentCard>
         <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
             <BFUDocumentCardPreview PreviewImages="@previewOutlookUsingIcon"></BFUDocumentCardPreview>
             <BFUDocumentCardDetails>
-                <BFUDocumentCardTitle ShouldTruncate="true" Title="View and share files"></BFUDocumentCardTitle>
+                <BFUDocumentCardTitle ShouldTruncate="false" Title="View and share files"></BFUDocumentCardTitle>
                 <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
             </BFUDocumentCardDetails>
         </BFUDocumentCard>
@@ -50,7 +50,7 @@
         <BFUDocumentCard Type="DocumentCardType.Normal">
             <BFUDocumentCardPreview PreviewImages="@images"></BFUDocumentCardPreview>
             <BFUDocumentCardLocation Location="Github" LocationHref="https://www.github.com"></BFUDocumentCardLocation>
-            <BFUDocumentCardTitle Title="this is a title"></BFUDocumentCardTitle>
+            <BFUDocumentCardTitle Title="this is a title" ShouldTruncate="false"></BFUDocumentCardTitle>
             <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
             <BFUDocumentCardActions Actions="@actions" Views="342"></BFUDocumentCardActions>
         </BFUDocumentCard>

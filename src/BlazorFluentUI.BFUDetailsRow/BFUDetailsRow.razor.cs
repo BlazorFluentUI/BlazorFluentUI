@@ -230,8 +230,7 @@ namespace BlazorFluentUI
                 {
                     Css = rootSelectedMergeStyleResults.MergeRules + 
                           $"color:{theme.Palette.NeutralDark};" +
-                          $"background:{theme.Palette.NeutralLight};" +
-                          $"border-bottom:1px solid {theme.Palette.White};"
+                          $"background:{theme.Palette.NeutralLight};"
                 }
             });
             detailsRowRules.Add(new Rule()

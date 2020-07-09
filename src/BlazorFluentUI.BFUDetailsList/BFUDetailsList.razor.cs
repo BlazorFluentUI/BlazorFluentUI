@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -179,12 +180,12 @@ namespace BlazorFluentUI
 
         private void OnHeaderKeyDown(KeyboardEventArgs keyboardEventArgs)
         {
-
+            // this was attached in the ms-DetailsList-headerWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI. 
         }
 
         private void OnContentKeyDown(KeyboardEventArgs keyboardEventArgs)
         {
-
+            // this was attached in the ms-DetailsList-contentWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI. 
         }
 
         private bool ShouldAllBeSelected()

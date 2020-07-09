@@ -400,7 +400,7 @@ namespace BlazorFluentUI
                 InvokeAsync(StateHasChanged);
             }
 
-            Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
+            //Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
 
             if (_jsAvailable)
             {

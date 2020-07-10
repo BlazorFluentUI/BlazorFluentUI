@@ -20,7 +20,7 @@
             var index = 0;
             foreach (var item in _itemsSource.Skip(numItemsToSkipBefore).Take(numItemsToShow))
             {
-                <div data-hash="@(item.GetHashCode())" @key="item">
+                <div data-hash="@(item.GetHashCode())" @key="item" class="ms-List-cell">
                     @{
                         ItemTemplate(item)(__builder);
                         index++;
@@ -34,7 +34,7 @@
             var index = 0;
             foreach (var item in _itemsSource)
             {
-                <div data-hash="@(item.GetHashCode())" @key="item">
+                <div data-hash="@(item.GetHashCode())" @key="item" class="ms-List-cell">
                     @{
                         ItemTemplate(item)(__builder);
                         index++;

@@ -35,7 +35,7 @@ There are no MergeStyles in this port.  It's just each control packaged into its
 | Link        | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
 | Rating      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
 | SearchBox   | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
-| Slider      | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
+| Slider      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
 | SpinButton  | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
 | TextField   | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | except masking   |
 | Toggle      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |

@@ -139,7 +139,31 @@ namespace BlazorFluentUI
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            //DetailsRowLocalRules.Clear();
+            var defaultHeaderText = theme.Palette.NeutralPrimary;
+            var defaultMetaText = theme.Palette.NeutralSecondary;
+            var defaultBackground = theme.Palette.White;
+
+            // Default Hover
+            var defaultHoverHeaderText = theme.Palette.NeutralDark;
+            var defaultHoverMetaText = theme.Palette.NeutralPrimary;
+            var defaultHoverBackground = theme.Palette.NeutralLighter;
+
+            // Selected
+            var selectedHeaderText = theme.Palette.NeutralDark;
+            var selectedMetaText = theme.Palette.NeutralPrimary;
+            var selectedBackground = theme.Palette.NeutralLight;
+
+            // Selected Hover
+            var selectedHoverHeaderText = theme.Palette.NeutralDark;
+            var selectedHoverMetaText = theme.Palette.NeutralPrimary;
+            var selectedHoverBackground = theme.Palette.NeutralQuaternaryAlt;
+
+            // Focus
+            var focusHeaderText = theme.Palette.NeutralDark;
+            var focusMetaText = theme.Palette.NeutralPrimary;
+            var focusBackground = theme.Palette.NeutralLight;
+            var focusHoverBackground = theme.Palette.NeutralQuaternaryAlt;
+
             var detailsRowRules = new HashSet<IRule>();
 
             // Root
@@ -172,13 +196,13 @@ namespace BlazorFluentUI
                           $"text-align:left;"
                 }
             });
+            
             detailsRowRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-compact" },
+                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell:first-child .ms-DetailsRow:before" },
                 Properties = new CssString()
                 {
-                    Css = $"min-height:{CompactRowHeight}px;" + 
-                          "border:0px"
+                    Css= $"display:none;"
                 }
             });
             detailsRowRules.Add(new Rule()
@@ -218,6 +242,7 @@ namespace BlazorFluentUI
             var rootSelectedFocusStyleProps = new FocusStyleProps(theme);
             rootSelectedFocusStyleProps.BorderColor = theme.SemanticColors.FocusBorder;
             rootSelectedFocusStyleProps.OutlineColor = theme.Palette.White;
+            rootSelectedFocusStyleProps.Inset = -1;
 
             var rootSelectedMergeStyleResults = FocusStyle.GetFocusStyle(rootSelectedFocusStyleProps, ".ms-DetailsRow.is-selected");
             foreach (var rule in rootSelectedMergeStyleResults.AddRules)
@@ -229,8 +254,8 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = rootSelectedMergeStyleResults.MergeRules + 
-                          $"color:{theme.Palette.NeutralDark};" +
-                          $"background:{theme.Palette.NeutralLight};" +
+                          $"color:{selectedMetaText};" +
+                          $"background:{selectedBackground};" +
                           $"border-bottom:1px solid {theme.Palette.White};"
                 }
             });
@@ -294,9 +319,90 @@ namespace BlazorFluentUI
                 }
             });
 
-            // #####################################################################################
-            // selected NOT FINISHED!
-            // #####################################################################################
+            // focus for is-selected
+            detailsRowRules.AddCssStringSelector(".ms-DetailsRow.is-selected:focus").AppendCssStyles(
+                $"background:{focusBackground}"
+            );
+            detailsRowRules.AddCssStringSelector(".ms-DetailsRow.is-selected:focus .ms-DetailsRow-cell").AppendCssStyles(
+                $"color:{focusMetaText}"
+            );
+            detailsRowRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-DetailsRow.is-selected:focus .ms-DetailsRow-cell {" +
+                           $"color:HighlightText;" +
+                           "}" +
+                           ".ms-DetailsRow.is-selected:focus .ms-DetailsRow-cell > a {" +
+                           $"background:Highlight;" +
+                           "}"
+                }
+            });
+
+            detailsRowRules.AddCssStringSelector(".ms-DetailsRow.is-selected.is-row-header:focus ").AppendCssStyles(
+                $"color:{focusHeaderText}"
+            );
+            detailsRowRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-DetailsRow.is-selected.is-row-header:focus {" +
+                           $"color:HighlightText;" +
+                           "}"
+                }
+            });
+
+            detailsRowRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-DetailsRow.is-selected:focus {" +
+                           $"background:HighlightText;" +
+                           "}"
+                }
+            });
+
+            detailsRowRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+                Properties = new CssString()
+                {
+                    Css = ".ms-DetailsRow.is-selected{" +
+                          "background:Highlight;" +
+                          "color:HighlightText;" +
+                          "-ms-high-contrast-adjust:none;" +
+                          "}" +
+                          ".ms-DetailsRow.is-selected a {"+
+                          "color:HighlightText;"+
+                          "}"
+                }
+            });
+
+            //focus and hover state
+            detailsRowRules.AddCssStringSelector(".ms-DetailsRow.is-selected.is-row-header:focus ").AppendCssStyles(
+                $"background:{focusHoverBackground}"
+            );
+
+            detailsRowRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-compact" },
+                Properties = new CssString()
+                {
+                    Css = $"min-height:{CompactRowHeight}px;" +
+                                      "border:0"
+                }
+            });
+            detailsRowRules.Add(new Rule()
+            {
+                Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-compact.is-selected:before" },
+                Properties = new CssString()
+                {
+                    Css = $"display:none;"
+                }
+            });
 
             // CellUnpadded
             detailsRowRules.Add(new Rule()
@@ -444,16 +550,18 @@ namespace BlazorFluentUI
 
         }
 
-        private List<Rule> GetDefaultCellStyles(string selector, ITheme theme)
+        private List<IRule> GetDefaultCellStyles(string selector, ITheme theme)
         {
-            var rules = new List<Rule>();
+            var rules = new List<IRule>();
 
             // Cell
             var cellfocusStyleProps = new FocusStyleProps(theme);
             cellfocusStyleProps.Inset = -1;
-            cellfocusStyleProps.BorderColor = theme.Palette.NeutralSecondary;
-            cellfocusStyleProps.OutlineColor = theme.Palette.White;
+            //cellfocusStyleProps.BorderColor = theme.Palette.NeutralSecondary;
+            //cellfocusStyleProps.OutlineColor = theme.Palette.White;
             var cellMergeStyleResults = FocusStyle.GetFocusStyle(cellfocusStyleProps, $".ms-DetailsRow {selector}");
+            foreach (var result in cellMergeStyleResults.AddRules)
+                rules.Add(result);
 
             rules.Add(new Rule()
             {
@@ -499,18 +607,32 @@ namespace BlazorFluentUI
                 }
             });
 
+           
+
+            //not sure if this selector is working...
+            var focusableFocusStylesProps = new FocusStyleProps(theme) { Inset = -1, BorderColor = theme.Palette.NeutralSecondary, OutlineColor = theme.Palette.White };
+            var focusableFocusStyles = FocusStyle.GetFocusStyle(focusableFocusStylesProps, $".ms-DetailsRow {selector}[data-is-focusable='true']");
+            foreach (var rule in focusableFocusStyles.AddRules)
+                rules.Add(rule);
+            rules.AddCssStringSelector($".ms-DetailsRow {selector}[data-is-focusable='true']").AppendCssStyles(
+                focusableFocusStyles.MergeRulesList.ToArray()
+                );
+
+
             rules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = $".ms-DetailsRow.is-compact {selector}" },
                 Properties = new CssString()
                 {
                     Css = cellMergeStyleResults.MergeRules +
-                          $"min-height:{CompactRowHeight}px;" +
-                          $"padding-top:{CompactRowVerticalPadding}px;" +
-                          $"padding-bottom:{CompactRowVerticalPadding}px;" +
-                          $"padding-left:{CellLeftPadding}px;"
+                          focusableFocusStyles.MergeRules +
+                         $"min-height:{CompactRowHeight}px;" +
+                         $"padding-top:{CompactRowVerticalPadding}px;" +
+                         $"padding-bottom:{CompactRowVerticalPadding}px;" +
+                         $"padding-left:{CellLeftPadding}px;"
                 }
             });
+
 
             return rules;
         }

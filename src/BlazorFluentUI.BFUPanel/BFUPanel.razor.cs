@@ -400,7 +400,7 @@ namespace BlazorFluentUI
                 InvokeAsync(StateHasChanged);
             }
 
-            Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
+            //Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
 
             if (_jsAvailable)
             {
@@ -472,6 +472,7 @@ namespace BlazorFluentUI
                 await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", _mouseDownId);
             }
         }
+
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
@@ -580,7 +581,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel--sm .ms-Panel-main, .ms-Panel--md .ms-Panel-main, .ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
-                          "width:340px;" +
+                          $"width:{PanelWidth.Sm}px;" +
                           "}"
                 }
             });
@@ -591,7 +592,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel--md .ms-Panel-main, .ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
-                          "width:592px;" +
+                          $"width:{PanelWidth.Md1}px;" +
                           "}"
                 }
             });
@@ -602,7 +603,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel--md .ms-Panel-main, .ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
-                          "width:644px;" +
+                          $"width:{PanelWidth.Md2}px;" +
                           "}"
                 }
             });
@@ -613,7 +614,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
-                          "left:48px;width:auto;" +
+                          $"left:{PanelMargin.Md}px;width:{PanelWidth.Auto};" +
                           "}"
                 }
             });
@@ -624,13 +625,14 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = ".ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
-                         "width:940px;" +
+                         //"width:940px;" +
+                         $"left:{PanelMargin.Lg}px" +
                          "}"+
-                         ".ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {"+
-                         "left:auto;width:940px;" +
+                         ".ms-Panel--fixed .ms-Panel-main {"+
+                         $"left:{PanelMargin.Auto};width:{PanelWidth.Lg}px;" +
                          "}"+
                          ".ms-Panel--xl .ms-Panel-main {" +
-                         "left:176px;" +
+                         $"left:{PanelMargin.Xl}px;" +
                          "}"
                 }
             });
@@ -776,5 +778,25 @@ namespace BlazorFluentUI
 
             return panelRules;
         }
+    }
+
+    internal class PanelWidth
+    {
+        public static string Full => "100%";
+        public static string Auto => "auto";
+        public static int Xs => 272;
+        public static int Sm => 340;
+        public static int Md1 => 592;
+        public static int Md2 => 644;
+        public static int Lg => 940;
+    }
+
+    internal class PanelMargin
+    {
+        public static string Auto => "auto";
+        public static int None => 0;
+        public static int Md => 48;
+        public static int Lg => 428;
+        public static int Xl => 176;
     }
 }

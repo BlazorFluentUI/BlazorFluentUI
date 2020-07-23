@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -93,6 +94,8 @@ namespace BlazorFluentUI
 
         private IReadOnlyDictionary<string, object> lastParameters = null;
 
+        protected SelectAllVisibility selectAllVisibility = SelectAllVisibility.None;
+
         public void ForceUpdate()
         {
             groupedList?.ForceUpdate();
@@ -144,6 +147,28 @@ namespace BlazorFluentUI
                     );
             }
 
+            var selectionMode = parameters.GetValueOrDefault<SelectionMode>("SelectionMode");
+            if (selectionMode == SelectionMode.None)
+            {
+                selectAllVisibility = SelectAllVisibility.None;
+            }
+            else if (selectionMode == SelectionMode.Single)
+            {
+                selectAllVisibility = SelectAllVisibility.Hidden;
+            }
+            else if (selectionMode == SelectionMode.Multiple)
+            {
+                //disable if collapsed groups
+                //TBD!
+
+                selectAllVisibility = SelectAllVisibility.Visible;
+            }
+
+            if (parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility") == CheckboxVisibility.Hidden)
+            {
+                selectAllVisibility = SelectAllVisibility.None;
+            }
+
             return base.SetParametersAsync(parameters);
         }
 
@@ -155,12 +180,12 @@ namespace BlazorFluentUI
 
         private void OnHeaderKeyDown(KeyboardEventArgs keyboardEventArgs)
         {
-
+            // this was attached in the ms-DetailsList-headerWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI. 
         }
 
         private void OnContentKeyDown(KeyboardEventArgs keyboardEventArgs)
         {
-
+            // this was attached in the ms-DetailsList-contentWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI. 
         }
 
         private bool ShouldAllBeSelected()

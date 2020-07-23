@@ -11,6 +11,10 @@ namespace BlazorFluentUI.Style
             focusStyles.MergeRules = $"outline:transparent;" +
                           $"position:{focusStyleProps.Position};";
 
+            //alternative property for newer extensions (needs string array without semicolons)
+            focusStyles.MergeRulesList.Add("outline:transparent");
+            focusStyles.MergeRulesList.Add($"position:{focusStyleProps.Position}");
+
             focusStyles.AddRules.Add(new Rule()
             {
                 Selector = new CssStringSelector() { SelectorName = $"{selectorName}::-moz-focus-inner" },
@@ -95,6 +99,10 @@ namespace BlazorFluentUI.Style
             var focusStyles = new FocusStyleMergeRules();
 
             focusStyles.MergeRules = $"border-color:{focusStyleProps.BorderColor};";
+
+            //alternative property for newer extensions (needs string array without semicolons)
+            focusStyles.MergeRulesList.Add($"border-color:{focusStyleProps.BorderColor};");
+            
 
             focusStyles.AddRules.Add(new Rule()
             {

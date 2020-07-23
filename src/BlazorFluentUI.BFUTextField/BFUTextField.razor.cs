@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUTextField : BFUComponentBase, IHasPreloadableGlobalStyle 
+    public partial class BFUTextField : BFUComponentBase, IHasPreloadableGlobalStyle
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
@@ -175,7 +175,7 @@ namespace BlazorFluentUI
             {
                 await DeferredValidation((string)args.Value).ConfigureAwait(false);
             }
-            
+
             await OnInput.InvokeAsync((string)args.Value);
             //await InputChanged.InvokeAsync((string)args.Value);
             //if (this.OnInput != null)
@@ -296,10 +296,10 @@ namespace BlazorFluentUI
             if (TaskCount == DeferredValidationTasks.Count())
             {
                 _ = Task.Run(() =>
-                  {
-                      Validate(value);
-                      InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
-                  }).ConfigureAwait(false);
+                {
+                    Validate(value);
+                    InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
+                }).ConfigureAwait(false);
             }
         }
 
@@ -414,7 +414,7 @@ namespace BlazorFluentUI
                           $"box-shadow:none;" +
                           $"margin:0px;" +
                           $"padding:0px;" +
-                          $"box-sizing:border-box;"+
+                          $"box-sizing:border-box;" +
 
                         $"border:1px solid {theme.SemanticColors.InputBorder};" +
                         $"border-radius:{theme.Effects.RoundedCorner2};" +
@@ -550,7 +550,7 @@ namespace BlazorFluentUI
             });
             MyRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.no-label.is-required .ms-TextField-fieldGroup:before"},
+                Selector = new CssStringSelector() { SelectorName = ".ms-TextField.no-label.is-required .ms-TextField-fieldGroup:before" },
                 Properties = new CssString()
                 {
                     Css = $"content:'*';" +
@@ -608,11 +608,11 @@ namespace BlazorFluentUI
                     Css = $"display:none;"
                 }
             });
-            MyRules.AddRange(PlaceHolderStyle.GetPlaceholderStyle(".ms-TextField-field", 
-                new CssString() 
-                { 
+            MyRules.AddRange(PlaceHolderStyle.GetPlaceholderStyle(".ms-TextField-field",
+                new CssString()
+                {
                     Css = $"color:{theme.SemanticTextColors.InputPlaceholderText};" +
-                        $"opacity:1;" 
+                        $"opacity:1;"
                 }));
             MyRules.Add(new Rule()
             {
@@ -778,7 +778,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};" +
                         $"color:{theme.SemanticTextColors.ErrorText};" +
                         $"margin:0;" +
                         $"padding-top:5px;" +

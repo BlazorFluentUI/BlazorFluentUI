@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="DynamicData" Version="6.14.18" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +48,7 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUResponsiveLayout\BlazorFluentUI.BFUResponsiveLayout.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFURichTextEditor\BlazorFluentUI.BFURichTextEditor.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUSelectionZone\BlazorFluentUI.BFUSelectionZone.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUSlider\BlazorFluentUI.BFUSlider.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUSpinner\BlazorFluentUI.BFUSpinner.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUStack\BlazorFluentUI.BFUStack.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUTextField\BlazorFluentUI.BFUTextField.csproj" />

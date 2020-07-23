@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
-    // TODO: support for ShouldTruncate = true
-    public partial class BFUDocumentCardTitle : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUDocumentCardTitle : BFUComponentBase, IHasPreloadableGlobalStyle, IDisposable
     {
+        public string Id { get; set; }
+
+        private DotNetObjectReference<BFUDocumentCardTitle>? _dotNetObjectReference;
+
         /// <summary>
         /// Title text.
         /// If the card represents more than one document, this should be the title of one document and a "+X" string.
@@ -39,7 +43,7 @@ namespace BlazorFluentUI
         private string? TruncatedTitleFirstPiece { get; set; }
         private string? TruncatedTitleSecondPiece { get; set; }
 
-        private bool _needMeasurement;
+        private bool _needMeasurement = true;
 
         public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
         {
@@ -49,6 +53,7 @@ namespace BlazorFluentUI
         public BFUDocumentCardTitle()
         {
             ShouldTruncate = true;
+            Id = $"documentCard" + Guid.NewGuid();
         }
 
         protected override void OnParametersSet()
@@ -57,10 +62,35 @@ namespace BlazorFluentUI
             base.OnParametersSet();
         }
 
-        protected override void OnAfterRender(bool firstRender)
+        protected override async Task OnInitializedAsync()
         {
-            base.OnAfterRender(firstRender);
-            //TruncateTitle();
+            await base.OnInitializedAsync();
+        }
+
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
+            _dotNetObjectReference = DotNetObjectReference.Create(this);
+            await jSRuntime.InvokeVoidAsync("BlazorFluentUiDocumentCard.initTitle", Id, RootElementReference, _dotNetObjectReference, ShouldTruncate, Title).ConfigureAwait(false);
+        }
+
+        [JSInvokable]
+        public void UpdateTitle(string title1, string title2)
+        {
+            TruncatedTitleFirstPiece = title1;
+            TruncatedTitleSecondPiece = title2;
+            _needMeasurement = false;
+            StateHasChanged();
+        }
+
+        [JSInvokable]
+        public void UpdateneedMeasurement()
+        {
+            _needMeasurement = true;
+            TruncatedTitleSecondPiece = "";
+            TruncatedTitleFirstPiece = "";
+            StateHasChanged();
         }
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
@@ -84,13 +114,10 @@ namespace BlazorFluentUI
             return documentCardTitleRules;
         }
 
-        //private void TruncateTitle()
-        //{
-        //    if (_elementReference == null || !_elementReference.HasValue)
-        //    {
-        //        return;
-        //    }
-
-        //}
+        public async void Dispose()
+        {
+            await jSRuntime.InvokeVoidAsync("BlazorFluentUiDocumentCard.removelement", Id).ConfigureAwait(false);
+            _dotNetObjectReference?.Dispose();
+        }
     }
 }

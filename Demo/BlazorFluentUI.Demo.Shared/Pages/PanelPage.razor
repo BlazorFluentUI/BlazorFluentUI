@@ -2,6 +2,14 @@
 
 <h1>Panel</h1>
 
+<BFUDropdown ItemsSource=@panelTypes
+             MultiSelect="false"
+             @bind-SelectedOption=@panelTypeSelected
+             Style="width:300px;" />
+<BFUTextField @bind-Value=@customWidth
+              Style="width:300px;"
+              Label="Custom Width (number only! valid only when Custom panel type selected)"/>
+
 <BFUPrimaryButton Text="Open Panel" OnClick=@Click />
 
 <BFUPrimaryButton Text="Open Light Dismiss Panel" OnClick=@(() => lightDismissPanelOpen=true ) />
@@ -11,8 +19,10 @@
 
 <BFUPanel IsOpen=@isOpen
        OnDismiss=@PanelDismiss
-       Type=@PanelType.Medium
+       Type=@((PanelType)Enum.Parse(typeof(PanelType),panelTypeSelected.Key))
        IsLightDismiss="false"
+          CustomWidth=@customWidth
+          
        HeaderText="Panel Example">
     <p>
         Hey, there's some content in here.
@@ -23,13 +33,14 @@
                      MultiSelect="true"
                      Placeholder="Select options..."
                      @bind-SelectedOptions=@controlledMultiSelectionResult
-                     Style="width:300px;" />
+                     Style="width:220px;" />
     </p>
 </BFUPanel>
 
 <BFUPanel IsOpen=@lightDismissPanelOpen
        OnDismiss=@(() => lightDismissPanelOpen = !lightDismissPanelOpen)
-       Type=@PanelType.Medium
+       Type=@((PanelType)Enum.Parse(typeof(PanelType),panelTypeSelected.Key))
+          CustomWidth=@customWidth
        IsLightDismiss="true"
        HeaderText="Light Dismiss Panel">
     <p>
@@ -39,7 +50,8 @@
 
 <BFUPanel IsOpen=@customNavPanelOpen
        OnDismiss=@(() => customNavPanelOpen = !customNavPanelOpen)
-       Type=@PanelType.Medium
+      Type=@((PanelType)Enum.Parse(typeof(PanelType),panelTypeSelected.Key))
+          CustomWidth=@customWidth
        IsLightDismiss="false"
        HeaderText="Custom Nav Panel">
     <NavigationTemplate>
@@ -58,6 +70,11 @@
     bool isOpen = false;
     bool lightDismissPanelOpen = false;
     bool customNavPanelOpen = false;
+
+    IBFUDropdownOption panelTypeSelected;
+    List<IBFUDropdownOption> panelTypes;
+    string customWidth = "500";
+
 
     IEnumerable<IBFUDropdownOption> controlledMultiSelectionResult;
     List<IBFUDropdownOption> items;
@@ -78,6 +95,9 @@
 
     protected override Task OnInitializedAsync()
     {
+        panelTypes = Enum.GetNames(typeof(PanelType)).Select(x => new BFUDropdownOption { Key = x, Text = x, ItemType = SelectableOptionMenuItemType.Normal }).Cast<IBFUDropdownOption>().ToList();
+        panelTypeSelected = panelTypes.First(x => x.Key == "Medium");
+
         items = new List<DataItem>
         {
             new DataItem("Fruits", SelectableOptionMenuItemType.Header),

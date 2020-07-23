@@ -105,6 +105,13 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
+        private async Task OnClick(MouseEventArgs args)
+        {
+            SelectionZone.ClearSelection();
+            SelectionZone.HandleToggle(Item);
+            await SelectionZone.OnItemInvoked.InvokeAsync(Item);
+        }
+
         public static int RowVerticalPadding = 11;
         public static int CompactRowVerticalPadding = 6;
         public static int RowHeight = 42;

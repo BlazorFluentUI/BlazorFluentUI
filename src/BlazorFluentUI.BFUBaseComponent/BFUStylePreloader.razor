@@ -67,8 +67,15 @@ else
             {
                 if (!list.Contains(reference.FullName))
                 {
-                    stack.Push(System.Reflection.Assembly.Load(reference));
-                    list.Add(reference.FullName);
+                    try
+                    {
+                        stack.Push(System.Reflection.Assembly.Load(reference));
+                        list.Add(reference.FullName);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                    }
 
                 }
             }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsRowCheck : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUDetailsRowCheck : BFUComponentBase
     {
         [Parameter]
         public bool AnySelected { get; set; }
@@ -44,62 +44,62 @@ namespace BlazorFluentUI
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             var detailsRowRules = new HashSet<IRule>();
-            var focusProps = new FocusStyleProps(theme);
-            var focusStyles = FocusStyle.GetFocusStyle(focusProps, ".ms-DetailsRow-check");
+            //var focusProps = new FocusStyleProps(theme);
+            //var focusStyles = FocusStyle.GetFocusStyle(focusProps, ".ms-DetailsRow-check");
 
-            detailsRowRules.Add(
-                new Rule()
-                {
-                    Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-check" },
-                    Properties = new CssString()
-                    {
-                        Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{theme.FontStyle.FontWeight.Regular};" +
-                            focusStyles.MergeRules +
-                          $"display:flex;" +
-                          $"align-items:center;" +
-                          $"justify-content:center;" +
-                          $"cursor:default;" +
-                          $"box-sizing:border-box;" +
-                          $"vertical-align:top;" +
-                          $"background:none;" +
-                          $"background-color:transparent;" +
-                          $"border:none;" +
-                          $"opacity:0;" +
-                          $"height:42px;" +
-                          $"width:48px;" +
-                          $"padding:0px;" +
-                          $"margin:0px;" 
-                    }
-                });
+            //detailsRowRules.Add(
+            //    new Rule()
+            //    {
+            //        Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-check" },
+            //        Properties = new CssString()
+            //        {
+            //            Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
+            //              $"font-weight:{theme.FontStyle.FontWeight.Regular};" +
+            //                focusStyles.MergeRules +
+            //              $"display:flex;" +
+            //              $"align-items:center;" +
+            //              $"justify-content:center;" +
+            //              $"cursor:default;" +
+            //              $"box-sizing:border-box;" +
+            //              $"vertical-align:top;" +
+            //              $"background:none;" +
+            //              $"background-color:transparent;" +
+            //              $"border:none;" +
+            //              $"opacity:0;" +
+            //              $"height:42px;" +
+            //              $"width:48px;" +
+            //              $"padding:0px;" +
+            //              $"margin:0px;" 
+            //        }
+            //    });
             
-            detailsRowRules.Add(
-               new Rule()
-               {
-                   Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-compact .ms-DetailsRow-check" },
-                   Properties = new CssString()
-                   {
-                       Css = "height:32px;"
-                   }
-               });
-            detailsRowRules.Add(
-              new Rule()
-              {
-                  Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-header .ms-DetailsRow-check" },
-                  Properties = new CssString()
-                  {
-                      Css = "height:42px;"
-                  }
-              });
-            detailsRowRules.Add(
-               new Rule()
-               {
-                   Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-check.is-checked,.ms-DetailsRow-check.is-visible" },
-                   Properties = new CssString()
-                   {
-                       Css = "opacity:1;"
-                   }
-               });
+            //detailsRowRules.Add(
+            //   new Rule()
+            //   {
+            //       Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-compact .ms-DetailsRow-check" },
+            //       Properties = new CssString()
+            //       {
+            //           Css = "height:32px;"
+            //       }
+            //   });
+            //detailsRowRules.Add(
+            //  new Rule()
+            //  {
+            //      Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow.is-header .ms-DetailsRow-check" },
+            //      Properties = new CssString()
+            //      {
+            //          Css = "height:42px;"
+            //      }
+            //  });
+            //detailsRowRules.Add(
+            //   new Rule()
+            //   {
+            //       Selector = new CssStringSelector() { SelectorName = ".ms-DetailsRow-check.is-checked,.ms-DetailsRow-check.is-visible" },
+            //       Properties = new CssString()
+            //       {
+            //           Css = "opacity:1;"
+            //       }
+            //   });
 
 
             return detailsRowRules;

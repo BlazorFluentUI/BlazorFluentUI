@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCheckbox : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUCheckbox : BFUComponentBase
     {
         [Parameter]
         public int? AriaPositionInSet { get; set; }
@@ -156,388 +156,388 @@ namespace BlazorFluentUI
         {
             var checkboxRules = new HashSet<IRule>();
             // ROOT
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox" },
-                Properties = new CssString()
-                {
-                    Css = $"display:flex;" +
-                            $"position:relative;"
-                }
-            });
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"display:flex;" +
+            //                $"position:relative;"
+            //    }
+            //});
 
-            // INPUT
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-input" },
-                Properties = new CssString()
-                {
-                    Css = $"position:absolute;" +
-                            $"background:none;" +
-                            $"opacity:0;"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-Checkbox-input:focus+.ms-Checkbox-label::before" },
-                Properties = new CssString()
-                {
-                    Css = $"outline:1px solid {theme.Palette.NeutralSecondary };" +
-                            $"outline-offset:2px;"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Fabric--isFocusVisible .ms-Checkbox-input:focus+.ms-Checkbox-label::before {outline: 1px solid ActiveBorder;}"
-                }
-            });
+            //// INPUT
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-input" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"position:absolute;" +
+            //                $"background:none;" +
+            //                $"opacity:0;"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-Checkbox-input:focus+.ms-Checkbox-label::before" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"outline:1px solid {theme.Palette.NeutralSecondary };" +
+            //                $"outline-offset:2px;"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = ".ms-Fabric--isFocusVisible .ms-Checkbox-input:focus+.ms-Checkbox-label::before {outline: 1px solid ActiveBorder;}"
+            //    }
+            //});
 
-            // LABEL
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label" },
-                Properties = new CssString()
-                {
-                    Css = $"display:flex;" +
-                            $"align-items:flex-start;" +
-                            $"cursor:pointer;" +
-                            $"position:relative;" +
-                            $"user-select:none;" +
-                            $"text-align:left;"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-reversed" },
-                Properties = new CssString()
-                {
-                    Css = $"flex-direction:row-reverse;" +
-                            $"justify-content:flex-end;"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label::before" },
-                Properties = new CssString()
-                {
-                    Css = $"position:absolute;" +
-                            $"left:0;" +
-                            $"right:0;" +
-                            $"top:0;" +
-                            $"bottom:0;" +
-                            $"content:'';" +
-                            $"pointer-events:none;"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-disabled" },
-                Properties = new CssString()
-                {
-                    Css = $"cursor:default;"
-                }
-            });
+            //// LABEL
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"display:flex;" +
+            //                $"align-items:flex-start;" +
+            //                $"cursor:pointer;" +
+            //                $"position:relative;" +
+            //                $"user-select:none;" +
+            //                $"text-align:left;"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-reversed" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"flex-direction:row-reverse;" +
+            //                $"justify-content:flex-end;"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label::before" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"position:absolute;" +
+            //                $"left:0;" +
+            //                $"right:0;" +
+            //                $"top:0;" +
+            //                $"bottom:0;" +
+            //                $"content:'';" +
+            //                $"pointer-events:none;"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-disabled" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"cursor:default;"
+            //    }
+            //});
 
-            //Label enable && unchecked
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkbox" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.SemanticColors.InputBorderHovered};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:focus .ms-Checkbox-checkbox" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.SemanticColors.InputBorderHovered};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkmark" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.Palette.NeutralSecondary};" +
-                            $"opacity:1;"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkbox {border-color:Highlight;}" +
-                            ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkmark {color:Highlight;}"
-                }
-            });
+            ////Label enable && unchecked
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkbox" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"border-color:{theme.SemanticColors.InputBorderHovered};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:focus .ms-Checkbox-checkbox" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"border-color:{theme.SemanticColors.InputBorderHovered};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkmark" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"color:{theme.Palette.NeutralSecondary};" +
+            //                $"opacity:1;"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkbox {border-color:Highlight;}" +
+            //                ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkmark {color:Highlight;}"
+            //    }
+            //});
 
-            //Label enable && checked && !indeterminate
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox" },
-                Properties = new CssString()
-                {
-                    Css = $"background:{theme.SemanticColors.InputBackgroundCheckedHovered};" +
-                            $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox" },
-                Properties = new CssString()
-                {
-                    Css = $"background:{theme.SemanticColors.InputBackgroundCheckedHovered};" +
-                            $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked .ms-Checkbox-checkbox" },
-                Properties = new CssString()
-                {
-                    Css = $"background:{theme.SemanticColors.InputBackgroundChecked};" +
-                            $"border-color:{theme.SemanticColors.InputBackgroundChecked};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox {background:Window;border-color:Highlight}" +
-                            ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox {background:Highlight;}" +
-                            ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:focus:hover .ms-Checkbox-checkbox {background:Highlight;}" +
-                            ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:focus:hover .ms-Checkbox-checkmark {color:Window;}" +
-                            ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:hover .ms-Checkbox-checkmark {color:Highlight;}"
-                }
-            });
+            ////Label enable && checked && !indeterminate
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"background:{theme.SemanticColors.InputBackgroundCheckedHovered};" +
+            //                $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"background:{theme.SemanticColors.InputBackgroundCheckedHovered};" +
+            //                $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked .ms-Checkbox-checkbox" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"background:{theme.SemanticColors.InputBackgroundChecked};" +
+            //                $"border-color:{theme.SemanticColors.InputBackgroundChecked};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox {background:Window;border-color:Highlight}" +
+            //                ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox {background:Highlight;}" +
+            //                ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:focus:hover .ms-Checkbox-checkbox {background:Highlight;}" +
+            //                ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:focus:hover .ms-Checkbox-checkmark {color:Window;}" +
+            //                ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:hover .ms-Checkbox-checkmark {color:Highlight;}"
+            //    }
+            //});
 
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox:after" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkmark" },
-                Properties = new CssString()
-                {
-                    Css = $"opacity: '0';"
-                }
-            });
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox:after" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkmark" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"opacity: '0';"
+            //    }
+            //});
 
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-checked:hover .ms-Checkbox-text" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.InputTextHovered};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-checked:focus .ms-Checkbox-text" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.InputTextHovered};"
-                }
-            });
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-checked:hover .ms-Checkbox-text" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"color:{theme.SemanticTextColors.InputTextHovered};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-checked:focus .ms-Checkbox-text" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"color:{theme.SemanticTextColors.InputTextHovered};"
+            //    }
+            //});
 
-            // CHECKBOX
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox" },
-                Properties = new CssString()
-                {
-                    Css = $"position:relative;" +
-                            $"display:flex;" +
-                            $"flex-shrink:0;" +
-                            $"align-items:center;" +
-                            $"justify-content:center;" +
-                            $"height:20px;" +
-                            $"width:20px;" +
-                            $"border:1px solid {theme.Palette.NeutralPrimary};" +
-                            $"border-radius:{theme.Effects.RoundedCorner2};" +
-                            $"box-sizing:border-box;" +
-                            $"transition-property: background, border, border-color;" +
-                            $"transition-duration:200ms;" +
-                            $"transition-timing-function:cubic-bezier(.4, 0, .23, 1);" +
-                            $"overflow:hidden;" +
-                            $"margin-left:4px;" +
-                            $"margin-right:0"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-reversed" },
-                Properties = new CssString()
-                {
-                    Css = $"margin-right:4px;" +
-                            $"margin-left:0;"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-checked:not(.ms-Checkbox-checkbox-indeterminate).ms-Checkbox-checkbox-enabled" },
-                Properties = new CssString()
-                {
-                    Css = $"background:{theme.SemanticColors.InputBackgroundChecked};" +
-                            $"border-color:{theme.SemanticColors.InputBackgroundChecked};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-indeterminate" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.SemanticColors.InputBackgroundChecked};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-disabled" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.SemanticTextColors.DisabledBodySubtext};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-disabled.ms-Checkbox-checkbox-checked" },
-                Properties = new CssString()
-                {
-                    Css = $"background:{theme.SemanticTextColors.DisabledBodySubtext};" +
-                            $"border-color:{theme.SemanticTextColors.DisabledBodySubtext};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox.ms-Checkbox-checkbox-indeterminate::after" },
-                Properties = new CssString()
-                {
-                    Css = $"content:'';" +
-                            $"border-radius:{theme.Effects.RoundedCorner2};" +
-                            $"position:absolute;" +
-                            $"height:10px;" +
-                            $"width:10px;" +
-                            $"top:4px;" +
-                            $"left:4px;" +
-                            $"box-sizing:border-box;" +
-                            $"border:5px solid {theme.SemanticColors.InputBackgroundChecked};" +
-                            $"transition-property: border-width, border, border-color;" +
-                            $"transition-duration:200ms;" +
-                            $"transition-timing-function:cubic-bezier(.4, 0, .23, 1);"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox.ms-Checkbox-checkbox-disabled.ms-Checkbox-checkbox-indeterminate::after" },
-                Properties = new CssString()
-                {
-                    Css = $"border:5px solid {theme.SemanticTextColors.DisabledBodySubtext};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Checkbox-checkbox-checked:not(.ms-Checkbox-checkbox-indeterminate).ms-Checkbox-checkbox-enabled {background:Highlight;border-color:Highlight;}" +
-                            ".ms-Checkbox-checkbox-disabled {border-color:InactiveBorder;}"
-                }
-            });
+            //// CHECKBOX
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"position:relative;" +
+            //                $"display:flex;" +
+            //                $"flex-shrink:0;" +
+            //                $"align-items:center;" +
+            //                $"justify-content:center;" +
+            //                $"height:20px;" +
+            //                $"width:20px;" +
+            //                $"border:1px solid {theme.Palette.NeutralPrimary};" +
+            //                $"border-radius:{theme.Effects.RoundedCorner2};" +
+            //                $"box-sizing:border-box;" +
+            //                $"transition-property: background, border, border-color;" +
+            //                $"transition-duration:200ms;" +
+            //                $"transition-timing-function:cubic-bezier(.4, 0, .23, 1);" +
+            //                $"overflow:hidden;" +
+            //                $"margin-left:4px;" +
+            //                $"margin-right:0"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-reversed" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"margin-right:4px;" +
+            //                $"margin-left:0;"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-checked:not(.ms-Checkbox-checkbox-indeterminate).ms-Checkbox-checkbox-enabled" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"background:{theme.SemanticColors.InputBackgroundChecked};" +
+            //                $"border-color:{theme.SemanticColors.InputBackgroundChecked};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-indeterminate" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"border-color:{theme.SemanticColors.InputBackgroundChecked};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-disabled" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"border-color:{theme.SemanticTextColors.DisabledBodySubtext};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-disabled.ms-Checkbox-checkbox-checked" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"background:{theme.SemanticTextColors.DisabledBodySubtext};" +
+            //                $"border-color:{theme.SemanticTextColors.DisabledBodySubtext};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox.ms-Checkbox-checkbox-indeterminate::after" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"content:'';" +
+            //                $"border-radius:{theme.Effects.RoundedCorner2};" +
+            //                $"position:absolute;" +
+            //                $"height:10px;" +
+            //                $"width:10px;" +
+            //                $"top:4px;" +
+            //                $"left:4px;" +
+            //                $"box-sizing:border-box;" +
+            //                $"border:5px solid {theme.SemanticColors.InputBackgroundChecked};" +
+            //                $"transition-property: border-width, border, border-color;" +
+            //                $"transition-duration:200ms;" +
+            //                $"transition-timing-function:cubic-bezier(.4, 0, .23, 1);"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox.ms-Checkbox-checkbox-disabled.ms-Checkbox-checkbox-indeterminate::after" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"border:5px solid {theme.SemanticTextColors.DisabledBodySubtext};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = ".ms-Checkbox-checkbox-checked:not(.ms-Checkbox-checkbox-indeterminate).ms-Checkbox-checkbox-enabled {background:Highlight;border-color:Highlight;}" +
+            //                ".ms-Checkbox-checkbox-disabled {border-color:InactiveBorder;}"
+            //    }
+            //});
 
-            // CHECKMARK
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkmark" },
-                Properties = new CssString()
-                {
-                    Css = $"opacity:0;" +
-                            $"color:{theme.SemanticColors.InputForegroundChecked};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkmark.ms-Checkbox-checkmark-checked" },
-                Properties = new CssString()
-                {
-                    Css = $"opacity:1;"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Checkbox-checkmark {color:Window;-ms-high-contrast-adjust:none;}" +
-                            ".ms-Checkbox-checkmark-disabled {color:InactiveBorder;}"
-                }
-            });
+            //// CHECKMARK
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkmark" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"opacity:0;" +
+            //                $"color:{theme.SemanticColors.InputForegroundChecked};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkmark.ms-Checkbox-checkmark-checked" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"opacity:1;"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = ".ms-Checkbox-checkmark {color:Window;-ms-high-contrast-adjust:none;}" +
+            //                ".ms-Checkbox-checkmark-disabled {color:InactiveBorder;}"
+            //    }
+            //});
 
-            // TEXT
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.BodyText};" +
-                            $"font-size:{theme.FontStyle.FontSize.Medium};" +
-                            $"line-height:20px;" +
-                            $"margin-left:4px;" +
-                            $"margin-right:0;"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text-reversed" },
-                Properties = new CssString()
-                {
-                    Css = $"margin-right:4px;" +
-                            $"margin-left:0;"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text-disabled" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.DisabledText};"
-                }
-            });
-            checkboxRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Checkbox-text-disabled {color: InactiveBorder;}"
-                }
-            });
+            //// TEXT
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"color:{theme.SemanticTextColors.BodyText};" +
+            //                $"font-size:{theme.FontStyle.FontSize.Medium};" +
+            //                $"line-height:20px;" +
+            //                $"margin-left:4px;" +
+            //                $"margin-right:0;"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text-reversed" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"margin-right:4px;" +
+            //                $"margin-left:0;"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text-disabled" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = $"color:{theme.SemanticTextColors.DisabledText};"
+            //    }
+            //});
+            //checkboxRules.Add(new Rule()
+            //{
+            //    Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+            //    Properties = new CssString()
+            //    {
+            //        Css = ".ms-Checkbox-text-disabled {color: InactiveBorder;}"
+            //    }
+            //});
 
             return checkboxRules;
         }

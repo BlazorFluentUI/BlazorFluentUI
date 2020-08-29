@@ -1,0 +1,55 @@
+﻿.ms-DetailsRow-check {
+    outline: transparent;
+    position:relative; 
+
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    box-sizing: border-box;
+    vertical-align: top;
+    background: none;
+    background-color: transparent;
+    border: none;
+    opacity: 0;
+    height: 42px;
+    width: 48px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.ms-Fabric--isFocusVisible .ms-DetailsRow-check:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+@media screen and (-ms-high-contrast: active){
+    .ms-Fabric--isFocusVisible .ms-DetailsRow-check:focus::after {
+        /* missing */
+    }
+}
+
+
+/*.ms-DetailsRow-check::moz-focus-inner{
+    border:0;
+}*/
+.ms-DetailsRow.is-compact .ms-DetailsRow-check {
+    height: 32px;
+}
+
+.ms-DetailsRow.is-header .ms-DetailsRow-check {
+    height: 42px;
+}
+
+.ms-DetailsRow-check.is-checked, .ms-DetailsRow-check.is-visible {
+    opacity: 1;
+}

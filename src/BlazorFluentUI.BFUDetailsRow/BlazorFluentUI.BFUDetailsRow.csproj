@@ -9,7 +9,6 @@
     <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
   </PropertyGroup>
 
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-preview.8.20414.8" />
   </ItemGroup>

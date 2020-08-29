@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsRow<TItem> : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
+    public partial class BFUDetailsRow<TItem> : BFUComponentBase, IDisposable
     {
         [CascadingParameter]
         public BFUSelectionZone<TItem> SelectionZone { get; set; }

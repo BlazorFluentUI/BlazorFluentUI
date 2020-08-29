@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUContextualMenu : BFUResponsiveComponentBase, IDisposable, IHasPreloadableGlobalStyle
+    public partial class BFUContextualMenu : BFUResponsiveComponentBase, IAsyncDisposable, IHasPreloadableGlobalStyle
     {
         [Parameter] public bool AlignTargetEdge { get; set; }
         //[Parameter] public string AriaLabel { get; set; }
@@ -137,12 +137,11 @@ namespace BlazorFluentUI
             await this.OnMenuOpened.InvokeAsync(this);
         }
 
-        public override void Dispose()
+        public override async ValueTask DisposeAsync()
         {
-            this.OnMenuDismissed.InvokeAsync(this);
-            base.Dispose();
+            await this.OnMenuDismissed.InvokeAsync(this);
+            await base.DisposeAsync();
         }
-
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {

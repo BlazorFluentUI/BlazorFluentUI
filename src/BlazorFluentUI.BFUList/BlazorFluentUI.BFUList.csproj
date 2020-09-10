@@ -12,12 +12,12 @@
 
   <ItemGroup>
     <PackageReference Include="DynamicData" Version="6.14.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-preview.8.20414.8" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.8.3">
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Reactive" Version="4.3.2" />
+    <PackageReference Include="System.Reactive" Version="4.4.1" />
   </ItemGroup>
 
   <ItemGroup>

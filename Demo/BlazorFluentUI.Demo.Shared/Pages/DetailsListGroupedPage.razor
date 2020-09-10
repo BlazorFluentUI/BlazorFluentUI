@@ -12,12 +12,13 @@
         <BFUDetailsList ItemsSource="ReadonlyList"
                         @ref="detailsList"
                         Columns="ReadonlyColumns"
+                        GetKey="(item)=>item.Key"
                         TItem="GroupedDataItem"
                         IsVirtualizing="isVirtualizing"
                         SubGroupSelector=@(item=> item.ObservableData)
                         GroupTitleSelector=@(item=>item.DisplayName)
                         LayoutMode="DetailsListLayoutMode.Justified"
-                        @bind-Selection="selection"
+                        Selection="selection"
                         SelectionMode="SelectionMode.Multiple">
         </BFUDetailsList>
     </BFUStack>
@@ -44,8 +45,8 @@
         private bool descending = false;
         public bool Descending { get => descending; set => SetAndRaise(ref descending, value); }
 
-        private Func<GroupedDataItem, IComparable> sortSelector = x => x.KeyNumber;
-        public Func<GroupedDataItem, IComparable> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
+        private Func<GroupedDataItem, object> sortSelector = x => x.KeyNumber;
+        public Func<GroupedDataItem, object> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
 
         public IObservable<SortExpressionComparer<GroupedDataItem>> DynamicSortExpression { get; private set; }
 
@@ -58,11 +59,11 @@
 
                 if (isDescending)
                 {
-                    return SortExpressionComparer<GroupedDataItem>.Descending(selector);
+                    return SortExpressionComparer<GroupedDataItem>.Descending(selector.ConvertToIComparable());
                 }
                 else
                 {
-                    return SortExpressionComparer<GroupedDataItem>.Ascending(selector);
+                    return SortExpressionComparer<GroupedDataItem>.Ascending(selector.ConvertToIComparable());
                 }
             });
         }
@@ -71,9 +72,9 @@
 
     protected override void OnInitialized()
     {
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick });
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-        var descColumn = new BFUDetailsRowColumn<GroupedDataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
+        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem,int>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick });
+        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem,string>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+        var descColumn = new BFUDetailsRowColumn<GroupedDataItem,string>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
         columnsSource.AddOrUpdate(descColumn);
 
 

@@ -81,7 +81,7 @@ namespace BlazorFluentUI
         public IEnumerable<TItem> ItemsSource { get; set; }
 
         [Parameter] 
-        public RenderFragment<TItem> ItemTemplate { get; set; }
+        public RenderFragment<IndexedItem<TItem>> ItemTemplate { get; set; }
 
         [Parameter] 
         public EventCallback<(double, object)> OnListScrollerHeightChanged { get; set; }

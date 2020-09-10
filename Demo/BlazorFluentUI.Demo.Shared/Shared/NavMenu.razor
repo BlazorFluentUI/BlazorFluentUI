@@ -29,11 +29,13 @@
                 <BFUNavLink Name="List" Url="listPage" Id="listPage" Icon="List" OnClick=@OnLinkClicked />
                 <BFUNavLink Name="DetailsList Basic" Url="detailsListPageBasic" Id="detailsListPageBasic" Icon="List" OnClick=@OnLinkClicked />
                 <BFUNavLink Name="DetailsList" Url="detailsListPage" Id="detailsListPage" Icon="List" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="DetailsList-Grouped"
-                            NestedDepth="1"
-                            Url="detailsListGroupedPage"
-                            Id="detailsListGroupedPage"
-                            NavMatchType="NavMatchType.AnchorIncluded" />
+                <BFUNavLink Name="DetailsListAuto" Url="detailsListAutoPage" Id="detailsListAutoPage" Icon="List" OnClick=@OnLinkClicked />
+                    <BFUNavLink Name="DetailsList-Grouped"
+                                NestedDepth="1"
+                                Url="detailsListGroupedPage"
+                                Id="detailsListGroupedPage"
+                                NavMatchType="NavMatchType.AnchorIncluded" />
+                    <BFUNavLink Name="DetailsListAuto-Grouped" NestedDepth="1" Url="detailsListAutoGroupedPage" Id="detailsListAutoGroupedPage" Icon="List" OnClick=@OnLinkClicked />
                 <BFUNavLink Name="DocumentCard" Url="documentcard" Id="documentcardPage" Icon="ContactCard" OnClick=@OnLinkClicked />
                 <BFUNavLink Name="GroupedList" Url="groupedListPage" Id="groupedListPage" Icon="Group" OnClick=@OnLinkClicked />
                 <BFUNavLink Name="Persona" Url="personaPage" Id="personaPage" Icon="Contact" OnClick=@OnLinkClicked />
@@ -65,6 +67,7 @@
                 <BFUNavLink Name="FocusZone" Url="focusZonePage" Id="focusZonePage" Icon="Focus" OnClick=@OnLinkClicked />
                 <BFUNavLink Name="Image" Url="imagePage" Id="imagePage" Icon="ImagePixel" OnClick=@OnLinkClicked />
                 <BFUNavLink Name="Layer" Url="layerPage" Id="layerPage" Icon="MapLayers" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="MarqueeSelection" Url="marqueeSelectionPage" Id="marqueeSelectionPage" Icon="MapLayers" OnClick=@OnLinkClicked />
                 <BFUNavLink Name="ResizeGroup" Url="resizeGroupPage" Id="resizeGroupPage" Icon="Resize" OnClick=@OnLinkClicked />
                 <BFUNavLink Name="RichTextEditor" Url="richTextEditorPage" Id="richTextEditorPage" Icon="Edit" OnClick=@OnLinkClicked />
                 <BFUNavLink Name="Stack" Url="stackPage" Id="stackPage" Icon="Stack" OnClick=@OnLinkClicked />

@@ -82,45 +82,45 @@ namespace BlazorFluentUI
 
         private void OnHeaderClicked(HeaderItem<TItem> headerItem)
         {
-            if (SelectionZone != null)
-            {
-                // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
-                //does selection contain this item already?
-                if (SelectionZone.Selection.SelectedItems.Contains(headerItem.Item))
-                {
-                    //deselect it and all children
-                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-                    SelectionZone.RemoveItems(items);
-                }
-                else
-                {
-                    //select it and all children
-                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-                    SelectionZone.AddItems(items);
-                }
-            }
+            //if (SelectionZone != null)
+            //{
+            //    // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
+            //    //does selection contain this item already?
+            //    if (SelectionZone.Selection.SelectedItems.Contains(headerItem.Item))
+            //    {
+            //        //deselect it and all children
+            //        var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+            //        SelectionZone.RemoveItems(items);
+            //    }
+            //    else
+            //    {
+            //        //select it and all children
+            //        var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+            //        SelectionZone.AddItems(items);
+            //    }
+            //}
         }
 
         private void OnHeaderToggled(HeaderItem<TItem> headerItem)
         {
-            if (SelectionZone != null)
-            {
-                // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
-                //does selection contain this item already?
-                if (SelectionZone.Selection.SelectedItems.Contains(headerItem.Item))
-                {
-                    //deselect it and all children
-                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+            //if (SelectionZone != null)
+            //{
+            //    // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
+            //    //does selection contain this item already?
+            //    if (SelectionZone.Selection.SelectedItems.Contains(headerItem.Item))
+            //    {
+            //        //deselect it and all children
+            //        var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
 
-                    SelectionZone.RemoveItems(items);
-                }
-                else
-                {
-                    //select it and all children
-                    var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-                    SelectionZone.AddItems(items);
-                }
-            }
+            //        SelectionZone.RemoveItems(items);
+            //    }
+            //    else
+            //    {
+            //        //select it and all children
+            //        var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
+            //        SelectionZone.AddItems(items);
+            //    }
+            //}
         }
 
         private System.Collections.Generic.ICollection<GroupedListItem<TItem>> GetChildrenRecursive(GroupedListItem<TItem> item)

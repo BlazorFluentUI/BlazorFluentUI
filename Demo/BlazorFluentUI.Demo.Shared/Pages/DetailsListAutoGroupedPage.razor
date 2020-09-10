@@ -1,0 +1,94 @@
+﻿@page "/detailsListAutoGroupedPage"
+
+@using DynamicData
+@using DynamicData.Binding
+@using System.Collections.ObjectModel
+@using System.Reactive.Linq
+@using System.Reactive.Subjects
+
+<BFUStack Style="height:100%;">
+    <h3>DetailsList - Grouped Data</h3>
+    <BFUToggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
+    <BFUTextField Label="Filter Description"
+                  Value=@filter
+                  OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => (prop as string).Contains(filter); }) />
+    <BFUDetailsListAuto ItemsSource="dataSource"
+                    @ref="detailsList"
+                    Columns="columnsSource"
+                    GetKey=@(x=>x.Key)
+                    TItem="DataItem"
+                    IsVirtualizing="isVirtualizing"
+                    GroupBy=@(new List<Func<DataItem,object>> 
+                              { 
+                                  x=>x.GroupName, 
+                                  x=>x.KeyNumber % 2 == 0 ? "even" :"odd" 
+                              })
+                    LayoutMode="DetailsListLayoutMode.Justified"
+                    
+                    SelectionMode="SelectionMode.Multiple">
+    </BFUDetailsListAuto>
+</BFUStack>
+
+@code {
+    bool isVirtualizing = false;
+
+    Selection<DataItem> selection = new Selection<DataItem>();
+
+    //SourceCache<DataItem, string> dataSource = new SourceCache<DataItem, string>(x => x.Key);
+    List<DataItem> dataSource = new List<DataItem>();
+    //public System.ComponentModel.BindingList<DataItem> ReadonlyList = new System.ComponentModel.BindingList<DataItem>();
+    int count = 0;
+
+    //SourceCache<BFUDetailsRowColumn<DataItem>, string> columnsSource = new SourceCache<BFUDetailsRowColumn<DataItem>, string>(x => x.Key);
+    List<BFUDetailsRowColumn<DataItem>> columnsSource = new List<BFUDetailsRowColumn<DataItem>>();
+    //public ReadOnlyObservableCollection<BFUDetailsRowColumn<DataItem>> ReadonlyColumns;
+
+    BFUDetailsListAuto<DataItem> detailsList;
+
+    string filter = "";
+    BFUDetailsRowColumn<DataItem> descriptionColumn;
+
+    protected override void OnInitialized()
+    {
+        columnsSource.Add(new BFUDetailsRowColumn<DataItem, int>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0 });
+        columnsSource.Add(new BFUDetailsRowColumn<DataItem, string>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, IsResizable = true });
+        descriptionColumn = new BFUDetailsRowColumn<DataItem, string>("Description", x => x.Description) { Index = 2 };
+        columnsSource.Add(descriptionColumn);
+
+
+        var data = new System.Collections.Generic.List<DataItem>();
+
+        for (var i = 0; i < 6; i++)
+        {
+            count++;
+            data.Add(new DataItem(count));
+        }
+
+        dataSource.AddRange(data);
+
+        //dataSource.Connect()
+        //    .Bind(ReadonlyList)
+        //    .Subscribe();
+
+        //columnsSource.Connect()
+        //    .Sort(SortExpressionComparer<BFUDetailsRowColumn<DataItem>>.Ascending(x => x.Index))
+        //    .Bind(out ReadonlyColumns)
+        //    .Do(_ => StateHasChanged())  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
+        //    .Subscribe();
+
+        base.OnInitialized();
+    }
+
+
+    private Func<DataItem, IComparable> GetSortSelector(string key)
+    {
+        if (key == "Key")
+            return (item) => item.Key;
+        else if (key == "Name")
+            return (item) => item.DisplayName;
+        else
+            return item => item.Description;
+    }
+
+
+}

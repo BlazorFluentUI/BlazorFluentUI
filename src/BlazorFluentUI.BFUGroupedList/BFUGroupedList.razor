@@ -2,37 +2,37 @@
 @inherits BFUComponentBase
 @typeparam TItem
 
-@if (dataItems != null)
-{
-    <BFUList TItem="GroupedListItem<TItem>"
-          @ref="listReference"
-          ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
-          IsVirtualizing=@IsVirtualizing
-          ItemsSource=@dataItems
-          OnViewportChanged=@OnViewportChanged
-          >
-        <ItemTemplate>
+<BFUFocusZone Direction="FocusZoneDirection.Vertical"
+              ClassName="ms-GroupedList">
+    @if (dataItems != null)
+    {
+        <BFUList TItem="GroupedListItem<TItem>"
+                 @ref="listReference"
+                 ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
+                 IsVirtualizing=@IsVirtualizing
+                 ItemsSource=@dataItems
+                 OnViewportChanged=@OnViewportChanged>
+            <ItemTemplate>
 
-            @if (context is HeaderItem<TItem>)
-            {
-                var header = (HeaderItem<TItem>)context;
-                <BFUGroupHeader IsOpen=@header.IsOpen 
-                             OnOpenChanged=@((isOpen)=>header.IsOpen = isOpen)
-                             Count=@header.RecursiveCount
-                             GroupLevel=@header.Depth
-                             Name=@header.Name 
-                             Compact=@Compact 
-                             IsSelectionCheckVisible=@(SelectionZone != null)
-                             OnClick=@(()=>OnHeaderClicked(header))
-                             OnToggle=@(()=>OnHeaderToggled(header))
-                             />
-            }
-            else
-            {
-                @ItemTemplate(context)
-            }
-        </ItemTemplate>
-    </BFUList>
-        
-}
-   
+                @if (context is HeaderItem<TItem>)
+                {
+                    var header = (HeaderItem<TItem>)context.Item;
+                    <BFUGroupHeader IsOpen=@header.IsOpen
+                                    OnOpenChanged=@((isOpen)=>header.IsOpen = isOpen)
+                                    Count=@header.RecursiveCount
+                                    GroupLevel=@header.Depth
+                                    Name=@header.Name
+                                    Compact=@Compact
+                                    IsSelectionCheckVisible=@(SelectionZone != null)
+                                    OnClick=@(()=>OnHeaderClicked(header))
+                                    OnToggle=@(()=>OnHeaderToggled(header)) />
+                }
+                else
+                {
+                    @ItemTemplate(context.Item)
+                }
+            </ItemTemplate>
+        </BFUList>
+
+    }
+</BFUFocusZone>

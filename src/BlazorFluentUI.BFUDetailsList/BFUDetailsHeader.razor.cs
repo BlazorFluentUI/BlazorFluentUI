@@ -11,8 +11,8 @@ namespace BlazorFluentUI
 {
     public partial class BFUDetailsHeader<TItem> : BFUComponentBase, IHasPreloadableGlobalStyle
     {
-        [CascadingParameter]
-        private BFUSelectionZone<TItem> SelectionZone { get; set; }
+        //[CascadingParameter]
+        //private BFUSelectionZone<TItem> SelectionZone { get; set; }
 
         [Parameter]
         public string AriaLabelForSelectAllCheckbox { get; set; }
@@ -62,8 +62,8 @@ namespace BlazorFluentUI
         [Parameter]
         public int MinimumPixelsForDrag { get; set; }
 
-        [Parameter]
-        public Action OnAllSelected { get; set; }
+        
+
 
         [Parameter]
         public EventCallback<ItemContainer<BFUDetailsRowColumn<TItem>>> OnColumnAutoResized { get; set; }
@@ -166,7 +166,7 @@ namespace BlazorFluentUI
         {
             if (!isCheckboxHidden)
             {
-                OnAllSelected();
+                Selection?.ToggleAllSelected();
             }
         }
 

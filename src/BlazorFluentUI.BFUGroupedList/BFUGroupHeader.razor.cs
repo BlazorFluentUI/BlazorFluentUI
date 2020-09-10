@@ -39,6 +39,9 @@ namespace BlazorFluentUI
         [Parameter]
         public bool IsSelectionCheckVisible { get; set; }
 
+        //[Parameter]
+        //public int ListIndex { get; set; }
+
         [Parameter]
         public string LoadingText { get; set; } = "Loading...";
 

@@ -6,14 +6,22 @@
 <BFULocalCS @bind-Rules=@DetailsRowLocalRules />
 
 @*<div @onclick="args => SelectionZone.SelectItem(Item,true)" data-is-focusable="true">*@
-<div class="root">
+<div class="root"
+     data-selection-index=@ItemIndex
+     data-selection-touch-invoke="true"
+     data-item-index=@ItemIndex
+     aria-rowindex=@(ItemIndex + 1)
+     data-automationid="DetailsRow"
+     >
     <BFUFocusZone Direction=@FocusZoneDirection.Horizontal
                AriaLabel=@AriaLabel
                AriaDescribedBy=@AriaDescribedBy
+                  
                ClassName=@($"fadeIn400 {(Compact ? "is-compact " : "")}{(isSelected ? "is-selected " : "")}{(IsRowHeader ? "is-row-header " : "")}{(IsCheckVisible ? "is-check-visible " : "")}ms-DetailsRow")
                AllowFocusRoot="true"
                IsFocusable="true"
-               OnClick=@(args=> SelectionZone.SelectItem(Item,true))
+               OnClick=@(args=> { })
+
                   >
 
         @if (showCheckbox)
@@ -22,7 +30,7 @@
                  aria-colindex="1"
                  data-selection-toggle="true"
                  class="ms-DetailsRow-checkCell"
-                 @onclick="args => SelectionZone.HandleToggle(Item)"
+                 @onclick="args => { }"
                  @onclick:stopPropagation="true">
                 <BFUDetailsRowCheck IsVisible=@(this.CheckboxVisibility == CheckboxVisibility.Always)
                                  Compact=@Compact

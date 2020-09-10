@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUSelectionZone<TItem> : BFUComponentBase
+    public partial class BFUSelectionZone<TItem> : BFUComponentBase, IAsyncDisposable
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }
@@ -21,22 +22,45 @@ namespace BlazorFluentUI
         public bool DisableRenderOnSelectionChanged { get; set; } = false;
 
         [Parameter]
+        public bool EnableTouchInvocationTarget { get; set; } = false;
+
+        [Parameter]
         public bool EnterModalOnTouch { get; set; }
 
         [Parameter]
         public bool IsSelectedOnFocus { get; set; } = true;
 
         [Parameter]
-        public EventCallback<TItem> OnItemContextMenu { get; set; }
+        public Action<TItem, int> OnItemContextMenu { get; set; }
 
         [Parameter]
-        public EventCallback<TItem> OnItemInvoked { get; set; }
+        public Action<TItem, int> OnItemInvoked { get; set; }
 
+        private Selection<TItem> _selection;
         [Parameter]
-        public Selection<TItem> Selection { get; set; }
+        public Selection<TItem> Selection 
+        { 
+            get => _selection; 
+            set 
+            {
+                if (_selection != value)
+                {
+                    if (_selection != null && _selectionSubscription != null)
+                    {
+                        _selectionSubscription.Dispose();
+                    }
+                    _selection = value;
+                    if (_selection != null)
+                    {
+                        _selectionSubscription = _selection.SelectionChanged.Subscribe(_ => { });//InvokeAsync(StateHasChanged));
+                    }
+                }
+            } 
+        }
 
-        [Parameter]
-        public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
+        IDisposable _selectionSubscription;
+        //[Parameter]
+        //public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; }
@@ -44,14 +68,22 @@ namespace BlazorFluentUI
         [Parameter]
         public bool SelectionPreservedOnEmptyClick { get; set; }
 
+        [Inject]
+        private IJSRuntime? JSRuntime { get; set; }
 
-        private HashSet<TItem> selectedItems = new HashSet<TItem>();
+        private bool isModal = false;
 
-        private BehaviorSubject<ICollection<TItem>> selectedItemsSubject;
-        
-        public IObservable<ICollection<TItem>> SelectedItemsObservable { get; private set; }
+
+        //private HashSet<TItem> selectedItems = new HashSet<TItem>();
+
+        //private BehaviorSubject<ICollection<TItem>> selectedItemsSubject;
+
+        //public IObservable<ICollection<TItem>> SelectedItemsObservable { get; private set; }
 
         private bool doNotRenderOnce = false;
+
+        private DotNetObjectReference<BFUSelectionZone<TItem>>? dotNetRef;
+        private BFUSelectionZoneProps props;
 
         protected override bool ShouldRender()
         {
@@ -69,249 +101,142 @@ namespace BlazorFluentUI
 
         protected override void OnInitialized()
         {
-            selectedItemsSubject = new BehaviorSubject<ICollection<TItem>>(selectedItems);
-            SelectedItemsObservable = selectedItemsSubject.AsObservable();
             base.OnInitialized();
         }
 
         protected override async Task OnParametersSetAsync()
         {
-            if (Selection != null && Selection.SelectedItems != selectedItems)
+            if (props == null)
             {
-                selectedItems = new System.Collections.Generic.HashSet<TItem>(Selection.SelectedItems);
-                //selectedItemsSubject.OnNext(selectedItems);
-                //StateHasChanged();
+                props = GenerateProps();
             }
 
-            if (SelectionMode == SelectionMode.Single && selectedItems.Count() > 1)
+            if (dotNetRef != null)
             {
-                selectedItems.Clear();
-                //selectedItemsSubject.OnNext(selectedItems);
-                await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+                if (isModal != props!.IsModal
+                    || SelectionMode != props.SelectionMode
+                    || DisableAutoSelectOnInputElements != props.DisableAutoSelectOnInputElements
+                    || EnterModalOnTouch != props.EnterModalOnTouch
+                    || EnableTouchInvocationTarget != props.EnableTouchInvocationTarget
+                    || (OnItemInvoked!= null) != props.OnItemInvokeSet)
+                {
+                    props = GenerateProps();
+                    await JSRuntime!.InvokeVoidAsync("BlazorFluentUiSelectionZone.updateProps", dotNetRef, props);
+                }
             }
-            else if (SelectionMode == SelectionMode.None && selectedItems.Count() > 0)
-            {
-                selectedItems.Clear();
-                //selectedItemsSubject.OnNext(selectedItems);
-                await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
-            }
+
             await base.OnParametersSetAsync();
         }
 
-        /// <summary>
-        /// For DetailsRow
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="asSingle">On click, force list to select one even if set to multiple</param>
-        public void SelectItem(TItem item, bool asSingle=false)
+        private BFUSelectionZoneProps GenerateProps()
         {
-            bool hasChanged = false;
-            if (SelectionMode == SelectionMode.Multiple && !asSingle)
+            return new BFUSelectionZoneProps
             {
-                hasChanged = true;
-                if (selectedItems.Contains(item))
-                    selectedItems.Remove(item);
-                else
-                    selectedItems.Add(item);
-            }
-            else if (SelectionMode == SelectionMode.Multiple && asSingle)
-            {
-                //same as single except we need to clear other items if they are selected, too
-                hasChanged = true;
-                selectedItems.Clear();
-                selectedItems.Add(item);
-            }
-            else if (SelectionMode == SelectionMode.Single)
-            {
-                if (!selectedItems.Contains(item))
-                {
-                    hasChanged = true;
-                    selectedItems.Clear();
-                    selectedItems.Add(item);
-                }
-            }
+                IsModal = isModal,
+                SelectionMode = this.SelectionMode,
+                DisableAutoSelectOnInputElements = this.DisableAutoSelectOnInputElements,
+                EnterModalOnTouch = this.EnterModalOnTouch,
+                EnableTouchInvocationTarget=this.EnableTouchInvocationTarget,
+                OnItemInvokeSet = (OnItemInvoked != null)
+            };
+        }
 
-            if (hasChanged)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
             {
-                doNotRenderOnce = true;
-                selectedItemsSubject.OnNext(selectedItems);
-                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
+                dotNetRef = DotNetObjectReference.Create(this);
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUiSelectionZone.registerSelectionZone", dotNetRef, RootElementReference, new BFUSelectionZoneProps { IsModal = this.isModal, SelectionMode = this.SelectionMode });
+            }
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (dotNetRef != null)
+            {
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUiSelectionZone.unregisterSelectionZone", dotNetRef);
+                dotNetRef.Dispose();
             }
         }
 
-        public void AddItems(IEnumerable<TItem> items)
+        [JSInvokable]
+        public int GetItemsLength()
         {
-            foreach (var item in items)
-            {
-                if (!selectedItems.Contains(item))
-                    selectedItems.Add(item);
-            }
-
-            if (items != null && items.Count() > 0)
-            {
-                doNotRenderOnce = true;
-                selectedItemsSubject.OnNext(selectedItems);
-                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
-            }
-        }
-                
-        public void RemoveItems(IEnumerable<TItem> items)
-        {
-            foreach (var item in items)
-            {
-                selectedItems.Remove(item);
-            }
-
-            if (items != null && items.Count() > 0)
-            {
-                doNotRenderOnce = true;
-                selectedItemsSubject.OnNext(selectedItems);
-                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
-            }
+            return Selection.GetItems().Count;
         }
 
-        public void AddAndRemoveItems(IEnumerable<TItem> itemsToAdd, IEnumerable<TItem> itemsToRemove)
+        [JSInvokable]
+        public bool IsIndexSelected(int index)
         {
-            foreach (var item in itemsToAdd)
-            {
-                if (!selectedItems.Contains(item))
-                    selectedItems.Add(item);
-            }
-            foreach (var item in itemsToRemove)
-            {
-                selectedItems.Remove(item);
-            }
-
-            if ((itemsToAdd != null && itemsToAdd.Count() > 0) || (itemsToRemove != null && itemsToRemove.Count() > 0))
-            {
-                doNotRenderOnce = true;
-                selectedItemsSubject.OnNext(selectedItems);
-                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
-            }
+            return Selection.IsIndexSelected(index);
         }
 
-        
-
-        public void ClearSelection()
+        [JSInvokable]
+        public int GetSelectedCount()
         {
-            if (selectedItems.Count>0)
-            {
-                selectedItems.Clear();
-                doNotRenderOnce = true;
-                selectedItemsSubject.OnNext(selectedItems);
-                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
-            }
+            var count = Selection.GetSelectedCount();
+            if (count.HasValue)
+                return count.Value;
+            else
+                return 0;
         }
 
-        // For end-users to let SelectionMode handle what to do.
-        public void HandleClick(TItem item)
-        {
-            bool hasChanged = false;
-            if (SelectionMode == SelectionMode.Multiple)
-            {
-                hasChanged = true;
-                if (selectedItems.Contains(item))
-                    selectedItems.Remove(item);
-                else
-                    selectedItems.Add(item);
-            }
-            else if (SelectionMode == SelectionMode.Single )
-            {
-                if (!selectedItems.Contains(item))
-                {
-                    hasChanged = true;
-                    selectedItems.Clear();
-                    selectedItems.Add(item);
-                }
-            }
-
-            if (hasChanged)
-            {
-                doNotRenderOnce = true;
-                selectedItemsSubject.OnNext(selectedItems);
-                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
-            }
-        }
-
-        // For end-users to let SelectionMode handle what to do.
-        public void HandleToggle(TItem item)
-        {
-            bool hasChanged = false;
-            switch (SelectionMode)
-            {
-                case SelectionMode.Multiple:
-                    hasChanged = true;
-                    if (selectedItems.Contains(item))
-                        selectedItems.Remove(item);
-                    else
-                        selectedItems.Add(item);
-                    break;
-                case SelectionMode.Single:
-                    hasChanged = true;
-                    if (selectedItems.Contains(item))
-                        selectedItems.Remove(item);
-                    else
-                    {
-                        selectedItems.Clear();
-                        selectedItems.Add(item);
-                    }
-                    break;
-                case SelectionMode.None:
-                    break;
-            }
-
-            if (hasChanged)
-            {
-                doNotRenderOnce = true;
-                selectedItemsSubject.OnNext(selectedItems);
-                SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
-            }
-        }
-
-
-        //private void OnSelectedChanged(Selection<GroupedListItem<TItem>> selection)
+        //[JSInvokable]
+        //public void ClearAndSelectIndex(int index)
         //{
-        //    List<string> s = new List<string>();
-
-        //    var finalList = new System.Collections.Generic.List<GroupedListItem<TItem>>(selection.SelectedItems);
-
-        //    var itemsToAdd = selection.SelectedItems.Except(internalSelection.SelectedItems).ToList();
-        //    var itemsToRemove = internalSelection.SelectedItems.Except(selection.SelectedItems).ToList();
-        //    itemsToRemove.ForEach(x =>
-        //    {
-        //        var remove = GetChildrenRecursive(x);
-        //        finalList.Remove(remove);
-        //    });
-
-        //    itemsToAdd.ForEach(x =>
-        //    {
-        //        var add = GetChildrenRecursive(x);
-        //        finalList.Add(add);
-        //    });
-
-        //    //check to see if a header needs to be turned OFF because all of its children are *not* selected.
-        //    restart:
-        //    var headers = finalList.Where(x => x is HeaderItem<TItem>).Cast<HeaderItem<TItem>>().ToList();
-        //    foreach (var header in headers)
-        //    {
-        //        if (header.Children.Except(finalList).Count() > 0)
-        //        {
-        //            finalList.Remove(header);
-        //            //start loop over again, simplest way to start over is a goto statement.  This is needed when a header turns off, but it's parent needs to turn off, too.
-        //            goto restart;
-        //        }
-        //    }
-
-        //    //check to see if a header needs to be turned ON because all of its children *are* selected.
-        //    var potentialHeaders = finalList.Select(x => x.Parent).Where(x => x != null).Distinct().ToList();
-        //    foreach (var header in potentialHeaders)
-        //    {
-        //        if (header.Children.Except(finalList).Count() == 0)
-        //            finalList.Add(header);
-        //    }
-
-        //    SelectionChanged.InvokeAsync(new BFUSelection<TItem>(finalList.Select(x => x.Item)));
+        //    Selection.SetChangeEvents(false);
+        //    Selection.SetAllSelected(false);
+        //    Selection.SetIndexSelected(index, true, true);
         //}
+
+        [JSInvokable]
+        public void SetModal(bool isModal)
+        {
+            Selection.SetModal(isModal);
+        }
+
+        [JSInvokable]
+        public void SetChangeEvents(bool change)
+        {
+            Selection.SetChangeEvents(change);
+        }
+
+        [JSInvokable]
+        public void ToggleAllSelected()
+        {
+            Selection.ToggleAllSelected();
+        }
+
+        [JSInvokable]
+        public void ToggleIndexSelected(int index)
+        {
+            Selection.ToggleIndexSelected(index);
+        }
+
+        [JSInvokable]
+        public void SetAllSelected(bool isAllSelected)
+        {
+            Selection.SetAllSelected(isAllSelected);
+        }
+
+        [JSInvokable]
+        public void SetIndexSelected(int index, bool isSelected, bool shouldAnchor)
+        {
+            Selection.SetIndexSelected(index, isSelected, shouldAnchor);
+        }
+
+        [JSInvokable]
+        public void SelectToIndex(int index, bool clearSelection)
+        {
+            Selection.SelectToIndex(index,clearSelection);
+        }
+
+        [JSInvokable]
+        public void InvokeItem(int index)
+        {
+            OnItemInvoked?.Invoke(Selection.GetItems()[index], index);
+        }
 
     }
 }

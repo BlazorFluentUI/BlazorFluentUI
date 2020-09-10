@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,9 @@ namespace BlazorFluentUI
         public RenderFragment FooterTemplate { get; set; }
 
         [Parameter]
+        public Func<TItem, object> GetKey { get; set; }
+
+        [Parameter]
         public Func<TItem, string> GroupTitleSelector { get; set; }
 
         [Parameter]
@@ -41,7 +45,7 @@ namespace BlazorFluentUI
         public bool IsVirtualizing { get; set; } = true;
 
         [Parameter]
-        public IEnumerable<TItem> ItemsSource { get; set; }
+        public IList<TItem> ItemsSource { get; set; }
 
         [Parameter]
         public DetailsListLayoutMode LayoutMode { get; set; }
@@ -56,13 +60,11 @@ namespace BlazorFluentUI
         public EventCallback<ColumnResizedArgs<TItem>> OnColumnResized { get; set; }
 
         [Parameter]
-        public RenderFragment<TItem> RowTemplate { get; set; }
+        public RenderFragment<IndexedItem<TItem>> RowTemplate { get; set; }
+
 
         [Parameter]
-        public Selection<TItem> Selection { get; set; } = new Selection<TItem>();
-
-        [Parameter]
-        public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
+        public Selection<TItem> Selection { get; set; } 
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; }
@@ -85,6 +87,8 @@ namespace BlazorFluentUI
 
         Dictionary<string, double> _columnOverrides = new Dictionary<string, double>();
 
+        private Selection<TItem> _selection = new Selection<TItem>();
+
         BFUGroupedList<TItem> groupedList;
         BFUList<TItem> list;
         BFUSelectionZone<TItem> selectionZone;
@@ -96,6 +100,12 @@ namespace BlazorFluentUI
 
         protected SelectAllVisibility selectAllVisibility = SelectAllVisibility.None;
 
+        public BFUDetailsList()
+        {
+            Selection = new Selection<TItem>();
+
+        }
+
         public void ForceUpdate()
         {
             groupedList?.ForceUpdate();
@@ -103,37 +113,52 @@ namespace BlazorFluentUI
 
         protected override bool ShouldRender()
         {
-            if (!shouldRender)
-            {
-                shouldRender = true;
-                return false;
-            }
+            //if (!shouldRender)
+            //{
+            //    shouldRender = true;
+            //    return false;
+            //}
             return true;
         }
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
-            shouldRender = false;
+            //shouldRender = false;
 
-            var dictParameters = parameters.ToDictionary();
-            if (lastParameters == null)
-            {
-                shouldRender = true;
-            }
-            else
-            {
-                var differences = dictParameters.Where(entry =>
-                {
-                    return !lastParameters[entry.Key].Equals(entry.Value);
-                }
-                ).ToDictionary(entry => entry.Key, entry => entry.Value);
+            //var dictParameters = parameters.ToDictionary();
+            //if (lastParameters == null)
+            //{
+            //    shouldRender = true;
+            //}
+            //else
+            //{
+            //    var differences = dictParameters.Where(entry =>
+            //    {
+            //        return !lastParameters[entry.Key].Equals(entry.Value);
+            //    }
+            //    ).ToDictionary(entry => entry.Key, entry => entry.Value);
 
-                if (differences.Count > 0)
-                {
-                    shouldRender = true;
-                }
-            }
-            lastParameters = dictParameters;
+            //    if (differences.Count > 0)
+            //    {
+            //        shouldRender = true;
+            //    }
+            //}
+            //lastParameters = dictParameters;
+
+            //if (parameters.TryGetValue<IEnumerable<TItem>>("ItemsSource", out var newItemsSource))
+            //{
+            //    if (newItemsSource != ItemsSource && ItemsSource != null && ItemsSource is INotifyCollectionChanged)
+            //    {
+            //        //unsubscribe
+            //        (ItemsSource as INotifyCollectionChanged)!.CollectionChanged -= BFUDetailsList_CollectionChanged;
+            //    }
+            //    if (newItemsSource != null && newItemsSource != ItemsSource && newItemsSource is INotifyCollectionChanged)
+            //    {
+            //        (newItemsSource as INotifyCollectionChanged)!.CollectionChanged += BFUDetailsList_CollectionChanged;
+            //    }
+            //}
+            
+
 
             if (_viewport != null && _viewport != _lastViewport)
             {
@@ -172,9 +197,39 @@ namespace BlazorFluentUI
             return base.SetParametersAsync(parameters);
         }
 
+        //private void BFUDetailsList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        //{
+        //    // collection changed... rerun selection stuff without clearing selection
+        //    //Selection?.SetItems(ItemsSource, false);
+        //}
+
+        protected override async Task OnParametersSetAsync()
+        {
+            if (Selection != _selection)
+            {
+                if (Selection == null)
+                {
+                    Selection = new Selection<TItem>();
+                    Selection.GetKey = this.GetKey;
+                }
+                _selection = Selection;
+
+                if (Selection.GetKey == null)
+                    Selection.GetKey = this.GetKey;
+                Selection.SetItems(ItemsSource);
+
+            }
+
+            if (Selection.SelectionMode != this.SelectionMode)
+                Selection.SelectionMode = this.SelectionMode;
+
+            await base.OnParametersSetAsync();
+        }
 
         protected override Task OnAfterRenderAsync(bool firstRender)
         {
+            
+
             return base.OnAfterRenderAsync(firstRender);
         }
 
@@ -188,49 +243,10 @@ namespace BlazorFluentUI
             // this was attached in the ms-DetailsList-contentWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI. 
         }
 
-        private bool ShouldAllBeSelected()
-        {
-            if (SubGroupSelector == null)
-            {
-                return Selection.SelectedItems.Count() == ItemsSource.Count() && ItemsSource.Any();
-            }
-            else
-            {
-                //source is grouped... need to recursively select them all.
-                var flattenedItems = ItemsSource?.SelectManyRecursive(x => SubGroupSelector(x));
-                if (flattenedItems == null)
-                    return false;
-
-                return flattenedItems.Count() == Selection.SelectedItems.Count() && flattenedItems.Any();
-            }
-        }
 
         private void OnAllSelected()
         {
-            if (SubGroupSelector == null)
-            {
-                if (Selection.SelectedItems.Count() != this.ItemsSource.Count())
-                {
-                    selectionZone.AddItems(ItemsSource);
-                }
-                else
-                {
-                    selectionZone.ClearSelection();
-                }
-            }
-            else
-            {
-                //source is grouped... need to recursively select them all.
-                var flattenedItems = this.ItemsSource?.SelectManyRecursive(x => SubGroupSelector(x));
-                if (flattenedItems.Count() != Selection.SelectedItems.Count())
-                {
-                    selectionZone.AddItems(flattenedItems);
-                }
-                else
-                {
-                    selectionZone.ClearSelection();
-                }
-            }
+
         }
 
         private void ViewportChangedHandler(Viewport viewport)

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BlazorFluentUI
 {
 
-    public partial class BFUFocusZone : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
+    public partial class BFUFocusZone : BFUComponentBase, IAsyncDisposable
     {
         [Inject] private IJSRuntime jsRuntime { get; set; }
 
@@ -165,23 +165,33 @@ namespace BlazorFluentUI
         }
 
 
-        public async void Dispose()
+        //public async void Dispose()
+        //{
+        //    if (_registrationId != -1)
+        //    {                
+        //        //Debug.WriteLine("Trying to unregister focuszone");
+        //        UnregisterFocusZoneAsync();
+                
+        //    }
+        //}
+
+        public async ValueTask DisposeAsync()
         {
             if (_registrationId != -1)
-            {                
+            {
                 //Debug.WriteLine("Trying to unregister focuszone");
-                UnregisterFocusZoneAsync();
-                
+                await UnregisterFocusZoneAsync();
+
             }
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var rules = new HashSet<IRule>();
+        //public ICollection<IRule> CreateGlobalCss(ITheme theme)
+        //{
+        //    var rules = new HashSet<IRule>();
 
-            rules.AddCssClassSelector(".ms-FocusZone:focus").AppendCssStyles("outline:none;");
+        //    rules.AddCssClassSelector(".ms-FocusZone:focus").AppendCssStyles("outline:none;");
 
-            return rules;
-        }
+        //    return rules;
+        //}
     }
 }

@@ -8,7 +8,7 @@ declare namespace BlazorFluentUiBaseComponent {
         isNull: boolean;
     }
     export function initializeFocusRects(): void;
-    interface IRectangle {
+    export interface IRectangle {
         left: number;
         top: number;
         width: number;
@@ -32,7 +32,7 @@ declare namespace BlazorFluentUiBaseComponent {
     }
     export function measureScrollDimensions(element: HTMLElement): IScrollDimensions;
     export function measureElementRect(element: HTMLElement): IRectangle;
-    export function getWindow(element: HTMLElement): Window;
+    export function getWindow(element: Element): Window;
     export function getWindowRect(): IRectangle;
     export function getElementId(element: HTMLElement): string;
     export function registerKeyEventsForList(element: HTMLElement): string;
@@ -185,6 +185,177 @@ declare namespace BlazorFluentUiBaseComponent {
     export function setRTL(isRTL: boolean, persistSetting?: boolean): void;
     export function getItem(key: string): string | null;
     export function setItem(key: string, data: string): void;
+    export class Async {
+        private _timeoutIds;
+        private _immediateIds;
+        private _intervalIds;
+        private _animationFrameIds;
+        private _isDisposed;
+        private _parent;
+        private _onErrorHandler;
+        private _noop;
+        constructor(parent?: object, onError?: (e: any) => void);
+        /**
+         * Dispose function, clears all async operations.
+         */
+        dispose(): void;
+        /**
+         * SetTimeout override, which will auto cancel the timeout during dispose.
+         * @param callback - Callback to execute.
+         * @param duration - Duration in milliseconds.
+         * @returns The setTimeout id.
+         */
+        setTimeout(callback: () => void, duration: number): number;
+        /**
+         * Clears the timeout.
+         * @param id - Id to cancel.
+         */
+        clearTimeout(id: number): void;
+        /**
+         * SetImmediate override, which will auto cancel the immediate during dispose.
+         * @param callback - Callback to execute.
+         * @param targetElement - Optional target element to use for identifying the correct window.
+         * @returns The setTimeout id.
+         */
+        setImmediate(callback: () => void, targetElement?: Element | null): number;
+        /**
+         * Clears the immediate.
+         * @param id - Id to cancel.
+         * @param targetElement - Optional target element to use for identifying the correct window.
+         */
+        clearImmediate(id: number, targetElement?: Element | null): void;
+        /**
+         * SetInterval override, which will auto cancel the timeout during dispose.
+         * @param callback - Callback to execute.
+         * @param duration - Duration in milliseconds.
+         * @returns The setTimeout id.
+         */
+        setInterval(callback: () => void, duration: number): number;
+        /**
+         * Clears the interval.
+         * @param id - Id to cancel.
+         */
+        clearInterval(id: number): void;
+        /**
+         * Creates a function that, when executed, will only call the func function at most once per
+         * every wait milliseconds. Provide an options object to indicate that func should be invoked
+         * on the leading and/or trailing edge of the wait timeout. Subsequent calls to the throttled
+         * function will return the result of the last func call.
+         *
+         * Note: If leading and trailing options are true func will be called on the trailing edge of
+         * the timeout only if the throttled function is invoked more than once during the wait timeout.
+         *
+         * @param func - The function to throttle.
+         * @param wait - The number of milliseconds to throttle executions to. Defaults to 0.
+         * @param options - The options object.
+         * @returns The new throttled function.
+         */
+        throttle<T extends Function>(func: T, wait?: number, options?: {
+            leading?: boolean;
+            trailing?: boolean;
+        }): T | (() => void);
+        /**
+         * Creates a function that will delay the execution of func until after wait milliseconds have
+         * elapsed since the last time it was invoked. Provide an options object to indicate that func
+         * should be invoked on the leading and/or trailing edge of the wait timeout. Subsequent calls
+         * to the debounced function will return the result of the last func call.
+         *
+         * Note: If leading and trailing options are true func will be called on the trailing edge of
+         * the timeout only if the debounced function is invoked more than once during the wait
+         * timeout.
+         *
+         * @param func - The function to debounce.
+         * @param wait - The number of milliseconds to delay.
+         * @param options - The options object.
+         * @returns The new debounced function.
+         */
+        debounce<T extends Function>(func: T, wait?: number, options?: {
+            leading?: boolean;
+            maxWait?: number;
+            trailing?: boolean;
+        }): ICancelable<T> & (() => void);
+        requestAnimationFrame(callback: () => void, targetElement?: Element | null): number;
+        cancelAnimationFrame(id: number, targetElement?: Element | null): void;
+        protected _logError(e: any): void;
+    }
+    export interface IEventRecord {
+        target: any;
+        eventName: string;
+        parent: any;
+        callback: (args?: any) => void;
+        elementCallback?: (...args: any[]) => void;
+        objectCallback?: (args?: any) => void;
+        options?: boolean | AddEventListenerOptions;
+    }
+    export interface IEventRecordsByName {
+        [eventName: string]: IEventRecordList;
+    }
+    export interface IEventRecordList {
+        [id: string]: IEventRecord[] | number;
+        count: number;
+    }
+    export interface IDeclaredEventsByName {
+        [eventName: string]: boolean;
+    }
+    export interface EventParams {
+        element: HTMLElement | Window;
+        event: string;
+        handler: (ev: Event) => void;
+        capture: boolean;
+    }
+    export function assign(target: any, ...args: any[]): any;
+    export function filteredAssign(isAllowed: (propName: string) => boolean, target: any, ...args: any[]): any;
+    /** An instance of EventGroup allows anything with a handle to it to trigger events on it.
+         *  If the target is an HTMLElement, the event will be attached to the element and can be
+         *  triggered as usual (like clicking for onClick).
+         *  The event can be triggered by calling EventGroup.raise() here. If the target is an
+         *  HTMLElement, the event gets raised and is handled by the browser. Otherwise, it gets
+         *  handled here in EventGroup, and the handler is called in the context of the parent
+         *  (which is passed in in the constructor).
+         *
+         * @public
+         * {@docCategory EventGroup}
+         */
+    export class EventGroup {
+        private static _uniqueId;
+        private _parent;
+        private _eventRecords;
+        private _id;
+        private _isDisposed;
+        /** For IE8, bubbleEvent is ignored here and must be dealt with by the handler.
+         *  Events raised here by default have bubbling set to false and cancelable set to true.
+         *  This applies also to built-in events being raised manually here on HTMLElements,
+         *  which may lead to unexpected behavior if it differs from the defaults.
+         *
+         */
+        static raise(target: any, eventName: string, eventArgs?: any, bubbleEvent?: boolean): boolean | undefined;
+        static isObserved(target: any, eventName: string): boolean;
+        /** Check to see if the target has declared support of the given event. */
+        static isDeclared(target: any, eventName: string): boolean;
+        static stopPropagation(event: any): void;
+        private static _isElement;
+        /** parent: the context in which events attached to non-HTMLElements are called */
+        constructor(parent: any);
+        dispose(): void;
+        /** On the target, attach a set of events, where the events object is a name to function mapping. */
+        onAll(target: any, events: {
+            [key: string]: (args?: any) => void;
+        }, useCapture?: boolean): void;
+        /**
+         * On the target, attach an event whose handler will be called in the context of the parent
+         * of this instance of EventGroup.
+         */
+        on(target: any, // tslint:disable-line:no-any
+        eventName: string, callback: (args?: any) => void, // tslint:disable-line:no-any
+        options?: boolean | AddEventListenerOptions): void;
+        off(target?: any, // tslint:disable-line:no-any
+        eventName?: string, callback?: (args?: any) => void, // tslint:disable-line:no-any
+        options?: boolean | AddEventListenerOptions): void;
+        /** Trigger the given event in the context of this instance of EventGroup. */
+        raise(eventName: string, eventArgs?: any, bubbleEvent?: boolean): boolean | undefined;
+        /** Declare an event as being supported by this instance of EventGroup. */
+        declare(event: string | string[]): void;
+    }
     export {};
 }
 interface Window {

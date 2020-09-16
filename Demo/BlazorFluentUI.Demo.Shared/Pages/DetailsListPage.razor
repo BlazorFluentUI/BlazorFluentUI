@@ -116,9 +116,9 @@
         selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Single");
 
         // We load the column data into the columnsSource SourceCache.
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index=0, OnColumnClick = this.OnColumnClick, IsResizable = true });
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable=true });
-        var descColumn = new BFUDetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
+        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index=0, IsResizable = true });
+        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, IsResizable=true });
+        var descColumn = new BFUDetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2 };
         columnsSource.AddOrUpdate(descColumn);
 
         // We're loading our sample data into the dataSource SourceCache.

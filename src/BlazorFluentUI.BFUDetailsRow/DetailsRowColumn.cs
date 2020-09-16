@@ -47,8 +47,9 @@ namespace BlazorFluentUI
         public Action<BFUDetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
         public string SortedAscendingAriaLabel { get; set; }
         public string SortedDescendingAriaLabel { get; set; }
-        public Type Type { get; set; }        
-       
+        public Type Type { get; set; }
+        public bool IsSortable { get; set; } = true;
+
     }
     
 }

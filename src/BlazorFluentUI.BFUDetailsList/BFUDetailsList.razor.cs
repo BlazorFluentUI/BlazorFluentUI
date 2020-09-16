@@ -410,5 +410,43 @@ namespace BlazorFluentUI
         {
             // TO-DO - will require measuring row cells, jsinterop
         }
+
+        public void SortData(BFUDetailsRowColumn<TItem> Column)
+        {
+            if (Column.IsSorted)
+            {
+                Column.IsSortedDescending = !Column.IsSortedDescending;
+            }
+            else
+            {
+                Column.IsSorted = true;
+                Column.IsSortedDescending = false;
+
+            }
+
+            foreach (var col in Columns)
+            {
+                if (col != Column)
+                {
+                    col.IsSorted = false;
+                    col.IsSortedDescending = false;
+                }
+            }
+
+
+            if (Column.IsSortedDescending)
+            {
+                this.ItemsSource = this.ItemsSource.OrderByDescending(Column.FieldSelector);
+            }
+            else
+            {
+                this.ItemsSource = this.ItemsSource.OrderBy(Column.FieldSelector);
+            }
+
+
+
+            StateHasChanged();
+
+        }
     }
 }

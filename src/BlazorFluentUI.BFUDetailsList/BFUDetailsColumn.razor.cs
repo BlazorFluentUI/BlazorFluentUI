@@ -41,6 +41,7 @@ namespace BlazorFluentUI
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
+        [CascadingParameter(Name = "Details")] protected BFUDetailsList<TItem> ParentDetails { get; set; }
 
         private bool HasAccessibleLabel()
         {
@@ -55,6 +56,9 @@ namespace BlazorFluentUI
         {
             if (Column.ColumnActionsMode == ColumnActionsMode.Disabled)
                 return;
+
+            if (Column.IsSortable)
+                ParentDetails.SortData(Column);
 
             Column.OnColumnClick?.Invoke(Column);
         }

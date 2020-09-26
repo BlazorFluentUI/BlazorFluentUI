@@ -68,7 +68,7 @@ namespace BlazorFluentUI
 
         //    if (groupBy != null && groupBy.Count > 0)
         //    {
-                
+
 
         //        var firstGroupBy = groupBy.First();
         //        var groups = items.Group(firstGroupBy);
@@ -93,14 +93,12 @@ namespace BlazorFluentUI
         //    else
         //    {
         //        return items.AutoRefreshOnObservable(x => itemSortExpression)
-                    
-                    
-                    
+
         //                .Sort(itemSortExpression, resetThreshold: 1)  // sort won't happen if only a few items change... so we need to make the threshold just 1 item. 
-                        
+
         //                .Transform((item, index) =>
         //                {
-        //                   // Debug.WriteLine($"Group {string.Join(',', groupKeys.Select(x => x.ToString()).ToArray())} Index {index}: {System.Text.Json.JsonSerializer.Serialize<TItem>(item)}");
+        //                    // Debug.WriteLine($"Group {string.Join(',', groupKeys.Select(x => x.ToString()).ToArray())} Index {index}: {System.Text.Json.JsonSerializer.Serialize<TItem>(item)}");
         //                    return new PlainItem2<TItem>(item, groupKeys, depth, index) as GroupedListItem2<TItem>;
         //                }, true);
         //    }
@@ -129,19 +127,24 @@ namespace BlazorFluentUI
                     tempGroupKeyList.Add(group.GroupKey);
                     var changeset = group.List.Connect().FlatGroup<TItem>(groupBy.Skip(1).ToList(), depth + 1, tempGroupKeyList, itemSortExpression);
                     return changeset;
-                }).Buffer(TimeSpan.FromMilliseconds(300))
-                .FlattenBufferResult(); 
+                });
+
+                var changeAwareList = new ChangeAwareList<GroupedListItem2<TItem>>();
 
                 var flattenedItems = headerItems.Or(subItems);
                 return flattenedItems;
             }
             else
             {
+                //var sourceCache = new SourceCache<GroupedListItem2<TItem>, object>(x => x.Item);
+                //sourceCache.Connect()
+                //    .Sort(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x.Depth))
+                //    .Transform()
+                    
                 return items.AutoRefreshOnObservable(x => itemSortExpression)
                         .Sort(itemSortExpression, resetThreshold: 1)  // sort won't happen if only a few items change... so we need to make the threshold just 1 item.  
                         .Transform((item, index) =>
                         {
-                            // Debug.WriteLine($"Group {string.Join(',', groupKeys.Select(x => x.ToString()).ToArray())} Index {index}: {System.Text.Json.JsonSerializer.Serialize<TItem>(item)}");
                             return new PlainItem2<TItem>(item, groupKeys, depth, index) as GroupedListItem2<TItem>;
                         }, true);
             }

@@ -4,12 +4,13 @@
 @using System.Linq
 
 <div class=@($"ms-DetailsList {ClassName}")
-     style=@($"overflow-y:hidden;height:100%;{Style}")
-     aria-label=@AriaLabel>
+     style=@($"{Style}")
+     aria-label=@AriaLabel
+     @ref="RootElementReference">
     <div role="grid"
          aria-label=@AriaLabel
          aria-readonly=true
-         style="overflow-y:hidden;height:100%;display:flex;flex-direction:column;">
+         style="display:flex;flex-direction:column;">
         <div role="presentation"
              class="ms-DetailsList-headerWrapper">
             @if (IsHeaderVisible)
@@ -39,11 +40,11 @@
         </div>
         <div role="presentation"
              class="ms-DetailsList-contentWrapper"
-             style="overflow-y:hidden;height:100%;">
+             >
             <BFUFocusZone ClassName="ms-DetailsList-focusZone"
                           Direction="FocusZoneDirection.Vertical"
                           InnerZoneKeystrokeTriggers="new System.Collections.Generic.List<ConsoleKey> { ConsoleKey.RightArrow }"
-                          Style="height:100%;overflow-y:hidden;">
+                          >
                 @if (!DisableSelectionZone)
                 {
                     <BFUSelectionZone Selection=@Selection
@@ -56,12 +57,13 @@
                                       
 
                                       EnterModalOnTouch=@EnterModalSelectionOnTouch
-                                      Style="height:100%;overflow-y:hidden;">
+                                      >
                         @if (GroupBy == null)
                         {
                             <BFUList ItemsSource=@items
+                                     TItem="TItem"
                                      IsVirtualizing=@IsVirtualizing
-                                     OnViewportChanged=@ViewportChangedHandler>
+                                     >
                                 <ItemTemplate>
                                     @if (RowTemplate != null)
                                     {
@@ -86,23 +88,26 @@
                             <BFUGroupedListAuto ItemsSource=@items
                                             @ref=@groupedList
                                             TItem="TItem"
+                                            TKey="object"
                                             GetKey=@GetKey
                                             GroupBy=@GroupBy
                                             SortBy=@groupSortSelectors
                                             SortDescending=@groupSortDescendingList
-                                            OnViewportChanged=@ViewportChangedHandler
                                             IsVirtualizing=@IsVirtualizing
                                                 Selection=@Selection
                                             SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                                 <ItemTemplate>
+                                    @*@if (context.Item is PlainItem3<TItem, object>)
+                                    {*@
                                     <BFUDetailsRow TItem="TItem"
-                                                   Item=@context.Item.Item
+                                                   Item=@(((PlainItem3<TItem,object>)context.Item).Item)
                                                    ItemIndex=@context.Index
                                                    Selection=@Selection
                                                    Columns=@_adjustedColumns
                                                    SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
                                                    CheckboxVisibility=@CheckboxVisibility
                                                    Compact=@Compact />
+                                    @*}*@
                                 </ItemTemplate>
                             </BFUGroupedListAuto>
                         }
@@ -115,7 +120,7 @@
                     {
                         <BFUList ItemsSource=@items
                                  TItem="TItem"
-                                 OnViewportChanged=@ViewportChangedHandler>
+                                 >
                             <ItemTemplate>
                                 @if (RowTemplate != null)
                                 {
@@ -144,7 +149,6 @@
                                             GroupBy=@GroupBy
                                             SortBy=@groupSortSelectors
                                             SortDescending=@groupSortDescendingList
-                                            OnViewportChanged=@ViewportChangedHandler
                                             IsVirtualizing=@IsVirtualizing
                                             SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                             <ItemTemplate>

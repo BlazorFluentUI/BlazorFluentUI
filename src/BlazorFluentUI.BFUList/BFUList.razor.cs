@@ -1,421 +1,403 @@
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Threading.Tasks;
-using Microsoft.JSInterop;
-using System.Reactive;
-using BlazorFluentUI.Style;
-using Microsoft.AspNetCore.Components.Rendering;
-using System.Reflection.Emit;
-using System.Reflection;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUList<TItem> : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
+    public partial class BFUList<TItem> : BFUComponentBase, IAsyncDisposable
     {
-        //protected bool firstRender = false;
+        private IJSRuntime? _jsInterop;
 
-        protected const int DEFAULT_ITEMS_PER_PAGE = 10;
-        protected const int DEFAULT_RENDERED_WINDOWS_BEHIND = 2;
-        protected const int DEFAULT_RENDERED_WINDOWS_AHEAD = 2;
+        private ElementReference _spacerBefore;
 
-        private double thresholdChangePercent = 0.10;
+        private ElementReference _spacerAfter;
 
-        //protected ElementReference rootDiv;
-        protected ElementReference surfaceDiv;
-        protected ElementReference contentDiv;
-        protected ElementReference spacerBefore;
-        protected ElementReference spacerAfter;
+        private int _itemsBefore;
 
-        private bool hasMeasuredAverageHeightOnce = false;
+        private int _visibleItemCapacity;
 
+        private int _itemCount;
 
-        long renderCount;
-        //private double _averagePageHeight = 100;
-        private bool isFirstRender = true;
-        private bool _shouldRender = false;
+        private int _loadedItemsStartIndex;
 
-        private int listId;
-        private int numItemsToSkipBefore;
-        private int numItemsToShow;
-        private double averageHeight = 43;
-        private int ItemsToSkipAfter => _itemsSource.Count() - numItemsToSkipBefore - numItemsToShow;
+        private int _lastRenderedItemCount;
 
+        private int _lastRenderedPlaceholderCount;
 
-        //private int minRenderedPage;
-        //private int maxRenderedPage;
-        private Rectangle _lastScrollRect = new Rectangle();
-        private ElementMeasurements _scrollRect = new ElementMeasurements();
-        //private double _scrollHeight;
-        private Rectangle surfaceRect = new Rectangle();
-        private double _height;
-        public double CurrentHeight => _height;
-        
-        
-        private bool _jsAvailable = false;
-        private bool _lastIsVirtualizing = true;
+        private float _itemSize;
 
-        //private object _lastVersion = null;
+        private IEnumerable<TItem>? _loadedItems;
 
-        [Inject] 
-        private IJSRuntime JSRuntime { get; set; }
+        private CancellationTokenSource? _refreshCts;
 
-        [Parameter] 
-        public object Data { get; set; }
+        private Exception? _refreshException;
 
-        //[Parameter] 
-        //public Func<int, Rectangle, int> GetItemCountForPage { get; set; }
+        private ItemsProviderDelegate<TItem> _itemsProvider = default!;
+
+        private RenderFragment<IndexedItem<TItem>>? _itemTemplate;
+
+        private RenderFragment<PlaceholderContext>? _placeholder;
+        private DotNetObjectReference<BFUList<TItem>> _selfReference;
+        private int _listId = -1;
 
         [Parameter]
         public bool IsVirtualizing { get; set; } = true;
+        //[Parameter]
+        //public EventCallback<Viewport> OnViewportChanged { get; set; }
 
-        [Parameter] 
-        public bool ItemFocusable { get; set; } = false;
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; } = default!;
 
-        [Parameter] 
-        public IEnumerable<TItem> ItemsSource { get; set; }
-
-        [Parameter] 
-        public RenderFragment<IndexedItem<TItem>> ItemTemplate { get; set; }
-
-        [Parameter] 
-        public EventCallback<(double, object)> OnListScrollerHeightChanged { get; set; }
-
+        /// <summary>
+        /// Gets or sets the item template for the list.
+        /// </summary>
         [Parameter]
-        public EventCallback<Viewport> OnViewportChanged { get; set; }
+        public RenderFragment<IndexedItem<TItem>>? ChildContent { get; set; }
 
-        private IEnumerable<TItem> _itemsSource;
+        /// <summary>
+        /// Gets or sets the item template for the list.
+        /// </summary>
+        [Parameter]
+        public RenderFragment<IndexedItem<TItem>>? ItemTemplate { get; set; }
 
-        private List<TItem> selectedItems = new List<TItem>();
-        private string _resizeRegistration;
+        /// <summary>
+        /// Gets or sets the template for items that have not yet been loaded in memory.
+        /// </summary>
+        [Parameter]
+        public RenderFragment<PlaceholderContext>? Placeholder { get; set; }
 
-        private Dictionary<int, double> _pageSizes = new Dictionary<int, double>();
-        private bool _needsRemeasure = true;
+        /// <summary>
+        /// Gets the size of each item in pixels. Defaults to 50px.
+        /// </summary>
+        [Parameter]
+        public float ItemSize { get; set; } = 48f;
 
-        private Viewport _viewport = new Viewport();
-        private ElementMeasurements _surfaceRect = new ElementMeasurements();
+        /// <summary>
+        /// Gets or sets the function providing items to the list.
+        /// </summary>
+        [Parameter]
+        public ItemsProviderDelegate<TItem>? ItemsProvider { get; set; }
 
-       
-        protected RenderFragment<RenderFragment<TItem>> ItemContainer { get; set; }
+        /// <summary>
+        /// Gets or sets the fixed item source.
+        /// </summary>
+        [Parameter]
+        public ICollection<TItem>? ItemsSource { get; set; }
 
-        protected override Task OnInitializedAsync()
+        /// <summary>
+        /// Gets or sets a value that determines how many additional items will be rendered
+        /// before and after the visible region. This help to reduce the frequency of rendering
+        /// during scrolling. However, higher values mean that more elements will be present
+        /// in the page.
+        /// </summary>
+        [Parameter]
+        public int OverscanCount { get; set; } = 3;
+
+        /// <summary>
+        /// Instructs the component to re-request data from its <see cref="ItemsProvider"/>.
+        /// This is useful if external data may have changed. There is no need to call this
+        /// when using <see cref="Items"/>.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the completion of the operation.</returns>
+        public async Task RefreshDataAsync()
         {
-            
-            var props = typeof(TItem).GetProperties();
-            var fields = typeof(TItem).GetFields().Where(x=>x.IsPublic);
-            
-
-            return base.OnInitializedAsync();
+            // We don't auto-render after this operation because in the typical use case, the
+            // host component calls this from one of its lifecycle methods, and will naturally
+            // re-render afterwards anyway. It's not desirable to re-render twice.
+            await RefreshDataCoreAsync(renderOnSuccess: false);
         }
 
-        protected override async Task OnParametersSetAsync()
+        /// <inheritdoc />
+        protected override void OnParametersSet()
         {
-
-            if (_itemsSource != ItemsSource)
+            if (ItemSize <= 0)
             {
-                if (this._itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
-                {
-                    (this._itemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged -= ListBase_CollectionChanged;
-                }
-
-                _itemsSource = ItemsSource;
-                //if (_itemsSource != null)
-                //    itemContainers = _itemsSource.Select((x, i) => new ItemContainer<TItem> { Item = x, Index = i }).ToList();
-                //else
-                //    itemContainers.Clear();
-
-                if (this.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged)
-                {
-                    (this.ItemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged += ListBase_CollectionChanged;
-                }
-                
-                _shouldRender = true;
-                _needsRemeasure = true;
+                throw new InvalidOperationException(
+                    $"{GetType()} requires a positive value for parameter '{nameof(ItemSize)}'.");
             }
 
-
-            
-            //CreateCss();
-            await base.OnParametersSetAsync();
-        }
-
-
-        private void ListBase_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            //switch (e.Action)
-            //{
-            //    case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-            //        {
-            //            if (e.NewItems != null)
-            //            {
-            //                foreach (var item in e.NewItems)
-            //                {
-            //                    itemContainers.Add(new ItemContainer<TItem>() { Item = (TItem)item, Index = itemContainers.Count });
-            //                }
-            //            }
-            //            break;
-            //        }
-            //    case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-            //        {
-            //            if (e.OldItems != null)
-            //            {
-            //                foreach (var item in e.OldItems)
-            //                {
-            //                    var found = itemContainers.FirstOrDefault(x => x.Item.Equals((TItem)item));
-            //                    if (found != null)
-            //                        itemContainers.Remove(found);
-            //                }
-            //            }
-            //            break;
-            //        }
-            //    case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-            //        {
-            //            //itemContainers.Clear();
-            //            itemContainers = _itemsSource.Select((x, i) => new ItemContainer<TItem> { Item = x, Index = i }).ToList();
-            //            break;
-            //        }
-            //}
-            _shouldRender = true;
-            InvokeAsync(StateHasChanged);
-        }
-
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var listRules = new HashSet<IRule>();
-            //creates a method that pulls in focusstyles the way the react controls do it.
-            var focusStyleProps = new FocusStyleProps(theme);
-            var mergeStyleResults = FocusStyle.GetFocusStyle(focusStyleProps, ".ms-List-cell-default");
-
-            listRules.Clear();
-            // Cell only
-            listRules.Add(new Rule()
+            if (_itemSize <= 0)
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-top:11px;" +
-                          $"padding-bottom:11px;" +
-                          $"min-height:42px;" +
-                          $"min-width:100%;" +
-                          $"overflow:hidden;" +
-                          $"box-sizing:border-box;" +
-                          $"border-bottom:1px solid {theme.Palette.NeutralLighter};" +
-                          $"display:inline-flex;"
-                          +
-                          mergeStyleResults.MergeRules
-                }
-            });
-            listRules.Add(new Rule()
+                _itemSize = ItemSize;
+            }
+
+            if (ItemsProvider != null)
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default:hover" },
-                Properties = new CssString()
+                if (ItemsSource != null)
                 {
-                    Css = $"background-color:{theme.Palette.NeutralLighter};" 
+                    throw new InvalidOperationException(
+                        $"{GetType()} can only accept one item source from its parameters. " +
+                        $"Do not supply both '{nameof(ItemsSource)}' and '{nameof(ItemsProvider)}'.");
                 }
-            });
-            listRules.Add(new Rule()
+
+                _itemsProvider = ItemsProvider;
+            }
+            else if (ItemsSource != null)
             {
-                Selector = new CssStringSelector() { SelectorName = ".ms-List-cell-default.is-selected" },
-                Properties = new CssString()
-                {
-                    Css = $"background-color:{theme.Palette.NeutralLight};"
-                }
-            });
+                _itemsProvider = DefaultItemsProvider;
 
-            foreach (var rule in mergeStyleResults.AddRules)
-                listRules.Add(rule);
+                // When we have a fixed set of in-memory data, it doesn't cost anything to
+                // re-query it on each cycle, so do that. This means the developer can add/remove
+                // items in the collection and see the UI update without having to call RefreshDataAsync.
+                var refreshTask = RefreshDataCoreAsync(renderOnSuccess: false);
 
-            return listRules;
-        }
-
-       
-        
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {            
-            if (firstRender)
-            {
-                _lastIsVirtualizing = IsVirtualizing;
-                _jsAvailable = true;
-                if (IsVirtualizing)
-                {
-                    var objectRef = DotNetObjectReference.Create(this);
-                    var initResult = await JSRuntime.InvokeAsync<DOMRect>("BlazorFluentUiList.initialize", objectRef, surfaceDiv, spacerBefore, spacerAfter);
-                    this.listId = (int)initResult.Left;
-                    await UpdateViewportAsync(initResult.Right, initResult.Width, initResult.Bottom, initResult.Height);
-                }
-                else
-                {
-                     var viewportMeasurement = await JSRuntime.InvokeAsync<DOMRect>("BlazorFluentUiList.getViewport", surfaceDiv);
-                    await UpdateViewportAsync(viewportMeasurement.Right, viewportMeasurement.Width, viewportMeasurement.Bottom, viewportMeasurement.Height);
-                }
+                // We know it's synchronous and has its own error handling
+                Debug.Assert(refreshTask.IsCompletedSuccessfully);
             }
             else
             {
-                if (_lastIsVirtualizing != IsVirtualizing)
-                {
-                    _lastIsVirtualizing = IsVirtualizing;  //need to make sure this area is run once, otherwise mulitple observers will be set for this viewport leading to blinking
-                    if (IsVirtualizing)
-                    {
-                        var objectRef = DotNetObjectReference.Create(this);
-                        var initResult = await JSRuntime.InvokeAsync<DOMRect>("BlazorFluentUiList.initialize", objectRef, surfaceDiv, spacerBefore, spacerAfter, true);
-                        this.listId = (int)initResult.Left;
-                        await UpdateViewportAsync(initResult.Right, initResult.Width, initResult.Bottom, initResult.Height);
-                    }
-                    else
-                    {
-                        await JSRuntime.InvokeVoidAsync("BlazorFluentUiList.removeList", this.listId);
-                    }
-                }                
+                throw new InvalidOperationException(
+                    $"{GetType()} requires either the '{nameof(ItemsSource)}' or '{nameof(ItemsProvider)}' parameters to be specified " +
+                    $"and non-null.");
             }
-            
 
-            if (IsVirtualizing)//(!hasMeasuredAverageHeightOnce)
+            _itemTemplate = ItemTemplate ?? ChildContent;
+            _placeholder = Placeholder ?? DefaultPlaceholder;
+        }
+
+        /// <inheritdoc />
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
             {
+                _selfReference = DotNetObjectReference.Create(this);
+                _listId = await JSRuntime.InvokeAsync<int>($"BlazorFluentUiList.initialize", _selfReference, _spacerBefore, _spacerAfter);
+            }
+        }
 
-                var averageHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiList.getInitialAverageHeight", this.listId);
-                if (averageHeight != 0 && averageHeight != this.averageHeight)
+        /// <inheritdoc />
+        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        {
+            if (_refreshException != null)
+            {
+                var oldRefreshException = _refreshException;
+                _refreshException = null;
+
+                throw oldRefreshException;
+            }
+            builder.OpenElement(0, "div");
+
+
+            builder.OpenElement(2, "div");
+            builder.AddAttribute(3, "style", GetSpacerStyle(_itemsBefore));
+            builder.AddElementReferenceCapture(4, elementReference => _spacerBefore = elementReference);
+            builder.CloseElement();
+
+            var lastItemIndex = Math.Min(_itemsBefore + _visibleItemCapacity, _itemCount);
+            var renderIndex = _itemsBefore;
+            var placeholdersBeforeCount = Math.Min(_loadedItemsStartIndex, lastItemIndex);
+
+            builder.OpenRegion(5);
+
+            // Render placeholders before the loaded items.
+            for (; renderIndex < placeholdersBeforeCount; renderIndex++)
+            {
+                // This is a rare case where it's valid for the sequence number to be programmatically incremented.
+                // This is only true because we know for certain that no other content will be alongside it.
+                builder.AddContent(renderIndex, _placeholder, new PlaceholderContext(renderIndex, _itemSize));
+            }
+
+            builder.CloseRegion();
+
+            _lastRenderedItemCount = 0;
+
+            // Render the loaded items.
+            if (_loadedItems != null && _itemTemplate != null)
+            {
+                var itemsToShow = _loadedItems
+                    .Skip(_itemsBefore - _loadedItemsStartIndex)
+                    .Take(lastItemIndex - _loadedItemsStartIndex);
+
+                builder.OpenRegion(6);
+
+                foreach (var item in itemsToShow)
                 {
-                    hasMeasuredAverageHeightOnce = true;
-                    this.averageHeight = averageHeight;
-                    StateHasChanged();
+                    builder.OpenElement(7, "div");
+                    builder.SetKey(item);
+                    _itemTemplate(new IndexedItem<TItem> {Item=item, Index = _lastRenderedItemCount + _itemsBefore - _loadedItemsStartIndex })(builder);
+                    _lastRenderedItemCount++;
+
+                    builder.CloseElement();
                 }
 
+                renderIndex += _lastRenderedItemCount;
+
+                builder.CloseRegion();
             }
 
-            await base.OnAfterRenderAsync(firstRender);
+            _lastRenderedPlaceholderCount = Math.Max(0, lastItemIndex - _itemsBefore - _lastRenderedItemCount);
+
+            builder.OpenRegion(9);
+
+            // Render the placeholders after the loaded items.
+            for (; renderIndex < lastItemIndex; renderIndex++)
+            {
+                builder.AddContent(renderIndex, _placeholder, new PlaceholderContext(renderIndex, _itemSize));
+            }
+
+            builder.CloseRegion();
+
+            var itemsAfter = Math.Max(0, _itemCount - _visibleItemCapacity - _itemsBefore);
+
+            builder.OpenElement(10, "div");
+            builder.AddAttribute(11, "style", GetSpacerStyle(itemsAfter));
+            builder.AddElementReferenceCapture(12, elementReference => _spacerAfter = elementReference);
+
+            builder.CloseElement();
+
+            //builder.AddElementReferenceCapture(13, elemRef => RootElementReference = elemRef);
+            builder.CloseElement();
+
+        }
+
+        private string GetSpacerStyle(int itemsInSpacer)
+            => $"height: {itemsInSpacer * _itemSize}px;background-color:red;";
+
+        [JSInvokable]
+        public void OnBeforeSpacerVisible(float spacerSize, float spacerSeparation, float containerSize)
+        {
+            CalcualteItemDistribution(spacerSize, spacerSeparation, containerSize, out var itemsBefore, out var visibleItemCapacity);
+
+            UpdateItemDistribution(itemsBefore, visibleItemCapacity);
         }
 
         [JSInvokable]
-        public async void OnSpacerVisible(string spacerType, DOMRect visibleRect, double containerHeight, double spacerBeforeHeight, double spacerAfterHeight)
+        public void OnAfterSpacerVisible(float spacerSize, float spacerSeparation, float containerSize)
         {
-            // Reset to match values corresponding to this event
-            numItemsToSkipBefore = (int)Math.Round(spacerBeforeHeight / averageHeight);
-            numItemsToShow = _itemsSource.Count() - numItemsToSkipBefore - (int)Math.Round(spacerAfterHeight / averageHeight);
+            CalcualteItemDistribution(spacerSize, spacerSeparation, containerSize, out var itemsAfter, out var visibleItemCapacity);
 
-            if (spacerType == "before" && numItemsToSkipBefore > 0)
-            {
-                var visibleTop = visibleRect.Top;
-                var firstVisibleItemIndex = (int)Math.Floor(visibleTop / averageHeight);
-                numItemsToShow = (int)Math.Ceiling(containerHeight / averageHeight) + 1;
-                numItemsToSkipBefore = Math.Max(0, firstVisibleItemIndex);
-                StateHasChanged();
-            }
-            else if (spacerType == "after" && ItemsToSkipAfter > 0)
-            {
-                var visibleBottom = visibleRect.Top + visibleRect.Height;
-                var lastVisibleItemIndex = numItemsToSkipBefore + numItemsToShow + (int)Math.Ceiling(visibleBottom / averageHeight);
-                numItemsToShow = (int)Math.Ceiling(containerHeight / averageHeight) + 1;
-                numItemsToSkipBefore = Math.Max(0, lastVisibleItemIndex - numItemsToShow);
-                StateHasChanged();
-            }
+            var itemsBefore = Math.Max(0, _itemCount - itemsAfter - visibleItemCapacity);
 
-            await UpdateViewportAsync(visibleRect.Right, visibleRect.Width, visibleRect.Bottom, visibleRect.Height);
+            UpdateItemDistribution(itemsBefore, visibleItemCapacity);
         }
 
-
-
-        [JSInvokable]
-        public async void ResizeHandler(double width, double height)
+        private void CalcualteItemDistribution(
+            float spacerSize,
+            float spacerSeparation,
+            float containerSize,
+            out int itemsInSpacer,
+            out int visibleItemCapacity)
         {
-            //await MeasureContainerAsync();
+            if (_lastRenderedItemCount > 0)
+            {
+                _itemSize = (spacerSeparation - (_lastRenderedPlaceholderCount * _itemSize)) / _lastRenderedItemCount;
+            }
 
-            _viewport.Height = _surfaceRect.cheight;
-            _viewport.Width = _surfaceRect.cwidth;
-            _viewport.ScrollHeight = _scrollRect.height;
-            _viewport.ScrollWidth = _scrollRect.width;
-            await OnViewportChanged.InvokeAsync(_viewport);
+            if (_itemSize <= 0)
+            {
+                // At this point, something unusual has occurred, likely due to misuse of this component.
+                // Reset the calculated item size to the user-provided item size.
+                _itemSize = ItemSize;
+            }
+
+            itemsInSpacer = Math.Max(0, (int)Math.Floor(spacerSize / _itemSize) - OverscanCount);
+            visibleItemCapacity = (int)Math.Ceiling(containerSize / _itemSize) + 2 * OverscanCount;
         }
 
-        [JSInvokable]
-        public async void OnScroll(ScrollEventArgs args)
-        {            
-            averageHeight = args.AverageHeight;
-            // TODO: Support horizontal scrolling too
-            var relativeTop = args.ContainerRect.Top - args.ContentRect.Top;
-            numItemsToSkipBefore = Math.Max(0, (int)(relativeTop / averageHeight));
+        private void UpdateItemDistribution(int itemsBefore, int visibleItemCapacity)
+        {
+            if (itemsBefore != _itemsBefore || visibleItemCapacity != _visibleItemCapacity)
+            {
+                _itemsBefore = itemsBefore;
+                _visibleItemCapacity = visibleItemCapacity;
+                var refreshTask = RefreshDataCoreAsync(renderOnSuccess: true);
 
-            var visibleHeight = args.ContainerRect.Bottom - (args.ContentRect.Top + numItemsToSkipBefore * averageHeight);
-            numItemsToShow = (int)Math.Ceiling(visibleHeight / averageHeight) * 3;
-
-            await UpdateViewportAsync(args.ScrollRect.width, args.ContainerRect.Width, args.ScrollRect.height, args.ContainerRect.Height);
-
-            _lastScrollRect = args.ScrollRect;
-
-            StateHasChanged();
+                if (!refreshTask.IsCompleted)
+                {
+                    StateHasChanged();
+                }
+            }
         }
 
-        private async Task UpdateViewportAsync(double scrollWidth, double width, double scrollHeight, double height)
+        private async ValueTask RefreshDataCoreAsync(bool renderOnSuccess)
         {
-            bool hasChanged = false;
-            if (_viewport.ScrollWidth != scrollWidth)
+            _refreshCts?.Cancel();
+            CancellationToken cancellationToken;
+
+            if (_itemsProvider == DefaultItemsProvider)
             {
-                hasChanged = true;
-                _viewport.ScrollWidth = scrollWidth;
+                // If we're using the DefaultItemsProvider (because the developer supplied a fixed
+                // Items collection) we know it will complete synchronously, and there's no point
+                // instantiating a new CancellationTokenSource
+                _refreshCts = null;
+                cancellationToken = CancellationToken.None;
             }
-            if (_viewport.Width != width)
+            else
             {
-                hasChanged = true;
-                _viewport.Width = width;
-            }
-            if (_viewport.ScrollHeight != scrollHeight)
-            {
-                hasChanged = true;
-                _viewport.ScrollHeight = scrollHeight;
-            }
-            if (_viewport.Height != height)
-            {
-                hasChanged = true;
-                _viewport.Height = height;
+                _refreshCts = new CancellationTokenSource();
+                cancellationToken = _refreshCts.Token;
             }
 
-            if (hasChanged)
-                await OnViewportChanged.InvokeAsync(_viewport);
+            var request = new ItemsProviderRequest(_itemsBefore, _visibleItemCapacity, cancellationToken);
 
+            try
+            {
+                var result = await _itemsProvider(request);
+
+                // Only apply result if the task was not canceled.
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    _itemCount = result.TotalItemCount;
+                    _loadedItems = result.Items;
+                    _loadedItemsStartIndex = request.StartIndex;
+
+                    if (renderOnSuccess)
+                    {
+                        StateHasChanged();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                if (e is OperationCanceledException oce && oce.CancellationToken == cancellationToken)
+                {
+                    // No-op; we canceled the operation, so it's fine to suppress this exception.
+                }
+                else
+                {
+                    // Cache this exception so the renderer can throw it.
+                    _refreshException = e;
+
+                    // Re-render the component to throw the exception.
+                    StateHasChanged();
+                }
+            }
         }
 
-
-        public async void Dispose()
+        private ValueTask<ItemsProviderResult<TItem>> DefaultItemsProvider(ItemsProviderRequest request)
         {
-            //if (OnListScrollerHeightChanged.HasDelegate)
-            //    await OnListScrollerHeightChanged.InvokeAsync((0, Data));
-            //_heightSub?.Dispose();
-            //_scrollSubscription?.Dispose();
-
-            //_updatesSubscription?.Dispose();
-            if (_itemsSource is System.Collections.Specialized.INotifyCollectionChanged)
-            {
-                (_itemsSource as System.Collections.Specialized.INotifyCollectionChanged).CollectionChanged -= ListBase_CollectionChanged;
-            }
-            if (_resizeRegistration != null)
-            {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.deregisterResizeEvent", _resizeRegistration);
-            }
-            Debug.WriteLine("List was disposed");
+            return ValueTask.FromResult(new ItemsProviderResult<TItem>(
+                ItemsSource!.Skip(request.StartIndex).Take(request.Count),
+                ItemsSource!.Count));
         }
 
-        public class ScrollEventArgs
+        private RenderFragment DefaultPlaceholder(PlaceholderContext context) => (builder) =>
         {
-            public DOMRect ContainerRect { get; set; }
-            public Rectangle ScrollRect { get; set; }
-            public DOMRect ContentRect { get; set; }
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "style", $"height: {_itemSize}px;");
+            builder.CloseElement();
+        };
 
-            public double AverageHeight { get; set; }
-        }
-
-        public class DOMRect
+        /// <inheritdoc />
+        public async ValueTask DisposeAsync()
         {
-            public double Top { get; set; }
-            public double Bottom { get; set; }
-            public double Left { get; set; }
-            public double Right { get; set; }
-            public double Width { get; set; }
-            public double Height { get; set; }
+            _refreshCts?.Cancel();
+
+            if (_selfReference != null)
+            {
+                if (_listId != -1)
+                {
+                    await JSRuntime.InvokeVoidAsync("BlazorFluentUiList.removeList", _listId);
+                }
+                _selfReference.Dispose();
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-
+// /// <reference path="../../BlazorFluentUI.BFUFocusTrapZone/wwwroot/focusTrapZone.ts" />
+/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
 
 namespace BlazorFluentUiList {
 
@@ -7,6 +8,10 @@ namespace BlazorFluentUiList {
 
     invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
     invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
+    }
+
+    interface SerializableDictionary<T> {
+        [K: string]: T;
     }
 
     interface IRectangle {
@@ -18,53 +23,53 @@ namespace BlazorFluentUiList {
         bottom?: number;
     }
 
-    interface IElementMeasurements {
-        left: number;
-        top: number;
-        width: number;
-        height: number;
-        right?: number;
-        bottom?: number;
-        cwidth: number;
-        cheight: number;
-        test: string;
-    }
+  //  interface IElementMeasurements {
+  //      left: number;
+  //      top: number;
+  //      width: number;
+  //      height: number;
+  //      right?: number;
+  //      bottom?: number;
+  //      cwidth: number;
+  //      cheight: number;
+  //      test: string;
+  //  }
 
-  type ICancelable<T> = {
-    flush: () => T;
-    cancel: () => void;
-    pending: () => boolean;
-  };
+  //type ICancelable<T> = {
+  //  flush: () => T;
+  //  cancel: () => void;
+  //  pending: () => boolean;
+  //};
 
-  export function measureElement(element: HTMLElement): IRectangle {
-    var rect: IRectangle = {
-      width: element.clientWidth,
-      height: element.clientHeight,
-      left: 0,
-      top: 0
-    }
-    return rect;
-  };
+  //export function measureElement(element: HTMLElement): IRectangle {
+  //  var rect: IRectangle = {
+  //    width: element.clientWidth,
+  //    height: element.clientHeight,
+  //    left: 0,
+  //    top: 0
+  //  }
+  //  return rect;
+  //};
 
-  export function measureScrollWindow(element: HTMLElement): IRectangle {
-    var rect: IRectangle = {
-      width: element.scrollWidth,
-      height: element.scrollHeight,
-      top: element.scrollTop,
-      left: element.scrollLeft,
-      bottom: element.scrollTop + element.clientHeight,
-        right: element.scrollLeft + element.clientWidth        
-    }
-    return rect;
-  };
+  //export function measureScrollWindow(element: HTMLElement): IRectangle {
+  //  var rect: IRectangle = {
+  //    width: element.scrollWidth,
+  //    height: element.scrollHeight,
+  //    top: element.scrollTop,
+  //    left: element.scrollLeft,
+  //    bottom: element.scrollTop + element.clientHeight,
+  //      right: element.scrollLeft + element.clientWidth        
+  //  }
+  //  return rect;
+  //};
 
-    export function measureElementRect(element: HTMLElement): IElementMeasurements {
-        var rect = element.getBoundingClientRect();
+  //  export function measureElementRect(element: HTMLElement): IElementMeasurements {
+  //      var rect = element.getBoundingClientRect();
 
-        var elementMeasurements: IElementMeasurements = { height : rect.height, width: rect.width, left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, cheight:element.clientHeight, cwidth:element.clientWidth, test:"Random!"};
+  //      var elementMeasurements: IElementMeasurements = { height : rect.height, width: rect.width, left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, cheight:element.clientHeight, cwidth:element.clientWidth, test:"Random!"};
 
-        return elementMeasurements;
-    };
+  //      return elementMeasurements;
+  //  };
 
     var _lastId: number = 0;
     var cachedLists: Map<number, BFUList> = new Map<number, BFUList>();
@@ -76,57 +81,77 @@ namespace BlazorFluentUiList {
         id: number;
 
         component: DotNetReferenceType;
+        rootElement: HTMLElement;
         scrollElement: HTMLElement;
+        surfaceElement: HTMLElement;
         spacerBefore: HTMLElement;
         spacerAfter: HTMLElement;
 
         intersectionObserver: IntersectionObserver;
-        mutationObserver: MutationObserver;
+        mutationObserverBefore: MutationObserver;
+        mutationObserverAfter: MutationObserver;
 
-        constructor(component: DotNetReferenceType, scrollElement: HTMLElement, spacerBefore: HTMLElement, spacerAfter: HTMLElement) {
+        constructor(component: DotNetReferenceType, spacerBefore: HTMLElement, spacerAfter: HTMLElement) {
             this.id = _lastId++;
 
             this.component = component;
-            this.scrollElement = scrollElement;
+
+            //this.surfaceElement = rootElement.children.item(0) as HTMLElement;
+
+            this.scrollElement = BlazorFluentUiBaseComponent.findScrollableParent(spacerBefore);
+
+            this.rootElement = spacerBefore.parentElement;
+            //this.scrollElement = scrollElement;
             this.spacerBefore = spacerBefore;
             this.spacerAfter = spacerAfter;
 
             const rootMargin: number = 50;
             this.intersectionObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && (entry.target as HTMLElement).offsetHeight > 0) {
-                        (<any>window).requestIdleCallback(() => {
-                            const spacerType = entry.target === this.spacerBefore ? 'before' : 'after';
-                            const visibleRect = {
-                                top: entry.intersectionRect.top - entry.boundingClientRect.top,
-                                left: entry.intersectionRect.left - entry.boundingClientRect.left,
-                                width: entry.intersectionRect.width,
-                                height: entry.intersectionRect.height,
-                                bottom: this.scrollElement.scrollHeight,
-                                right: this.scrollElement.scrollWidth
-                            };
-                            this.component.invokeMethodAsync('OnSpacerVisible', spacerType, visibleRect, this.scrollElement.offsetHeight + 2 * rootMargin, this.spacerBefore.offsetHeight, this.spacerAfter.offsetHeight);
-                        });
+                entries.forEach((entry): void => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+
+                    const spacerBeforeRect = this.spacerBefore.getBoundingClientRect();
+                    const spacerAfterRect = this.spacerAfter.getBoundingClientRect();
+                    const spacerSeparation = spacerAfterRect.top - spacerBeforeRect.bottom;
+                    const containerSize = entry.rootBounds?.height;
+
+                    if (entry.target === this.spacerBefore) {
+                        component.invokeMethodAsync('OnBeforeSpacerVisible', entry.intersectionRect.top - entry.boundingClientRect.top, spacerSeparation, containerSize);
+                    } else if (entry.target === this.spacerAfter && this.spacerAfter.offsetHeight > 0) {
+                        // When we first start up, both the "before" and "after" spacers will be visible, but it's only relevant to raise a
+                        // single event to load the initial data. To avoid raising two events, skip the one for the "after" spacer if we know
+                        // it's meaningless to talk about any overlap into it.
+                        component.invokeMethodAsync('OnAfterSpacerVisible', entry.boundingClientRect.bottom - entry.intersectionRect.bottom, spacerSeparation, containerSize);
                     }
                 });
             }, {
-                root: scrollElement, rootMargin: `${rootMargin}px`
+                root: this.scrollElement, rootMargin: `${rootMargin}px`
             });
             this.intersectionObserver.observe(this.spacerBefore);
             this.intersectionObserver.observe(this.spacerAfter);
 
             // After each render, refresh the info about intersections
-            this.mutationObserver = new MutationObserver(mutations => {
-                this.intersectionObserver.unobserve(this.spacerBefore);
-                this.intersectionObserver.unobserve(this.spacerAfter);
+            this.mutationObserverBefore = new MutationObserver((): void => {
+                this.intersectionObserver.unobserve(this.spacerBefore);                
                 this.intersectionObserver.observe(this.spacerBefore);
+            });
+            this.mutationObserverBefore.observe(this.spacerBefore, { attributes: true });
+
+            this.mutationObserverAfter = new MutationObserver((): void => {
+                this.intersectionObserver.unobserve(this.spacerAfter);
                 this.intersectionObserver.observe(this.spacerAfter);
             });
-            this.mutationObserver.observe(spacerBefore, { attributes: true })
+            this.mutationObserverAfter.observe(this.spacerAfter, { attributes: true })
+
+            
+
         }
 
         disconnect(): void {
-            this.mutationObserver.disconnect();
+            this.mutationObserverBefore.disconnect();
+            this.mutationObserverAfter.disconnect();
 
             this.intersectionObserver.unobserve(this.spacerBefore);
             this.intersectionObserver.unobserve(this.spacerAfter);
@@ -134,22 +159,33 @@ namespace BlazorFluentUiList {
 
         }
 
-        getInitialAverageHeight(): number {
+
+
+        getAverageHeight(): number {
             let calculate: boolean = false;
             let averageHeight: number = 0;
-            for (let i = 0; i < this.scrollElement.children.length; i++) {
-                let item = this.scrollElement.children.item(i);
-                let index = item.getAttribute("data-hash");
+            let newItems: SerializableDictionary<number> = {};
+            for (let i = 0; i < this.surfaceElement.children.length; i++) {
+                let item = this.surfaceElement.children.item(i);
+                let index = item.getAttribute("data-item-index");
                 if (index != null && !this.cachedSizes.has(index) && this.cachedSizes.get(index) != item.clientHeight) {
                     this.cachedSizes.set(index, item.clientHeight);
+                    newItems[index] = item.clientHeight;
                     calculate = true;
                 }
             }
             if (calculate) {
+                this.component.invokeMethodAsync("UpdateHeightCache", newItems);
                 averageHeight = [...this.cachedSizes.values()].reduce((p, c, i, a) => p + c) / this.cachedSizes.size;
             }
 
             return averageHeight;
+        }
+
+        updateItemHeights(): void {
+
+
+
         }
 
     }
@@ -159,28 +195,16 @@ namespace BlazorFluentUiList {
         if (list == null) {
             return 0;
         } else {
-            return list.getInitialAverageHeight();
+            return list.getAverageHeight();
         }
     }
     
-    export function initialize(component: DotNetReferenceType, scrollElement: HTMLElement, spacerBefore: HTMLElement, spacerAfter: HTMLElement, reset: boolean=false): any {
+    export function initialize(component: DotNetReferenceType, spacerBefore: HTMLElement, spacerAfter: HTMLElement, reset: boolean=false): any {
 
-        //if (reset) {
-        //    scrollElement.scrollTo(0, 0);
-        //}
-
-        let list: BFUList = new BFUList(component, scrollElement, spacerBefore, spacerAfter);
+        let list: BFUList = new BFUList(component, spacerBefore, spacerAfter);
         cachedLists.set(list.id, list);
 
-        const visibleRect = {
-            top: 0,
-            left: list.id,
-            width: scrollElement.clientWidth,
-            height: scrollElement.clientHeight,
-            bottom: scrollElement.scrollHeight,
-            right: scrollElement.scrollWidth
-        };
-        return visibleRect;
+        return list.id;
     }
 
     export function removeList(id: number) {

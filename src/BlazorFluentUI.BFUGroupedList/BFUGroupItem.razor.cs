@@ -17,25 +17,25 @@ using System.Reactive;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUGroupedListAuto<TItem,TKey> : BFUComponentBase, IDisposable
+    public partial class BFUGroupItem<TItem, TKey> : BFUComponentBase, IAsyncDisposable
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
         private BFUList<IGroupedListItem3> listReference;
 
-        private ReadOnlyObservableCollection<IGroupedListItem3> dataItems;
+        //private ReadOnlyObservableCollection<IGroupedListItem3> dataItems;
 
         //private IEnumerable<Group<TItem,TKey>> _groups;
 
         private const double COMPACT_ROW_HEIGHT = 32;
         private const double ROW_HEIGHT = 42;
 
-        private SourceCache<TItem, TKey> sourceCache;
+        //private SourceCache<TItem, TKey> sourceCache;
         //private SourceList<TItem> sourceList;
-        private IDisposable sourceListSubscription;
+       // private IDisposable sourceListSubscription;
 
         //private TItem _rootGroup;
-        private IEnumerable<TItem> _itemsSource;
+        //private IEnumerable<TItem> _itemsSource;
 
         private IDisposable _selectionSubscription;
         private IDisposable _transformedDisposable;
@@ -62,7 +62,7 @@ namespace BlazorFluentUI
         public Func<TItem, MouseEventArgs, Task>? ItemClicked { get; set; }
 
         [Parameter]
-        public IList<TItem>? ItemsSource { get; set; }
+        public ICollection<IGroupedListItem3>? ItemsSource { get; set; }
 
         [Parameter]
         public bool GroupSortDescending { get; set; }
@@ -94,10 +94,7 @@ namespace BlazorFluentUI
         [Parameter]
         public IList<bool>? SortDescending { get; set; }
 
-        [Parameter]
-        public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
-
-
+        
         private Func<TItem, object> getKeyInternal;
         private IDisposable sourceCacheSubscription;
         private ReadOnlyObservableCollection<IGroupedListItem3> groupedUIListItems;
@@ -177,7 +174,7 @@ namespace BlazorFluentUI
             //            }
             //        }
             //        SelectionZone.RemoveKeys(listToDeselect);
-                    
+
             //    }
             //    else
             //    {
@@ -260,25 +257,14 @@ namespace BlazorFluentUI
 
         public void ForceUpdate()
         {
-            _itemsSource = null;
+            //_itemsSource = null;
 
             StateHasChanged();
         }
 
         protected override async Task OnParametersSetAsync()
         {
-            //if (GetKey == null)
-            //{
-            //    if (!(ItemsSource is IList<TItem>))
-            //    {
-            //        throw new Exception("ItemsSource must either have GetKey set to point to a key value for each item OR ItemsSource must be an indexable list that implements IList.");
-            //    }
-            //    getKeyInternal = item => ItemsSource.IndexOf(item);
-            //}
-            //else
-            //{
-            //    getKeyInternal = GetKey;
-            //}
+
             if (GetKey == null)
                 throw new Exception("Must have GetKey.");
 
@@ -306,9 +292,9 @@ namespace BlazorFluentUI
                         sortExpressionComparer.OnNext(new OriginalSortComparer<TItem>((IList<TItem>)ItemsSource)); // if the original list is an IList (order matters) retain this original order when sorting hasn't been enabled.
                     else
                         sortExpressionComparer.OnNext(new SortExpressionComparer<TItem>());
-                    
+
                 }
-              
+
             }
 
             if (GroupSortDescending != _groupSortDescending)
@@ -323,20 +309,16 @@ namespace BlazorFluentUI
 
             if (GroupBy != null)
             {
-                if (ItemsSource != null && !ItemsSource.Equals(_itemsSource))
-                {
-                    _itemsSource = ItemsSource;
-                    CreateSourceCache();
-                    
-                    if (_itemsSource != null)
-                        sourceCache.AddOrUpdate(_itemsSource);
-                }
-            }
-            else if (SubGroupSelector != null)
-            {
-              
-            }
+                //if (ItemsSource != null && !ItemsSource.Equals(_itemsSource))
+                //{
+                //    //_itemsSource = ItemsSource;
+                //    CreateSourceCache();
 
+                //    if (_itemsSource != null)
+                //        sourceCache.AddOrUpdate(_itemsSource);
+                //}
+            }
+           
 
 
             await base.OnParametersSetAsync();
@@ -349,52 +331,7 @@ namespace BlazorFluentUI
             return base.OnAfterRenderAsync(firstRender);
         }
 
-        private void CreateSourceCache()
-        {
-            sourceCacheSubscription?.Dispose();
-            sourceCacheSubscription = null;
-
-            sourceListSubscription?.Dispose();
-            sourceListSubscription = null;
-
-            if (_itemsSource == null)
-            {
-                return;
-            }
-
-            sourceCache = new SourceCache<TItem,TKey>(GetKey);
-
-            var firstGrouping = GroupBy.FirstOrDefault();
-            var remainingGrouping = GroupBy.Skip(1);
-
-            var published = sourceCache.Connect()                
-                .Publish();
-
-            published.Group(firstGrouping)
-                .Transform(group =>
-                {
-                    return new HeaderItem3<TItem, TKey>(group, remainingGrouping,0) as IGroupedListItem3;
-                })
-                .Bind(out groupedUIListItems)
-                .Do(_ => {
-                    InvokeAsync(StateHasChanged);
-                    })
-                //.Do(_ => Debug.WriteLine($"There are {groupedUIListItems.Count} items to render."))
-                .Subscribe(x => { }, error => {
-                    Debug.WriteLine(error.Message);
-                });
-
-            published.Bind(out var selectionItems)
-                .Subscribe(x => { }, error =>
-                {
-                    Debug.WriteLine(error.Message);
-                });
-
-            sourceListSubscription =published.Connect();
-
-            Selection?.SetItems(selectionItems);
-        }
-
+        
 
         //public void SelectAll()
         //{
@@ -402,10 +339,12 @@ namespace BlazorFluentUI
         //}
 
 
-        public void Dispose()
+
+        public ValueTask DisposeAsync()
         {
             _transformedDisposable?.Dispose();
             _selectionSubscription?.Dispose();
+            return ValueTask.CompletedTask;
         }
     }
 }

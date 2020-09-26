@@ -2,6 +2,7 @@
 using DynamicData.Binding;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsListAuto<TItem> : BFUComponentBase
+    public partial class BFUDetailsListAuto<TItem> : BFUComponentBase, IAsyncDisposable
     {
         private IEnumerable<BFUDetailsRowColumn<TItem>> _columns;
 
@@ -90,6 +91,9 @@ namespace BlazorFluentUI
         [Parameter]
         public bool SelectionPreservedOnEmptyClick { get; set; }
 
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
+
         private Selection<TItem> _selection = new Selection<TItem>();
 
         //State
@@ -103,7 +107,7 @@ namespace BlazorFluentUI
 
         Dictionary<string, double> _columnOverrides = new Dictionary<string, double>();
 
-        BFUGroupedListAuto<TItem>? groupedList;
+        BFUGroupedListAuto<TItem,object>? groupedList;
         BFUList<TItem>? list;
         BFUSelectionZone<TItem>? selectionZone;
 
@@ -127,6 +131,8 @@ namespace BlazorFluentUI
 
         private IList<Func<TItem, object>>? groupSortSelectors;
         private IList<bool>? groupSortDescendingList;
+        private DotNetObjectReference<BFUDetailsListAuto<TItem>> selfReference;
+        private int _viewportRegistration;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -470,9 +476,15 @@ namespace BlazorFluentUI
         //    //return Task.CompletedTask;
         //}
 
-        protected override Task OnAfterRenderAsync(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            return base.OnAfterRenderAsync(firstRender);
+            if (firstRender)
+            {
+                selfReference = DotNetObjectReference.Create(this);
+                _viewportRegistration = await JSRuntime.InvokeAsync<int>("BlazorFluentUiBaseComponent.addViewport", selfReference, RootElementReference);
+                //var viewport = await JSRuntime.InvokeAsync<Viewport>("BFUBaseComponent.registerResizeEvent");
+            }
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         private void OnHeaderKeyDown(KeyboardEventArgs keyboardEventArgs)
@@ -534,14 +546,27 @@ namespace BlazorFluentUI
             //}
         }
 
-        private void ViewportChangedHandler(Viewport viewport)
+        [JSInvokable]
+        public void ViewportChanged(Viewport viewport)
         {
             _lastViewport = _viewport;
             _viewport = viewport;
             //Debug.WriteLine($"Viewport changed: {viewport.ScrollWidth}");
             if (_viewport != null)
+            {
                 AdjustColumns(items, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true);
+                InvokeAsync(StateHasChanged);
+            }
         }
+
+        //private void ViewportChangedHandler(Viewport viewport)
+        //{
+        //    _lastViewport = _viewport;
+        //    _viewport = viewport;
+        //    //Debug.WriteLine($"Viewport changed: {viewport.ScrollWidth}");
+        //    if (_viewport != null)
+        //        AdjustColumns(items, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true);
+        //}
 
         private void AdjustColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<BFUDetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex = -1)
         {
@@ -554,7 +579,7 @@ namespace BlazorFluentUI
             var lastWidth = _lastWidth;
             var lastSelectionMode = _lastSelectionMode;
 
-            if (!forceUpdate && _lastViewport.ScrollWidth == _viewport.ScrollWidth && SelectionMode == newSelectionMode && (Columns == null || newColumns == Columns))
+            if (!forceUpdate && _lastViewport.Width == _viewport.Width && SelectionMode == newSelectionMode && (Columns == null || newColumns == Columns))
                 return Enumerable.Empty<BFUDetailsRowColumn<TItem>>();
 
             // skipping default column builder... user must provide columns always
@@ -572,11 +597,11 @@ namespace BlazorFluentUI
             {
                 if (resizingColumnIndex != -1)
                 {
-                    adjustedColumns = GetJustifiedColumnsAfterResize(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.ScrollWidth, resizingColumnIndex);
+                    adjustedColumns = GetJustifiedColumnsAfterResize(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.Width, resizingColumnIndex);
                 }
                 else
                 {
-                    adjustedColumns = GetJustifiedColumns(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.ScrollWidth, resizingColumnIndex);
+                    adjustedColumns = GetJustifiedColumns(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.Width, resizingColumnIndex);
                 }
 
                 foreach (var col in adjustedColumns)
@@ -710,6 +735,15 @@ namespace BlazorFluentUI
         private void OnColumnAutoResized(ItemContainer<BFUDetailsRowColumn<TItem>> itemContainer)
         {
             // TO-DO - will require measuring row cells, jsinterop
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (_viewportRegistration != -1)
+            {
+                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.removeViewport", _viewportRegistration);
+            }
+            selfReference?.Dispose();
         }
     }
 }

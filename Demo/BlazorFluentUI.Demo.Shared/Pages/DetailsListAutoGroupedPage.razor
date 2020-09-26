@@ -12,21 +12,23 @@
     <BFUTextField Label="Filter Description"
                   Value=@filter
                   OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => (prop as string).Contains(filter); }) />
-    <BFUDetailsListAuto ItemsSource="dataSource"
-                    @ref="detailsList"
-                    Columns="columnsSource"
-                    GetKey=@(x=>x.Key)
-                    TItem="DataItem"
-                    IsVirtualizing="isVirtualizing"
-                    GroupBy=@(new List<Func<DataItem,object>> 
-                              { 
-                                  x=>x.GroupName, 
-                                  x=>x.KeyNumber % 2 == 0 ? "even" :"odd" 
+    <div data-is-scrollable="true"
+         style="height:100%;overflow-y:auto;">
+        <BFUDetailsListAuto ItemsSource="dataSource"
+                            @ref="detailsList"
+                            Columns="columnsSource"
+                            GetKey=@(x=>x.Key)
+                            TItem="DataItem"
+                            IsVirtualizing="isVirtualizing"
+                            GroupBy=@(new List<Func<DataItem,object>>
+                              {
+                                  x=>x.GroupName,
+                                  x=>x.KeyNumber % 2 == 0 ? "even" :"odd"
                               })
-                    LayoutMode="DetailsListLayoutMode.Justified"
-                    
-                    SelectionMode="SelectionMode.Multiple">
-    </BFUDetailsListAuto>
+                            LayoutMode="DetailsListLayoutMode.Justified"
+                            SelectionMode="SelectionMode.Multiple">
+        </BFUDetailsListAuto>
+    </div>
 </BFUStack>
 
 @code {
@@ -58,7 +60,7 @@
 
         var data = new System.Collections.Generic.List<DataItem>();
 
-        for (var i = 0; i < 6; i++)
+        for (var i = 0; i < 40; i++)
         {
             count++;
             data.Add(new DataItem(count));

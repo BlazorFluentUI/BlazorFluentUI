@@ -1,8 +1,46 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
+@typeparam TItem
+@typeparam TKey
 
-@code {
-    [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public bool IsSelected { get; set; }
+<BFUList TItem="IGroupedListItem3"
+         @ref="listReference"
+         ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
+         IsVirtualizing=@IsVirtualizing
+         ItemsSource=@ItemsSource
+         OnViewportChanged=@OnViewportChanged>
+    <ItemTemplate>
+        @if (context.Item is HeaderItem3<TItem, TKey>)
+        {
+            var header = context.Item as HeaderItem3<TItem, TKey>;
+            <BFUGroupHeader IsOpen=@header.IsOpen
+                            OnOpenChanged=@((isOpen) => header.IsOpen = isOpen)
+                            Count=@header.Count
+                            GroupLevel=@header.Depth
+                            Name=@header.Name
+                            Compact=@Compact
+                            IsSelectionCheckVisible=@(SelectionZone != null)
+                            OnClick=@(() => OnHeaderClicked(context))
+                            OnToggle=@(() => OnHeaderToggled(context)) />
+            @if (header.IsOpen)
+            {
+                <BFUGroupItem ItemsSource=@header.Items
+                              TItem=@TItem
+                              TKey=@TKey
+                              GetKey=@GetKey
+                              IsVirtualizing=@IsVirtualizing
+                              Compact=@Compact
+                              OnViewportChanged=@OnViewportChanged
+                              ItemTemplate=@ItemTemplate
+                              SelectionMode=@SelectionMode />
 
-}
+            }
+        }
+        else
+        {
+
+            @ItemTemplate(context)
+
+        }
+    </ItemTemplate>
+</BFUList>

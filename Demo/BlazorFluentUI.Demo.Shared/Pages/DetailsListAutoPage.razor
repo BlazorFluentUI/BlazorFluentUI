@@ -19,16 +19,18 @@
     <BFUTextField Label="Filter Description"
                   Value=@filter
                   OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => prop.Contains(filter); }) />
-
-    <BFUDetailsListAuto ItemsSource="dataSource"
-                    IsVirtualizing="isVirtualizing"
-                    Compact="isCompact"
-                    Columns="columnsSource"
-                    GetKey=@(x=>x.Key)
-                    LayoutMode="DetailsListLayoutMode.Justified"
-                    @bind-Selection="selection"
-                    SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
-                    @ref="detailsList" />
+    <div data-is-scrollable="true"
+         style="height:100%;overflow-y:auto;">
+        <BFUDetailsListAuto ItemsSource="dataSource"
+                            IsVirtualizing="isVirtualizing"
+                            Compact="isCompact"
+                            Columns="columnsSource"
+                            GetKey=@(x=>x.Key)
+                            LayoutMode="DetailsListLayoutMode.Justified"
+                            @bind-Selection="selection"
+                            SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
+                            @ref="detailsList" />
+    </div>
 </BFUStack>
 
 @code {

@@ -1,22 +1,23 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 @typeparam TItem
+@typeparam TKey
 
 @if (groupedUIListItems != null)
 {
-    <BFUList TItem="GroupedListItem2<TItem>"
+    <BFUList TItem="IGroupedListItem3"
              @ref="listReference"
              ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
              IsVirtualizing=@IsVirtualizing
              ItemsSource=@groupedUIListItems
              OnViewportChanged=@OnViewportChanged>
         <ItemTemplate>
-            @if (context.Item is HeaderItem2<TItem>)
+            @if (context.Item is HeaderItem3<TItem,TKey>)
             {
-                var header = context.Item as HeaderItem2<TItem>;
+                var header = context.Item as HeaderItem3<TItem,TKey>;
                 <BFUGroupHeader IsOpen=@header.IsOpen
                                 OnOpenChanged=@((isOpen)=>header.IsOpen = isOpen)
-                                Count=@header.RecursiveCount
+                                Count=@header.Count
                                 GroupLevel=@header.Depth
                                 Name=@header.Name
                                 Compact=@Compact
@@ -24,6 +25,19 @@
                                 IsSelectionCheckVisible=@(SelectionZone != null)
                                 OnClick=@(()=>OnHeaderClicked(context))
                                 OnToggle=@(()=>OnHeaderToggled(context)) />
+                @if (header.IsOpen)
+                {
+                    <BFUGroupItem ItemsSource=@header.Items
+                                  TItem=@TItem
+                                  TKey=@TKey
+                                  GetKey=@GetKey
+                                  IsVirtualizing=@IsVirtualizing
+                                  Compact=@Compact
+                                  OnViewportChanged=@OnViewportChanged
+                                  ItemTemplate=@ItemTemplate
+                                  SelectionMode=@SelectionMode />
+
+                }
             }
             else
             {

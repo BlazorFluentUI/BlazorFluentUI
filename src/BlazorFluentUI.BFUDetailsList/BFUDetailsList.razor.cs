@@ -269,7 +269,7 @@ namespace BlazorFluentUI
             var lastWidth = _lastWidth;
             var lastSelectionMode = _lastSelectionMode;
 
-            if (!forceUpdate && _lastViewport.ScrollWidth == _viewport.ScrollWidth && SelectionMode == newSelectionMode && (Columns == null || newColumns == Columns))
+            if (!forceUpdate && _lastViewport.Width == _viewport.Width && SelectionMode == newSelectionMode && (Columns == null || newColumns == Columns))
                 return Enumerable.Empty<BFUDetailsRowColumn<TItem>>();
 
             // skipping default column builder... user must provide columns always
@@ -287,11 +287,11 @@ namespace BlazorFluentUI
             {
                 if (resizingColumnIndex != -1)
                 {
-                    adjustedColumns = GetJustifiedColumnsAfterResize(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.ScrollWidth, resizingColumnIndex);
+                    adjustedColumns = GetJustifiedColumnsAfterResize(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.Width, resizingColumnIndex);
                 }
                 else
                 {
-                    adjustedColumns = GetJustifiedColumns(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.ScrollWidth, resizingColumnIndex);
+                    adjustedColumns = GetJustifiedColumns(newColumns, newCheckboxVisibility, newSelectionMode, _viewport.Width, resizingColumnIndex);
                 }
 
                 foreach (var col in adjustedColumns)

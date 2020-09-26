@@ -7,7 +7,8 @@
 <BFUFocusZone Role="row"
            AriaLabel=@AriaLabel
            ClassName=@($"ms-DetailsHeader{(IsAllSelected?" is-allSelected":"")}{(isResizingColumn?" is-resizingColumn":"")}")
-           Direction="FocusZoneDirection.Horizontal">
+           Direction="FocusZoneDirection.Horizontal"
+              Style=@($"")>
     @if (showCheckbox)
     {
         <div class="ms-DetailsHeader-cellIsCheck"

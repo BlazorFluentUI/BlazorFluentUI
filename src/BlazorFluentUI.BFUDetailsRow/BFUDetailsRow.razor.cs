@@ -154,7 +154,7 @@ namespace BlazorFluentUI
 
         public ValueTask DisposeAsync()
         {
-            _selectionSubscription.Dispose();
+            _selectionSubscription?.Dispose();
             return ValueTask.CompletedTask;
         }
     }

@@ -32,7 +32,7 @@
 
 
     //Store the element that the layer is started from so we can later match up the layer's children with the original parent.
-    const layerElements: Map<HTMLElement> = {};  
+    const layerElements: MapSimple<HTMLElement> = {};  
     //const virtualRelationships: Map<IVirtualRelationship> = {};
 
 
@@ -249,13 +249,13 @@
         return null;
     }
 
-    interface Map<T> {
+    interface MapSimple<T> {
         [K: string]: T;
     }
 
-    var eventRegister: Map<(ev: UIEvent) => void> = {};
+    var eventRegister: MapSimple<(ev: UIEvent) => void> = {};
 
-    var eventElementRegister: Map<[HTMLElement, (ev: UIEvent) => void]> = {};
+    var eventElementRegister: MapSimple<[HTMLElement, (ev: UIEvent) => void]> = {};
 
     /* Function for Dropdown, but could apply to focusing on any element after onkeydown outside of list containing is-element-focusable items */
     export function registerKeyEventsForList(element: HTMLElement): string {
@@ -345,6 +345,109 @@
         }
     }
 
+
+    var _lastId: number = 0;
+    var cachedViewports: Map<number, Viewport> = new Map<number, Viewport>();
+
+    class Viewport {
+        RESIZE_DELAY = 500;
+        MAX_RESIZE_ATTEMPTS = 3;
+
+        id: number;
+        component: DotNetReferenceType;
+        rootElement: HTMLElement;
+
+        viewportResizeObserver: any;
+
+        viewport: { width: number, height: number } = { width: 0, height: 0 };
+        _resizeAttempts: number;
+
+        constructor(component: DotNetReferenceType, rootElement:HTMLElement) {
+            this.id = _lastId++;
+            this.component = component;
+            this.rootElement = rootElement;
+
+            this._onAsyncResizeAsync = debounce(this._onAsyncResizeAsync, this.RESIZE_DELAY, { leading: true });
+
+            this.viewportResizeObserver = new (window as any).ResizeObserver(this._onAsyncResizeAsync);
+            this.viewportResizeObserver.observe(this.rootElement);
+        }
+
+        public disconnect() {
+            this.viewportResizeObserver.disconnect();
+        }
+
+        private _onAsyncResizeAsync = (): void => {
+            this._updateViewportAsync();
+        };
+
+        private async _updateViewportAsync(withForceUpdate?: boolean) {
+            //const { viewport } = this.state;
+
+            const viewportElement = this.rootElement;
+            const scrollElement = findScrollableParent(viewportElement) as HTMLElement;
+            const scrollRect = getRect(scrollElement);
+            const clientRect = getRect(viewportElement);
+            const updateComponentAsync = async () => {
+                if (withForceUpdate) {
+                    await this.component.invokeMethodAsync("ForceUpdate");
+                }
+            };
+
+            const isSizeChanged =
+                (clientRect && clientRect.width) !== this.viewport!.width || (scrollRect && scrollRect.height) !== this.viewport!.height;
+
+            if (isSizeChanged && this._resizeAttempts < this.MAX_RESIZE_ATTEMPTS && clientRect && scrollRect) {
+                this._resizeAttempts++;
+                this.viewport = {
+                    width: clientRect.width,
+                    height: scrollRect.height
+                };
+                await this.component.invokeMethodAsync("ViewportChanged", this.viewport);
+                await this._updateViewportAsync(withForceUpdate);
+
+            } else {
+                this._resizeAttempts = 0;
+                await updateComponentAsync();
+            }
+        };
+
+
+    }
+
+    export function addViewport(component: DotNetReferenceType, rootElement: HTMLElement): number {
+
+        let viewport: Viewport = new Viewport(component, rootElement);
+        cachedViewports.set(viewport.id, viewport);
+
+        return viewport.id;
+    }
+
+    export function removeViewport(id: number) {
+        let viewport = cachedViewports.get(id);
+        viewport.disconnect();
+        cachedViewports.delete(id);
+    }
+
+    export function getRect(element: HTMLElement | Window | null): IRectangle | undefined {
+        let rect: IRectangle | undefined;
+        if (element) {
+            if (element === window) {
+                rect = {
+                    left: 0,
+                    top: 0,
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    right: window.innerWidth,
+                    bottom: window.innerHeight,
+                };
+            } else if ((element as HTMLElement).getBoundingClientRect) {
+                rect = (element as HTMLElement).getBoundingClientRect();
+            }
+        }
+        return rect;
+    }
+
     export function findElementRecursive(element: HTMLElement | null, matchFunction: (element: HTMLElement) => boolean): HTMLElement | null {
         if (!element || element === document.body) {
             return null;
@@ -361,7 +464,7 @@
 /* Focus stuff */
 
     /* Since elements can be stored in Blazor and we don't want to create more js files, this will hold last focused elements for restoring focus later. */
-    var _lastFocus: Map<HTMLElement> = {};
+    var _lastFocus: MapSimple<HTMLElement> = {};
 
     export function storeLastFocusedElement(): string {
         let element = document.activeElement;

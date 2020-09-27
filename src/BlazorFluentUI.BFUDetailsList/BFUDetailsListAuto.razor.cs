@@ -559,15 +559,6 @@ namespace BlazorFluentUI
             }
         }
 
-        //private void ViewportChangedHandler(Viewport viewport)
-        //{
-        //    _lastViewport = _viewport;
-        //    _viewport = viewport;
-        //    //Debug.WriteLine($"Viewport changed: {viewport.ScrollWidth}");
-        //    if (_viewport != null)
-        //        AdjustColumns(items, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true);
-        //}
-
         private void AdjustColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<BFUDetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex = -1)
         {
             _adjustedColumns = GetAdjustedColumns(newItems, newLayoutMode, newSelectionMode, newCheckboxVisibility, newColumns, forceUpdate, resizingColumnIndex);

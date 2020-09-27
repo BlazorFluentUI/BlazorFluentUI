@@ -110,7 +110,7 @@ namespace BlazorFluentUI
 
                 if (Selection != null)
                 {
-                    isSelected = Selection.IsIndexSelected(this.ItemIndex);
+                    
                     _selectionSubscription = Selection.SelectionChanged.Subscribe(_ =>
                     {
                         bool changed = false;
@@ -132,8 +132,10 @@ namespace BlazorFluentUI
                     });
                 }
             }
+            if (Selection != null)
+                isSelected = Selection.IsIndexSelected(this.ItemIndex);
 
-            
+
             //CreateCss();
             return base.OnParametersSetAsync();
         }

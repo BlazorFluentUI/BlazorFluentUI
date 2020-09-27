@@ -101,6 +101,12 @@ namespace BlazorFluentUI
         public int OverscanCount { get; set; } = 3;
 
         /// <summary>
+        /// For GroupedList and others, when using multiple lists, each new list needs to know how to continue the count from the previous one.
+        /// </summary>
+        [Parameter]
+        public int StartIndex { get; set; } = 0;
+
+        /// <summary>
         /// Instructs the component to re-request data from its <see cref="ItemsProvider"/>.
         /// This is useful if external data may have changed. There is no need to call this
         /// when using <see cref="Items"/>.
@@ -221,7 +227,8 @@ namespace BlazorFluentUI
                 {
                     builder.OpenElement(7, "div");
                     builder.SetKey(item);
-                    _itemTemplate(new IndexedItem<TItem> {Item=item, Index = _lastRenderedItemCount + _itemsBefore - _loadedItemsStartIndex })(builder);
+                    //builder.AddAttribute(8, "data-selection-index", _lastRenderedItemCount + _itemsBefore - _loadedItemsStartIndex + StartIndex);
+                    _itemTemplate(new IndexedItem<TItem> {Item=item, Index = renderIndex + _lastRenderedItemCount + StartIndex })(builder);
                     _lastRenderedItemCount++;
 
                     builder.CloseElement();

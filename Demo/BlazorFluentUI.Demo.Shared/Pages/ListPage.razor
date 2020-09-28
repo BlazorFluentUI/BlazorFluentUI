@@ -50,7 +50,7 @@
 
 @code {
     int count = 0;
-    System.Collections.ObjectModel.ObservableCollection<DataItem> data;
+    System.Collections.ObjectModel.RangeObservableCollection<DataItem> data;
     string DebugText = "";
 
     private IBFUDropdownOption selectedModeOption;
@@ -63,7 +63,7 @@
 
     protected override Task OnInitializedAsync()
     {
-        data = new System.Collections.ObjectModel.ObservableCollection<DataItem>();
+        data = new System.Collections.ObjectModel.RangeObservableCollection<DataItem>();
         selection.GetKey = (item) => item.Key;
         selection.SetItems(data);
         selection.SelectionChanged.Subscribe(_ => InvokeAsync(StateHasChanged));
@@ -80,6 +80,7 @@
 
     Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
+        
         System.Diagnostics.Debug.WriteLine("Clicked!");
         for (var i = 0; i < 10; i++)
         {
@@ -93,14 +94,15 @@
 
     Task ClickHandler2(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
-        //var tempData = new System.Collections.Generic.List<DataItem>();
+        var tempData = new System.Collections.Generic.List<DataItem>();
         System.Diagnostics.Debug.WriteLine("Clicked!");
         for (var i = 0; i < 5000; i++)
         {
             count++;
 
-            data.Add(new DataItem(count));
+            tempData.Add(new DataItem(count));
         }
+        data.AddRange(tempData);
         selection.SetItems(data);
         //data = new System.Collections.ObjectModel.ObservableCollection<DataItem>(tempData);
 

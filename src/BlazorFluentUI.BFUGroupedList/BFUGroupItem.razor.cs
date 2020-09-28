@@ -94,6 +94,9 @@ namespace BlazorFluentUI
         [Parameter]
         public IList<bool>? SortDescending { get; set; }
 
+        [Parameter]
+        public int StartIndex { get; set; }
+
         
         private Func<TItem, object> getKeyInternal;
         private IDisposable sourceCacheSubscription;

@@ -11,7 +11,8 @@
                  ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
                  IsVirtualizing=@IsVirtualizing
                  ItemsSource=@dataItems
-                 OnViewportChanged=@OnViewportChanged>
+
+                 >
             <ItemTemplate>
 
                 @if (context is HeaderItem<TItem>)

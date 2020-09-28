@@ -32,6 +32,9 @@ namespace BlazorFluentUI
         public bool EnableUpdateAnimations { get; set; }
 
         [Parameter]
+        public Func<TItem, object> GetKey { get; set; }
+
+        [Parameter]
         public int GroupNestingDepth { get; set; }
 
         [Parameter]
@@ -114,8 +117,15 @@ namespace BlazorFluentUI
                     _selectionSubscription = Selection.SelectionChanged.Subscribe(_ =>
                     {
                         bool changed = false;
-
-                        var newIsSelected = Selection.IsIndexSelected(this.ItemIndex);
+                        bool newIsSelected;
+                        if (GetKey != null)
+                        {
+                            newIsSelected = Selection.IsKeySelected(GetKey(Item), true);
+                        }
+                        else
+                        {
+                            newIsSelected = Selection.IsIndexSelected(this.ItemIndex);
+                        }
                         if (newIsSelected != isSelected)
                         {
                             changed = true;
@@ -133,8 +143,16 @@ namespace BlazorFluentUI
                 }
             }
             if (Selection != null)
-                isSelected = Selection.IsIndexSelected(this.ItemIndex);
-
+            {
+                if (GetKey != null)
+                {
+                    isSelected = Selection.IsKeySelected(GetKey(Item), true);
+                }
+                else
+                { 
+                    isSelected = Selection.IsIndexSelected(this.ItemIndex);
+                }
+            }
 
             //CreateCss();
             return base.OnParametersSetAsync();

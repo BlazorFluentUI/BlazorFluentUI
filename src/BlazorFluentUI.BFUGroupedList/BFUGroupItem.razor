@@ -8,7 +8,8 @@
          ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
          IsVirtualizing=@IsVirtualizing
          ItemsSource=@ItemsSource
-         OnViewportChanged=@OnViewportChanged>
+         StartIndex=@StartIndex
+         >
     <ItemTemplate>
         @if (context.Item is HeaderItem3<TItem, TKey>)
         {
@@ -30,9 +31,10 @@
                               GetKey=@GetKey
                               IsVirtualizing=@IsVirtualizing
                               Compact=@Compact
-                              OnViewportChanged=@OnViewportChanged
                               ItemTemplate=@ItemTemplate
-                              SelectionMode=@SelectionMode />
+                              SelectionMode=@SelectionMode
+                              StartIndex=@header.GroupIndex
+                              />
 
             }
         }

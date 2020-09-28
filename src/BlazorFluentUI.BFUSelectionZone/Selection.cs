@@ -640,11 +640,18 @@ namespace BlazorFluentUI
             );
         }
 
-        public bool IsKeySelected(object key)
+        public bool IsKeySelected(object key, bool ignoreIndex=false)
         {
-            var index = _keyToIndexMap[key];
+            if (ignoreIndex)
+            {
+                return _exemptedKeys.Contains(key);
+            }
+            else
+            {
+                var index = _keyToIndexMap[key];
 
-            return IsIndexSelected(index);
+                return IsIndexSelected(index);
+            }
         }
 
         public bool IsIndexSelected(int index)

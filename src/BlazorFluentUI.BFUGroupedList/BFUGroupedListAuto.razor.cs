@@ -370,11 +370,27 @@ namespace BlazorFluentUI
             var published = sourceCache.Connect()                
                 .Publish();
 
-            published.Group(firstGrouping)
+            ReplaySubject<IConnectableObservable<ISortedChangeSet<IGroupedListItem3, object>>> futureGroups = new ReplaySubject<IConnectableObservable<ISortedChangeSet<IGroupedListItem3, object>>>();
+
+            var groupsPublished = published.Group(firstGrouping)
+                .Sort(SortExpressionComparer<IGroup<TItem, TKey, object>>.Ascending(x => x.Key as IComparable))
+                .Replay();
+
+                
+                //.Sort(SortExpressionComparer<IGroupedListItem3>.Ascending(x => x.Name as IComparable))
+                //.Replay();
+
+            
+            groupsPublished
                 .Transform(group =>
                 {
-                    return new HeaderItem3<TItem, TKey>(group, remainingGrouping,0) as IGroupedListItem3;
+                    return new HeaderItem3<TItem, TKey>(group, remainingGrouping, 0, groupsPublished, null) as IGroupedListItem3;
                 })
+                //.Transform(x=>
+                //{
+                //    (x as HeaderItem3<TItem, TKey>).AddGroupAccumulator(groupsPublished);
+                //    return x;
+                //})
                 .Bind(out groupedUIListItems)
                 .Do(_ => {
                     InvokeAsync(StateHasChanged);
@@ -383,6 +399,8 @@ namespace BlazorFluentUI
                 .Subscribe(x => { }, error => {
                     Debug.WriteLine(error.Message);
                 });
+
+            groupsPublished.Connect();
 
             published.Bind(out var selectionItems)
                 .Subscribe(x => { }, error =>

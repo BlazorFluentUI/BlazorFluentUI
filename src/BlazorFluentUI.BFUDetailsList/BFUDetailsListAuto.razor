@@ -72,7 +72,7 @@
                                     else
                                     {
                                         <BFUDetailsRow Item=@context.Item
-                                                       
+                                                       GetKey=@GetKey
                                                        ItemIndex=@context.Index
                                                        Columns=@_adjustedColumns
                                                        SelectionMode=@SelectionMode
@@ -101,6 +101,7 @@
                                     {*@
                                     <BFUDetailsRow TItem="TItem"
                                                    Item=@(((PlainItem3<TItem,object>)context.Item).Item)
+                                                   GetKey=@GetKey
                                                    ItemIndex=@context.Index
                                                    Selection=@Selection
                                                    Columns=@_adjustedColumns

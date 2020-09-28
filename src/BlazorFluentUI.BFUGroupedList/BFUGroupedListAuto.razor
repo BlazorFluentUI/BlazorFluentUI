@@ -10,11 +10,13 @@
              ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
              IsVirtualizing=@IsVirtualizing
              ItemsSource=@groupedUIListItems
-             OnViewportChanged=@OnViewportChanged>
+             StartIndex=0
+             >
         <ItemTemplate>
             @if (context.Item is HeaderItem3<TItem,TKey>)
             {
                 var header = context.Item as HeaderItem3<TItem,TKey>;
+               
                 <BFUGroupHeader IsOpen=@header.IsOpen
                                 OnOpenChanged=@((isOpen)=>header.IsOpen = isOpen)
                                 Count=@header.Count
@@ -33,9 +35,10 @@
                                   GetKey=@GetKey
                                   IsVirtualizing=@IsVirtualizing
                                   Compact=@Compact
-                                  OnViewportChanged=@OnViewportChanged
                                   ItemTemplate=@ItemTemplate
-                                  SelectionMode=@SelectionMode />
+                                  SelectionMode=@SelectionMode
+                                  StartIndex=@header.GroupIndex
+                                  />
 
                 }
             }

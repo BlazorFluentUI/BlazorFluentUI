@@ -265,7 +265,7 @@ namespace BlazorFluentUI
         }
 
         private string GetSpacerStyle(int itemsInSpacer)
-            => $"height: {itemsInSpacer * _itemSize}px;background-color:red;";
+            => $"height: {itemsInSpacer * _itemSize}px;";
 
         [JSInvokable]
         public void OnBeforeSpacerVisible(float spacerSize, float spacerSeparation, float containerSize)

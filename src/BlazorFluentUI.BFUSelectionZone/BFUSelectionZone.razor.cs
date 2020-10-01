@@ -212,18 +212,21 @@ namespace BlazorFluentUI
         public void ToggleIndexSelected(int index)
         {
             Selection.ToggleIndexSelected(index);
+            //StateHasChanged();
         }
 
         [JSInvokable]
         public void SetAllSelected(bool isAllSelected)
         {
             Selection.SetAllSelected(isAllSelected);
+            //InvokeAsync(StateHasChanged);
         }
 
         [JSInvokable]
         public void SetIndexSelected(int index, bool isSelected, bool shouldAnchor)
         {
             Selection.SetIndexSelected(index, isSelected, shouldAnchor);
+            //StateHasChanged();
         }
 
         [JSInvokable]

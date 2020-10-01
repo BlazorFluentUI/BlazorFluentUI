@@ -313,6 +313,7 @@ namespace BlazorFluentUI
             if (selectableCount > 0 && (_exemptedCount > 0 || isAllSelected != _isAllSelected))
             {
                 _exemptedIndices = new Dictionary<int, object>();
+                _exemptedKeys = new HashSet<object>();
 
                 if (isAllSelected != _isAllSelected || _exemptedCount > 0)
                 {

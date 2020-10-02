@@ -120,7 +120,7 @@ namespace BlazorFluentUI
                         bool newIsSelected;
                         if (GetKey != null)
                         {
-                            newIsSelected = Selection.IsKeySelected(GetKey(Item), true);
+                            newIsSelected = Selection.IsKeySelected(GetKey(Item), false);
                         }
                         else
                         {
@@ -146,7 +146,7 @@ namespace BlazorFluentUI
             {
                 if (GetKey != null)
                 {
-                    isSelected = Selection.IsKeySelected(GetKey(Item), true);
+                    isSelected = Selection.IsKeySelected(GetKey(Item), false);
                 }
                 else
                 { 

@@ -5,22 +5,25 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public interface IGroupedListItem3
+    public interface IGroupedListItem3<TItem> 
     {
         bool IsVisible { get;}
         string Name { get; }
         int Count { get; }
 
+        TItem Item { get; }
     }
 
-    public class HeaderItem3<TItem,TKey> : IGroupedListItem3
+    public class HeaderItem3<TItem,TKey> : IGroupedListItem3<TItem>
     {
         public bool IsOpen { get => isOpenSubject.Value; 
             set 
@@ -48,16 +51,18 @@ namespace BlazorFluentUI
 
         public string Name => _group.Key.ToString();
 
-        public ICollection<IGroupedListItem3> Items { get; private set; }
+        public ICollection<IGroupedListItem3<TItem>> Items { get; private set; }
 
         private HeaderItem3<TItem, TKey> _parent;
         private IGroup<TItem, TKey, object> _group;
 
-        private IObservable<ISortedChangeSet<IGroupedListItem3, object>> _mainGroupingChangeSet;
+        private IObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>> _mainGroupingChangeSet;
 
         public int GroupIndex { get; set; }
 
-        public void AddGroupAccumulator(IObservable<ISortedChangeSet<IGroupedListItem3, object>> sortedGroupingChangeSet)
+        public TItem Item { get; private set; }
+
+        public void AddGroupAccumulator(IObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>> sortedGroupingChangeSet)
         {
             _mainGroupingChangeSet = sortedGroupingChangeSet;
 
@@ -75,7 +80,7 @@ namespace BlazorFluentUI
 
         }
 
-        public HeaderItem3(IGroup<TItem,TKey,object> group, IEnumerable<Func<TItem,object>> groupBy, int depth, IConnectableObservable<ISortedChangeSet<IGroup<TItem,TKey,object>, object>> groupsChangeSet, HeaderItem3<TItem,TKey> parent)
+        public HeaderItem3(IGroup<TItem,TKey,object> group, IEnumerable<Func<TItem,object>> groupBy, int depth, IConnectableObservable<ISortedChangeSet<IGroup<TItem,TKey,object>, object>> groupsChangeSet, HeaderItem3<TItem,TKey> parent, IObservable<IComparer<IGroupedListItem3<TItem>>> sortComparer, Func<Task> stateChangeCallback )
         {
             _parent = parent;  //needed to get the parent groupindex
             _group = group;
@@ -121,7 +126,7 @@ namespace BlazorFluentUI
                  })));
 
                 published
-                    .Transform(group => new HeaderItem3<TItem, TKey>(group, rest, depth + 1, published, this) as IGroupedListItem3)
+                    .Transform(group => new HeaderItem3<TItem, TKey>(group, rest, depth + 1, published, this, sortComparer, stateChangeCallback) as IGroupedListItem3<TItem>)
                     //.Transform(x =>
                     //{
                     //    //(x as HeaderItem3<TItem, TKey>).AddGroupAccumulator(_mainGroupingChangeSet);
@@ -136,9 +141,15 @@ namespace BlazorFluentUI
             }
             else
             {
+                sortComparer.Subscribe(x => Debug.WriteLine("sort changed"));
                 _group.Cache.Connect()
-                    .Transform(x => new PlainItem3<TItem, TKey>(x, depth+1) as IGroupedListItem3)
+                    .Transform(x => new PlainItem3<TItem, TKey>(x, depth+1) as IGroupedListItem3<TItem>)
+                    .Sort(sortComparer)
                     .Bind(out var items)
+                    .Do(x=>
+                    {
+                        stateChangeCallback.Invoke();
+                    })
                     .Subscribe();
 
                 countSubject = new BehaviorSubject<int>(items.Count);
@@ -152,7 +163,7 @@ namespace BlazorFluentUI
         }
     }
 
-    public class PlainItem3<TItem,TKey> : IGroupedListItem3
+    public class PlainItem3<TItem,TKey> : IGroupedListItem3<TItem>
     {
         //public PlainItem3(TItem item, HeaderItem<TItem> parent, int index, int depth) 
 
@@ -160,6 +171,9 @@ namespace BlazorFluentUI
         {
             this.Item = item;
             this.Depth = depth;
+
+            if (this.Item == null)
+                throw new Exception("Item is null!");
         }
         public int Depth { get; private set; }
         public bool IsVisible { get; set; }

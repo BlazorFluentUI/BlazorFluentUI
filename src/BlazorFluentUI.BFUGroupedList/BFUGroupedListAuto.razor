@@ -5,7 +5,7 @@
 
 @if (groupedUIListItems != null)
 {
-    <BFUList TItem="IGroupedListItem3"
+    <BFUList TItem="IGroupedListItem3<TItem>"
              @ref="listReference"
              ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
              IsVirtualizing=@IsVirtualizing
@@ -37,6 +37,7 @@
                                   Compact=@Compact
                                   ItemTemplate=@ItemTemplate
                                   SelectionMode=@SelectionMode
+                                  Selection=@Selection
                                   StartIndex=@header.GroupIndex
                                   />
 

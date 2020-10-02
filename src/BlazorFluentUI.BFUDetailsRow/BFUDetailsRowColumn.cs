@@ -108,11 +108,11 @@ namespace BlazorFluentUI
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public IObservable<PropertyChangedEventArgs> PropertyChangedObs { get; private set; }
+        public IObservable<PropertyChangedEventArgs> WhenPropertyChanged { get; private set; }
 
         protected void Initialize()
         {
-            this.PropertyChangedObs = Observable.FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+            this.WhenPropertyChanged = Observable.FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
               handler =>
               {
                   PropertyChangedEventHandler changed = (sender, e) => handler(e);

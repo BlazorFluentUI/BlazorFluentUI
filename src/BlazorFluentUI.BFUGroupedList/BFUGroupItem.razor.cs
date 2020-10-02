@@ -21,7 +21,7 @@ namespace BlazorFluentUI
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private BFUList<IGroupedListItem3> listReference;
+        private BFUList<IGroupedListItem3<TItem>> listReference;
 
         //private ReadOnlyObservableCollection<IGroupedListItem3> dataItems;
 
@@ -62,13 +62,13 @@ namespace BlazorFluentUI
         public Func<TItem, MouseEventArgs, Task>? ItemClicked { get; set; }
 
         [Parameter]
-        public ICollection<IGroupedListItem3>? ItemsSource { get; set; }
+        public ICollection<IGroupedListItem3<TItem>>? ItemsSource { get; set; }
 
         [Parameter]
         public bool GroupSortDescending { get; set; }
 
         [Parameter]
-        public RenderFragment<IndexedItem<IGroupedListItem3>>? ItemTemplate { get; set; }
+        public RenderFragment<IndexedItem<IGroupedListItem3<TItem>>>? ItemTemplate { get; set; }
 
         [Parameter]
         public EventCallback<GroupedListCollection<TItem>> OnGeneratedListItems { get; set; }
@@ -100,7 +100,7 @@ namespace BlazorFluentUI
         
         private Func<TItem, object> getKeyInternal;
         private IDisposable sourceCacheSubscription;
-        private ReadOnlyObservableCollection<IGroupedListItem3> groupedUIListItems;
+        private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> groupedUIListItems;
 
         private IList<bool>? _sortDescending;
         private IList<Func<TItem, object>>? _sortBy;
@@ -152,7 +152,7 @@ namespace BlazorFluentUI
             return string.Join(',', header.Children.Select(x => getKeyInternal(x.Item)).ToArray());
         }
 
-        private void OnHeaderClicked(IndexedItem<IGroupedListItem3> indexedItem)
+        private void OnHeaderClicked(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
         {
             //if (SelectionZone != null)
             //{
@@ -204,7 +204,7 @@ namespace BlazorFluentUI
             //}
         }
 
-        private void OnHeaderToggled(IndexedItem<IGroupedListItem3> indexedItem)
+        private void OnHeaderToggled(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
         {
             //if (SelectionZone != null)
             //{

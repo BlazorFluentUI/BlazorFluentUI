@@ -3,7 +3,7 @@
 @typeparam TItem
 @typeparam TKey
 
-<BFUList TItem="IGroupedListItem3"
+<BFUList TItem="IGroupedListItem3<TItem>"
          @ref="listReference"
          ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
          IsVirtualizing=@IsVirtualizing
@@ -32,6 +32,7 @@
                               IsVirtualizing=@IsVirtualizing
                               Compact=@Compact
                               ItemTemplate=@ItemTemplate
+                              Selection=@Selection
                               SelectionMode=@SelectionMode
                               StartIndex=@header.GroupIndex
                               />

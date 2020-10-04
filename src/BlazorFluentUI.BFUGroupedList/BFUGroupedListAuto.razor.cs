@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Reactive.Subjects;
 using System.Reactive;
 using System.Runtime.CompilerServices;
+using System.Collections.Specialized;
 
 namespace BlazorFluentUI
 {
@@ -393,9 +394,19 @@ namespace BlazorFluentUI
             {
                 if (ItemsSource != null && !ItemsSource.Equals(_itemsSource))
                 {
+                    if (_itemsSource is INotifyCollectionChanged)
+                    {
+                        (_itemsSource as INotifyCollectionChanged).CollectionChanged -= BFUGroupedListAuto_CollectionChanged;
+                    }
+
                     _itemsSource = ItemsSource;
                     CreateSourceCache();
                     
+                    if (_itemsSource is INotifyCollectionChanged)
+                    {
+                        (_itemsSource as INotifyCollectionChanged).CollectionChanged += BFUGroupedListAuto_CollectionChanged;
+                    }
+
                     if (_itemsSource != null)
                         sourceCache.AddOrUpdate(_itemsSource);
                 }
@@ -409,6 +420,47 @@ namespace BlazorFluentUI
 
             await base.OnParametersSetAsync();
 
+        }
+
+        private void BFUGroupedListAuto_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    sourceCache.Edit(x =>
+                    {
+                        foreach (TItem item in e.NewItems)
+                        {
+                            x.AddOrUpdate(item);
+                        }
+                    });
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    sourceCache.Edit(x =>
+                    {
+                        foreach (TItem item in e.OldItems)
+                        {
+                            x.Remove(item);
+                        }
+                    });
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    sourceCache.Edit(x =>
+                    {
+                        x.Clear();
+                        x.AddOrUpdate(_itemsSource);
+                    });
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    sourceCache.Edit(x =>
+                    {
+                        foreach (TItem item in e.NewItems)
+                        {
+                            x.AddOrUpdate(item);
+                        }
+                    });
+                    break;
+            }
         }
 
         protected override Task OnAfterRenderAsync(bool firstRender)
@@ -456,70 +508,16 @@ namespace BlazorFluentUI
                 {
                     return new HeaderItem3<TItem, TKey>(group, remainingGrouping, 0, groupsPublished, null, subGroupSortExpressionComparer, () => InvokeAsync(StateHasChanged)) as IGroupedListItem3<TItem>;
                 })
-                //.Transform(x=>
-                //{
-                //    (x as HeaderItem3<TItem, TKey>).AddGroupAccumulator(groupsPublished);
-                //    return x;
-                //})
+                .Sort(SortExpressionComparer<IGroupedListItem3<TItem>>.Ascending(x=>x.Name))
                 .Bind(out groupedUIListItems)
                 .Do(_ => {
-                    InvokeAsync(StateHasChanged);
+                    //InvokeAsync(StateHasChanged);
                     })
-                //.Do(_ => Debug.WriteLine($"There are {groupedUIListItems.Count} items to render."))
                 .Subscribe(x => { }, error => {
                     Debug.WriteLine(error.Message);
                 });
 
             groupsPublished.Connect();
-
-            //SortExpressionComparer<TItem> sortExpression = null;
-
-            //if (GroupBy != null)
-            //{
-            //    for (var i = 0; i < GroupBy.Count(); i++)
-            //    {
-            //        if (sortExpression == null)
-            //        {
-            //            if (GroupSortDescending)
-            //                sortExpression = SortExpressionComparer<TItem>.Descending(GroupBy[i].ConvertToIComparable());
-            //            else
-            //                sortExpression = SortExpressionComparer<TItem>.Ascending(GroupBy[i].ConvertToIComparable());
-            //        }
-            //        else
-            //        {
-            //            if (GroupSortDescending)
-            //                sortExpression = sortExpression.ThenByDescending(GroupBy[i].ConvertToIComparable());
-            //            else
-            //                sortExpression = sortExpression.ThenByAscending(GroupBy[i].ConvertToIComparable());
-            //        }
-            //    }
-            //}
-
-            
-
-            //if (SortBy != null)
-            //{
-            //    for (var i = 0; i < SortBy.Count(); i++)
-            //    {
-            //        if (sortExpression == null)
-            //        {
-            //            if (SortDescending[i])
-            //                sortExpression = SortExpressionComparer<TItem>.Descending(SortBy[i].ConvertToIComparable());
-            //            else
-            //                sortExpression = SortExpressionComparer<TItem>.Ascending(SortBy[i].ConvertToIComparable());
-            //        }
-            //        else
-            //        {
-            //            if (SortDescending[i])
-            //                sortExpression = sortExpression.ThenByDescending(SortBy[i].ConvertToIComparable());
-            //            else
-            //                sortExpression = sortExpression.ThenByAscending(SortBy[i].ConvertToIComparable());
-            //        }
-            //    }
-            //}
-
-            //if (sortExpression == null)
-            //    sortExpression = new SortExpressionComparer<TItem>();
 
             published
                 .Sort(sortExpressionComparer)

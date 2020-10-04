@@ -8,7 +8,14 @@
 
 <BFUStack Style="height:100%;">
     <h3>DetailsList - Grouped Data</h3>
-    <BFUToggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
+    <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
+        <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+        <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+        <BFUDropdown ItemsSource=@selectionModeOptions
+                     @bind-SelectedOption=selectedModeOption
+                     Style="max-width:300px;">
+        </BFUDropdown>
+    </BFUStack>
     <BFUTextField Label="Filter Description"
                   Value=@filter
                   OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => (prop as string).Contains(filter); }) />
@@ -17,6 +24,7 @@
         <BFUDetailsListAuto ItemsSource="dataSource"
                             @ref="detailsList"
                             Columns="columnsSource"
+                            Compact="isCompact"
                             GetKey=@(x=>x.Key)
                             TItem="DataItem"
                             IsVirtualizing="isVirtualizing"
@@ -26,13 +34,16 @@
                                   x=>x.KeyNumber % 2 == 0 ? "even" :"odd"
                               })
                             LayoutMode="DetailsListLayoutMode.Justified"
-                            SelectionMode="SelectionMode.Multiple">
+                            SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
         </BFUDetailsListAuto>
     </div>
 </BFUStack>
 
 @code {
     bool isVirtualizing = false;
+    bool isCompact = false;
+    IBFUDropdownOption selectedModeOption;
+    List<IBFUDropdownOption> selectionModeOptions;
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
@@ -52,6 +63,12 @@
 
     protected override void OnInitialized()
     {
+        selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()
+           .Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() })
+           .Cast<IBFUDropdownOption>()
+           .ToList();
+        selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Multiple");
+
         columnsSource.Add(new BFUDetailsRowColumn<DataItem, int>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0 });
         columnsSource.Add(new BFUDetailsRowColumn<DataItem, string>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, IsResizable = true });
         descriptionColumn = new BFUDetailsRowColumn<DataItem, string>("Description", x => x.Description) { Index = 2 };

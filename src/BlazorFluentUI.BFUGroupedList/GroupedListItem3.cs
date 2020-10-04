@@ -62,23 +62,23 @@ namespace BlazorFluentUI
 
         public TItem Item { get; private set; }
 
-        public void AddGroupAccumulator(IObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>> sortedGroupingChangeSet)
-        {
-            _mainGroupingChangeSet = sortedGroupingChangeSet;
+        //public void AddGroupAccumulator(IObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>> sortedGroupingChangeSet)
+        //{
+        //    _mainGroupingChangeSet = sortedGroupingChangeSet;
 
-            sortedGroupingChangeSet.Subscribe(x =>
-            {
-                GroupIndex = x.SortedItems.TakeWhile(x => x.Key != _group.Key).Aggregate(0,(v,x)=>
-                {
-                    v += x.Value.Count;
-                    return v;
-                });
-            });
+        //    sortedGroupingChangeSet.CombineLatest(CountChanged, (groups, count) => (groups,count)).Subscribe(x=>
+        //    {
+        //        GroupIndex = x.groups.SortedItems.TakeWhile(x => x.Key != _group.Key).Aggregate(0,(v,x)=>
+        //        {
+        //            v += x.Value.Count;
+        //            return v;
+        //        });
+        //    });
 
             
 
 
-        }
+        //}
 
         public HeaderItem3(IGroup<TItem,TKey,object> group, IEnumerable<Func<TItem,object>> groupBy, int depth, IConnectableObservable<ISortedChangeSet<IGroup<TItem,TKey,object>, object>> groupsChangeSet, HeaderItem3<TItem,TKey> parent, IObservable<IComparer<IGroupedListItem3<TItem>>> sortComparer, Func<Task> stateChangeCallback )
         {
@@ -86,17 +86,23 @@ namespace BlazorFluentUI
             _group = group;
             Depth = depth;
             isOpenSubject = new BehaviorSubject<bool>(true);
+            countSubject = new BehaviorSubject<int>(0);
 
-            groupsChangeSet.Subscribe(x =>
+            groupsChangeSet.CombineLatest(CountChanged, (groups, count) => (groups, count)).Subscribe(x =>
             {
-                GroupIndex = x.SortedItems.TakeWhile(x => x.Key != _group.Key).Aggregate(0, (v, x) =>
+                var groupIndex = x.groups.SortedItems.TakeWhile(x => x.Key != _group.Key).Aggregate(0, (v, x) =>
                 {
                     v += x.Value.Cache.Count;
                     return v;
                 });
                 if (parent != null)
                 {
-                    GroupIndex += parent.GroupIndex;
+                    groupIndex += parent.GroupIndex;
+                }
+                if (groupIndex != GroupIndex)
+                {
+                    GroupIndex = groupIndex;
+                    stateChangeCallback();
                 }
             });
 
@@ -111,27 +117,27 @@ namespace BlazorFluentUI
                     .Sort(SortExpressionComparer<IGroup<TItem, TKey, object>>.Ascending(x => x.Key as IComparable))
                     .Replay();
 
-                    //published.Transform(group => new HeaderItem3<TItem, TKey>(group, rest, depth + 1, published) as IGroupedListItem3)
-                    //.Sort(SortExpressionComparer<IGroupedListItem3>.Ascending(x => x.Name as IComparable))
-                    //.Replay();
 
-                //futureGroups2.OnNext(published);
+                
 
-                countSubject = new BehaviorSubject<int>(0);
-                //published.Transform(x => x.Count);
-                published.ToCollection().Subscribe(collection => countSubject.OnNext(collection.Aggregate(0, (v, x) =>
-                 {
-                     v += x.Cache.Count;
-                     return v;
-                 })));
+                published.ToCollection().Subscribe(collection => 
+                {
+                    var count = collection.Aggregate(0, (v, x) =>
+                    {
+                        v += x.Cache.Count;
+                        return v;
+                    });
+                    if (count != countSubject.Value)
+                    {
+                        countSubject.OnNext(count);
+                        stateChangeCallback();
+                    }
+                });
+
+                
 
                 published
                     .Transform(group => new HeaderItem3<TItem, TKey>(group, rest, depth + 1, published, this, sortComparer, stateChangeCallback) as IGroupedListItem3<TItem>)
-                    //.Transform(x =>
-                    //{
-                    //    //(x as HeaderItem3<TItem, TKey>).AddGroupAccumulator(_mainGroupingChangeSet);
-                    //    return x;
-                    //})
                     .Bind(out var items)
                     .Subscribe();
 

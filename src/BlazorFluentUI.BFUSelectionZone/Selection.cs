@@ -649,6 +649,11 @@ namespace BlazorFluentUI
             }
             else
             {
+                if (!_keyToIndexMap.ContainsKey(key))
+                {
+                    Debug.WriteLine("In the middle of updating from a filter. Subgroups haven't redrawn even though selection indices have been mapped (incorrectly)");
+                    return false;
+                }     
                 var index = _keyToIndexMap[key];
 
                 return IsIndexSelected(index);

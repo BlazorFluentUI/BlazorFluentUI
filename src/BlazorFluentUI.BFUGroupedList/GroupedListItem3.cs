@@ -80,7 +80,7 @@ namespace BlazorFluentUI
 
         //}
 
-        public HeaderItem3(IGroup<TItem,TKey,object> group, IEnumerable<Func<TItem,object>> groupBy, int depth, IConnectableObservable<ISortedChangeSet<IGroup<TItem,TKey,object>, object>> groupsChangeSet, HeaderItem3<TItem,TKey> parent, IObservable<IComparer<IGroupedListItem3<TItem>>> sortComparer, Func<Task> stateChangeCallback )
+        public HeaderItem3(IGroup<TItem,TKey,object> group, IEnumerable<Func<TItem,object>> groupBy, int depth, IConnectableObservable<ISortedChangeSet<IGroup<TItem,TKey,object>, object>> groupsChangeSet, HeaderItem3<TItem,TKey> parent, IObservable<IComparer<IGroupedListItem3<TItem>>> sortComparer, Func<Task> stateChangeCallback, Subject<Unit> reindexTrigger )
         {
             _parent = parent;  //needed to get the parent groupindex
             _group = group;
@@ -88,8 +88,11 @@ namespace BlazorFluentUI
             isOpenSubject = new BehaviorSubject<bool>(true);
             countSubject = new BehaviorSubject<int>(0);
 
+            IKeyValueCollection<IGroup<TItem, TKey, object>, object> sortedItems = null;
+
             groupsChangeSet.CombineLatest(CountChanged, (groups, count) => (groups, count)).Subscribe(x =>
             {
+                sortedItems = x.groups.SortedItems;
                 var groupIndex = x.groups.SortedItems.TakeWhile(x => x.Key != _group.Key).Aggregate(0, (v, x) =>
                 {
                     v += x.Value.Cache.Count;
@@ -102,7 +105,28 @@ namespace BlazorFluentUI
                 if (groupIndex != GroupIndex)
                 {
                     GroupIndex = groupIndex;
-                    stateChangeCallback();
+                    reindexTrigger.OnNext(Unit.Default);
+                }
+            });
+
+            reindexTrigger.Subscribe(_ =>
+            {
+                if (sortedItems != null)
+                {
+                    var groupIndex = sortedItems.TakeWhile(x => x.Key != _group.Key).Aggregate(0, (v, x) =>
+                    {
+                        v += x.Value.Cache.Count;
+                        return v;
+                    });
+                    if (parent != null)
+                    {
+                        groupIndex += parent.GroupIndex;
+                    }
+                    if (groupIndex != GroupIndex)
+                    {
+                        GroupIndex = groupIndex;
+                        reindexTrigger.OnNext(Unit.Default);
+                    }
                 }
             });
 
@@ -137,7 +161,7 @@ namespace BlazorFluentUI
                 
 
                 published
-                    .Transform(group => new HeaderItem3<TItem, TKey>(group, rest, depth + 1, published, this, sortComparer, stateChangeCallback) as IGroupedListItem3<TItem>)
+                    .Transform(group => new HeaderItem3<TItem, TKey>(group, rest, depth + 1, published, this, sortComparer, stateChangeCallback, reindexTrigger) as IGroupedListItem3<TItem>)
                     .Bind(out var items)
                     .Subscribe();
 

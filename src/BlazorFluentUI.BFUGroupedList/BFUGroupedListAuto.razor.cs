@@ -492,6 +492,8 @@ namespace BlazorFluentUI
             var published = sourceCache.Connect()                
                 .Publish();
 
+            Subject<Unit> reindexTrigger = new Subject<Unit>();
+
             ReplaySubject<IConnectableObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>>> futureGroups = new ReplaySubject<IConnectableObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>>>();
 
             var groupsPublished = published.Group(firstGrouping)
@@ -506,7 +508,7 @@ namespace BlazorFluentUI
             groupsPublished
                 .Transform(group =>
                 {
-                    return new HeaderItem3<TItem, TKey>(group, remainingGrouping, 0, groupsPublished, null, subGroupSortExpressionComparer, () => InvokeAsync(StateHasChanged)) as IGroupedListItem3<TItem>;
+                    return new HeaderItem3<TItem, TKey>(group, remainingGrouping, 0, groupsPublished, null, subGroupSortExpressionComparer, () => InvokeAsync(StateHasChanged), reindexTrigger) as IGroupedListItem3<TItem>;
                 })
                 .Sort(SortExpressionComparer<IGroupedListItem3<TItem>>.Ascending(x=>x.Name))
                 .Bind(out groupedUIListItems)

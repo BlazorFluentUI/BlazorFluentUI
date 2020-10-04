@@ -15,7 +15,14 @@
         {
             var header = context.Item as HeaderItem3<TItem, TKey>;
             <BFUGroupHeader IsOpen=@header.IsOpen
-                            OnOpenChanged=@((isOpen) => header.IsOpen = isOpen)
+                            OnOpenChanged=@((isOpen)=>
+                                                {
+                                                    if (header.IsOpen != isOpen)
+                                                    {
+                                                        header.IsOpen = isOpen;
+                                                        InvokeAsync(StateHasChanged);
+                                                    }
+                                                })
                             Count=@header.Count
                             GroupLevel=@header.Depth
                             Name=@header.Name

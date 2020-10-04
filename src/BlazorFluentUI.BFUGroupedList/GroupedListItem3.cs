@@ -28,7 +28,8 @@ namespace BlazorFluentUI
         public bool IsOpen { get => isOpenSubject.Value; 
             set 
             {
-                isOpenSubject.OnNext(value); 
+                if (isOpenSubject.Value != value)
+                    isOpenSubject.OnNext(value); 
             }
         }
 

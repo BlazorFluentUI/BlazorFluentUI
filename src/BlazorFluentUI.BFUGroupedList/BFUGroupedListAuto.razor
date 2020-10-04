@@ -2,6 +2,7 @@
 @inherits BFUComponentBase
 @typeparam TItem
 @typeparam TKey
+@using System.Reactive.Linq 
 
 @if (groupedUIListItems != null)
 {
@@ -16,9 +17,17 @@
             @if (context.Item is HeaderItem3<TItem,TKey>)
             {
                 var header = context.Item as HeaderItem3<TItem,TKey>;
-               
+               // header.IsOpenObservable.Take(1).Subscribe(x => InvokeAsync(StateHasChanged));
+
                 <BFUGroupHeader IsOpen=@header.IsOpen
-                                OnOpenChanged=@((isOpen)=>header.IsOpen = isOpen)
+                                OnOpenChanged=@((isOpen)=>
+                                                {
+                                                    if (header.IsOpen != isOpen)
+                                                    {
+                                                        header.IsOpen = isOpen;
+                                                        InvokeAsync(StateHasChanged);
+                                                    }
+                                                })
                                 Count=@header.Count
                                 GroupLevel=@header.Depth
                                 Name=@header.Name

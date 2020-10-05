@@ -74,12 +74,6 @@ namespace BlazorFluentUI
         private bool isModal = false;
 
 
-        //private HashSet<TItem> selectedItems = new HashSet<TItem>();
-
-        //private BehaviorSubject<ICollection<TItem>> selectedItemsSubject;
-
-        //public IObservable<ICollection<TItem>> SelectedItemsObservable { get; private set; }
-
         private bool doNotRenderOnce = false;
 
         private DotNetObjectReference<BFUSelectionZone<TItem>>? dotNetRef;
@@ -96,7 +90,6 @@ namespace BlazorFluentUI
                 doNotRenderOnce = false;
 
             return true;
-            //return base.ShouldRender();
         }
 
         protected override void OnInitialized()
@@ -182,13 +175,6 @@ namespace BlazorFluentUI
                 return 0;
         }
 
-        //[JSInvokable]
-        //public void ClearAndSelectIndex(int index)
-        //{
-        //    Selection.SetChangeEvents(false);
-        //    Selection.SetAllSelected(false);
-        //    Selection.SetIndexSelected(index, true, true);
-        //}
 
         [JSInvokable]
         public void SetModal(bool isModal)
@@ -212,21 +198,18 @@ namespace BlazorFluentUI
         public void ToggleIndexSelected(int index)
         {
             Selection.ToggleIndexSelected(index);
-            //StateHasChanged();
         }
 
         [JSInvokable]
         public void SetAllSelected(bool isAllSelected)
         {
             Selection.SetAllSelected(isAllSelected);
-            //InvokeAsync(StateHasChanged);
         }
 
         [JSInvokable]
         public void SetIndexSelected(int index, bool isSelected, bool shouldAnchor)
         {
             Selection.SetIndexSelected(index, isSelected, shouldAnchor);
-            //StateHasChanged();
         }
 
         [JSInvokable]
@@ -241,9 +224,5 @@ namespace BlazorFluentUI
             OnItemInvoked?.Invoke(Selection.GetItems()[index], index);
         }
 
-        public async Task ToggleRangeSelectionAsync(int groupIndex, int count)
-        {
-
-        }
     }
 }

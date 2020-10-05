@@ -20,9 +20,8 @@ namespace BlazorFluentUI
             set => _items = value;
         }
 
-        public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
-
-        //public SelectionIdentifierMode SelectionIdentifierMode { get; set; } = SelectionIdentifierMode.Index;
+        private SelectionMode _selectionMode = SelectionMode.Single;
+        public SelectionMode SelectionMode { get => _selectionMode;  set { if (_selectionMode != value) { _selectionMode = value; AdjustSelectionMode(); } } }
 
         public Func<TItem, object> GetKey { get; set; }
 
@@ -57,6 +56,30 @@ namespace BlazorFluentUI
         public Selection()
         {
             selectionChanged.Subscribe(x => OnSelectionChanged?.Invoke(this, EventArgs.Empty));
+        }
+
+        public void AdjustSelectionMode()
+        {
+            switch (_selectionMode)
+            {
+                case SelectionMode.Multiple:
+                    //do nothing!
+                    break;
+                case SelectionMode.Single:
+                    if (_exemptedIndices.Count> 1)
+                    {
+                        //clear all
+                        SetAllSelected(false);
+                    }
+                    break;
+                case SelectionMode.None:
+                    if (_exemptedIndices.Count > 0)
+                    {
+                        //clear all
+                        SetAllSelected(false);
+                    }
+                    break;
+            }
         }
 
         public IList<TItem> GetItems()
@@ -163,84 +186,15 @@ namespace BlazorFluentUI
 
         private void Selection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            //if (e.Action == NotifyCollectionChangedAction.Add && e.NewStartingIndex != -1)
-            //    throw new Exception();
-
-            //if (SelectionIdentifierMode == SelectionIdentifierMode.Index)
-            //{
-            //Debug.WriteLine($"{e.Action}: NewStartingIndex {e.NewStartingIndex}  OldStartingIndex {e.OldStartingIndex}");
+            // This is fairly brute force, but I haven't found a situation in which something other than a full reset is required.
             switch (e.Action)
             {
-                //case NotifyCollectionChangedAction.Add:
-                //    for (var i = 0; i < e.NewItems.Count; i++)
-                //    {
-                //        //var item = e.NewItems[i] as TItem;
-                //        var addIndex = e.NewStartingIndex + i;
-                //        var item = _items[addIndex];
-                //        if (item != null)
-                //        {
-                //            var key = GetKey(item);
-                //            if (key != null)
-                //            {
-                //                _keyToIndexMap.Add(key, addIndex);
-                //            }
-
-                //            if (!CanSelectItem(item, null))
-                //            {
-                //                _unselectableIndices[addIndex] = item;
-                //                _unselectableCount++;
-                //            }
-                //        }
-                //    }
-                //    break;
-                //case NotifyCollectionChangedAction.Remove:
-                //    for (var i = 0; i < e.OldStartingIndex.Count; i++)
-                //    {
-                //        var addIndex = e.NewStartingIndex + i;
-                //        var item = _items[addIndex];
-                //        if (item != null)
-                //        {
-                //            var key = GetKey(item);
-                //            if (key != null)
-                //            {
-                //                _keyToIndexMap.Add(key, addIndex);
-                //            }
-
-                //            if (!CanSelectItem(item, null))
-                //            {
-                //                _unselectableIndices[addIndex] = item;
-                //                _unselectableCount++;
-                //            }
-                //        }
-                //    }
-                //    break;
                 case NotifyCollectionChangedAction.Add:
-                    //if (e.NewStartingIndex != -1)
-                    //{
-                    //    var count = e.NewItems.Count;
-                    //    // make gap for new items by pushing up higher indexes
-                    //    foreach (var pair in _keyToIndexMap)
-                    //    {
-                    //        if (pair.Value >= e.NewStartingIndex)
-                    //            _keyToIndexMap[pair.Key] += count;
-                    //    }
 
-                    //    var copy = new Dictionary<int,object>(_exemptedIndices.Where(x => x.Key >= e.NewStartingIndex));
-                    //    foreach (var i in _exemptedIndices.Where(x=>x.Key > )
-                    //        _exemptedIndices.();
-                    //    foreach (var i in over)
-                    //        _exemptedIndices.Add(i + count);
-
-                    //    var over = _exemptedIndices.Where(x => x.Key >= e.NewStartingIndex).ToDictionary();
-                    //}
-                    //foreach (var item in e.NewItems)
-                    //{
-                    //    _keyToIndexMap.Add()
-                    //}
-                    //break;
                 case NotifyCollectionChangedAction.Remove:
 
                 case NotifyCollectionChangedAction.Reset:
+
                 case NotifyCollectionChangedAction.Move:
                     //check all, match by key instead of index as index might have changed from a sort or filter operation 
                     Dictionary<object, int> newKeyToIndexMap = new Dictionary<object, int>();
@@ -290,15 +244,9 @@ namespace BlazorFluentUI
 
                     _selectedItems = null;
 
-                    //selectionChanged.OnNext(Unit.Default);
                     break;
             }
-            //}
-            //else if (SelectionIdentifierMode == SelectionIdentifierMode.Key)
-            //{
-            //just update index maps ... maybe
 
-            //}
         }
 
         public void SetAllSelected(bool isAllSelected, bool preserveModalState = false)
@@ -448,12 +396,6 @@ namespace BlazorFluentUI
                 _selectedIndices = null;
 
                 selectionChanged.OnNext(Unit.Default);
-                //EventGroup.raise(this, SELECTION_CHANGE);
-
-                //if (this._onSelectionChanged)
-                //{
-                //    this._onSelectionChanged();
-                //}
             }
             else
             {

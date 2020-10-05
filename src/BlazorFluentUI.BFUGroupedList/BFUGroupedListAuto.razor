@@ -17,7 +17,20 @@
             @if (context.Item is HeaderItem3<TItem,TKey>)
             {
                 var header = context.Item as HeaderItem3<TItem,TKey>;
-               // header.IsOpenObservable.Take(1).Subscribe(x => InvokeAsync(StateHasChanged));
+                bool isSelected = false;
+                if (Selection != null)
+                {
+                    isSelected = Selection.IsRangeSelected(header.GroupIndex, header.Count);
+                    Selection.SelectionChanged.Subscribe(_ =>
+                    {
+                        var selected = Selection.IsRangeSelected(header.GroupIndex, header.Count);
+                        if (selected != isSelected)
+                        {
+                            isSelected = selected;
+                            InvokeAsync(StateHasChanged);
+                        }
+                    });
+                }
 
                 <BFUGroupHeader IsOpen=@header.IsOpen
                                 OnOpenChanged=@((isOpen)=>
@@ -32,10 +45,11 @@
                                 GroupLevel=@header.Depth
                                 Name=@header.Name
                                 Compact=@Compact
-                                
-                                IsSelectionCheckVisible=@(SelectionZone != null)
+                                CurrentlySelected=@isSelected
+                                IsSelectionCheckVisible=@(Selection != null)
                                 OnClick=@(()=>OnHeaderClicked(context))
-                                OnToggle=@(()=>OnHeaderToggled(context)) />
+                                OnToggle=@(()=>OnHeaderToggled(context)) 
+                                />
                 @if (header.IsOpen)
                 {
                     <BFUGroupItem ItemsSource=@header.Items

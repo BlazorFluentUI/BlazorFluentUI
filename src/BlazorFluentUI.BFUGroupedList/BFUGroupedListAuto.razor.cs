@@ -115,8 +115,8 @@ namespace BlazorFluentUI
 
         private IList<bool>? _sortDescending;
         private IList<Func<TItem, object>>? _sortBy;
-        private BehaviorSubject<IComparer<TItem>> sortExpressionComparer = new BehaviorSubject<IComparer<TItem>>(new SortExpressionComparer<TItem>());
-        private BehaviorSubject<IComparer<IGroupedListItem3<TItem>>> subGroupSortExpressionComparer = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(new SortExpressionComparer<IGroupedListItem3<TItem>>());
+        private BehaviorSubject<IComparer<TItem>> sortExpressionComparer;// = new BehaviorSubject<IComparer<TItem>>(new SortExpressionComparer<TItem>());
+        private BehaviorSubject<IComparer<IGroupedListItem3<TItem>>> subGroupSortExpressionComparer;// = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(new SortExpressionComparer<IGroupedListItem3<TItem>>());
         private bool _groupSortDescending;
         private BehaviorSubject<IComparer<GroupedListItem2<TItem>>> _groupSort = new BehaviorSubject<IComparer<GroupedListItem2<TItem>>>(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
         private Subject<Unit> resorter = new Subject<Unit>();
@@ -173,108 +173,23 @@ namespace BlazorFluentUI
 
         private void OnHeaderClicked(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
         {
-            //if (SelectionZone != null)
-            //{
-            //    // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
-            //    //does selection contain this item already?
-            //    var headerKey = GetKeyForHeader(indexedItem.Item);
-            //    if (SelectionZone.Selection.SelectedKeys.Contains(headerKey))
-            //    {
-            //        var listToDeselect = new List<object>();
-            //        //deselect it and all possible children
-            //        listToDeselect.Add(headerKey);
-            //        if (dataItems.Count - 1 > indexedItem.Index)  // there are more items to check
-            //        {
-            //            for (var i = indexedItem.Index + 1; i < dataItems.Count; i++)
-            //            {
-            //                if (dataItems[i].Depth > indexedItem.Item.Depth)
-            //                {
-            //                    listToDeselect.Add(dataItems[i].Key);
-            //                }
-            //                else
-            //                    break;
-            //            }
-            //        }
-            //        SelectionZone.RemoveKeys(listToDeselect);
-                    
-            //    }
-            //    else
-            //    {
-            //        var listToSelect = new List<object>();
-            //        //select it and all possible children
-            //        listToSelect.Add(headerKey);
-            //        if (dataItems.Count - 1 > indexedItem.Index)  // there are more items to check
-            //        {
-            //            for (var i = indexedItem.Index + 1; i < dataItems.Count; i++)
-            //            {
-            //                if (dataItems[i].Depth > indexedItem.Item.Depth)
-            //                {
-            //                    listToSelect.Add(dataItems[i].Key);
-            //                }
-            //                else
-            //                    break;
-            //            }
-            //        }
-            //        SelectionZone.AddKeys(listToSelect);
-            //        //select it and all children
-            //        //var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-            //        //SelectionZone.AddItems(items);
-            //    }
-            //}
+            // should check for other callback, but it doesn't exist for now.  Do the OnHeaderToggled as a default action.
+
+            OnHeaderToggled(indexedItem);
         }
 
-        private void OnHeaderToggled(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
+        /// <summary>
+        /// OnHeaderToggled is the action for clicking the select all button AND the default action for header clicking if the callback isn't set externally
+        /// </summary>
+        /// <param name="indexedItem"></param>
+        private async Task OnHeaderToggled(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
         {
-            //if (SelectionZone != null)
-            //{
-            //    // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
-            //    //does selection contain this item already?
-            //    var headerKey = GetKeyForHeader(indexedItem.Item);
-            //    if (SelectionZone.Selection.SelectedKeys.Contains(headerKey))
-            //    {
-            //        var listToDeselect = new List<object>();
-            //        //deselect it and all possible children
-            //        listToDeselect.Add(headerKey);
-            //        if (dataItems.Count - 1 > indexedItem.Index)  // there are more items to check
-            //        {
-            //            for (var i = indexedItem.Index + 1; i < dataItems.Count; i++)
-            //            {
-            //                if (dataItems[i].Depth > indexedItem.Item.Depth)
-            //                {
-            //                    listToDeselect.Add(dataItems[i].Key);
-            //                }
-            //                else
-            //                    break;
-            //            }
-            //        }
-            //        SelectionZone.RemoveKeys(listToDeselect);
-            //        //deselect it and all children
-            //        //var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-            //        //SelectionZone.RemoveItems(items);
-            //    }
-            //    else
-            //    {
-            //        var listToSelect = new List<object>();
-            //        //select it and all possible children
-            //        listToSelect.Add(headerKey);
-            //        if (dataItems.Count - 1 > indexedItem.Index)  // there are more items to check
-            //        {
-            //            for (var i = indexedItem.Index + 1; i < dataItems.Count; i++)
-            //            {
-            //                if (dataItems[i].Depth > indexedItem.Item.Depth)
-            //                {
-            //                    listToSelect.Add(dataItems[i].Key);
-            //                }
-            //                else
-            //                    break;
-            //            }
-            //        }
-            //        SelectionZone.AddKeys(listToSelect);
-            //        //select it and all children
-            //        //var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-            //        //SelectionZone.AddItems(items);
-            //    }
-            //}
+            if (Selection != null)
+            {
+                var header = (indexedItem.Item as HeaderItem3<TItem, TKey>);
+
+                Selection.ToggleRangeSelected(header.GroupIndex, header.Count);
+            }
         }
 
         public void ForceUpdate()
@@ -302,13 +217,13 @@ namespace BlazorFluentUI
                 throw new Exception("Must have GetKey.");
 
 
-            if (SortBy != _sortBy || SortDescending != _sortDescending || (SortBy != null && _sortBy != null && !SortBy.SequenceEqual(_sortBy) ) || (SortDescending != null && _sortDescending != null && !SortDescending.SequenceEqual(_sortDescending)))
+            if (SortBy != _sortBy || SortDescending != _sortDescending || (SortBy != null && _sortBy != null && !SortBy.SequenceEqual(_sortBy)) || (SortDescending != null && _sortDescending != null && !SortDescending.SequenceEqual(_sortDescending)))
             {
                 _sortBy = SortBy;
                 _sortDescending = SortDescending;
 
-                SortExpressionComparer<TItem> sortExpression = null;
-                SortExpressionComparer<IGroupedListItem3<TItem>> subGroupListSortExpression = null;
+                IComparer<TItem> sortExpression = null;
+                IComparer<IGroupedListItem3<TItem>> subGroupListSortExpression = null;
                 if (GroupBy != null)
                 {
                     for (var i = 0; i < GroupBy.Count(); i++)
@@ -323,9 +238,9 @@ namespace BlazorFluentUI
                         else
                         {
                             if (GroupSortDescending)
-                                sortExpression = sortExpression.ThenByDescending(GroupBy[i].ConvertToIComparable());
+                                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByDescending(GroupBy[i].ConvertToIComparable());
                             else
-                                sortExpression = sortExpression.ThenByAscending(GroupBy[i].ConvertToIComparable());
+                                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByAscending(GroupBy[i].ConvertToIComparable());
                         }
                     }
                 }
@@ -346,9 +261,9 @@ namespace BlazorFluentUI
                         else
                         {
                             if (SortDescending[j])
-                                sortExpression = sortExpression.ThenByDescending(sortBy[j].ConvertToIComparable());
+                                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByDescending(sortBy[j].ConvertToIComparable());
                             else
-                                sortExpression = sortExpression.ThenByAscending(sortBy[j].ConvertToIComparable());
+                                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByAscending(sortBy[j].ConvertToIComparable());
                         }
                     }
                     for (var i = 0; i < sortBy.Count(); i++)
@@ -356,7 +271,7 @@ namespace BlazorFluentUI
                         var j = i;  //local copy, necessary for the callback... not really for the above part.
                         if (subGroupListSortExpression == null)
                         {
-                            if (SortDescending[j]) 
+                            if (SortDescending[j])
                                 subGroupListSortExpression = SortExpressionComparer<IGroupedListItem3<TItem>>.Descending(x => sortBy[j](x.Item) as IComparable);
                             else
                                 subGroupListSortExpression = SortExpressionComparer<IGroupedListItem3<TItem>>.Ascending(x => sortBy[j](x.Item) as IComparable);
@@ -364,20 +279,70 @@ namespace BlazorFluentUI
                         else
                         {
                             if (SortDescending[j])
-                                subGroupListSortExpression = subGroupListSortExpression.ThenByDescending(x => sortBy[j](x.Item) as IComparable);
+                                subGroupListSortExpression = (subGroupListSortExpression as SortExpressionComparer<IGroupedListItem3<TItem>>).ThenByDescending(x => sortBy[j](x.Item) as IComparable);
                             else
-                                subGroupListSortExpression = subGroupListSortExpression.ThenByAscending(x => sortBy[j](x.Item) as IComparable);
+                                subGroupListSortExpression = (subGroupListSortExpression as SortExpressionComparer<IGroupedListItem3<TItem>>).ThenByAscending(x => sortBy[j](x.Item) as IComparable);
                         }
                     }
                 }
 
-                if (sortExpression == null)
+                if (sortExpression == null)  // need to sort by **something** or else DD will use any ordering after grouping and it won't match selection sort.  Going to use original list order.
                 {
-                    sortExpression = new SortExpressionComparer<TItem>();
-                    subGroupListSortExpression = new SortExpressionComparer<IGroupedListItem3<TItem>>();
+                    sortExpression = new OriginalSortComparer<TItem>(ItemsSource); //new SortExpressionComparer<TItem>();
+                    subGroupListSortExpression = new OriginalGroupSortComparer<TItem>(ItemsSource); //new SortExpression<IGroupedListItem3<TItem>>((x,y)=> x.Item);
                 }
-                sortExpressionComparer.OnNext(sortExpression);
-                subGroupSortExpressionComparer.OnNext(subGroupListSortExpression);
+
+                if (sortExpressionComparer == null)
+                    sortExpressionComparer = new BehaviorSubject<IComparer<TItem>>(sortExpression);
+                else
+                    sortExpressionComparer.OnNext(sortExpression);
+                
+                if (subGroupSortExpressionComparer == null)
+                    subGroupSortExpressionComparer = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(subGroupListSortExpression);
+                else
+                    subGroupSortExpressionComparer.OnNext(subGroupListSortExpression);
+            }
+            else if ((SortBy == null && _sortBy != null) || sortExpressionComparer == null)
+            {
+                //even if there's no sorting and we're using the original list's order, we need to apply grouping "sorting" for the selection list 
+                IComparer<TItem> sortExpression = null;
+                //if (GroupBy != null)
+                //{
+                //    for (var i = 0; i < GroupBy.Count(); i++)
+                //    {
+                //        if (sortExpression == null)
+                //        {
+                //            if (GroupSortDescending)
+                //                sortExpression = SortExpressionComparer<TItem>.Descending(GroupBy[i].ConvertToIComparable());
+                //            else
+                //                sortExpression = SortExpressionComparer<TItem>.Ascending(GroupBy[i].ConvertToIComparable());
+                //        }
+                //        else
+                //        {
+                //            if (GroupSortDescending)
+                //                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByDescending(GroupBy[i].ConvertToIComparable());
+                //            else
+                //                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByAscending(GroupBy[i].ConvertToIComparable());
+                //        }
+                //    }
+                //}
+                if (GroupBy != null)
+                    sortExpression = new OriginalSortComparerPresortedByGroups<TItem>(ItemsSource, GroupBy, GroupSortDescending); //new SortExpressionComparer<TItem>();
+                else
+                    sortExpression = new OriginalSortComparer<TItem>(ItemsSource);
+                //    sortExpression = (sortExpression as SortExpressionComparer<TItem>).Add(ThenByAscending(new OriginalSortComparer<TItem>(ItemsSource));
+
+                var subGroupListSortExpression = new OriginalGroupSortComparer<TItem>(ItemsSource); //new SortExpression<IGroupedListItem3<TItem>>((x,y)=> x.Item);
+
+                if (sortExpressionComparer == null)
+                    sortExpressionComparer = new BehaviorSubject<IComparer<TItem>>(sortExpression);
+                else
+                    sortExpressionComparer.OnNext(sortExpression);
+
+                if (subGroupSortExpressionComparer == null)
+                    subGroupSortExpressionComparer = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(subGroupListSortExpression);
+                else
+                    subGroupSortExpressionComparer.OnNext(subGroupListSortExpression);
             }
 
             if (GroupSortDescending != _groupSortDescending)
@@ -484,8 +449,6 @@ namespace BlazorFluentUI
 
             sourceCache = new SourceCache<TItem,TKey>(GetKey);
 
-
-
             var firstGrouping = GroupBy.FirstOrDefault();
             var remainingGrouping = GroupBy.Skip(1);
 
@@ -499,10 +462,6 @@ namespace BlazorFluentUI
             var groupsPublished = published.Group(firstGrouping)
                 .Sort(SortExpressionComparer<IGroup<TItem, TKey, object>>.Ascending(x => x.Key as IComparable))
                 .Replay();
-
-                
-                //.Sort(SortExpressionComparer<IGroupedListItem3>.Ascending(x => x.Name as IComparable))
-                //.Replay();
 
             
             groupsPublished

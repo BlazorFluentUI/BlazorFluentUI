@@ -77,6 +77,12 @@ namespace BlazorFluentUI
         public EventCallback<bool> OnGroupExpandedChanged { get; set; }
 
         [Parameter]
+        public Action<IndexedItem<IGroupedListItem3<TItem>>> OnHeaderClick { get; set; }
+
+        [Parameter]
+        public Action<IndexedItem<IGroupedListItem3<TItem>>> OnHeaderToggle { get; set; }
+
+        [Parameter]
         public Func<bool> OnShouldVirtualize { get; set; } = () => true;
 
         [Parameter]

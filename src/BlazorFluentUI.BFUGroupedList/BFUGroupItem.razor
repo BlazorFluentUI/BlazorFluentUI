@@ -28,8 +28,8 @@
                             Name=@header.Name
                             Compact=@Compact
                             IsSelectionCheckVisible=@(SelectionZone != null)
-                            OnClick=@(() => OnHeaderClicked(context))
-                            OnToggle=@(() => OnHeaderToggled(context)) />
+                            OnClick=@(()=>OnHeaderClick(context))
+                            OnToggle=@(()=>OnHeaderToggle(context)) />
             @if (header.IsOpen)
             {
                 <BFUGroupItem ItemsSource=@header.Items
@@ -42,6 +42,8 @@
                               Selection=@Selection
                               SelectionMode=@SelectionMode
                               StartIndex=@header.GroupIndex
+                              OnHeaderClick=@OnHeaderClick
+                              OnHeaderToggle=@OnHeaderToggle
                               />
 
             }

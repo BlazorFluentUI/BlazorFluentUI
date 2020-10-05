@@ -241,5 +241,9 @@ namespace BlazorFluentUI
             OnItemInvoked?.Invoke(Selection.GetItems()[index], index);
         }
 
+        public async Task ToggleRangeSelectionAsync(int groupIndex, int count)
+        {
+
+        }
     }
 }

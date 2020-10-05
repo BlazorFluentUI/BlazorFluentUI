@@ -270,19 +270,42 @@ namespace BlazorFluentUI
         [JSInvokable]
         public void OnBeforeSpacerVisible(float spacerSize, float spacerSeparation, float containerSize)
         {
-            CalcualteItemDistribution(spacerSize, spacerSeparation, containerSize, out var itemsBefore, out var visibleItemCapacity);
+            if (IsVirtualizing)
+            {
+                CalcualteItemDistribution(spacerSize, spacerSeparation, containerSize, out var itemsBefore, out var visibleItemCapacity);
 
-            UpdateItemDistribution(itemsBefore, visibleItemCapacity);
+                UpdateItemDistribution(itemsBefore, visibleItemCapacity);
+            }
+            else
+            {
+                if (_itemsBefore != 0 || _visibleItemCapacity != ItemsSource.Count())
+                {
+                    UpdateItemDistribution(0, ItemsSource.Count());
+                    InvokeAsync(StateHasChanged);
+                    InvokeAsync(StateHasChanged);
+                }
+            }
         }
 
         [JSInvokable]
         public void OnAfterSpacerVisible(float spacerSize, float spacerSeparation, float containerSize)
         {
-            CalcualteItemDistribution(spacerSize, spacerSeparation, containerSize, out var itemsAfter, out var visibleItemCapacity);
+            if (IsVirtualizing)
+            {
+                CalcualteItemDistribution(spacerSize, spacerSeparation, containerSize, out var itemsAfter, out var visibleItemCapacity);
 
-            var itemsBefore = Math.Max(0, _itemCount - itemsAfter - visibleItemCapacity);
+                var itemsBefore = Math.Max(0, _itemCount - itemsAfter - visibleItemCapacity);
 
-            UpdateItemDistribution(itemsBefore, visibleItemCapacity);
+                UpdateItemDistribution(itemsBefore, visibleItemCapacity);
+            }
+            else
+            {
+                if (_itemsBefore != 0 || _visibleItemCapacity != ItemsSource.Count())
+                {
+                    UpdateItemDistribution(0, ItemsSource.Count());
+                    InvokeAsync(StateHasChanged);
+                }
+            }
         }
 
         private void CalcualteItemDistribution(

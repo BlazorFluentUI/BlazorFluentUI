@@ -47,14 +47,10 @@
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
-    //SourceCache<DataItem, string> dataSource = new SourceCache<DataItem, string>(x => x.Key);
     List<DataItem> dataSource = new List<DataItem>();
-    //public System.ComponentModel.BindingList<DataItem> ReadonlyList = new System.ComponentModel.BindingList<DataItem>();
     int count = 0;
 
-    //SourceCache<BFUDetailsRowColumn<DataItem>, string> columnsSource = new SourceCache<BFUDetailsRowColumn<DataItem>, string>(x => x.Key);
     List<BFUDetailsRowColumn<DataItem>> columnsSource = new List<BFUDetailsRowColumn<DataItem>>();
-    //public ReadOnlyObservableCollection<BFUDetailsRowColumn<DataItem>> ReadonlyColumns;
 
     BFUDetailsListAuto<DataItem> detailsList;
 
@@ -85,29 +81,19 @@
 
         dataSource.AddRange(data);
 
-        //dataSource.Connect()
-        //    .Bind(ReadonlyList)
-        //    .Subscribe();
-
-        //columnsSource.Connect()
-        //    .Sort(SortExpressionComparer<BFUDetailsRowColumn<DataItem>>.Ascending(x => x.Index))
-        //    .Bind(out ReadonlyColumns)
-        //    .Do(_ => StateHasChanged())  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
-        //    .Subscribe();
-
         base.OnInitialized();
     }
 
 
-    private Func<DataItem, IComparable> GetSortSelector(string key)
-    {
-        if (key == "Key")
-            return (item) => item.Key;
-        else if (key == "Name")
-            return (item) => item.DisplayName;
-        else
-            return item => item.Description;
-    }
+    //private Func<DataItem, IComparable> GetSortSelector(string key)
+    //{
+    //    if (key == "Key")
+    //        return (item) => item.Key;
+    //    else if (key == "Name")
+    //        return (item) => item.DisplayName;
+    //    else
+    //        return item => item.Description;
+    //}
 
 
 }

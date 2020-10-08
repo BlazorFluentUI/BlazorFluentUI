@@ -2,10 +2,6 @@
 @inherits BFUComponentBase
 @typeparam TItem
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=> this.CreateGlobalCss(Theme)) />
-
-@*<BFUStylePreloader Component=@(new BFULabel()) />*@
-
 <div @ref=@RootElementReference
      class="ms-ChoiceFieldGroup"
      style=@Style

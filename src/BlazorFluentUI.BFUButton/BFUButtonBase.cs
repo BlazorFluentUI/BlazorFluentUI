@@ -10,7 +10,7 @@ using BlazorFluentUI.Style;
 
 namespace BlazorFluentUI
 {
-    public class BFUButtonBase : BFUComponentBase, IDisposable
+    public class BFUButtonBase : BFUComponentBase, IAsyncDisposable
     {
         internal BFUButtonBase()
         {
@@ -748,7 +748,8 @@ namespace BlazorFluentUI
 
         }
 
-        public async void Dispose()
+
+        public async ValueTask DisposeAsync()
         {
             if (_registrationToken != null)
                 await DeregisterListFocusAsync();

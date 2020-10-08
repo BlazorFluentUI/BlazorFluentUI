@@ -1,0 +1,21 @@
+﻿.ms-Callout-container {
+    position: relative;
+}
+
+.ms-Callout-beakCurtain {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--semanticColors-MenuBackground);
+    border-radius: var(--effects-RoundedCorner2);
+}
+
+@media screen and (-ms-high-contrast:active) {
+    .ms-Callout {
+        border-width: 1px;
+        border-style: solid;
+        border-color: WindowText;
+    }
+}

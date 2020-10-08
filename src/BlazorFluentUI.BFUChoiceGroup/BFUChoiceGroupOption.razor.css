@@ -1,0 +1,265 @@
+﻿.ms-ChoiceField {
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    color: var(--semanticTextColors-BodyText);
+    min-height: 26px;
+    border: none;
+    position: relative;
+    margin-top: 8px;
+}
+.ms-ChoiceFieldLabel {
+    color: var(--palette-NeutralDark);
+    display: inline-block;
+}
+.ms-ChoiceField:not(.custom-content) .ms-ChoiceFieldLabel {
+    padding-left: 26px;
+}
+
+.ms-ChoiceField.custom-content {
+    display: inline-flex;
+    font-size: 0;
+    margin: 0 4px 4px 0;
+    padding-left: 0;
+    background-color: var(--palette-NeutralLighter);
+    height: 100%;
+}
+.ms-ChoiceFieldLabel::before {
+    color: var(--semanticColors-InputBorderHovered);
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+.is-checked .ms-ChoiceFieldLabel::before {
+    color: var(--palette-ThemeDark);
+    border-color: var(--palette-ThemeDark);
+}
+.ms-ChoiceField:not(.is-checked):not(.custom-content) .ms-ChoiceFieldLabel::after {
+    content: '';
+    transition-property: background-color;
+    left: 5px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--palette-NeutralSecondary);
+}
+.ms-ChoiceField.is-checked .ms-ChoiceFieldLabel::after {
+    border-color: var(--palette-ThemeDark);
+}
+
+
+.ms-ChoiceField-wrapper:focus {
+    /* TO DO */
+}
+
+.ms-ChoiceField-input {
+    position: absolute;
+    opacity: 0;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    margin: 0
+}
+
+.ms-ChoiceField-field {
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 0;
+    position: relative;
+    vertical-align: top;
+    user-select: none;
+    min-height: 20px;
+}
+
+.ms-ChoiceField:not(.is-disabled) .ms-ChoiceField-field:hover .ms-ChoiceFieldLabel,
+.ms-ChoiceField:not(.is-disabled) .ms-ChoiceField-field:focus .ms-ChoiceFieldLabel {
+    color: var(--palette-NeutralDark);
+}
+.ms-ChoiceField:not(.is-disabled) .is-checked .ms-ChoiceField-field:hover::before,
+.ms-ChoiceField:not(.is-disabled) .is-checked .ms-ChoiceField-field:focus::before {
+    border-color: var(--palette-ThemeDark);
+}
+.ms-ChoiceField:not(.is-disabled):not(.is-checked) .ms-ChoiceField-field:hover::before,
+.ms-ChoiceField:not(.is-disabled):not(.is-checked) .ms-ChoiceField-field:focus::before {
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+.ms-ChoiceField:not(.is-disabled):not(.is-checked):not(.custom-content) .ms-ChoiceField-field:hover::after,
+.ms-ChoiceField:not(.is-disabled):not(.is-checked):not(.custom-content) .ms-ChoiceField-field:focus::after {
+    content: '';
+    transition-property: background-color;
+    left: 5px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--palette-NeutralSecondary);
+}
+.ms-ChoiceField:not(.is-disabled) .is-checked .ms-ChoiceField-field:hover,
+.ms-ChoiceField:not(.is-disabled) .is-checked .ms-ChoiceField-field:focus {
+    border-color: var(--palette-ThemeDark);
+}
+
+
+.custom-content .ms-ChoiceField-field {
+    box-sizing: content-box;
+    cursor: pointer;
+    padding-top: 22px;
+    margin: 0;
+    text-align: center;
+    transition-property: all;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+    border: 1px solid transparent;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.is-checked.custom-content .ms-ChoiceField-field {
+    border-color: var(--semanticColors-InputBackgroundChecked);
+}
+
+
+.ms-ChoiceField:not(.is-disabled).is-checked.custom-content .ms-ChoiceField-field:hover,
+.ms-ChoiceField:not(.is-disabled).is-checked.custom-content .ms-ChoiceField-field:focus {
+    border-color: var(--palette-ThemeDark);
+}
+.ms-ChoiceField:not(.is-disabled):not(.is-checked).custom-content .ms-ChoiceField-field:hover,
+.ms-ChoiceField:not(.is-disabled):not(.is-checked).custom-content .ms-ChoiceField-field:focus {
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+.ms-ChoiceField:not(.is-disabled) .is-checked.custom-content .ms-ChoiceField-field:hover::before,
+.ms-ChoiceField:not(.is-disabled) .is-checked.custom-content .ms-ChoiceField-field:focus::before {
+    opacity: 1;
+    border-color: var(--palette-ThemeDark);
+}
+.ms-ChoiceField:not(.is-disabled):not(.is-checked).custom-content .ms-ChoiceField-field:hover::before,
+.ms-ChoiceField:not(.is-disabled):not(.is-checked).custom-content .ms-ChoiceField-field:focus::before {
+    opacity: 1;
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+
+
+.ms-ChoiceField.is-disabled .ms-ChoiceField-field {
+    cursor: default;
+}
+.ms-ChoiceField.is-disabled .ms-ChoiceFieldLabel {
+    color: var(--semanticTextColors-DisabledBodyText);
+}
+@media screen and (-ms-high-contrast: active) {
+    .is-disabled {
+        color: GrayText;
+    }
+}
+.is-checked .is-disabled .ms-ChoiceField {
+    border-color: var(--palette-NeutralLighter);
+}
+.ms-ChoiceField-labelWrapper {
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+}
+.ms-ChoiceField .ms-ChoiceField-field::before {
+    content:'';
+    display: inline-block;
+    background-color: var(--semanticColors-BodyBackground);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--palette-NeutralPrimary);
+    width: 20px;
+    height: 20px;
+    font-weight: normal;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    transition-property: border-color;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(.4, 0, .23, 1);
+    border-radius: 50%;
+}
+.is-disabled .ms-ChoiceField-field::before {
+    border-color: var(--semanticTextColors-DisabledBodySubtext);
+}
+@media screen and (-ms-high-contrast: active) {
+    .is-disabled .ms-ChoiceField-field::before {
+        color: GrayText;
+    }
+}
+
+.is-checked .ms-ChoiceField-field::before {
+    border-color: var(--semanticColors-InputBackgroundChecked);
+}
+.custom-content .ms-ChoiceField-field::before {
+    top: 3px;
+    right: 3px;
+    left: auto;
+    opacity: 0;
+}
+.is-checked.custom-content .ms-ChoiceField-field::before {
+    opacity: 1;
+}
+.ms-ChoiceField-field::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    position: absolute;
+    left: 10px;
+    right: 0;
+    transition-property: border-width;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(.4, 0, .23, 1);
+    box-sizing: border-box;
+}
+.is-checked .ms-ChoiceField-field::after {
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--semanticColors-InputBackgroundChecked);
+    left: 5px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+}
+.is-checked.custom-content .ms-ChoiceField-field::after {
+    top: 8px;
+    right: 8px;
+    left: auto;
+}
+.custom-content .ms-ChoiceField-innerField {
+    position: relative;
+    display: inline-block;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.is-disabled.custom-content .ms-ChoiceField-innerField {
+    opacity: 0.25;
+}
+@media screen and (-ms-high-contrast: active) {
+    .is-disabled.custom-content .ms-ChoiceField-innerField {
+        opacity: 0.25;
+    }
+}
+
+.custom-content .ms-ChoiceField-customContentWrapper {
+    padding-bottom: 2px;
+    transition-property: opacity;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+}
+
+.ms-ChoiceField-customContentWrapper .ms-Image {
+    display: inline-block;
+    border-style: none;
+}
+
+.custom-content .ms-ChoiceField-labelWrapper {
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+    display: flex;
+    position: relative;
+    margin: 4px 8px 2px 8px;
+    height: 32px;
+    line-height: 15px;
+    overflow: hidden;
+    white-space: pre-wrap;
+}

@@ -4,7 +4,6 @@
 <BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 
 <BFUStylePreloader Component="new BFUCalendar()" />
-<BFUStylePreloader Component="new BFUCalloutContent()" />
 <div class=@($"mediumFont ms-DatePicker{(IsDatePickerShown ? " ms-DatePicker--is-open" : "" )} {(Disabled ? " ms-DatePicker--is-disabled" : "" )} {ClassName}")
      style=@Style>
     <div aria-haspopup="true"

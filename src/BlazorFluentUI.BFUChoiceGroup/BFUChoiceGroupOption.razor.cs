@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUChoiceGroupOption<TItem> : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUChoiceGroupOption<TItem> : BFUComponentBase
     {
         private const int _choiceFieldSize = 20;
         private const string _transitionDuration = "200ms";

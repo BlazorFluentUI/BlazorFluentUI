@@ -41,11 +41,11 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <TypeScriptCompile Update="wwwroot\baseComponent.ts">
       <Generator>TypescriptCompile</Generator>
     </TypeScriptCompile>
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <Folder Include="src\" />

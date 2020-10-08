@@ -301,7 +301,7 @@ var BlazorFluentUiBaseComponent;
     var _lastId = 0;
     var cachedViewports = new Map();
     class Viewport {
-        constructor(component, rootElement) {
+        constructor(component, rootElement, fireInitialViewport = false) {
             this.RESIZE_DELAY = 500;
             this.MAX_RESIZE_ATTEMPTS = 3;
             this.viewport = { width: 0, height: 0 };
@@ -314,6 +314,9 @@ var BlazorFluentUiBaseComponent;
             this._onAsyncResizeAsync = debounce(this._onAsyncResizeAsync, this.RESIZE_DELAY, { leading: true });
             this.viewportResizeObserver = new window.ResizeObserver(this._onAsyncResizeAsync);
             this.viewportResizeObserver.observe(this.rootElement);
+            if (fireInitialViewport) {
+                this._onAsyncResizeAsync();
+            }
         }
         disconnect() {
             this.viewportResizeObserver.disconnect();
@@ -348,8 +351,8 @@ var BlazorFluentUiBaseComponent;
         }
         ;
     }
-    function addViewport(component, rootElement) {
-        let viewport = new Viewport(component, rootElement);
+    function addViewport(component, rootElement, fireInitialViewport = false) {
+        let viewport = new Viewport(component, rootElement, fireInitialViewport);
         cachedViewports.set(viewport.id, viewport);
         return viewport.id;
     }

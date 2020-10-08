@@ -9,6 +9,28 @@ namespace BlazorFluentUI
     /// </summary>
     public static class SelectManyExtensions
     {
+        public static IList<T> SelectManyRecursiveList<T>(this IEnumerable<T> source, Func<T, IEnumerable<T>> selector)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            if (selector == null)
+            {
+                throw new ArgumentNullException("selector");
+            }
+
+            T[] selectManyRecursive = source as T[] ?? source.ToArray();
+            return !selectManyRecursive.Any()
+                ? selectManyRecursive
+                : selectManyRecursive.Concat(
+                    selectManyRecursive
+                        .SelectMany(i => selector(i).EmptyIfNull())
+                        .SelectManyRecursive(selector)
+                    ).ToList();
+        }
+
 
         public static IEnumerable<T> SelectManyRecursive<T>(this IEnumerable<T> source, Func<T, IEnumerable<T>> selector)
         {

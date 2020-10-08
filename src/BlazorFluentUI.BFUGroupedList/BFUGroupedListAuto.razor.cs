@@ -105,8 +105,8 @@ namespace BlazorFluentUI
         [Parameter]
         public IList<bool>? SortDescending { get; set; }
 
-        [Parameter]
-        public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
+        //[Parameter]
+        //public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
 
 
         private Func<TItem, object> getKeyInternal;
@@ -160,11 +160,11 @@ namespace BlazorFluentUI
             //}
         }
 
-        public bool ShouldAllBeSelected()
-        {
-            return false;
-            //return SelectionZone.Selection.SelectedKeys.Count() == groupedUIListItems.Count() && groupedUIListItems.Any();
-        }
+        //public bool ShouldAllBeSelected()
+        //{
+        //    return false;
+        //    //return SelectionZone.Selection.SelectedKeys.Count() == groupedUIListItems.Count() && groupedUIListItems.Any();
+        //}
 
         private string GetKeyForHeader(GroupedListItem2<TItem> header)
         {
@@ -306,26 +306,7 @@ namespace BlazorFluentUI
             {
                 //even if there's no sorting and we're using the original list's order, we need to apply grouping "sorting" for the selection list 
                 IComparer<TItem> sortExpression = null;
-                //if (GroupBy != null)
-                //{
-                //    for (var i = 0; i < GroupBy.Count(); i++)
-                //    {
-                //        if (sortExpression == null)
-                //        {
-                //            if (GroupSortDescending)
-                //                sortExpression = SortExpressionComparer<TItem>.Descending(GroupBy[i].ConvertToIComparable());
-                //            else
-                //                sortExpression = SortExpressionComparer<TItem>.Ascending(GroupBy[i].ConvertToIComparable());
-                //        }
-                //        else
-                //        {
-                //            if (GroupSortDescending)
-                //                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByDescending(GroupBy[i].ConvertToIComparable());
-                //            else
-                //                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByAscending(GroupBy[i].ConvertToIComparable());
-                //        }
-                //    }
-                //}
+             
                 if (GroupBy != null)
                     sortExpression = new OriginalSortComparerPresortedByGroups<TItem>(ItemsSource, GroupBy, GroupSortDescending); //new SortExpressionComparer<TItem>();
                 else
@@ -376,12 +357,7 @@ namespace BlazorFluentUI
                         sourceCache.AddOrUpdate(_itemsSource);
                 }
             }
-            else if (SubGroupSelector != null)
-            {
-              
-            }
-
-
+           
 
             await base.OnParametersSetAsync();
 

@@ -362,7 +362,7 @@
         viewport: { width: number, height: number } = { width: 0, height: 0 };
         _resizeAttempts: number;
 
-        constructor(component: DotNetReferenceType, rootElement:HTMLElement) {
+        constructor(component: DotNetReferenceType, rootElement:HTMLElement, fireInitialViewport:boolean=false) {
             this.id = _lastId++;
             this.component = component;
             this.rootElement = rootElement;
@@ -371,6 +371,10 @@
 
             this.viewportResizeObserver = new (window as any).ResizeObserver(this._onAsyncResizeAsync);
             this.viewportResizeObserver.observe(this.rootElement);
+
+            if (fireInitialViewport) {
+                this._onAsyncResizeAsync();
+            }
         }
 
         public disconnect() {
@@ -415,9 +419,9 @@
 
     }
 
-    export function addViewport(component: DotNetReferenceType, rootElement: HTMLElement): number {
+    export function addViewport(component: DotNetReferenceType, rootElement: HTMLElement, fireInitialViewport: boolean = false): number {
 
-        let viewport: Viewport = new Viewport(component, rootElement);
+        let viewport: Viewport = new Viewport(component, rootElement, fireInitialViewport);
         cachedViewports.set(viewport.id, viewport);
 
         return viewport.id;

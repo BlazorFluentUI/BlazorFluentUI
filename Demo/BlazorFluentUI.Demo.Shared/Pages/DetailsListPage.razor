@@ -6,37 +6,38 @@
 @using System.Reactive.Linq
 @using System.Reactive.Subjects
 
-    <BFUStack Style="height:100%;">
-        <h3>DetailsList</h3>
-        <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
-            <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
-            <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
-            <BFUDropdown ItemsSource=@selectionModeOptions
-                         @bind-SelectedOption=selectedModeOption
-                         Style="max-width:300px;">
-            </BFUDropdown>
-        </BFUStack>
-        <BFUTextField Label="Filter Description"
-                   @bind-Value=@dataContainer.Filter
-                   @bind-Value:event="OnInput"/>
-
-        @if (ReadonlyList != null)
-        {
-            <BFUDetailsList ItemsSource="ReadonlyList"
-                            IsVirtualizing="isVirtualizing"
-                            Compact="isCompact"
-                            Columns="ReadonlyColumns"
-                            GetKey=@(item => item.Key)
-                            LayoutMode="DetailsListLayoutMode.Justified"
-                            Selection="selection"
-                            SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
-                            />
-        }
-        else
-        {
-            @("Loading...")
-        }
+<BFUStack Style="height:100%;">
+    <h3>DetailsList</h3>
+    <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
+        <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+        <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+        <BFUDropdown ItemsSource=@selectionModeOptions
+                     @bind-SelectedOption=selectedModeOption
+                     Style="max-width:300px;">
+        </BFUDropdown>
     </BFUStack>
+    <BFUTextField Label="Filter Description"
+                  @bind-Value=@dataContainer.Filter
+                  @bind-Value:event="OnInput" />
+        <div data-is-scrollable="true"
+             style="height:100%;overflow-y:auto;">
+            @if (ReadonlyList != null)
+            {
+                <BFUDetailsList ItemsSource="ReadonlyList"
+                                IsVirtualizing="isVirtualizing"
+                                Compact="isCompact"
+                                Columns="ReadonlyColumns"
+                                GetKey=@(item => item.Key)
+                                LayoutMode="DetailsListLayoutMode.Justified"
+                                Selection="selection"
+                                SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key)) />
+            }
+            else
+            {
+                @("Loading...")
+            }
+        </div>
+</BFUStack>
 
 @code {
 
@@ -44,7 +45,7 @@
     // https://developer.microsoft.com/en-us/fluentui#/controls/web/detailslist for examples of how to use DetailsList
     // other ways.
 
-    bool isVirtualizing = false;
+    bool isVirtualizing = true;
     bool isCompact = false;
     IBFUDropdownOption selectedModeOption;
     List<IBFUDropdownOption> selectionModeOptions;

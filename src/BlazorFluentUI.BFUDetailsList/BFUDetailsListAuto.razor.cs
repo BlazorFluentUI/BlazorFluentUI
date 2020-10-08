@@ -257,10 +257,10 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            if (GroupBy == null && ItemsSource != null)
-            {
-                //selectionZone?.SetItemsSource(ItemsSource);
-            }
+            //if (GroupBy == null && ItemsSource != null)
+            //{
+            //    //selectionZone?.SetItemsSource(ItemsSource);
+            //}
 
             if (Selection != _selection)
             {
@@ -307,6 +307,7 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
+        [Obsolete]
         public void Filter()
         {
             //reset filter icons
@@ -482,7 +483,7 @@ namespace BlazorFluentUI
             {
                 selfReference = DotNetObjectReference.Create(this);
                 _viewportRegistration = await JSRuntime.InvokeAsync<int>("BlazorFluentUiBaseComponent.addViewport", selfReference, RootElementReference);
-                //var viewport = await JSRuntime.InvokeAsync<Viewport>("BFUBaseComponent.registerResizeEvent");
+                
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -497,28 +498,7 @@ namespace BlazorFluentUI
             // this was attached in the ms-DetailsList-contentWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI. 
         }
 
-        private bool ShouldAllBeSelected()
-        {
-            //if (GroupBy == null)
-            //{
-            //    return Selection.SelectedIndices.Count() == items.Count() && items.Any();
-            //    //return Selection.SelectedItems.Count() == ItemsSource.Count() && ItemsSource.Any();
-            //}
-            //else
-            //{
-            //    ////source is grouped... need to recursively select them all.
-
-            //    //var flattenedItems = ItemsSource?.SelectManyRecursive(x => SubGroupSelector(x));
-            //    //if (flattenedItems == null)
-            //    //    return false;
-
-            //    //return flattenedItems.Count() == Selection.SelectedItems.Count() && flattenedItems.Any();
-            //    if (groupedList == null)
-            //        return false;
-            //    return groupedList.ShouldAllBeSelected();
-            //}
-            return false;
-        }
+        
 
         private void OnAllSelected()
         {

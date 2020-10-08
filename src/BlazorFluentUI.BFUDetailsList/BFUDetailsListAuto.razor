@@ -93,8 +93,6 @@
                                                 Selection=@Selection
                                             SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                                 <ItemTemplate>
-                                    @*@if (context.Item is PlainItem3<TItem, object>)
-                                    {*@
                                     <BFUDetailsRow TItem="TItem"
                                                    Item=@(((PlainItem3<TItem,object>)context.Item).Item)
                                                    GetKey=@GetKey
@@ -104,7 +102,6 @@
                                                    SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
                                                    CheckboxVisibility=@CheckboxVisibility
                                                    Compact=@Compact />
-                                    @*}*@
                                 </ItemTemplate>
                             </BFUGroupedListAuto>
                         }
@@ -139,26 +136,29 @@
                     }
                     else
                     {
-                        @*<BFUGroupedListAuto ItemsSource=@items
+                        <BFUGroupedListAuto ItemsSource=@items
                                             @ref=@groupedList
                                             TItem="TItem"
-                                            GetKey=@getKeyInternal
+                                            TKey="object"
+                                            GetKey=@GetKey
                                             GroupBy=@GroupBy
                                             SortBy=@groupSortSelectors
                                             SortDescending=@groupSortDescendingList
                                             IsVirtualizing=@IsVirtualizing
+                                            Selection=@Selection
                                             SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                             <ItemTemplate>
                                 <BFUDetailsRow TItem="TItem"
-                                               Item=@context.Item.Item
+                                               Item=@(((PlainItem3<TItem,object>)context.Item).Item)
+                                               GetKey=@GetKey
                                                ItemIndex=@context.Index
-                                               Key=GetKey(context.Item.Item)
+                                               Selection=@Selection
                                                Columns=@_adjustedColumns
                                                SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
                                                CheckboxVisibility=@CheckboxVisibility
                                                Compact=@Compact />
                             </ItemTemplate>
-                        </BFUGroupedListAuto>*@
+                        </BFUGroupedListAuto>
                     }
                 }
             </BFUFocusZone>

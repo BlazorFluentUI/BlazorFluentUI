@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsList<TItem> : BFUComponentBase
+    public partial class BFUDetailsList<TItem> : BFUComponentBase, IAsyncDisposable
     {
         [Parameter]
         public CheckboxVisibility CheckboxVisibility { get; set; } = CheckboxVisibility.OnHover;
@@ -75,6 +76,9 @@ namespace BlazorFluentUI
         [Parameter]
         public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
 
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
+
 
         //State
         int focusedItemIndex;
@@ -89,7 +93,7 @@ namespace BlazorFluentUI
 
         private Selection<TItem> _selection = new Selection<TItem>();
 
-        BFUGroupedList<TItem> groupedList;
+        BFUGroupedList<TItem,object> groupedList;
         BFUList<TItem> list;
         BFUSelectionZone<TItem> selectionZone;
 
@@ -99,6 +103,8 @@ namespace BlazorFluentUI
         private IReadOnlyDictionary<string, object> lastParameters = null;
 
         protected SelectAllVisibility selectAllVisibility = SelectAllVisibility.None;
+        private DotNetObjectReference<BFUDetailsList<TItem>> selfReference;
+        private int _viewportRegistration;
 
         public BFUDetailsList()
         {
@@ -123,42 +129,6 @@ namespace BlazorFluentUI
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
-            //shouldRender = false;
-
-            //var dictParameters = parameters.ToDictionary();
-            //if (lastParameters == null)
-            //{
-            //    shouldRender = true;
-            //}
-            //else
-            //{
-            //    var differences = dictParameters.Where(entry =>
-            //    {
-            //        return !lastParameters[entry.Key].Equals(entry.Value);
-            //    }
-            //    ).ToDictionary(entry => entry.Key, entry => entry.Value);
-
-            //    if (differences.Count > 0)
-            //    {
-            //        shouldRender = true;
-            //    }
-            //}
-            //lastParameters = dictParameters;
-
-            //if (parameters.TryGetValue<IEnumerable<TItem>>("ItemsSource", out var newItemsSource))
-            //{
-            //    if (newItemsSource != ItemsSource && ItemsSource != null && ItemsSource is INotifyCollectionChanged)
-            //    {
-            //        //unsubscribe
-            //        (ItemsSource as INotifyCollectionChanged)!.CollectionChanged -= BFUDetailsList_CollectionChanged;
-            //    }
-            //    if (newItemsSource != null && newItemsSource != ItemsSource && newItemsSource is INotifyCollectionChanged)
-            //    {
-            //        (newItemsSource as INotifyCollectionChanged)!.CollectionChanged += BFUDetailsList_CollectionChanged;
-            //    }
-            //}
-            
-
 
             if (_viewport != null && _viewport != _lastViewport)
             {
@@ -216,6 +186,7 @@ namespace BlazorFluentUI
 
                 if (Selection.GetKey == null)
                     Selection.GetKey = this.GetKey;
+               
                 Selection.SetItems(ItemsSource);
 
             }
@@ -226,11 +197,14 @@ namespace BlazorFluentUI
             await base.OnParametersSetAsync();
         }
 
-        protected override Task OnAfterRenderAsync(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            
-
-            return base.OnAfterRenderAsync(firstRender);
+            if (firstRender)
+            {
+                selfReference = DotNetObjectReference.Create(this);
+                _viewportRegistration = await JSRuntime.InvokeAsync<int>("BlazorFluentUiBaseComponent.addViewport", selfReference, RootElementReference, true);
+            }
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         private void OnHeaderKeyDown(KeyboardEventArgs keyboardEventArgs)
@@ -244,18 +218,22 @@ namespace BlazorFluentUI
         }
 
 
-        private void OnAllSelected()
-        {
+        //private void OnAllSelected()
+        //{
 
-        }
+        //}
 
-        private void ViewportChangedHandler(Viewport viewport)
+        [JSInvokable]
+        public void ViewportChanged(Viewport viewport)
         {
             _lastViewport = _viewport;
             _viewport = viewport;
             //Debug.WriteLine($"Viewport changed: {viewport.ScrollWidth}");
             if (_viewport != null)
+            {
                 AdjustColumns(ItemsSource, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true);
+                InvokeAsync(StateHasChanged);
+            }
         }
 
         private void AdjustColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<BFUDetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex = -1)
@@ -425,6 +403,15 @@ namespace BlazorFluentUI
         private void OnColumnAutoResized(ItemContainer<BFUDetailsRowColumn<TItem>> itemContainer)
         {
             // TO-DO - will require measuring row cells, jsinterop
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (_viewportRegistration != -1)
+            {
+                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.removeViewport", _viewportRegistration);
+            }
+            selfReference?.Dispose();
         }
     }
 }

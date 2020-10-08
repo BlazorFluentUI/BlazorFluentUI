@@ -19,8 +19,9 @@ namespace BlazorFluentUI
         bool IsVisible { get;}
         string Name { get; }
         int Count { get; }
-
+        int Depth { get; }
         TItem Item { get; }
+        //ICollection<IGroupedListItem3<TItem>> Items { get; }
     }
 
     public class HeaderItem3<TItem,TKey> : IGroupedListItem3<TItem>
@@ -50,7 +51,7 @@ namespace BlazorFluentUI
 
         public int Depth { get; private set; }
 
-        public string Name => _group.Key.ToString();
+        public string Name { get; private set; }
 
         public ICollection<IGroupedListItem3<TItem>> Items { get; private set; }
 
@@ -76,11 +77,57 @@ namespace BlazorFluentUI
         //        });
         //    });
 
-            
-
-
         //}
 
+        /// <summary>
+        /// This constructor is used for the plain GroupedList where filtering and sorting of the list items must be done before adding to the list.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="depth"></param>
+        /// <param name="index"></param>
+        /// <param name="subGroupSelector"></param>
+        /// <param name="groupTitleSelector"></param>
+        public HeaderItem3(TItem item, int depth, int index, Func<TItem, IEnumerable<TItem>> subGroupSelector, Func<TItem,string> groupTitleSelector )
+        {
+            Item = item;
+            Depth = depth;
+            GroupIndex = index;
+            Items = new List<IGroupedListItem3<TItem>>();
+
+            Name = groupTitleSelector(item);
+
+            isOpenSubject = new BehaviorSubject<bool>(true);
+            countSubject = new BehaviorSubject<int>(0);
+
+            var subItems = subGroupSelector(Item);
+            var cummulativeCount = GroupIndex;
+            foreach (var subItem in subItems)
+            {
+                //check if is plain or header 
+                if (subGroupSelector(subItem) == null || subGroupSelector(subItem).Count() == 0)
+                {
+                    Items.Add(new PlainItem3<TItem,TKey>(subItem, depth + 1));
+                }
+                else
+                {
+                    Items.Add(new HeaderItem3<TItem, TKey>(subItem, depth + 1, cummulativeCount, subGroupSelector, groupTitleSelector));
+                    var subItemCount = BFUGroupedList<TItem, TKey>.GetPlainItemsCount(subItem, subGroupSelector);
+                    cummulativeCount += subItemCount;
+                }
+            }
+        }
+
+        /// <summary>
+        /// This constructor is used for the GroupedListAuto where filtering and sorting is done internally. 
+        /// </summary>
+        /// <param name="group"></param>
+        /// <param name="groupBy"></param>
+        /// <param name="depth"></param>
+        /// <param name="groupsChangeSet"></param>
+        /// <param name="parent"></param>
+        /// <param name="sortComparer"></param>
+        /// <param name="stateChangeCallback"></param>
+        /// <param name="reindexTrigger"></param>
         public HeaderItem3(IGroup<TItem,TKey,object> group, IEnumerable<Func<TItem,object>> groupBy, int depth, IConnectableObservable<ISortedChangeSet<IGroup<TItem,TKey,object>, object>> groupsChangeSet, HeaderItem3<TItem,TKey> parent, IObservable<IComparer<IGroupedListItem3<TItem>>> sortComparer, Func<Task> stateChangeCallback, Subject<Unit> reindexTrigger )
         {
             _parent = parent;  //needed to get the parent groupindex
@@ -88,6 +135,8 @@ namespace BlazorFluentUI
             Depth = depth;
             isOpenSubject = new BehaviorSubject<bool>(true);
             countSubject = new BehaviorSubject<int>(0);
+
+            Name = group.Key.ToString();
 
             IKeyValueCollection<IGroup<TItem, TKey, object>, object> sortedItems = null;
 
@@ -214,6 +263,8 @@ namespace BlazorFluentUI
         public string Name { get; private set; }
 
         public TItem Item { get; private set; }
+
+        public ICollection<IGroupedListItem3<TItem>> Items => null;
     }
 
     public class GroupedListItem3<TItem>

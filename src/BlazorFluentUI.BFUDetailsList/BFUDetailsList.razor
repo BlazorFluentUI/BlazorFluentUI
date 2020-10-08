@@ -3,15 +3,16 @@
 @typeparam TItem
 
 <div class=@($"ms-DetailsList {ClassName}")
-     style=@($"overflow-y:hidden;height:100%;{Style}")
+     style=@($"{Style}")
      aria-label=@AriaLabel
+     @ref=@RootElementReference
      >
     <div role="grid"
          aria-label=@AriaLabel
          aria-rowcount=""
          aria-colcount=""
          aria-readonly=true
-         style="overflow-y:hidden;height:100%;display:flex;flex-direction:column;">
+         style="display:flex;flex-direction:column;">
         <div 
              role="presentation"
              class="ms-DetailsList-headerWrapper">
@@ -48,7 +49,7 @@
             <BFUFocusZone ClassName="ms-DetailsList-focusZone"
                        Direction="FocusZoneDirection.Vertical"
                        InnerZoneKeystrokeTriggers="new System.Collections.Generic.List<ConsoleKey> { ConsoleKey.RightArrow }"
-                       Style="height:100%;overflow-y:hidden;">
+                       >
                 @if (!DisableSelectionZone)
                 {
                     <BFUSelectionZone Selection=@Selection
@@ -57,7 +58,7 @@
                                    SelectionPreservedOnEmptyClick=@SelectionPreservedOnEmptyClick
                                    SelectionMode=@SelectionMode
                                    EnterModalOnTouch=@EnterModalSelectionOnTouch
-                                   Style="height:100%;overflow-y:hidden;">
+                                   >
                         @if (SubGroupSelector == null)
                         {
                             <BFUList ItemsSource=@ItemsSource
@@ -84,14 +85,18 @@
                         else
                         {
                             <BFUGroupedList ItemsSource=@ItemsSource
+                                            TItem="TItem"
+                                            TKey="object"
                                          @ref=@groupedList
-                                         OnViewportChanged=@ViewportChangedHandler
+                                            GetKey=@GetKey
+                                            Selection=@Selection
                                          SubGroupSelector=@SubGroupSelector
                                          GroupTitleSelector=@GroupTitleSelector
                                          IsVirtualizing=@IsVirtualizing
                                          SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                                 <ItemTemplate>
-                                    <BFUDetailsRow Item=@context.Item
+                                    <BFUDetailsRow Item=@context.Item.Item
+                                                   TItem="TItem"
                                                    ItemIndex=@context.Index
                                                     Selection=@Selection
                                                    Columns=@_adjustedColumns
@@ -132,15 +137,18 @@
                     else
                     {
                         <BFUGroupedList ItemsSource=@ItemsSource
-                                     @ref=@groupedList
-                                     OnViewportChanged=@ViewportChangedHandler
-                                     SubGroupSelector=@SubGroupSelector
-                                     GroupTitleSelector=@GroupTitleSelector
-                                     
-                                     SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
+                                        TItem="TItem"
+                                        TKey="object"
+                                        GetKey=@GetKey
+                                        @ref=@groupedList
+                                        Selection=@Selection
+                                        SubGroupSelector=@SubGroupSelector
+                                        GroupTitleSelector=@GroupTitleSelector
+                                        SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                             <ItemTemplate>
-                                <BFUDetailsRow Item=@context.Item
+                                <BFUDetailsRow Item=@context.Item.Item
                                             ItemIndex=@context.Index
+                                               TItem="TItem"
                                             Columns=@_adjustedColumns
                                             SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
                                                Selection=@Selection

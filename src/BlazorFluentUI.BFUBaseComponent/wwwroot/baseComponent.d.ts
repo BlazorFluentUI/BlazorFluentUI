@@ -41,7 +41,7 @@ declare namespace BlazorFluentUiBaseComponent {
     export function deregisterWindowKeyDownEvent(guid: number): void;
     export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string): string;
     export function deregisterResizeEvent(guid: number): void;
-    export function addViewport(component: DotNetReferenceType, rootElement: HTMLElement): number;
+    export function addViewport(component: DotNetReferenceType, rootElement: HTMLElement, fireInitialViewport?: boolean): number;
     export function removeViewport(id: number): void;
     export function getRect(element: HTMLElement | Window | null): IRectangle | undefined;
     export function findElementRecursive(element: HTMLElement | null, matchFunction: (element: HTMLElement) => boolean): HTMLElement | null;

@@ -17,7 +17,7 @@ using System.Reactive;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUGroupItem<TItem, TKey> : BFUComponentBase, IAsyncDisposable
+    public partial class BFUGroupItemAuto<TItem, TKey> : BFUComponentBase, IAsyncDisposable
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
@@ -70,8 +70,8 @@ namespace BlazorFluentUI
         [Parameter]
         public RenderFragment<IndexedItem<IGroupedListItem3<TItem>>>? ItemTemplate { get; set; }
 
-        //[Parameter]
-        //public EventCallback<GroupedListCollection<TItem>> OnGeneratedListItems { get; set; }
+        [Parameter]
+        public EventCallback<GroupedListCollection<TItem>> OnGeneratedListItems { get; set; }
 
         [Parameter]
         public EventCallback<bool> OnGroupExpandedChanged { get; set; }
@@ -105,7 +105,16 @@ namespace BlazorFluentUI
 
         
         private Func<TItem, object> getKeyInternal;
-        private ICollection<IGroupedListItem3<TItem>> groupedUIListItems;
+        private IDisposable sourceCacheSubscription;
+        private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> groupedUIListItems;
+
+        private IList<bool>? _sortDescending;
+        private IList<Func<TItem, object>>? _sortBy;
+        private BehaviorSubject<IComparer<TItem>> sortExpressionComparer = new BehaviorSubject<IComparer<TItem>>(new SortExpressionComparer<TItem>());
+        private bool _groupSortDescending;
+        private BehaviorSubject<IComparer<GroupedListItem2<TItem>>> _groupSort = new BehaviorSubject<IComparer<GroupedListItem2<TItem>>>(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
+        private Subject<Unit> resorter = new Subject<Unit>();
+
 
         protected override Task OnInitializedAsync()
         {
@@ -267,31 +276,55 @@ namespace BlazorFluentUI
 
             if (GetKey == null)
                 throw new Exception("Must have GetKey.");
-           
 
-            //if (SubGroupSelector != null)
+
+            if (SortBy != _sortBy || SortDescending != _sortDescending)
+            {
+                _sortBy = SortBy;
+                _sortDescending = SortDescending;
+                if (SortBy != null)
+                {
+                    var index = 0;
+
+                    foreach (var sortFunc in SortBy)
+                    {
+                        if (SortDescending != null && SortDescending.ElementAt(index) != null && SortDescending.ElementAt(index) == true)
+                            sortExpressionComparer.OnNext(SortExpressionComparer<TItem>.Descending(sortFunc.ConvertToIComparable()));
+                        else
+                            sortExpressionComparer.OnNext(SortExpressionComparer<TItem>.Ascending(sortFunc.ConvertToIComparable()));
+                        index++;
+                    }
+                }
+                else
+                {
+                    if (ItemsSource != null && ItemsSource is IList<TItem>)
+                        sortExpressionComparer.OnNext(new OriginalSortComparer<TItem>((IList<TItem>)ItemsSource)); // if the original list is an IList (order matters) retain this original order when sorting hasn't been enabled.
+                    else
+                        sortExpressionComparer.OnNext(new SortExpressionComparer<TItem>());
+
+                }
+
+            }
+
+            if (GroupSortDescending != _groupSortDescending)
+            {
+                _groupSortDescending = GroupSortDescending;
+                if (_groupSortDescending)
+                    _groupSort.OnNext(SortExpressionComparer<GroupedListItem2<TItem>>.Descending(x => x));
+                else
+                    _groupSort.OnNext(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
+
+            }
+
+            if (GroupBy != null)
             {
                 //if (ItemsSource != null && !ItemsSource.Equals(_itemsSource))
                 //{
-                //    //if (Selection != null)
-                //    //{
-                //    //    Selection.SetItems(ItemsSource);
-                //    //}
-                //    _itemsSource = ItemsSource;
-                    
-                //    //if (_itemsSource != null)
-                //    //{
-                //    //    dataItems = new ObservableCollection<IGroupedListItem3<TItem>>();
-                //    //    int cummulativeCount = 0;
-                //    //    for (var i = 0; i < _itemsSource.Count; i++)
-                //    //    {
-                //    //        var group = new HeaderItem3<TItem, TKey>(_itemsSource[i], i, cummulativeCount, SubGroupSelector);
-                //    //        dataItems.Add(group);
-                //    //        var subItemCount = BFUGroupedList<TItem, TKey>.GetPlainItemsCount(_itemsSource[i], SubGroupSelector);
-                //    //        cummulativeCount += subItemCount;
-                //    //    }
+                //    //_itemsSource = ItemsSource;
+                //    CreateSourceCache();
 
-                //    //}
+                //    if (_itemsSource != null)
+                //        sourceCache.AddOrUpdate(_itemsSource);
                 //}
             }
            

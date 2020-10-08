@@ -16,7 +16,7 @@ namespace BlazorFluentUI
         [Parameter] public string Id { get; set; }
         [Parameter] public bool Required { get; set; } = false;
 
-       
+        private TItem focusedItem = default;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -28,6 +28,15 @@ namespace BlazorFluentUI
         private async Task OnChoiceOptionClicked(ChoiceGroupOptionClickedEventArgs choiceGroupOptionClickedEventArgs)
         {
             await this.ValueChanged.InvokeAsync((TItem)choiceGroupOptionClickedEventArgs.Item);
+        }
+
+        private void OnFocus(ChoiceGroupOptionFocusEventArgs args)
+        {
+            focusedItem = (TItem)args.Item;
+        }
+        private void OnBlur(ChoiceGroupOptionFocusEventArgs args)
+        {
+            focusedItem = default;
         }
     }
 }

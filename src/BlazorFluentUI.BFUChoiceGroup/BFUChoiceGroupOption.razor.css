@@ -47,10 +47,35 @@
     border-color: var(--palette-ThemeDark);
 }
 
-
-.ms-ChoiceField-wrapper:focus {
-    /* TO DO */
+.ms-Fabric--isFocusVisible .focused .ms-ChoiceField-wrapper{
+    position:relative;
+    outline:transparent;
 }
+    .ms-Fabric--isFocusVisible .focused .ms-ChoiceField-wrapper::-moz-focus-inner {
+        border: 0;
+    }
+    .ms-Fabric--isFocusVisible .focused .ms-ChoiceField-wrapper::after {
+        content: '';
+        top: -2px;
+        right: -2px;
+        bottom: -2px;
+        left: -2px;
+        pointer-events: none;
+        border: 1px solid var(--semanticColors-FocusBorder);
+        position:absolute;
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible .focused .ms-ChoiceField-wrapper::after {
+        border-color: WindowText;
+        border-width: 2px;
+    }
+    .ms-Fabric--isFocusVisible .ms-ChoiceField.custom-content.focused .ms-ChoiceField-wrapper::after {
+        border-width: 1px;
+    }
+}
+
+
 
 .ms-ChoiceField-input {
     position: absolute;

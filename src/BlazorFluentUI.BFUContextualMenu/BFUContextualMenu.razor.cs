@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUContextualMenu : BFUResponsiveComponentBase, IAsyncDisposable, IHasPreloadableGlobalStyle
+    public partial class BFUContextualMenu : BFUResponsiveComponentBase, IAsyncDisposable
     {
         [Parameter] public bool AlignTargetEdge { get; set; }
         //[Parameter] public string AriaLabel { get; set; }

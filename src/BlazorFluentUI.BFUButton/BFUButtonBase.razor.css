@@ -92,7 +92,7 @@ buttonRules-Add(rule);*/
     }
 }
 
-::deep .ms-Button.is-expanded {
+::deep .ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded {
     background-color: var(--palette-NeutralLight);
     color: var(--palette-NeutralDark);
 }
@@ -101,7 +101,7 @@ buttonRules-Add(rule);*/
     color: var(--palette-White);
 }
 
-::deep .ms-Button.is-expanded .ms-Button-icon {
+::deep .ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded .ms-Button-icon {
     color: var(--palette-ThemeDark);
 }
 
@@ -109,7 +109,7 @@ buttonRules-Add(rule);*/
     color: var(--palette-White);
 }
 
-::deep .ms-Button.is-expanded .ms-Button-menuIcon {
+::deep .ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded .ms-Button-menuIcon {
     color: var(--palette-NeutralPrimary);
 }
 
@@ -117,7 +117,7 @@ buttonRules-Add(rule);*/
     color: var(--palette-White);
 }
 
-::deep .ms-Button.is-expanded:hover {
+::deep .ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded:hover {
     background-color: var(--palette-NeutralQuaternaryAlt);
 }
 ::deep .ms-Button.ms-Button--primary.is-expanded:hover {
@@ -209,7 +209,7 @@ buttonRules-Add(rule);*/
     ::deep .ms-Button-splitContainer .ms-Button--primary:not(.ms-Button-menuIcon) {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
-        border-right: none;
+        border: none;
     }
 
     ::deep .ms-Button-splitContainer .ms-Button-menuIcon {
@@ -219,6 +219,7 @@ buttonRules-Add(rule);*/
         border-radius: 0;
         border-top-right-radius: var(--effects-RoundedCorner2);
         border-bottom-right-radius: var(--effects-RoundedCorner2);
+        border:1px solid var(--palette-NeutralSecondaryAlt);
         border-left: none;
         outline: transparent;
         user-select: none;

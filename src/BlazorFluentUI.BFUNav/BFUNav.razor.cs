@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUNav: BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUNav: BFUComponentBase
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
         //[Parameter] public string AriaLabel { get; set; }

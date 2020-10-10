@@ -1,15 +1,16 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-<BFUFocusZone Direction="FocusZoneDirection.Vertical">
-    <nav role="navigation"
-         @ref="RootElementReference"
-         class=@($"mediumFont ms-Nav {(IsOnTop?"is-on-top":"")} {(IsOnTop?"slideRightIn40":"")} {ClassName}")
-         style=@Style
-         aria-label=@AriaLabel>
-        <CascadingValue Value=@this.ExpandButtonAriaLabel>
-            @ChildContent
-        </CascadingValue>
-    </nav>
-</BFUFocusZone>
+<div class="ms-Nav-root">
+    <BFUFocusZone Direction="FocusZoneDirection.Vertical">
+        <nav role="navigation"
+             @ref="RootElementReference"
+             class=@($"mediumFont ms-Nav {(IsOnTop?"is-on-top":"")} {(IsOnTop?"slideRightIn40":"")} {ClassName}")
+             style=@Style
+             aria-label=@AriaLabel>
+            <CascadingValue Value=@this.ExpandButtonAriaLabel>
+                @ChildContent
+            </CascadingValue>
+        </nav>
+    </BFUFocusZone>
+</div>

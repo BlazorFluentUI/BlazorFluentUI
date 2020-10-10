@@ -13,6 +13,10 @@ var rootFocusStyles = FocusStyle-GetFocusStyle(props, ".ms-Button");
 foreach (var rule in rootFocusStyles-AddRules)
 buttonRules-Add(rule);*/
 
+.ms-Button-root{
+    display:inline-block;
+}
+
 ::deep .ms-Button {
     outline: transparent;
     position: relative;

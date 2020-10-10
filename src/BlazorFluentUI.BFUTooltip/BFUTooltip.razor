@@ -1,7 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <BFULocalCS @bind-Rules="@TooltipLocalRules" />
 
 <BFUCallout ClassName=@($"mediumFont fadeIn200 {TooltipRule.Selector.SelectorName} {TooltipAfterRule.Selector.SelectorName} {ClassName}")

@@ -1,0 +1,16 @@
+﻿.ms-Tooltip-content {
+    position: relative;
+    z-index: 1;
+    color: var(--semanticTextColors-MenuItemText);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+}
+.ms-Tooltip-subtext {
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    margin: 0;
+}

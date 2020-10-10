@@ -8,7 +8,7 @@ using System.Timers;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUTooltipHost : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
+    public partial class BFUTooltipHost : BFUComponentBase, IDisposable
     {
         private static BFUTooltipHost CurrentVisibleTooltip { get; set; }
 
@@ -186,19 +186,7 @@ namespace BlazorFluentUI
             }
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var tooltipHostRules = new HashSet<IRule>();
-            tooltipHostRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-TooltipHost" },
-                Properties = new CssString()
-                {
-                    Css = $"display:inline;"
-                }
-            });
-            return tooltipHostRules;
-        }
+        
 
         public void Dispose()
         {

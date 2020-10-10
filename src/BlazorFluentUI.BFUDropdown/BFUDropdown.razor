@@ -2,8 +2,6 @@
 @inherits BFUResponsiveComponentBase
 
 <BFUStylePreloader Component=@(new BFUPanel()) />
-<BFUStylePreloader Component=@(new BFUOverlay()) />
-@*<BFUStylePreloader Component=@(new BFUIconButton()) />*@
 
 <BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <BFULocalCS @bind-Rules="@DropdownLocalRules" />

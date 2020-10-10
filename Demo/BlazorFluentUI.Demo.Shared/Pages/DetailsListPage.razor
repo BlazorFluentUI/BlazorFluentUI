@@ -18,7 +18,7 @@
         </BFUStack>
         <BFUTextField Label="Filter Description"
                    @bind-Value=@dataContainer.Filter
-                   @bind-Value:event="OnInput"/>
+                   @oninput="UpdateFilter"/>
 
         <BFUDetailsList ItemsSource="ReadonlyList"
                         IsVirtualizing="isVirtualizing"
@@ -192,5 +192,10 @@
 
     }
 
+
+    public void UpdateFilter(ChangeEventArgs changeEventArgs)
+    {
+        dataContainer.Filter = changeEventArgs.Value.ToString();
+    }
 
 }

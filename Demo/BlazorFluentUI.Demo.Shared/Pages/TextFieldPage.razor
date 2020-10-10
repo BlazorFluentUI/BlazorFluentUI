@@ -114,12 +114,12 @@
 <h2>Binding Mode</h2>
 
 <div class="textFieldDiv" style="display:flex; flex-direction: row">
-    <BFUTextField Label="TextField OnInput 1" @bind-Value=@onInputContent @bind-Value:event="OnInput" />
-    <BFUTextField Label="TextField OnInput 2" @bind-Value=@onInputContent @bind-Value:event="OnInput" />
+    <BFUTextField Label="TextField OnInput 1" @bind-Value=@onInputContent @oninput="UpdateOnInputContent"/>
+    <BFUTextField Label="TextField OnInput 2" @bind-Value=@onInputContent @oninput="UpdateOnInputContent" />
 </div>
 <div class="textFieldDiv" style="display:flex; flex-direction: row">
-    <BFUTextField Label="TextField OnChange 1" @bind-Value=@onChangeContent @bind-Value:event="OnChange" />
-    <BFUTextField Label="TextField OnChange 2" @bind-Value=@onChangeContent @bind-Value:event="OnChange" />
+    <BFUTextField Label="TextField OnChange 1" @bind-Value=@onChangeContent @onchange="UpdateOnChangeContent" />
+    <BFUTextField Label="TextField OnChange 2" @bind-Value=@onChangeContent @onchange="UpdateOnChangeContent" />
 </div>
 
 <h2>TextField error message variations</h2>
@@ -161,5 +161,15 @@
     public string GetErrorMessage(string value)
     {
         return value.Length < 3 ? "" : $"Input value length must be less than 3. Actual length is {value.Length}.";
+    }
+
+    private void UpdateOnInputContent(ChangeEventArgs e)
+    {
+        onInputContent = e.Value.ToString();
+    }
+
+    private void UpdateOnChangeContent(ChangeEventArgs e)
+    {
+        onChangeContent = e.Value.ToString();
     }
 }

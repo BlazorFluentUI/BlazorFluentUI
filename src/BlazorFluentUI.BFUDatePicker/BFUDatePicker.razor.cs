@@ -204,18 +204,20 @@ namespace BlazorFluentUI
             }
         }
 
-        protected void OnTextFieldChange(string text)
+        protected void OnTextFieldChange(ChangeEventArgs args)
         {
+            String? textFieldValue = args?.Value.ToString();
+
             if (AllowTextInput)
             {
                 if (IsDatePickerShown)
                     DismissDatePickerPopup();
             }
 
-            if (FormattedDate != text)
+            if (FormattedDate != textFieldValue)
             {
                 ErrorMessage = IsRequired && (Value == DateTime.MinValue) ? IsRequiredErrorMessage : null;
-                FormattedDate = text;
+                FormattedDate = textFieldValue ?? "";
             }
             // skip TextField OnChange callback ... not implemented through DatePicker
         }

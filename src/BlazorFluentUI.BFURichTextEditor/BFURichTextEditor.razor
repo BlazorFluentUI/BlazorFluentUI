@@ -24,11 +24,11 @@
         OnDismiss=@(args => isImageDialogOpen=false)>
     <ChildContent>
         <BFUStack>
-            <BFUTextField ClassName="firstFocus" Label="Image Link" @bind-Value=@imageUrl @bind-Value:event="OnInput" />
-            <BFUTextField Label="Image Alternate Text" @bind-Value=@imageAlt @bind-Value:event="OnInput" />
+            <BFUTextField ClassName="firstFocus" Label="Image Link" @bind-Value=@imageUrl @oninput="UpdateImageUrl" />
+            <BFUTextField Label="Image Alternate Text" @bind-Value=@imageAlt @oninput="UpdateImageAlt" />
             <BFUStack Horizontal="true">
-                <BFUTextField Label="Horizontal Size" Placeholder="auto" Description="auto if empty" @bind-Value=@imageWidth @bind-Value:event="OnInput" />
-                <BFUTextField Label="Vertical Size" Placeholder="auto" Description="auto if empty" @bind-Value=@imageHeight @bind-Value:event="OnInput" />
+                <BFUTextField Label="Horizontal Size" Placeholder="auto" Description="auto if empty" @bind-Value=@imageWidth @oninput="UpdateImageWidth" />
+                <BFUTextField Label="Vertical Size" Placeholder="auto" Description="auto if empty" @bind-Value=@imageHeight @oninput="UpdateImageHeight" />
             </BFUStack>
         </BFUStack>
     </ChildContent>

@@ -5,7 +5,6 @@ using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -68,9 +67,9 @@ namespace BlazorFluentUI
         //[Parameter]
         //protected Func<UIChangeEventArgs, Task> OnInput { get; set; }
         [Parameter]
-        public EventCallback<ChangeEventArgs> OnChange { get; set; }
+        public EventCallback<string> OnChange { get; set; }
         [Parameter]
-        public EventCallback<ChangeEventArgs> OnInput { get; set; }
+        public EventCallback<string> OnInput { get; set; }
         [Parameter]
         public EventCallback<string> ValueChanged { get; set; }
 
@@ -176,7 +175,11 @@ namespace BlazorFluentUI
                 await DeferredValidation((string)args.Value).ConfigureAwait(false);
             }
 
-            await OnInput.InvokeAsync((ChangeEventArgs)args.Value);
+<<<<<<< HEAD
+            await OnInput.InvokeAsync(args);
+=======
+            await OnInput.InvokeAsync((string)args.Value);
+>>>>>>> parent of 775367b... Change onchange and oninput events to return ChangeEventArgs instead of String.
             //await InputChanged.InvokeAsync((string)args.Value);
             //if (this.OnInput != null)
             //{
@@ -186,7 +189,11 @@ namespace BlazorFluentUI
 
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
-            await OnChange.InvokeAsync((ChangeEventArgs)args.Value);
+<<<<<<< HEAD
+            await OnChange.InvokeAsync(args);
+=======
+            await OnChange.InvokeAsync((string)args.Value);
+>>>>>>> parent of 775367b... Change onchange and oninput events to return ChangeEventArgs instead of String.
             await ValueChanged.InvokeAsync((string)args.Value);
         }
 

@@ -389,6 +389,26 @@ namespace BlazorFluentUI
         }
             });
             return richTextEditorGlobalRules;
+        }        
+
+        public void UpdateImageUrl(ChangeEventArgs args)
+        {
+            imageUrl = args.Value.ToString();
+        }
+
+        public void UpdateImageHeight(ChangeEventArgs args)
+        {
+            imageHeight = args.Value.ToString();
+        }
+
+        public void UpdateImageWidth(ChangeEventArgs args)
+        {
+            imageWidth = args.Value.ToString();
+        }
+
+        public void UpdateImageAlt(ChangeEventArgs args)
+        {
+            imageAlt = args.Value.ToString();
         }
     }
 }

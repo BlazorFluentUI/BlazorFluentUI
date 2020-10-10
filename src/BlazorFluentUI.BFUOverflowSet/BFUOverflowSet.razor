@@ -28,7 +28,7 @@
 }
 else
 {
-    <div>
+    <div class=@($"ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")>
         <BFUFocusZone ClassName=@($"ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")
                       Style=@Style
                       Direction=@(Vertical ? FocusZoneDirection.Vertical : FocusZoneDirection.Horizontal)

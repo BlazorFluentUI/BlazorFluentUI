@@ -1,0 +1,34 @@
+﻿@inherits BFUButtonParameters
+@namespace BlazorFluentUI
+@using Microsoft.AspNetCore.Components.Web
+
+<div >
+    <BFUButtonBase Href=@Href
+                   ClassName=@ClassName
+                   Style=@Style
+                   Primary=@Primary
+                   Disabled=@Disabled
+                   AllowDisabledFocus=@AllowDisabledFocus
+                   PrimaryDisabled=@PrimaryDisabled
+                   Checked=@Checked
+                   AriaDescripton=@AriaDescripton
+                   Text=@Text
+                   SecondaryText=@SecondaryText
+                   Toggle=@Toggle
+                   Split=@Split
+                   IconName=@IconName
+                   HideChevron=@HideChevron
+                   MenuItems=@MenuItems
+                   CheckedChanged=@CheckedChanged
+                   OnClick=@OnClick
+                   OnKeyDown=@OnKeyDown
+                   Command=@Command
+                   CommandParameter=@CommandParameter
+                   UnknownProperties=@UnknownProperties />
+</div>
+@code{ 
+    protected override Task OnParametersSetAsync()
+        {
+            return base.OnParametersSetAsync();
+        }
+}

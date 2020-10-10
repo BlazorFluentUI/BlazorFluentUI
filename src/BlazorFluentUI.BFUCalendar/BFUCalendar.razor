@@ -2,7 +2,7 @@
 @inherits BFUComponentBase
 
 <BFUGlobalCS Component="new BFUCalendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />
-<BFUStylePreloader Component="new BFUIconButton()"/>
+@*<BFUStylePreloader Component="new BFUIconButton()"/>*@
 <BFUStylePreloader Component="new BFUTooltip()" />
 
 <div class=@($"ms-Calendar {ClassName}") role="application" @ref="RootElementReference" style=@Style>

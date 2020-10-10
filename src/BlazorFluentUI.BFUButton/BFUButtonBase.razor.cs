@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -10,42 +10,42 @@ using BlazorFluentUI.Style;
 
 namespace BlazorFluentUI
 {
-    public class BFUButtonBase : BFUComponentBase, IAsyncDisposable
+    public partial class BFUButtonBase : BFUButtonParameters, IAsyncDisposable
     {
-        internal BFUButtonBase()
+        public BFUButtonBase()
         {
 
         }
 
         public ElementReference ButtonRef { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
-        [Parameter] public string Href { get; set; }
-        [Parameter] public bool Primary { get; set; }
-        [Parameter] public bool Disabled { get; set; }
-        [Parameter] public bool AllowDisabledFocus { get; set; }
-        [Parameter] public bool PrimaryDisabled { get; set; }
-        [Parameter] public bool? Checked { get; set; }
-        //[Parameter] public string AriaLabel { get; set; }
-        [Parameter] public string AriaDescripton { get; set; }
-        //[Parameter] public bool AriaHidden { get; set; }
-        [Parameter] public string Text { get; set; }
-        [Parameter] public bool Toggle { get; set; }
-        [Parameter] public bool Split { get; set; }
-        [Parameter] public string IconName { get; set; }
-        [Parameter] public bool HideChevron { get; set; }
+        //[Parameter] public RenderFragment ChildContent { get; set; }
+        //[Parameter] public string Href { get; set; }
+        //[Parameter] public bool Primary { get; set; }
+        //[Parameter] public bool Disabled { get; set; }
+        //[Parameter] public bool AllowDisabledFocus { get; set; }
+        //[Parameter] public bool PrimaryDisabled { get; set; }
+        //[Parameter] public bool? Checked { get; set; }
+        ////[Parameter] public string AriaLabel { get; set; }
+        //[Parameter] public string AriaDescripton { get; set; }
+        ////[Parameter] public bool AriaHidden { get; set; }
+        //[Parameter] public string Text { get; set; }
+        //[Parameter] public bool Toggle { get; set; }
+        //[Parameter] public bool Split { get; set; }
+        //[Parameter] public string IconName { get; set; }
+        //[Parameter] public bool HideChevron { get; set; }
 
-        [Parameter] public IEnumerable<IBFUContextualMenuItem> MenuItems { get; set; }
-        //[Parameter] public RenderFragment ContextualMenuContent { get; set; }
-        //[Parameter] public RenderFragment ContextualMenuItemsSource { get; set; }
-        //[Parameter] public RenderFragment ContextualMenuItemTemplate { get; set; }
+        //[Parameter] public IEnumerable<IBFUContextualMenuItem> MenuItems { get; set; }
+        ////[Parameter] public RenderFragment ContextualMenuContent { get; set; }
+        ////[Parameter] public RenderFragment ContextualMenuItemsSource { get; set; }
+        ////[Parameter] public RenderFragment ContextualMenuItemTemplate { get; set; }
 
-        [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
-        [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
-        [Parameter] public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
-        [Parameter] public ICommand Command { get; set; }
-        [Parameter] public object CommandParameter { get; set; }
-        [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> UnknownProperties { get; set; }
+        //[Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+        //[Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+        //[Parameter] public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
+        //[Parameter] public ICommand Command { get; set; }
+        //[Parameter] public object CommandParameter { get; set; }
+        //[Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> UnknownProperties { get; set; }
 
         [Inject] private IJSRuntime jSRuntime { get; set; }
 
@@ -107,6 +107,13 @@ namespace BlazorFluentUI
 
             await base.OnAfterRenderAsync(firstRender);
         }
+
+        protected RenderFragment<BFUButtonBase> CustomBuildRenderTree = button => builder =>
+         {
+            //base.BuildRenderTree(builder);
+            button.StartRoot(builder, "");
+
+         };
 
 
         private void Command_CanExecuteChanged(object sender, EventArgs e)
@@ -197,18 +204,18 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = rootFocusStyles.MergeRules +
-                          $"font-size:{theme.FontStyle.FontSize.Medium};"+
-                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
+                          $"font-size:{theme.FontStyle.FontSize.Medium};" +
+                          $"font-weight:{theme.FontStyle.FontWeight.Regular};" +
                           $"box-sizing:border-box;" +
-                          $"border: 1px solid {theme.SemanticColors.ButtonBorder};"+
-                          $"user-select:none;"+
-                          $"display:inline-block;"+
-                          $"text-decoration:none;"+
-                          $"text-align:center;"+
-                          $"cursor:pointer;"+
-                          $"vertical-align:top;"+
-                          $"padding:0 16px;"+
-                          $"min-width:80px;"+
+                          $"border: 1px solid {theme.SemanticColors.ButtonBorder};" +
+                          $"user-select:none;" +
+                          $"display:inline-block;" +
+                          $"text-decoration:none;" +
+                          $"text-align:center;" +
+                          $"cursor:pointer;" +
+                          $"vertical-align:top;" +
+                          $"padding:0 16px;" +
+                          $"min-width:80px;" +
                           $"height:32px;" +
                           $"border-radius:{theme.Effects.RoundedCorner2};"
                 }
@@ -220,7 +227,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"position:relative;" +
-                          $"left:0;"+
+                          $"left:0;" +
                           $"top:0;"
                 }
             });
@@ -232,7 +239,7 @@ namespace BlazorFluentUI
                 {
                     Css = $"background-color:{theme.SemanticColors.DisabledBackground};" +
                          $"color:{theme.SemanticTextColors.DisabledText};" +
-                         $"cursor:default;"+
+                         $"cursor:default;" +
                          $"pointer-events:none;"
                 }
             });
@@ -242,8 +249,8 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button:hover, .ms-Button:focus" },
                 Properties = new CssString()
                 {
-                    Css = $"text-decoration:none;"+
-                         $"outline:0;" 
+                    Css = $"text-decoration:none;" +
+                         $"outline:0;"
                 }
             });
             buttonRules.Add(new Rule()
@@ -251,7 +258,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button:link, .ms-Button:visited, .ms-Button:active" },
                 Properties = new CssString()
                 {
-                    Css = $"text-decoration:none;" 
+                    Css = $"text-decoration:none;"
                 }
             });
             buttonRules.Add(new Rule()
@@ -269,7 +276,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"background-color:{theme.Palette.NeutralLight};" +
-                         $"color:{theme.Palette.NeutralDark};" 
+                         $"color:{theme.Palette.NeutralDark};"
                 }
             });
             buttonRules.Add(new Rule()
@@ -339,7 +346,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button.is-disabled .ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"color:{theme.SemanticTextColors.DisabledText};" 
+                    Css = $"color:{theme.SemanticTextColors.DisabledText};"
                 }
             });
             buttonRules.Add(new Rule()
@@ -357,10 +364,10 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button-flexContainer" },
                 Properties = new CssString()
                 {
-                    Css = $"display:flex;"+
-                          $"height:100%;"+
-                          $"flex-wrap:nowrap;"+
-                          $"justify-content:center;"+
+                    Css = $"display:flex;" +
+                          $"height:100%;" +
+                          $"flex-wrap:nowrap;" +
+                          $"justify-content:center;" +
                           $"align-items:center;"
                 }
             });
@@ -371,7 +378,7 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"display:block;" +
-                          $"flex-grow:1;" 
+                          $"flex-grow:1;"
                 }
             });
 
@@ -380,8 +387,8 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button-description" },
                 Properties = new CssString()
                 {
-                    Css = $"display:block;"+
-                          $"font-size:{theme.FontStyle.FontSize.Small};"+
+                    Css = $"display:block;" +
+                          $"font-size:{theme.FontStyle.FontSize.Small};" +
                           $"font-weight:{theme.FontStyle.FontWeight.Regular};"
                 }
             });
@@ -393,8 +400,8 @@ namespace BlazorFluentUI
                 Properties = new CssString()
                 {
                     Css = $"font-size:{theme.FontStyle.FontSize.MediumPlus};" +  //originally FontSize.Icon
-                          $"margin:0px 4px;"+
-                          $"height:16px;"+
+                          $"margin:0px 4px;" +
+                          $"height:16px;" +
                           $"line-height:16px;" +
                           $"text-align:center;" +
                           $"vertical-align:middle;" +
@@ -407,7 +414,7 @@ namespace BlazorFluentUI
                 Selector = new CssStringSelector() { SelectorName = ".ms-Button-menuIcon, .ms-Button-menuIcon .ms-Button-icon" },
                 Properties = new CssString()
                 {
-                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +  
+                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
                           $"margin:0px 4px;" +
                           $"height:16px;" +
                           $"line-height:16px;" +
@@ -426,7 +433,7 @@ namespace BlazorFluentUI
                     Css = $"font-weight:{theme.FontStyle.FontWeight.SemiBold};" +
                           $"margin:0px 4px;" +
                           $"line-height:100%;" +
-                          $"display:block;" 
+                          $"display:block;"
                 }
             });
 
@@ -491,16 +498,16 @@ namespace BlazorFluentUI
                           $"border-top-right-radius:{theme.Effects.RoundedCorner2};" +
                           $"border-bottom-right-radius:{theme.Effects.RoundedCorner2};" +
                           $"border-left:none;" +
-                          $"outline:transparent;"+
-                          $"user-select:none;"+
-                          $"display:inline-block;"+
-                          $"text-decoration:none;"+
-                          $"text-align:center;"+
-                          $"cursor:pointer;"+
-                          $"vertical-align:top;"+
-                          $"min-width:32px;"+
-                          $"width:32px;"+
-                          $"margin-left:-1px;"+
+                          $"outline:transparent;" +
+                          $"user-select:none;" +
+                          $"display:inline-block;" +
+                          $"text-decoration:none;" +
+                          $"text-align:center;" +
+                          $"cursor:pointer;" +
+                          $"vertical-align:top;" +
+                          $"min-width:32px;" +
+                          $"width:32px;" +
+                          $"margin-left:-1px;" +
                           $"margin-top:0px;" +
                           $"margin-right:0px;" +
                           $"margin-bottom:0px;"
@@ -551,10 +558,10 @@ namespace BlazorFluentUI
         }
 
         protected void StartRoot(RenderTreeBuilder builder, string buttonClassName)
-        { 
-            
+        {
+
             isSplitButton = (Split && OnClick.HasDelegate && MenuItems != null);
-            isCompoundButton = this.GetType() == typeof(BFUCompoundButton);
+            isCompoundButton = SecondaryText != null;
             if (isSplitButton)
             {
                 AddSplit(builder, buttonClassName);
@@ -595,7 +602,7 @@ namespace BlazorFluentUI
 
         protected virtual void AddContent(RenderTreeBuilder builder, string buttonClassName)
         {
-            
+
             if (this.Href == null)
             {
                 builder.OpenElement(25, "button");
@@ -644,21 +651,21 @@ namespace BlazorFluentUI
                 builder.AddAttribute(42, "IconName", this.IconName);
                 builder.CloseComponent(); //closes Icon 40
             }
-            if (this.Text != null || (isCompoundButton && (this as BFUCompoundButton).SecondaryText != null))
+            if (this.Text != null || (isCompoundButton && SecondaryText != null))
             {
                 builder.OpenElement(51, "span");
                 builder.AddAttribute(52, "class", "ms-Button-textContainer");
-                
+
                 builder.OpenElement(53, "span");
                 builder.AddAttribute(54, "class", "ms-Button-label");
                 builder.AddContent(55, this.Text ?? "");
                 builder.CloseElement();  //closes span (53)
 
-                if (isCompoundButton && (this as BFUCompoundButton).SecondaryText != null)
+                if (isCompoundButton && SecondaryText != null)
                 {
                     builder.OpenElement(61, "span");
                     builder.AddAttribute(62, "class", "ms-Button-description");
-                    builder.AddContent(63, (this as BFUCompoundButton).SecondaryText);
+                    builder.AddContent(63, SecondaryText);
                     builder.CloseElement(); //closes div 61
                 }
                 builder.CloseElement();//closes div (51)
@@ -670,9 +677,9 @@ namespace BlazorFluentUI
                 builder.AddContent(73, this.AriaDescripton);
                 builder.CloseElement(); //closes span 71
             }
-            if (this.Text == null && this.ChildContent != null)
+            if (this.Text == null && this.ContentTemplate != null)
             {
-                builder.AddContent(81, this.ChildContent);
+                builder.AddContent(81, this.ContentTemplate);
             }
             if (!isSplitButton && this.MenuItems != null && !this.HideChevron)
             {
@@ -737,17 +744,16 @@ namespace BlazorFluentUI
             builder.OpenElement(110, "span");
             if (Primary)
             {
-                builder.AddAttribute(111, "class", $"ms-Button-divider ms-Button--primary{(Disabled ? " disabled" :"")}");
+                builder.AddAttribute(111, "class", $"ms-Button-divider ms-Button--primary{(Disabled ? " disabled" : "")}");
             }
             else
             {
-                builder.AddAttribute(111, "class", $"ms-Button-divider ms-Button--default{(Disabled ? " disabled" :"")}");
+                builder.AddAttribute(111, "class", $"ms-Button-divider ms-Button--default{(Disabled ? " disabled" : "")}");
             }
             builder.AddAttribute(112, "aria-hidden", true);
             builder.CloseElement();
 
         }
-
 
         public async ValueTask DisposeAsync()
         {

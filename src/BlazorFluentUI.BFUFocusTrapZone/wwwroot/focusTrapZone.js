@@ -2,26 +2,25 @@
 /// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiFocusTrapZone;
 (function (BlazorFluentUiFocusTrapZone) {
-    var IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
-    var d = 445;
-    var IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
-    var FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
-    var FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
-    var FocusTrapZoneInternal = /** @class */ (function () {
-        function FocusTrapZoneInternal(focusTrapZoneProps, dotNetRef) {
-            var _this = this;
+    const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+    const d = 445;
+    const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
+    const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
+    const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
+    class FocusTrapZoneInternal {
+        constructor(focusTrapZoneProps, dotNetRef) {
             this._hasFocus = true;
-            this._onRootFocus = function (ev) {
+            this._onRootFocus = (ev) => {
                 //if (this.props.onFocus) {
                 //    this.props.onFocus(ev);
                 //}
-                _this._hasFocus = true;
+                this._hasFocus = true;
             };
-            this._onRootBlur = function (ev) {
+            this._onRootBlur = (ev) => {
                 //if (this.props.onBlur) {
                 //    this.props.onBlur(ev);
                 //}
-                var relatedTarget = ev.relatedTarget;
+                let relatedTarget = ev.relatedTarget;
                 if (ev.relatedTarget === null) {
                     // In IE11, due to lack of support, event.relatedTarget is always
                     // null making every onBlur call to be "outside" of the ComboBox
@@ -30,29 +29,29 @@ var BlazorFluentUiFocusTrapZone;
                     // on the event
                     relatedTarget = document.activeElement;
                 }
-                if (!BlazorFluentUiBaseComponent.elementContains(_this._props.rootElement, relatedTarget)) {
-                    _this._hasFocus = false;
+                if (!BlazorFluentUiBaseComponent.elementContains(this._props.rootElement, relatedTarget)) {
+                    this._hasFocus = false;
                 }
             };
-            this._onFirstBumperFocus = function () {
-                _this._onBumperFocus(true);
+            this._onFirstBumperFocus = () => {
+                this._onBumperFocus(true);
             };
-            this._onLastBumperFocus = function () {
-                _this._onBumperFocus(false);
+            this._onLastBumperFocus = () => {
+                this._onBumperFocus(false);
             };
-            this._onBumperFocus = function (isFirstBumper) {
-                if (_this._props.disabled) {
+            this._onBumperFocus = (isFirstBumper) => {
+                if (this._props.disabled) {
                     return;
                 }
-                var currentBumper = (isFirstBumper === _this._hasFocus ? _this._props.lastBumper : _this._props.firstBumper);
-                if (_this._props.rootElement) {
-                    var nextFocusable = isFirstBumper === _this._hasFocus
-                        ? getLastTabbable(_this._props.rootElement, currentBumper, true, false)
-                        : getFirstTabbable(_this._props.rootElement, currentBumper, true, false);
+                const currentBumper = (isFirstBumper === this._hasFocus ? this._props.lastBumper : this._props.firstBumper);
+                if (this._props.rootElement) {
+                    const nextFocusable = isFirstBumper === this._hasFocus
+                        ? getLastTabbable(this._props.rootElement, currentBumper, true, false)
+                        : getFirstTabbable(this._props.rootElement, currentBumper, true, false);
                     if (nextFocusable) {
-                        if (_this._isBumper(nextFocusable)) {
+                        if (this._isBumper(nextFocusable)) {
                             // This can happen when FTZ contains no tabbable elements. focus will take care of finding a focusable element in FTZ.
-                            _this.focus();
+                            this.focus();
                         }
                         else {
                             nextFocusable.focus();
@@ -68,13 +67,13 @@ var BlazorFluentUiFocusTrapZone;
             this._props.lastBumper.addEventListener("focus", this._onLastBumperFocus, false);
             this._bringFocusIntoZone();
         }
-        FocusTrapZoneInternal.prototype.unRegister = function () {
+        unRegister() {
             this._props.rootElement.removeEventListener("focus", this._onRootFocus, false);
             this._props.rootElement.removeEventListener("blur", this._onRootBlur, false);
             this._props.firstBumper.removeEventListener("focus", this._onFirstBumperFocus, false);
             this._props.lastBumper.removeEventListener("focus", this._onLastBumperFocus, false);
-        };
-        FocusTrapZoneInternal.prototype.updateProps = function (props) {
+        }
+        updateProps(props) {
             this._prevProps = this._props;
             this._props = props;
             //bumpers and root should be the same...
@@ -84,12 +83,12 @@ var BlazorFluentUiFocusTrapZone;
             else if ((this._prevProps.forceFocusInsideTrap && !this._props.forceFocusInsideTrap) || (!this._prevProps.disabled && this._props.disabled)) {
                 this._returnFocusToInitiator();
             }
-        };
-        FocusTrapZoneInternal.prototype.setDisabled = function (disabled) {
+        }
+        setDisabled(disabled) {
             this._props.disabled = disabled;
-        };
-        FocusTrapZoneInternal.prototype._bringFocusIntoZone = function () {
-            var _a = this._props, elementToFocusOnDismiss = _a.elementToFocusOnDismiss, _b = _a.disabled, disabled = _b === void 0 ? false : _b, _c = _a.disableFirstFocus, disableFirstFocus = _c === void 0 ? false : _c, rootElement = _a.rootElement;
+        }
+        _bringFocusIntoZone() {
+            const { elementToFocusOnDismiss, disabled = false, disableFirstFocus = false, rootElement } = this._props;
             if (disabled) {
                 return;
             }
@@ -100,31 +99,30 @@ var BlazorFluentUiFocusTrapZone;
             if (!disableFirstFocus && !BlazorFluentUiBaseComponent.elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {
                 this.focus();
             }
-        };
-        FocusTrapZoneInternal.prototype._returnFocusToInitiator = function () {
-            var _this = this;
-            var _a = this._props, ignoreExternalFocusing = _a.ignoreExternalFocusing, rootElement = _a.rootElement;
-            FocusTrapZoneInternal._focusStack = FocusTrapZoneInternal._focusStack.filter(function (value) {
-                return _this !== value;
+        }
+        _returnFocusToInitiator() {
+            const { ignoreExternalFocusing, rootElement } = this._props;
+            FocusTrapZoneInternal._focusStack = FocusTrapZoneInternal._focusStack.filter((value) => {
+                return this !== value;
             });
-            var activeElement = document.activeElement;
+            const activeElement = document.activeElement;
             if (!ignoreExternalFocusing &&
                 this._previouslyFocusedElementOutsideTrapZone &&
                 typeof this._previouslyFocusedElementOutsideTrapZone.focus === 'function' &&
                 (BlazorFluentUiBaseComponent.elementContains(rootElement, activeElement) || activeElement === document.body)) {
                 this._focusAsync(this._previouslyFocusedElementOutsideTrapZone);
             }
-        };
-        FocusTrapZoneInternal.prototype._focusAsync = function (element) {
+        }
+        _focusAsync(element) {
             if (!this._isBumper(element)) {
                 focusAsync(element);
             }
-        };
-        FocusTrapZoneInternal.prototype._isBumper = function (element) {
+        }
+        _isBumper(element) {
             return element === this._props.firstBumper || element === this._props.lastBumper;
-        };
-        FocusTrapZoneInternal.prototype.focus = function () {
-            var _a = this._props, focusPreviouslyFocusedInnerElement = _a.focusPreviouslyFocusedInnerElement, firstFocusableSelector = _a.firstFocusableSelector, rootElement = _a.rootElement;
+        }
+        focus() {
+            const { focusPreviouslyFocusedInnerElement, firstFocusableSelector, rootElement } = this._props;
             if (focusPreviouslyFocusedInnerElement &&
                 this._previouslyFocusedElementInTrapZone &&
                 BlazorFluentUiBaseComponent.elementContains(rootElement, this._previouslyFocusedElementInTrapZone)) {
@@ -132,8 +130,8 @@ var BlazorFluentUiFocusTrapZone;
                 this._focusAsync(this._previouslyFocusedElementInTrapZone);
                 return;
             }
-            var focusSelector = firstFocusableSelector;
-            var _firstFocusableChild = null;
+            const focusSelector = firstFocusableSelector;
+            let _firstFocusableChild = null;
             if (rootElement) {
                 if (focusSelector) {
                     _firstFocusableChild = rootElement.querySelector('.' + focusSelector);
@@ -146,20 +144,19 @@ var BlazorFluentUiFocusTrapZone;
             if (_firstFocusableChild) {
                 this._focusAsync(_firstFocusableChild);
             }
-        };
-        FocusTrapZoneInternal._focusStack = [];
-        return FocusTrapZoneInternal;
-    }());
+        }
+    }
+    FocusTrapZoneInternal._focusStack = [];
     var count = 0;
     var focusTrapZones = {};
     function register(props, focusTrapZone) {
-        var currentId = count++;
+        let currentId = count++;
         focusTrapZones[currentId] = new FocusTrapZoneInternal(props, focusTrapZone);
         return currentId;
     }
     BlazorFluentUiFocusTrapZone.register = register;
     function unregister(id) {
-        var focusTrapZone = focusTrapZones[id];
+        let focusTrapZone = focusTrapZones[id];
         if (focusTrapZone) {
             focusTrapZone.unRegister();
         }
@@ -167,14 +164,14 @@ var BlazorFluentUiFocusTrapZone;
     }
     BlazorFluentUiFocusTrapZone.unregister = unregister;
     function updateProps(id, props) {
-        var focusTrapZone = focusTrapZones[id];
+        let focusTrapZone = focusTrapZones[id];
         if (focusTrapZone) {
             focusTrapZone.updateProps(props);
         }
     }
     BlazorFluentUiFocusTrapZone.updateProps = updateProps;
     function focus(id) {
-        var focusTrapZone = focusTrapZones[id];
+        let focusTrapZone = focusTrapZones[id];
         if (focusTrapZone) {
             focusTrapZone.focus();
         }
@@ -203,7 +200,7 @@ var BlazorFluentUiFocusTrapZone;
     //export function getParent(child: HTMLElement, allowVirtualParents: boolean = true): HTMLElement | null {
     //    return child && (child.parentNode && (child.parentNode as HTMLElement));
     //}
-    var targetToFocusOnNextRepaint = undefined;
+    let targetToFocusOnNextRepaint = undefined;
     function focusAsync(element) {
         if (element) {
             // An element was already queued to be focused, so replace that one with the new element
@@ -213,7 +210,7 @@ var BlazorFluentUiFocusTrapZone;
             }
             targetToFocusOnNextRepaint = element;
             // element.focus() is a no-op if the element is no longer in the DOM, meaning this is always safe
-            window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(() => {
                 targetToFocusOnNextRepaint && targetToFocusOnNextRepaint.focus();
                 // We are done focusing for this frame, so reset the queued focus element
                 targetToFocusOnNextRepaint = undefined;
@@ -224,7 +221,7 @@ var BlazorFluentUiFocusTrapZone;
         if (!currentElement || (currentElement === rootElement && suppressChildTraversal && !allowFocusRoot)) {
             return null;
         }
-        var isCurrentElementVisible = isElementVisible(currentElement);
+        let isCurrentElementVisible = isElementVisible(currentElement);
         // Check the current node, if it's not the first traversal.
         if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
             return currentElement;
@@ -233,7 +230,7 @@ var BlazorFluentUiFocusTrapZone;
         if (!suppressChildTraversal &&
             isCurrentElementVisible &&
             (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
-            var childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            const childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
             if (childMatch) {
                 return childMatch;
             }
@@ -242,7 +239,7 @@ var BlazorFluentUiFocusTrapZone;
             return null;
         }
         // Check its sibling.
-        var siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        const siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
         if (siblingMatch) {
             return siblingMatch;
         }
@@ -255,27 +252,27 @@ var BlazorFluentUiFocusTrapZone;
         if (!currentElement || (!allowFocusRoot && currentElement === rootElement)) {
             return null;
         }
-        var isCurrentElementVisible = isElementVisible(currentElement);
+        let isCurrentElementVisible = isElementVisible(currentElement);
         // Check its children.
         if (traverseChildren &&
             isCurrentElementVisible &&
             (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
-            var childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            const childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
             if (childMatch) {
                 if ((tabbable && isElementTabbable(childMatch, true)) || !tabbable) {
                     return childMatch;
                 }
-                var childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                const childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
                 if (childMatchSiblingMatch) {
                     return childMatchSiblingMatch;
                 }
-                var childMatchParent = childMatch.parentElement;
+                let childMatchParent = childMatch.parentElement;
                 // At this point if we have not found any potential matches
                 // start looking at the rest of the subtree under the currentParent.
                 // NOTE: We do not want to recurse here because doing so could
                 // cause elements to get skipped.
                 while (childMatchParent && childMatchParent !== currentElement) {
-                    var childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                    const childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
                     if (childMatchParentMatch) {
                         return childMatchParentMatch;
                     }
@@ -288,7 +285,7 @@ var BlazorFluentUiFocusTrapZone;
             return currentElement;
         }
         // Check its previous sibling.
-        var siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        const siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
         if (siblingMatch) {
             return siblingMatch;
         }
@@ -303,7 +300,7 @@ var BlazorFluentUiFocusTrapZone;
         if (!element || !element.getAttribute) {
             return false;
         }
-        var visibilityAttribute = element.getAttribute(IS_VISIBLE_ATTRIBUTE);
+        const visibilityAttribute = element.getAttribute(IS_VISIBLE_ATTRIBUTE);
         // If the element is explicitly marked with the visibility attribute, return that value as boolean.
         if (visibilityAttribute !== null && visibilityAttribute !== undefined) {
             return visibilityAttribute === 'true';
@@ -319,17 +316,17 @@ var BlazorFluentUiFocusTrapZone;
         if (!element || element.disabled) {
             return false;
         }
-        var tabIndex = 0;
-        var tabIndexAttributeValue = null;
+        let tabIndex = 0;
+        let tabIndexAttributeValue = null;
         if (element && element.getAttribute) {
             tabIndexAttributeValue = element.getAttribute('tabIndex');
             if (tabIndexAttributeValue) {
                 tabIndex = parseInt(tabIndexAttributeValue, 10);
             }
         }
-        var isFocusableAttribute = element.getAttribute ? element.getAttribute(IS_FOCUSABLE_ATTRIBUTE) : null;
-        var isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
-        var result = !!element &&
+        let isFocusableAttribute = element.getAttribute ? element.getAttribute(IS_FOCUSABLE_ATTRIBUTE) : null;
+        let isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
+        const result = !!element &&
             isFocusableAttribute !== 'false' &&
             (element.tagName === 'A' ||
                 element.tagName === 'BUTTON' ||
@@ -345,12 +342,10 @@ var BlazorFluentUiFocusTrapZone;
     function isElementFocusSubZone(element) {
         return !!(element && element.getAttribute && element.getAttribute(FOCUSZONE_SUB_ATTRIBUTE) === 'true');
     }
-    function getFirstTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode) {
-        if (checkNode === void 0) { checkNode = true; }
+    function getFirstTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode = true) {
         return getNextElement(rootElement, currentElement, checkNode, false /*suppressParentTraversal*/, false /*suppressChildTraversal*/, includeElementsInFocusZones, false /*allowFocusRoot*/, true /*tabbable*/);
     }
-    function getLastTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode) {
-        if (checkNode === void 0) { checkNode = true; }
+    function getLastTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode = true) {
         return getPreviousElement(rootElement, currentElement, checkNode, false /*suppressParentTraversal*/, true /*traverseChildren*/, includeElementsInFocusZones, false /*allowFocusRoot*/, true /*tabbable*/);
     }
     //class Handler {

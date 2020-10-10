@@ -1,0 +1,256 @@
+﻿
+/*
+::deep .ms-Button {
+    font-size: xx-large;
+}
+
+var props = new FocusStyleProps(theme);
+props-Inset = 1;
+props-BorderColor = "transparent";
+props-HighContrastStyle = "left:-2px;top:-2px;bottom:-2px;right:-2px;border:none;outline-color:ButtonText;";
+var rootFocusStyles = FocusStyle-GetFocusStyle(props, ".ms-Button");
+
+foreach (var rule in rootFocusStyles-AddRules)
+buttonRules-Add(rule);*/
+
+::deep .ms-Button {
+    outline: transparent;
+    position: relative;
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+    box-sizing: border-box;
+    border: 1px solid var(--semanticColors-ButtonBorder);
+    user-select: none;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: top;
+    padding: 0 16px;
+    min-width: 80px;
+    height: 32px;
+    border-radius: var(--effects-RoundedCorner2);
+}
+
+    ::deep .ms-Button::-moz-focus-inner{
+        border:0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-Button-root ::deep .ms-Button:focus::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+    @media screen and (-ms-high-contrast: active){
+        .ms-Fabric--isFocusVisible .ms-Button-root ::deep .ms-Button:focus::after {
+            left: -2px;
+            top: -2px;
+            bottom: -2px;
+            right: -2px;
+            border: none;
+            outline-color: ButtonText;
+        }
+    }
+
+
+    ::deep .ms-Button:active > * {
+        position: relative;
+        left: 0;
+        top: 0;
+    }
+
+::deep .ms-Button.is-disabled {
+    background-color: var(--semanticColors-DisabledBackground);
+    color: var(--semanticTextColors-disabledText);
+    cursor: default;
+    pointer-events: none;
+}
+
+::deep .ms-Button:hover, 
+::deep .ms-Button:focus {
+    text-decoration: none;
+    outline: 0;
+}
+
+::deep .ms-Button:link, 
+::deep .ms-Button:visited, 
+::deep .ms-Button:active {
+    text-decoration: none;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    ::deep .ms-Button {
+        color: GrayText;
+        border-color: GrayText;
+    }
+}
+
+::deep .ms-Button.is-expanded {
+    background-color: var(--palette-NeutralLight);
+    color: var(--palette-NeutralDark);
+}
+::deep .ms-Button.ms-Button--primary.is-expanded {
+    background-color: var(--palette-ThemeDark);
+    color: var(--palette-White);
+}
+
+::deep .ms-Button.is-expanded .ms-Button-icon {
+    color: var(--palette-ThemeDark);
+}
+
+::deep .ms-Button.ms-Button--primary.is-expanded .ms-Button-icon {
+    color: var(--palette-White);
+}
+
+::deep .ms-Button.is-expanded .ms-Button-menuIcon {
+    color: var(--palette-NeutralPrimary);
+}
+
+::deep .ms-Button.ms-Button--primary.is-expanded .ms-Button-menuIcon {
+    color: var(--palette-White);
+}
+
+::deep .ms-Button.is-expanded:hover {
+    background-color: var(--palette-NeutralQuaternaryAlt);
+}
+::deep .ms-Button.ms-Button--primary.is-expanded:hover {
+    background-color: var(--palette-ThemeDark);
+}
+
+::deep .ms-Button.is-disabled .ms-Button-icon {
+    color: var(--semanticTextColors-DisabledText);
+}
+
+::deep .ms-Button.is-disabled .ms-Button-menuIcon {
+    color: var(--semanticTextColors-DisabledText);
+}
+
+::deep .ms-Button-flexContainer {
+    display: flex;
+    height: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+::deep .ms-Button-textContainer {
+    display: block;
+    flex-grow: 1;
+}
+
+::deep .ms-Button-description {
+    display: block;
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+}
+
+
+::deep .ms-Button-icon {
+    font-size: var(--fontSize-MediumPlus);
+    margin: 0px 4px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+::deep .ms-Button-menuIcon,
+::deep .ms-Button-menuIcon .ms-Button-icon {
+    font-size: var(--fontSize-Small);
+    margin: 0px 4px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+
+::deep .ms-Button-label {
+    font-weight: var(--fontWeight-SemiBold);
+    margin: 0px 4px;
+    line-height: 100%;
+    display: block;
+}
+
+
+::deep .ms-Button-screenReaderText {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0px;
+    border: 0px;
+    overflow: hidden;
+}
+
+
+
+::deep .ms-Button-splitContainer {
+    display: inline-flex;
+    position: relative;
+}
+
+    ::deep .ms-Button-splitContainer .ms-Button--default:not(.ms-Button-menuIcon) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right: none;
+    }
+
+
+    ::deep .ms-Button-splitContainer .ms-Button--primary:not(.ms-Button-menuIcon) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right: none;
+    }
+
+    ::deep .ms-Button-splitContainer .ms-Button-menuIcon {
+        padding: 6px;
+        height: 32px;
+        box-sizing: border-box;
+        border-radius: 0;
+        border-top-right-radius: var(--effects-RoundedCorner2);
+        border-bottom-right-radius: var(--effects-RoundedCorner2);
+        border-left: none;
+        outline: transparent;
+        user-select: none;
+        display: inline-block;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        vertical-align: top;
+        min-width: 32px;
+        width: 32px;
+        margin-left: -1px;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+    }
+
+::deep .ms-Button-divider {
+    position: absolute;
+    width: 1px;
+    right: 31px;
+    top: 8px;
+    bottom: 8px;
+}
+
+::deep .ms-Button--primary.ms-Button-divider {
+    background-color: var(--palette-White);
+}
+
+::deep .ms-Button--default.ms-Button-divider {
+    background-color: var(--semanticColors-BodyDivider);
+}
+
+::deep .ms-Button-divider.disabled {
+    background-color: var(--semanticColors-BodyDivider);
+}

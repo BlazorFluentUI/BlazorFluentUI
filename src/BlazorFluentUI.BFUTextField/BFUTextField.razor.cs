@@ -68,9 +68,9 @@ namespace BlazorFluentUI
         //[Parameter]
         //protected Func<UIChangeEventArgs, Task> OnInput { get; set; }
         [Parameter]
-        public EventCallback<string> OnChange { get; set; }
+        public EventCallback<ChangeEventArgs> OnChange { get; set; }
         [Parameter]
-        public EventCallback<string> OnInput { get; set; }
+        public EventCallback<ChangeEventArgs> OnInput { get; set; }
         [Parameter]
         public EventCallback<string> ValueChanged { get; set; }
 
@@ -176,7 +176,7 @@ namespace BlazorFluentUI
                 await DeferredValidation((string)args.Value).ConfigureAwait(false);
             }
 
-            await OnInput.InvokeAsync((string)args.Value);
+            await OnInput.InvokeAsync((ChangeEventArgs)args.Value);
             //await InputChanged.InvokeAsync((string)args.Value);
             //if (this.OnInput != null)
             //{
@@ -186,7 +186,7 @@ namespace BlazorFluentUI
 
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
-            await OnChange.InvokeAsync((string)args.Value);
+            await OnChange.InvokeAsync((ChangeEventArgs)args.Value);
             await ValueChanged.InvokeAsync((string)args.Value);
         }
 

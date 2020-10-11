@@ -1,10 +1,9 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
 <BFULocalCS @bind-Rules="@ProgressIndicatorLocalRules" />
 
-<div class=@($"mediumFont ms-ProgressIndicator {ClassName}") style=@Style>
+<div class=@($"mediumFont ms-ProgressIndicator{(Indeterminate ? " is-indeterminate" : "")} {ClassName}") style=@Style>
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <div class="ms-ProgressIndicator-itemName">@Label</div>

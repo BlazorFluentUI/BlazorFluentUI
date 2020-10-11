@@ -111,70 +111,63 @@ namespace BlazorFluentUI
             };
             ProgressIndicatorProgressBarRule.Properties = new CssString()
             {
-                Css = $"background-color:{Theme.Palette.ThemePrimary};" +
-                        $"height:{BarHeight}px;" +
-                        $"position:absolute;" +
-                        (Indeterminate ? $"transition:width .3s ease;" : $"transition:width .15s linear;") +
-                        $"width:0;" +
-                        (Indeterminate ? $"min-width:33%;" : $"") +
-                        (Indeterminate ? $"background: linear-gradient(to right,{Theme.Palette.NeutralLight} 0%,{Theme.Palette.ThemePrimary} 50%,{Theme.Palette.NeutralLight} 100%);" : $"") +
-                        (Indeterminate ? (isRTL ? $"animation:IndeterminateProgressRTL 3s infinite;" : $"animation:IndeterminateProgress 3s infinite;") : $"") 
+                Css = $"height:{BarHeight}px;"
                         // ToDo Implement RTL-Support
             };
         }
 
-        private ICollection<IRule> CreateGlobalCss()
-        {
-            var progressIndicatorGlobalRules = new HashSet<IRule>();
-            progressIndicatorGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgress" },
-                Properties = new CssString()
-                {
-                    Css = "0%{left:-30%;} 100%{left:100%;}"
-                }
-            });
-            progressIndicatorGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgressRTL" },
-                Properties = new CssString()
-                {
-                    Css = "100%{right:-30%;} 0%{right:100%;}"
-                }
-            });
-            progressIndicatorGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemName" },
-                Properties = new CssString()
-                {
-                    Css = $"overflow:hidden;" +
-                            $"text-overflow:ellipsis;" +
-                            $"white-space:nowrap;" +
-                            $"color:{Theme.SemanticTextColors.BodyText};" +
-                            $"padding-top:{marginBetweenText / 2}px;" +
-                            $"line-height:{textHeight + 2}px;"
-        }
-            });
-            progressIndicatorGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemDescription" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{Theme.SemanticTextColors.BodySubtext};" +
-                            $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                            $"line-height:{textHeight}px;"
-                }
-            });
-            progressIndicatorGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-ProgressIndicator-progressTrack{border-bottom:1px solid WindowText;} .ms-ProgressIndicator-progressBar{background-color:WindowText;}"
-                }
-            });
-            return progressIndicatorGlobalRules;
-        }
+        //private ICollection<IRule> CreateGlobalCss()
+        //{
+        //    var progressIndicatorGlobalRules = new HashSet<IRule>();
+        //    progressIndicatorGlobalRules.Add(new Rule()
+        //    {
+        //        Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgress" },
+        //        Properties = new CssString()
+        //        {
+        //            Css = "0%{left:-30%;} 100%{left:100%;}"
+        //        }
+        //    });
+        //    progressIndicatorGlobalRules.Add(new Rule()
+        //    {
+        //        Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgressRTL" },
+        //        Properties = new CssString()
+        //        {
+        //            Css = "100%{right:-30%;} 0%{right:100%;}"
+        //        }
+        //    });
+        //    progressIndicatorGlobalRules.Add(new Rule()
+        //    {
+        //        Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemName" },
+        //        Properties = new CssString()
+        //        {
+        //            Css = $"overflow:hidden;" +
+        //                    $"text-overflow:ellipsis;" +
+        //                    $"white-space:nowrap;" +
+        //                    $"color:{Theme.SemanticTextColors.BodyText};" +
+        //                    $"padding-top:{marginBetweenText / 2}px;" +
+        //                    $"line-height:{textHeight + 2}px;"
+        //}
+        //    });
+        //    progressIndicatorGlobalRules.Add(new Rule()
+        //    {
+        //        Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemDescription" },
+        //        Properties = new CssString()
+        //        {
+        //            Css = $"color:{Theme.SemanticTextColors.BodySubtext};" +
+        //                    $"font-size:{Theme.FontStyle.FontSize.Small};" +
+        //                    $"line-height:{textHeight}px;"
+        //        }
+        //    });
+        //    progressIndicatorGlobalRules.Add(new Rule()
+        //    {
+        //        Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
+        //        Properties = new CssString()
+        //        {
+        //            Css = ".ms-ProgressIndicator-progressTrack{border-bottom:1px solid WindowText;} .ms-ProgressIndicator-progressBar{background-color:WindowText;}"
+        //        }
+        //    });
+        //    return progressIndicatorGlobalRules;
+        //}
 
     }
 }

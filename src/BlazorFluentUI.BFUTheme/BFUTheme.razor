@@ -6,11 +6,13 @@
         @(GetGlobalVariables())
     }
 
-    body {
-        font-size: 15px;
-        font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
-        -webkit-font-smoothing: antialiased;
-    }
+        body {
+            color: var(--semanticTextColors-BodyText);
+            background-color: var(--semanticColors-BodyBackground);
+            font-size: 15px;
+            font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
 
     .mediumFont {
         font-size: @(ThemeProvider.Theme.FontStyle.FontSize.Medium);/*var(--fontSize-Medium);*/

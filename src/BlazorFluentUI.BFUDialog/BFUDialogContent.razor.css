@@ -1,0 +1,109 @@
+﻿.ms-Dialog-content.ms-Dialog--lgHeader {
+    border-top: 4px solid var(--palette-ThemePrimary);
+}
+.ms-Dialog-content.ms-Dialog--close {
+    flex-grow: 1;
+    overflow-y: hidden;
+}
+.ms-Dialog-subText {
+    margin: 0 0 24px 0;
+    color: var(--semanticTextColors-ButtonText);
+    line-height: 1.5;
+    word-break: break-word;
+    font-weight: var(--fontWeight-Regular);
+}
+
+.ms-Dialog-header {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ms-Dialog-inner {
+    padding: 0 24px 24px;
+}
+
+@media (min-width:var(--commonStyle-ScreenWidthMinSmall)px) and (max-width:var(--commonStyle-ScreenWidthMaxSmall)px) {
+    .ms-Dialog-inner {
+        padding: 0 16px 16px;
+    }
+}
+
+.ms-Dialog-innerContent {
+    position: relative;
+    width: 100%;
+}
+
+.ms-Dialog-title {
+    color: var(--semanticTextColors-BodyText);
+    margin: 0;
+    padding: 16px 46px 20px 24px;
+    line-height: normal;
+}
+
+.ms-Dialog--lgHeader .ms-Dialog-title {
+    color: var(--semanticColors-MenuHeader);
+}
+.ms-Dialog--multiline .ms-Dialog-title {
+    font-size: var(--fontSize-XxLarge);
+}
+
+@media (min-width:var(--commonStyle-ScreenWidthMinSmall)px) and (max-width:var(--commonStyle-ScreenWidthMaxSmall)px) {
+
+    .ms-Dialog-title {
+        padding: 16px 46px 16px 16px;
+    }
+}
+
+
+.ms-Dialog-topButton {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px 15px 0 0;
+}
+
+    .ms-Dialog-topButton ::deep > * {
+        flex: 0 0 auto;
+    }
+    .ms-Dialog-topButton ::deep .ms-Dialog-button {
+        color: var(--semanticTextColors-ButtonText);
+    }
+        .ms-Dialog-topButton ::deep .ms-Dialog-button:hover {
+            color: var(--semanticTextColors-ButtonTextHovered);
+            border-radius: var(--effects-RoundedCorner2);
+        }
+
+@media (min-width:var(--commonStyle-ScreenWidthMinSmall)px) and (max-width:var(--commonStyle-ScreenWidthMaxSmall)px) {
+    .ms-Dialog-topButton {
+        padding: 15px 8px 0 0;
+    }
+}
+
+.ms-Dialog-actions {
+    position: relative;
+    width: 100%;
+    min-height: 24px;
+    line-height: 24px;
+    margin: 16px 0 0;
+    font-size: 0;
+}
+
+    .ms-Dialog-actions ::deep .ms-Button {
+        line-height: normal;
+    }
+
+.ms-Dialog-actionsRight {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: -4px;
+    font-size: 0;
+}
+
+    .ms-Dialog-actionsRight ::deep > * {
+        margin: 0 4px;
+    }

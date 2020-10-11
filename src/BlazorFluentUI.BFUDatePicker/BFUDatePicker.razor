@@ -1,8 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
 <div class=@($"mediumFont ms-DatePicker{(IsDatePickerShown ? " ms-DatePicker--is-open" : "" )} {(Disabled ? " ms-DatePicker--is-disabled" : "" )} {ClassName}")
      style=@Style>
     <div aria-haspopup="true"

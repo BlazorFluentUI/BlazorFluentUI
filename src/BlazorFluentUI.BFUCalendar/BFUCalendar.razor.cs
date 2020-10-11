@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCalendar : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUCalendar : BFUComponentBase
     {
         [Parameter] public bool AllFocusable { get; set; } = false;
         [Parameter] public bool AutoNavigateOnSelection { get; set; } = false;
@@ -204,9 +204,6 @@ namespace BlazorFluentUI
             NavigatedMonthDate = date;
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            return CalendarStyle.GetCalendarStyle(theme);
-        }
+    
     }
 }

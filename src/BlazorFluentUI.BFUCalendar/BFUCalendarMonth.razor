@@ -1,8 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-@*<BFUGlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />*@
-
 @if (IsYearPickerVisible)
 {
     <BFUCalendarYear @key=@($"calendarYear_{NavigatedDate.Year}")

@@ -1,8 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-@*<BFUGlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />*@
-
 <div class="ms-Calendar-dayPicker"
      id=@DayPickerId>
     <div class="ms-Calendar-header">
@@ -123,6 +121,7 @@
                                 @onmouseup =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseUp(args); })*@
                             <td @key=@day.Key
                                 class=@GetDayClasses(day)
+                                @onclick=@(day.IsInBounds ? day.OnSelected : null)
                                 @onmouseenter=@(args => {
                                         if (DateRangeType != DateRangeType.Day && day.IsInBounds)
                                         {

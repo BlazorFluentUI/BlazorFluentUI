@@ -9,8 +9,9 @@
              class="ms-Calendar-monthAndYear">
             @if (OnHeaderSelect.HasDelegate)
             {
-                <div class="ms-Calendar-monthAndYear js-showMonthPicker ms-Calendar-headerToggleView"
+                <div class="ms-Calendar-monthAndYear js-showMonthPicker ms-Calendar-headerToggleView prevent-default-on-space"
                      @onclick="OnHeaderSelectInternal"
+                     @onkeydown="OnHeaderKeyDownInternal"
                      aria-label=@DateTimeFormatter.FormatMonthYear(NavigatedDate)
                      role="button"
                      tabindex="0">

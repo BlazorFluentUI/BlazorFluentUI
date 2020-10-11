@@ -18,8 +18,9 @@ else
         <div class="ms-Calendar-header">
             @if (OnHeaderSelect.HasDelegate || !YearPickerHidden)
             {
-                <div class="mediumFont ms-Calendar-currentYear ms-Calendar-headerToggleView"
+                <div class="mediumFont ms-Calendar-currentYear ms-Calendar-headerToggleView prevent-default-on-space"
                      @onclick=@OnHeaderSelectInternal
+                     @onkeydown=@OnHeaderKeyDownInternal
                      aria-label=@DateTimeFormatter.FormatYear(NavigatedDate)
                      role="button"
                      aria-atomic="true"

@@ -1548,8 +1548,75 @@ var BlazorFluentUiBaseComponent;
 })(BlazorFluentUiBaseComponent || (BlazorFluentUiBaseComponent = {}));
 //}
 window.BlazorFluentUiBaseComponent = BlazorFluentUiBaseComponent;
-//window.BlazorFluentUiBaseComponent
-//(<any>window)['BlazorFluentUiBaseComponent'] = BlazorFluentUiBaseComponent || {};
+// Workaround to prevent default on keypress until we can do it in Blazor conditionally without javascript
+// https://stackoverflow.com/questions/24386354/execute-js-code-after-pressing-the-spacebar
+window.addEventListener("load", function () {
+    //This will be called when a key is pressed
+    var preventDefaultOnSpaceCallback = function (e) {
+        if (e.keyCode === 32 || e.key === " ") {
+            // console.log("Prevented default.")
+            e.preventDefault();
+            return false;
+        }
+    };
+    //This will add key event listener on all nodes with the class preventSpace.
+    function setupPreventDefaultOnSpaceOnNode(node, add) {
+        if (node instanceof HTMLElement) {
+            var el = node;
+            //Check if main element contains class
+            if (el.classList.contains("prevent-default-on-space") && add) {
+                // console.log("Adding preventer: " + el.id);
+                el.addEventListener('keydown', preventDefaultOnSpaceCallback, false);
+            }
+            else {
+                // console.log("Removing preventer: " + el.id);
+                el.removeEventListener('keydown', preventDefaultOnSpaceCallback, false);
+            }
+        }
+    }
+    //This will add key event listener on all nodes with the class preventSpace.
+    function setupPreventDefaultOnEnterOnElements(nodelist, add) {
+        for (var i = 0; i < nodelist.length; i++) {
+            var node = nodelist[i];
+            if (node instanceof HTMLElement) {
+                var el = node;
+                //Check if main element contains class
+                setupPreventDefaultOnSpaceOnNode(node, add);
+                //Check if any child nodes contains class
+                var elements = el.getElementsByClassName("prevent-default-on-space");
+                for (var i_1 = 0; i_1 < elements.length; i_1++) {
+                    setupPreventDefaultOnSpaceOnNode(elements[i_1], add);
+                }
+            }
+        }
+    }
+    // Create an observer instance linked to the callback function
+    // Read more: https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+    var preventDefaultOnEnterObserver = new MutationObserver(function (mutations) {
+        for (var _i = 0, mutations_1 = mutations; _i < mutations_1.length; _i++) {
+            var mutation = mutations_1[_i];
+            if (mutation.type === 'childList') {
+                // A child node has been added or removed.
+                setupPreventDefaultOnEnterOnElements(mutation.addedNodes, true);
+            }
+            else if (mutation.type === 'attributes') {
+                if (mutation.attributeName === "class") {
+                    console.log('The ' + mutation.attributeName + ' attribute was modified on' + mutation.target.id);
+                    //class was modified on this node. Remove previous event handler (if any).
+                    setupPreventDefaultOnSpaceOnNode(mutation.target, false);
+                    //And add event handler if class i specified.
+                    setupPreventDefaultOnSpaceOnNode(mutation.target, true);
+                }
+            }
+        }
+    });
+    // Only observe changes in nodes in the whole tree, but do not observe attributes.
+    var preventDefaultOnEnterObserverConfig = { subtree: true, childList: true, attributes: true };
+    // Start observing the target node for configured mutations
+    preventDefaultOnEnterObserver.observe(document, preventDefaultOnEnterObserverConfig);
+    //Also check all elements when loaded.
+    setupPreventDefaultOnEnterOnElements(document.getElementsByClassName("prevent-default-on-space"), true);
+});
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 var BlazorFluentUiCallout;
 (function (BlazorFluentUiCallout) {

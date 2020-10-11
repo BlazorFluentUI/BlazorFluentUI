@@ -5,8 +5,9 @@
     <div class="ms-Calendar-header">
         @if (OnHeaderSelect.HasDelegate)
         {
-            <div class="ms-Calendar-currentDecade ms-Calendar-headerToggleView"
+            <div class="ms-Calendar-currentDecade ms-Calendar-headerToggleView prevent-default-on-space"
                  @onclick=@((args)=> OnHeaderSelect.InvokeAsync(true))
+                 @onkeydown=@OnHeaderKeyDownInternal
                  aria-label=@RangeAriaLabel
                  role="button"
                  aria-atomic="true"

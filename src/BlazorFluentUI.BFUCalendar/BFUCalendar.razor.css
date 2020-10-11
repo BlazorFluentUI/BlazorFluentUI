@@ -9,20 +9,20 @@
 
 
 
-    .ms-Calendar *::-moz-focus-inner {
+    .ms-Calendar ::deep *::-moz-focus-inner {
         border: 0;
     }
 
 
 
-    .ms-Calendar * {
+    .ms-Calendar ::deep * {
         outline: transparent;
         position: relative;
     }
 
 
 
-.ms-Fabric--isFocusVisible .ms-Calendar *:focus:after {
+.ms-Fabric--isFocusVisible .ms-Calendar ::deep *:focus:after {
     content: '';
     position: absolute;
     top: 0;

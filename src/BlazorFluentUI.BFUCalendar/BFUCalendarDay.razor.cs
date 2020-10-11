@@ -80,6 +80,15 @@ namespace BlazorFluentUI
             return Task.CompletedTask;
         }
 
+        protected Task OnHeaderKeyDownInternal(KeyboardEventArgs keyboardEventArgs)
+        {
+            if (keyboardEventArgs.Key == "Enter" || keyboardEventArgs.Key == " ")
+            {
+                OnHeaderSelect.InvokeAsync(true);
+            }
+            return Task.CompletedTask;
+        }
+
         protected Task OnSelectPrevMonth()
         {
             return OnNavigateDate.InvokeAsync(new NavigatedDateResult() { Date = NavigatedDate.AddMonths(-1), FocusOnNavigatedDay = false });

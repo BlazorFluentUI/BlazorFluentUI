@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -44,6 +45,14 @@ namespace BlazorFluentUI
         {
             FromYear += 12;
             return Task.CompletedTask;
+        }
+
+        private async Task OnHeaderKeyDownInternal(KeyboardEventArgs keyboardEventArgs)
+        {
+            if (keyboardEventArgs.Key == "Enter" || keyboardEventArgs.Key == " ")
+            {
+                await OnHeaderSelect.InvokeAsync(true);
+            }
         }
     }
 }

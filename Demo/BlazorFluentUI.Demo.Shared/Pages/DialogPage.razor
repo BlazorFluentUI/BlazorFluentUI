@@ -3,8 +3,6 @@
 <h1>Dialog</h1>
 
 <BFUStylePreloader Component=@(new BFUTextField()) />
-<BFUStylePreloader Component=@(new BFUDropdown()) />
-
 
 <BFUCheckbox Label="Is Blocking Dialog" @bind-Checked=@isBlocking />
 <BFUDefaultButton Text="Open Dialog" OnClick=@(args=> dialogOpen=true) />

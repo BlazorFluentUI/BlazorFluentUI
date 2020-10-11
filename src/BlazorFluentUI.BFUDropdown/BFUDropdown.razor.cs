@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDropdown : BFUResponsiveComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUDropdown : BFUResponsiveComponentBase
     {
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public IEnumerable<string>? DefaultSelectedKeys { get; set; }

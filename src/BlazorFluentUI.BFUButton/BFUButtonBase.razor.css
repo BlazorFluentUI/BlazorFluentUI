@@ -72,7 +72,7 @@ buttonRules-Add(rule);*/
 
 ::deep .ms-Button.is-disabled {
     background-color: var(--semanticColors-DisabledBackground);
-    color: var(--semanticTextColors-disabledText);
+    color: var(--semanticTextColors-DisabledText);
     cursor: default;
     pointer-events: none;
 }
@@ -239,6 +239,10 @@ buttonRules-Add(rule);*/
         margin-right: 0px;
         margin-bottom: 0px;
     }
+        ::deep .ms-Button-splitContainer .ms-Button-menuIcon.is-disabled {
+            border-color: var(--palette-NeutralLighter);
+            /* Hack to force disabled on border for splitbutton right side menu */
+        }
 
 ::deep .ms-Button-divider {
     position: absolute;

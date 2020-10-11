@@ -744,11 +744,11 @@ namespace BlazorFluentUI
             builder.OpenElement(110, "span");
             if (Primary)
             {
-                builder.AddAttribute(111, "class", $"ms-Button-divider ms-Button--primary{(Disabled ? " disabled" : "")}");
+                builder.AddAttribute(111, "class", $"ms-Button-divider ms-Button--primary{(Disabled ? " is-disabled" : "")}");
             }
             else
             {
-                builder.AddAttribute(111, "class", $"ms-Button-divider ms-Button--default{(Disabled ? " disabled" : "")}");
+                builder.AddAttribute(111, "class", $"ms-Button-divider ms-Button--default{(Disabled ? " is-disabled" : "")}");
             }
             builder.AddAttribute(112, "aria-hidden", true);
             builder.CloseElement();

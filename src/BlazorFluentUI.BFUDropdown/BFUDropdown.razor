@@ -1,8 +1,8 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUResponsiveComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <BFULocalCS @bind-Rules="@DropdownLocalRules" />
+
 <div class="ms-Dropdown-root"
      style=@Style
      @ref=@RootElementReference>

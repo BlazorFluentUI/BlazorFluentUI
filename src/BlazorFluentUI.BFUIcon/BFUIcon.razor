@@ -1,8 +1,6 @@
 @namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-@*<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />*@
-
 @if (IconType == IconType.Image)
 {
     <div class=@($"ms-Icon ms-Icon-imageContainer {this.ClassName}")

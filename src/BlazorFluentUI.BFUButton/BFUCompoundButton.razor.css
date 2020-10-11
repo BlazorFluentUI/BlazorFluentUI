@@ -32,9 +32,9 @@
 }
 
 
-    ::deep .ms-Button--default.ms-Button--compound .ms-Button-description:hover {
-        color: var(--palette-NeutralDark);
-    }
+::deep .ms-Button--default.ms-Button--compound:hover .ms-Button-description {
+    color: var(--palette-NeutralDark);
+}
 
 ::deep .ms-Button--default.ms-Button--compound.is-checked .ms-Button-description {
     color: inherit;
@@ -51,9 +51,9 @@
 }
 
 
-    ::deep .ms-Button--primary.ms-Button--compound .ms-Button-description:hover {
-        color: var(--palette.White);
-    }
+::deep .ms-Button--primary.ms-Button--compound:hover .ms-Button-description {
+    color: var(--palette.White);
+}
 
 ::deep .ms-Button--primary.ms-Button--compound.is-checked .ms-Button-description {
     color: inherit;

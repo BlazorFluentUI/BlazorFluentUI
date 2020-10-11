@@ -227,7 +227,7 @@
     flex-shrink: 0;
 }
 
-@media only screen and (min-width: 0px) and (max-width: var(--commonStyle-ScreenWidthMaxMedium)px) {
+@media only screen and (min-width: 0px) and (max-width: 639px) {
     ::deep .ms-ContextualMenu-icon {
         font-size: var(--iconFontSize-Large);
         width: var(--iconFontSize-Large);

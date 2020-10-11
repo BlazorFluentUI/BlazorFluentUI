@@ -12,7 +12,7 @@ using System.Timers;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPanel : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
+    public partial class BFUPanel : BFUComponentBase, IAsyncDisposable
     {
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
@@ -200,12 +200,6 @@ namespace BlazorFluentUI
                     }
                 }
             }
-        }
-
-        public override Task SetParametersAsync(ParameterView parameters)
-        {
-
-            return base.SetParametersAsync(parameters);
         }
 
         public void Open()
@@ -453,24 +447,7 @@ namespace BlazorFluentUI
 
         public async void Dispose()
         {
-            _clearExistingAnimationTimer?.Invoke();
-            if (_scrollerEventId != null)
-            {
-                foreach (var id in _scrollerEventId)
-                {
-                    await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", id);
-                }
-                _scrollerEventId.Clear();
-            }
-
-            if (_resizeId != -1)
-            {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", _resizeId);
-            }
-            if (_mouseDownId != -1)
-            {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", _mouseDownId);
-            }
+           
         }
 
 
@@ -777,6 +754,28 @@ namespace BlazorFluentUI
 
 
             return panelRules;
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            _clearExistingAnimationTimer?.Invoke();
+            if (_scrollerEventId != null)
+            {
+                foreach (var id in _scrollerEventId)
+                {
+                    await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", id);
+                }
+                _scrollerEventId.Clear();
+            }
+
+            if (_resizeId != -1)
+            {
+                await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", _resizeId);
+            }
+            if (_mouseDownId != -1)
+            {
+                await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", _mouseDownId);
+            }
         }
     }
 

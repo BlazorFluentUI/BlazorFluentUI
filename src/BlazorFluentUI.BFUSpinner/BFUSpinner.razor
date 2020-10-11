@@ -1,9 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
 <div class=@($"{ClassName} ms-Spinner{GetPositionStyle()}") style=@Style>
     <div class=@($"ms-Spinner-circle{GetSpinnerSizeStyle()}") />
     @if (Label != null)

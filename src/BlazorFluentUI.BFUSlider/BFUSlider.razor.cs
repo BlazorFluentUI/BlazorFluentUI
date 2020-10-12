@@ -12,9 +12,9 @@ using System.Timers;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUSlider : BFUComponentBase, IHasPreloadableGlobalStyle, IDisposable
+    public partial class BFUSlider : BFUComponentBase, IAsyncDisposable
     {
-        [Parameter] public Func<double,string>? AriaValueText { get; set; }
+        [Parameter] public Func<double, string>? AriaValueText { get; set; }
         [Parameter] public double? DefaultValue { get; set; }
         [Parameter] public bool Disabled { get; set; } = false;
         [Parameter] public string? Label { get; set; }
@@ -28,7 +28,7 @@ namespace BlazorFluentUI
         [Parameter] public string? TitleLabelClassName { get; set; }
         [Parameter] public double? Value { get; set; }
         [Parameter] public EventCallback<double> ValueChanged { get; set; }
-        [Parameter] public Func<double,string>? ValueFormat { get; set; }
+        [Parameter] public Func<double, string>? ValueFormat { get; set; }
         [Parameter] public bool Vertical { get; set; }
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
@@ -48,7 +48,7 @@ namespace BlazorFluentUI
         private DotNetObjectReference<BFUSlider>? dotNetObjectReference;
         private Timer timer = new Timer();
 
-        private string lengthString => (Vertical? "height" : "width");
+        private string lengthString => (Vertical ? "height" : "width");
 
         public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
         {
@@ -260,7 +260,7 @@ namespace BlazorFluentUI
                     "padding:0 8px"
             );
 
-#endregion
+            #endregion
 
             #region thumb
             sliderRules.AddCssStringSelector($".{GlobalClassNames["thumb"]}")
@@ -490,7 +490,7 @@ namespace BlazorFluentUI
         private void UpdateState()
         {
             thumbOffsetPercent = Min == Max ? 0 : ((_renderedValue - Min) / (Max - Min)) * 100.0;
-            
+
             zeroOffsetPercent = Min >= 0 ? 0 : (-Min / (Max - Min)) * 100;
             //lengthString = (set as property)
             showTransitions = _renderedValue == value;
@@ -540,14 +540,14 @@ namespace BlazorFluentUI
             }
 
             UpdateState();
-            
+
             await base.OnParametersSetAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
 
-            if (firstRender) 
+            if (firstRender)
             {
                 jsAvailable = true;
                 if (JSRuntime != null && !Disabled)
@@ -656,7 +656,7 @@ namespace BlazorFluentUI
                 renderedValue = Min + Step * currentSteps;
                 currentValue = Min + Step * Math.Round(currentSteps);
             }
-            
+
             UpdateValue(currentValue, renderedValue);
 
         }
@@ -701,20 +701,20 @@ namespace BlazorFluentUI
             }
         }
 
-    private string GetStyleUsingOffsetPercent(bool vertical, double thumbOffsetPercent)
+        private string GetStyleUsingOffsetPercent(bool vertical, double thumbOffsetPercent)
         {
             var direction = vertical ? "bottom" : "left";  // skipping RTL
             return $"{direction}:{thumbOffsetPercent}%;";
         }
 
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
-            if (dotNetObjectReference != null)
+            if (dotNetObjectReference != null && JSRuntime != null)
             {
-                _ = JSRuntime?.InvokeVoidAsync("BlazorFluentUiSlider.unregisterHandler", dotNetObjectReference);
+                await JSRuntime.InvokeVoidAsync("BlazorFluentUiSlider.unregisterHandler", dotNetObjectReference);
             }
             dotNetObjectReference?.Dispose();
-            
         }
+
     }
 }

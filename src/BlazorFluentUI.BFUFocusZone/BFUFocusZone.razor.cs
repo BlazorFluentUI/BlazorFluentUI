@@ -34,6 +34,9 @@ namespace BlazorFluentUI
         [Parameter] public Func<bool> ShouldInputLoseFocusOnArrowKey { get => shouldInputLoseFocusOnArrowKey; set { if (value != shouldInputLoseFocusOnArrowKey) { updateFocusZone = true; shouldInputLoseFocusOnArrowKey = value; } } } // This is likely not having an effect because of asynchronous code allowing the event to propagate.
         [Parameter] public bool IsFocusable { get; set; }
 
+        [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> UnknownAttributes { get; set; }
+
+
         bool allowFocusRoot;
         bool checkForNoWrap;
         string defaultActiveElement;

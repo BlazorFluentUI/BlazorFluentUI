@@ -1,7 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <BFULocalCS @bind-Rules=@PersonaLocalRules />
 
 <div @ref="RootElementReference" class=@($"{ClassName} mediumFont ms-Persona {PersonaRootRule.Selector.SelectorName}") style=@Style>

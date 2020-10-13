@@ -40,13 +40,6 @@ namespace BlazorFluentUI
         private Rule TertiaryTextRule = new Rule();
         private Rule OptionalTextRule = new Rule();
 
-        private string PersonaRootStyle = "";
-        private string DetailsStyle = "";
-        private string PrimaryTextStyle = "";
-        private string SecondaryTextStyle = "";
-        private string TertiaryTextStyle = "";
-        private string OptionalTextStyle = "";
-
         private const string LocalSpecificityClass = "localPersonaRule";
 
         protected override Task OnInitializedAsync()

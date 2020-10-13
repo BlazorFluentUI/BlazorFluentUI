@@ -1,0 +1,34 @@
+﻿.ms-Persona-presence {
+    position: absolute;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    top: auto;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--semanticColors-BodyBackground);
+    text-align: center;
+    box-sizing: content-box;
+    background-clip: content-box;
+    -ms-high-contrast-adjust: none;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Persona-presence {
+        border-color: Window;
+        background-color: WindowText;
+    }
+}
+
+::deep .ms-Persona-icon {
+    color: var(--semanticColors-BodyBackground);
+    font-size: 6px;
+    line-height: 12px;
+    vertical-align: top;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    ::deep .ms-Persona-icon {
+        color: Window;
+    }
+}

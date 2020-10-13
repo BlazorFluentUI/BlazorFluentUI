@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPersonaCoin : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUPersonaCoin : BFUComponentBase
     {
         [Parameter] public bool AllowPhoneInitials { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -35,6 +35,8 @@ namespace BlazorFluentUI
         Regex PHONENUMBER_REGEX = new Regex(@"^\d+[\d\s]*(:?ext|x|)\s*\d+$");
         Regex MULTIPLE_WHITESPACES_REGEX = new Regex(@"\s+");
         Regex UNSUPPORTED_TEXT_REGEX = new Regex(@"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]|[\uD840-\uD869][\uDC00-\uDED6]");
+
+        private const string LocalSpecificityClass = "localPersonaCoinRule";
 
         private ICollection<IRule> PersonaCoinLocalRules { get; set; } = new List<IRule>();
         private Rule InitialsRule = new Rule();
@@ -122,9 +124,9 @@ namespace BlazorFluentUI
 
         private void CreateLocalCss()
         {
-            InitialsRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-initials" };
-            ImageAreaRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-imageArea" };
-            ImageRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-image" };
+            InitialsRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-initials", LiteralPrefix = $".{LocalSpecificityClass}" };
+            ImageAreaRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-imageArea", LiteralPrefix = $".{LocalSpecificityClass}" };
+            ImageRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-image", LiteralPrefix = $".{LocalSpecificityClass}" };
 
             PersonaCoinLocalRules.Add(InitialsRule);
             PersonaCoinLocalRules.Add(ImageAreaRule);
@@ -186,74 +188,6 @@ namespace BlazorFluentUI
 
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var personaCoinRules = new HashSet<IRule>();
-
-            personaCoinRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-size10WithoutPresenceIcon" },
-                Properties = new CssString()
-                {
-                    Css = $"font-size:{theme.FontStyle.FontSize.XSmall};" +
-                          $"position:absolute;" +
-                          $"top:5px;" +
-                          $"right:auto;" +
-                          $"left:0;"
-                }
-            });
-
-            personaCoinRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-imageArea" },
-                Properties = new CssString()
-                {
-                    Css = $"position:relative;" +
-                          $"text-align:center;" +
-                          $"flex:0 0 auto;"
-                }
-            });
-
-            personaCoinRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-image" },
-                Properties = new CssString()
-                {
-                    Css = $"margin-right:10px;" +
-                        $"position:absolute;" +
-                        $"top:0;" +
-                        $"left:0;" +
-                        $"width:100%;" +
-                        $"height:100%;" +
-                        $"border:0;" +
-                        $"border-radius:50%;" +
-                        $"perspective:1px;"
-                }
-            });
-
-            personaCoinRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-initials" },
-                Properties = new CssString()
-                {
-                    Css = $"border-radius:50%;" +
-                        $"color:{theme.Palette.White};" +
-                        $"font-size:{theme.FontStyle.FontSize.Large};" +
-                        $"font-weight:{theme.FontStyle.FontWeight.SemiBold};"
-                }
-            });
-            personaCoinRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-initials--showUnknownPersonaCoin" },
-                Properties = new CssString()
-                {
-                    Css = $"color:rgb(168, 0, 0);" 
-                }
-            });
-
-
-            return personaCoinRules;
-        }
 
 
 

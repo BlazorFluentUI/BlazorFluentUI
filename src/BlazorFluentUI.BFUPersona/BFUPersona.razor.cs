@@ -40,6 +40,15 @@ namespace BlazorFluentUI
         private Rule TertiaryTextRule = new Rule();
         private Rule OptionalTextRule = new Rule();
 
+        private string PersonaRootStyle = "";
+        private string DetailsStyle = "";
+        private string PrimaryTextStyle = "";
+        private string SecondaryTextStyle = "";
+        private string TertiaryTextStyle = "";
+        private string OptionalTextStyle = "";
+
+        private const string LocalSpecificityClass = "localPersonaRule";
+
         protected override Task OnInitializedAsync()
         {
             CreateLocalCss();
@@ -64,12 +73,12 @@ namespace BlazorFluentUI
 
         private void CreateLocalCss()
         {
-            PersonaRootRule.Selector = new ClassSelector() { SelectorName = "ms-Persona" };
-            DetailsRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-details" };
-            PrimaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-primaryText" };
-            SecondaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-secondaryText" };
-            TertiaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-tertiaryText" };
-            OptionalTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-optionalText" };
+            PersonaRootRule.Selector = new ClassSelector() { SelectorName = "ms-Persona", LiteralPrefix = $".{LocalSpecificityClass}" };
+            DetailsRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-details", LiteralPrefix = $".{LocalSpecificityClass}" };
+            PrimaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-primaryText", LiteralPrefix = $".{LocalSpecificityClass}" };
+            SecondaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-secondaryText", LiteralPrefix = $".{LocalSpecificityClass}" };
+            TertiaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-tertiaryText", LiteralPrefix = $".{LocalSpecificityClass}" };
+            OptionalTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-optionalText", LiteralPrefix = $".{LocalSpecificityClass}" };
 
             PersonaRootRule.Properties = new CssString() { Css = "" };
             DetailsRule.Properties = new CssString() { Css = "" };
@@ -85,6 +94,7 @@ namespace BlazorFluentUI
             PersonaLocalRules.Add(TertiaryTextRule);
             PersonaLocalRules.Add(OptionalTextRule);
         }
+ 
 
         private void SetStyle()
         {

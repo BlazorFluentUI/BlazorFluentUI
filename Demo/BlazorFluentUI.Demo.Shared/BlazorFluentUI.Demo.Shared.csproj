@@ -8,10 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="DynamicData" Version="6.14.18" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\BlazorFluentUI.AllComponents\BlazorFluentUI.AllComponents.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUButton\BlazorFluentUI.BFUButton.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCalendar\BlazorFluentUI.BFUCalendar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCallout\BlazorFluentUI.BFUCallout.csproj" />

@@ -1,7 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-@*<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />*@
 <BFULocalCS @bind-Rules="@TextFieldLocalRules" />
 
 <div class=@($"ms-TextField mediumFont {(this.Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(hasLabel ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )} {ClassName}")

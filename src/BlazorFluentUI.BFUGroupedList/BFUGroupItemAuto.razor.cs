@@ -52,8 +52,8 @@ namespace BlazorFluentUI
         [Parameter]
         public Func<TItem, TKey> GetKey { get; set; }
 
-        [Parameter]
-        public IList<Func<TItem, object>>? GroupBy { get; set; }
+        //[Parameter]
+        //public IList<Func<TItem, object>>? GroupBy { get; set; }
 
         [Parameter]
         public bool IsVirtualizing { get; set; } = true;
@@ -64,14 +64,14 @@ namespace BlazorFluentUI
         [Parameter]
         public ICollection<IGroupedListItem3<TItem>>? ItemsSource { get; set; }
 
-        [Parameter]
-        public bool GroupSortDescending { get; set; }
+        //[Parameter]
+        //public bool GroupSortDescending { get; set; }
 
         [Parameter]
         public RenderFragment<IndexedItem<IGroupedListItem3<TItem>>>? ItemTemplate { get; set; }
 
-        [Parameter]
-        public EventCallback<GroupedListCollection<TItem>> OnGeneratedListItems { get; set; }
+        //[Parameter]
+        //public EventCallback<GroupedListCollection<TItem>> OnGeneratedListItems { get; set; }
 
         [Parameter]
         public EventCallback<bool> OnGroupExpandedChanged { get; set; }
@@ -94,11 +94,11 @@ namespace BlazorFluentUI
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
-        [Parameter]
-        public IList<Func<TItem, object>>? SortBy { get; set; } = null;
+        //[Parameter]
+        //public IList<Func<TItem, object>>? SortBy { get; set; } = null;
 
-        [Parameter]
-        public IList<bool>? SortDescending { get; set; }
+        //[Parameter]
+        //public IList<bool>? SortDescending { get; set; }
 
         [Parameter]
         public int StartIndex { get; set; }
@@ -108,12 +108,12 @@ namespace BlazorFluentUI
         private IDisposable sourceCacheSubscription;
         private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> groupedUIListItems;
 
-        private IList<bool>? _sortDescending;
-        private IList<Func<TItem, object>>? _sortBy;
-        private BehaviorSubject<IComparer<TItem>> sortExpressionComparer = new BehaviorSubject<IComparer<TItem>>(new SortExpressionComparer<TItem>());
-        private bool _groupSortDescending;
-        private BehaviorSubject<IComparer<GroupedListItem2<TItem>>> _groupSort = new BehaviorSubject<IComparer<GroupedListItem2<TItem>>>(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
-        private Subject<Unit> resorter = new Subject<Unit>();
+        //private IList<bool>? _sortDescending;
+        //private IList<Func<TItem, object>>? _sortBy;
+        //private BehaviorSubject<IComparer<TItem>> sortExpressionComparer = new BehaviorSubject<IComparer<TItem>>(new SortExpressionComparer<TItem>());
+        //private bool _groupSortDescending;
+        //private BehaviorSubject<IComparer<GroupedListItem2<TItem>>> _groupSort = new BehaviorSubject<IComparer<GroupedListItem2<TItem>>>(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
+        //private Subject<Unit> resorter = new Subject<Unit>();
 
 
         protected override Task OnInitializedAsync()
@@ -153,10 +153,10 @@ namespace BlazorFluentUI
             //return SelectionZone.Selection.SelectedKeys.Count() == groupedUIListItems.Count() && groupedUIListItems.Any();
         }
 
-        private string GetKeyForHeader(GroupedListItem2<TItem> header)
-        {
-            return string.Join(',', header.Children.Select(x => getKeyInternal(x.Item)).ToArray());
-        }
+        //private string GetKeyForHeader(GroupedListItem2<TItem> header)
+        //{
+        //    return string.Join(',', header.Children.Select(x => getKeyInternal(x.Item)).ToArray());
+        //}
 
         private void OnHeaderClicked(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
         {
@@ -278,55 +278,55 @@ namespace BlazorFluentUI
                 throw new Exception("Must have GetKey.");
 
 
-            if (SortBy != _sortBy || SortDescending != _sortDescending)
-            {
-                _sortBy = SortBy;
-                _sortDescending = SortDescending;
-                if (SortBy != null)
-                {
-                    var index = 0;
+            //if (SortBy != _sortBy || SortDescending != _sortDescending)
+            //{
+            //    _sortBy = SortBy;
+            //    _sortDescending = SortDescending;
+            //    if (SortBy != null)
+            //    {
+            //        var index = 0;
 
-                    foreach (var sortFunc in SortBy)
-                    {
-                        if (SortDescending != null && SortDescending.ElementAt(index) != null && SortDescending.ElementAt(index) == true)
-                            sortExpressionComparer.OnNext(SortExpressionComparer<TItem>.Descending(sortFunc.ConvertToIComparable()));
-                        else
-                            sortExpressionComparer.OnNext(SortExpressionComparer<TItem>.Ascending(sortFunc.ConvertToIComparable()));
-                        index++;
-                    }
-                }
-                else
-                {
-                    if (ItemsSource != null && ItemsSource is IList<TItem>)
-                        sortExpressionComparer.OnNext(new OriginalSortComparer<TItem>((IList<TItem>)ItemsSource)); // if the original list is an IList (order matters) retain this original order when sorting hasn't been enabled.
-                    else
-                        sortExpressionComparer.OnNext(new SortExpressionComparer<TItem>());
+            //        foreach (var sortFunc in SortBy)
+            //        {
+            //            if (SortDescending != null && SortDescending.ElementAt(index) != null && SortDescending.ElementAt(index) == true)
+            //                sortExpressionComparer.OnNext(SortExpressionComparer<TItem>.Descending(sortFunc.ConvertToIComparable()));
+            //            else
+            //                sortExpressionComparer.OnNext(SortExpressionComparer<TItem>.Ascending(sortFunc.ConvertToIComparable()));
+            //            index++;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (ItemsSource != null && ItemsSource is IList<TItem>)
+            //            sortExpressionComparer.OnNext(new OriginalSortComparer<TItem>((IList<TItem>)ItemsSource)); // if the original list is an IList (order matters) retain this original order when sorting hasn't been enabled.
+            //        else
+            //            sortExpressionComparer.OnNext(new SortExpressionComparer<TItem>());
 
-                }
+            //    }
 
-            }
+            //}
 
-            if (GroupSortDescending != _groupSortDescending)
-            {
-                _groupSortDescending = GroupSortDescending;
-                if (_groupSortDescending)
-                    _groupSort.OnNext(SortExpressionComparer<GroupedListItem2<TItem>>.Descending(x => x));
-                else
-                    _groupSort.OnNext(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
+            //if (GroupSortDescending != _groupSortDescending)
+            //{
+            //    _groupSortDescending = GroupSortDescending;
+            //    if (_groupSortDescending)
+            //        _groupSort.OnNext(SortExpressionComparer<GroupedListItem2<TItem>>.Descending(x => x));
+            //    else
+            //        _groupSort.OnNext(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
 
-            }
+            //}
 
-            if (GroupBy != null)
-            {
-                //if (ItemsSource != null && !ItemsSource.Equals(_itemsSource))
-                //{
-                //    //_itemsSource = ItemsSource;
-                //    CreateSourceCache();
+            //if (GroupBy != null)
+            //{
+            //    //if (ItemsSource != null && !ItemsSource.Equals(_itemsSource))
+            //    //{
+            //    //    //_itemsSource = ItemsSource;
+            //    //    CreateSourceCache();
 
-                //    if (_itemsSource != null)
-                //        sourceCache.AddOrUpdate(_itemsSource);
-                //}
-            }
+            //    //    if (_itemsSource != null)
+            //    //        sourceCache.AddOrUpdate(_itemsSource);
+            //    //}
+            //}
            
 
 

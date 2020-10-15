@@ -144,10 +144,10 @@ namespace BlazorFluentUI
             //return SelectionZone.Selection.SelectedKeys.Count() == groupedUIListItems.Count() && groupedUIListItems.Any();
         }
 
-        private string GetKeyForHeader(GroupedListItem2<TItem> header)
-        {
-            return string.Join(',', header.Children.Select(x => getKeyInternal(x.Item)).ToArray());
-        }
+        //private string GetKeyForHeader(GroupedListItem2<TItem> header)
+        //{
+        //    return string.Join(',', header.Children.Select(x => getKeyInternal(x.Item)).ToArray());
+        //}
 
         private void OnHeaderClicked(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
         {

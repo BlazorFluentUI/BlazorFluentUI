@@ -141,10 +141,10 @@ namespace BlazorFluentUI
         }
 
 
-        public static int RecursiveCount<TItem>(this System.Collections.Generic.List<GroupedListItem<TItem>> source)
-        {
-            return source.Where(x=> x is PlainItem<TItem>).Count() + source.Where(x => x is HeaderItem<TItem>).Sum(x => x.Children.RecursiveCount());
-        }
+        //public static int RecursiveCount<TItem>(this System.Collections.Generic.List<GroupedListItem2<TItem>> source)
+        //{
+        //    return source.Where(x=> x is PlainItem2<TItem>).Count() + source.Where(x => x is HeaderItem2<TItem>).Sum(x => x.Children.RecursiveCount());
+        //}
     }
 
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUGroupHeader : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUGroupHeader : BFUComponentBase
     {
         
         bool isLoadingVisible;

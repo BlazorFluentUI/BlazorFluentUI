@@ -82,27 +82,18 @@ namespace BlazorFluentUI
 
         private void OnHeaderClicked(IndexedItem<IGroupedListItem3<TItem>> headerItem)
         {
-            //if (SelectionZone != null)
-            //{
-            //    // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.
-            //    //does selection contain this item already?
-            //    if (SelectionZone.Selection.SelectedItems.Contains(headerItem.Item))
-            //    {
-            //        //deselect it and all children
-            //        var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-            //        SelectionZone.RemoveItems(items);
-            //    }
-            //    else
-            //    {
-            //        //select it and all children
-            //        var items = SubGroupSelector(headerItem.Item)?.RecursiveSelect<TItem, TItem>(r => SubGroupSelector(r), i => i).Append(headerItem.Item);
-            //        SelectionZone.AddItems(items);
-            //    }
-            //}
+            // should check for other callback, but it doesn't exist for now.  Do the OnHeaderToggled as a default action.
+            OnHeaderToggled(headerItem);
         }
 
         private void OnHeaderToggled(IndexedItem<IGroupedListItem3<TItem>> headerItem)
         {
+            if (Selection != null)
+            {
+                var header = (headerItem.Item as HeaderItem3<TItem, TKey>);
+
+                Selection.ToggleRangeSelected(header.GroupIndex, header.Count);
+            }
             //if (SelectionZone != null)
             //{
             //    // Doesn't seem to be any difference in the behavior for clicking the Header vs the checkmark in the header.

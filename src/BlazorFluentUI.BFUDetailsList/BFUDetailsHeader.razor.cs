@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsHeader<TItem> : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUDetailsHeader<TItem> : BFUComponentBase
     {
         //[CascadingParameter]
         //private BFUSelectionZone<TItem> SelectionZone { get; set; }

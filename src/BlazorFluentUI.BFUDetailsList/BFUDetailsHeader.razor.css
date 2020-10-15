@@ -1,0 +1,295 @@
+﻿.ms-DetailsHeader-root {
+    display: flex; /*// inline-block is seeing all the razor whitespace artifacts and adding extra spaces... switched to flex.*/
+    position: relative;
+}
+
+::deep .ms-DetailsHeader {
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+    display: flex; /*// inline-block is seeing all the razor whitespace artifacts and adding extra spaces... switched to flex.*/
+    background: var(--semanticColors-BodyBackground);
+    position: relative;
+    min-width: 100%;
+    vertical-align: top;
+    height: 42px;
+    line-height: 42px;
+    white-space: nowrap;
+    box-sizing: content-box;
+    padding-bottom: 1px;
+    padding-top: 16px;
+    border-bottom: 1px solid var(--semanticColors-BodyDivider);
+    cursor: default;
+    user-select: none;
+}
+
+    ::deep .ms-DetailsHeader:hover .ms-DetailsHeader-check {
+        opacity: 1;
+    }
+
+.ms-DetailsHeader-tooltipHost .ms-DetailsHeader-checkTootip {
+    display: block;
+}
+
+::deep .ms-DetailsHeader-check {
+    height: 42px;
+}
+
+.ms-Fabric--isFocusVisible .ms-DetailsHeader-cellIsCheck ::deep .ms-DetailsHeader-check {
+    opacity: 1;
+}
+
+.ms-DetailsHeader-cellWrapperPadded {
+    padding-right: 32px;
+}
+
+
+div.ms-DetailsHeader-cellIsCheck {
+    color: var(--semanticTextColors-BodyText);
+    /*display: inline-block;*/
+    /*position: relative;*/
+    box-sizing: border-box;
+    /*padding: 0 8px 0 12px;*/
+    line-height: inherit;
+    margin: 0;
+    height: 42px;
+    vertical-align: top;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+
+    position: relative;
+    padding: 0px;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    outline: transparent;
+    position: relative;
+}
+div.ms-DetailsHeader-cellIsCheck::-moz-focus-inner {
+    border: 0;
+}
+.ms-Fabric--isFocusVisible div.ms-DetailsHeader-cellIsCheck:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+
+
+::deep .ms-DetailsHeader.is-allSelected .ms-DetailsHeader-cellIsCheck {
+    opacity: 1;
+}
+
+
+.ms-DetailsHeader-cellIsGroupExpander {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fontSize-Small);
+    padding: 0;
+    border: none;
+    width: 36px;
+    color: var(--palette-NeutralSecondary);
+
+    outline: transparent;
+    position: relative;
+    color: var(--semanticTextColors-BodyText);
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    padding: 0 8px 0 12px;
+    line-height: inherit;
+    margin: 0;
+    height: 42px;
+    vertical-align: top;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.ms-DetailsHeader-cellIsGroupExpander::-moz-focus-inner {
+    border: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-DetailsHeader-cellIsGroupExpander:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+.ms-DetailsHeader-cellIsGroupExpander:hover {
+    background-color: var(--palette-NeutralLighter);
+}
+
+.ms-DetailsHeader-cellIsGroupExpander:active {
+    background-color: var(--palette-NeutralLight);
+}
+
+/*cellIsActionable SKIPPED BECAUSE this is a property of DetailsColumn which is a child...*/
+/*cellIsEmpty also skipped*/
+
+
+.ms-DetailsHeader-cellSizer {
+    display: inline-block;
+    position: relative;
+    cursor: ew-resize;
+    bottom: 0;
+    top: 0;
+    overflow: hidden;
+    height: inherit;
+    background: transparent;
+    z-index: 1;
+    width: 16px;
+    outline: transparent;
+    position: relative;
+}
+
+.ms-DetailsHeader-cellSizer::-moz-focus-inner {
+    border: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-DetailsHeader-cellSizer:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+
+.ms-DetailsHeader-cellSizer::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    width: 1px;
+    background: var(--palette.NeutralTertiaryAlt);
+    opacity: 0;
+    left: 50%;
+}
+
+.ms-DetailsHeader-cellSizer:focus::after, 
+.ms-DetailsHeader-cellSizer:hover::after {
+    opacity: 1;
+    transition: opacity 0.3s linear;
+}
+
+.ms-DetailsHeader-cellSizer.is-resizing:focus::after {
+    opacity: 1;
+    transition: opacity 0.3s linear;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+
+.ms-DetailsHeader-cellSizerStart {
+    margin: 0 -8px;
+}
+
+.ms-DetailsHeader-cellSizerEnd {
+    margin: 0;
+    margin-left: -16px;
+}
+
+::deep .ms-DetailsHeader-collapseButton {
+    transform-origin: 50% 50%;
+    transition: transform .1s linear;
+    transform: rotate(90deg);
+}
+
+    ::deep .ms-DetailsHeader-collapseButton.is-collapsed {
+        transform: rotate(0deg);
+    }
+
+.ms-DetailsHeader-sizingOverlay.is-sizing {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    cursor: ew-resize;
+    background: rgba(255,255,255,0);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-DetailsHeader-sizingOverlay.is-sizing {
+        background: transparent;
+        -ms-high-contrast-adjust: none;
+    }
+}
+
+.ms-DetailsHeader-accessibleLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+}
+
+/*//dropHintCircle //doesn't seem to be used*/
+.ms-DetailsHeader-dropHintCircle {
+    display: inline-block;
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+    height: 9px;
+    width: 9px;
+    border-radius: 50%;
+    margin-left: -5px;
+    top: 34px;
+    overflow: visible;
+    z-index: 10;
+    border: 1px solid var(--palette-ThemePrimary);
+    background: var(--palette-White);
+}
+
+
+::deep .ms-DetailsHeader-dropHintCaret {
+    display: none;
+    position: absolute;
+    top: -28px;
+    left: -6.5px;
+    font-size: var(--fontSize-Medium);
+    color: var(--palette-ThemePrimary);
+    overflow: visible;
+    z-index: 10;
+}
+
+.ms-DetailsHeader-dropHintLine {
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    top: 0px;
+    overflow: visible;
+    height: 42px;
+    width: 1px;
+    background: var(--palette-ThemePrimary);
+    z-index: 10;
+}
+
+.ms-DetailsHeader-dropHint {
+    display: inline-block;
+    position: absolute;
+}
+
+/*//NOT DONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Skipped
+*/

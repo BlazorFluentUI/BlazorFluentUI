@@ -81,8 +81,8 @@ namespace BlazorFluentUI
         [Parameter]
         public RenderFragment<IndexedItem<IGroupedListItem3<TItem>>>? ItemTemplate { get; set; }
 
-        [Parameter]
-        public EventCallback<GroupedListCollection<TItem>> OnGeneratedListItems { get; set; }
+        //[Parameter]
+        //public EventCallback<GroupedListCollection<TItem>> OnGeneratedListItems { get; set; }
 
         [Parameter]
         public EventCallback<bool> OnGroupExpandedChanged { get; set; }
@@ -118,7 +118,7 @@ namespace BlazorFluentUI
         private BehaviorSubject<IComparer<TItem>> sortExpressionComparer;// = new BehaviorSubject<IComparer<TItem>>(new SortExpressionComparer<TItem>());
         private BehaviorSubject<IComparer<IGroupedListItem3<TItem>>> subGroupSortExpressionComparer;// = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(new SortExpressionComparer<IGroupedListItem3<TItem>>());
         private bool _groupSortDescending;
-        private BehaviorSubject<IComparer<GroupedListItem2<TItem>>> _groupSort = new BehaviorSubject<IComparer<GroupedListItem2<TItem>>>(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
+        //private BehaviorSubject<IComparer<GroupedListItem2<TItem>>> _groupSort = new BehaviorSubject<IComparer<GroupedListItem2<TItem>>>(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
         private Subject<Unit> resorter = new Subject<Unit>();
 
 
@@ -166,10 +166,10 @@ namespace BlazorFluentUI
         //    //return SelectionZone.Selection.SelectedKeys.Count() == groupedUIListItems.Count() && groupedUIListItems.Any();
         //}
 
-        private string GetKeyForHeader(GroupedListItem2<TItem> header)
-        {
-            return string.Join(',', header.Children.Select(x => getKeyInternal(x.Item)).ToArray());
-        }
+        //private string GetKeyForHeader(GroupedListItem2<TItem> header)
+        //{
+        //    return string.Join(',', header.Children.Select(x => getKeyInternal(x.Item)).ToArray());
+        //}
 
         private void OnHeaderClicked(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
         {
@@ -326,15 +326,15 @@ namespace BlazorFluentUI
                     subGroupSortExpressionComparer.OnNext(subGroupListSortExpression);
             }
 
-            if (GroupSortDescending != _groupSortDescending)
-            {
-                _groupSortDescending = GroupSortDescending;
-                if (_groupSortDescending)
-                    _groupSort.OnNext(SortExpressionComparer<GroupedListItem2<TItem>>.Descending(x => x));
-                else
-                    _groupSort.OnNext(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
+            //if (GroupSortDescending != _groupSortDescending)
+            //{
+            //    _groupSortDescending = GroupSortDescending;
+            //    if (_groupSortDescending)
+            //        _groupSort.OnNext(SortExpressionComparer<GroupedListItem2<TItem>>.Descending(x => x));
+            //    else
+            //        _groupSort.OnNext(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
 
-            }
+            //}
 
             if (GroupBy != null)
             {

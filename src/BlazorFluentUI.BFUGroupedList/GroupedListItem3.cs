@@ -107,6 +107,7 @@ namespace BlazorFluentUI
                 if (subGroupSelector(subItem) == null || subGroupSelector(subItem).Count() == 0)
                 {
                     Items.Add(new PlainItem3<TItem,TKey>(subItem, depth + 1));
+                    cummulativeCount++;
                 }
                 else
                 {
@@ -115,6 +116,7 @@ namespace BlazorFluentUI
                     cummulativeCount += subItemCount;
                 }
             }
+            countSubject.OnNext(cummulativeCount);
         }
 
         /// <summary>
@@ -267,59 +269,59 @@ namespace BlazorFluentUI
         public ICollection<IGroupedListItem3<TItem>> Items => null;
     }
 
-    public class GroupedListItem3<TItem>
-    {
-        private BehaviorSubject<bool> _isVisibleSubject;
-        public IObservable<bool> IsVisibleObservable => _isVisibleSubject.AsObservable();
-        public bool IsVisible
-        {
-            get => _isVisibleSubject.Value;
-            set
-            {
-                _isVisibleSubject.OnNext(value);
-            }
-        }
+    //public class GroupedListItem3<TItem>
+    //{
+    //    private BehaviorSubject<bool> _isVisibleSubject;
+    //    public IObservable<bool> IsVisibleObservable => _isVisibleSubject.AsObservable();
+    //    public bool IsVisible
+    //    {
+    //        get => _isVisibleSubject.Value;
+    //        set
+    //        {
+    //            _isVisibleSubject.OnNext(value);
+    //        }
+    //    }
 
-        private bool _isSelected;
-        public bool IsSelected { get => _isSelected; set => _isSelected = value; }
+    //    private bool _isSelected;
+    //    public bool IsSelected { get => _isSelected; set => _isSelected = value; }
 
-        public TItem Item { get; set; }
-        public string Name { get; set; }
-        public int Index { get; set; }
-        public int Depth { get; set; }
-        //public string Key => GetGroupItemKey(this);
-        public System.Collections.Generic.List<GroupedListItem<TItem>> Children { get; set; } = new System.Collections.Generic.List<GroupedListItem<TItem>>();
+    //    public TItem Item { get; set; }
+    //    public string Name { get; set; }
+    //    public int Index { get; set; }
+    //    public int Depth { get; set; }
+    //    //public string Key => GetGroupItemKey(this);
+    //    public System.Collections.Generic.List<GroupedListItem<TItem>> Children { get; set; } = new System.Collections.Generic.List<GroupedListItem<TItem>>();
 
-        public int RecursiveCount => Children.RecursiveCount();
+    //    public int RecursiveCount => Children.RecursiveCount();
         
         
 
-        private static string GetGroupItemKey(GroupedListItem<TItem> groupedListItem)
-        {
-            string key = "";
-            if (groupedListItem.Parent != null)
-                key = GetGroupItemKey(groupedListItem.Parent) + "-";
-            key += groupedListItem.Index;
-            return key;
-        }
+    //    private static string GetGroupItemKey(GroupedListItem<TItem> groupedListItem)
+    //    {
+    //        string key = "";
+    //        if (groupedListItem.Parent != null)
+    //            key = GetGroupItemKey(groupedListItem.Parent) + "-";
+    //        key += groupedListItem.Index;
+    //        return key;
+    //    }
 
-        public HeaderItem<TItem> Parent { get; set; }
+    //    public HeaderItem3<TItem,TKey> Parent { get; set; }
 
-        public GroupedListItem3(TItem item, HeaderItem<TItem> parent, int index, int depth)
-        {
-            _isVisibleSubject = new BehaviorSubject<bool>(true);
+    //    public GroupedListItem3(TItem item, HeaderItem<TItem> parent, int index, int depth)
+    //    {
+    //        _isVisibleSubject = new BehaviorSubject<bool>(true);
 
-            Item = item;
-            Index = index;
-            Depth = depth;
-            Parent = parent;
+    //        Item = item;
+    //        Index = index;
+    //        Depth = depth;
+    //        Parent = parent;
 
-            Parent?.IsOpenObservable.CombineLatest(Parent.IsVisibleObservable, (open, visible) => !visible ? false : (open ? true : false)).Subscribe(shouldBeVisible =>
-            {
-                IsVisible = shouldBeVisible;
-            });
-        }
-    }
+    //        Parent?.IsOpenObservable.CombineLatest(Parent.IsVisibleObservable, (open, visible) => !visible ? false : (open ? true : false)).Subscribe(shouldBeVisible =>
+    //        {
+    //            IsVisible = shouldBeVisible;
+    //        });
+    //    }
+    //}
 
     //public class GroupedListItemComparer<TItem> : IComparer<GroupedListItem<TItem>>
     //{

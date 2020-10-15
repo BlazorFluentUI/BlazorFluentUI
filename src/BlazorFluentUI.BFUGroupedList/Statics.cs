@@ -16,52 +16,52 @@ namespace BlazorFluentUI
 {
     public static class Statics
     {
-        public static IObservable<IChangeSet<GroupedListItem2<TItem>>> BufferForTime<TItem>(this IObservable<IChangeSet<GroupedListItem2<TItem>>> items)
-        {
-            return items
-                .Buffer(() => Observable.Interval(TimeSpan.FromMilliseconds(400),System.Reactive.Concurrency.ThreadPoolScheduler.Instance).Do(x=> { Debug.WriteLine($"Tick {x}"); }))
-                //.Buffer(() => items.Where(x=>x is IChangeSet<PlainItem2<TItem>>))
-                .Select(list =>
-                {
+        //public static IObservable<IChangeSet<GroupedListItem2<TItem>>> BufferForTime<TItem>(this IObservable<IChangeSet<GroupedListItem2<TItem>>> items)
+        //{
+        //    return items
+        //        .Buffer(() => Observable.Interval(TimeSpan.FromMilliseconds(400),System.Reactive.Concurrency.ThreadPoolScheduler.Instance).Do(x=> { Debug.WriteLine($"Tick {x}"); }))
+        //        //.Buffer(() => items.Where(x=>x is IChangeSet<PlainItem2<TItem>>))
+        //        .Select(list =>
+        //        {
                 
-                 var count = list.SelectMany(x => x).Count();
-                 var cache = new ChangeAwareList<GroupedListItem2<TItem>>(count);
-                 //var mainSet = new ChangeSet<GroupedListItem2<TItem>>();
-                 foreach (var set in list)
-                 {
-                     foreach (var change in set)
-                     {
-                         switch (change.Reason)
-                         {
-                             case ListChangeReason.Add:
-                                 cache.Add(change.Item.Current);
-                                 break;
-                             case ListChangeReason.AddRange:
-                                 cache.AddRange(change.Range);
-                                 break;
-                             case ListChangeReason.Remove:
-                                 cache.Remove(change.Item.Current);
-                                 break;
-                             case ListChangeReason.RemoveRange:
-                                 cache.Remove(change.Range);
-                                 break;
-                                case ListChangeReason.Replace:
-                                    if (change.Item.Previous.HasValue) 
-                                        cache.Replace(change.Item.Previous.Value, change.Item.Current);
+        //         var count = list.SelectMany(x => x).Count();
+        //         var cache = new ChangeAwareList<GroupedListItem2<TItem>>(count);
+        //         //var mainSet = new ChangeSet<GroupedListItem2<TItem>>();
+        //         foreach (var set in list)
+        //         {
+        //             foreach (var change in set)
+        //             {
+        //                 switch (change.Reason)
+        //                 {
+        //                     case ListChangeReason.Add:
+        //                         cache.Add(change.Item.Current);
+        //                         break;
+        //                     case ListChangeReason.AddRange:
+        //                         cache.AddRange(change.Range);
+        //                         break;
+        //                     case ListChangeReason.Remove:
+        //                         cache.Remove(change.Item.Current);
+        //                         break;
+        //                     case ListChangeReason.RemoveRange:
+        //                         cache.Remove(change.Range);
+        //                         break;
+        //                        case ListChangeReason.Replace:
+        //                            if (change.Item.Previous.HasValue) 
+        //                                cache.Replace(change.Item.Previous.Value, change.Item.Current);
 
-                                break;
-                             case ListChangeReason.Refresh:
-                                 cache.Refresh(change.Item.Current);
-                                 break;
-                             case ListChangeReason.Moved:
-                                 cache.Move(change.Item.PreviousIndex, change.Item.CurrentIndex);
-                                 break;
-                         }
-                     }
-                 }
-                 return cache.CaptureChanges();
-             });
-        }
+        //                        break;
+        //                     case ListChangeReason.Refresh:
+        //                         cache.Refresh(change.Item.Current);
+        //                         break;
+        //                     case ListChangeReason.Moved:
+        //                         cache.Move(change.Item.PreviousIndex, change.Item.CurrentIndex);
+        //                         break;
+        //                 }
+        //             }
+        //         }
+        //         return cache.CaptureChanges();
+        //     });
+        //}
 
         //public static IObservable<IChangeSet<GroupedListItem2<TItem>,object>> FlatGroup<TItem>(this IObservable<IChangeSet<TItem, object>> items, IList<Func<TItem, object>> groupBy, int depth, IList<object> groupKeys, IObservable<IComparer<TItem>> itemSortExpression)
         //{
@@ -105,91 +105,91 @@ namespace BlazorFluentUI
 
         //}
 
-        public static IObservable<IChangeSet<GroupedListItem2<TItem>>> FlatGroup<TItem>(this IObservable<IChangeSet<TItem>> items, IList<Func<TItem, object>> groupBy, int depth, IList<object> groupKeys, IObservable<IComparer<TItem>> itemSortExpression)
-        {
+        //public static IObservable<IChangeSet<GroupedListItem2<TItem>>> FlatGroup<TItem>(this IObservable<IChangeSet<TItem>> items, IList<Func<TItem, object>> groupBy, int depth, IList<object> groupKeys, IObservable<IComparer<TItem>> itemSortExpression)
+        //{
 
-            if (groupBy != null && groupBy.Count > 0)
-            {
+        //    if (groupBy != null && groupBy.Count > 0)
+        //    {
 
 
-                var firstGroupBy = groupBy.First();
-                var groups = items.GroupOn(firstGroupBy);
-                var headerItems = groups.Transform(group =>
-                {
-                    var tempGroupKeyList = groupKeys.ToList();
-                    tempGroupKeyList.Add(group.GroupKey);
-                    //Debug.WriteLine($"Created Header {group.Key}  with parent: {groupKeys.Last()}");
-                    return new HeaderItem2<TItem>(default, tempGroupKeyList, depth, group.GroupKey.ToString()) as GroupedListItem2<TItem>;
-                });
-                var subItems = groups.MergeMany(group =>
-                {
-                    var tempGroupKeyList = groupKeys.ToList();
-                    tempGroupKeyList.Add(group.GroupKey);
-                    var changeset = group.List.Connect().FlatGroup<TItem>(groupBy.Skip(1).ToList(), depth + 1, tempGroupKeyList, itemSortExpression);
-                    return changeset;
-                });
+        //        var firstGroupBy = groupBy.First();
+        //        var groups = items.GroupOn(firstGroupBy);
+        //        var headerItems = groups.Transform(group =>
+        //        {
+        //            var tempGroupKeyList = groupKeys.ToList();
+        //            tempGroupKeyList.Add(group.GroupKey);
+        //            //Debug.WriteLine($"Created Header {group.Key}  with parent: {groupKeys.Last()}");
+        //            return new HeaderItem2<TItem>(default, tempGroupKeyList, depth, group.GroupKey.ToString()) as GroupedListItem2<TItem>;
+        //        });
+        //        var subItems = groups.MergeMany(group =>
+        //        {
+        //            var tempGroupKeyList = groupKeys.ToList();
+        //            tempGroupKeyList.Add(group.GroupKey);
+        //            var changeset = group.List.Connect().FlatGroup<TItem>(groupBy.Skip(1).ToList(), depth + 1, tempGroupKeyList, itemSortExpression);
+        //            return changeset;
+        //        });
 
-                var changeAwareList = new ChangeAwareList<GroupedListItem2<TItem>>();
+        //        var changeAwareList = new ChangeAwareList<GroupedListItem2<TItem>>();
 
-                var flattenedItems = headerItems.Or(subItems);
-                return flattenedItems;
-            }
-            else
-            {
-                //var sourceCache = new SourceCache<GroupedListItem2<TItem>, object>(x => x.Item);
-                //sourceCache.Connect()
-                //    .Sort(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x.Depth))
-                //    .Transform()
+        //        var flattenedItems = headerItems.Or(subItems);
+        //        return flattenedItems;
+        //    }
+        //    else
+        //    {
+        //        //var sourceCache = new SourceCache<GroupedListItem2<TItem>, object>(x => x.Item);
+        //        //sourceCache.Connect()
+        //        //    .Sort(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x.Depth))
+        //        //    .Transform()
                     
-                return items.AutoRefreshOnObservable(x => itemSortExpression)
-                        .Sort(itemSortExpression, resetThreshold: 1)  // sort won't happen if only a few items change... so we need to make the threshold just 1 item.  
-                        .Transform((item, index) =>
-                        {
-                            return new PlainItem2<TItem>(item, groupKeys, depth, index) as GroupedListItem2<TItem>;
-                        }, true);
-            }
+        //        return items.AutoRefreshOnObservable(x => itemSortExpression)
+        //                .Sort(itemSortExpression, resetThreshold: 1)  // sort won't happen if only a few items change... so we need to make the threshold just 1 item.  
+        //                .Transform((item, index) =>
+        //                {
+        //                    return new PlainItem2<TItem>(item, groupKeys, depth, index) as GroupedListItem2<TItem>;
+        //                }, true);
+        //    }
 
-        }
+        //}
 
 
 
-        public static IObservable<IChangeSet<GroupedListItem2<TItem>>> FlatGroupOld<TItem>(this IObservable<IChangeSet<TItem>> items, IList<Func<TItem, object>> groupBy, int depth, IList<object> groupKeys, IObservable<IComparer<TItem>> itemSortExpression)
-        {
+        //public static IObservable<IChangeSet<GroupedListItem2<TItem>>> FlatGroupOld<TItem>(this IObservable<IChangeSet<TItem>> items, IList<Func<TItem, object>> groupBy, int depth, IList<object> groupKeys, IObservable<IComparer<TItem>> itemSortExpression)
+        //{
 
-            if (groupBy != null && groupBy.Count > 0)
-            {
-                var firstGroupBy = groupBy.First();
-                var groups = items.GroupOn(firstGroupBy);
-                var headerItems = groups.Transform(group =>
-                {
-                    var tempGroupKeyList = groupKeys.ToList();
-                    tempGroupKeyList.Add(group.GroupKey);
-                        //Debug.WriteLine($"Created Header {group.Key}  with parent: {groupKeys.Last()}");
-                        return new HeaderItem2<TItem>(default, tempGroupKeyList, depth, group.GroupKey.ToString()) as GroupedListItem2<TItem>;
-                });
-                var subItems = groups.MergeMany(group =>
-                {
-                    var tempGroupKeyList = groupKeys.ToList();
-                    tempGroupKeyList.Add(group.GroupKey);
-                    var changeset = group.List.Connect().FlatGroup<TItem>(groupBy.Skip(1).ToList(), depth + 1, tempGroupKeyList, itemSortExpression);
-                    return changeset;
-                });
+        //    if (groupBy != null && groupBy.Count > 0)
+        //    {
+        //        var firstGroupBy = groupBy.First();
+        //        var groups = items.GroupOn(firstGroupBy);
+        //        var headerItems = groups.Transform(group =>
+        //        {
+        //            var tempGroupKeyList = groupKeys.ToList();
+        //            tempGroupKeyList.Add(group.GroupKey);
+        //                //Debug.WriteLine($"Created Header {group.Key}  with parent: {groupKeys.Last()}");
+        //                return new HeaderItem2<TItem>(default, tempGroupKeyList, depth, group.GroupKey.ToString()) as GroupedListItem2<TItem>;
+        //        });
+        //        var subItems = groups.MergeMany(group =>
+        //        {
+        //            var tempGroupKeyList = groupKeys.ToList();
+        //            tempGroupKeyList.Add(group.GroupKey);
+        //            var changeset = group.List.Connect().FlatGroup<TItem>(groupBy.Skip(1).ToList(), depth + 1, tempGroupKeyList, itemSortExpression);
+        //            return changeset;
+        //        });
 
-                var flattenedItems = headerItems.Or(subItems);
-                return flattenedItems;
-            }
-            else
-            {
-                return items.AutoRefreshOnObservable(x => itemSortExpression)
-                        .Sort(itemSortExpression)
-                        .Transform((item, index) =>
-                        {
-                            Debug.WriteLine($"Group {string.Join(',', groupKeys.Select(x => x.ToString()).ToArray())} Index {index}: {System.Text.Json.JsonSerializer.Serialize<TItem>(item)}");
-                            return new PlainItem2<TItem>(item, groupKeys, depth, index) as GroupedListItem2<TItem>;
-                        }, true);
-            }
+        //        var flattenedItems = headerItems.Or(subItems);
+        //        return flattenedItems;
+        //    }
+        //    else
+        //    {
+        //        return items.AutoRefreshOnObservable(x => itemSortExpression)
+        //                .Sort(itemSortExpression)
+        //                .Transform((item, index) =>
+        //                {
+        //                    Debug.WriteLine($"Group {string.Join(',', groupKeys.Select(x => x.ToString()).ToArray())} Index {index}: {System.Text.Json.JsonSerializer.Serialize<TItem>(item)}");
+        //                    return new PlainItem2<TItem>(item, groupKeys, depth, index) as GroupedListItem2<TItem>;
+        //                }, true);
+        //    }
 
-        }
+        //}
 
         public static IObservable<IChangeSet<TDestination, TKey>> TransformWithInlineUpdate<TObject, TKey, TDestination>(this IObservable<IChangeSet<TObject, TKey>> source,
             Func<TObject, TDestination> transformFactory,

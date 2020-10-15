@@ -120,7 +120,7 @@ namespace BlazorFluentUI
 
         private SourceList<TItem> sourceList;
         private ReadOnlyObservableCollection<TItem> items;
-        private ReadOnlyObservableCollection<GroupedListItem2<TItem>> groupedUIItems;
+        //private ReadOnlyObservableCollection<GroupedListItem2<TItem>> groupedUIItems;
 
         private IObservable<Func<TItem, bool>>? DynamicDescriptionFilter;
         private IEnumerable<TItem>? itemsSource;

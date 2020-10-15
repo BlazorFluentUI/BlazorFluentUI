@@ -8,23 +8,34 @@
 
     <BFUStack Style="height:100%;">
         <h3>DetailsList - Grouped Data</h3>
-        <BFUToggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
+        <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
+            <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+            <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+            <BFUDropdown ItemsSource=@selectionModeOptions
+                         @bind-SelectedOption=selectedModeOption
+                         Style="max-width:300px;">
+            </BFUDropdown>
+        </BFUStack>
         <BFUDetailsList ItemsSource="ReadonlyList"
                         @ref="detailsList"
                         Columns="ReadonlyColumns"
                         GetKey="(item)=>item.Key"
                         TItem="GroupedDataItem"
+                        Compact="isCompact"
                         IsVirtualizing="isVirtualizing"
                         SubGroupSelector=@(item=> item.ObservableData)
                         GroupTitleSelector=@(item=>item.DisplayName)
                         LayoutMode="DetailsListLayoutMode.Justified"
                         Selection="selection"
-                        SelectionMode="SelectionMode.Multiple">
+                        SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
         </BFUDetailsList>
     </BFUStack>
 
 @code {
     bool isVirtualizing = true;
+    bool isCompact = false;
+    IBFUDropdownOption selectedModeOption;
+    List<IBFUDropdownOption> selectionModeOptions;
 
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
@@ -72,6 +83,12 @@
 
     protected override void OnInitialized()
     {
+        selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()
+           .Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() })
+           .Cast<IBFUDropdownOption>()
+           .ToList();
+        selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Multiple");
+
         columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem,int>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick });
         columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem,string>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
         var descColumn = new BFUDetailsRowColumn<GroupedDataItem,string>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };

@@ -1,10 +1,13 @@
 ﻿using BlazorFluentUI.Style;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,7 +39,7 @@ namespace BlazorFluentUI
         [Parameter] public bool ValidateOnFocusIn { get; set; }
         [Parameter] public bool ValidateOnFocusOut { get; set; }
         [Parameter] public bool ValidateOnLoad { get; set; } = true;
-        [Parameter] public int DeferredValidationTime { get; set; } = 200;
+        [Parameter] public int DeferredValidationTime { get; set; } = 0;
         //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public AutoComplete AutoComplete { get; set; } = AutoComplete.On;
         //[Parameter] public string Mask { get; set; }
@@ -71,8 +74,16 @@ namespace BlazorFluentUI
         public EventCallback<string> OnChange { get; set; }
         [Parameter]
         public EventCallback<string> OnInput { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the bound value.
+        /// </summary>
+        [Parameter] public Expression<Func<string>>? ValueExpression { get; set; }
         [Parameter]
         public EventCallback<string> ValueChanged { get; set; }
+
+        [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
+
 
         protected string id = Guid.NewGuid().ToString();
         protected string descriptionId = Guid.NewGuid().ToString();
@@ -89,6 +100,8 @@ namespace BlazorFluentUI
         private ICollection<IRule> TextFieldLocalRules { get; set; } = new List<IRule>();
         private ICollection<Task> DeferredValidationTasks = new List<Task>();
 
+        private FieldIdentifier FieldIdentifier;
+
         protected string CurrentValue
         {
             get => currentValue;
@@ -97,13 +110,16 @@ namespace BlazorFluentUI
                 if (value == currentValue)
                     return;
                 currentValue = value;
-                ChangeHandler(new ChangeEventArgs() { Value = value }).ConfigureAwait(true);
+
+                InputHandler(new ChangeEventArgs { Value = currentValue });
+                //ChangeHandler(new ChangeEventArgs() { Value = value }).ConfigureAwait(true);
             }
         }
 
         protected ElementReference textAreaRef;
         protected double autoAdjustedHeight = -1;
         protected bool isFocused = false;
+              
 
         protected override Task OnInitializedAsync()
         {
@@ -124,6 +140,32 @@ namespace BlazorFluentUI
 
 
             return base.OnInitializedAsync();
+        }
+
+        public override Task SetParametersAsync(ParameterView parameters)
+        {
+            parameters.SetParameterProperties(this);
+
+            if (CascadedEditContext != null)
+            {
+                CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
+
+                if (ValueExpression == null)
+                {
+                    throw new InvalidOperationException($"{GetType()} requires a value for the 'ValueExpression' " +
+                        $"parameter. Normally this is provided automatically when using 'bind-Value'.");
+                }
+                FieldIdentifier = FieldIdentifier.Create<string>(ValueExpression);
+            }
+
+
+                return base.SetParametersAsync(ParameterView.Empty);
+        }
+
+        private void CascadedEditContext_OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+        {
+            //SetAdditionalAttributesIfValidationFailed();
+            InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
         }
 
         protected override Task OnParametersSetAsync()
@@ -161,27 +203,22 @@ namespace BlazorFluentUI
         }
 
 
-        protected async Task InputHandler(ChangeEventArgs args)
+        protected void InputHandler(ChangeEventArgs args)
         {
             if (!defaultErrorMessageIsSet && OnGetErrorMessage != null && !string.IsNullOrWhiteSpace(ErrorMessage))
             {
                 ErrorMessage = "";
-                StateHasChanged();
+                //StateHasChanged();
             }
-
-            await AdjustInputHeightAsync();
 
             if (ValidateAllChanges())
             {
-                await DeferredValidation((string)args.Value).ConfigureAwait(false);
+                _ = DeferredValidation((string)args.Value).ConfigureAwait(false);
             }
 
-            await OnInput.InvokeAsync((string)args.Value);
-            //await InputChanged.InvokeAsync((string)args.Value);
-            //if (this.OnInput != null)
-            //{
-            //    await this.OnInput.Invoke(args);
-            //}
+            _ = AdjustInputHeightAsync();
+
+            _ = OnInput.InvokeAsync((string)args.Value);
         }
 
         protected async Task ChangeHandler(ChangeEventArgs args)
@@ -267,39 +304,67 @@ namespace BlazorFluentUI
         }
 
         private void Validate(string value)
-        {
-            if (value == null || latestValidatedValue == value)
-                return;
-
-            latestValidatedValue = value;
-            string errorMessage = OnGetErrorMessage?.Invoke(value);
-            if (errorMessage != null)
+        {            
+            if (CascadedEditContext == null)
             {
-                ErrorMessage = errorMessage;
+                if (value == null || latestValidatedValue == value)
+                    return;
+
+                latestValidatedValue = value;
+                string errorMessage = OnGetErrorMessage?.Invoke(value);
+                if (errorMessage != null)
+                {
+                    ErrorMessage = errorMessage;
+                }
+                OnNotifyValidationResult?.Invoke(errorMessage, value);
             }
-            OnNotifyValidationResult?.Invoke(errorMessage, value);
+            else
+            {
+                CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
+                if (CascadedEditContext.GetValidationMessages(FieldIdentifier).Any())
+                {
+                    ErrorMessage = string.Join(',', CascadedEditContext.GetValidationMessages(FieldIdentifier));
+                }
+                else
+                {
+                    ErrorMessage = "";
+                }
+                OnNotifyValidationResult?.Invoke(ErrorMessage, value);
+            }
+            
         }
 
         private bool ValidateAllChanges()
         {
-            return OnGetErrorMessage != null && !defaultErrorMessageIsSet && !ValidateOnFocusIn && !ValidateOnFocusOut;
+            return (OnGetErrorMessage != null && !defaultErrorMessageIsSet && !ValidateOnFocusIn && !ValidateOnFocusOut) || CascadedEditContext != null;
         }
 
         private async Task DeferredValidation(string value)
         {
-            DeferredValidationTasks.Add(Task.Run(async () =>
+            if (deferredValidationTime == 0)
             {
-                await Task.Delay(deferredValidationTime);
-            }));
-            var TaskCount = DeferredValidationTasks.Count();
-            await Task.WhenAll(DeferredValidationTasks.ToArray());
-            if (TaskCount == DeferredValidationTasks.Count())
+                Validate(value);
+            }
+            else
             {
-                _ = Task.Run(() =>
+                DeferredValidationTasks.Add(Task.Run(async () =>
                 {
-                    Validate(value);
-                    InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
+                    await Task.Delay(deferredValidationTime);
+                }));
+                var TaskCount = DeferredValidationTasks.Count();
+                await Task.WhenAll(DeferredValidationTasks.ToArray());
+                if (TaskCount == DeferredValidationTasks.Count())
+                {
+                    _ = Task.Run(() =>
+                    {
+                        InvokeAsync(() =>
+                        {
+                            Validate(value);
+                            StateHasChanged();
+                        });
+                    //invokeasync required for serverside
                 }).ConfigureAwait(false);
+                }
             }
         }
 

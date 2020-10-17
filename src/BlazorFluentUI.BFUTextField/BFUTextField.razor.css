@@ -24,12 +24,14 @@
 }
 
 
-.ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.has-error) .ms-TextField-wrapper:hover {
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.has-error) .ms-TextField-wrapper:hover,
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.invalid) .ms-TextField-wrapper:hover {
     border-bottom-color: var(--semanticColors-InputBorderHovered);
 }
 
 
-.ms-TextField--underlined:not(.is-disabled):not(.is-focused).has-error .ms-TextField-wrapper:hover {
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused).has-error .ms-TextField-wrapper:hover,
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused).invalid .ms-TextField-wrapper:hover {
     border-bottom-color: var(--semanticTextColors-ErrorText);
 }
 
@@ -58,11 +60,13 @@
         width:100%;
     }
 
-.ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper {
+.ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper,
+.ms-TextField--underlined.is-focused.invalid .ms-TextField-wrapper {
     position: relative;
     border-color: var(--semanticTextColors-ErrorText);
 }
-    .ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper::after {
+    .ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper::after,
+    .ms-TextField--underlined.is-focused.invalid .ms-TextField-wrapper::after {
         pointer-events: none;
         content: '';
         position: absolute;
@@ -72,7 +76,7 @@
         right: 0;
         border-bottom: 2px solid var(--semanticTextColors-ErrorText);
         border-radius: 0;
-        width:100%;
+        width: 100%;
     }
 
 .ms-TextField--underlined ::deep .ms-TextField-label {
@@ -118,13 +122,15 @@
     }
 
 
-    .ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover {
-        border-color: var(--semanticColors-InputBorderHovered);
-    }
+.ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover,
+.ms-TextField:not(.is-focused):not(.is-disabled):not(.invalid) .ms-TextField-fieldGroup:hover {
+    border-color: var(--semanticColors-InputBorderHovered);
+}
 
 
     @media screen and (-ms-high-contrast: active) {
-        .ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover {
+        .ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover,
+        .ms-TextField:not(.is-focused):not(.is-disabled):not(.invalid) .ms-TextField-fieldGroup:hover {
             border-color: Highlight;
         }
     }
@@ -150,21 +156,23 @@
 
 
 
-    .ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup {
-        border-color: var(--semanticTextColors-ErrorText);
-    }
+.ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup,
+.ms-TextField.is-focused.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup {
+    border-color: var(--semanticTextColors-ErrorText);
+}
 
-        .ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup::after {
-            pointer-events: none;
-            content: '';
-            position: absolute;
-            left: -1px;
-            top: -1px;
-            bottom: -1px;
-            right: -1px;
-            border: 2px solid var(--semanticTextColors-ErrorText);
-            border-radius: var(--effects-RoundedCorner2);
-        }
+    .ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup::after,
+    .ms-TextField.is-focused.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup::after {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        left: -1px;
+        top: -1px;
+        bottom: -1px;
+        right: -1px;
+        border: 2px solid var(--semanticTextColors-ErrorText);
+        border-radius: var(--effects-RoundedCorner2);
+    }
 
 
 
@@ -209,14 +217,16 @@
     }
 
 
-    .ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup {
+.ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup,
+.ms-TextField.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup {
+    border-color: var(--semanticTextColors-ErrorText);
+}
+
+
+    .ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup:hover,
+    .ms-TextField.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup:hover {
         border-color: var(--semanticTextColors-ErrorText);
     }
-
-
-        .ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup:hover {
-            border-color: var(--semanticTextColors-ErrorText);
-        }
 
 
     .ms-TextField.no-label.is-required .ms-TextField-fieldGroup:before {

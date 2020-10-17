@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUDropdown\BlazorFluentUI.BFUDropdown.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUFocusTrapZone\BlazorFluentUI.BFUFocusTrapZone.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUFocusZone\BlazorFluentUI.BFUFocusZone.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUForms\BlazorFluentUI.BFUForms.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUGroupedList\BlazorFluentUI.BFUGroupedList.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUIcon\BlazorFluentUI.BFUIcon.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUImage\BlazorFluentUI.BFUImage.csproj" />

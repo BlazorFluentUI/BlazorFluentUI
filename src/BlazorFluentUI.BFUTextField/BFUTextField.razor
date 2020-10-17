@@ -30,8 +30,8 @@
                 <textarea id=@this.id
                           @ref="textAreaRef"
                           style=@(autoAdjustedHeight != -1 ? $"height:{autoAdjustedHeight}px;" : "")
-                          value=@CurrentValue
-                          @oninput=@InputHandler
+                          @bind-value=@CurrentValue
+                          @bind-value:event="oninput"
                           @onchange=@ChangeHandler
                           class="mediumFont ms-TextField-field"
                           aria-label=@this.AriaLabel
@@ -52,7 +52,8 @@
                 <input type="@TypeUtils.InputMap[this.InputType]"
                        id=@this.id
                        @bind-value=@CurrentValue
-                       @oninput=@InputHandler
+                       @bind-value:event="oninput"
+                           @onchange=@ChangeHandler
                        autocomplete=@GetAutoCompleteString()
                        class="mediumFont ms-TextField-field"
                        aria-label=@this.AriaLabel

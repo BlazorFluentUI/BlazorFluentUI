@@ -1,6 +1,228 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUButtonParameters
+@using Microsoft.AspNetCore.Components.Web
 
-<div class="ms-Button-root"  @ref="RootElementReference">
-    @CustomBuildRenderTree(this)
-</div>
+@{
+    isSplitButton = (Split && OnClick.HasDelegate && MenuItems != null);
+    isCompoundButton = SecondaryText != null;
+}
+@if (isSplitButton)
+{
+    //AddSplit(builder, buttonClassName);
+}
+else
+{
+    <BFUKeytipData>
+        @if (Href == null)
+        {
+        <button class=@GetClassNames()
+                disabled=@GetDisabledStatus()
+                @onclick=@ClickHandler
+                @onkeydown=@KeyDownHandler
+                data-is-focusable=@(this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? false : true)
+                style=@Style
+                @attributes=@UnknownProperties
+                @ref="RootElementReference">
+            @if (ContentTemplate == null)
+            {
+                <BlazorFluentUI.Internal.BFUButtonContent Href=@Href
+                                                          ClassName=@ClassName
+                                                          Style=@Style
+                                                          Primary=@true
+                                                          Disabled=@Disabled
+                                                          AllowDisabledFocus=@AllowDisabledFocus
+                                                          PrimaryDisabled=@PrimaryDisabled
+                                                          Checked=@Checked
+                                                          AriaDescripton=@AriaDescripton
+                                                          Text=@Text
+                                                          SecondaryText=@SecondaryText
+                                                          Toggle=@Toggle
+                                                          Split=@Split
+                                                          IconName=@IconName
+                                                          HideChevron=@HideChevron
+                                                          MenuItems=@MenuItems
+                                                          CheckedChanged=@CheckedChanged
+                                                          OnClick=@OnClick
+                                                          OnKeyDown=@OnKeyDown
+                                                          Command=@Command
+                                                          CommandParameter=@CommandParameter
+                                                          UnknownProperties=@UnknownProperties
+                                                          @bind-ContextMenuShown=@contextMenuShown />
+            }
+            else
+            {
+                <BlazorFluentUI.Internal.BFUButtonContent Href=@Href
+                                                          ContentTemplate=@ContentTemplate
+                                                          ClassName=@ClassName
+                                                          Style=@Style
+                                                          Primary=@true
+                                                          Disabled=@Disabled
+                                                          AllowDisabledFocus=@AllowDisabledFocus
+                                                          PrimaryDisabled=@PrimaryDisabled
+                                                          Checked=@Checked
+                                                          AriaDescripton=@AriaDescripton
+                                                          Text=@Text
+                                                          SecondaryText=@SecondaryText
+                                                          Toggle=@Toggle
+                                                          Split=@Split
+                                                          IconName=@IconName
+                                                          HideChevron=@HideChevron
+                                                          MenuItems=@MenuItems
+                                                          CheckedChanged=@CheckedChanged
+                                                          OnClick=@OnClick
+                                                          OnKeyDown=@OnKeyDown
+                                                          Command=@Command
+                                                          CommandParameter=@CommandParameter
+                                                          UnknownProperties=@UnknownProperties
+                                                          @bind-ContextMenuShown=@contextMenuShown />
+            }
+        </button>
+        }
+        else
+        {
+    <a href=@Href
+       class=@GetClassNames()
+       disabled=@GetDisabledStatus()
+       @onclick=@ClickHandler
+       @onkeydown=@KeyDownHandler
+       data-is-focusable=@(this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? false : true)
+       style=@Style
+       @attributes=@UnknownProperties
+       @ref="RootElementReference">
+        @if (ContentTemplate == null)
+        {
+            <BlazorFluentUI.Internal.BFUButtonContent Href=@Href
+                                                      ClassName=@ClassName
+                                                      Style=@Style
+                                                      Primary=@true
+                                                      Disabled=@Disabled
+                                                      AllowDisabledFocus=@AllowDisabledFocus
+                                                      PrimaryDisabled=@PrimaryDisabled
+                                                      Checked=@Checked
+                                                      AriaDescripton=@AriaDescripton
+                                                      Text=@Text
+                                                      SecondaryText=@SecondaryText
+                                                      Toggle=@Toggle
+                                                      Split=@Split
+                                                      IconName=@IconName
+                                                      HideChevron=@HideChevron
+                                                      MenuItems=@MenuItems
+                                                      CheckedChanged=@CheckedChanged
+                                                      OnClick=@OnClick
+                                                      OnKeyDown=@OnKeyDown
+                                                      Command=@Command
+                                                      CommandParameter=@CommandParameter
+                                                      UnknownProperties=@UnknownProperties
+                                                      @bind-ContextMenuShown=@contextMenuShown />
+        }
+        else
+        {
+            <BlazorFluentUI.Internal.BFUButtonContent Href=@Href
+                                                      ContentTemplate=@ContentTemplate
+                                                      ClassName=@ClassName
+                                                      Style=@Style
+                                                      Primary=@true
+                                                      Disabled=@Disabled
+                                                      AllowDisabledFocus=@AllowDisabledFocus
+                                                      PrimaryDisabled=@PrimaryDisabled
+                                                      Checked=@Checked
+                                                      AriaDescripton=@AriaDescripton
+                                                      Text=@Text
+                                                      SecondaryText=@SecondaryText
+                                                      Toggle=@Toggle
+                                                      Split=@Split
+                                                      IconName=@IconName
+                                                      HideChevron=@HideChevron
+                                                      MenuItems=@MenuItems
+                                                      CheckedChanged=@CheckedChanged
+                                                      OnClick=@OnClick
+                                                      OnKeyDown=@OnKeyDown
+                                                      Command=@Command
+                                                      CommandParameter=@CommandParameter
+                                                      UnknownProperties=@UnknownProperties
+                                                      @bind-ContextMenuShown=@contextMenuShown />
+        }
+    </a>
+        }
+    </BFUKeytipData>
+
+}
+    
+
+@code{
+    @*RenderFragment<BFUButtonBase> ButtonContent = buttonBase => __builder =>
+    {
+        <span class="ms-Button-flexContainer">
+            @if (buttonBase.IconName != null)
+            {
+                <BFUIcon ClassName="ms-Button-icon"
+                         IconName=@buttonBase.IconName />
+            }
+            @if (buttonBase.Text != null || (buttonBase.isCompoundButton && buttonBase.SecondaryText != null))
+            {
+                <span class="ms-Button-textContainer">
+                    <span class="ms-Button-label">@buttonBase.Text</span>
+                    @if (buttonBase.isCompoundButton && buttonBase.SecondaryText != null)
+                    {
+                        <span class="ms-Button-description"
+                              >@buttonBase.SecondaryText</span>
+                    }
+                </span>
+            }
+            @if (buttonBase.AriaDescripton != null)
+            {
+                <span class="ms-Button-screenReaderText">@buttonBase.AriaDescripton</span>
+            }
+            @if (buttonBase.Text == null && buttonBase.ContentTemplate != null)
+            {
+                @buttonBase.ContentTemplate
+            }
+            @if (!buttonBase.isSplitButton && buttonBase.MenuItems != null && !buttonBase.HideChevron)
+            {
+                <BFUIcon IconName="ChevronDown"
+                         ClassName="ms-Button-menuIcon" />
+            }
+            @if (buttonBase.MenuItems != null  && buttonBase.contextMenuShown)
+            {
+                <BFUContextualMenu FabricComponentTarget=@buttonBase
+                                   ShouldFocusOnMount=@buttonBase._menuShouldFocusOnMount
+                                   OnDismiss=@(EventCallback.Empty)
+                                   />
+            }
+        </span>
+    };*@
+
+    private string GetClassNames()
+    {
+        string classNames = "ms-Button";
+        if (Primary)
+        {
+            classNames += " ms-Button--primary";
+        }
+        else
+        {
+            classNames += " ms-Button--default";
+        }
+        if (isSplitButton)
+        {
+            classNames += $" {this.ClassName} {(Disabled || PrimaryDisabled || commandDisabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")}";
+        }
+        else
+        {
+            classNames += $" {this.ClassName} {(Disabled || commandDisabled ? " is-disabled" : "")}{(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}";
+        }
+        return classNames;
+    }
+
+    private bool GetDisabledStatus()
+    {
+        if (isSplitButton)
+        {
+            return (Disabled || PrimaryDisabled || commandDisabled) && !this.AllowDisabledFocus;
+        }
+        else
+        {
+            return (this.Disabled || commandDisabled) && !this.AllowDisabledFocus;
+        }
+    }
+}

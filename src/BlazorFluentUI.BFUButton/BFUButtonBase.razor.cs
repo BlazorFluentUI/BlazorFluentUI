@@ -56,10 +56,10 @@ namespace BlazorFluentUI
 
         protected bool isChecked = false;
 
-        private bool contextMenuShown = false;
+        internal bool contextMenuShown = false;
 
-        private bool isCompoundButton = false;
-        private bool isSplitButton = false;
+        internal bool isCompoundButton = false;
+        internal bool isSplitButton = false;
         private object _registrationToken;
 
         private bool _menuShouldFocusOnMount = true;

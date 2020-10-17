@@ -2,7 +2,7 @@
 @namespace BlazorFluentUI
 @using Microsoft.AspNetCore.Components.Web
 
-<div>
+
     @if (Primary)
     {
     <BFUPrimaryButton Href=@Href
@@ -54,10 +54,3 @@
                   UnknownProperties=@UnknownProperties />
     }
     
-</div>
-@code{ 
-    protected override Task OnParametersSetAsync()
-        {
-            return base.OnParametersSetAsync();
-        }
-}

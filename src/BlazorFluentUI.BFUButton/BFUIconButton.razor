@@ -2,7 +2,6 @@
 @namespace BlazorFluentUI
 @using Microsoft.AspNetCore.Components.Web
 
-<div>
     <BFUButtonBase Href=@Href
                    ClassName=@(ClassName + " ms-Button--icon")
                    Style=@Style
@@ -25,10 +24,3 @@
                    Command=@Command
                    CommandParameter=@CommandParameter
                    UnknownProperties=@UnknownProperties />
-</div>
-@code{ 
-    protected override Task OnParametersSetAsync()
-        {
-            return base.OnParametersSetAsync();
-        }
-}

@@ -145,7 +145,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUSlider", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUMarqueeSelection", "src\BlazorFluentUI.BFUMarqueeSelection\BlazorFluentUI.BFUMarqueeSelection.csproj", "{8B484FDF-6C72-48A6-B50E-AF2DEFFCA94C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFluentUI.BFUForms", "src\BlazorFluentUI.BFUForms\BlazorFluentUI.BFUForms.csproj", "{221473F9-0513-442A-B2FD-C7D446C0EB4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUForms", "src\BlazorFluentUI.BFUForms\BlazorFluentUI.BFUForms.csproj", "{221473F9-0513-442A-B2FD-C7D446C0EB4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

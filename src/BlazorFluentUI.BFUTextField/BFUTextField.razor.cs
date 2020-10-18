@@ -16,7 +16,6 @@ namespace BlazorFluentUI
     public partial class BFUTextField : BFUComponentBase
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
-
         [Parameter] public bool Required { get; set; }
         [Parameter] public bool Multiline { get; set; }
         [Parameter] public InputType InputType { get; set; } = InputType.Text;

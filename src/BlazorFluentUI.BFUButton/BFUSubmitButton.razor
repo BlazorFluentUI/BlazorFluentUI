@@ -1,13 +1,15 @@
 ﻿@inherits BFUButtonParameters
 @namespace BlazorFluentUI
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Forms 
+@using System.ComponentModel.DataAnnotations
 
 @if (ChildContent == null)
 {
     <BFUButtonBase Href=@Href
                    ClassName=@ClassName
                    Style=@Style
-                   Primary=@false
+                   Primary=@primary
                    Disabled=@Disabled
                    AllowDisabledFocus=@AllowDisabledFocus
                    PrimaryDisabled=@PrimaryDisabled
@@ -25,15 +27,15 @@
                    OnKeyDown=@OnKeyDown
                    Command=@Command
                    CommandParameter=@CommandParameter
-                   UnknownProperties=@UnknownProperties 
-                   @ref="baseReference"/>
+                   UnknownProperties=@UnknownProperties
+                   @ref="baseReference" />
 }
 else
 {
     <BFUButtonBase Href=@Href
                    ClassName=@ClassName
                    Style=@Style
-                   Primary=@false
+                   Primary=@primary
                    Disabled=@Disabled
                    AllowDisabledFocus=@AllowDisabledFocus
                    PrimaryDisabled=@PrimaryDisabled
@@ -53,12 +55,55 @@ else
                    Command=@Command
                    CommandParameter=@CommandParameter
                    UnknownProperties=@UnknownProperties
-                   @ref="baseReference"
-                   />
+                   @ref="baseReference" />
 }
 
-@code{ 
+@code{
+    [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
+    [Parameter] public bool ForceDefault { get; set; } = false;
+
     private BFUButtonBase baseReference;
+    private bool primary = true;
+
+    protected override void OnParametersSet()
+    {
+        if (ForceDefault)
+            primary = false;
+
+        if (UnknownProperties != null)
+        {
+            if (UnknownProperties.ContainsKey("type"))
+                UnknownProperties["type"] = "submit";
+            else
+                UnknownProperties.Add("type", "submit");
+        }
+        else
+        {
+            UnknownProperties = new Dictionary<string, object>();
+            UnknownProperties.Add("type", "submit");
+        }
+        if (CascadedEditContext != null)
+        {
+            if (CascadedEditContext.GetValidationMessages().Any())
+                Disabled = true;
+            else
+                Disabled = false;
+
+            CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
+        }
+
+        base.OnParametersSet();
+    }
+
+    private void CascadedEditContext_OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+    {
+        if (CascadedEditContext.GetValidationMessages().Any())
+            Disabled = true;
+        else
+            Disabled = false;
+        InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
+    }
+
     protected override void OnAfterRender(bool firstRender)
     {
         RootElementReference = baseReference.RootElementReference;

@@ -1,7 +1,7 @@
 # BlazorFluentUI
 Simple port of Fluent UI (formerly Office Fabric) React components and style to Blazor
 
-.NET5 preview demo ready:  https://blazorfluentuinet5preview.azurewebsites.net/
+.NET5 preview demo ready:  https://calm-rock-0f708be1e.azurestaticapps.net/
 When .NET5 is finally released, we will push out the new library, too.
 
 ## ClientSide Demo (web assembly)

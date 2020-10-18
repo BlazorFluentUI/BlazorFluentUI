@@ -15,6 +15,8 @@ https://t.me/blazorfabric
 #### List, DetailsList, GroupedList
 You will now have to define your list's container separately from the list component.  Pick a `<div>` or other container element and apply the `data-is-scrollable` to it.  You'll also have to style it appropriately for your page.  (For example, add `overflow-y:auto;height:100%;` or something similar.)  You do **not** have to place your list component as a *direct* descendant of this container.  If you fail to place the `data-is-scrollable` tag, then the component will traverse the nodetree to find the first container element that has `overflow-y:auto;` set.
 
+You also have to define `GetKey` for your list component.  This is a selector for your items to tell the component how to uniquely identify each item. 
+
 #### Removed BFUGlobalCS, BFUStylePreloader, IHasPreloadableGlobalStyle
 These components and interfaces must be removed as they no longer function within this library. Switch to using CSS isolation with your razor components instead.  `BFULocalCS` is still present and encouraged for dynamic styling that requires flexibility.  (Using the style attribute on an element makes it difficult for users to override the style.)
 
@@ -26,7 +28,6 @@ If you need to reference the theme from a css file, you can reference the global
 How To Use: [ClientSide Blazor](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/How-To-Use:-ClientSide-Blazor) \
 How To Use: [ServerSide Blazor](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/How-To-Use:-ServerSide-Blazor) \
 [Theming](https://github.com/limefrogyank/BlazorFabric/wiki/Theming---defaults-and-custom) \
-[Preloading Styles](https://github.com/limefrogyank/BlazorFabric/wiki/Preloading-Styles)
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 

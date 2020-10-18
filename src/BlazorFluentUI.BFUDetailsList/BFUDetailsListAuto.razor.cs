@@ -49,8 +49,8 @@ namespace BlazorFluentUI
         public IList<Func<TItem, object>> GroupBy { get; set; }
 
 
-        [Parameter]
-        public Func<TItem, string> GroupTitleSelector { get; set; }
+        //[Parameter]
+        //public Func<TItem, string> GroupTitleSelector { get; set; }
 
         [Parameter]
         public RenderFragment HeaderTemplate { get; set; }

@@ -25,7 +25,8 @@
                    OnKeyDown=@OnKeyDown
                    Command=@Command
                    CommandParameter=@CommandParameter
-                   UnknownProperties=@UnknownProperties />
+                   UnknownProperties=@UnknownProperties 
+                   @ref="baseReference"/>
 }
 else
 {
@@ -51,5 +52,15 @@ else
                    OnKeyDown=@OnKeyDown
                    Command=@Command
                    CommandParameter=@CommandParameter
-                   UnknownProperties=@UnknownProperties />
+                   UnknownProperties=@UnknownProperties 
+                   @ref="baseReference"/>
+}
+
+@code{
+    private BFUButtonBase baseReference;
+    protected override void OnAfterRender(bool firstRender)
+    {
+        RootElementReference = baseReference.RootElementReference;
+        base.OnAfterRender(firstRender);
+    }
 }

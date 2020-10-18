@@ -84,8 +84,8 @@ namespace BlazorFluentUI
         //        Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn.is-actionable:hover" },
         //        Properties = new CssString()
         //        {
-        //            Css = $"color:{theme.SemanticTextColors.BodyText};" +
-        //                    $"background:{theme.SemanticColors.ListHeaderBackgroundHovered};"
+        //            Css = $"color:var(--semanticTextColors.BodyText};" +
+        //                    $"background:var(--semanticColors.ListHeaderBackgroundHovered};"
         //        }
         //    });
         //    columnRules.Add(new Rule()
@@ -93,7 +93,7 @@ namespace BlazorFluentUI
         //        Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn.is-actionable:active" },
         //        Properties = new CssString()
         //        {
-        //            Css = $"background:{theme.SemanticColors.ListHeaderBackgroundPressed};"
+        //            Css = $"background:var(--semanticColors.ListHeaderBackgroundPressed};"
         //        }
         //    });
         //    columnRules.Add(new Rule()
@@ -141,7 +141,7 @@ namespace BlazorFluentUI
         //        Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn-nearIcon" },
         //        Properties = new CssString()
         //        {
-        //            Css = $"color:{theme.SemanticTextColors.BodySubtext};" +
+        //            Css = $"color:var(--semanticTextColors.BodySubtext};" +
         //                  $"opacity:1;" +
         //                  $"padding-left:8px;" 
         //        }
@@ -153,7 +153,7 @@ namespace BlazorFluentUI
         //        Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn-sortIcon" },
         //        Properties = new CssString()
         //        {
-        //            Css = $"color:{theme.SemanticTextColors.BodySubtext};" +
+        //            Css = $"color:var(--semanticTextColors.BodySubtext};" +
         //                  $"opacity:1;" +
         //                  $"padding-left:4px;"+
         //                  $"position:relative;"+
@@ -167,7 +167,7 @@ namespace BlazorFluentUI
         //    //    Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn-iconClassName" },
         //    //    Properties = new CssString()
         //    //    {
-        //    //        Css = $"color:{theme.SemanticTextColors.BodySubtext};" +
+        //    //        Css = $"color:var(--semanticTextColors.BodySubtext};" +
         //    //              $"opacity:1;" +
         //    //              $"padding-left:8px;"
         //    //    }

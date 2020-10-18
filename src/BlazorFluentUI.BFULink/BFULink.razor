@@ -1,8 +1,5 @@
-﻿
-@namespace BlazorFluentUI
+﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
-
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 
 @if ((Type != null && Type == LinkType.Anchor) || (Type == null && !string.IsNullOrWhiteSpace(Href)))
 {

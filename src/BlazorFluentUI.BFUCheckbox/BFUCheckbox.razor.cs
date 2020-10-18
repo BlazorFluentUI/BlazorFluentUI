@@ -247,7 +247,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:hover .ms-Checkbox-checkbox" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"border-color:{theme.SemanticColors.InputBorderHovered};"
+            //        Css = $"border-color:var(--semanticColors.InputBorderHovered};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -255,7 +255,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-unchecked:focus .ms-Checkbox-checkbox" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"border-color:{theme.SemanticColors.InputBorderHovered};"
+            //        Css = $"border-color:var(--semanticColors.InputBorderHovered};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -283,8 +283,8 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"background:{theme.SemanticColors.InputBackgroundCheckedHovered};" +
-            //                $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
+            //        Css = $"background:var(--semanticColors.InputBackgroundCheckedHovered};" +
+            //                $"border-color:var(--semanticColors.InputBackgroundCheckedHovered};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -292,8 +292,8 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"background:{theme.SemanticColors.InputBackgroundCheckedHovered};" +
-            //                $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
+            //        Css = $"background:var(--semanticColors.InputBackgroundCheckedHovered};" +
+            //                $"border-color:var(--semanticColors.InputBackgroundCheckedHovered};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -301,8 +301,8 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled:not(.ms-Checkbox-label-indeterminate).ms-Checkbox-label-checked .ms-Checkbox-checkbox" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"background:{theme.SemanticColors.InputBackgroundChecked};" +
-            //                $"border-color:{theme.SemanticColors.InputBackgroundChecked};"
+            //        Css = $"background:var(--semanticColors.InputBackgroundChecked};" +
+            //                $"border-color:var(--semanticColors.InputBackgroundChecked};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -323,7 +323,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
+            //        Css = $"border-color:var(--semanticColors.InputBackgroundCheckedHovered};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -331,7 +331,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:hover .ms-Checkbox-checkbox:after" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
+            //        Css = $"border-color:var(--semanticColors.InputBackgroundCheckedHovered};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -339,7 +339,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-indeterminate.ms-Checkbox-label-checked:focus .ms-Checkbox-checkbox" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"border-color:{theme.SemanticColors.InputBackgroundCheckedHovered};"
+            //        Css = $"border-color:var(--semanticColors.InputBackgroundCheckedHovered};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -356,7 +356,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-checked:hover .ms-Checkbox-text" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"color:{theme.SemanticTextColors.InputTextHovered};"
+            //        Css = $"color:var(--semanticTextColors.InputTextHovered};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -364,7 +364,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-label-enabled.ms-Checkbox-label-checked:focus .ms-Checkbox-text" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"color:{theme.SemanticTextColors.InputTextHovered};"
+            //        Css = $"color:var(--semanticTextColors.InputTextHovered};"
             //    }
             //});
 
@@ -406,8 +406,8 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-checked:not(.ms-Checkbox-checkbox-indeterminate).ms-Checkbox-checkbox-enabled" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"background:{theme.SemanticColors.InputBackgroundChecked};" +
-            //                $"border-color:{theme.SemanticColors.InputBackgroundChecked};"
+            //        Css = $"background:var(--semanticColors.InputBackgroundChecked};" +
+            //                $"border-color:var(--semanticColors.InputBackgroundChecked};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -415,7 +415,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-indeterminate" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"border-color:{theme.SemanticColors.InputBackgroundChecked};"
+            //        Css = $"border-color:var(--semanticColors.InputBackgroundChecked};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -423,7 +423,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-disabled" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"border-color:{theme.SemanticTextColors.DisabledBodySubtext};"
+            //        Css = $"border-color:var(--semanticTextColors.DisabledBodySubtext};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -431,8 +431,8 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox-disabled.ms-Checkbox-checkbox-checked" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"background:{theme.SemanticTextColors.DisabledBodySubtext};" +
-            //                $"border-color:{theme.SemanticTextColors.DisabledBodySubtext};"
+            //        Css = $"background:var(--semanticTextColors.DisabledBodySubtext};" +
+            //                $"border-color:var(--semanticTextColors.DisabledBodySubtext};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -448,7 +448,7 @@ namespace BlazorFluentUI
             //                $"top:4px;" +
             //                $"left:4px;" +
             //                $"box-sizing:border-box;" +
-            //                $"border:5px solid {theme.SemanticColors.InputBackgroundChecked};" +
+            //                $"border:5px solid var(--semanticColors.InputBackgroundChecked};" +
             //                $"transition-property: border-width, border, border-color;" +
             //                $"transition-duration:200ms;" +
             //                $"transition-timing-function:cubic-bezier(.4, 0, .23, 1);"
@@ -459,7 +459,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-checkbox.ms-Checkbox-checkbox-disabled.ms-Checkbox-checkbox-indeterminate::after" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"border:5px solid {theme.SemanticTextColors.DisabledBodySubtext};"
+            //        Css = $"border:5px solid var(--semanticTextColors.DisabledBodySubtext};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -479,7 +479,7 @@ namespace BlazorFluentUI
             //    Properties = new CssString()
             //    {
             //        Css = $"opacity:0;" +
-            //                $"color:{theme.SemanticColors.InputForegroundChecked};"
+            //                $"color:var(--semanticColors.InputForegroundChecked};"
             //    }
             //});
             //checkboxRules.Add(new Rule()
@@ -506,7 +506,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"color:{theme.SemanticTextColors.BodyText};" +
+            //        Css = $"color:var(--semanticTextColors.BodyText};" +
             //                $"font-size:{theme.FontStyle.FontSize.Medium};" +
             //                $"line-height:20px;" +
             //                $"margin-left:4px;" +
@@ -527,7 +527,7 @@ namespace BlazorFluentUI
             //    Selector = new CssStringSelector() { SelectorName = ".ms-Checkbox-text-disabled" },
             //    Properties = new CssString()
             //    {
-            //        Css = $"color:{theme.SemanticTextColors.DisabledText};"
+            //        Css = $"color:var(--semanticTextColors.DisabledText};"
             //    }
             //});
             //checkboxRules.Add(new Rule()

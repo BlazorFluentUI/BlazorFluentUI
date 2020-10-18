@@ -137,8 +137,6 @@ namespace BlazorFluentUI
                 CreateLocalCss();
             }
 
-
-
             return base.OnInitializedAsync();
         }
 

@@ -49,7 +49,7 @@ namespace BlazorFluentUI
             TooltipGabSpace = -(Math.Sqrt((BeakWidth * BeakWidth) / 2) + 0);
             TooltipRule.Properties = new CssString()
             {
-                Css = $"background:{Theme.SemanticColors.MenuBackground};" +
+                Css = $"background:var(--semanticColors.MenuBackground);" +
                             $"box-shadow:{Theme.Effects.Elevation8};" +
                             $"padding:8px;" +
                             $"max-width:{MaxWidth}px;"

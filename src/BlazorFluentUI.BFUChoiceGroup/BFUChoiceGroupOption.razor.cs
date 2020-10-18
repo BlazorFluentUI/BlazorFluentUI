@@ -41,7 +41,7 @@ namespace BlazorFluentUI
         //        "display:flex",
         //        "align-items:center",
         //        "box-sizing:border-box",
-        //        $"color:{theme.SemanticTextColors.BodyText}",
+        //        $"color:var(--semanticTextColors.BodyText}",
         //        "min-height:26px",
         //        "border:none",
         //        "position:relative",
@@ -65,8 +65,8 @@ namespace BlazorFluentUI
         //        "height:100%");
 
         //    choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceFieldLabel:before").AppendCssStyles(
-        //        $"color: {theme.SemanticColors.InputBorderHovered}",
-        //        $"border-color: {theme.SemanticColors.InputBorderHovered}");
+        //        $"color: var(--semanticColors.InputBorderHovered}",
+        //        $"border-color: var(--semanticColors.InputBorderHovered}");
 
         //    choiceGroupOptionRules.AddCssStringSelector(".is-checked .ms-ChoiceFieldLabel:before").AppendCssStyles(
         //        $"color: {theme.Palette.ThemeDark}",
@@ -132,7 +132,7 @@ namespace BlazorFluentUI
         //        "flex-direction:column");
 
         //    choiceGroupOptionRules.AddCssStringSelector(".is-checked.custom-content .ms-ChoiceField-field").AppendCssStyles(
-        //       $"border-color:{theme.SemanticColors.InputBackgroundChecked}");
+        //       $"border-color:var(--semanticColors.InputBackgroundChecked}");
 
         //    this.AddFieldWithCustomContentRules(choiceGroupOptionRules, theme, "hover");
         //    this.AddFieldWithCustomContentRules(choiceGroupOptionRules, theme, "focus");
@@ -141,7 +141,7 @@ namespace BlazorFluentUI
         //        "cursor:default");
 
         //    choiceGroupOptionRules.AddCssStringSelector(".is-disabled .ms-ChoiceFieldLabel").AppendCssStyles(
-        //        $"color:{theme.SemanticTextColors.DisabledBodyText}");
+        //        $"color:var(--semanticTextColors.DisabledBodyText}");
 
         //    choiceGroupOptionRules.AddCssClassSelector($".is-disabled {CommonStyles.HighContrastSelector}").AppendCssStyles(
         //        "color:GrayText");
@@ -159,7 +159,7 @@ namespace BlazorFluentUI
         //    choiceGroupOptionRules.AddCssStringSelector(".ms-ChoiceField-field:before").AppendCssStyles(
         //        "content:''",
         //        "display:inline-block",
-        //        $"background-color:{theme.SemanticColors.BodyBackground}",
+        //        $"background-color:var(--semanticColors.BodyBackground}",
         //        "border-width:1px",
         //        "border-style:solid",
         //        $"border-color:{theme.Palette.NeutralPrimary}",
@@ -176,13 +176,13 @@ namespace BlazorFluentUI
         //        "border-radius:50%");
 
         //    choiceGroupOptionRules.AddCssStringSelector(".is-disabled .ms-ChoiceField-field:before").AppendCssStyles(
-        //        $"border-color:{theme.SemanticTextColors.DisabledBodySubtext}");
+        //        $"border-color:var(--semanticTextColors.DisabledBodySubtext}");
 
         //    choiceGroupOptionRules.AddCssStringSelector($".is-disabled {CommonStyles.HighContrastSelector} .ms-ChoiceField-field:before").AppendCssStyles(
         //        "color:GrayText");
 
         //    choiceGroupOptionRules.AddCssStringSelector(".is-checked .ms-ChoiceField-field:before").AppendCssStyles(
-        //        $"border-color:{theme.SemanticColors.InputBackgroundChecked}");
+        //        $"border-color:var(--semanticColors.InputBackgroundChecked}");
 
         //    choiceGroupOptionRules.AddCssStringSelector(".custom-content .ms-ChoiceField-field:before").AppendCssStyles(
         //        $"top:{_radioButtonSpacing}px",
@@ -212,7 +212,7 @@ namespace BlazorFluentUI
         //    choiceGroupOptionRules.AddCssStringSelector(".is-checked .ms-ChoiceField-field:after").AppendCssStyles(
         //        "border-width:5px",
         //        "border-style:solid",
-        //        $"border-color:{theme.SemanticColors.InputBackgroundChecked}",
+        //        $"border-color:var(--semanticColors.InputBackgroundChecked}",
         //        "left:5px",
         //        "top:5px",
         //        "width:10px",
@@ -287,7 +287,7 @@ namespace BlazorFluentUI
         //        $"border-color:{theme.Palette.ThemeDark}");
 
         //    rules.AddCssStringSelector($".ms-ChoiceField:not(.is-disabled):not(.is-checked) .ms-ChoiceField-field:{pseudoSelector}:before").AppendCssStyles(
-        //        $"border-color:{theme.SemanticColors.InputBorderHovered}");
+        //        $"border-color:var(--semanticColors.InputBorderHovered}");
 
         //    rules.AddCssStringSelector($".ms-ChoiceField:not(.is-disabled):not(.is-checked):not(.custom-content) .ms-ChoiceField-field:{pseudoSelector}:after").AppendCssStyles(
         //        "content:''",
@@ -308,7 +308,7 @@ namespace BlazorFluentUI
         //      $"border-color:{theme.Palette.ThemeDark}");
 
         //    rules.AddCssStringSelector($".ms-ChoiceField:not(.is-disabled):not(.is-checked).custom-content .ms-ChoiceField-field:{pseudoSelector}").AppendCssStyles(
-        //      $"border-color:{theme.SemanticColors.InputBorderHovered}");
+        //      $"border-color:var(--semanticColors.InputBorderHovered}");
 
         //    rules.AddCssStringSelector($".ms-ChoiceField:not(.is-disabled) .is-checked.custom-content .ms-ChoiceField-field:{pseudoSelector}:before").AppendCssStyles(
         //        "opacity:1",
@@ -316,7 +316,7 @@ namespace BlazorFluentUI
 
         //    rules.AddCssStringSelector($".ms-ChoiceField:not(.is-disabled):not(.is-checked).custom-content .ms-ChoiceField-field:{pseudoSelector}:before").AppendCssStyles(
         //        "opacity:1",
-        //        $"border-color:{theme.SemanticColors.InputBorderHovered}");
+        //        $"border-color:var(--semanticColors.InputBorderHovered}");
         //}
 
         //private void AddCustomContentWrapperStyle(HashSet<IRule> rules, ITheme theme)

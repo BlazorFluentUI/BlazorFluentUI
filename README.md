@@ -10,6 +10,16 @@ https://blazorfluentui.azurewebsites.net/
 ## Telegram dev channel
 https://t.me/blazorfabric
 
+## Breaking Changes for v4.0 (net5)
+
+#### List, DetailsList, GroupedList
+You will now have to define your list's container separately from the list component.  Pick a `<div>` or other container element and apply the `data-is-scrollable` to it.  You'll also have to style it appropriately for your page.  (For example, add `overflow-y:auto;height:100%;` or something similar.)  You do **not** have to place your list component as a *direct* descendant of this container.  If you fail to place the `data-is-scrollable` tag, then the component will traverse the nodetree to find the first container element that has `overflow-y:auto;` set.
+
+#### Removed BFUGlobalCS, BFUStylePreloader, IHasPreloadableGlobalStyle
+These components and interfaces must be removed as they no longer function within this library. Switch to using CSS isolation with your razor components instead.  `BFULocalCS` is still present and encouraged for dynamic styling that requires flexibility.  (Using the style attribute on an element makes it difficult for users to override the style.)
+
+If you need to reference the theme from a css file, you can reference the global css variable instead.  For example, where before you would get a white color in C# as `Theme.Palette.White`, now you will write in css, `var(--palette-White)`.  Css global variables always start with two dashes and a lowercase name.  Instead of a dot, use a dash followed by capitalized names.
+
 ## See the wiki for all usage notes
 [Home](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki) \
 [Installation](https://github.com/limefrogyank/BlazorFabric/wiki/Installation) \

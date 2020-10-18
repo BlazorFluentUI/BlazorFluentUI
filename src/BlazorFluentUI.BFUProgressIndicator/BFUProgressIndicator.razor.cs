@@ -143,7 +143,7 @@ namespace BlazorFluentUI
         //            Css = $"overflow:hidden;" +
         //                    $"text-overflow:ellipsis;" +
         //                    $"white-space:nowrap;" +
-        //                    $"color:{Theme.SemanticTextColors.BodyText};" +
+        //                    $"color:var(--semanticTextColors.BodyText};" +
         //                    $"padding-top:{marginBetweenText / 2}px;" +
         //                    $"line-height:{textHeight + 2}px;"
         //}
@@ -153,7 +153,7 @@ namespace BlazorFluentUI
         //        Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemDescription" },
         //        Properties = new CssString()
         //        {
-        //            Css = $"color:{Theme.SemanticTextColors.BodySubtext};" +
+        //            Css = $"color:var(--semanticTextColors.BodySubtext};" +
         //                    $"font-size:{Theme.FontStyle.FontSize.Small};" +
         //                    $"line-height:{textHeight}px;"
         //        }

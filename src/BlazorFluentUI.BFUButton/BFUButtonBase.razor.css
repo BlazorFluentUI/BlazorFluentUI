@@ -381,7 +381,7 @@
         color: var(--palette-ThemePrimary);
     }
 
-     .ms-Button.ms-Button--action .ms-Button-icon:hover {
+    .ms-Button.ms-Button--action ::deep .ms-Button-icon:hover {
         color: var(--palette-ThemePrimary);
     }
 
@@ -407,31 +407,31 @@
         color: var(--palette-Black);
     }
 
-     .ms-Button.ms-Button--action.is-checked .ms-ButtonIcon {
+    .ms-Button.ms-Button--action.is-checked ::deep .ms-ButtonIcon {
         color: var(--palette-ThemeDarker);
     }
 
-     .ms-Button.ms-Button--action .ms-Button-flexContainer {
+    .ms-Button.ms-Button--action ::deep .ms-Button-flexContainer {
         justify-content: flex-start;
     }
 
-     .ms-Button.ms-Button--action .ms-Button-icon {
+    .ms-Button.ms-Button--action ::deep .ms-Button-icon {
         color: var(--palette-ThemeDarkAlt);
     }
 
-     .ms-Button.ms-Button--action.is-disabled .ms-Button-icon {
+    .ms-Button.ms-Button--action.is-disabled ::deep .ms-Button-icon {
         color: inherit;
     }
 
-     .ms-Button.ms-Button--action .ms-Button-menuIcon {
+    .ms-Button.ms-Button--action ::deep .ms-Button-menuIcon {
         color: var(--palette-NeutralSecondary);
     }
 
-     .ms-Button.ms-Button--action .ms-Button-textContainer {
+    .ms-Button.ms-Button--action ::deep .ms-Button-textContainer {
         flex-grow: 0;
     }
 
-     .ms-Button.ms-Button--action .ms-Button-label {
+     .ms-Button.ms-Button--action ::deep .ms-Button-label {
         font-weight: var(--fontWeight-Regular);
     }
 
@@ -465,11 +465,11 @@
         background-color: var(--palette-NeutralLighter);
     }
 
-         .ms-Button.ms-Button--commandBar:hover .ms-Button-icon {
+        .ms-Button.ms-Button--commandBar:hover ::deep .ms-Button-icon {
             color: var(--palette-ThemeDarkAlt);
         }
 
-         .ms-Button.ms-Button--commandBar:hover .ms-Button-menuIcon {
+        .ms-Button.ms-Button--commandBar:hover ::deep .ms-Button-menuIcon {
             color: var(--palette-NeutralPrimary);
         }
 
@@ -478,11 +478,11 @@
         background-color: var(--palette-NeutralLight);
     }
 
-         .ms-Button.ms-Button--commandBar:active .ms-Button-icon {
+        .ms-Button.ms-Button--commandBar:active ::deep .ms-Button-icon {
             color: var(--palette-ThemeDarkAlt);
         }
 
-         .ms-Button.ms-Button--commandBar:active .ms-Button-menuIcon {
+        .ms-Button.ms-Button--commandBar:active ::deep .ms-Button-menuIcon {
             color: var(--palette-NeutralPrimary);
         }
 
@@ -493,11 +493,11 @@
         background-color: var(--palette-NeutralLight);
     }
 
-         .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled) .ms-Button-icon {
+        .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled) ::deep .ms-Button-icon {
             color: var(--Palette-ThemeDark);
         }
 
-         .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled) .ms-Button-menuIcon {
+        .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled) ::deep .ms-Button-menuIcon {
             color: var(--Palette-NeutralDark);
             background-color: var(--palette-NeutralPrimary);
         }
@@ -507,11 +507,11 @@
             background-color: var(--palette-NeutralQuaternaryAlt);
         }
 
-             .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled):hover .ms-Button-icon {
+            .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled):hover ::deep .ms-Button-icon {
                 color: var(--Palette-ThemeDark);
             }
 
-             .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled):hover .ms-Button-menuIcon {
+            .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled):hover ::deep .ms-Button-menuIcon {
                 color: var(--Palette-NeutralDark);
                 background-color: var(--palette-NeutralPrimary);
             }
@@ -524,11 +524,11 @@
         color: var(--palette-NeutralDark);
     }
 
-         .ms-Button.ms-Button--commandBar.is-expanded .ms-Button-icon {
+        .ms-Button.ms-Button--commandBar.is-expanded ::deep .ms-Button-icon {
             color: var(--palette-ThemeDark);
         }
 
-         .ms-Button.ms-Button--commandBar.is-expanded .ms-Button-menuIcon {
+        .ms-Button.ms-Button--commandBar.is-expanded ::deep .ms-Button-menuIcon {
             color: var(--palette-NeutralPrimary);
         }
 
@@ -538,20 +538,20 @@
         background-color: var(--palette-White);
     }
 
-         .ms-Button.ms-Button--commandBar.is-disabled .ms-Button-icon {
+        .ms-Button.ms-Button--commandBar.is-disabled ::deep .ms-Button-icon {
             color: var(--semanticTextColors-DisabledBodySubtext);
         }
 
 
-     .ms-Button.ms-Button--commandBar .ms-Button-icon {
+    .ms-Button.ms-Button--commandBar ::deep .ms-Button-icon {
         color: var(--palette-ThemePrimary);
     }
 
-     .ms-Button.ms-Button--commandBar .ms-Button-label {
+    .ms-Button.ms-Button--commandBar ::deep .ms-Button-label {
         font-weight: normal;
     }
 
-     .ms-Button.ms-Button--commandBar .ms-Button-menuIcon {
+    .ms-Button.ms-Button--commandBar ::deep .ms-Button-menuIcon {
         color: var(--palette-NeutralSecondary);
     }
 
@@ -626,7 +626,7 @@
         color: var(--palette-ThemePrimary);
     }
 
-     .ms-Button.ms-Button--command .ms-Button-icon:hover {
+    .ms-Button.ms-Button--command ::deep .ms-Button-icon:hover {
         color: var(--palette-ThemePrimary);
     }
 
@@ -635,7 +635,7 @@
         color: var(--palette-Black);
     }
 
-     .ms-Button.ms-Button--command .ms-Button-icon:active {
+    .ms-Button.ms-Button--command ::deep .ms-Button-icon:active {
         color: var(--palette-ThemeDarker);
     }
 
@@ -653,31 +653,31 @@
         color: var(--palette-Black);
     }
 
-     .ms-Button.ms-Button--command.is-checked .ms-ButtonIcon {
+    .ms-Button.ms-Button--command.is-checked ::deep .ms-ButtonIcon {
         color: var(--palette-ThemeDarker);
     }
 
-     .ms-Button.ms-Button--command .ms-Button-flexContainer {
+    .ms-Button.ms-Button--command ::deep .ms-Button-flexContainer {
         justify-content: flex-start;
     }
 
-     .ms-Button.ms-Button--command .ms-Button-icon {
+    .ms-Button.ms-Button--command ::deep .ms-Button-icon {
         color: var(--palette-ThemeDarkAlt);
     }
 
-     .ms-Button.ms-Button--command.is-disabled .ms-Button-icon {
+    .ms-Button.ms-Button--command.is-disabled ::deep .ms-Button-icon {
         color: inherit;
     }
 
-     .ms-Button.ms-Button--command .ms-Button-menuIcon {
+    .ms-Button.ms-Button--command ::deep .ms-Button-menuIcon {
         color: var(--palette-NeutralSecondary);
     }
 
-     .ms-Button.ms-Button--command .ms-Button-textContainer {
+    .ms-Button.ms-Button--command ::deep .ms-Button-textContainer {
         flex-grow: 0;
     }
 
-     .ms-Button.ms-Button--command .ms-Button-label {
+    .ms-Button.ms-Button--command ::deep .ms-Button-label {
         font-weight: var(--fontWeight-Regular);
     }
 
@@ -699,61 +699,61 @@
     height: auto;
 }
 
-     .ms-Button.ms-Button--compound .ms-Button-flexContainer {
+    .ms-Button.ms-Button--compound ::deep .ms-Button-flexContainer {
         flex-direction: row;
         align-items: flex-start;
         min-width: 100%;
         margin: unset;
     }
 
-     .ms-Button.ms-Button--compound .ms-Button-textContainer {
+    .ms-Button.ms-Button--compound ::deep .ms-Button-textContainer {
         text-align: left;
     }
 
-     .ms-Button.ms-Button--compound .ms-Button-label {
+    .ms-Button.ms-Button--compound ::deep .ms-Button-label {
         margin: 0 0 5px 0;
         line-height: 100%;
         font-weight: var(--fontWeight-SemiBold);
     }
 
-     .ms-Button.ms-Button--compound .ms-Button-description {
+    .ms-Button.ms-Button--compound ::deep .ms-Button-description {
         line-height: 100%;
     }
 
 
- .ms-Button--default.ms-Button--compound .ms-Button-description {
+.ms-Button--default.ms-Button--compound ::deep .ms-Button-description {
     color: var(--palette-NeutralSecondary);
 }
 
 
- .ms-Button--default.ms-Button--compound:hover .ms-Button-description {
+.ms-Button--default.ms-Button--compound:hover ::deep .ms-Button-description {
     color: var(--palette-NeutralDark);
 }
 
- .ms-Button--default.ms-Button--compound.is-checked .ms-Button-description {
+.ms-Button--default.ms-Button--compound.is-checked ::deep .ms-Button-description {
     color: inherit;
 }
 
 
- .ms-Button--default.ms-Button--compound.is-disabled .ms-Button-description {
+.ms-Button--default.ms-Button--compound.is-disabled ::deep .ms-Button-description {
     color: inherit;
 }
 
 
- .ms-Button--primary.ms-Button--compound .ms-Button-description {
+.ms-Button--primary.ms-Button--compound ::deep .ms-Button-description {
     color: var(--palette-White);
 }
 
 
- .ms-Button--primary.ms-Button--compound:hover .ms-Button-description {
+.ms-Button--primary.ms-Button--compound:hover ::deep .ms-Button-description {
     color: var(--palette.White);
 }
 
- .ms-Button--primary.ms-Button--compound.is-checked .ms-Button-description {
+.ms-Button--primary.ms-Button--compound.is-checked ::deep .ms-Button-description {
     color: inherit;
 }
 
 
- .ms-Button--primary.ms-Button--compound.is-disabled .ms-Button-description {
+.ms-Button--primary.ms-Button--compound.is-disabled ::deep .ms-Button-description {
     color: inherit;
 }

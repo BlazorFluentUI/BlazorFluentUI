@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardActivity : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUDocumentCardActivity : BFUComponentBase
     {
         /// <summary>
         /// Describes the activity that has taken place, such as "Created Feb 23, 2016".

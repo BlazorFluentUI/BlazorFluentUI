@@ -101,7 +101,7 @@ namespace BlazorFluentUI
             };
             ActionButtonHoverRule.Properties = new CssString()
             {
-                Css = $"color: {Theme.SemanticTextColors.ButtonText};" +
+                Css = $"color: var(--semanticTextColors.ButtonText);" +
                 $"cursor: pointer;" 
             };
             ViewsRule.Properties = new CssString()

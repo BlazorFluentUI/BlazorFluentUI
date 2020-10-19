@@ -22,6 +22,7 @@ steps:
     restoreSolution: '$(solution)'
 
 - task: DotNetCoreCLI@2
+  displayName: 'create NuGet package'
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj;!**/*.Tests.csproj;!**/*Demo.*.csproj'
@@ -31,6 +32,7 @@ steps:
     patchVersion: '0'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Push NuGet Packages'
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'

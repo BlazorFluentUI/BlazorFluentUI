@@ -30,5 +30,10 @@ steps:
     minorVersion: '0'
     patchVersion: '0'
 
-
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '5355f597-190a-4424-83da-cd89cd362a24/62e4a3d2-c255-43ac-a465-30d8f5f041e1'
 

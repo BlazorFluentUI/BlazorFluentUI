@@ -24,7 +24,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.csproj;!**/*.Tests.csproj;!Demo.ClientSide.csproj'
+    packagesToPack: '**/*.csproj;!**/*.Tests.csproj;!**/*Demo.*.csproj'
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '4'
     minorVersion: '0'

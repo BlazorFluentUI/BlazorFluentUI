@@ -22,6 +22,12 @@ steps:
     restoreSolution: '$(solution)'
 
 - task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '**/*BlazorFluentUI.sln'
+    arguments: '-c Release'
+
+- task: DotNetCoreCLI@2
   displayName: 'create NuGet package'
   inputs:
     command: 'pack'

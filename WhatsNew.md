@@ -4,9 +4,18 @@
 All components have been refactored to use css isolation for their global styles.  Styles should load as soon as the css file loads.  In version 3, styles would only load after the components had been created causing a slight delay while the styles loaded and the UI repainted itself.  If you are going to modify the styles of any of these components with your own isolated css, make sure you use the `::deep` selector.
 
 ## Blazor-based Forms Validation
-BFU input components now work with `<EditForm>` and `<DataAnnotationsValidator>`.  You can see an example of how this works at the end of the `TextField` demo page.
+BFU input components now work with `<EditForm>` and `<DataAnnotationsValidator>`.  The inputs that work with `<EditForm>` are:
+- BFUTextField
+- BFUCheckbox
+- BFUDropdown
+- BFUCalendar
+- BFUDatePicker
 
-In addition, we have a modified ValidationSummary component called `BFUValidationSummary` that uses `BFUMessageBar` styling to show validation errors.
+You can see an example of how this works at the end of the each of their demo pages.  
+
+In addition to those components, we have created a `BFUSubmitButton` whose only purpose is to disable itself in the UI when validation has failed.  As soon as validation has succeeded, the button will be enabled automatically.  The button is styled to use `BFUPrimaryButton` styling, but you can override that with a `ForceDefault` switch.
+
+Finally, we have a modified ValidationSummary component called `BFUValidationSummary` that uses `BFUMessageBar` styling to show validation errors.  You can still use the original version and style the `<li>` elements however you like.
 
 ## BFUList, BFUDetailsList, & BFUGroupedList
 These have been refactored to use a similar technique to the new blazor `Virtualize` component.  In addition, the method by which grouping was performed has been redone to increase performance dramatically.  Two breaking consequences of this change are a `GetKey` property requirement.  You need to define a key for each item in your list.  Second, you must define your own container for your list with appropriate styling and the attribute `data-is-scrollable`.

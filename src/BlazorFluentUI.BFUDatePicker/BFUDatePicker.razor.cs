@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -64,6 +66,13 @@ namespace BlazorFluentUI
         private bool _preventFocusOpeningPicker = false;
         private bool _oldIsDatePickerShown;
 
+        [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
+
+        private FieldIdentifier FieldIdentifier;
+
+        [Parameter]
+        public Expression<Func<DateTime>>? ValueExpression { get; set; }
+
         protected override Task OnInitializedAsync()
         {
             ErrorMessage = IsRequired && (Value == DateTime.MinValue) ? IsRequiredErrorMessage : null;
@@ -111,6 +120,25 @@ namespace BlazorFluentUI
             }
 
             return base.SetParametersAsync(parameters);
+        }
+
+        protected override Task OnParametersSetAsync()
+        {
+            if (CascadedEditContext != null && ValueExpression != null)
+            {
+                
+                FieldIdentifier = FieldIdentifier.Create<DateTime>(ValueExpression);
+
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+
+                CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
+            }
+            return base.OnParametersSetAsync();
+        }
+
+        private void CascadedEditContext_OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+        {
+            InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
         }
 
         private string FormatDateInternal(DateTime dateTime)
@@ -178,7 +206,7 @@ namespace BlazorFluentUI
             FormattedDate = FormatDateInternal(selectedDateResult.Date);
             ErrorMessage = "";
 
-
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
             OnSelectDate.InvokeAsync(selectedDateResult.Date);
             ValueChanged.InvokeAsync(selectedDateResult.Date);
 
@@ -308,8 +336,10 @@ namespace BlazorFluentUI
                     ErrorMessage = IsRequired ? IsRequiredErrorMessage : "";
                 }
 
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
                 OnSelectDate.InvokeAsync(date);
                 ValueChanged.InvokeAsync(date);
+                
             }
             else if (IsRequired && string.IsNullOrWhiteSpace(inputValue))
             {

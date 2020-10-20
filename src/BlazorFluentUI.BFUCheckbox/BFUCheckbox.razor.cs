@@ -115,8 +115,8 @@ namespace BlazorFluentUI
             {
                 if (CheckedExpression == null)
                 {
-                    throw new InvalidOperationException($"{GetType()} requires a value for the 'ValueExpression' " +
-                        $"parameter. Normally this is provided automatically when using 'bind-Value'.");
+                    throw new InvalidOperationException($"{GetType()} requires a value for the 'CheckedExpression' " +
+                        $"parameter. Normally this is provided automatically when using 'bind-Checked'.");
                 }
                 FieldIdentifier = FieldIdentifier.Create<bool>(CheckedExpression);
 

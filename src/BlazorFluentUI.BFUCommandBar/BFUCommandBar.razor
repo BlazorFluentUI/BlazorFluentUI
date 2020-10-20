@@ -18,6 +18,7 @@
                                     <ChildContent>
                                         <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
                                                              MenuItems=@context.Items
+                                                             Href=@context.Href
                                                              OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                              Command=@context.Command CommandParameter=@context.CommandParameter
                                                              Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
@@ -32,6 +33,7 @@
                             {
                                 <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
                                                      MenuItems=@context.Items
+                                                     Href=@context.Href
                                                      OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                      Command=@context.Command CommandParameter=@context.CommandParameter
                                                      Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
@@ -52,6 +54,7 @@
                                     <ChildContent>
                                         <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
                                                              MenuItems=@context.Items
+                                                             Href=@context.Href
                                                              OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                              Command=@context.Command CommandParameter=@context.CommandParameter
                                                              Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
@@ -64,7 +67,9 @@
                             }
                             else
                             {
-                                <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
+                                <BFUCommandBarButton IconName=@context.IconName 
+                                                     Text=@(!context.IconOnly ? context.Text : null)
+                                                     Href=@context.Href
                                                      MenuItems=@context.Items
                                                      OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                      Command=@context.Command CommandParameter=@context.CommandParameter

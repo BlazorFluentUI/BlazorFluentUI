@@ -143,15 +143,15 @@ namespace BlazorFluentUI
         {
             parameters.SetParameterProperties(this);
 
-            if (CascadedEditContext != null)
+            if (CascadedEditContext != null && ValueExpression != null)
             {
                 CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
 
-                if (ValueExpression == null)
-                {
-                    throw new InvalidOperationException($"{GetType()} requires a value for the 'ValueExpression' " +
-                        $"parameter. Normally this is provided automatically when using 'bind-Value'.");
-                }
+                //if (ValueExpression == null)
+                //{
+                //    throw new InvalidOperationException($"{GetType()} requires a value for the 'ValueExpression' " +
+                //        $"parameter. Normally this is provided automatically when using 'bind-Value'.");
+                //}
                 FieldIdentifier = FieldIdentifier.Create<string>(ValueExpression);
             }
 
@@ -302,7 +302,19 @@ namespace BlazorFluentUI
 
         private void Validate(string value)
         {            
-            if (CascadedEditContext == null)
+            if (CascadedEditContext != null && ValueExpression != null)
+            {
+                CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
+                if (CascadedEditContext.GetValidationMessages(FieldIdentifier).Any())
+                {
+                    ErrorMessage = string.Join(',', CascadedEditContext.GetValidationMessages(FieldIdentifier));
+                }
+                else
+                {
+                    ErrorMessage = "";
+                }
+            }
+            else
             {
                 if (value == null || latestValidatedValue == value)
                     return;
@@ -314,18 +326,7 @@ namespace BlazorFluentUI
                     ErrorMessage = errorMessage;
                 }
                 OnNotifyValidationResult?.Invoke(errorMessage, value);
-            }
-            else
-            {
-                CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
-                if (CascadedEditContext.GetValidationMessages(FieldIdentifier).Any())
-                {
-                    ErrorMessage = string.Join(',', CascadedEditContext.GetValidationMessages(FieldIdentifier));
-                }
-                else
-                {
-                    ErrorMessage = "";
-                }
+                
                 OnNotifyValidationResult?.Invoke(ErrorMessage, value);
             }
             

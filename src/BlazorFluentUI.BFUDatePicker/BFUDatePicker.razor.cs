@@ -113,7 +113,10 @@ namespace BlazorFluentUI
             this.SetErrorMessage(true, nextIsRequired, nextValue, nextMinDate, nextMaxDate, nextInitialPickerDate);
 
             var oldValue = SelectedDate;
-            if (DateTime.Compare(oldValue, nextValue) != 0 || (FormatDate != null && nextFormatDate != null && (FormatDate(nextValue) != nextFormatDate(nextValue))))
+            if (DateTime.Compare(oldValue, nextValue) != 0 
+                || (FormatDate != null 
+                && nextFormatDate != null 
+                && (FormatDate(nextValue) != nextFormatDate(nextValue))))
             {
                 SelectedDate = nextValue;
                 FormattedDate = FormatDateInternal(nextValue);
@@ -124,6 +127,8 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
+            FormattedDate = FormatDateInternal(SelectedDate);
+
             if (CascadedEditContext != null && ValueExpression != null)
             {
                 

@@ -39,11 +39,7 @@ namespace BlazorFluentUI
         [Parameter] public bool ValidateOnFocusOut { get; set; }
         [Parameter] public bool ValidateOnLoad { get; set; } = true;
         [Parameter] public int DeferredValidationTime { get; set; } = 0;
-        //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public AutoComplete AutoComplete { get; set; } = AutoComplete.On;
-        //[Parameter] public string Mask { get; set; }
-        //[Parameter] public string MaskChar { get; set; }
-        //[Parameter] public string MaskFormat { get; set; }
         [Parameter] public string Placeholder { get; set; }
         [Parameter] public string IconName { get; set; }
 
@@ -83,6 +79,8 @@ namespace BlazorFluentUI
 
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
 
+
+        private bool shouldRender = true;
 
         protected string id = Guid.NewGuid().ToString();
         protected string descriptionId = Guid.NewGuid().ToString();
@@ -139,8 +137,117 @@ namespace BlazorFluentUI
             return base.OnInitializedAsync();
         }
 
+        private IReadOnlyDictionary<string, object> lastParameters;
+
         public override Task SetParametersAsync(ParameterView parameters)
         {
+            if (lastParameters != null)
+            {
+                var currentParameters = parameters.ToDictionary();
+                foreach (var curr in currentParameters)
+                {
+                    var lastValue = lastParameters[curr.Key];
+                    if (curr.Value == null)
+                    {
+                        if (lastValue != null)
+                        {
+                            shouldRender = true;
+                            break;
+                        }
+                        continue;
+                    }
+                    Type t = curr.Value.GetType();
+                    bool isComparableType = t.IsPrimitive || t == typeof(string) || t == typeof(RenderFragment);
+                    if (isComparableType)
+                    {
+                        if (curr.Value != lastValue)
+                        {
+                            shouldRender = true;
+                            break;
+                        }
+                    }
+                    else if (t.IsEnum)
+                    {
+                        if ((int)curr.Value != (int)lastValue)
+                        {
+                            shouldRender = true;
+                            break;
+                        }
+                    }
+                    else if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(EventCallback<>))
+                    {
+                        //is this enough?
+                        var prop = t.GetProperty("HasDelegate");
+                        bool aHasDelegate = (bool)prop.GetValue(curr.Value);
+                        bool bHasDelegate= (bool)prop.GetValue(lastValue);
+
+                        if ((aHasDelegate && !bHasDelegate) || (!aHasDelegate && bHasDelegate))
+                        {
+                            shouldRender = true;
+                            break;
+                        }
+
+                    }
+                    else
+                    {
+                        //custom check for changes for non-primitive types.  Must manually check each type
+                        switch (curr.Key)
+                        {
+                            case "ValueExpression":
+                                if (curr.Value != lastValue)
+                                {
+                                    if (curr.Value != null && lastValue != null && curr.Value.ToString() == lastValue.ToString())
+                                    {
+                                    }
+                                    else
+                                    {
+                                        shouldRender = true;
+                                        break;
+                                    }
+                                }
+                                break;
+                            case "OnGetErrorMessage":
+                            case "OnNotifyValidationResult":
+                                if ((curr.Value == null && lastValue != null) || (curr.Value != null && lastValue == null))
+                                {
+                                    shouldRender = true;
+                                    break;
+                                }
+                                var a = (curr.Value as System.Delegate).Method.GetMethodBody().GetILAsByteArray();
+                                var b = (lastValue as System.Delegate).Method.GetMethodBody().GetILAsByteArray();
+                                if (a.Length != b.Length)
+                                {
+                                    shouldRender = true;
+                                    break;
+                                }
+                                for (int i = 0; i < a.Length; i++)
+                                {
+                                    if (a[i] != b[i])
+                                    {
+                                        shouldRender = true;
+                                        break;
+                                    }
+                                }
+                                break;
+                            case "Theme":
+                                // ignore Theme changes as they do not affect TextField internally
+                                break;
+                            default:
+
+                                break;
+
+                        }
+                    }
+                    
+                }
+
+                lastParameters = currentParameters;
+            }
+            else
+            {
+                lastParameters = parameters.ToDictionary();
+                shouldRender = true;
+            }
             parameters.SetParameterProperties(this);
 
             if (CascadedEditContext != null && ValueExpression != null)
@@ -179,6 +286,16 @@ namespace BlazorFluentUI
             }
 
             return base.OnParametersSetAsync();
+        }
+
+        protected override bool ShouldRender()
+        {
+            if (shouldRender)
+            {
+                shouldRender = false;
+                return true;
+            }
+            return false;
         }
 
         protected override void OnThemeChanged()
@@ -227,8 +344,10 @@ namespace BlazorFluentUI
         protected async Task OnFocusInternal(FocusEventArgs args)
         {
             if (OnFocus.HasDelegate)
+            {
+                shouldRender = true;
                 await OnFocus.InvokeAsync(args);
-
+            }
             isFocused = true;
             if (ValidateOnFocusIn && !defaultErrorMessageIsSet)
             {
@@ -240,8 +359,10 @@ namespace BlazorFluentUI
         protected async Task OnBlurInternal(FocusEventArgs args)
         {
             if (OnBlur.HasDelegate)
+            {
+                shouldRender = true;
                 await OnBlur.InvokeAsync(args);
-
+            }
             isFocused = false;
             if (ValidateOnFocusOut && !defaultErrorMessageIsSet)
             {

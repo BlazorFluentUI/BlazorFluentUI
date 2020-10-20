@@ -1,10 +1,12 @@
 ﻿using BlazorFluentUI.BFUDropdownInternal;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -37,6 +39,15 @@ namespace BlazorFluentUI
         [Inject]
         private IJSRuntime? jSRuntime { get; set; }
 
+        [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
+
+        private FieldIdentifier FieldIdentifier;
+
+        [Parameter]
+        public Expression<Func<IBFUDropdownOption>>? SelectedOptionExpression { get; set; }
+        [Parameter]
+        public Expression<Func<IEnumerable<IBFUDropdownOption>>>? SelectedOptionsExpression { get; set; }
+
         protected bool isOpen { get; set; }
 
         protected string id = Guid.NewGuid().ToString();
@@ -68,6 +79,7 @@ namespace BlazorFluentUI
             return base.OnInitializedAsync();
         }
 
+
         protected override void OnThemeChanged()
         {
             SetStyle();
@@ -79,17 +91,15 @@ namespace BlazorFluentUI
             SelectedOptions = Enumerable.Empty<IBFUDropdownOption>();
             //SelectedKey = null;
 
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+
             if (MultiSelect)
             {
-                //if (SelectedKeysChanged.HasDelegate)
-                //    SelectedKeysChanged.InvokeAsync(SelectedKeys);
                 if (SelectedOptionsChanged.HasDelegate)
                     SelectedOptionsChanged.InvokeAsync(SelectedOptions);
             }
             else
             {
-                //if (SelectedKeyChanged.HasDelegate)
-                //    SelectedKeyChanged.InvokeAsync(SelectedKey);
                 if (SelectedOptionChanged.HasDelegate)
                     SelectedOptionChanged.InvokeAsync(SelectedOption);
             }
@@ -102,6 +112,8 @@ namespace BlazorFluentUI
             var option = ItemsSource.FirstOrDefault(x => x.Key == key);
             if (option == null)
                 return;
+
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {                
@@ -116,16 +128,6 @@ namespace BlazorFluentUI
                 if (SelectedOptionsChanged.HasDelegate)
                     SelectedOptionsChanged.InvokeAsync(SelectedOptions);
 
-                //if (SelectedKeys.Contains(key))
-                //    throw new Exception("This key was already selected.");
-
-                //if (OnChange.HasDelegate)
-                //    OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, true));
-
-                //SelectedKeys.Add(key);
-
-                //if (SelectedKeysChanged.HasDelegate)
-                //    SelectedKeysChanged.InvokeAsync(SelectedKeys);
             }
             else
             {
@@ -138,15 +140,6 @@ namespace BlazorFluentUI
                         SelectedOptionChanged.InvokeAsync(SelectedOption);
                 }
                 isOpen = false;
-                //if (SelectedKey!= key)
-                //{
-                //    SelectedKey = key;
-                //    if (OnChange.HasDelegate)
-                //        OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, true));
-                //    if (SelectedKeyChanged.HasDelegate)
-                //        SelectedKeyChanged.InvokeAsync(SelectedKey);
-                //}
-                //isOpen = false;
             }
             StateHasChanged();
         }
@@ -156,6 +149,8 @@ namespace BlazorFluentUI
             var option = ItemsSource.FirstOrDefault(x => x.Key == key);
             if (option == null)
                 return;
+
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {
@@ -170,18 +165,6 @@ namespace BlazorFluentUI
                 if (SelectedOptionsChanged.HasDelegate)
                     SelectedOptionsChanged.InvokeAsync(SelectedOptions);
 
-
-                //if (!SelectedKeys.Contains(key))
-                //    throw new Exception("This key was not already selected.");
-
-                //if (OnChange.HasDelegate)
-                //    OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, false));
-
-                //SelectedKeys.Remove(key);  //this used to be following the next command.  A bug?  I moved it here...
-
-                //if (SelectedKeysChanged.HasDelegate)
-                //    SelectedKeysChanged.InvokeAsync(SelectedKeys);
-
             }
             else
             {
@@ -194,15 +177,7 @@ namespace BlazorFluentUI
                     if (SelectedOptionChanged.HasDelegate)
                         SelectedOptionChanged.InvokeAsync(SelectedOption);
                 }
-                //if (SelectedKey != null)
-                //{
-                //    SelectedKey = null;
-                //    if (OnChange.HasDelegate)
-                //        OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, false));
 
-                //    if (SelectedKeyChanged.HasDelegate)
-                //        SelectedKeyChanged.InvokeAsync(SelectedKey);
-                //}
             }
             StateHasChanged();
         }
@@ -226,9 +201,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 GetDropdownBounds();
-                //dropDownBounds = await this.GetBoundsAsync();
-                //firstRender = false;
-                //StateHasChanged();
+
             }
             if (isOpen && _registrationToken == null)
                 _ = RegisterListFocusAsync();
@@ -270,6 +243,23 @@ namespace BlazorFluentUI
                     builder.CloseComponent();
                 };
             }
+
+            if (CascadedEditContext != null && (SelectedOptionExpression != null || SelectedOptionsExpression != null))
+            {
+                if (SelectedOptionExpression != null)
+                    FieldIdentifier = FieldIdentifier.Create<IBFUDropdownOption>(SelectedOptionExpression);
+                else
+                    FieldIdentifier = FieldIdentifier.Create<IEnumerable<IBFUDropdownOption>>(SelectedOptionsExpression);
+
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+
+                CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
+            }
+        }
+
+        private void CascadedEditContext_OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+        {
+            InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
         }
 
         private async Task RegisterListFocusAsync()

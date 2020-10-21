@@ -18,6 +18,8 @@ namespace BlazorFluentUI
 
         [Parameter] public bool ShiftOnReduce { get; set; }
 
+        [Parameter] public RenderFragment<IBFUCommandBarItem> ItemTemplate { get; set; }
+
         protected Func<BFUCommandBarData, BFUCommandBarData> onGrowData;
         protected Func<BFUCommandBarData, BFUCommandBarData> onReduceData;
 

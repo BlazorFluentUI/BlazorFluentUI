@@ -12,32 +12,39 @@
                     @*Primary*@
                     <BFUOverflowSet ClassName="ms-CommandBar-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
                         <ItemTemplate>
-                            @if (context.IconOnly)
+                            @if (ItemTemplate != null)
                             {
-                                <BFUTooltipHost>
-                                    <ChildContent>
-                                        <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
-                                                             MenuItems=@context.Items
-                                                             Href=@context.Href
-                                                             OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
-                                                             Command=@context.Command CommandParameter=@context.CommandParameter
-                                                             Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                                             Split=@context.Split Style=@context.Style />
-                                    </ChildContent>
-                                    <TooltipContent>
-                                        @context.Text
-                                    </TooltipContent>
-                                </BFUTooltipHost>
+                                @ItemTemplate(context)
                             }
                             else
                             {
-                                <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
-                                                     MenuItems=@context.Items
-                                                     Href=@context.Href
-                                                     OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
-                                                     Command=@context.Command CommandParameter=@context.CommandParameter
-                                                     Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                                     Split=@context.Split Style=@context.Style />
+                                @if (context.IconOnly)
+                                {
+                                    <BFUTooltipHost>
+                                        <ChildContent>
+                                            <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
+                                                                 MenuItems=@context.Items
+                                                                 Href=@context.Href
+                                                                 OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
+                                                                 Command=@context.Command CommandParameter=@context.CommandParameter
+                                                                 Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
+                                                                 Split=@context.Split Style=@context.Style />
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @context.Text
+                                        </TooltipContent>
+                                    </BFUTooltipHost>
+                                }
+                                else
+                                {
+                                    <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
+                                                         MenuItems=@context.Items
+                                                         Href=@context.Href
+                                                         OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
+                                                         Command=@context.Command CommandParameter=@context.CommandParameter
+                                                         Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
+                                                         Split=@context.Split Style=@context.Style />
+                                }
                             }
                         </ItemTemplate>
                         <OverflowTemplate>

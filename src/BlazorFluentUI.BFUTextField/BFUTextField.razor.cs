@@ -269,7 +269,13 @@ namespace BlazorFluentUI
         private void CascadedEditContext_OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
         {
             //SetAdditionalAttributesIfValidationFailed();
-            InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
+
+            InvokeAsync(() =>
+            {
+                shouldRender = true;
+                StateHasChanged();
+            });
+            //invokeasync required for serverside
         }
 
         protected override Task OnParametersSetAsync()
@@ -333,19 +339,20 @@ namespace BlazorFluentUI
             _ = AdjustInputHeightAsync();
 
             _ = OnInput.InvokeAsync((string)args.Value);
+            shouldRender = true;
         }
 
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
             await OnChange.InvokeAsync((string)args.Value);
             await ValueChanged.InvokeAsync((string)args.Value);
+            shouldRender = true;
         }
 
         protected async Task OnFocusInternal(FocusEventArgs args)
         {
             if (OnFocus.HasDelegate)
-            {
-                shouldRender = true;
+            {                
                 await OnFocus.InvokeAsync(args);
             }
             isFocused = true;
@@ -354,13 +361,13 @@ namespace BlazorFluentUI
                 Validate(CurrentValue);
             }
             //return Task.CompletedTask;
+            shouldRender = true;
         }
 
         protected async Task OnBlurInternal(FocusEventArgs args)
         {
             if (OnBlur.HasDelegate)
-            {
-                shouldRender = true;
+            {               
                 await OnBlur.InvokeAsync(args);
             }
             isFocused = false;
@@ -368,6 +375,7 @@ namespace BlazorFluentUI
             {
                 Validate(CurrentValue);
             }
+            shouldRender = true;
             //return Task.CompletedTask;
         }
 
@@ -455,7 +463,7 @@ namespace BlazorFluentUI
 
         private bool ValidateAllChanges()
         {
-            return (OnGetErrorMessage != null && !defaultErrorMessageIsSet && !ValidateOnFocusIn && !ValidateOnFocusOut) || CascadedEditContext != null;
+            return (OnGetErrorMessage != null && !defaultErrorMessageIsSet && !ValidateOnFocusIn && !ValidateOnFocusOut && (firstRendered && !ValidateOnLoad)) || CascadedEditContext != null;
         }
 
         private async Task DeferredValidation(string value)
@@ -479,6 +487,7 @@ namespace BlazorFluentUI
                         InvokeAsync(() =>
                         {
                             Validate(value);
+                            shouldRender = true;
                             StateHasChanged();
                         });
                     //invokeasync required for serverside

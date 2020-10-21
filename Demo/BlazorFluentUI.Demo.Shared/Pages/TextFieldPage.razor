@@ -32,8 +32,8 @@
         <BFUTextField Label="With Error" ErrorMessage="there is an error" />
     </div>
     @*<div class="textFieldDiv">
-            <BFUTextField Label="With Input Mask" MaskChar="+" />
-        </div>*@
+        <BFUTextField Label="With Input Mask" MaskChar="+" />
+    </div>*@
     <div class="textFieldDiv">
         <BFUTextField Label="With Placeholder" Placeholder="placeholder text" />
     </div>
@@ -137,69 +137,72 @@
     <h4>Hint: the input length must be less than 3.</h4>
 
     <div class="textFieldDiv">
-        <BFUTextField Label="String-based validation" OnGetErrorMessage="GetErrorMessage" />
-    </div>
+            <BFUTextField Label="String-based validation" OnGetErrorMessage="GetErrorMessage" />
+        </div>
+        <div class="textFieldDiv">
+            <BFUTextField Label="String-based validation on render" DefaultValue="Shows an error message on render" OnGetErrorMessage="GetErrorMessage" />
+        </div>
     <div class="textFieldDiv">
-        <BFUTextField Label="String-based validation on render" DefaultValue="Shows an error message on render" OnGetErrorMessage="GetErrorMessage" />
+        <BFUTextField Label="String-based validation only on change" DefaultValue="Validates only on input change, not on first render" OnGetErrorMessage="GetErrorMessage" ValidateOnLoad="false" />
     </div>
-    <div class="textFieldDiv">
-        <BFUTextField Label="String-based validation only on change" DefaultValue="Validates only on input change, not on render" OnGetErrorMessage="GetErrorMessage" ValidateOnLoad="false" />
+    <div class="textfielddiv">
+        <bfutextfield label="both description and error message" defaultvalue="shows description and error message on render" description="field description" ongeterrormessage="geterrormessage" />
     </div>
-    <div class="textFieldDiv">
-        <BFUTextField Label="Both description and error message" DefaultValue="Shows description and error message on render" Description="Field description" OnGetErrorMessage="GetErrorMessage" />
+    <div class="textfielddiv">
+        <bfutextfield label="deferred string-based validation" placeholder="validates after user stops typing for 2 seconds" deferredvalidationtime="2000" ongeterrormessage="geterrormessage" />
     </div>
-    <div class="textFieldDiv">
-        <BFUTextField Label="Deferred string-based validation" Placeholder="Validates after user stops typing for 2 seconds" DeferredValidationTime="2000" OnGetErrorMessage="GetErrorMessage" />
+    <div class="textfielddiv">
+        <bfutextfield label="validates only on focus and blur" placeholder="validates only on input focus and blur" validateonfocusin="true" validateonfocusout="true" ongeterrormessage="geterrormessage" />
     </div>
-    <div class="textFieldDiv">
-        <BFUTextField Label="Validates only on focus and blur" Placeholder="Validates only on input focus and blur" ValidateOnFocusIn="true" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
+    <div class="textfielddiv">
+        <bfutextfield label="validates only on blur" placeholder="validates only on blur" validateonfocusout="true" ongeterrormessage="geterrormessage" />
     </div>
-    <div class="textFieldDiv">
-        <BFUTextField Label="Validates only on blur" Placeholder="Validates only on blur" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
+    <div class="textfielddiv">
+        <bfutextfield label="underlined field " defaultvalue="this value is too long" underlined="true" ongeterrormessage="geterrormessage" />
     </div>
-    <div class="textFieldDiv">
-        <BFUTextField Label="Underlined field " DefaultValue="This value is too long" Underlined="true" OnGetErrorMessage="GetErrorMessage" />
-    </div>
-    <div class="textFieldDiv">
-        <BFUTextField Label="Uses the errorMessage property to set an error state" Placeholder="This field always has an error" ErrorMessage="This is a statically set error message" />
+    <div class="textfielddiv">
+        <bfutextfield label="uses the errormessage property to set an error state" placeholder="this field always has an error" errormessage="this is a statically set error message" />
     </div>
 </Demo>
 
 <Demo Header="Validation using Blazor's InputBase<string> and EditForm" Key="7" MetadataPath="TextFieldPage">
-    <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
-        <DataAnnotationsValidator />
-        <BFUValidationSummary />
+        <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
+            <DataAnnotationsValidator />
+            <BFUValidationSummary />
 
-        <BFUTextField Label="OnChange - Input can't be longer than 5 characters" @bind-Value=@exampleModel.NameOnChange />
-        <BFUTextField Label="OnInput - Input can't be longer than 5 characters" @bind-Value=@exampleModel.NameOnInput @bind-Value:event="OnInput" />
+        <div class="textFieldDiv">
+            <BFUTextField Label="OnChange - Input can't be longer than 5 characters" @bind-Value=@exampleModel.NameOnChange />
+        </div>
+        <div class="textFieldDiv">
+            <BFUTextField Label="OnInput - Input can't be longer than 5 characters" @bind-Value=@exampleModel.NameOnInput @bind-Value:event="OnInput" />
+        </div>
+            <BFUSubmitButton Text="Submit" />
+        </EditForm>
+    </Demo>
 
-        <BFUSubmitButton Text="Submit" />
-    </EditForm>
-</Demo>
+@code {
+    string onInputContent = "";
+    string onChangeContent = "";
 
-    @code {
-        string onInputContent = "";
-        string onChangeContent = "";
+    ExampleModel exampleModel = new ExampleModel();
 
-        ExampleModel exampleModel = new ExampleModel();
-
-        class ExampleModel
-        {
-            [Required]
-            [StringLength(5, ErrorMessage="NameOnChange is too long.")]
-            public string NameOnChange { get; set; }
-            [Required]
-            [StringLength(5, ErrorMessage = "NameOnInput is too long.")]
-            public string NameOnInput { get; set; }
-        }
-
-        public void HandleValidSubmit()
-        {
-            var i = 3;
-        }
-
-        public string GetErrorMessage(string value)
-        {
-            return value.Length < 3 ? "" : $"Input value length must be less than 3. Actual length is {value.Length}.";
-        }
+    class ExampleModel
+    {
+        [Required]
+        [StringLength(5, ErrorMessage = "NameOnChange is too long.")]
+        public string NameOnChange { get; set; }
+        [Required]
+        [StringLength(5, ErrorMessage = "NameOnInput is too long.")]
+        public string NameOnInput { get; set; }
     }
+
+    public void HandleValidSubmit()
+    {
+        var i = 3;
+    }
+
+    public string GetErrorMessage(string value)
+    {
+        return value.Length < 3 ? "" : $"Input value length must be less than 3. Actual length is {value.Length}.";
+    }
+}

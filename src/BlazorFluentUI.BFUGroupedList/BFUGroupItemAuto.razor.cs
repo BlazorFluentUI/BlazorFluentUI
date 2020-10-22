@@ -108,6 +108,9 @@ namespace BlazorFluentUI
         private IDisposable sourceCacheSubscription;
         private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> groupedUIListItems;
 
+
+        Dictionary<HeaderItem3<TItem, TKey>, IDisposable> headerSubscriptions = new Dictionary<HeaderItem3<TItem, TKey>, IDisposable>();
+
         //private IList<bool>? _sortDescending;
         //private IList<Func<TItem, object>>? _sortBy;
         //private BehaviorSubject<IComparer<TItem>> sortExpressionComparer = new BehaviorSubject<IComparer<TItem>>(new SortExpressionComparer<TItem>());
@@ -351,8 +354,14 @@ namespace BlazorFluentUI
 
         public ValueTask DisposeAsync()
         {
+            foreach (var header in headerSubscriptions)
+            {
+                header.Value.Dispose();
+            }
+
             _transformedDisposable?.Dispose();
             _selectionSubscription?.Dispose();
+
             return ValueTask.CompletedTask;
         }
     }

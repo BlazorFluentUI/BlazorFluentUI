@@ -118,9 +118,10 @@ namespace BlazorFluentUI
         private BehaviorSubject<IComparer<TItem>> sortExpressionComparer;// = new BehaviorSubject<IComparer<TItem>>(new SortExpressionComparer<TItem>());
         private BehaviorSubject<IComparer<IGroupedListItem3<TItem>>> subGroupSortExpressionComparer;// = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(new SortExpressionComparer<IGroupedListItem3<TItem>>());
         private bool _groupSortDescending;
-        //private BehaviorSubject<IComparer<GroupedListItem2<TItem>>> _groupSort = new BehaviorSubject<IComparer<GroupedListItem2<TItem>>>(SortExpressionComparer<GroupedListItem2<TItem>>.Ascending(x => x));
+
         private Subject<Unit> resorter = new Subject<Unit>();
 
+        Dictionary<HeaderItem3<TItem,TKey>, IDisposable> headerSubscriptions = new Dictionary<HeaderItem3<TItem, TKey>, IDisposable>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -480,6 +481,11 @@ namespace BlazorFluentUI
         {
             _transformedDisposable?.Dispose();
             _selectionSubscription?.Dispose();
+
+            foreach (var header in headerSubscriptions)
+            {
+                header.Value.Dispose();
+            }
         }
     }
 }

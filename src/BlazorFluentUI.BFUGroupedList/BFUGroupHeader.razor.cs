@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUGroupHeader : BFUComponentBase
+    public partial class BFUGroupHeader : BFUComponentBase, IDisposable
     {
         
         bool isLoadingVisible;
@@ -54,6 +54,7 @@ namespace BlazorFluentUI
         [Parameter]
         public Action OnToggle { get; set; }
 
+      
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
@@ -81,8 +82,9 @@ namespace BlazorFluentUI
             
         }
 
-
-      
-
+        public void Dispose()
+        {
+            
+        }
     }
 }

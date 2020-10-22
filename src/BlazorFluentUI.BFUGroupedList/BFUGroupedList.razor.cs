@@ -73,7 +73,9 @@ namespace BlazorFluentUI
         [Parameter]
         public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
 
-        
+
+        Dictionary<HeaderItem3<TItem, TKey>, IDisposable> headerSubscriptions = new Dictionary<HeaderItem3<TItem, TKey>, IDisposable>();
+
 
         protected override Task OnInitializedAsync()
         {
@@ -202,6 +204,11 @@ namespace BlazorFluentUI
 
         public void Dispose()
         {
+            foreach (var header in headerSubscriptions)
+            {
+                header.Value.Dispose();
+            }
+
             _transformedDisposable?.Dispose();
             _selectionSubscription?.Dispose();
         }

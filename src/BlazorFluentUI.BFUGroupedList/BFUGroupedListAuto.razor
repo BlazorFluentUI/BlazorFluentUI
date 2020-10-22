@@ -21,17 +21,22 @@
                 if (Selection != null)
                 {
                     isSelected = Selection.IsRangeSelected(header.GroupIndex, header.Count);
-                    Selection.SelectionChanged.Subscribe(_ =>
+                    if (!headerSubscriptions.ContainsKey(header))
                     {
-                        var selected = Selection.IsRangeSelected(header.GroupIndex, header.Count);
-                        if (selected != isSelected)
+                        var disposable = Selection.SelectionChanged.Subscribe(_ =>
                         {
-                            isSelected = selected;
-                            InvokeAsync(StateHasChanged);
-                        }
-                    });
-                }
+                            Console.WriteLine("HeaderRangeCheck");
+                            var selected = Selection.IsRangeSelected(header.GroupIndex, header.Count);
+                            if (selected != isSelected)
+                            {
+                                isSelected = selected;
+                                InvokeAsync(StateHasChanged);
+                            }
+                        });
+                        headerSubscriptions.Add(header, disposable);
+                    }
 
+                }
                 <BFUGroupHeader IsOpen=@header.IsOpen
                                 OnOpenChanged=@((isOpen)=>
                                                 {

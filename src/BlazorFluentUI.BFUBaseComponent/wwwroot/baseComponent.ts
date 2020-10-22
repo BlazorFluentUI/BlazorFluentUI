@@ -2137,7 +2137,7 @@ window.addEventListener("load", function () {
             }
             else if (mutation.type === 'attributes') {
                 if (mutation.attributeName === "class") {
-                    console.log('The ' + mutation.attributeName + ' attribute was modified on' + (mutation.target as any).id);
+                    //console.log('The ' + mutation.attributeName + ' attribute was modified on' + (mutation.target as any).id);
                     //class was modified on this node. Remove previous event handler (if any).
                     setupPreventDefaultOnSpaceOnNode(mutation.target, false);
                     //And add event handler if class i specified.

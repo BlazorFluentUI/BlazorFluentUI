@@ -55,7 +55,7 @@
 }
 
 
-.bf-richTextEditor .ql-editor {
+.bf-richTextEditor ::deep .ql-editor {
     box-sizing: border-box;
     cursor: text;
     line-height: 1.42;
@@ -69,12 +69,18 @@
     word-wrap: break-word;
 }
 
+    .bf-richTextEditor ::deep .ql-editor:focus {
+        outline: none;
+    }
 
-.bf-richTextEditor .ql-clipboard {
+.bf-richTextEditor ::deep .ql-clipboard {
     left: -100000px;
     height: 1px;
     overflow-y: hidden;
     position: absolute;
     top: 50%;
+}
+.bf-richTextEditor ::deep .ql-clipboard {
+    outline: none;
 }
           

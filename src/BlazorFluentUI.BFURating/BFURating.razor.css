@@ -50,7 +50,7 @@
     text-align: center;
     vertical-align: middle;
     overflow: hidden;
-    color: var(--palette.NeutralPrimary);
+    color: var(--palette-NeutralPrimary);
     width: 0px;
 }
 

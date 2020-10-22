@@ -2,7 +2,8 @@
 @inherits BFUComponentBase
 @typeparam TItem
 
-    <div class="ms-DetailsHeader-root">
+    <div class="ms-DetailsHeader-root"
+         @ref=@RootElementReference>
         <BFUFocusZone Role="row"
                       AriaLabel=@AriaLabel
                       ClassName=@($"ms-DetailsHeader{(IsAllSelected?" is-allSelected":"")}{(isResizingColumn?" is-resizingColumn":"")}")
@@ -79,17 +80,22 @@
                         {
                             <BFUFontIcon ClassName="ms-DetailsHeader-dropHintCaret"
                                          AriaHidden="true"
-                                         IconName="CircleShapeSolid" />
+                                         IconName="CircleShapeSolid"
+                                         data-sizer-index=@currentColIndex
+                                         data-is-focusable="false"/>
                         }
                         else
                         {
                             <BFUIcon ClassName="ms-DetailsHeader-dropHintCaret"
                                      AriaHidden="true"
-                                     IconName="CircleShapeSolid" />
+                                     IconName="CircleShapeSolid"
+                                     data-sizer-index=@currentColIndex
+                                     data-is-focusable="false"/>
                         }
                         <div aria-hidden="true"
-                             data-is-focusable="false"
-                             class="ms-DetailsHeader-dropHintLine" />
+                             class="ms-DetailsHeader-dropHintLine"
+                             data-sizer-index=@currentColIndex
+                             data-is-focusable="false"/>
                     </div>
                 }
                 <BFUDetailsColumn Column=@Columns.ElementAt(currentColIndex)
@@ -107,10 +113,9 @@
                 {
                     <div aria-hidden="true"
                          role="button"
-                         @onmousedown=@(args=>OnSizerMouseDown(args, (showCheckbox ? 2 : 1) + currentColIndex ))
-                         @onclick:stopPropagation="true"
                          @onblur=@(() => { })
-                         class=@($"ms-DetailsHeader-cellSizer{(currentColIndex < Columns.Count() - 1 ? " ms-DetailsHeader-cellSizerStart" : " ms-DetailsHeader-cellSizerEnd")}")
+                         data-sizer-index=@currentColIndex
+                         class=@($"ms-DetailsHeader-cellSizer{(currentColIndex < Columns.Count() - 1 ? " ms-DetailsHeader-cellSizerStart" : " ms-DetailsHeader-cellSizerEnd")}{(isSizing && resizeColumnIndex == currentColIndex ? " is-resizing" : "")}")
                          @ondblclick=@(() => { }) />
                 }
             }
@@ -122,15 +127,22 @@
                     {
                         <BFUFontIcon ClassName="ms-DetailsHeader-dropHintCaret"
                                      AriaHidden="true"
-                                     IconName="CircleShapeSolid" />
+                                     IconName="CircleShapeSolid" 
+                                     data-sizer-index=@Columns.Count()
+                                     data-is-focusable="false"
+                                     />
                     }
                     else
                     {
                         <BFUIcon ClassName="ms-DetailsHeader-dropHintCaret"
                                  AriaHidden="true"
-                                 IconName="CircleShapeSolid" />
+                                 IconName="CircleShapeSolid"
+                                 data-sizer-index=@Columns.Count()
+                                 data-is-focusable="false"
+                                 />
                     }
                     <div aria-hidden="true"
+                         data-sizer-index=@Columns.Count()
                          data-is-focusable="false"
                          class="ms-DetailsHeader-dropHintLine" />
                 </div>

@@ -184,32 +184,32 @@ namespace BlazorFluentUiMarqueeSelection {
         }
     }
 
-    class Handler {
+    //class Handler {
 
-        static objectListeners: Map<DotNetReferenceType, Map<string, EventParams>> = new Map<DotNetReferenceType, Map<string, EventParams>>();
+    //    static objectListeners: Map<DotNetReferenceType, Map<string, EventParams>> = new Map<DotNetReferenceType, Map<string, EventParams>>();
 
-        static addListener(ref: DotNetReferenceType, element: HTMLElement | Window, event: string, handler: (ev: Event) => void, capture: boolean): void {
-            let listeners: Map<string, EventParams>;
-            if (this.objectListeners.has(ref)) {
-                listeners = this.objectListeners.get(ref);
-            } else {
-                listeners = new Map<string, EventParams>();
-                this.objectListeners.set(ref, listeners);
-            }
-            element.addEventListener(event, handler, capture);
-            listeners.set(event, { capture: capture, event: event, handler: handler, element: element });
-        }
-        static removeListener(ref: DotNetReferenceType, event: string): void {
-            if (this.objectListeners.has(ref)) {
-                let listeners = this.objectListeners.get(ref);
-                if (listeners.has(event)) {
-                    var handler = listeners.get(event);
-                    handler.element.removeEventListener(handler.event, handler.handler, handler.capture);
-                }
-                listeners.delete[event];
-            }
-        }
-    }
+    //    static addListener(ref: DotNetReferenceType, element: HTMLElement | Window, event: string, handler: (ev: Event) => void, capture: boolean): void {
+    //        let listeners: Map<string, EventParams>;
+    //        if (this.objectListeners.has(ref)) {
+    //            listeners = this.objectListeners.get(ref);
+    //        } else {
+    //            listeners = new Map<string, EventParams>();
+    //            this.objectListeners.set(ref, listeners);
+    //        }
+    //        element.addEventListener(event, handler, capture);
+    //        listeners.set(event, { capture: capture, event: event, handler: handler, element: element });
+    //    }
+    //    static removeListener(ref: DotNetReferenceType, event: string): void {
+    //        if (this.objectListeners.has(ref)) {
+    //            let listeners = this.objectListeners.get(ref);
+    //            if (listeners.has(event)) {
+    //                var handler = listeners.get(event);
+    //                handler.element.removeEventListener(handler.event, handler.handler, handler.capture);
+    //            }
+    //            listeners.delete[event];
+    //        }
+    //    }
+    //}
 
     const marqueeSelections = new Map<number, MarqueeSelection>();
 

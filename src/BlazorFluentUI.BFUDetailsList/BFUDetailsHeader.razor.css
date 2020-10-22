@@ -180,7 +180,7 @@ div.ms-DetailsHeader-cellIsCheck::-moz-focus-inner {
     bottom: 0;
     top: 0;
     width: 1px;
-    background: var(--palette.NeutralTertiaryAlt);
+    background: var(--palette-NeutralTertiaryAlt);
     opacity: 0;
     left: 50%;
 }
@@ -191,7 +191,7 @@ div.ms-DetailsHeader-cellIsCheck::-moz-focus-inner {
     transition: opacity 0.3s linear;
 }
 
-.ms-DetailsHeader-cellSizer.is-resizing:focus::after {
+.ms-DetailsHeader-cellSizer.is-resizing::after {
     opacity: 1;
     transition: opacity 0.3s linear;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);

@@ -3193,6 +3193,47 @@ var BlazorFluentUiList;
 })(BlazorFluentUiList || (BlazorFluentUiList = {}));
 window['BlazorFluentUiList'] = BlazorFluentUiList || {};
 /// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+var BlazorFluentUiDetailsList;
+(function (BlazorFluentUiDetailsList) {
+    const MOUSEDOWN_PRIMARY_BUTTON = 0; // for mouse down event we are using ev.button property, 0 means left button
+    const MOUSEMOVE_PRIMARY_BUTTON = 1; // for mouse move event we are using ev.buttons property, 1 means left button
+    const detailHeaders = new Map();
+    function registerDetailsHeader(dotNet, root) {
+        let detailHeader = new DetailsHeader(dotNet, root);
+        detailHeaders.set(dotNet._id, detailHeader);
+    }
+    BlazorFluentUiDetailsList.registerDetailsHeader = registerDetailsHeader;
+    function unregisterDetailsHeader(dotNet) {
+        let detailHeader = detailHeaders.get(dotNet._id);
+        detailHeader.dispose();
+        detailHeaders.delete(dotNet._id);
+    }
+    BlazorFluentUiDetailsList.unregisterDetailsHeader = unregisterDetailsHeader;
+    class DetailsHeader {
+        constructor(dotNet, root) {
+            this._onRootMouseDown = (ev) => {
+                const columnIndexAttr = ev.target.getAttribute('data-sizer-index');
+                const columnIndex = Number(columnIndexAttr);
+                if (columnIndexAttr === null || ev.button !== MOUSEDOWN_PRIMARY_BUTTON) {
+                    // Ignore anything except the primary button.
+                    return;
+                }
+                let promise = this.dotNet.invokeMethodAsync("OnSizerMouseDown", columnIndex, ev.clientX);
+                ev.preventDefault();
+                ev.stopPropagation();
+            };
+            this.dotNet = dotNet;
+            this.root = root;
+            this.events = new BlazorFluentUiBaseComponent.EventGroup(this);
+            this.events.on(root, 'mousedown', this._onRootMouseDown);
+        }
+        dispose() {
+            this.events.dispose();
+        }
+    }
+})(BlazorFluentUiDetailsList || (BlazorFluentUiDetailsList = {}));
+window['BlazorFluentUiDetailsList'] = BlazorFluentUiDetailsList || {};
+/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiMarqueeSelection;
 (function (BlazorFluentUiMarqueeSelection) {
     function getDistanceBetweenPoints(point1, point2) {
@@ -3330,31 +3371,30 @@ var BlazorFluentUiMarqueeSelection;
         }
     }
     BlazorFluentUiMarqueeSelection.AutoScroll = AutoScroll;
-    class Handler {
-        static addListener(ref, element, event, handler, capture) {
-            let listeners;
-            if (this.objectListeners.has(ref)) {
-                listeners = this.objectListeners.get(ref);
-            }
-            else {
-                listeners = new Map();
-                this.objectListeners.set(ref, listeners);
-            }
-            element.addEventListener(event, handler, capture);
-            listeners.set(event, { capture: capture, event: event, handler: handler, element: element });
-        }
-        static removeListener(ref, event) {
-            if (this.objectListeners.has(ref)) {
-                let listeners = this.objectListeners.get(ref);
-                if (listeners.has(event)) {
-                    var handler = listeners.get(event);
-                    handler.element.removeEventListener(handler.event, handler.handler, handler.capture);
-                }
-                listeners.delete[event];
-            }
-        }
-    }
-    Handler.objectListeners = new Map();
+    //class Handler {
+    //    static objectListeners: Map<DotNetReferenceType, Map<string, EventParams>> = new Map<DotNetReferenceType, Map<string, EventParams>>();
+    //    static addListener(ref: DotNetReferenceType, element: HTMLElement | Window, event: string, handler: (ev: Event) => void, capture: boolean): void {
+    //        let listeners: Map<string, EventParams>;
+    //        if (this.objectListeners.has(ref)) {
+    //            listeners = this.objectListeners.get(ref);
+    //        } else {
+    //            listeners = new Map<string, EventParams>();
+    //            this.objectListeners.set(ref, listeners);
+    //        }
+    //        element.addEventListener(event, handler, capture);
+    //        listeners.set(event, { capture: capture, event: event, handler: handler, element: element });
+    //    }
+    //    static removeListener(ref: DotNetReferenceType, event: string): void {
+    //        if (this.objectListeners.has(ref)) {
+    //            let listeners = this.objectListeners.get(ref);
+    //            if (listeners.has(event)) {
+    //                var handler = listeners.get(event);
+    //                handler.element.removeEventListener(handler.event, handler.handler, handler.capture);
+    //            }
+    //            listeners.delete[event];
+    //        }
+    //    }
+    //}
     const marqueeSelections = new Map();
     function registerMarqueeSelection(dotNet, root, props) {
         let marqueeSelection = new MarqueeSelection(dotNet, root, props);

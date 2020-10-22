@@ -697,6 +697,9 @@ namespace BlazorFluentUI
 
         private void OnColumnResizedInternal(ColumnResizedArgs<TItem> columnResizedArgs)
         {
+
+            //columnResizedArgs.NewWidth = newCalculatedWidth;
+
             OnColumnResized.InvokeAsync(columnResizedArgs);
 
             _columnOverrides[columnResizedArgs.Column.Key] = columnResizedArgs.NewWidth;

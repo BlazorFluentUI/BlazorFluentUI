@@ -1,6 +1,7 @@
 ﻿using BlazorFluentUI.Style;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsHeader<TItem> : BFUComponentBase
+    public partial class BFUDetailsHeader<TItem> : BFUComponentBase, IAsyncDisposable
     {
         //[CascadingParameter]
         //private BFUSelectionZone<TItem> SelectionZone { get; set; }
@@ -98,6 +99,7 @@ namespace BlazorFluentUI
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
 
         private bool showCheckbox;
         private bool isCheckboxHidden;
@@ -113,6 +115,8 @@ namespace BlazorFluentUI
 
         private bool isResizingColumn;
 
+        const double MIN_COLUMN_WIDTH = 100;
+
         //state
         //private bool isAllSelected;
         private bool isAllCollapsed;
@@ -121,7 +125,7 @@ namespace BlazorFluentUI
         private double resizeColumnMinWidth;
         private double resizeColumnOriginX;
 
-
+        private DotNetObjectReference<BFUDetailsHeader<TItem>>? dotNetRef;
 
         protected override Task OnInitializedAsync()
         {
@@ -149,16 +153,28 @@ namespace BlazorFluentUI
             {
                 frozenColumnCountFromStart = 0;
             }
-            //if (ColumnReorderProps != null && ColumnReorderProps.ToString() == "something")
-            //{
-            //    frozenColumnCountFromEnd = 1234;
-            //}
-            //else
-            //{
-            //    frozenColumnCountFromEnd = 0;
-            //}
 
             return base.OnParametersSetAsync();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                dotNetRef = DotNetObjectReference.Create(this);
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUiDetailsList.registerDetailsHeader", dotNetRef, RootElementReference);
+            }
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
+        [JSInvokable]
+        public void OnSizerMouseDown(int columnIndex, double originX)
+        {
+            isSizing = true;
+            resizeColumnIndex = columnIndex; //columnIndex - (showCheckbox ? 2 : 1);
+            resizeColumnOriginX = originX;
+            resizeColumnMinWidth = Columns.ElementAt(resizeColumnIndex).CalculatedWidth;
+            InvokeAsync(StateHasChanged);
         }
 
 
@@ -175,14 +191,13 @@ namespace BlazorFluentUI
             
         }
 
-        private void OnSizerMouseDown(MouseEventArgs args, int colIndex)
-        {
-            isSizing = true;
-            resizeColumnIndex = colIndex - (showCheckbox ? 2 : 1);
-            resizeColumnOriginX = args.ClientX;
-            resizeColumnMinWidth = Columns.ElementAt(resizeColumnIndex).CalculatedWidth;
-            
-        }
+        //private void OnSizerMouseDown(MouseEventArgs args, int colIndex)
+        //{
+        //    isSizing = true;
+        //    resizeColumnIndex = colIndex - (showCheckbox ? 2 : 1);
+        //    resizeColumnOriginX = args.ClientX;
+        //    resizeColumnMinWidth = Columns.ElementAt(resizeColumnIndex).CalculatedWidth;
+        //}
 
         private void OnSizerMouseMove(MouseEventArgs mouseEventArgs)
         {
@@ -194,8 +209,10 @@ namespace BlazorFluentUI
             {
                 var movement = mouseEventArgs.ClientX - resizeColumnOriginX;
                 //skipping RTL check
-
-                OnColumnResized.InvokeAsync(new ColumnResizedArgs<TItem>(Columns.ElementAt(resizeColumnIndex), resizeColumnIndex, resizeColumnMinWidth + movement));
+                var calculatedWidth = resizeColumnMinWidth + movement;
+                var currentColumnMinWidth = this.Columns.ElementAt(resizeColumnIndex).MinWidth;
+                var constrictedCalculatedWidth = Math.Max((currentColumnMinWidth < 0 || double.IsNaN(currentColumnMinWidth) ? MIN_COLUMN_WIDTH : currentColumnMinWidth), calculatedWidth);
+                OnColumnResized.InvokeAsync(new ColumnResizedArgs<TItem>(Columns.ElementAt(resizeColumnIndex), resizeColumnIndex, constrictedCalculatedWidth));
 
             }
             
@@ -210,7 +227,13 @@ namespace BlazorFluentUI
 
         }
 
-
-       
+        public async ValueTask DisposeAsync()
+        {
+            if (dotNetRef != null)
+            {
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUiDetailsList.unregisterDetailsHeader", dotNetRef);
+                dotNetRef?.Dispose();
+            }
+        }
     }
 }

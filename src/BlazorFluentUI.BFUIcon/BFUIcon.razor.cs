@@ -7,6 +7,7 @@ namespace BlazorFluentUI
     {
         [Parameter] public string IconName { get; set; }
         [Parameter] public IconType IconType { get; set; }
+        [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string,object> ExtraParameters { get; set; }
               
     }
 }

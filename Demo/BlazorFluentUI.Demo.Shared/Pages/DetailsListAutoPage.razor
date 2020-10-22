@@ -8,30 +8,49 @@
 
 <BFUStack Style="height:100%;">
     <h3>DetailsListAuto</h3>
-    <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
-        <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
-        <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
-        <BFUDropdown ItemsSource=@selectionModeOptions
-                     @bind-SelectedOption=selectedModeOption
-                     Style="max-width:300px;">
-        </BFUDropdown>
-    </BFUStack>
-    <BFUTextField Label="Filter Description"
-                  Value=@filter
-                  OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => prop.Contains(filter); }) />
-    <div data-is-scrollable="true"
-         style="height:100%;overflow-y:auto;">
-        <BFUDetailsListAuto ItemsSource="dataSource"
-                            IsVirtualizing="isVirtualizing"
-                            Compact="isCompact"
-                            Columns="columnsSource"
-                            GetKey=@(x=>x.Key)
-                            LayoutMode="DetailsListLayoutMode.Justified"
-                            @bind-Selection="selection"
-                            SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
-                            @ref="detailsList" />
-    </div>
+
+    <Demo MetadataPath="DetailsListAutoPage" Key="0" Header="DetailsListAuto with many options">
+        <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
+            <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+            <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+            <BFUDropdown ItemsSource=@selectionModeOptions
+                         @bind-SelectedOption=selectedModeOption
+                         Style="max-width:300px;">
+            </BFUDropdown>
+        </BFUStack>
+        <BFUTextField Label="Filter Description"
+                      Value=@filter
+                      OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => prop.Contains(filter); }) />
+        <div data-is-scrollable="true"
+             style="height:400px;overflow-y:auto;">
+            <BFUDetailsListAuto ItemsSource="dataSource"
+                                IsVirtualizing="isVirtualizing"
+                                Compact="isCompact"
+                                Columns="columnsSource"
+                                GetKey=@(x=>x.Key)
+                                LayoutMode="DetailsListLayoutMode.Justified"
+                                @bind-Selection="selection"
+                                SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
+                                @ref="detailsList" />
+        </div>
+    </Demo>
+
+    <Demo MetadataPath="DetailsListAutoPage" Key="1" Header="DetailsListAuto with Fixed Columns">
+        <div data-is-scrollable="true"
+             style="height:400px;overflow-y:auto;">
+            <BFUDetailsListAuto ItemsSource="dataSource"
+                                IsVirtualizing="true"
+                                Compact="true"
+                                Columns="fixedColumnsSource"
+                                GetKey=@(x=>x.Key)
+                                LayoutMode="DetailsListLayoutMode.FixedColumns"
+                                @bind-Selection="selection"
+                                SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
+                                @ref="detailsList" />
+        </div>
+    </Demo>
 </BFUStack>
+
 
 @code {
 
@@ -49,6 +68,7 @@
 
     // We're creating another container for the column array that needs to be defined to show columns in DetailsList.
     List<BFUDetailsRowColumn<DataItem>> columnsSource = new List<BFUDetailsRowColumn<DataItem>>();
+    List<BFUDetailsRowColumn<DataItem>> fixedColumnsSource = new List<BFUDetailsRowColumn<DataItem>>();
 
     string filter = "";
     BFUDetailsRowColumn<DataItem, string> descriptionColumn;
@@ -62,10 +82,14 @@
         selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Single");
 
         // We load the column data into the columnsSource SourceCache.
-        columnsSource.Add(new BFUDetailsRowColumn<DataItem, int>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, IsResizable = true });
-        columnsSource.Add(new BFUDetailsRowColumn<DataItem, string>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, IsResizable = true });
+        columnsSource.Add(new BFUDetailsRowColumn<DataItem, int>("Key", x => x.KeyNumber) {MinWidth=20, MaxWidth = 70, Index = 0, IsResizable = true });
+        columnsSource.Add(new BFUDetailsRowColumn<DataItem, string>("Name", x => x.DisplayName) { Index = 1, MinWidth = 100, MaxWidth = 150, IsResizable = true });
         descriptionColumn = new BFUDetailsRowColumn<DataItem, string>("Description", x => x.Description) { Index = 2 };
         columnsSource.Add(descriptionColumn);
+
+        fixedColumnsSource.Add(new BFUDetailsRowColumn<DataItem, int>("Key", x => x.KeyNumber) {  Index = 0 });
+        fixedColumnsSource.Add(new BFUDetailsRowColumn<DataItem, string>("Name", x => x.DisplayName) { Index = 1 });
+        fixedColumnsSource.Add(new BFUDetailsRowColumn<DataItem, string>("Description", x => x.Description) { Index = 2 });
 
         // We're loading our sample data into the dataSource SourceCache.
         for (var i = 0; i < 100; i++)

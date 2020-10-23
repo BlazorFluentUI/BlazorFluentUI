@@ -13,7 +13,7 @@ namespace BlazorFluentUI
     {
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public bool IsDraggingConstrainedToRoot { get; set; }
-        [Parameter] public bool IsEnabled { get; set; }
+        [Parameter] public bool IsEnabled { get; set; } = true;
         [Parameter] public Func<bool>? OnShouldStartSelection { get; set; }
         [Parameter] public Selection<TItem>? Selection { get; set; }
 

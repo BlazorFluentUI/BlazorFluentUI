@@ -29,9 +29,9 @@
                                 Columns="columnsSource"
                                 GetKey=@(x=>x.Key)
                                 LayoutMode="DetailsListLayoutMode.Justified"
-                                @bind-Selection="selection"
+                                @bind-Selection="selection1"
                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
-                                @ref="detailsList" />
+                                />
         </div>
     </Demo>
 
@@ -44,9 +44,26 @@
                                 Columns="fixedColumnsSource"
                                 GetKey=@(x=>x.Key)
                                 LayoutMode="DetailsListLayoutMode.FixedColumns"
-                                @bind-Selection="selection"
+                                @bind-Selection="selection2"
                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
-                                @ref="detailsList" />
+                                />
+        </div>
+    </Demo>
+
+    <Demo MetadataPath="DetailsListAutoPage" Key="2" Header="DetailsListAuto with MarqueeSelection">
+        <div data-is-scrollable="true"
+             style="height:400px;overflow-y:auto;">
+            <BFUMarqueeSelection Selection=@selection3>
+                <BFUDetailsListAuto ItemsSource="dataSource"
+                                    IsVirtualizing="true"
+                                    Compact="true"
+                                    Columns="columnsSource"
+                                    GetKey=@(x=>x.Key)
+                                    LayoutMode="DetailsListLayoutMode.Justified"
+                                    @bind-Selection="selection3"
+                                    SelectionMode="SelectionMode.Multiple"
+                                    />
+            </BFUMarqueeSelection>
         </div>
     </Demo>
 </BFUStack>
@@ -59,8 +76,9 @@
     IBFUDropdownOption selectedModeOption;
     List<IBFUDropdownOption> selectionModeOptions;
 
-    BFUDetailsListAuto<DataItem> detailsList;
-    Selection<DataItem> selection = new Selection<DataItem>();
+    Selection<DataItem> selection1 = new Selection<DataItem>();
+    Selection<DataItem> selection2 = new Selection<DataItem>();
+    Selection<DataItem> selection3 = new Selection<DataItem>();
 
     List<DataItem> dataSource = new List<DataItem>();
 

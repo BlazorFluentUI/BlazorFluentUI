@@ -1,5 +1,6 @@
 ﻿using BlazorFluentUI.Style;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +57,12 @@ namespace BlazorFluentUI
         public int ItemIndex { get; set; }
 
         [Parameter]
+        public EventCallback<BFUDetailsRow<TItem>> OnRowDidMount { get; set; }
+        
+        [Parameter]
+        public EventCallback<BFUDetailsRow<TItem>> OnRowWillUnmount { get; set; }
+
+        [Parameter]
         public double RowWidth { get; set; } = 0;
 
         [Parameter]
@@ -68,9 +75,13 @@ namespace BlazorFluentUI
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
+
         private bool canSelect;
         private bool showCheckbox;
-        private object columnMeasureInfo = null;
+        private ColumnMeasureInfo<TItem> columnMeasureInfo = null;
+        private ElementReference cellMeasurer;
         private bool isSelected;
         private bool isSelectionModal;
         private Rule _localCheckCoverRule;
@@ -168,14 +179,38 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            if (firstRender)
+            {
+                await OnRowDidMount.InvokeAsync(this);
+            }
+
+            if (columnMeasureInfo != null && columnMeasureInfo.Index >= 0 && cellMeasurer.Id != null)
+            {
+                var method = columnMeasureInfo.OnMeasureDone;
+                var size = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", cellMeasurer);
+                method(size.width);
+                columnMeasureInfo = null;
+                InvokeAsync(StateHasChanged);
+            }
 
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        public ValueTask DisposeAsync()
+        public void MeasureCell(int index, Action<double> onMeasureDone)
         {
+            var column = Columns.ElementAt(index);
+            column.MinWidth = 0;
+            column.MaxWidth = 999999;
+            column.CalculatedWidth = double.NaN;
+
+            columnMeasureInfo = new ColumnMeasureInfo<TItem> { Index = index, Column = column, OnMeasureDone = onMeasureDone };
+            InvokeAsync(StateHasChanged);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await OnRowWillUnmount.InvokeAsync(this);
             _selectionSubscription?.Dispose();
-            return ValueTask.CompletedTask;
         }
     }
 }

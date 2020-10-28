@@ -40,13 +40,14 @@ namespace BlazorFluentUiDetailsList {
             this.events = new BlazorFluentUiBaseComponent.EventGroup(this);
             
             this.events.on(root, 'mousedown', this._onRootMouseDown);
+            this.events.on(root, 'dblclick', this._onRootDblClick);
         }
 
         public dispose(): void {
             this.events.dispose();
         }
 
-        private _onRootMouseDown = (ev: MouseEvent): void => {
+        private _onRootMouseDown = async (ev: MouseEvent): Promise<void> => {
             const columnIndexAttr = (ev.target as HTMLElement).getAttribute('data-sizer-index');
             const columnIndex = Number(columnIndexAttr);
 
@@ -55,10 +56,24 @@ namespace BlazorFluentUiDetailsList {
                 return;
             }
 
-            let promise = this.dotNet.invokeMethodAsync<void>("OnSizerMouseDown", columnIndex, ev.clientX);
+            await this.dotNet.invokeMethodAsync<void>("OnSizerMouseDown", columnIndex, ev.clientX);
 
             ev.preventDefault();
             ev.stopPropagation();
+        };
+
+        private _onRootDblClick = async (ev: MouseEvent): Promise<void> => {
+            const columnIndexAttr = (ev.target as HTMLElement).getAttribute('data-sizer-index');
+            const columnIndex = Number(columnIndexAttr);
+
+            if (columnIndexAttr === null || ev.button !== MOUSEDOWN_PRIMARY_BUTTON) {
+                // Ignore anything except the primary button.
+                return;
+            }
+
+            await this.dotNet.invokeMethodAsync<void>("OnDoubleClick", columnIndex);
+
+           
         };
 
     }

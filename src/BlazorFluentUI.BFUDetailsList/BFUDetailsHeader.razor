@@ -116,7 +116,17 @@
                          @onblur=@(() => { })
                          data-sizer-index=@currentColIndex
                          class=@($"ms-DetailsHeader-cellSizer{(currentColIndex < Columns.Count() - 1 ? " ms-DetailsHeader-cellSizerStart" : " ms-DetailsHeader-cellSizerEnd")}{(isSizing && resizeColumnIndex == currentColIndex ? " is-resizing" : "")}")
-                         @ondblclick=@(() => { }) />
+                        
+                         @ondblclick=@((args) =>
+                                       {
+                                           //System.Diagnostics.Debug.WriteLine("DoubleClick happened.");
+                                           //OnColumnAutoResized.InvokeAsync(new ItemContainer<BFUDetailsRowColumn<TItem>> { Item = Columns.ElementAt(currentColIndex), Index = currentColIndex });
+                                       })
+                          @onmousedown=@(args =>
+                                        {
+                                            OnSizerMouseDown(currentColIndex, args.ClientX);
+                                        })
+                         />
                 }
             }
             @if (ColumnReorderProps != null && frozenColumnCountFromEnd == 0)

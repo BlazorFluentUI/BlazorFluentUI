@@ -2,6 +2,7 @@
 @inherits BFUComponentBase
 @typeparam TItem
 @using System.Linq
+@using Microsoft.AspNetCore.Components.Web
 
 <div class=@($"ms-DetailsList {ClassName}")
      style=@($"{Style}")
@@ -71,6 +72,9 @@
                                                        GetKey=@GetKey
                                                        ItemIndex=@context.Index
                                                        Columns=@_adjustedColumns
+                                                       TItem="TItem"
+                                                       OnRowDidMount=@OnRowDidMountInternal
+                                                       OnRowWillUnmount=@OnRowWillUnmountInternal
                                                        SelectionMode=@SelectionMode
                                                        Selection=@Selection
                                                        Compact=@Compact
@@ -98,6 +102,8 @@
                                                    GetKey=@GetKey
                                                    ItemIndex=@context.Index
                                                    Selection=@Selection
+                                                   OnRowDidMount=@OnRowDidMountInternal
+                                                   OnRowWillUnmount=@OnRowWillUnmountInternal
                                                    Columns=@_adjustedColumns
                                                    SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
                                                    CheckboxVisibility=@CheckboxVisibility

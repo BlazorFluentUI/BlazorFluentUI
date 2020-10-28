@@ -1,8 +1,8 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 @typeparam TItem
+@using Microsoft.AspNetCore.Components.Web
 
-@*<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />*@
 <BFULocalCS @bind-Rules=@DetailsRowLocalRules />
 
 @*<div @onclick="args => SelectionZone.SelectItem(Item,true)" data-is-focusable="true">*@
@@ -11,18 +11,14 @@
      data-selection-touch-invoke="true"
      data-item-index=@ItemIndex
      aria-rowindex=@(ItemIndex + 1)
-     data-automationid="DetailsRow"
-     >
+     data-automationid="DetailsRow">
     <BFUFocusZone Direction=@FocusZoneDirection.Horizontal
-               AriaLabel=@AriaLabel
-               AriaDescribedBy=@AriaDescribedBy
-                  
-               ClassName=@($"fadeIn400 {(Compact ? "is-compact " : "")}{(isSelected ? "is-selected " : "")}{(IsRowHeader ? "is-row-header " : "")}{(IsCheckVisible ? "is-check-visible " : "")}ms-DetailsRow")
-               AllowFocusRoot="true"
-               IsFocusable="true"
-               OnClick=@(args=> { })
-
-                  >
+                  AriaLabel=@AriaLabel
+                  AriaDescribedBy=@AriaDescribedBy
+                  ClassName=@($"fadeIn400 {(Compact ? "is-compact " : "")}{(isSelected ? "is-selected " : "")}{(IsRowHeader ? "is-row-header " : "")}{(IsCheckVisible ? "is-check-visible " : "")}ms-DetailsRow")
+                  AllowFocusRoot="true"
+                  IsFocusable="true"
+                  OnClick=@(args=> { })>
 
         @if (showCheckbox)
         {
@@ -33,29 +29,30 @@
                  @onclick="args => { }"
                  @onclick:stopPropagation="true">
                 <BFUDetailsRowCheck IsVisible=@(this.CheckboxVisibility == CheckboxVisibility.Always)
-                                 Compact=@Compact
-                                 Checked=@isSelected
-                                 UseFastIcons="true"
-                                 CanSelect=@canSelect />
+                                    Compact=@Compact
+                                    Checked=@isSelected
+                                    UseFastIcons="true"
+                                    CanSelect=@canSelect />
             </div>
         }
 
         <BFUGroupSpacer IndentWidth=@IndentWidth
-                     Count=@GroupNestingDepth />
+                        Count=@GroupNestingDepth />
 
         @if (Item != null)
         {
             <BFUDetailsRowFields Item=@Item
-                              Columns=@Columns
-                              ColumnStartIndex=@((showCheckbox ? 1 : 0)) />
+                                 Columns=@Columns
+                                 ColumnStartIndex=@((showCheckbox ? 1 : 0)) />
 
             @if (columnMeasureInfo != null)
             {
-                <span role="presentation" class="ms-DetailsRow-cellMeasurer ms-DetailsRow-cell">
+                <span role="presentation" 
+                      class="ms-DetailsRow-cellMeasurer ms-DetailsRow-cell"
+                      @ref="cellMeasurer">
                     <BFUDetailsRowFields Item=@Item
-                                      
-                                      Columns=@Columns
-                                      ColumnStartIndex=@((showCheckbox ? 1 : 0) + Columns.Count()) />
+                                         Columns=@Columns
+                                         ColumnStartIndex=@((showCheckbox ? 1 : 0) + Columns.Count()) />
                 </span>
             }
         }

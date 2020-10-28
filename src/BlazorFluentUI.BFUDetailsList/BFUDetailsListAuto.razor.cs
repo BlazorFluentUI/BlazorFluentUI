@@ -77,6 +77,12 @@ namespace BlazorFluentUI
         public EventCallback<ColumnResizedArgs<TItem>> OnColumnResized { get; set; }
 
         [Parameter]
+        public EventCallback<RowMountArgs<TItem>> OnRowDidMount { get; set; }
+
+        [Parameter]
+        public EventCallback<RowMountArgs<TItem>> OnRowWillUnmount { get; set; }
+
+        [Parameter]
         public RenderFragment<IndexedItem<TItem>>? RowTemplate { get; set; }
 
         [Parameter]
@@ -133,6 +139,8 @@ namespace BlazorFluentUI
         private IList<bool>? groupSortDescendingList;
         private DotNetObjectReference<BFUDetailsListAuto<TItem>> selfReference;
         private int _viewportRegistration;
+
+        private Dictionary<object, BFUDetailsRow<TItem>> _activeRows = new Dictionary<object, BFUDetailsRow<TItem>>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -709,6 +717,53 @@ namespace BlazorFluentUI
         private void OnColumnAutoResized(ItemContainer<BFUDetailsRowColumn<TItem>> itemContainer)
         {
             // TO-DO - will require measuring row cells, jsinterop
+            double max = 0;
+            int count = 0;
+            int totalCount = this._activeRows.Count;
+
+            foreach (var pair in this._activeRows) 
+            {
+                pair.Value.MeasureCell(itemContainer.Index, width =>
+                {
+                    max = Math.Max(max, width);
+                    count++;
+                    if (count == totalCount)
+                    {
+                        OnColumnResizedInternal(new ColumnResizedArgs<TItem>(itemContainer.Item, itemContainer.Index, max));
+                    }
+
+                });
+                //currentRow.measureCell(columnIndex, (width: number) => {
+                    //    max = Math.max(max, width);
+                    //    count++;
+                    //    if (count === totalCount)
+                    //    {
+                    //        this._onColumnResized(column, max, columnIndex);
+                    //    }
+                    //});
+            }
+        }
+
+        private void OnRowDidMountInternal(BFUDetailsRow<TItem> row)
+        {
+            var key = GetKey(row.Item);
+            if (_activeRows.ContainsKey(key))
+            {
+                _activeRows[key] = row;
+            }
+            else
+            {
+                _activeRows.Add(key, row);
+            }
+            OnRowDidMount.InvokeAsync(new RowMountArgs<TItem> { Row = row, Item = row.Item, Index = row.ItemIndex });
+        }
+
+        private void OnRowWillUnmountInternal(BFUDetailsRow<TItem> row)
+        {
+            var key = GetKey(row.Item);
+            _activeRows.Remove(key);
+
+            OnRowWillUnmount.InvokeAsync(new RowMountArgs<TItem> { Row = row, Item = row.Item, Index = row.ItemIndex });
         }
 
         public async ValueTask DisposeAsync()

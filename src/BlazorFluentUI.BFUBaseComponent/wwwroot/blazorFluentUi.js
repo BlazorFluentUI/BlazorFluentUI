@@ -3211,21 +3211,31 @@ var BlazorFluentUiDetailsList;
     BlazorFluentUiDetailsList.unregisterDetailsHeader = unregisterDetailsHeader;
     class DetailsHeader {
         constructor(dotNet, root) {
-            this._onRootMouseDown = (ev) => {
+            this._onRootMouseDown = (ev) => __awaiter(this, void 0, void 0, function* () {
                 const columnIndexAttr = ev.target.getAttribute('data-sizer-index');
                 const columnIndex = Number(columnIndexAttr);
                 if (columnIndexAttr === null || ev.button !== MOUSEDOWN_PRIMARY_BUTTON) {
                     // Ignore anything except the primary button.
                     return;
                 }
-                let promise = this.dotNet.invokeMethodAsync("OnSizerMouseDown", columnIndex, ev.clientX);
+                yield this.dotNet.invokeMethodAsync("OnSizerMouseDown", columnIndex, ev.clientX);
                 ev.preventDefault();
                 ev.stopPropagation();
-            };
+            });
+            this._onRootDblClick = (ev) => __awaiter(this, void 0, void 0, function* () {
+                const columnIndexAttr = ev.target.getAttribute('data-sizer-index');
+                const columnIndex = Number(columnIndexAttr);
+                if (columnIndexAttr === null || ev.button !== MOUSEDOWN_PRIMARY_BUTTON) {
+                    // Ignore anything except the primary button.
+                    return;
+                }
+                yield this.dotNet.invokeMethodAsync("OnDoubleClick", columnIndex);
+            });
             this.dotNet = dotNet;
             this.root = root;
             this.events = new BlazorFluentUiBaseComponent.EventGroup(this);
             this.events.on(root, 'mousedown', this._onRootMouseDown);
+            this.events.on(root, 'dblclick', this._onRootDblClick);
         }
         dispose() {
             this.events.dispose();

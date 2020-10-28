@@ -63,8 +63,6 @@ namespace BlazorFluentUI
         [Parameter]
         public int MinimumPixelsForDrag { get; set; }
 
-        
-
 
         [Parameter]
         public EventCallback<ItemContainer<BFUDetailsRowColumn<TItem>>> OnColumnAutoResized { get; set; }
@@ -126,6 +124,7 @@ namespace BlazorFluentUI
         private double resizeColumnOriginX;
 
         private DotNetObjectReference<BFUDetailsHeader<TItem>>? dotNetRef;
+        private ElementReference cellSizer;
 
         protected override Task OnInitializedAsync()
         {
@@ -162,7 +161,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 dotNetRef = DotNetObjectReference.Create(this);
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUiDetailsList.registerDetailsHeader", dotNetRef, RootElementReference);
+                //await JSRuntime!.InvokeVoidAsync("BlazorFluentUiDetailsList.registerDetailsHeader", dotNetRef, RootElementReference);
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -177,6 +176,12 @@ namespace BlazorFluentUI
             InvokeAsync(StateHasChanged);
         }
 
+        [JSInvokable]
+        public void OnDoubleClick(int columnIndex)
+        {
+            //System.Diagnostics.Debug.WriteLine("DoubleClick happened.");
+            OnColumnAutoResized.InvokeAsync(new ItemContainer<BFUDetailsRowColumn<TItem>> { Item = Columns.ElementAt(columnIndex), Index = columnIndex });
+        }
 
         private void OnSelectAllClicked(MouseEventArgs mouseEventArgs)
         {

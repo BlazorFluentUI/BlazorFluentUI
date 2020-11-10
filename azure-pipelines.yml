@@ -24,16 +24,20 @@ steps:
     version: '5.x'
     includePreviewVersions: false
 
-- task: NuGetCommand@2
+
+- task: DotNetCoreCLI@2
+  displayName: 'restore nugets'
   inputs:
-    restoreSolution: '$(solution)'
+    command: 'restore'
+    projects: '$(Build.SourcesDirectory)\**\*.sln'
+    feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
   inputs:
     command: 'build'
     projects: '**/*BlazorFluentUI.sln'
-    arguments: '-c Release'
+    arguments: '-c Release --no-restore'
 
 - task: DotNetCoreCLI@2
   displayName: 'Create NuGet package'

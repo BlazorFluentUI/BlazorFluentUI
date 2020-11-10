@@ -43,7 +43,7 @@ steps:
   displayName: 'Create NuGet package'
   inputs:
     command: 'pack'
-    packagesToPack: '**/*BlazorFluentUI.sln'
+    packagesToPack: '**/*.csproj;!**/*.Demo*.csproj'
     nobuild: true
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '4'

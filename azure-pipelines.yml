@@ -29,7 +29,7 @@ steps:
   displayName: 'restore nugets'
   inputs:
     command: 'restore'
-    projects: '$(Build.SourcesDirectory)\**\*.sln'
+    projects: '**/*BlazorFluentUI.sln'
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2

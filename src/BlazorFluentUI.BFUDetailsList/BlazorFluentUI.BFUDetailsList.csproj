@@ -9,6 +9,14 @@
     <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\detailsList.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\detailsList.ts" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />

@@ -9,17 +9,11 @@
     <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
   </PropertyGroup>
 
-  <ItemGroup>
-    <SupportedPlatform Include="browser" />
-  </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="src\**" />
-    <Content Remove="src\**" />
-    <EmbeddedResource Remove="src\**" />
-    <None Remove="src\**" />
-    <TypeScriptCompile Remove="src\**" />
+    <TypeScriptCompile Remove="wwwroot\focusZone.ts" />
   </ItemGroup>
+
 
   <ItemGroup>
     <None Include="wwwroot\focusZone.ts" />
@@ -55,12 +49,5 @@
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
   </PropertyGroup>
-
-
-  <!--<ItemGroup>
-    <Content Include="..\BlazorFluentUI.BFUBaseComponent\tsconfig.json">
-
-    </Content>
-  </ItemGroup>-->
 
 </Project>

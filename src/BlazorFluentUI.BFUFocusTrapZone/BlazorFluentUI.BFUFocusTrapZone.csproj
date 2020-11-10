@@ -9,6 +9,14 @@
     <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <TypeScriptCompile Remove="wwwroot\focusTrapZone.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\focusTrapZone.ts" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />
@@ -24,7 +32,7 @@
   </ItemGroup>
 
 
-  <PropertyGroup >
+  <PropertyGroup>
     <TypeScriptTarget>ES2015</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptModuleKind>ES6</TypeScriptModuleKind>

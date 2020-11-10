@@ -5,6 +5,14 @@
     <nullable>enable</nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <TypeScriptCompile Remove="wwwroot\slider.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\slider.ts" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />

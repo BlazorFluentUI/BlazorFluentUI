@@ -46,11 +46,13 @@ steps:
     versioningScheme: 'byEnvVar'
     versionEnvVar: 'Version'
 
-- task: DotNetCoreCLI@2
+- task: NuGetCommand@2
   displayName: 'Push NuGet Packages'
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'Nuget-BlazorFluentUI'
-
+    includeNuGetOrg: true
+    feedsToUse: select
+    

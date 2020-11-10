@@ -1,0 +1,11 @@
+﻿.ms-ChoiceFieldGroup {
+    font-size: var(--fontStyle-FontSize-Medium);
+    font-weight: var(--fontStyle-FontWeight-Regular);
+    display: block;
+}
+
+.ms-ChoiceFieldGroup-flexContainer.flex-direction-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

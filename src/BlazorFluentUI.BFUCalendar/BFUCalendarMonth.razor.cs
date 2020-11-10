@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -73,6 +74,15 @@ namespace BlazorFluentUI
             else if (OnHeaderSelect.HasDelegate) 
             {
                 return OnHeaderSelect.InvokeAsync(true);
+            }
+            return Task.CompletedTask;
+        }
+
+        protected Task OnHeaderKeyDownInternal(KeyboardEventArgs keyboardEventArgs)
+        {
+            if (keyboardEventArgs.Key == "Enter" || keyboardEventArgs.Key == " ")
+            {
+                OnHeaderSelectInternal();
             }
             return Task.CompletedTask;
         }

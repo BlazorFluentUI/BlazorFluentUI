@@ -1,0 +1,74 @@
+﻿.ms-Persona {
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--semanticTextColors-BodyText);
+    position: relative;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+}
+
+
+.ms-Persona-details {
+    padding: 0 24px 0 16px;
+    min-width: 0;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+.ms-Persona-primaryText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--semanticTextColors-BodyText);
+    font-weight: var(--fontWeight-Regular);
+    font-size: var(--fontSize-Medium);
+}
+
+
+    .ms-Persona-primaryText:hover {
+        color: var(--semanticTextColors-InputTextHovered);
+    }
+
+
+.ms-Persona-secondaryText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--semanticTextColors-BodySubtext);
+    font-weight: var(--fontWeight-Regular);
+    font-size: var(--fontSize-Small);
+}
+
+
+.ms-Persona-tertiaryText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--semanticTextColors-BodySubtext);
+    font-weight: var(--fontWeight-Regular);
+    font-size: var(--fontSize-Small);
+}
+
+.ms-Persona-optionalText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--semanticTextColors-BodySubtext);
+    font-weight: var(--fontWeight-Regular);
+    font-size: var(--fontSize-Small);
+}
+
+
+.ms-Persona-textContent {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

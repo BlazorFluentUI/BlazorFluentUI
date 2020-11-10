@@ -7,7 +7,7 @@
         </div>
 
         <BFUDropdown ItemsSource=@selectionModeOptions
-                  @bind-SelectedOption=selectedModeOption                  
+                  @bind-SelectedOption=SelectedModeOption                  
                   Style="max-width:300px;">
         </BFUDropdown>
 
@@ -16,38 +16,46 @@
 
         <BFULabel>Virtualized List with selection modes</BFULabel>
         
-        
-        <BFUSelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
-                       @bind-Selection="selection"
-                       @ref="selectionZone">
-            <BFUFocusZone Style="height:100%;overflow-y:hidden;">
-                <BFUList ItemsSource=@data
-                                   TItem="DataItem">
-                    <ItemTemplate>
+        <div data-is-scrollable="true" style="overflow-y:auto;height:100%;">
 
-                        <div style="display:flex; flex-direction:row;" 
-                             class=@($"ms-List-cell-default{(selection.SelectedItems.Contains(context)?" is-selected":"")}")
-                             data-is-focusable="true"
-                             @onclick=@(()=> {
-                                            selectionZone.HandleClick(context);
-                                            DebugText = context.Key + " clicked";
+            <BFUSelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key))
+                              Selection=@selection
+                              TItem="DataItem"
+                              @ref="selectionZone">
+                <BFUFocusZone>
+                    <BFUList ItemsSource=@data
+                             TItem="DataItem">
+                        <ItemTemplate>
+
+                            <div style="display:flex; flex-direction:row;"
+                                 data-selection-index=@context.Index
+                                 class=@($"ms-List-cell-default{(selection.IsKeySelected(context.Item.Key) ? " is-selected":"")}")
+                                 data-is-focusable="true"
+                                 @onclick=@(()=> {
+
+                                            //selectionZone.HandleClick(context);
+                                            DebugText = context.Item.Key + " clicked";
                                         })>
-                            <img height="25" width="25" src=@context.ImgUrl />
-                            <em>This is item #@context.Key.</em>
-                            <span style="margin-left:10px;">@context.DisplayName</span>
-                        </div>
-                    </ItemTemplate>
-                </BFUList>
+                                <img height="25" width="25" src=@context.Item.ImgUrl />
+                                <em>This is item #@context.Item.Key</em>
+                                <span style="margin-left:10px;">@context.Item.DisplayName</span>
+                            </div>
+                        </ItemTemplate>
+                    </BFUList>
 
-            </BFUFocusZone>
-        </BFUSelectionZone>
+                </BFUFocusZone>
+            </BFUSelectionZone>
+        </div>
     </BFUStack> 
 
 @code {
     int count = 0;
-    System.Collections.ObjectModel.ObservableCollection<DataItem> data;
+    System.Collections.ObjectModel.RangeObservableCollection<DataItem> data;
     string DebugText = "";
-    IBFUDropdownOption selectedModeOption;
+
+    private IBFUDropdownOption selectedModeOption;
+    IBFUDropdownOption SelectedModeOption { get => selectedModeOption; set { selectedModeOption = value; this.selection.SelectionMode = (SelectionMode)Enum.Parse(typeof(SelectionMode), value.Key); } }
+
     List<IBFUDropdownOption> selectionModeOptions;
 
     Selection<DataItem> selection = new Selection<DataItem>();
@@ -55,7 +63,10 @@
 
     protected override Task OnInitializedAsync()
     {
-        data = new System.Collections.ObjectModel.ObservableCollection<DataItem>();
+        data = new System.Collections.ObjectModel.RangeObservableCollection<DataItem>();
+        selection.GetKey = (item) => item.Key;
+        selection.SetItems(data);
+        selection.SelectionChanged.Subscribe(_ => InvokeAsync(StateHasChanged));
 
         selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()
             .Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() })
@@ -69,27 +80,32 @@
 
     Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
+        
         System.Diagnostics.Debug.WriteLine("Clicked!");
         for (var i = 0; i < 10; i++)
         {
             count++;
             data.Add(new DataItem(count));
         }
+        selection.SetItems(data);
         System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
         return Task.CompletedTask;
     }
 
     Task ClickHandler2(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
-        //var tempData = new System.Collections.Generic.List<DataItem>();
+        var tempData = new System.Collections.Generic.List<DataItem>();
         System.Diagnostics.Debug.WriteLine("Clicked!");
         for (var i = 0; i < 5000; i++)
         {
             count++;
 
-            data.Add(new DataItem(count));
+            tempData.Add(new DataItem(count));
         }
+        data.AddRange(tempData);
+        selection.SetItems(data);
         //data = new System.Collections.ObjectModel.ObservableCollection<DataItem>(tempData);
+
         System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
         return Task.CompletedTask;
     }
@@ -102,6 +118,7 @@
             count++;
             data.Add(new DataItem(count));
         }
+        selection.SetItems(data);
         System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
         return Task.CompletedTask;
     }

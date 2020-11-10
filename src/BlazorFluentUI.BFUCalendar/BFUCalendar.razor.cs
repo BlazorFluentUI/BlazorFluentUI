@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCalendar : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUCalendar : BFUComponentBase
     {
         [Parameter] public bool AllFocusable { get; set; } = false;
         [Parameter] public bool AutoNavigateOnSelection { get; set; } = false;
@@ -38,6 +40,14 @@ namespace BlazorFluentUI
         [Parameter] public List<DayOfWeek> WorkWeekDays { get; set; } = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
         [Parameter] public bool YearPickerHidden { get; set; } = false;
 
+        [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
+
+        private FieldIdentifier FieldIdentifier;
+
+        [Parameter]
+        public Expression<Func<DateTime>>? ValueExpression { get; set; }
+
+
         protected DateTime CurrentDate;
 
         protected DateTime SelectedDate;
@@ -56,6 +66,20 @@ namespace BlazorFluentUI
         
         protected override Task OnParametersSetAsync()
         {
+            if (CascadedEditContext != null && ValueExpression != null)
+            {
+                //if (ValueExpression == null)
+                //{
+                //    throw new InvalidOperationException($"{GetType()} requires a value for the 'ValueExpression' " +
+                //        $"parameter. Normally this is provided automatically when using 'bind-Value'.");
+                //}
+                FieldIdentifier = FieldIdentifier.Create<DateTime>(ValueExpression);
+
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+
+                CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
+            }
+
             if (!isLoaded)
             {
                 if (Value != DateTime.MinValue)
@@ -87,6 +111,11 @@ namespace BlazorFluentUI
             }
 
             return base.OnParametersSetAsync();
+        }
+
+        private void CascadedEditContext_OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+        {
+            InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
         }
 
         public override Task SetParametersAsync(ParameterView parameters)
@@ -138,6 +167,7 @@ namespace BlazorFluentUI
         protected async Task OnSelectDateInternal(SelectedDateResult result)
         {
             SelectedDate = result.Date;
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
             await OnSelectDate.InvokeAsync(result);
             await ValueChanged.InvokeAsync(result.Date);
             await RangeChanged.InvokeAsync(result.SelectedDateRange);
@@ -204,9 +234,6 @@ namespace BlazorFluentUI
             NavigatedMonthDate = date;
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            return CalendarStyle.GetCalendarStyle(theme);
-        }
+    
     }
 }

@@ -6,29 +6,38 @@
 @using System.Reactive.Linq
 @using System.Reactive.Subjects
 
-    <BFUStack Style="height:100%;">
-        <h3>DetailsList</h3>
-        <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
-            <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
-            <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
-            <BFUDropdown ItemsSource=@selectionModeOptions
-                         @bind-SelectedOption=selectedModeOption
-                         Style="max-width:300px;">
-            </BFUDropdown>
-        </BFUStack>
-        <BFUTextField Label="Filter Description"
-                   @bind-Value=@dataContainer.Filter
-                   @bind-Value:event="OnInput"/>
-
-        <BFUDetailsList ItemsSource="ReadonlyList"
-                        IsVirtualizing="isVirtualizing"
-                        Compact="isCompact"
-                        Columns="ReadonlyColumns"
-                        LayoutMode="DetailsListLayoutMode.Justified"
-                        @bind-Selection="selection"
-                        SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
-                        />
+<BFUStack Style="height:100%;">
+    <h3>DetailsList</h3>
+    <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
+        <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+        <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+        <BFUDropdown ItemsSource=@selectionModeOptions
+                     @bind-SelectedOption=selectedModeOption
+                     Style="max-width:300px;">
+        </BFUDropdown>
     </BFUStack>
+    <BFUTextField Label="Filter Description"
+                  @bind-Value=@dataContainer.Filter
+                  @bind-Value:event="OnInput" />
+        <div data-is-scrollable="true"
+             style="height:100%;overflow-y:auto;">
+            @if (ReadonlyList != null)
+            {
+                <BFUDetailsList ItemsSource="ReadonlyList"
+                                IsVirtualizing="isVirtualizing"
+                                Compact="isCompact"
+                                Columns="ReadonlyColumns"
+                                GetKey=@(item => item.Key)
+                                LayoutMode="DetailsListLayoutMode.Justified"
+                                Selection="selection"
+                                SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key)) />
+            }
+            else
+            {
+                @("Loading...")
+            }
+        </div>
+</BFUStack>
 
 @code {
 
@@ -36,7 +45,7 @@
     // https://developer.microsoft.com/en-us/fluentui#/controls/web/detailslist for examples of how to use DetailsList
     // other ways.
 
-    bool isVirtualizing = false;
+    bool isVirtualizing = true;
     bool isCompact = false;
     IBFUDropdownOption selectedModeOption;
     List<IBFUDropdownOption> selectionModeOptions;
@@ -65,8 +74,8 @@
         public bool Descending { get => descending; set => SetAndRaise(ref descending, value); }
 
         // When you click a column, we change this so DynamicData can know which property to sort by.
-        private Func<DataItem, IComparable> sortSelector = x=>x.KeyNumber;
-        public Func<DataItem, IComparable> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
+        private Func<DataItem, object> sortSelector = x=>x.KeyNumber;
+        public Func<DataItem, object> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
 
         // This is an observable that is similar to the above callback, just in observable form.  This tells us when and how to change filtering.
         public IObservable<Func<DataItem, bool>> DynamicDescriptionFilter { get; private set; }
@@ -81,8 +90,8 @@
             // Throttle is an operator that limits how often the observable is fired.  This is useful when you type so the filter 
             // observable doesn't fire every time you hit a key.  This requires threading to work smoothly so doesn't work well
             // in client-side blazor yet.
-            DynamicDescriptionFilter = this.WhenValueChanged(@this => @this.Filter)
-                //.Throttle(TimeSpan.FromMilliseconds(250))  //this freezes the ui in wasm since there are no threads
+            DynamicDescriptionFilter = this.WhenValueChanged(@this => @this.Filter).Throttle(TimeSpan.FromMilliseconds(250), System.Reactive.Concurrency.TaskPoolScheduler.Default)
+                //.Throttle(TimeSpan.FromMilliseconds(250))  //this freezes the ui in wasm since threads are not working well yet
                 .Select<string, Func<DataItem, bool>>(f => item => item.Description.Contains(f));
 
             // DynamicData requires a specific expression for sorting.  This is where the expression is created.  The SortSelector 
@@ -93,21 +102,25 @@
 
                 if (isDescending)
                 {
-                    return SortExpressionComparer<DataItem>.Descending(selector);
+                    return SortExpressionComparer<DataItem>.Descending(selector.ConvertToIComparable());
                 }
                 else
                 {
-                    return SortExpressionComparer<DataItem>.Ascending(selector);
+                    return SortExpressionComparer<DataItem>.Ascending(selector.ConvertToIComparable());
                 }
             });
 
+
             // We create the IsFiltered observable here.  Basically, when the Filter property is changed, fire the IsFiltered observable.
-            IsFiltered = this.WhenValueChanged(@this => @this.Filter).Select(x => !string.IsNullOrWhiteSpace(x));
+            IsFiltered = this.WhenValueChanged(@this => @this.Filter).Throttle(TimeSpan.FromMilliseconds(250), System.Reactive.Concurrency.TaskPoolScheduler.Default).Select(x =>
+            {
+                return !string.IsNullOrWhiteSpace(x);
+            });
         }
     }
 
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()
            .Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() })
@@ -115,50 +128,56 @@
            .ToList();
         selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Single");
 
-        // We load the column data into the columnsSource SourceCache.
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index=0, OnColumnClick = this.OnColumnClick, IsResizable = true });
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable=true });
-        var descColumn = new BFUDetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
-        columnsSource.AddOrUpdate(descColumn);
-
-        // We're loading our sample data into the dataSource SourceCache.
-        for (var i = 0; i < 100; i++)
+        await Task.Run(() =>
         {
-            count++;
-            dataSource.AddOrUpdate(new DataItem(count));
-        }
-
-        // We subscribe to the IsFiltered observable so that we know when to mark the description column with a Filter icon.  
-        // All we have to do is change the column class and use the AddOrUpdate method on the SourceCache.  DynamicData will
-        // automatically change the contents and notify anything that is watching that list.
-        dataContainer.IsFiltered.Subscribe(isFiltered =>
-        {
-            descColumn.IsFiltered = isFiltered;
+            // We load the column data into the columnsSource SourceCache.
+            columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick, IsResizable = true });
+            columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+            var descColumn = new BFUDetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
             columnsSource.AddOrUpdate(descColumn);
+
+            // We're loading our sample data into the dataSource SourceCache.
+            for (var i = 0; i < 100; i++)
+            {
+                
+                count++;
+                dataSource.AddOrUpdate(new DataItem(count));
+            }
+
+            // We subscribe to the IsFiltered observable so that we know when to mark the description column with a Filter icon.  
+            // All we have to do is change the column class and use the AddOrUpdate method on the SourceCache.  DynamicData will
+            // automatically change the contents and notify anything that is watching that list.
+            dataContainer.IsFiltered.Subscribe(isFiltered =>
+            {
+                descColumn.IsFiltered = isFiltered;
+                //InvokeAsync(StateHasChanged);
+                columnsSource.AddOrUpdate(descColumn);
+            });
+
+            
+
+            // This is the meat of DynamicData.  We connect to the data SourceCache, apply the Filter (which is dynamic), 
+            // apply the Sort expression (which is also dynamic), and Bind it to a readonly list property.  This is what we're
+            // going to display in the DetailsList.  It will update automatically which any changes we make.  Since DynamicData is 
+            // based on ReactiveExtensions, we have to Subscribe to it to make it "do stuff".
+            dataSource.Connect()
+                    .Filter(dataContainer.DynamicDescriptionFilter)
+                    .Sort(dataContainer.DynamicSortExpression)
+                    .Bind(out ReadonlyList)
+                    .Subscribe();
+
+            // Likewise, we connect to the column SourceCache.  This lets us make a change in one column and everything gets updated 
+            // automatically.  We also have a Do operator in there that calls a StateHasChanged whenever the contents are changed or if
+            // the Sort expression changes.
+            columnsSource.Connect()
+                .Sort(SortExpressionComparer<BFUDetailsRowColumn<DataItem>>.Ascending(x => x.Index))
+                .Bind(out ReadonlyColumns)
+                .Do(_ => InvokeAsync(StateHasChanged))  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
+                .Subscribe();
         });
 
-        // This is the meat of DynamicData.  We connect to the data SourceCache, apply the Filter (which is dynamic), 
-        // apply the Sort expression (which is also dynamic), and Bind it to a readonly list property.  This is what we're
-        // going to display in the DetailsList.  It will update automatically which any changes we make.  Since DynamicData is 
-        // based on ReactiveExtensions, we have to Subscribe to it to make it "do stuff".
-        dataSource.Connect()
-                .Filter(dataContainer.DynamicDescriptionFilter)
-                .Sort(dataContainer.DynamicSortExpression)
-                .Bind(out ReadonlyList)
-                .Subscribe();
 
-        // Likewise, we connect to the column SourceCache.  This lets us make a change in one column and everything gets updated 
-        // automatically.  We also have a Do operator in there that calls a StateHasChanged whenever the contents are changed or if
-        // the Sort expression changes.
-        columnsSource.Connect()
-            .Sort(SortExpressionComparer<BFUDetailsRowColumn<DataItem>>.Ascending(x=>x.Index))
-            .Bind(out ReadonlyColumns)
-            .Do(_ => StateHasChanged())  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
-            .Subscribe();
-
-
-
-        base.OnInitialized();
+        await base.OnInitializedAsync();
     }
 
     // This callback is fired when a column header is clicked.  We go through each column item and change their sort properties.

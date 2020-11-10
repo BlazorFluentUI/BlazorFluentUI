@@ -1,0 +1,342 @@
+﻿
+.ms-Slider {
+    font-size: var(--fontSize.Medium);
+    font-weight: var(--fontWeight.Regular);
+    user-select: none;
+}
+    .ms-Slider.ms-Slider-column {
+        margin-right: 8px;
+    }
+
+.ms-Slider-titleLabel {
+    padding: 0;
+}
+.ms-Slider-column {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+    .ms-Slider-column .ms-Slider-container {
+        flex-direction: column;
+        height: 100%;
+        text-align: center;
+        margin: 8px 0;
+    }
+
+
+.ms-Slider-slideBox {
+    outline: transparent;
+    position:relative;
+    background: transparent;
+    border: none;
+    flex-grow: 1;
+    line-height: 28;
+    display: flex;
+    align-items: center;
+}
+.ms-Slider::-moz-focus-inner{
+    border:0;
+}
+.ms-Fabric--isFocusVisible .ms-Slider-slideBox:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+.ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-active {
+    background-color: var(--semanticColors-InputBackgroundCheckedHovered);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-active {
+        background-color: Highlight;
+    }
+}
+.ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-active {
+    background-color: var(--semanticColors-InputBackgroundChecked);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-active {
+        background-color: Highlight;
+    }
+}
+
+
+.ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-inactive {
+    background-color: var(--semanticColors-InputPlaceholderBackgroundChecked);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-inactive {
+        background-color: Highlight;
+    }
+}
+
+.ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-inactive {
+    background-color: var(--semanticColors-InputPlaceholderBackgroundChecked);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-inactive {
+        background-color: Highlight;
+    }
+}
+
+
+.ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-thumb {
+    border: 2px solid var(--semanticColors-InputBackgroundCheckedHovered);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-thumb {
+        border-color: Highlight;
+    }
+}
+
+.ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-thumb {
+    border: 2px solid var(--semanticColors-InputBackgroundCheckedHovered);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-thumb {
+        border-color: Highlight;
+    }
+}
+
+
+.ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-zeroTick {
+    background-color: var(--semanticColors-InputPlaceholderBackgroundChecked);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-zeroTick {
+        background-color: Highlight;
+    }
+}
+
+.ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-zeroTick {
+    background-color: var(--semanticColors-InputPlaceholderBackgroundChecked);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-zeroTick {
+        background-color: Highlight;
+    }
+}
+
+
+
+
+.ms-Slider-column .ms-Slider-slideBox {
+    outline:transparent;
+    position:relative;
+    height: 100%;
+    width: 28px;
+    padding: 8px 0;
+}
+
+
+.ms-Slider-row .ms-Slider-slideBox {
+    outline: transparent;
+    position: relative;
+    height: 28px;
+    width: auto;
+    padding: 0 8px;
+}
+
+
+.ms-Slider-thumb {
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--semanticColors-SmallInputBorder);
+    border-radius: 10px;
+    box-sizing: border-box;
+    background: var(--semanticColors-InputBackground);
+    display: block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+}
+.ms-Slider-column .ms-Slider-thumb {
+    left: -6px;
+    margin: 0 auto;
+    transform: translateY(8px);
+}
+.ms-Slider-row .ms-Slider-thumb {
+    top: -6px;
+    transform: translateX(-50%);
+    /*skip RTL */
+}
+
+
+.ms-Slider-row .ms-Slider-showTransitions .ms-Slider-thumb {
+    transition: left var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+
+.ms-Slider-column .ms-Slider-showTransitions .ms-Slider-thumb {
+    transition: bottom var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+
+
+.ms-Slider-disabled .ms-Slider-thumb {
+    border-color: var(--semanticColors-DisabledBorder);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-disabled .ms-Slider-thumb {
+        border-color: GrayText;
+    }
+}
+
+
+
+.ms-Slider-line {
+    display: flex;
+    position: relative;
+}
+
+.ms-Slider-column .ms-Slider-line {
+    height: 100%;
+    width: 4px;
+    margin: 0 auto;
+    flex-direction: column-reverse;
+}
+.ms-Slider-row .ms-Slider-line {
+    width:100%;
+}
+
+
+
+
+.ms-Slider-lineContainer {
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.ms-Slider-column .ms-Slider-lineContainer {
+    height: 100%;
+    width: 4px;
+}
+.ms-Slider-row .ms-Slider-lineContainer {
+    height: 4px;
+    width: 100%;
+}
+
+
+
+.ms-Slider-active {
+    background: var(--semanticColors-SmallInputBorder);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-active {
+        background-color: WindowText;
+    }
+}
+
+.ms-Slider-row .ms-Slider-showTransitions .ms-Slider-active {
+    transition: width var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+
+.ms-Slider-column .ms-Slider-showTransitions .ms-Slider-active {
+    transition: height var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+
+.ms-Slider-disabled .ms-Slider-active {
+    background: var(--semanticTextColors-DisabledText);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-disabled .ms-Slider-active {
+        background-color: GrayText;
+        border-color: GrayText;
+    }
+}
+
+
+
+
+.ms-Slider-inactive {
+    background: var(--semanticColors-DisabledBorder);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-inactive {
+        border: 1px solid WindowText;
+    }
+}
+
+.ms-Slider-row .ms-Slider-showTransitions .ms-Slider-inactive {
+    transition: width var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+.ms-Slider-column .ms-Slider-showTransitions .ms-Slider-inactive {
+    transition: height var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+
+.ms-Slider-disabled .ms-Slider-inactive {
+    background: var(--semanticColors-DisabledBackground);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-disabled .ms-Slider-inactive {
+        border-color: GrayText;
+    }
+}
+
+
+
+.ms-Slider-zeroTick {
+    position: absolute;
+    background: var(--semanticColors-DisabledBorder);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-zeroTick {
+        background-color: WindowText;
+    }
+}
+
+.ms-Slider-disabled .ms-Slider-zeroTick {
+    background: var(--semanticColors-DisabledBackground);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-disabled .ms-Slider-zeroTick {
+        background-color: GrayText;
+    }
+}
+
+.ms-Slider-column .ms-Slider-zeroTick {
+    width: 16px;
+    height: 1px;
+    transform: translateX(-6px); 
+    /*skip RTL*/
+}
+
+.ms-Slider-row .ms-Slider-zeroTick {
+    width: 1px;
+    height: 16px;
+    transform: translateY(-6px);
+}
+
+
+
+::deep .ms-Slider-value {
+    flex-shrink: 1;
+    width: 30px;
+    line-height: 1;
+}
+.ms-Slider-column ::deep .ms-Slider-value {
+    margin: 0 auto;
+    white-space: nowrap;
+    width: 40px;
+}
+.ms-Slider-row ::deep .ms-Slider-value {
+    margin: 0 8px;
+    white-space: nowrap;
+    width: 40px;
+}
+

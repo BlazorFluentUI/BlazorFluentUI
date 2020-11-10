@@ -1,15 +1,17 @@
 ﻿using BlazorFluentUI.BFUDropdownInternal;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDropdown : BFUResponsiveComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUDropdown : BFUResponsiveComponentBase
     {
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public IEnumerable<string>? DefaultSelectedKeys { get; set; }
@@ -36,6 +38,15 @@ namespace BlazorFluentUI
 
         [Inject]
         private IJSRuntime? jSRuntime { get; set; }
+
+        [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
+
+        private FieldIdentifier FieldIdentifier;
+
+        [Parameter]
+        public Expression<Func<IBFUDropdownOption>>? SelectedOptionExpression { get; set; }
+        [Parameter]
+        public Expression<Func<IEnumerable<IBFUDropdownOption>>>? SelectedOptionsExpression { get; set; }
 
         protected bool isOpen { get; set; }
 
@@ -68,6 +79,7 @@ namespace BlazorFluentUI
             return base.OnInitializedAsync();
         }
 
+
         protected override void OnThemeChanged()
         {
             SetStyle();
@@ -79,17 +91,15 @@ namespace BlazorFluentUI
             SelectedOptions = Enumerable.Empty<IBFUDropdownOption>();
             //SelectedKey = null;
 
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+
             if (MultiSelect)
             {
-                //if (SelectedKeysChanged.HasDelegate)
-                //    SelectedKeysChanged.InvokeAsync(SelectedKeys);
                 if (SelectedOptionsChanged.HasDelegate)
                     SelectedOptionsChanged.InvokeAsync(SelectedOptions);
             }
             else
             {
-                //if (SelectedKeyChanged.HasDelegate)
-                //    SelectedKeyChanged.InvokeAsync(SelectedKey);
                 if (SelectedOptionChanged.HasDelegate)
                     SelectedOptionChanged.InvokeAsync(SelectedOption);
             }
@@ -102,6 +112,8 @@ namespace BlazorFluentUI
             var option = ItemsSource.FirstOrDefault(x => x.Key == key);
             if (option == null)
                 return;
+
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {                
@@ -116,16 +128,6 @@ namespace BlazorFluentUI
                 if (SelectedOptionsChanged.HasDelegate)
                     SelectedOptionsChanged.InvokeAsync(SelectedOptions);
 
-                //if (SelectedKeys.Contains(key))
-                //    throw new Exception("This key was already selected.");
-
-                //if (OnChange.HasDelegate)
-                //    OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, true));
-
-                //SelectedKeys.Add(key);
-
-                //if (SelectedKeysChanged.HasDelegate)
-                //    SelectedKeysChanged.InvokeAsync(SelectedKeys);
             }
             else
             {
@@ -138,15 +140,6 @@ namespace BlazorFluentUI
                         SelectedOptionChanged.InvokeAsync(SelectedOption);
                 }
                 isOpen = false;
-                //if (SelectedKey!= key)
-                //{
-                //    SelectedKey = key;
-                //    if (OnChange.HasDelegate)
-                //        OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, true));
-                //    if (SelectedKeyChanged.HasDelegate)
-                //        SelectedKeyChanged.InvokeAsync(SelectedKey);
-                //}
-                //isOpen = false;
             }
             StateHasChanged();
         }
@@ -156,6 +149,8 @@ namespace BlazorFluentUI
             var option = ItemsSource.FirstOrDefault(x => x.Key == key);
             if (option == null)
                 return;
+
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {
@@ -170,18 +165,6 @@ namespace BlazorFluentUI
                 if (SelectedOptionsChanged.HasDelegate)
                     SelectedOptionsChanged.InvokeAsync(SelectedOptions);
 
-
-                //if (!SelectedKeys.Contains(key))
-                //    throw new Exception("This key was not already selected.");
-
-                //if (OnChange.HasDelegate)
-                //    OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, false));
-
-                //SelectedKeys.Remove(key);  //this used to be following the next command.  A bug?  I moved it here...
-
-                //if (SelectedKeysChanged.HasDelegate)
-                //    SelectedKeysChanged.InvokeAsync(SelectedKeys);
-
             }
             else
             {
@@ -194,15 +177,7 @@ namespace BlazorFluentUI
                     if (SelectedOptionChanged.HasDelegate)
                         SelectedOptionChanged.InvokeAsync(SelectedOption);
                 }
-                //if (SelectedKey != null)
-                //{
-                //    SelectedKey = null;
-                //    if (OnChange.HasDelegate)
-                //        OnChange.InvokeAsync(new BFUDropdownChangeArgs(key, false));
 
-                //    if (SelectedKeyChanged.HasDelegate)
-                //        SelectedKeyChanged.InvokeAsync(SelectedKey);
-                //}
             }
             StateHasChanged();
         }
@@ -226,9 +201,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 GetDropdownBounds();
-                //dropDownBounds = await this.GetBoundsAsync();
-                //firstRender = false;
-                //StateHasChanged();
+
             }
             if (isOpen && _registrationToken == null)
                 _ = RegisterListFocusAsync();
@@ -270,6 +243,23 @@ namespace BlazorFluentUI
                     builder.CloseComponent();
                 };
             }
+
+            if (CascadedEditContext != null && (SelectedOptionExpression != null || SelectedOptionsExpression != null))
+            {
+                if (SelectedOptionExpression != null)
+                    FieldIdentifier = FieldIdentifier.Create<IBFUDropdownOption>(SelectedOptionExpression);
+                else
+                    FieldIdentifier = FieldIdentifier.Create<IEnumerable<IBFUDropdownOption>>(SelectedOptionsExpression);
+
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+
+                CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
+            }
+        }
+
+        private void CascadedEditContext_OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+        {
+            InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
         }
 
         private async Task RegisterListFocusAsync()
@@ -370,540 +360,7 @@ namespace BlazorFluentUI
 
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var dropdownRules = new HashSet<IRule>();
-            #region Root
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown" },
-                Properties = new CssString()
-                {
-                    Css = $"box-shadow:none;"+
-                          $"margin:0;"+
-                          $"padding:0;"+
-                          $"box-sizing:border-box;"+
-                          $"font-size:{theme.FontStyle.FontSize.Medium};"+
-                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
-                          $"color:{theme.SemanticTextColors.MenuItemText};" +
-                          $"border-color:{theme.SemanticColors.FocusBorder};"+
-                          $"position:relative;"+
-                          $"outline:0;"+
-                          $"user-select:none;"
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:focus:after" },
-                Properties = new CssString()
-                {
-                    Css = $"pointer-events:none;" +
-                         $"content:'';" +
-                         $"position:absolute;" +
-                         $"box-sizing:border-box;" +
-                         $"top:0;" +
-                         $"left:0;" +
-                         $"width:100%;" +
-                         $"height:100%;" +
-                         $"border:2px solid {theme.Palette.ThemePrimary};" +
-                         $"border-radius:2px;"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-disabled:focus:after" },
-                Properties = new CssString()
-                {
-                    Css = $"border:none;"
-                }
-            });
-
-            #endregion
-            #region Title
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"box-shadow:none;" +
-                          $"margin:0;" +
-                          $"padding:0;" +
-                          $"box-sizing:border-box;" + 
-                          $"background-color:{theme.SemanticColors.InputBackground};" +
-                          $"border-width:1px;" +
-                          $"border-style:solid;" +
-                          $"border-color:{theme.SemanticColors.InputBorder};" +
-                          $"border-radius:{theme.Effects.RoundedCorner2};"+  //local style when is-open
-                          $"cursor:pointer;"+
-                          $"display:block;"+
-                          $"height:32px;"+
-                          $"line-height:30px;"+
-                          $"padding:0 28px 0 8px;"+
-                          $"position:relative;" +
-                          $"overflow:hidden;" +
-                          $"white-space:nowrap;" +
-                          $"text-overflow:ellipsis;"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-open .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.Palette.ThemePrimary};" 
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-placeholder .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.InputPlaceholderText};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-error .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.Palette.Red};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-error.is-open .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.Palette.RedDark};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-disabled .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"background-color:{theme.SemanticColors.DisabledBackground};"+
-                          $"border:none;"+
-                          $"color:{theme.Palette.NeutralTertiary};"+
-                          $"cursor:default;"
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:hover .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.Palette.NeutralPrimary};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-open:hover .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.Palette.NeutralSecondary};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):hover .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};"
-                }
-            });
-
-            //dropdownRules.Add(new Rule()
-            //{
-            //    Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:focus .ms-Dropdown-title" },
-            //    Properties = new CssString()
-            //    {
-            //        Css = $"border-color:{theme.Palette.NeutralPrimary};"
-            //    }
-            //});
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):focus .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};"
-                }
-            });
-
-           
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:active .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:{theme.Palette.ThemePrimary};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):active .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};"
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):hover .ms-Dropdown-caretDown" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):focus .ms-Dropdown-caretDown" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown:not(.is-disabled):active .ms-Dropdown-caretDown" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-placeholder:not(.is-disabled):hover .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-placeholder:not(.is-disabled):focus .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-placeholder:not(.is-disabled):active .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemText};"
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-error:hover .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.ErrorText};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-error:focus .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.ErrorText};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.has-error:active .ms-Dropdown-title" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.ErrorText};"
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-required:not(.has-label):after" },
-                Properties = new CssString()
-                {
-                    Css = $"content:'*';"+
-                          $"color:{theme.SemanticTextColors.ErrorText};"+
-                          $"position:absolute;"+
-                          $"top:-5px;"+
-                          $"right:-10px;"
-                }
-            });
-            #endregion
-            #region CaretDownWrapper
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-caretDownWrapper" },
-                Properties = new CssString()
-                {
-                    Css = $"position:absolute;" +
-                          $"top:1px;" +
-                          $"right:8px;"+
-                          $"height:32px;"+
-                          $"line-height:30px;"+
-                          $"cursor:pointer;"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-disabled .ms-Dropdown-caretDownWrapper" },
-                Properties = new CssString()
-                {
-                    Css = $"cursor:default;"
-                }
-            });
-            #endregion
-            #region CaretDown
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-caretDown" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.Palette.NeutralSecondary};" +
-                          $"font-size:{theme.FontStyle.FontSize.Small};" +
-                          $"pointer-events:none;"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown.is-disabled .ms-Dropdown-caretDown" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.Palette.NeutralTertiary};"
-                }
-            });
-            #endregion
-            #region ErrorMessage
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-errorMessage" },
-                Properties = new CssString()
-                {
-                    Css = $"font-size:{theme.FontStyle.FontSize.Small};" +
-                          $"font-weight:{theme.FontStyle.FontWeight.Regular};"+
-                          $"color:{theme.Palette.RedDark};" +
-                          $"padding-top:5px;"
-                }
-            });
-            #endregion
-            #region Callout
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-callout" },
-                Properties = new CssString()
-                {
-                    Css = $"border:none;" +
-                          $"box-shadow:{theme.Effects.Elevation8};"
-                }
-            });
-            #endregion
-            #region ItemsWrapper
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-itemsWrapper:focus" },
-                Properties = new CssString()
-                {
-                    Css = $"outline:0;"
-                }
-            });
-            #endregion
-            #region Items
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-items" },
-                Properties = new CssString()
-                {
-                    Css = $"display:block;"
-                }
-            });
-            #endregion
-            #region ItemsHeader
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-itemHeader" },
-                Properties = new CssString()
-                {
-                    Css = $"font-weight:{theme.FontStyle.FontWeight.SemiBold};"+
-                          $"color:{theme.SemanticColors.MenuHeader};"+
-                          $"background:none;"+
-                          $"background-color:transparent;"+
-                          $"border:none;"+
-                          $"height:36px;"+
-                          $"line-height:36px;"+
-                          $"cursor:default;"+
-                          $"padding:0 8px;"+
-                          $"user-select:none;"+
-                          $"text-align:left;"
-                }
-            });
-            #endregion
-            #region Divider
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-divider" },
-                Properties = new CssString()
-                {
-                    Css = $"height:1px;" +
-                          $"background-color:{theme.SemanticColors.BodyDivider};"
-                }
-            });
-            #endregion
-            #region Item
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item" },
-                Properties = new CssString()
-                {
-                    Css = $"background-color:transparent;" +
-                          $"box-sizing:border-box;"+
-                          $"cursor:pointer;" +
-                          $"display:flex;" +
-                          $"align-items:center;" +
-                          $"padding:0 8px;" +
-                          $"width:100%;" +
-                          $"min-height:36px;" +
-                          $"line-height:20px;" +
-                          $"height:auto;" +
-                          $"position:relative;"+
-                          $"border:1px solid transparent;"+
-                          $"border-radius:0;"+
-                          $"word-wrap:break-word;"+
-                          $"overflow-wrap:break-word;"+
-                          $"text-align:left;"
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-itemsWrapper .ms-Dropdown-dropdownItems .ms-Dropdown-item.ms-Button" },
-                Properties = new CssString()
-                {
-                    Css = $"padding:0 8px;"  // not sure if this is still needed... a hack for specificity of css rules.
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-itemsWrapper .ms-Dropdown-dropdownItems .ms-Dropdown-item:not(.ms-Checkbox-checkbox):hover" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};"+
-                          $"background-color:{theme.SemanticColors.MenuItemBackgroundHovered};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item:focus" },
-                Properties = new CssString()
-                {
-                    Css = $"background-color:transparent;"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item:active" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};" +
-                          $"background-color:{theme.SemanticColors.MenuBackground};"
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.selected, .ms-Dropdown-item.ms-Button.ms-Button--action.selected" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.MenuItemTextHovered};" +
-                         $"background-color:{theme.SemanticColors.MenuItemBackgroundPressed};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.selected:hover:focus, .ms-Dropdown-item.ms-Button.ms-Button--action.selected:hover:focus" },
-                Properties = new CssString()
-                {
-                    Css = $"background-color:{theme.SemanticColors.MenuItemBackgroundPressed};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.selected:focus, .ms-Dropdown-item.ms-Button.ms-Button--action.selected:focus" },
-                Properties = new CssString()
-                {
-                    Css = $"background-color:{theme.SemanticColors.MenuItemBackgroundPressed};"
-                }
-            });
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.selected:active, .ms-Dropdown-item.ms-Button.ms-Button--action.selected:active" },
-                Properties = new CssString()
-                {
-                    Css = $"background-color:{theme.SemanticColors.MenuItemBackgroundHovered};"
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Fabric--isFocusVisible .ms-Dropdown-item:focus:after" },
-                Properties = new CssString()
-                {
-                    Css = $"left:0;"+
-                          $"top:0;"+
-                          $"bottom:0;" +
-                          $"right:0;" 
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.is-disabled" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.Palette.NeutralTertiary};"+
-                          $"cursor:default;"
-                }
-            });
-
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-item.is-hidden" },
-                Properties = new CssString()
-                {
-                    Css = $"display:none;"
-                }
-            });
-
-            #endregion
-            #region OptionText
-            dropdownRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Dropdown-optionText" },
-                Properties = new CssString()
-                {
-                    Css = $"overflow:hidden;"+
-                          $"white-space:nowrap;"+
-                          $"text-overflow:ellipsis;"+
-                          $"min-width:0;"+
-                          $"max-width:100%;"+
-                          $"word-wrap:break-word;"+
-                          $"overflow-wrap:break-word;"+
-                          $"margin:1px;"
-                }
-            });
-            #endregion
-
-            return dropdownRules;
-        }
-
+     
 
     }
 }

@@ -1,8 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
 <div class=@($"{(Disabled || ReadOnly ? "" : "ms-RatingStar-root")} mediumFont {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
      @ref=@RootElementReference>
     <BFUFocusZone ClassName=@($"ms-Rating-focuszone {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
@@ -12,7 +10,9 @@
                AriaReadonly=@ReadOnly
                IsFocusable=@ReadOnly
                Disabled=@ReadOnly
-               AllowFocusRoot=@ReadOnly>
+               AllowFocusRoot=@ReadOnly
+                  tabindex=@(ReadOnly ? "0" : "-1" )
+                  >
         @for (int i = 1; i <= Max; i++)
         {
             var percantage = GetPercentageOf(i);

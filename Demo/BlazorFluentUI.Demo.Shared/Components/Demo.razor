@@ -70,7 +70,8 @@
             if (keyValue == Key)
             {
                 found = true;
-                var codeBegin = demoMetaData.IndexOf(">", indexOfDemoBegin) + 1;
+                //var codeBegin = demoMetaData.IndexOf(">", indexOfDemoBegin) + 1;
+                var codeBegin = demoMetaData.IndexOf(Environment.NewLine, indexOfDemoBegin) + 1;
                 var codeEnd = demoMetaData.IndexOf("</Demo>", indexOfDemoBegin);
                 codeLiteral = demoMetaData.Substring(codeBegin, codeEnd - codeBegin);
             }

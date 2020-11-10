@@ -1,8 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
 <div role="tablist" aria-label=@AriaLabel style="overflow:hidden;">
     <BFUFocusZone Direction=FocusZoneDirection.Horizontal>
         <CascadingValue Name="Pivot" Value="@this">

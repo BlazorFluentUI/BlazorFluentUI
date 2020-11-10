@@ -1,0 +1,171 @@
+﻿.ms-Panel--hasCloseButton {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+::deep .ms-Panel-overlay {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.ms-Panel-hiddenPanel {
+    visibility: hidden;
+}
+
+::deep .ms-Panel-main {
+    background-color: var(--semanticColors-BodyBackground);
+    box-shadow: var(--effects-Elevation64);
+    pointer-events: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    bottom: 0;
+    top: 0;
+    left: auto;
+    right: 0;
+    width: 100%;
+}
+
+.ms-Panel--smFluid ::deep .ms-Panel-main {
+    left: 0;
+}
+
+.ms-Panel--smLeft ::deep .ms-Panel-main {
+    left: 0;
+    right: auto;
+    width: 272px;
+}
+.ms-Panel--custom ::deep .ms-Panel-main {
+    max-width: 100vw;
+}
+
+.ms-Panel--customLeft ::deep .ms-Panel-main {
+    right: auto;
+    left: 0;
+    max-width: 100vw;
+}
+
+@media screen and (min-width: 480px) {
+    .ms-Panel--sm ::deep .ms-Panel-main, .ms-Panel--md ::deep .ms-Panel-main, .ms-Panel--lg ::deep .ms-Panel-main, .ms-Panel--fixed ::deep .ms-Panel-main, .ms-Panel--xl ::deep .ms-Panel-main {
+        width: 340px;
+    }
+}
+
+@media screen and (min-width: 640px) {
+    .ms-Panel--md ::deep .ms-Panel-main, .ms-Panel--lg ::deep .ms-Panel-main, .ms-Panel--fixed ::deep .ms-Panel-main, .ms-Panel--xl ::deep .ms-Panel-main {
+        width: 592px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .ms-Panel--md ::deep .ms-Panel-main, .ms-Panel--lg ::deep .ms-Panel-main, .ms-Panel--fixed ::deep .ms-Panel-main, .ms-Panel--xl ::deep .ms-Panel-main {
+        width: 644px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .ms-Panel--lg ::deep .ms-Panel-main, .ms-Panel--fixed ::deep .ms-Panel-main, .ms-Panel--xl ::deep .ms-Panel-main {
+        left: 48px;
+        width: auto;
+    }
+}
+
+@media screen and (min-width: 1366px) {
+    .ms-Panel--lg ::deep .ms-Panel-main, .ms-Panel--fixed ::deep .ms-Panel-main, .ms-Panel--xl ::deep .ms-Panel-main {
+        left: 428px;
+    }
+
+    .ms-Panel--fixed ::deep .ms-Panel-main {
+        left: auto;
+        width: 940px;
+    }
+
+    .ms-Panel--xl ::deep .ms-Panel-main {
+        left: 176px;
+    }
+}
+
+@media screen and (-ms-high-contrast: active) {
+    ::deep .ms-Panel-main {
+        border-left: 3px solid var(--semanticColors-VariantBorder);
+        border-right: 3px solid var(--semanticColors-VariantBorder);
+    }
+}
+
+
+.ms-Panel-navigation {
+    padding: 0 5px;
+    height: 44px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ms-Panel-contentInner {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: hidden;
+}
+
+::deep .ms-Panel-header {
+    padding-left: 16px;
+    padding-right: 16px;
+    margin: 14px 0;
+    flex-shrink: 0;
+}
+
+@media screen and (min-width:1024px) {
+    ::deep .ms-Panel-header {
+        margin-top: 30px;
+    }
+}
+
+::deep .ms-Panel-headerText {
+    color: var(--palette-NeutralPrimary);
+    line-height: 27px;
+    margin: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.ms-Panel-scrollableContent {
+    overflow-y: auto;
+}
+
+.ms-Panel-scrollableContent--isFooterAtBottom {
+    flex-grow: 1;
+}
+
+.ms-Panel-content {
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-bottom: 0;
+    padding-bottom: 20px;
+}
+
+.ms-Panel-footer {
+    flex-shrink: 0;
+    border-top: 1px solid transparent;
+    transition: opacity var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_2);
+}
+
+.ms-Panel-footer--isStick {
+    background: var(--semanticColors-BodyBackground);
+    border-top-color: var(--semanticColors-VariantBorder);
+}
+
+.ms-Panel-footerInner {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    padding-top: 16px;
+}

@@ -2,9 +2,6 @@
 @inherits BFUComponentBase
 
 <BFULocalCS @bind-Rules="@DialogLocalRules" />
-<BFUStylePreloader Component=@(new BFUModal()) />
-<BFUStylePreloader Component=@(new BFUDialogContent()) />
-<BFUStylePreloader Component=@(new BFUOverlay()) />
 
 <BFUModal ClassName=@($"ms-Dialog {this.ClassName}")
        Style=@Style

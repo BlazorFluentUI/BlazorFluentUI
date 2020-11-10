@@ -2,10 +2,6 @@
 @inherits BFUComponentBase
 @typeparam TItem
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=> this.CreateGlobalCss(Theme)) />
-
-@*<BFUStylePreloader Component=@(new BFULabel()) />*@
-
 <div @ref=@RootElementReference
      class="ms-ChoiceFieldGroup"
      style=@Style
@@ -20,8 +16,14 @@
         <CascadingValue Value=this>
             @foreach (var item in this.ItemsSource)
             {
-                <BFUChoiceGroupOption Item="item" OptionTemplate="OptionTemplate" OnClick="OnChoiceOptionClicked">
-                </BFUChoiceGroupOption>
+                <BFUChoiceGroupOption Item="item" 
+                                      OptionTemplate="OptionTemplate" 
+                                      OnClick="OnChoiceOptionClicked"
+                                      Required="Required"
+                                      Focused=@(item.Equals(focusedItem))
+                                      OnFocus="OnFocus"
+                                      OnBlur="OnBlur"
+                                      />
             }
         </CascadingValue>
     </div>

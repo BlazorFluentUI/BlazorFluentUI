@@ -1,14 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-@*<style>
-    .ms-FocusZone:focus{
-        outline:none;
-    }
-</style>*@
-
-<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
 <div class=@($"ms-FocusZone {ClassName}")
      style=@Style
      data-is-focusable=@(IsFocusable ? "true" : "false")
@@ -21,6 +13,7 @@
      aria-label=@AriaLabel
      role=@Role
      @onclick=@OnClick
+     @attributes=@UnknownAttributes
      >
     @ChildContent
 </div>

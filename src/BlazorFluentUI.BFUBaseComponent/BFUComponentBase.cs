@@ -50,19 +50,6 @@ namespace BlazorFluentUI
 
         [Inject] ScopedStatics ScopedStatics { get; set; }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            builder.OpenComponent<BFUGlobalCS>(0);
-            builder.AddAttribute(1, "Component", new BFUComponentBase());
-            builder.AddAttribute(2, "CreateGlobalCss", new System.Func<ICollection<IRule>>( CreateGlobalCss ));
-            builder.AddAttribute(3, "ReloadStyle", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<bool>(reloadStyle));
-            builder.AddAttribute(4, "ReloadStyleChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck(EventCallback.Factory.Create(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => reloadStyle = __value, reloadStyle))));
-            builder.AddAttribute(5, "FixStyle", true);
-
-            builder.CloseComponent();
-            base.BuildRenderTree(builder);
-        }
-
         protected override void OnInitialized()
         {
             ThemeProvider.ThemeChanged += OnThemeChangedPrivate;
@@ -145,23 +132,23 @@ namespace BlazorFluentUI
             reloadStyle = true;
         }
 
-        private ICollection<IRule> CreateGlobalCss()
-        {
-            var overallRules = new HashSet<IRule>();
-            overallRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "body" },
-                Properties = new CssString()
-                {
-                    Css = $"-moz-osx-font-smoothing:grayscale;" +
-                            $"-webkit-font-smoothing:antialiased;" +
-                            $"color:{Theme?.SemanticTextColors?.BodyText ?? "#323130"};" +
-                            $"background-color:{Theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
-                            $"font-family:'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;" +
-                            $"font-size:14px;"
-                }
-            });
-            return overallRules;
-        }
+        //private ICollection<IRule> CreateGlobalCss()
+        //{
+        //    var overallRules = new HashSet<IRule>();
+        //    overallRules.Add(new Rule()
+        //    {
+        //        Selector = new CssStringSelector() { SelectorName = "body" },
+        //        Properties = new CssString()
+        //        {
+        //            Css = $"-moz-osx-font-smoothing:grayscale;" +
+        //                    $"-webkit-font-smoothing:antialiased;" +
+        //                    $"color:{Theme?.SemanticTextColors?.BodyText ?? "#323130"};" +
+        //                    $"background-color:{Theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
+        //                    $"font-family:'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;" +
+        //                    $"font-size:14px;"
+        //        }
+        //    });
+        //    return overallRules;
+        //}
     }
 }

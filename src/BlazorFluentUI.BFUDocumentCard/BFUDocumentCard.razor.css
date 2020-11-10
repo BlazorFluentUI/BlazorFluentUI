@@ -1,0 +1,54 @@
+﻿.ms-DocumentCard {
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--palette-White);
+    border: 1px solid var(--palette-NeutralLight);
+    max-width: 320px;
+    min-width: 240px;
+    user-select: none;
+    position: relative;
+}
+
+.ms-DocumentCard--actionable:hover {
+    cursor: pointer;
+    border-color: var(--palette-NeutralTertiaryAlt);
+}
+
+    .ms-DocumentCard--actionable:hover:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border: 1px solid var(--palette-NeutralTertiaryAlt);
+        pointer-events: none
+    }
+
+.ms-DocumentCard--compact {
+    display: flex;
+    max-width: 480px;
+    height: 108px;
+}
+
+    .ms-DocumentCard--compact ::deep .ms-DocumentCardPreview {
+        border-right: 1px solid var(--palette-NeutralLight);
+        border-bottom: 0;
+        max-height: 106px;
+        max-width: 144px;
+    }
+
+
+    .ms-DocumentCard--compact ::deep .ms-DocumentCardPreview-icon {
+        max-height: 32px;
+        max-width: 32px;
+    }
+
+    .ms-DocumentCard--compact ::deep .ms-DocumentCardActivity {
+        padding-bottom: 12px
+    }
+
+    .ms-DocumentCard--compact ::deep .ms-DocumentCardTitle {
+        padding-bottom: 12px 16px 8px 16px;
+        font-size: var(--fontSize-Medium);
+        line-height: 16px;
+    }

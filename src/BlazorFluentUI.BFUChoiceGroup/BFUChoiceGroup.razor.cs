@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUChoiceGroup<TItem> : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUChoiceGroup<TItem> : BFUComponentBase
     {
         [Parameter] public string Label { get; set; } = "Pick one";
         [Parameter] public IList<TItem> ItemsSource { get; set; }
@@ -16,22 +16,7 @@ namespace BlazorFluentUI
         [Parameter] public string Id { get; set; }
         [Parameter] public bool Required { get; set; } = false;
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var choiceGroupRules = new HashSet<IRule>();
-            #region Root
-            choiceGroupRules.AddCssStringSelector(".ms-ChoiceFieldGroup").AppendCssStyles(
-                $"font-size:{theme.FontStyle.FontSize.Medium}",
-                $"font-weight:{theme.FontStyle.FontWeight.Regular}",
-                "display:block");
-
-            choiceGroupRules.AddCssStringSelector(".ms-ChoiceFieldGroup-flexContainer.flex-direction-row").AppendCssStyles(
-                "display:flex",
-                "flex-direction:row",
-                "flex-wrap:wrap");
-            #endregion
-            return choiceGroupRules;
-        }
+        private TItem focusedItem = default;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -43,6 +28,15 @@ namespace BlazorFluentUI
         private async Task OnChoiceOptionClicked(ChoiceGroupOptionClickedEventArgs choiceGroupOptionClickedEventArgs)
         {
             await this.ValueChanged.InvokeAsync((TItem)choiceGroupOptionClickedEventArgs.Item);
+        }
+
+        private void OnFocus(ChoiceGroupOptionFocusEventArgs args)
+        {
+            focusedItem = (TItem)args.Item;
+        }
+        private void OnBlur(ChoiceGroupOptionFocusEventArgs args)
+        {
+            focusedItem = default;
         }
     }
 }

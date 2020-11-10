@@ -1,0 +1,759 @@
+﻿.ms-Button {
+    outline: transparent;
+    position: relative;
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+    box-sizing: border-box;
+    border: 1px solid var(--semanticColors-ButtonBorder);
+    user-select: none;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: top;
+    padding: 0 16px;
+    min-width: 80px;
+    height: 32px;
+    border-radius: var(--effects-RoundedCorner2);
+}
+
+     .ms-Button::-moz-focus-inner{
+        border:0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-Button:focus::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+    @media screen and (-ms-high-contrast: active){
+        .ms-Fabric--isFocusVisible .ms-Button:focus::after {
+            left: -2px;
+            top: -2px;
+            bottom: -2px;
+            right: -2px;
+            border: none;
+            outline-color: ButtonText;
+        }
+    }
+
+
+     .ms-Button:active > * {
+        position: relative;
+        left: 0;
+        top: 0;
+    }
+
+.ms-Button.is-disabled {
+    background-color: var(--semanticColors-DisabledBackground);
+    color: var(--semanticTextColors-DisabledText);
+    cursor: default;
+    pointer-events: none;
+}
+
+ .ms-Button:hover, 
+ .ms-Button:focus {
+    text-decoration: none;
+    outline: 0;
+}
+
+ .ms-Button:link, 
+ .ms-Button:visited, 
+ .ms-Button:active {
+    text-decoration: none;
+}
+
+@media screen and (-ms-high-contrast: active) {
+     .ms-Button {
+        color: GrayText;
+        border-color: GrayText;
+    }
+}
+
+ .ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded {
+    background-color: var(--palette-NeutralLight);
+    color: var(--palette-NeutralDark);
+}
+ .ms-Button.ms-Button--primary.is-expanded {
+    background-color: var(--palette-ThemeDark);
+    color: var(--palette-White);
+}
+
+ .ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded ::deep .ms-Button-icon {
+    color: var(--palette-ThemeDark);
+}
+
+.ms-Button.ms-Button--primary.is-expanded ::deep .ms-Button-icon {
+    color: var(--palette-White);
+}
+
+.ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded ::deep .ms-Button-menuIcon {
+    color: var(--palette-NeutralPrimary);
+}
+
+.ms-Button.ms-Button--primary.is-expanded ::deep .ms-Button-menuIcon {
+    color: var(--palette-White);
+}
+
+ .ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded:hover {
+    background-color: var(--palette-NeutralQuaternaryAlt);
+}
+ .ms-Button.ms-Button--primary.is-expanded:hover {
+    background-color: var(--palette-ThemeDark);
+}
+
+.ms-Button.is-disabled ::deep .ms-Button-icon {
+    color: var(--semanticTextColors-DisabledText);
+}
+
+.ms-Button.is-disabled ::deep .ms-Button-menuIcon {
+    color: var(--semanticTextColors-DisabledText);
+}
+
+::deep .ms-Button-flexContainer {
+    display: flex;
+    height: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+::deep .ms-Button-textContainer {
+    display: block;
+    flex-grow: 1;
+}
+
+::deep .ms-Button-description {
+    display: block;
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+}
+
+
+::deep .ms-Button-icon {
+    font-size: var(--fontSize-MediumPlus);
+    margin: 0px 4px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+::deep .ms-Button-menuIcon,
+::deep .ms-Button-menuIcon .ms-Button-icon {
+    font-size: var(--fontSize-Small);
+    margin: 0px 4px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+
+::deep .ms-Button-label {
+    font-weight: var(--fontWeight-SemiBold);
+    margin: 0px 4px;
+    line-height: 100%;
+    display: block;
+}
+
+
+::deep .ms-Button-screenReaderText {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0px;
+    border: 0px;
+    overflow: hidden;
+}
+
+
+
+ .ms-Button-splitContainer {
+    display: inline-flex;
+    position: relative;
+}
+
+     .ms-Button-splitContainer .ms-Button--default:not(.ms-Button-menuIcon) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right: none;
+    }
+
+
+     .ms-Button-splitContainer .ms-Button--primary:not(.ms-Button-menuIcon) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border: none;
+    }
+
+     .ms-Button-splitContainer .ms-Button-menuIcon {
+        padding: 6px;
+        height: 32px;
+        box-sizing: border-box;
+        border-radius: 0;
+        border-top-right-radius: var(--effects-RoundedCorner2);
+        border-bottom-right-radius: var(--effects-RoundedCorner2);
+        border:1px solid var(--palette-NeutralSecondaryAlt);
+        border-left: none;
+        outline: transparent;
+        user-select: none;
+        display: inline-block;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        vertical-align: top;
+        min-width: 32px;
+        width: 32px;
+        margin-left: -1px;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+    }
+         .ms-Button-splitContainer .ms-Button-menuIcon.is-disabled {
+            border-color: var(--palette-NeutralLighter);
+            /* Hack to force disabled on border for splitbutton right side menu */
+        }
+
+ .ms-Button-divider {
+    position: absolute;
+    width: 1px;
+    right: 31px;
+    top: 8px;
+    bottom: 8px;
+}
+
+ .ms-Button--primary.ms-Button-divider {
+    background-color: var(--palette-White);
+}
+
+ .ms-Button--default.ms-Button-divider {
+    background-color: var(--semanticColors-BodyDivider);
+}
+
+ .ms-Button-divider.disabled {
+    background-color: var(--semanticColors-BodyDivider);
+}
+
+
+
+/* PRIMARY BUTTON */
+
+.ms-Button--primary {
+    color: var(--palette-White);
+    background-color: var(--palette-ThemePrimary);
+    border: none;
+    border-width: 0px;
+}
+
+.ms-Fabric--isFocusVisible .ms-Button--primary:focus:after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+
+.ms-Button--primary:hover {
+    color: var(--palette-White);
+    background-color: var(--palette-ThemeDarkAlt);
+}
+
+.ms-Button--primary:active {
+    color: var(--palette-White);
+    background-color: var(--palette-ThemeDark);
+}
+
+.ms-Button--primary.is-checked:not(.is-disabled) {
+    color: var(--palette-White);
+    background-color: var(--palette-ThemeDark);
+    border: none;
+}
+
+.ms-Button--primary.is-checked:hover {
+    background-color: var(--palette-ThemePrimary);
+    color: var(--palette-White);
+    border: none;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Button--primary {
+        color: Window;
+        background-color: WindowText;
+        -ms-high-contrast-adjust: none;
+    }
+
+        .ms-Button--primary:hover {
+            color: Window;
+            background-color: Highlight;
+        }
+
+        .ms-Button--primary:active {
+            color: Window;
+            background-color: WindowText;
+            -ms-high-contrast-adjust: none;
+        }
+
+        .ms-Button--primary.is-disabled {
+            color: GrayText;
+            background-color: Window;
+            border-color: GrayText;
+        }
+}
+
+
+/* DEFAULT BUTTON */
+
+ .ms-Button--default {
+    color: var(--semanticTextColors-ButtonText);
+    background-color: var(--palette-White);
+    border: 1px solid var(--palette-NeutralSecondaryAlt);
+}
+    /*
+ .ms-Fabric--isFocusVisible .ms-Button--default:focus:after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+*/
+    .ms-Button--default:hover {
+        color: var(--semanticTextColors-ButtonTextHovered);
+        background-color: var(--palette-NeutralLighter);
+    }
+
+    .ms-Button--default:active {
+        color: var(--semanticTextColors-ButtonTextChecked);
+        background-color: var(--palette-NeutralLight);
+    }
+
+     .ms-Button--default.is-checked:not(.is-disabled) {
+        color: var(--semanticTextColors-ButtonTextChecked);
+        background-color: var(--palette-NeutralLight);
+    }
+
+     .ms-Button--default.is-checked:hover {
+        background-color: var(--palette-NeutralLight);
+    }
+
+     .ms-Button--default.is-disabled {
+        background-color: var(--palette-NeutralLighter);
+        border-color: var(--palette-NeutralLighter);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+     .ms-Button--default {
+        color: Highlight;
+        background-color: Highlight;
+    }
+}
+
+
+/* MessageBarButton */
+
+.ms-Button--messageBar {
+    height: 24px;
+    border-color: var(--palette-NeutralTertiaryAlt);
+}
+
+/* ActionButton */
+
+ .ms-Button.ms-Button--action {
+    min-width: unset;
+    padding: 0px 4px;
+    height: 40px;
+    color: var(--palette-NeutralPrimary);
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+    /*
+ .ms-Fabric--isFocusVisible .ms-Button--action:focus:after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+*/
+     .ms-Button.ms-Button--action:hover {
+        color: var(--palette-ThemePrimary);
+    }
+
+    .ms-Button.ms-Button--action ::deep .ms-Button-icon:hover {
+        color: var(--palette-ThemePrimary);
+    }
+
+     .ms-Button.ms-Button--action:active {
+        color: var(--palette-Black);
+    }
+
+     .ms-Button.ms-Button--action .ms-Button-icon:active {
+        color: var(--palette-ThemeDarker);
+    }
+
+     .ms-Button.ms-Button--action.is-expanded {
+        color: var(--palette-NeutralLight);
+    }
+
+     .ms-Button.ms-Button--action.is-disabled {
+        color: var(--palette-NeutralTertiary);
+        background-color: transparent;
+    }
+
+
+     .ms-Button.ms-Button--action.is-checked:not(.is-disabled) {
+        color: var(--palette-Black);
+    }
+
+    .ms-Button.ms-Button--action.is-checked ::deep .ms-ButtonIcon {
+        color: var(--palette-ThemeDarker);
+    }
+
+    .ms-Button.ms-Button--action ::deep .ms-Button-flexContainer {
+        justify-content: flex-start;
+    }
+
+    .ms-Button.ms-Button--action ::deep .ms-Button-icon {
+        color: var(--palette-ThemeDarkAlt);
+    }
+
+    .ms-Button.ms-Button--action.is-disabled ::deep .ms-Button-icon {
+        color: inherit;
+    }
+
+    .ms-Button.ms-Button--action ::deep .ms-Button-menuIcon {
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Button.ms-Button--action ::deep .ms-Button-textContainer {
+        flex-grow: 0;
+    }
+
+     .ms-Button.ms-Button--action ::deep .ms-Button-label {
+        font-weight: var(--fontWeight-Regular);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+
+     .ms-Button.ms-Button--action:hover {
+        color: Highlight;
+        background-color: Highlight;
+    }
+}
+
+/* CommandBarButton */
+
+ .ms-Button.ms-Button--commandBar {
+    min-width: 40px;
+    padding: 0 4px;
+    height: 40px;
+    color: var(--palette-NeutralPrimary);
+    background-color: var(--palette-White);
+    border: none;
+    border-radius: 0;
+}
+    /*
+ .ms-Fabric--isFocusVisible .ms-Button--commandBar:focus:after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+*/
+     .ms-Button.ms-Button--commandBar:hover {
+        color: var(--palette-NeutralDark);
+        background-color: var(--palette-NeutralLighter);
+    }
+
+        .ms-Button.ms-Button--commandBar:hover ::deep .ms-Button-icon {
+            color: var(--palette-ThemeDarkAlt);
+        }
+
+        .ms-Button.ms-Button--commandBar:hover ::deep .ms-Button-menuIcon {
+            color: var(--palette-NeutralPrimary);
+        }
+
+     .ms-Button.ms-Button--commandBar:active {
+        color: var(--semanticTextColors-Black);
+        background-color: var(--palette-NeutralLight);
+    }
+
+        .ms-Button.ms-Button--commandBar:active ::deep .ms-Button-icon {
+            color: var(--palette-ThemeDarkAlt);
+        }
+
+        .ms-Button.ms-Button--commandBar:active ::deep .ms-Button-menuIcon {
+            color: var(--palette-NeutralPrimary);
+        }
+
+
+
+     .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled) {
+        color: var(--Palette-NeutralDark);
+        background-color: var(--palette-NeutralLight);
+    }
+
+        .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled) ::deep .ms-Button-icon {
+            color: var(--Palette-ThemeDark);
+        }
+
+        .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled) ::deep .ms-Button-menuIcon {
+            color: var(--Palette-NeutralDark);
+            background-color: var(--palette-NeutralPrimary);
+        }
+
+
+         .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled):hover {
+            background-color: var(--palette-NeutralQuaternaryAlt);
+        }
+
+            .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled):hover ::deep .ms-Button-icon {
+                color: var(--Palette-ThemeDark);
+            }
+
+            .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled):hover ::deep .ms-Button-menuIcon {
+                color: var(--Palette-NeutralDark);
+                background-color: var(--palette-NeutralPrimary);
+            }
+
+
+
+
+     .ms-Button.ms-Button--commandBar.is-expanded {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-NeutralDark);
+    }
+
+        .ms-Button.ms-Button--commandBar.is-expanded ::deep .ms-Button-icon {
+            color: var(--palette-ThemeDark);
+        }
+
+        .ms-Button.ms-Button--commandBar.is-expanded ::deep .ms-Button-menuIcon {
+            color: var(--palette-NeutralPrimary);
+        }
+
+
+
+     .ms-Button.ms-Button--commandBar.is-disabled {
+        background-color: var(--palette-White);
+    }
+
+        .ms-Button.ms-Button--commandBar.is-disabled ::deep .ms-Button-icon {
+            color: var(--semanticTextColors-DisabledBodySubtext);
+        }
+
+
+    .ms-Button.ms-Button--commandBar ::deep .ms-Button-icon {
+        color: var(--palette-ThemePrimary);
+    }
+
+    .ms-Button.ms-Button--commandBar ::deep .ms-Button-label {
+        font-weight: normal;
+    }
+
+    .ms-Button.ms-Button--commandBar ::deep .ms-Button-menuIcon {
+        color: var(--palette-NeutralSecondary);
+    }
+
+
+
+    /* IconButton */
+
+ .ms-Button--icon {
+    padding: 0 4px;
+    min-width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    color: var(--semanticTextColors-Link);
+}
+
+     .ms-Button--icon:hover {
+        color: var(--palette-ThemeDarkAlt);
+        background-color: var(--palette-NeutralLighter);
+    }
+
+     .ms-Button--icon:active {
+        color: var(--palette-ThemeDark);
+        background-color: var(--palette-NeutralLight);
+    }
+
+     .ms-Button--icon.is-checked:not(.is-disabled) {
+        color: var(--palette-ThemeDark);
+        background-color: var(--palette-NeutralLight);
+        border: none;
+    }
+
+     .ms-Button--icon.is-checked:hover {
+        background-color: var(--palette-NeutralQuaternaryAlt);
+        color: var(--palette-ThemeDark);
+    }
+
+     .ms-Button--icon.is-disabled {
+        border-color: var(--palette-NeutralQuaternaryAlt);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+     .ms-Button.ms-Button--icon:hover {
+        color: Highlight;
+        background-color: Highlight;
+    }
+}
+
+
+
+/* CommandButton */
+
+ .ms-Button.ms-Button--command {
+    min-width: unset;
+    padding: 0px 4px;
+    height: 40px;
+    color: var(--palette-NeutralPrimary);
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+    /*
+ .ms-Fabric--isFocusVisible .ms-Button--command:focus:after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+*/
+     .ms-Button.ms-Button--command:hover {
+        color: var(--palette-ThemePrimary);
+    }
+
+     .ms-Button.ms-Button--command.is-expanded {
+        color: var(--palette-ThemePrimary);
+    }
+
+    .ms-Button.ms-Button--command ::deep .ms-Button-icon:hover {
+        color: var(--palette-ThemePrimary);
+    }
+
+
+     .ms-Button.ms-Button--command:active {
+        color: var(--palette-Black);
+    }
+
+    .ms-Button.ms-Button--command ::deep .ms-Button-icon:active {
+        color: var(--palette-ThemeDarker);
+    }
+
+    /*  .ms-Button.ms-Button--command.is-expanded {
+        color: var(--palette-NeutralLight);
+    }*/
+
+     .ms-Button.ms-Button--command.is-disabled {
+        color: var(--palette-NeutralTertiary);
+        background-color: transparent;
+    }
+
+
+     .ms-Button.ms-Button--command.is-checked:not(.is-disabled) {
+        color: var(--palette-Black);
+    }
+
+    .ms-Button.ms-Button--command.is-checked ::deep .ms-ButtonIcon {
+        color: var(--palette-ThemeDarker);
+    }
+
+    .ms-Button.ms-Button--command ::deep .ms-Button-flexContainer {
+        justify-content: flex-start;
+    }
+
+    .ms-Button.ms-Button--command ::deep .ms-Button-icon {
+        color: var(--palette-ThemeDarkAlt);
+    }
+
+    .ms-Button.ms-Button--command.is-disabled ::deep .ms-Button-icon {
+        color: inherit;
+    }
+
+    .ms-Button.ms-Button--command ::deep .ms-Button-menuIcon {
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Button.ms-Button--command ::deep .ms-Button-textContainer {
+        flex-grow: 0;
+    }
+
+    .ms-Button.ms-Button--command ::deep .ms-Button-label {
+        font-weight: var(--fontWeight-Regular);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+
+     .ms-Button.ms-Button--command:hover {
+        color: Highlight;
+        background-color: Highlight;
+    }
+}
+
+
+
+/* CompoundButton */
+ .ms-Button.ms-Button--compound {
+    max-width: 280px;
+    min-height: 72px;
+    padding: 16px 12px;
+    height: auto;
+}
+
+    .ms-Button.ms-Button--compound ::deep .ms-Button-flexContainer {
+        flex-direction: row;
+        align-items: flex-start;
+        min-width: 100%;
+        margin: unset;
+    }
+
+    .ms-Button.ms-Button--compound ::deep .ms-Button-textContainer {
+        text-align: left;
+    }
+
+    .ms-Button.ms-Button--compound ::deep .ms-Button-label {
+        margin: 0 0 5px 0;
+        line-height: 100%;
+        font-weight: var(--fontWeight-SemiBold);
+    }
+
+    .ms-Button.ms-Button--compound ::deep .ms-Button-description {
+        line-height: 100%;
+    }
+
+
+.ms-Button--default.ms-Button--compound ::deep .ms-Button-description {
+    color: var(--palette-NeutralSecondary);
+}
+
+
+.ms-Button--default.ms-Button--compound:hover ::deep .ms-Button-description {
+    color: var(--palette-NeutralDark);
+}
+
+.ms-Button--default.ms-Button--compound.is-checked ::deep .ms-Button-description {
+    color: inherit;
+}
+
+
+.ms-Button--default.ms-Button--compound.is-disabled ::deep .ms-Button-description {
+    color: inherit;
+}
+
+
+.ms-Button--primary.ms-Button--compound ::deep .ms-Button-description {
+    color: var(--palette-White);
+}
+
+
+.ms-Button--primary.ms-Button--compound:hover ::deep .ms-Button-description {
+    color: var(--palette.White);
+}
+
+.ms-Button--primary.ms-Button--compound.is-checked ::deep .ms-Button-description {
+    color: inherit;
+}
+
+
+.ms-Button--primary.ms-Button--compound.is-disabled ::deep .ms-Button-description {
+    color: inherit;
+}

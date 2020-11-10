@@ -1,8 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss="@CreateGlobalCss" />
-
 <div class=@($"bf-richTextEditor {this.ClassName}{(Disabled ? " is-disabled" : "")}")
      style=@Style>
     @if (!ReadOnly)

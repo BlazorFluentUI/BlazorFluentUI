@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUOverflowSet<TItem> : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUOverflowSet<TItem> : BFUComponentBase
     {
         [Parameter] public bool Vertical { get; set; }
         [Parameter] public IEnumerable<TItem> Items { get; set; }
@@ -26,46 +26,46 @@ namespace BlazorFluentUI
 
         protected BFUFocusZone focusZoneComponent;
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var overflowSetRules = new HashSet<IRule>();
-            overflowSetRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet" },
-                Properties = new CssString()
-                {
-                    Css = $"position:relative;" +
-                            $"display:flex;" +
-                            $"flex-wrap:nowrap;"
-                }
-            });
-            overflowSetRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet--vertical" },
-                Properties = new CssString()
-                {
-                    Css = $"flex-direction:column;"
-                }
-            });
-            overflowSetRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet-item" },
-                Properties = new CssString()
-                {
-                    Css = $"flex-shrink:0;" +
-                            $"display:inherit;"
-                }
-            });
-            overflowSetRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet-overflowButton" },
-                Properties = new CssString()
-                {
-                    Css = $"flex-shrink:0;" +
-                            $"display:inherit;"
-                }
-            });
-            return overflowSetRules;
-        }
+        //public ICollection<IRule> CreateGlobalCss(ITheme theme)
+        //{
+        //    var overflowSetRules = new HashSet<IRule>();
+        //    overflowSetRules.Add(new Rule()
+        //    {
+        //        Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet" },
+        //        Properties = new CssString()
+        //        {
+        //            Css = $"position:relative;" +
+        //                    $"display:flex;" +
+        //                    $"flex-wrap:nowrap;"
+        //        }
+        //    });
+        //    overflowSetRules.Add(new Rule()
+        //    {
+        //        Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet--vertical" },
+        //        Properties = new CssString()
+        //        {
+        //            Css = $"flex-direction:column;"
+        //        }
+        //    });
+        //    overflowSetRules.Add(new Rule()
+        //    {
+        //        Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet-item" },
+        //        Properties = new CssString()
+        //        {
+        //            Css = $"flex-shrink:0;" +
+        //                    $"display:inherit;"
+        //        }
+        //    });
+        //    overflowSetRules.Add(new Rule()
+        //    {
+        //        Selector = new CssStringSelector() { SelectorName = ".ms-OverflowSet-overflowButton" },
+        //        Properties = new CssString()
+        //        {
+        //            Css = $"flex-shrink:0;" +
+        //                    $"display:inherit;"
+        //        }
+        //    });
+        //    return overflowSetRules;
+        //}
     }
 }

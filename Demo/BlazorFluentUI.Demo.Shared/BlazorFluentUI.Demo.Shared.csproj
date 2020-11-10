@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <RazorLangVersion>3.0</RazorLangVersion>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>BlazorFluentUI.Demo.Shared</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="DynamicData" Version="6.14.18" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\BlazorFluentUI.AllComponents\BlazorFluentUI.AllComponents.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUButton\BlazorFluentUI.BFUButton.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCalendar\BlazorFluentUI.BFUCalendar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUCallout\BlazorFluentUI.BFUCallout.csproj" />
@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUDropdown\BlazorFluentUI.BFUDropdown.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUFocusTrapZone\BlazorFluentUI.BFUFocusTrapZone.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUFocusZone\BlazorFluentUI.BFUFocusZone.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUForms\BlazorFluentUI.BFUForms.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUGroupedList\BlazorFluentUI.BFUGroupedList.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUIcon\BlazorFluentUI.BFUIcon.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUImage\BlazorFluentUI.BFUImage.csproj" />
@@ -34,6 +35,7 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFULayer\BlazorFluentUI.BFULayer.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFULink\BlazorFluentUI.BFULink.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUList\BlazorFluentUI.BFUList.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFUMarqueeSelection\BlazorFluentUI.BFUMarqueeSelection.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUMessageBar\BlazorFluentUI.BFUMessageBar.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUModal\BlazorFluentUI.BFUModal.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUNavBar\BlazorFluentUI.BFUNavBar.csproj" />

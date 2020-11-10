@@ -8,22 +8,34 @@
 
     <BFUStack Style="height:100%;">
         <h3>DetailsList - Grouped Data</h3>
-        <BFUToggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
+        <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
+            <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+            <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+            <BFUDropdown ItemsSource=@selectionModeOptions
+                         @bind-SelectedOption=selectedModeOption
+                         Style="max-width:300px;">
+            </BFUDropdown>
+        </BFUStack>
         <BFUDetailsList ItemsSource="ReadonlyList"
                         @ref="detailsList"
                         Columns="ReadonlyColumns"
+                        GetKey="(item)=>item.Key"
                         TItem="GroupedDataItem"
+                        Compact="isCompact"
                         IsVirtualizing="isVirtualizing"
                         SubGroupSelector=@(item=> item.ObservableData)
                         GroupTitleSelector=@(item=>item.DisplayName)
                         LayoutMode="DetailsListLayoutMode.Justified"
-                        @bind-Selection="selection"
-                        SelectionMode="SelectionMode.Multiple">
+                        Selection="selection"
+                        SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
         </BFUDetailsList>
     </BFUStack>
 
 @code {
-    bool isVirtualizing = false;
+    bool isVirtualizing = true;
+    bool isCompact = false;
+    IBFUDropdownOption selectedModeOption;
+    List<IBFUDropdownOption> selectionModeOptions;
 
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
@@ -44,8 +56,8 @@
         private bool descending = false;
         public bool Descending { get => descending; set => SetAndRaise(ref descending, value); }
 
-        private Func<GroupedDataItem, IComparable> sortSelector = x => x.KeyNumber;
-        public Func<GroupedDataItem, IComparable> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
+        private Func<GroupedDataItem, object> sortSelector = x => x.KeyNumber;
+        public Func<GroupedDataItem, object> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
 
         public IObservable<SortExpressionComparer<GroupedDataItem>> DynamicSortExpression { get; private set; }
 
@@ -58,11 +70,11 @@
 
                 if (isDescending)
                 {
-                    return SortExpressionComparer<GroupedDataItem>.Descending(selector);
+                    return SortExpressionComparer<GroupedDataItem>.Descending(selector.ConvertToIComparable());
                 }
                 else
                 {
-                    return SortExpressionComparer<GroupedDataItem>.Ascending(selector);
+                    return SortExpressionComparer<GroupedDataItem>.Ascending(selector.ConvertToIComparable());
                 }
             });
         }
@@ -71,9 +83,15 @@
 
     protected override void OnInitialized()
     {
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick });
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-        var descColumn = new BFUDetailsRowColumn<GroupedDataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
+        selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()
+           .Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() })
+           .Cast<IBFUDropdownOption>()
+           .ToList();
+        selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Multiple");
+
+        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem,int>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick });
+        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem,string>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+        var descColumn = new BFUDetailsRowColumn<GroupedDataItem,string>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
         columnsSource.AddOrUpdate(descColumn);
 
 

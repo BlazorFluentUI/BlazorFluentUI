@@ -1,8 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
 @if (IsMultiline)
 {
     <div class=@($"ms-MessageBar--root {ClassName}") style=@Style>

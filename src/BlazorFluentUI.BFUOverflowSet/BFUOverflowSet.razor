@@ -2,12 +2,9 @@
 @inherits BFUComponentBase
 @typeparam TItem
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme))/>
-
-
 @if (DoNotContainWithinFocusZone)
 {
-    <div class=@($"{ClassName} ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")
+    <div class=@($"ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")
          style=@Style>
         @if (ItemTemplate != null && Items != null)
         {
@@ -31,28 +28,30 @@
 }
 else
 {
-    <BFUFocusZone ClassName=@($"{ClassName} ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")
-               Style=@Style
-               Direction=@(Vertical ? FocusZoneDirection.Vertical : FocusZoneDirection.Horizontal)
-               @ref=@focusZoneComponent>
-        @if (ItemTemplate != null && Items != null)
-        {
-            foreach (var item in Items)
+    <div class=@($"ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")>
+        <BFUFocusZone ClassName=@($"ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")
+                      Style=@Style
+                      Direction=@(Vertical ? FocusZoneDirection.Vertical : FocusZoneDirection.Horizontal)
+                      @ref=@focusZoneComponent>
+            @if (ItemTemplate != null && Items != null)
             {
-                <div @key=(GetKey(item)) class="ms-OverflowSet-item">@ItemTemplate(item)</div>
+                foreach (var item in Items)
+                {
+                    <div @key=(GetKey(item)) class="ms-OverflowSet-item">@ItemTemplate(item)</div>
+                }
             }
-        }
-        @if (OverflowTemplate != null && OverflowItems != null && OverflowItems.Count() > 0)
-        {
-            <div class="ms-OverflowSet-overflowButton">
-                @OverflowTemplate(this.OverflowItems)
-            </div>
-
-        }
-        @*else if (OverflowTemplate == null && OverflowItems != null && OverflowItems.Count() > 0)
+            @if (OverflowTemplate != null && OverflowItems != null && OverflowItems.Count() > 0)
             {
-                <BlazorFluentUI.BFUOverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
-            }*@
+                <div class="ms-OverflowSet-overflowButton">
+                    @OverflowTemplate(this.OverflowItems)
+                </div>
 
-    </BFUFocusZone>
+            }
+            @*else if (OverflowTemplate == null && OverflowItems != null && OverflowItems.Count() > 0)
+                {
+                    <BlazorFluentUI.BFUOverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
+                }*@
+
+        </BFUFocusZone>
+    </div>
 }

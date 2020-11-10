@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDatePicker : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUDatePicker : BFUComponentBase
     {
         [Parameter] public bool AllFocusable { get; set; } = false;
         [Parameter] public bool AllowTextInput { get; set; } = false;
@@ -64,6 +66,13 @@ namespace BlazorFluentUI
         private bool _preventFocusOpeningPicker = false;
         private bool _oldIsDatePickerShown;
 
+        [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
+
+        private FieldIdentifier FieldIdentifier;
+
+        [Parameter]
+        public Expression<Func<DateTime>>? ValueExpression { get; set; }
+
         protected override Task OnInitializedAsync()
         {
             ErrorMessage = IsRequired && (Value == DateTime.MinValue) ? IsRequiredErrorMessage : null;
@@ -102,9 +111,10 @@ namespace BlazorFluentUI
 
             this.SetErrorMessage(true, nextIsRequired, nextValue, nextMinDate, nextMaxDate, nextInitialPickerDate);
 
-            if (DateTime.Compare(SelectedDate, nextValue) != 0
-                    || (FormatDate != null
-                && nextFormatDate != null
+            var oldValue = SelectedDate;
+            if (DateTime.Compare(oldValue, nextValue) != 0 
+                || (FormatDate != null 
+                && nextFormatDate != null 
                 && (FormatDate(nextValue) != nextFormatDate(nextValue))))
             {
                 SelectedDate = nextValue;
@@ -114,9 +124,25 @@ namespace BlazorFluentUI
             return base.SetParametersAsync(parameters);
         }
 
-        protected override void OnParametersSet()
+        protected override Task OnParametersSetAsync()
         {
             FormattedDate = FormatDateInternal(SelectedDate);
+
+            if (CascadedEditContext != null && ValueExpression != null)
+            {
+                
+                FieldIdentifier = FieldIdentifier.Create<DateTime>(ValueExpression);
+
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+
+                CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
+            }
+            return base.OnParametersSetAsync();
+        }
+
+        private void CascadedEditContext_OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+        {
+            InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
         }
 
         private string FormatDateInternal(DateTime dateTime)
@@ -180,7 +206,7 @@ namespace BlazorFluentUI
             FormattedDate = FormatDateInternal(selectedDateResult.Date);
             ErrorMessage = "";
 
-
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
             OnSelectDate.InvokeAsync(selectedDateResult.Date);
             ValueChanged.InvokeAsync(selectedDateResult.Date);
 
@@ -308,8 +334,10 @@ namespace BlazorFluentUI
                     ErrorMessage = IsRequired ? IsRequiredErrorMessage : "";
                 }
 
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
                 OnSelectDate.InvokeAsync(date);
                 ValueChanged.InvokeAsync(date);
+                
             }
             else if (IsRequired && string.IsNullOrWhiteSpace(inputValue))
             {
@@ -346,113 +374,5 @@ namespace BlazorFluentUI
             return DateTime.Compare(minDate, date) > 0 || DateTime.Compare(maxDate, date) < 0;
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var MyRules = new List<IRule>();
-            #region ms-DatePicker
-            MyRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker" },
-                Properties = new CssString()
-                {
-                    Css = //Normalize
-                          $"box-shadow:none;" +
-                          $"margin:0px;" +
-                          $"padding:0px;" +
-                          $"box-sizing:border-box;"
-                }
-            });
-            #endregion
-            #region ms-DatePicker-callout
-            MyRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker-callout" },
-                Properties = new CssString()
-                {
-                    Css = $"box-shadow:{theme.Effects.Elevation8};"
-                }
-            });
-            #endregion
-            #region ms-DatePicker-textField
-            MyRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker-textField" },
-                Properties = new CssString()
-                {
-                    Css = $"position:relative;"
-                }
-            });
-            MyRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker-textField input:read-only" },
-                Properties = new CssString()
-                {
-                    Css = $"cursor:pointer;"
-                }
-            });
-            MyRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker-textField input::-ms-clear" },
-                Properties = new CssString()
-                {
-                    Css = $"display:none;"
-                }
-            });
-            MyRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = " .ms-DatePicker--disabled .ms-DatePicker-textField input:read-only" },
-                Properties = new CssString()
-                {
-                    Css = $"cursor:default;"
-                }
-            });
-            #endregion
-            #region ms-DatePicker-callout
-            MyRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker-callout" },
-                Properties = new CssString()
-                {
-                    Css = $"box-shadow:{theme.Effects.Elevation8};"
-                }
-            });
-            #endregion
-            #region SubComponentStyle_ms-TextField-icon
-            MyRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker .ms-TextField-icon" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.Palette.NeutralSecondary};" +
-                        $"font-size:{theme.FontStyle.FontSize.MediumPlus};" +
-                        $"line-height:18px;" +
-                        $"pointer-events:none;" +
-                        $"position:absolute;" +
-                        //$"right:4px;" +
-                        //$"padding:5px;" +
-                        $"padding-top:7px;"
-                }
-            });
-            MyRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker:not(.ms-DatePicker--is-disabled) .ms-Icon" },
-                Properties = new CssString()
-                {
-                    Css = $"pointer-events:initial;" +
-                        $"cursor:pointer;"
-                }
-            });
-            MyRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-DatePicker.ms-DatePicker--is-disabled .ms-Icon" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.SemanticTextColors.DisabledText};" +
-                        $"cursor:default;"
-                }
-            });
-            #endregion
-            return MyRules;
-        }
     }
 }

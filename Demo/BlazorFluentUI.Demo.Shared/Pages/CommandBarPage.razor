@@ -6,8 +6,29 @@
     <BFUCommandBar Items=@items />
 </Demo>
 
-<Demo Header="CommandBar with right items" Key="0" MetadataPath="CommandBarPage">
+<Demo Header="CommandBar with right items" Key="1" MetadataPath="CommandBarPage">
     <BFUCommandBar Items=@items FarItems=@farItems OverflowItems=@overflowItems />
+</Demo>
+
+<Demo Header="CommandBar with custom item rendering" Key="2" MetadataPath="CommandBarPage">
+    <BFUCommandBar Items=@customItems >
+        <ItemTemplate>
+            @if (context.ItemType == ContextualMenuItemType.Divider)
+            {
+                <BFUCommandBarButton Disabled="true" IconName="GripperBarVertical" />
+            }
+            else
+            {
+                <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
+                                     MenuItems=@context.Items
+                                     Href=@context.Href
+                                     OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
+                                     Command=@context.Command CommandParameter=@context.CommandParameter
+                                     Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
+                                     Split=@context.Split Style=@context.Style />
+            }
+        </ItemTemplate>
+    </BFUCommandBar>
 </Demo>
 
 <em>@debugText</em>
@@ -20,6 +41,8 @@
     private List<BFUCommandBarItem> items;
     private List<BFUCommandBarItem> farItems;
     private List<BFUCommandBarItem> overflowItems;
+
+    private List<BFUCommandBarItem> customItems;
 
     private Action<ItemClickedArgs> OnClick => args =>
     {
@@ -39,25 +62,33 @@
         });
 
         items = new List<BFUCommandBarItem> {
-        new BFUCommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
-        new BFUCommandBarItem() {Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
-        new BFUCommandBarItem() {Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
-        new BFUCommandBarItem() {Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
-    };
+            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new BFUCommandBarItem() {Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new BFUCommandBarItem() {Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new BFUCommandBarItem() {Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+        };
 
         overflowItems = new List<BFUCommandBarItem> {
-        new BFUCommandBarItem() { Text= "First", IconName="Home", Key="9",  Command=buttonCommand, CommandParameter="First Overflow"},
-        new BFUCommandBarItem() {Text= "Second", IconName="Home", Key="10", Command=buttonCommand, CommandParameter="Second Overflow"},
-        new BFUCommandBarItem() {Text= "Third", IconName="Home", Key="11", Command=buttonCommand, CommandParameter="Third Overflow"},
-        new BFUCommandBarItem() {Text= "Fourth", IconName="Home", Key="12", Command=buttonCommand, CommandParameter="Fourth Overflow"}
-    };
+            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="9",  Command=buttonCommand, CommandParameter="First Overflow"},
+            new BFUCommandBarItem() {Text= "Second", IconName="Home", Key="10", Command=buttonCommand, CommandParameter="Second Overflow"},
+            new BFUCommandBarItem() {Text= "Third", IconName="Home", Key="11", Command=buttonCommand, CommandParameter="Third Overflow"},
+            new BFUCommandBarItem() {Text= "Fourth", IconName="Home", Key="12", Command=buttonCommand, CommandParameter="Fourth Overflow"}
+        };
 
         farItems = new List<BFUCommandBarItem> {
-        new BFUCommandBarItem() { Text= "First", IconName="Info", Key="5",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="First Far"},
-        new BFUCommandBarItem() {Text= "Second", IconName="Share", Key="6",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Second Far"},
-        new BFUCommandBarItem() {Text= "Third", IconName="Tiles", Key="7", IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Third Far"},
-        new BFUCommandBarItem() {Text= "Fourth", IconName="SortLines", Key="8",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Fourth Far"}
-    };
+            new BFUCommandBarItem() { Text= "First", IconName="Info", Key="5",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="First Far"},
+            new BFUCommandBarItem() {Text= "Second", IconName="Share", Key="6",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Second Far"},
+            new BFUCommandBarItem() {Text= "Third", IconName="Tiles", Key="7", IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Third Far"},
+            new BFUCommandBarItem() {Text= "Fourth", IconName="SortLines", Key="8",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Fourth Far"}
+        };
+
+        customItems = new List<BFUCommandBarItem> {
+            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new BFUCommandBarItem() { Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new BFUCommandBarItem() { Key="divider1", ItemType = ContextualMenuItemType.Divider },
+            new BFUCommandBarItem() { Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new BFUCommandBarItem() { Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+        };
 
         return Task.CompletedTask;
     }

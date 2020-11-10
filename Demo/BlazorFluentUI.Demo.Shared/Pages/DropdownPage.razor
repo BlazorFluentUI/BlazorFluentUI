@@ -1,4 +1,5 @@
 @page "/dropdownPage"
+@using System.ComponentModel.DataAnnotations
 
 <h1>Dropdown</h1>
 
@@ -51,6 +52,18 @@
                  Style="width:300px;" />
 </Demo>
 
+<Demo Header="Dropdown using Blazor Forms Validation" Key="6" MetadataPath="DropdownPage">
+    <EditForm Model="exampleModel" OnValidSubmit=@HandleValidSubmit>
+        <DataAnnotationsValidator />
+        <BFUValidationSummary />
+        <BFUDropdown ItemsSource=@items
+                     Placeholder="Select an option"
+                     @bind-SelectedOption=@(exampleModel.SelectionResult)
+                     Style="width:300px;" />
+        <BFUSubmitButton Text="Submit" />
+    </EditForm>
+</Demo>
+
 @code {
 
     IBFUDropdownOption uncontrolledSingleSelectionResult;
@@ -95,6 +108,20 @@
             uncontrolledMultiSelectionResult = uncontrolledMultiSelectionResult.Append(args.Option);
         else
             uncontrolledMultiSelectionResult = uncontrolledMultiSelectionResult.Where(x=> x != args.Option);
+    }
+
+
+    ExampleModel exampleModel = new ExampleModel();
+
+    class ExampleModel
+    {
+        [Required]
+        public IBFUDropdownOption SelectionResult { get; set; }
+    }
+
+    public void HandleValidSubmit()
+    {
+        var i = 3;
     }
 
 }

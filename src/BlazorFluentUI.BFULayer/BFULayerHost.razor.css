@@ -1,0 +1,13 @@
+﻿::deep .ms-Layer--fixed {
+    position: fixed;
+    z-index: var(--zIndex-Layer);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    visibility: hidden;
+}
+
+::deep .ms-Layer-content {
+    visibility: visible;
+}

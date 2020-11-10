@@ -1,0 +1,59 @@
+﻿.ms-Modal {
+    background-color: transparent;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--animation-DURATION_2) var(--animation-EASING_FUNCTION_2);
+}
+
+    .ms-Modal.isModeless {
+        position: absolute;
+    }
+
+    .ms-Modal.isOpen.topOffsetFixed {
+        align-items: flex-start;
+    }
+
+    .ms-Modal.isOpen {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+::deep .ms-Modal-main {
+    box-shadow: var(--effects-Elevation64);
+    border-radius: var(--effects-RoundedCorner2);
+    background-color: var(--palette-White);
+    box-sizing: border-box;
+    position: relative;
+    text-align: left;
+    outline: 3px solid transparent;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+::deep .ms-Modal.isModeless .ms-Modal-main {
+    z-index: var(--zIndex-Layer);
+}
+::deep .ms-Modal.isOpen.topOffsetFixed .ms-Modal-main {
+    top: 0;
+    /*THIS ISN'T CORRECT*/
+}
+::deep .ms-Modal-scrollableContent {
+    overflow-y: auto;
+    flex-grow: 1;
+    max-height: 100vh;
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+    ::deep .ms-Modal-scrollableContent {
+        max-height: 100%; /*THIS IS NOT CORRECT*/
+    }
+}
+::deep .ms-Modal-hiddenModal {
+    visibility: hidden;
+}

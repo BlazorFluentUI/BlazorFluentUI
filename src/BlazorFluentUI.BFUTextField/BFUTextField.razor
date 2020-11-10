@@ -1,7 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <BFULocalCS @bind-Rules="@TextFieldLocalRules" />
 
 <div class=@($"ms-TextField mediumFont {(this.Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(hasLabel ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )} {ClassName}")
@@ -11,7 +10,7 @@
     <div class="ms-TextField-wrapper">
         @if (hasLabel)
         {
-            <BlazorFluentUI.BFULabel Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</BlazorFluentUI.BFULabel>
+            <BlazorFluentUI.BFULabel ClassName="ms-TextField-label" Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</BlazorFluentUI.BFULabel>
         }
         <div class="ms-TextField-fieldGroup">
             @if (this.Prefix != null)
@@ -31,8 +30,8 @@
                 <textarea id=@this.id
                           @ref="textAreaRef"
                           style=@(autoAdjustedHeight != -1 ? $"height:{autoAdjustedHeight}px;" : "")
-                          value=@CurrentValue
-                          @oninput=@InputHandler
+                          @bind-value=@CurrentValue
+                          @bind-value:event="oninput"
                           @onchange=@ChangeHandler
                           class="mediumFont ms-TextField-field"
                           aria-label=@this.AriaLabel
@@ -53,7 +52,8 @@
                 <input type="@TypeUtils.InputMap[this.InputType]"
                        id=@this.id
                        @bind-value=@CurrentValue
-                       @oninput=@InputHandler
+                       @bind-value:event="oninput"
+                           @onchange=@ChangeHandler
                        autocomplete=@GetAutoCompleteString()
                        class="mediumFont ms-TextField-field"
                        aria-label=@this.AriaLabel

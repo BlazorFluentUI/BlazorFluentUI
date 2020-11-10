@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUTooltip : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUTooltip : BFUComponentBase
     {
         [Parameter] public int BeakWidth { get; set; } = 16;
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -42,44 +42,14 @@ namespace BlazorFluentUI
             TooltipLocalRules.Add(TooltipAfterRule);
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var tooltipGlobalRules = new HashSet<IRule>();
-            tooltipGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Tooltip-content" },
-                Properties = new CssString()
-                {
-                    Css = $"position:relative;" +
-                            $"z-index:1;" +
-                            $"color:{theme.SemanticTextColors.MenuItemText};" +
-                            $"word-wrap:break-word;" +
-                            $"overflow-wrap:break-word;" +
-                            $"overflow:hidden;"+
-                            $"font-size:{theme.FontStyle.FontSize.Small};" +
-                            $"font-weight:{theme.FontStyle.FontWeight.Regular};"
-                }
-            });
-            tooltipGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Tooltip-subtext" },
-                Properties = new CssString()
-                {
-                    Css = $"font-size:inherit;" +
-                            $"font-weight:inherit;" +
-                            $"color:inherit;" +
-                            $"margin:0;"
-                }
-            });
-            return tooltipGlobalRules;
-        }
+
 
         private void SetStyle()
         {
             TooltipGabSpace = -(Math.Sqrt((BeakWidth * BeakWidth) / 2) + 0);
             TooltipRule.Properties = new CssString()
             {
-                Css = $"background:{Theme.SemanticColors.MenuBackground};" +
+                Css = $"background:var(--semanticColors.MenuBackground);" +
                             $"box-shadow:{Theme.Effects.Elevation8};" +
                             $"padding:8px;" +
                             $"max-width:{MaxWidth}px;"

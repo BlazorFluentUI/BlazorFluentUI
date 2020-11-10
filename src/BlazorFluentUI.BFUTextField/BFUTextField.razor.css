@@ -1,0 +1,431 @@
+﻿.ms-TextField {
+    position: relative;
+    box-shadow: none;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.ms-TextField--underlined .ms-TextField-wrapper {
+    display: flex;
+    border-bottom: 1px solid var(--semanticColors-InputBorder);
+    width: 100%;
+}
+
+.ms-TextField--underlined.is-disabled .ms-TextField-wrapper {
+    border-bottom-color: var(--semanticColors-DisabledBackground);
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField--underlined.is-disabled .ms-TextField-wrapper {
+        border-color: gray;
+    }
+}
+
+
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.has-error) .ms-TextField-wrapper:hover,
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.invalid) .ms-TextField-wrapper:hover {
+    border-bottom-color: var(--semanticColors-InputBorderHovered);
+}
+
+
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused).has-error .ms-TextField-wrapper:hover,
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused).invalid .ms-TextField-wrapper:hover {
+    border-bottom-color: var(--semanticTextColors-ErrorText);
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField--underlined:not(.is-disabled):not(.is-focused) .ms-TextField-wrapper:hover {
+        border-bottom-color: Highlight;
+    }
+}
+
+.ms-TextField--underlined.is-focused .ms-TextField-wrapper {
+    position: relative;
+    border-color: var(--semanticColors-InputFocusBorderAlt);
+}
+
+    .ms-TextField--underlined.is-focused .ms-TextField-wrapper::after {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -1px;
+        bottom: -1px;
+        right: 0;
+        border-bottom: 2px solid var(--semanticColors-InputFocusBorderAlt);
+        border-radius: 0;
+        width:100%;
+    }
+
+.ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper,
+.ms-TextField--underlined.is-focused.invalid .ms-TextField-wrapper {
+    position: relative;
+    border-color: var(--semanticTextColors-ErrorText);
+}
+    .ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper::after,
+    .ms-TextField--underlined.is-focused.invalid .ms-TextField-wrapper::after {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -1px;
+        bottom: -1px;
+        right: 0;
+        border-bottom: 2px solid var(--semanticTextColors-ErrorText);
+        border-radius: 0;
+        width: 100%;
+    }
+
+.ms-TextField--underlined ::deep .ms-TextField-label {
+    font-size: var(--fontSize-Medium);
+    margin-right:8px;
+    padding-left:12px;
+    padding-right:0;
+    line-height:22px;
+    height:32px;
+}
+.ms-TextField--underlined.is-disabled ::deep .ms-TextField-label {
+    color:var(--palette-NeutralTertiary);
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField--underlined.is-focused ::deep .ms-TextField-label {
+        height: 31px; /* -1px to prevent jumpiness in HC with the increased border-width to 2px*/
+    }
+}
+
+    .ms-TextField-fieldGroup {
+        box-shadow: none;
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        border: 1px solid var(--semanticColors-InputBorder);
+        border-radius: var(--effects-RoundedCorner2);
+        background: var(--semanticColors-InputBackground);
+        cursor: text;
+        height: 32px;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        position: relative;
+    }
+
+
+    .ms-TextField--multiline .ms-TextField-fieldGroup {
+        min-height: 60px;
+        height: auto;
+        display: flex;
+    }
+
+
+.ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover,
+.ms-TextField:not(.is-focused):not(.is-disabled):not(.invalid) .ms-TextField-fieldGroup:hover {
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover,
+        .ms-TextField:not(.is-focused):not(.is-disabled):not(.invalid) .ms-TextField-fieldGroup:hover {
+            border-color: Highlight;
+        }
+    }
+
+
+
+    .ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup {
+        border-color: var(--semanticColors-InputFocusBorderAlt);
+    }
+
+        .ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup::after {
+            pointer-events: none;
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: -1px;
+            bottom: -1px;
+            right: -1px;
+            border: 2px solid var(--semanticColors-InputFocusBorderAlt);
+            border-radius: var(--effects-RoundedCorner2);
+        }
+
+
+
+
+.ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup,
+.ms-TextField.is-focused.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup {
+    border-color: var(--semanticTextColors-ErrorText);
+}
+
+    .ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup::after,
+    .ms-TextField.is-focused.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup::after {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        left: -1px;
+        top: -1px;
+        bottom: -1px;
+        right: -1px;
+        border: 2px solid var(--semanticTextColors-ErrorText);
+        border-radius: var(--effects-RoundedCorner2);
+    }
+
+
+
+
+    .ms-TextField.is-disabled .ms-TextField-fieldGroup {
+        border-color: var(--semanticColors-DisabledBackground);
+        cursor: default;
+    }
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-TextField.is-disabled .ms-TextField-fieldGroup {
+            border-color: gray;
+        }
+    }
+
+
+    .ms-TextField--borderless .ms-TextField-fieldGroup {
+        border: none;
+    }
+
+
+    .ms-TextField--borderless.is-focused .ms-TextField-fieldGroup {
+        border: none;
+    }
+
+
+.ms-TextField.is-focused.ms-TextField--borderless:not(.ms-TextField--underlined) .ms-TextField-fieldGroup::after {
+    border: none;
+}
+
+
+    .ms-TextField--underlined .ms-TextField-fieldGroup {
+        flex: 1 1 0px;
+        border: none;
+        text-align: left;
+    }
+
+
+    .ms-TextField--underlined.is-disabled .ms-TextField-fieldGroup {
+        background: none;
+    }
+
+
+.ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup,
+.ms-TextField.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup {
+    border-color: var(--semanticTextColors-ErrorText);
+}
+
+
+    .ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup:hover,
+    .ms-TextField.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup:hover {
+        border-color: var(--semanticTextColors-ErrorText);
+    }
+
+
+    .ms-TextField.no-label.is-required .ms-TextField-fieldGroup:before {
+        content: '*';
+        color: var(--semanticTextColors-ErrorText);
+        position: absolute;
+        top: -5px;
+        right: -10px;
+    }
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-TextField.no-label.is-required .ms-TextField-fieldGroup:before {
+            right: -14px;
+        }
+    }
+
+
+    .ms-TextField-field {
+        box-shadow: none;
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        border-radius: 0;
+        border: none;
+        background: none;
+        background-color: transparent;
+        color: var(--semanticTextColors-InputText);
+        padding: 0px 8px;
+        width: 100%;
+        text-overflow: ellipsis;
+        outline: 0;
+    }
+
+
+        .ms-TextField-field:active, .ms-TextField-field:focus, .ms-TextField-field:hover {
+            outline: 0;
+        }
+
+
+        .ms-TextField-field::-ms-clear {
+            display: none;
+        }
+
+        .ms-TextField-field::placeholder {
+            color: var(--semanticTextColors-InputPlaceholderText);
+            opacity: 1;
+        }
+
+        .ms-TextField-field:-ms-input-placeholder {
+            color: var(--semanticTextColors-InputPlaceholderText);
+            opacity: 1;
+        }
+
+    .ms-TextField--multiline.ms-TextField--unresizable .ms-TextField-field {
+        resize: none;
+    }
+
+
+    .ms-TextField--multiline .ms-TextField-field {
+        min-height: inherit;
+        line-height: 17px;
+        flex-grow: 1;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        overflow: auto;
+        width: 100%;
+    }
+
+
+    .ms-TextField--multiline.auto-adjust-height .ms-TextField-field {
+        overflow: hidden;
+    }
+
+
+    .ms-TextField.is-disabled .ms-TextField-field {
+        background-color: var(--semanticColors-DisabledBackground);
+        color: var(--semanticTextColors-DisabledText);
+        border-color: var(--semanticColors-DisabledBackground);
+    }
+
+
+        .ms-TextField.is-disabled .ms-TextField-field::placeholder {
+            color: var(--semanticTextColors-DisabledText);
+        }
+
+        .ms-TextField.is-disabled .ms-TextField-field:-ms-input-placeholder {
+            color: var(--semanticTextColors-DisabledText);
+        }
+
+    .ms-TextField--underlined .ms-TextField-field {
+        text-align: left;
+    }
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-TextField.is-focused:not(.ms-TextField--borderless) .ms-TextField-field {
+            padding-left: 11px;
+            padding-right: 11px;
+        }
+
+        .ms-TextField.is-focused.ms-TextField--multiline:not(.ms-TextField--borderless) .ms-TextField-field {
+            padding-top: 4px;
+        }
+    }
+
+
+
+    .ms-TextField--multiline ::deep .ms-TextField-icon {
+        padding-right: 24px;
+        align-items: flex-end;
+    }
+
+
+    ::deep .ms-TextField-icon {
+        pointer-events: none;
+        position: absolute;
+        bottom: 6px;
+        right: 8px;
+        top: auto;
+        font-size: var(--fontSize-Medium);
+        line-height: 18px;
+    }
+
+
+    .ms-TextField.is-disabled ::deep .ms-TextField-icon {
+        color: var(--semanticTextColors-DisabledText);
+    }
+
+
+    .ms-TextField-description {
+        color: var(--semanticTextColors-BodySubtext);
+        font-size: var(--fontSize-XSmall);
+    }
+
+
+    .ms-TextField-prefix {
+        background: var(--semanticColors-DisabledBackground);
+        color: var(--semanticTextColors-InputPlaceholderText);
+        display: flex;
+        align-items: center;
+        padding: 0px 10px;
+        line-height: 1px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+
+    .ms-TextField.is-disabled .ms-TextField-prefix {
+        color: var(--semanticTextColors-DisabledText);
+    }
+
+
+
+    .ms-TextField-suffix {
+        background: var(--semanticColors-DisabledBackground);
+        color: var(--semanticTextColors-InputPlaceholderText);
+        display: flex;
+        align-items: center;
+        padding: 0px 10px;
+        line-height: 1px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .ms-TextField.is-disabled .ms-TextField-suffix {
+        color: var(--semanticTextColors-DisabledText);
+    }
+
+
+    .ms-TextField--errorMessage {
+        font-size: var(--fontSize-Small);
+        font-weight: var(--fontWeight-Regular);
+        color: var(--semanticTextColors-ErrorText);
+        margin: 0;
+        padding-top: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+
+    .ms-TextField.ms-TextField--underlined.is-disabled .ms-Label {
+        color: var(--palette-NeutralTertiary);
+    }
+
+
+    .ms-TextField.ms-TextField--underlined .ms-Label {
+        font-size: var(--fontSize-Medium);
+        margin-right: 8px;
+        padding-left: 12px;
+        padding-right: 0px;
+        line-height: 22px;
+        height: 32px;
+    }
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-TextField.ms-TextField--underlined.is-focused .ms-Label {
+            height: 31px;
+        }
+    }
+            

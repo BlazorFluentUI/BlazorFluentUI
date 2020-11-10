@@ -41,32 +41,7 @@ namespace BlazorFluentUI
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        //public async Task SetVirtualParentAsync(ElementReference parent)
-        //{
-        //    await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.setVirtualParent", RootElementReference, parent);
-        //}
-
-        //public void SetChildContent(string layerId, RenderFragment renderFragment, bool isFixed)
-        //{
-        //    if (fragments.ContainsKey(layerId))
-        //    {
-        //        fragments[layerId] = (renderFragment, isFixed);
-        //    }
-        //    else
-        //    {
-        //        fragments.Add(layerId, (renderFragment, isFixed));
-        //    }
-        //    //this.ChildContent = renderFragment;
-        //    //this.IsFixed = isFixed;
-        //    Rerender();
-        //}
-
-        //public void RemoveChildContent(string layerId)
-        //{
-        //    fragments.Remove(layerId);
-        //    //this.ChildContent = null;
-        //    Rerender();
-        //}
+       
 
         public void Dispose()
         {

@@ -3,34 +3,31 @@
 /// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiPanel;
 (function (BlazorFluentUiPanel) {
-    var Handler = /** @class */ (function () {
-        function Handler() {
-        }
-        Handler.addListener = function (element, event, handler, capture) {
+    class Handler {
+        static addListener(element, event, handler, capture) {
             element.addEventListener(event, handler, capture);
             this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
             return this.i++;
-        };
-        Handler.removeListener = function (id) {
+        }
+        static removeListener(id) {
             if (id in this.listeners) {
                 var h = this.listeners[id];
                 h.element.removeEventListener(h.event, h.handler, h.capture);
                 delete this.listeners[id];
             }
-        };
-        Handler.i = 1;
-        Handler.listeners = {};
-        return Handler;
-    }());
+        }
+    }
+    Handler.i = 1;
+    Handler.listeners = {};
     function registerSizeHandler(panel) {
         //var window = targetElement.ownerDocument.defaultView;
-        var resizeId = Handler.addListener(window, "resize", function (ev) { panel.invokeMethodAsync("UpdateFooterPositionAsync"); }, false);
+        var resizeId = Handler.addListener(window, "resize", (ev) => { panel.invokeMethodAsync("UpdateFooterPositionAsync"); }, false);
         //var blurId = Handler.addListener(targetElement, "blur", (ev: Event) => { ev.preventDefault(); panel.invokeMethodAsync("OnBlur"); }, false);
         return resizeId;
     }
     BlazorFluentUiPanel.registerSizeHandler = registerSizeHandler;
     function registerMouseDownHandler(panelElement, panelDotNet) {
-        var mouseDownId = Handler.addListener(document.body, "mousedown", function (ev) {
+        var mouseDownId = Handler.addListener(document.body, "mousedown", (ev) => {
             //first get whether click is inside panel
             if (!ev.defaultPrevented) {
                 var contains = BlazorFluentUiBaseComponent.elementContains(panelElement, ev.target);
@@ -48,19 +45,19 @@ var BlazorFluentUiPanel;
         Handler.removeListener(id);
     }
     BlazorFluentUiPanel.unregisterHandler = unregisterHandler;
-    var DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
+    const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
     function makeElementScrollAllower(element) {
-        var _previousClientY = 0;
-        var _element = null;
+        let _previousClientY = 0;
+        let _element = null;
         // remember the clientY for future calls of _preventOverscrolling
-        var _saveClientY = function (event) {
+        const _saveClientY = (event) => {
             if (event.targetTouches.length === 1) {
                 _previousClientY = event.targetTouches[0].clientY;
             }
         };
         // prevent the body from scrolling when the user attempts
         // to scroll past the top or bottom of the element
-        var _preventOverscrolling = function (event) {
+        const _preventOverscrolling = (event) => {
             // only respond to a single-finger touch
             if (event.targetTouches.length !== 1) {
                 return;
@@ -71,8 +68,8 @@ var BlazorFluentUiPanel;
             if (!_element) {
                 return;
             }
-            var clientY = event.targetTouches[0].clientY - _previousClientY;
-            var scrollableParent = findScrollableParent(event.target);
+            const clientY = event.targetTouches[0].clientY - _previousClientY;
+            const scrollableParent = findScrollableParent(event.target);
             if (scrollableParent) {
                 _element = scrollableParent;
             }
@@ -93,7 +90,7 @@ var BlazorFluentUiPanel;
     }
     BlazorFluentUiPanel.makeElementScrollAllower = makeElementScrollAllower;
     function findScrollableParent(startingElement) {
-        var el = startingElement;
+        let el = startingElement;
         // First do a quick scan for the scrollable attribute.
         while (el && el !== document.body) {
             if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) === 'true') {
@@ -105,8 +102,8 @@ var BlazorFluentUiPanel;
         el = startingElement;
         while (el && el !== document.body) {
             if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) !== 'false') {
-                var computedStyles = getComputedStyle(el);
-                var overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
+                const computedStyles = getComputedStyle(el);
+                let overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
                 if (overflowY && (overflowY === 'scroll' || overflowY === 'auto')) {
                     return el;
                 }

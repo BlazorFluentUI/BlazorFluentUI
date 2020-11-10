@@ -1,4 +1,5 @@
 ﻿@page "/checkboxPage"
+@using System.ComponentModel.DataAnnotations
 
 <h1>Checkbox</h1>
 
@@ -11,23 +12,33 @@
     </BFUStack>
 </Demo>
 
-<Demo Header="Other Implementation Examples" Key="0" MetadataPath="CheckboxPage">
+<Demo Header="Other Implementation Examples" Key="1" MetadataPath="CheckboxPage">
     <BFUStack Tokens=stackTokens>
         <BFULabel>Controlled checkbox is @(_isFirstChecked ? "checked" : "unchecked").</BFULabel>
         <BFUCheckbox Label="Controlled checkbox" @bind-Checked=@_isFirstChecked />
         <BFUCheckbox Label='Checkbox rendered with boxSide "end"' BoxSide="BoxSide.End" />
-        @*<BFUCheckbox Label="Checkbox with extra props for the input" inputProps={inputProps} />*@
-        @*<BFUCheckbox Label="Checkbox with link inside the label" onRenderLabel={_renderLabelWithLink} />*@
     </BFUStack>
 </Demo>
 
-<Demo Header="Indeterminate Checkboxes" Key="0" MetadataPath="CheckboxPage">
+<Demo Header="Indeterminate Checkboxes" Key="2" MetadataPath="CheckboxPage">
     <BFUStack Tokens=stackTokens>
         <BFULabel>Indeterminate checkbox (controlled) is @(_isIndeterminate ? "indeterminate" : (_isSecondChecked ? "checked" : "unchecked" )).</BFULabel>
         <BFUCheckbox Label="Indeterminate checkbox (uncontrolled)" DefaultIndeterminate="true" />
         <BFUCheckbox Label="Indeterminate checkbox which defaults to true when clicked (uncontrolled)" DefaultIndeterminate="true" DefaultChecked="true" />
         <BFUCheckbox Label="Disabled indeterminate checkbox" Disabled="true" DefaultIndeterminate="true" />
         <BFUCheckbox Label="Indeterminate checkbox (controlled)" @bind-Indeterminate=@_isIndeterminate @bind-Checked=@_isSecondChecked />
+    </BFUStack>
+</Demo>
+
+<Demo Header="Blazor Forms Validation Example" Key="3" MetadataPath="CheckboxPage">
+    <BFUStack Tokens=stackTokens>
+        <EditForm Model="exampleModel" OnValidSubmit=@HandleValidSubmit>
+            <DataAnnotationsValidator />
+            <BFUValidationSummary />
+            <BFULabel>Do you agree with the terms?</BFULabel>
+            <BFUCheckbox Label="I agree with the terms!" @bind-Checked=@(exampleModel.IsChecked)/>
+            <BFUSubmitButton Text="Submit" />
+        </EditForm>
     </BFUStack>
 </Demo>
 
@@ -49,6 +60,19 @@
     private void FirstChange(bool isChecked)
     {
         Console.WriteLine($"The option has been changed to {isChecked}.");
+    }
+
+    ExampleModel exampleModel = new ExampleModel();
+
+    class ExampleModel
+    {
+        [RegularExpression("True", ErrorMessage = "Must agree to terms.")]
+        public bool IsChecked { get; set; }
+    }
+
+    public void HandleValidSubmit()
+    {
+        var i = 3;
     }
 
 }

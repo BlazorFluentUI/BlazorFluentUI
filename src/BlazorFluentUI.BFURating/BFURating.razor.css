@@ -1,0 +1,178 @@
+﻿
+::deep .ms-RatingStar-root:hover .ms-RatingStar-back {
+    color: var(--palette-NeutralPrimary);
+}
+
+.ms-RatingStar-root--small {
+    height: 48px;
+}
+
+.ms-RatingStar-root--large {
+    height: 56px;
+}
+
+::deep .ms-RatingStar-root--small {
+    height: 48px;
+}
+
+::deep .ms-RatingStar-root--large {
+    height: 56px;
+}
+
+.ms-RatingStar-container {
+    display: inline-block;
+    position: relative;
+    height: inherit;
+}
+
+::deep .ms-RatingStar-back {
+    color: var(--palette-NeutralSecondary);
+    width: 100%;
+}
+
+::deep .ms-RatingStar-back--disabled {
+    color: var(--semanticTextColors-DisabledBodySubtext);
+    width: 100%;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    ::deep .ms-RatingStar-back--disabled {
+        color: GrayText;
+    }
+}
+
+
+::deep .ms-RatingStar-front {
+    position: absolute;
+    height: 100%;
+    left: 0;
+    top: 0;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    color: var(--palette-NeutralPrimary);
+    width: 0px;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    ::deep .ms-RatingStar-front {
+        color: Highlight;
+    }
+}
+
+.ms-Rating-button {
+    background-color: transparent;
+    padding: 8px 2px;
+    box-sizing: content-box;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+    outline: transparent;
+    position: relative;
+}
+
+.ms-Rating-button::-moz-focus-inner {
+    border: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-Rating-button:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+    .ms-Rating-button:not(.ms-Rating-button--disabled):hover ~ .ms-Rating-button .ms-RatingStar-back {
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Rating-button:not(.ms-Rating-button--disabled):hover ~ .ms-Rating-button .ms-RatingStar-front {
+        color: var(--palette-NeutralSecondary);
+    }
+
+.ms-Rating-button--disabled {
+    background-color: transparent;
+    padding: 8px 2px;
+    box-sizing: content-box;
+    margin: 0;
+    border: none;
+    cursor: default;
+    outline: transparent;
+    position: relative;
+}
+
+    .ms-Rating-button--disabled::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-Rating-button--disabled:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+.ms-Rating-button:hover .ms-RatingStar-back {
+    color: var(--palette-ThemePrimary);
+}
+
+
+.ms-Rating-button:hover .ms-RatingStar-front {
+    color: var(--palette-ThemeDark);
+}
+
+.ms-Rating--small {
+    font-size: 16px;
+    line-height: 16px;
+    height: 16px;
+}
+
+.ms-Rating--large {
+    font-size: 20px;
+    line-height: 20px;
+    height: 20px;
+}
+
+.ms-Rating-labelText {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+
+.ms-RatingStar-root--small ::deep .ms-Rating-focuszone,
+.ms-RatingStar-root--large ::deep .ms-Rating-focuszone {
+    display: inline-block;
+    outline: transparent;
+    position: relative;
+}
+    .ms-RatingStar-root--small ::deep .ms-Rating-focuszone::-moz-focus-inner,
+    .ms-RatingStar-root--large ::deep .ms-Rating-focuszone::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-RatingStar-root--small ::deep .ms-Rating-focuszone:focus::after,
+.ms-Fabric--isFocusVisible .ms-RatingStar-root--large ::deep .ms-Rating-focuszone:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}

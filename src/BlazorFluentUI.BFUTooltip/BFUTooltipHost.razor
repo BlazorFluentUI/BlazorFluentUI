@@ -1,10 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUStylePreloader Component="new BFUTooltip()" />
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
-
 <div class=@($"ms-TooltipHost {ClassName}")
      style=@Style
      @ref=@RootElementReference

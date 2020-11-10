@@ -1,0 +1,236 @@
+﻿.ms-GroupHeader {
+    outline: transparent;
+    position: relative;
+    border-bottom: 1px solid var(--semanticColors-ListBackground); /*// keep the border for height but color it so it's invisible.*/
+    cursor: default;
+    user-select: none;
+}
+
+.ms-GroupHeader::-moz-focus-inner {
+    border: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-GroupHeader:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+.ms-GroupHeader:hover {
+    background: var(--semanticColors-ListItemBackgroundHovered);
+    color: var(--semanticTextColors-ActionLinkHovered);
+}
+
+
+    .ms-GroupHeader:hover .ms-GroupHeader-check {
+        opacity: 1;
+    }
+
+
+.ms-Fabric--isFocusVisible .ms-GroupHeader:focus .ms-GroupHeader-check {
+    opacity: 1;
+}
+
+
+
+.ms-GroupedList-group.is-dropping > .ms-GroupHeader .ms-GroupHeader-dropIcon {
+    transition: transform var(--animation-DURATION_4) cubic-bezier(0.075, 0.820, 0.165, 1.000), opacity var(--animation-DURATION_1) cubic-bezier(0.390, 0.575, 0.565, 1.000);
+    transition-delay: var(--animation-DURATION_3);
+    opacity: 1;
+    transform: rotate(0.2deg) scale(1); /*// rotation prevents jittery motion in IE*/
+}
+
+
+.ms-GroupedList-group.is-dropping > .ms-GroupHeader-check {
+    opacity: 0;
+}
+
+
+
+.ms-GroupHeader.is-selected {
+    background: var(--semanticColors-ListItemBackgroundChecked);
+}
+
+
+    .ms-GroupHeader.is-selected:hover {
+        background: var(--semanticColors-ListItemBackgroundCheckedHovered);
+    }
+
+
+::deep .ms-GroupHeader-groupHeaderContainer {
+    display: flex;
+    align-items: center;
+    height: 48px;
+}
+
+
+.ms-GroupHeader--compact ::deep .ms-GroupHeader-groupHeaderContainer {
+    height: 40px;
+}
+
+
+.ms-GroupHeader-headerCount {
+    padding: 0px 4px;
+}
+
+
+
+.ms-GroupHeader-check {
+    outline: transparent;
+    position: relative;
+    cursor: default;
+    background: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1px;
+    margin-top: -1px;
+    opacity: 0;
+    width: 48px;
+    height: 48px;
+}
+
+.ms-GroupHeader-check::-moz-focus-inner {
+    border: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-GroupHeader-check:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+
+.ms-Fabric--isFocusVisible .ms-GroupHeader-check:focus {
+    opacity: 1;
+}
+
+
+.ms-GroupHeader-expand {
+    outline: transparent;
+    position: relative;
+    cursor: default;
+    background: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fontSize-Small);
+    width: 48px;
+    height: 48px;
+    color: var(--palette-NeutralSecondary);
+}
+
+.ms-GroupHeader-expand::-moz-focus-inner {
+    border: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-GroupHeader-expand:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+.ms-GroupHeader--compact .ms-GroupHeader-expand {
+    height: 40px;
+}
+
+
+.ms-GroupHeader.is-selected .ms-GroupHeader-expand {
+    color: var(--palette-NeutralPrimary);
+}
+
+
+.ms-GroupHeader-expand:hover {
+    background-color: var(--palette-NeutralLight);
+}
+
+
+.ms-GroupHeader.is-selected .ms-GroupHeader-expand:hover {
+    background-color: var(--palette-NeutralQuaternary);
+}
+
+
+.ms-GroupHeader-expand:active {
+    background-color: var(--palette-NeutralQuaternaryAlt);
+}
+
+
+.ms-GroupHeader.is-selected .ms-GroupHeader-expand:active {
+    background-color: var(--palette-NeutralTertiaryAlt);
+}
+
+
+
+::deep .ms-GroupHeader-expandIsCollapsed {
+    transform: rotate(90deg);
+    transform-origin: 50% 50%;
+    transition: transform .1s linear;
+}
+
+
+.ms-GroupHeader.is-collapsed ::deep .ms-GroupHeader-expandIsCollapsed {
+    transform: rotate(0deg);
+}
+
+
+.ms-GroupHeader-title {
+    padding-left: 12px;
+    font-size: var(--fontSize-MediumPlus);
+    font-weight: var(--fontWeight-SemiBold);
+    cursor: pointer;
+    outline: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+.ms-GroupHeader--compact .ms-GroupHeader-title {
+    font-size: var(--fontSize-Medium);
+}
+
+
+.ms-GroupHeader.is-collapsed .ms-GroupHeader-title {
+    font-weight: var(--fontWeight-Regular);
+}
+
+
+.ms-GroupHeader-dropIcon {
+    position: absolute;
+    left: -26px;
+    font-size: var(--iconFontSize-Large); /*//used IconFontSize theme style which we haven't implemented yet.*/
+    color: var(--palette-NeutralSecondary);
+    transition: transform var(--animation-DURATION_2) cubic-bezier(0.600, -0.280, 0.735, 0.045), opacity var(--animation-DURATION_4) cubic-bezier(0.390, 0.575, 0.565, 1.000);
+    opacity: 0;
+    transform: rotate(0.2deg) scale(0.65);
+    transform-origin: 10px 10px;
+}
+
+
+    .ms-GroupHeader-dropIcon .ms-Icon--Tag {
+        position: absolute;
+    }
+            

@@ -29,14 +29,14 @@ steps:
   displayName: 'restore nugets'
   inputs:
     command: 'restore'
-    projects: '**/*BlazorFluentUI.sln'
+    projects: '**/BlazorFluentUI.Components.sln'
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
   inputs:
     command: 'build'
-    projects: '**/*BlazorFluentUI.sln'
+    projects: '**/BlazorFluentUI.Components.sln'
     arguments: '-c Release --no-restore'
 
 - task: DotNetCoreCLI@2

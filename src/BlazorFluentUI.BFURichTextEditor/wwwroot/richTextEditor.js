@@ -1,4 +1,4 @@
-/// <reference path="baseComponent.d.ts" />
+// /// <reference path="baseComponent.d.ts" />
 // /// <reference path="quill.d.ts" />
 
 ////import Quill from "./quill";

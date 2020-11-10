@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -48,7 +47,7 @@ namespace BlazorFluentUI
         private HashSet<TItem> selectedItems = new HashSet<TItem>();
 
         private BehaviorSubject<ICollection<TItem>> selectedItemsSubject;
-        
+
         public IObservable<ICollection<TItem>> SelectedItemsObservable { get; private set; }
 
         private bool doNotRenderOnce = false;
@@ -64,7 +63,6 @@ namespace BlazorFluentUI
                 doNotRenderOnce = false;
 
             return true;
-            //return base.ShouldRender();
         }
 
         protected override void OnInitialized()
@@ -79,20 +77,16 @@ namespace BlazorFluentUI
             if (Selection != null && Selection.SelectedItems != selectedItems)
             {
                 selectedItems = new System.Collections.Generic.HashSet<TItem>(Selection.SelectedItems);
-                //selectedItemsSubject.OnNext(selectedItems);
-                //StateHasChanged();
             }
 
             if (SelectionMode == SelectionMode.Single && selectedItems.Count() > 1)
             {
                 selectedItems.Clear();
-                //selectedItemsSubject.OnNext(selectedItems);
                 await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
             }
             else if (SelectionMode == SelectionMode.None && selectedItems.Count() > 0)
             {
                 selectedItems.Clear();
-                //selectedItemsSubject.OnNext(selectedItems);
                 await SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
             }
             await base.OnParametersSetAsync();
@@ -154,7 +148,7 @@ namespace BlazorFluentUI
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
             }
         }
-                
+
         public void RemoveItems(IEnumerable<TItem> items)
         {
             foreach (var item in items)
@@ -190,7 +184,7 @@ namespace BlazorFluentUI
             }
         }
 
-        
+
 
         public void ClearSelection()
         {
@@ -267,51 +261,6 @@ namespace BlazorFluentUI
                 SelectionChanged.InvokeAsync(new Selection<TItem>(selectedItems));
             }
         }
-
-
-        //private void OnSelectedChanged(Selection<GroupedListItem<TItem>> selection)
-        //{
-        //    List<string> s = new List<string>();
-
-        //    var finalList = new System.Collections.Generic.List<GroupedListItem<TItem>>(selection.SelectedItems);
-
-        //    var itemsToAdd = selection.SelectedItems.Except(internalSelection.SelectedItems).ToList();
-        //    var itemsToRemove = internalSelection.SelectedItems.Except(selection.SelectedItems).ToList();
-        //    itemsToRemove.ForEach(x =>
-        //    {
-        //        var remove = GetChildrenRecursive(x);
-        //        finalList.Remove(remove);
-        //    });
-
-        //    itemsToAdd.ForEach(x =>
-        //    {
-        //        var add = GetChildrenRecursive(x);
-        //        finalList.Add(add);
-        //    });
-
-        //    //check to see if a header needs to be turned OFF because all of its children are *not* selected.
-        //    restart:
-        //    var headers = finalList.Where(x => x is HeaderItem<TItem>).Cast<HeaderItem<TItem>>().ToList();
-        //    foreach (var header in headers)
-        //    {
-        //        if (header.Children.Except(finalList).Count() > 0)
-        //        {
-        //            finalList.Remove(header);
-        //            //start loop over again, simplest way to start over is a goto statement.  This is needed when a header turns off, but it's parent needs to turn off, too.
-        //            goto restart;
-        //        }
-        //    }
-
-        //    //check to see if a header needs to be turned ON because all of its children *are* selected.
-        //    var potentialHeaders = finalList.Select(x => x.Parent).Where(x => x != null).Distinct().ToList();
-        //    foreach (var header in potentialHeaders)
-        //    {
-        //        if (header.Children.Except(finalList).Count() == 0)
-        //            finalList.Add(header);
-        //    }
-
-        //    SelectionChanged.InvokeAsync(new BFUSelection<TItem>(finalList.Select(x => x.Item)));
-        //}
 
     }
 }

@@ -1,0 +1,312 @@
+﻿/* ROOT */
+.ms-Checkbox {
+    display: flex;
+    position: relative;
+    /*word-wrap: break-word;
+    overflow-wrap: break-word;*/
+}
+
+
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover .ms-Checkbox-checkbox {
+        border-color: var(--semanticColors-InputBorderHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):focus .ms-Checkbox-checkbox {
+        border-color: var(--semanticColors-InputBorderHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover .ms-Checkbox-checkmark {
+        opacity: 1;
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):hover .ms-Checkbox-checkbox {
+        background: var(--semanticColors-InputBackgroundCheckedHovered);
+        border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):focus .ms-Checkbox-checkbox {
+        background: var(--semanticColors-InputBackgroundCheckedHovered);
+        border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-indeterminate:hover .ms-Checkbox-checkbox, .ms-Checkbox.is-indeterminate:hover ::deep .ms-Checkbox-checkbox::after {
+        border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-indeterminate:focus .ms-Checkbox-checkbox {
+        border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-indeterminate:hover .ms-Checkbox-checkmark {
+        opacity: 0;
+    }
+
+    .ms-Checkbox:hover .ms-Checkbox-text, .ms-Checkbox:focus .ms-Checkbox-text {
+        color: var(--semanticColors-InputTextHovered);
+    }
+
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover .ms-Checkbox-checkbox {
+        border-color: Highlight;
+    }
+
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover .ms-Checkbox-checkmark {
+        color: Highlight;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):hover .ms-Checkbox-checkbox {
+        background: Highlight;
+        border-color: Highlight;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):focus .ms-Checkbox-checkbox {
+        background: Highlight;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):focus:hover .ms-Checkbox-checkbox {
+        background: Highlight;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):focus:hover .ms-Checkbox-checkmark {
+        color: Window;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):hover .ms-Checkbox-checkmark {
+        color: Window;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-indeterminate:hover .ms-Checkbox-checkbox, .ms-Checkbox.is-indeterminate:hover ::deep .ms-Checkbox-checkbox::after {
+        border-color: WindowText;
+    }
+
+    .ms-Checkbox.is-disabled:hover .ms-Checkbox-text, .ms-Checkbox:focus .ms-Checkbox-text {
+        color: GrayText;
+    }
+
+    .ms-Checkbox:not(.is-disabled):hover .ms-Checkbox-text, .ms-Checkbox:focus .ms-Checkbox-text {
+        color: WindowText;
+    }
+}
+
+
+
+
+/* INPUT */
+
+.ms-Checkbox-input {
+    position: absolute;
+    background: none;
+    opacity: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-Checkbox ::deep .ms-Checkbox-input:focus + .ms-Checkbox-label::before {
+    content: "";
+    outline: 1px solid var(--palette-NeutralSecondary);
+    outline-offset: 2px;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible .ms-Checkbox ::deep .ms-Checkbox-input:focus + .ms-Checkbox-label::before {
+        outline: 1px solid ActiveBorder;
+    }
+}
+
+
+
+
+
+/* LABEL */
+
+.ms-Checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    /*text-align: left;*/
+}
+
+.ms-Checkbox.reversed .ms-Checkbox-label {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.ms-Checkbox ::deep .ms-Checkbox-label::before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    content: "";
+    pointer-events: none;
+}
+
+.ms-Checkbox.is-disabled .ms-Checkbox-label{
+    cursor: default;
+}
+
+
+
+
+/* CHECKBOX */
+
+.ms-Checkbox-checkbox {
+    position:relative;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    border: 1px solid var(--palette-NeutralPrimary);
+    border-radius: var(--effects-RoundedCorner2);
+    box-sizing: border-box;
+    transition-property: background, border, border-color;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(.4,0,.23,1);
+    /* in case the icon is bigger than the box */
+    overflow: hidden;
+    margin-left: 4px;
+}
+    .ms-Checkbox.is-indeterminate ::deep .ms-Checkbox-checkbox::after {
+        content: "";
+        border-radius: var(--effects-RoundedCorner2);
+        position: absolute;
+        height: 10px;
+        width: 10px;
+        top: 4px;
+        left: 4px;
+        box-sizing: border-box;
+        border-width: 5px;
+        border-style: solid;
+        border-color: var(--semanticColors-InputBackgroundChecked);        
+        transition-property: border-width, border, border-color;
+        transition-duration: 200ms;
+        transition-timing-function: cubic-bezier(.4, 0, .23, 1);
+    }
+.ms-Checkbox.is-indeterminate.is-disabled ::deep .ms-Checkbox-checkbox::after {
+    border-color: var(--semanticTextColors-DisabledBodySubtext);
+}
+
+.ms-Checkbox.is-indeterminate .ms-Checkbox-checkbox {
+    border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Checkbox-checkbox{
+        border-color:WindowText;
+    }
+
+    .ms-Checkbox-checkbox.is-indeterminate::after {
+        border-color: WindowText;
+    }
+}
+
+.ms-Checkbox.reversed .ms-Checkbox-checkbox {
+    margin-right: 4px;
+    margin-left: 0px; /*skipping RTL*/
+}
+
+.ms-Checkbox:not(.is-disabled):not(.is-indeterminate).is-checked .ms-Checkbox-checkbox {
+    background: var(--semanticColors-InputBackgroundChecked);
+    border-color: var(--semanticColors-InputBackgroundChecked);
+}
+
+.ms-Checkbox.is-disabled .ms-Checkbox-checkbox {
+    border-color: var(--semanticTextColors-DisabledBodySubtext);
+}
+
+.ms-Checkbox.is-disabled.is-checked .ms-Checkbox-checkbox {
+    background: var(--semanticTextColors-DisabledBodySubtext);
+    border-color: var(--semanticTextColors-DisabledBodySubtext);
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Checkbox.is-disabled .ms-Checkbox-checkbox {
+        border-color: GrayText;
+    }
+
+    .ms-Checkbox:not(.is-disabled):not(.is-indeterminate).is-checked .ms-Checkbox-checkbox {
+        background: Highlight;
+        border-color: Highlight;
+    }
+
+    .ms-Checkbox.is-disabled.is-checked .ms-Checkbox-checkbox {
+        background: Window;
+    }
+}    
+
+    /* CHECKMARK */
+.ms-Checkbox-checkmark {
+    opacity: 0;
+    color: var(--semanticColors-InputForegroundChecked);
+    font-size: var(--fontSize-Medium);
+    line-height: 20px;
+}
+
+.ms-Checkbox.is-checked .ms-Checkbox-checkmark {
+    opacity: 1;
+}
+
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-Checkbox-checkmark {
+            color: Window;
+            -ms-high-contrast-adjust: none;
+        }
+
+        .ms-Checkbox.is-checked .ms-Checkbox-checkmark{
+            color: GrayText;
+        }
+    }
+
+/* TEXT */
+.ms-Checkbox-text {
+    color: var(--semanticTextColors-BodyText);
+    font-size: var(--fontSize-Medium);
+    line-height: 20px;
+    margin-left: 4px;
+}
+
+.ms-Checkbox.reversed .ms-Checkbox-text {
+    margin-right: 4px;
+    margin-left: 0px;
+}
+
+.ms-Checkbox.is-disabled .ms-Checkbox-text {
+    color: var(--semanticTextColors-DisabledText);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Checkbox-text {
+        color: WindowText;
+    }
+    .ms-Checkbox.is-disabled .ms-Checkbox-text {
+        color: GrayText;
+    }
+}
+
+    /* FLUENT ADDITIONS */
+
+    /*.ms-Checkbox.not-checked.is-enabled:hover .ms-Checkbox-text {
+        color: var(--palette-NeutralDark);
+    }
+
+    .ms-Checkbox.not-checked.is-enabled:hover .ms-Checkbox-checkmark {
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Checkbox.is-checked.is-enabled:hover .ms-Checkbox-checkbox {
+        background: var(--palette-ThemeDark);
+        border-color: var(--palette-ThemeDark);
+    }
+
+    .ms-Checkbox.is-checked.is-enabled:focus .ms-Checkbox-checkbox {
+        background: var(--palette-ThemeDark);
+        border-color: var(--palette-ThemeDark);
+    }*/

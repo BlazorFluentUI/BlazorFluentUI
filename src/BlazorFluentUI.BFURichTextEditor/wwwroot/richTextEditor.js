@@ -1,26 +1,4 @@
-// /// <reference path="baseComponent.d.ts" />
-// /// <reference path="quill.d.ts" />
-
-////import Quill from "./quill";
-//let Inline = Quill.import('blots/inline');
-
-//class BoldBlot extends Inline { }
-//BoldBlot.blotName = 'bold';
-//BoldBlot.tagName = 'strong';
-
-//class ItalicBlot extends Inline { }
-//ItalicBlot.blotName = 'italic';
-//ItalicBlot.tagName = 'em';
-
-//class UnderlineBlot extends Inline {
-//    static create(url) {
-//        let node = super.create();
-//        node.setAttribute('style', "text-decoration:underline;");
-//        return node;
-//    }
-//}
-//UnderlineBlot.blotName = 'underline';
-//UnderlineBlot.tagName = 'span';
+/// <reference path="baseComponent.d.ts" />
 let BlockEmbed = Quill.import('blots/block/embed');
 
 class ImageBlot extends BlockEmbed {
@@ -108,9 +86,6 @@ var BlazorFluentUiRichTextEditor = {
 
     unregister: function(id) {
         let quill = this.allInstances[id];
-        //if (richTextEditor) {
-        //    richTextEditor.unRegister();
-        //}
         delete this.allInstances[id];
     },
     preventZoomEnable: function (enable) {
@@ -186,7 +161,7 @@ var BlazorFluentUiRichTextEditor = {
     insertImage: function (id, imageUrl, imageAlt, imageWidth, imageHeight) {
         let quill = this.allInstances[id];
         //var sel = quill.getSelection();
-        quill.insertEmbed(this.lastSelection.index, "image", { src: imageUrl, alt: imageAlt, width: imageWidth !== null ? imageWidth : undefined, height: imageHeight !== null ? imageHeight : undefined });
+        quill.insertEmbed(this.lastSelection ? this.lastSelection.index : 0, "image", { src: imageUrl, alt: imageAlt, width: imageWidth !== null ? imageWidth : undefined, height: imageHeight !== null ? imageHeight : undefined });
     }
 
 };

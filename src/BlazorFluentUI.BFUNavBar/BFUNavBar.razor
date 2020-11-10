@@ -3,12 +3,8 @@
 @using BlazorFluentUI.BFUNavBarInternal 
 @using System.Linq
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
 @if (Direction == LayoutDirection.Horizontal)
 {
-    <BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
     <BFUResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
                     Data=@_currentData
                     GetCacheKey=@(x => x.CacheKey)

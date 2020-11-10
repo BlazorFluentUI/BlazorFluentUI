@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUImage : BFUComponentBase,IHasPreloadableGlobalStyle
+    public partial class BFUImage : BFUComponentBase
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
@@ -86,95 +86,6 @@ namespace BlazorFluentUI
         {
             imageLoadState = ImageLoadState.Error;
             return OnLoadingStateChange.InvokeAsync(imageLoadState);
-        }
-
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var imageRules = new HashSet<IRule>();
-            // ROOT
-            imageRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Image" },
-                Properties = new CssString()
-                {
-                    Css = $"overflow:hidden;"
-                }
-            });
-
-            imageRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Image--maximizeFrame" },
-                Properties = new CssString()
-                {
-                    Css = $"height:100%;"+
-                          $"width:100%;"
-                }
-            });
-
-            imageRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Image--relative" },
-                Properties = new CssString()
-                {
-                    Css = $"position:relative;"
-                }
-            });
-
-            imageRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Image-image" },
-                Properties = new CssString()
-                {
-                    Css = $"display:block;"
-                }
-            });
-
-            imageRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Image-image--fitStyles" },
-                Properties = new CssString()
-                {
-                    Css = $"position:absolute;"+
-                          $"left:50%;" +
-                          $"top:50%;"+
-                          $"transform:translate(-50%,-50%);"
-                }
-            });
-
-            imageRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Image-image--contain" },
-                Properties = new CssString()
-                {
-                    Css = $"width:100%;" +
-                          $"height:100%;" +
-                          $"object-fit:contain;"
-                }
-            });
-
-            imageRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Image-image--cover" },
-                Properties = new CssString()
-                {
-                    Css = $"width:100%;" +
-                          $"height:100%;" +
-                          $"object-fit:cover;"
-                }
-            });
-
-            imageRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Image-image--none" },
-                Properties = new CssString()
-                {
-                    Css = $"width:auto;" +
-                          $"height:auto;"
-                }
-            });
-
-
-            return imageRules;
         }
 
         protected string GetRootClasses()

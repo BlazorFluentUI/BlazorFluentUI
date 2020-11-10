@@ -1,0 +1,18 @@
+﻿::deep .ms-OverflowSet {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+}
+::deep .ms-OverflowSet--vertical {
+    flex-direction: column;
+}
+
+::deep .ms-OverflowSet-item {
+    flex-shrink: 0;
+    display: inherit;
+}
+
+::deep .ms-OverflowSet-overflowButton {
+    flex-shrink: 0;
+    display: inherit;
+}

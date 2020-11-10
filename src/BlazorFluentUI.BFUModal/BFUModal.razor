@@ -1,14 +1,13 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
 @if (!IsOpen && !isAnimating)
 {
 
 }
 else
 {
+    @*<div>*@
     <BFULayer ClassName="ms-Modal-Layer">
         <BFUPopup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
                ClassName=@(!IsOpen && !isAnimating ? "ms-Modal-hiddenModal" : "")
@@ -47,4 +46,5 @@ else
             </div>
         </BFUPopup>
     </BFULayer>
+    @*</div>*@
 }

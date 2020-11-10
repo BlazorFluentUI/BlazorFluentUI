@@ -1,8 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-@*<BFUGlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />*@
-
 <div class="ms-Calendar-dayPicker"
      id=@DayPickerId>
     <div class="ms-Calendar-header">
@@ -11,8 +9,9 @@
              class="ms-Calendar-monthAndYear">
             @if (OnHeaderSelect.HasDelegate)
             {
-                <div class="ms-Calendar-monthAndYear js-showMonthPicker ms-Calendar-headerToggleView"
+                <div class="ms-Calendar-monthAndYear js-showMonthPicker ms-Calendar-headerToggleView prevent-default-on-space"
                      @onclick="OnHeaderSelectInternal"
+                     @onkeydown="OnHeaderKeyDownInternal"
                      aria-label=@DateTimeFormatter.FormatMonthYear(NavigatedDate)
                      role="button"
                      tabindex="0">
@@ -123,6 +122,7 @@
                                 @onmouseup =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseUp(args); })*@
                             <td @key=@day.Key
                                 class=@GetDayClasses(day)
+                                @onclick=@(day.IsInBounds ? day.OnSelected : null)
                                 @onmouseenter=@(args => {
                                         if (DateRangeType != DateRangeType.Day && day.IsInBounds)
                                         {

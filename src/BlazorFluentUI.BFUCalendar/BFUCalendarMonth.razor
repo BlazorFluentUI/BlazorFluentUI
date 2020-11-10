@@ -1,8 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-@*<BFUGlobalCS Component="new Calendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />*@
-
 @if (IsYearPickerVisible)
 {
     <BFUCalendarYear @key=@($"calendarYear_{NavigatedDate.Year}")
@@ -20,8 +18,9 @@ else
         <div class="ms-Calendar-header">
             @if (OnHeaderSelect.HasDelegate || !YearPickerHidden)
             {
-                <div class="mediumFont ms-Calendar-currentYear ms-Calendar-headerToggleView"
+                <div class="mediumFont ms-Calendar-currentYear ms-Calendar-headerToggleView prevent-default-on-space"
                      @onclick=@OnHeaderSelectInternal
+                     @onkeydown=@OnHeaderKeyDownInternal
                      aria-label=@DateTimeFormatter.FormatYear(NavigatedDate)
                      role="button"
                      aria-atomic="true"

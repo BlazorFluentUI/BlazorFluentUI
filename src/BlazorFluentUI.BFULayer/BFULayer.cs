@@ -66,9 +66,9 @@ namespace BlazorFluentUI
 
         public void Dispose()
         {
-            Debug.WriteLine($"Layer disposed: {this.id}");
             LayerHost?.RemoveHostedContent(this.id);
             addedToHost = false;
         }
+
     }
 }

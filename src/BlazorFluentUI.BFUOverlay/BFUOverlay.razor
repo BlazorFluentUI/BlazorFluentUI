@@ -2,11 +2,10 @@
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.JSInterop
 @inherits BFUComponentBase
-@implements IDisposable
-@implements IHasPreloadableGlobalStyle
+@implements IAsyncDisposable
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <div class=@("mediumFont ms-Overlay " + (IsDarkThemed ? "ms-Overlay--dark" : "ms-Overlay--light") + " " + ClassName)
+     style=@Style
      @onclick="OnClick" />
 
 @code{
@@ -28,52 +27,7 @@
 
     }
 
-    public ICollection<IRule> CreateGlobalCss(ITheme theme)
-    {
-        var overlayRules = new HashSet<IRule>();
-
-        overlayRules.Add(new Rule()
-        {
-            Selector = new CssStringSelector() { SelectorName = ".ms-Overlay" },
-            Properties = new CssString()
-            {
-                Css = $"top:0;"+
-                      $"right:0;"+
-                      $"bottom:0;"+
-                      $"left:0;"+
-                      $"position:absolute;"
-            }
-        });
-        overlayRules.Add(new Rule()
-        {
-            Selector = new CssStringSelector() { SelectorName = ".ms-Overlay--light" },
-            Properties = new CssString()
-            {
-                Css = $"background-color:{theme.Palette.WhiteTranslucent40};"
-            }
-        });
-        overlayRules.Add(new Rule()
-        {
-            Selector = new CssStringSelector() { SelectorName = ".ms-Overlay--dark" },
-            Properties = new CssString()
-            {
-                Css = $"background-color:{theme.Palette.BlackTranslucent40};"
-            }
-        });
-
-        overlayRules.Add(new Rule()
-        {
-            Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-            Properties = new CssString()
-            {
-                Css = ".ms-Overlay {border: 1px solid WindowText;opacity:0;}"
-            }
-        });
-
-        return overlayRules;
-    }
-
-    public async void Dispose()
+    public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.enableBodyScroll");
     }

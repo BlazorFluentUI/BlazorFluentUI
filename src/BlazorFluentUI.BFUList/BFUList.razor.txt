@@ -1,0 +1,76 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@typeparam TItem
+
+@if (_refreshException != null)
+{
+    var oldRefreshException = _refreshException;
+    _refreshException = null;
+
+    throw oldRefreshException;
+}
+
+<div class=@($"ms-List mediumFont {ClassName}")
+     role="list"
+     @ref="RootElementReference"
+     @key=@("spacerBefore")>
+    
+    @{
+
+        <div style=@(GetSpacerStyle(_itemsBefore))
+             class="ms-List-spacerBefore"
+             @ref=@_spacerBefore>
+        </div>
+
+
+        var lastItemIndex = Math.Min(_itemsBefore + _visibleItemCapacity, _itemCount);
+        var renderIndex = _itemsBefore;
+        var placeholdersBeforeCount = Math.Min(_loadedItemsStartIndex, lastItemIndex);
+        for (; renderIndex < placeholdersBeforeCount; renderIndex++)
+
+            _placeholder(new PlaceholderContext(renderIndex, _itemSize))(__builder);
+
+
+        _lastRenderedItemCount = 0;
+
+        @*Render the loaded items.*@
+        if (_loadedItems != null && _itemTemplate != null)
+        {
+            var itemsToShow = _loadedItems
+                .Skip(_itemsBefore - _loadedItemsStartIndex)
+                .Take(lastItemIndex - _loadedItemsStartIndex);
+
+
+
+            @foreach (var item in itemsToShow)
+            {
+                _itemTemplate(new IndexedItem<TItem> { Item = item, Index = _lastRenderedItemCount + _itemsBefore - _loadedItemsStartIndex })(__builder);
+                _lastRenderedItemCount++;
+            }
+
+            renderIndex += _lastRenderedItemCount;
+
+        }
+
+
+
+        _lastRenderedPlaceholderCount = Math.Max(0, lastItemIndex - _itemsBefore - _lastRenderedItemCount);
+
+
+        @*Render the placeholders after the loaded items.*@
+        @for (; renderIndex < lastItemIndex; renderIndex++)
+        {
+            _placeholder(new PlaceholderContext(renderIndex, _itemSize))(__builder);
+        }
+
+
+        var itemsAfter = Math.Max(0, _itemCount - _visibleItemCapacity - _itemsBefore);
+
+
+        <div style=@(GetSpacerStyle(itemsAfter))
+             class="ms-List-spacerAfter"
+             @key=@("spacerAfter")
+             @ref=@_spacerAfter>
+        </div>
+    }
+</div>

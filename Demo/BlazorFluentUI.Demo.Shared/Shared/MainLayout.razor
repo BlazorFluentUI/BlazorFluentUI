@@ -27,7 +27,7 @@
                         </div>
                     </BFUStackItem>
                     <BFUStackItem DisableShrink="true">
-                        <BFUGlobalCS CreateGlobalCss=@(()=>CreateGlobalCss(ThemeProvider.Theme))/>
+                        @*<BFUGlobalCS CreateGlobalCss=@(()=>CreateGlobalCss(ThemeProvider.Theme))/>*@
                         <BFUToggle Checked=customTheme CheckedChanged="@SwitchTheme" OnText="Dark Theme" OffText="Default Theme" />
                     </BFUStackItem>
                 </BFUStack>

@@ -2,7 +2,6 @@
 @inherits BFUComponentBase
 @using Microsoft.AspNetCore.Components.Web
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
 <BFULocalCS @bind-Rules="@BFUDocumentCardActivityLocalRules" />
 
 <div class=@($"{GlobalClassNames["root"]} {ClassName}") style=@Style @ref=RootElementReference>

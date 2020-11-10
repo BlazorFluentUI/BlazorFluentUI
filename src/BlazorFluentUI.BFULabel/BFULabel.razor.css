@@ -1,0 +1,24 @@
+﻿.ms-Label {
+    font-weight: var(--fontWeight-SemiBold);
+    color: var(--semanticTextColors-BodyText);
+    box-sizing: border-box;
+    box-shadow: none;
+    margin: 0;
+    display: block;
+    padding: 5px 0px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+.ms-Label--disabled {
+    color: var(--semanticTextColors-DisabledBodyText);
+}
+.ms-Label--required::after {
+    content: ' *';
+    color: var(--semanticTextColors-ErrorText);
+    padding-right: 12px;
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Label--disabled {
+        color: GrayText;
+    }
+}

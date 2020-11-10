@@ -1,7 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme))/>
 <BFULocalCS @bind-Rules="@CalloutLocalRules" />
 
 <div class="ms-Callout-container" @ref="RootElementReference" style=@($"{(Hidden ? "visibility: hidden;" : "" )}")>

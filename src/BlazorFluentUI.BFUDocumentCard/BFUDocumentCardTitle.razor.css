@@ -1,0 +1,16 @@
+﻿.ms-DocumentCardTitle {
+    font-size: var(--fontSize-Large);
+    padding: 8px 16px;
+    overflow: hidden;
+    word-wrap: break-word;
+    height: 38px;
+    line-height: 21px;
+    color: var(--palette-NeutralPrimary);
+}
+
+.ms-DocumentCardTitle-secondaryTitle {
+    font-size: var(--fontSize-Medium);
+    height: 45px;
+    line-height: 18px;
+    color: var(--palette-NeutralSecondary);
+}

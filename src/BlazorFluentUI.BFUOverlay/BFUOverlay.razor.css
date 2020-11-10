@@ -1,0 +1,23 @@
+﻿.ms-Overlay {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+}
+
+.ms-Overlay--light {
+    background-color: var(--palette-WhiteTranslucent40);
+}
+
+.ms-Overlay--dark {
+    background-color: var(--palette-BlackTranslucent40);
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Overlay {
+        border: 1px solid WindowText;
+        opacity: 0;
+    }
+}

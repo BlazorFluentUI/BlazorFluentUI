@@ -1,0 +1,76 @@
+﻿.ms-NavBar-horizontal {
+    display: flex;
+    background-color: var(--semanticColors-BodyBackground);
+    padding: 0 14px 0 24px;
+    height: 44px;
+    flex-grow: 1;
+}
+
+::deep .ms-NavBar-horizontal-primarySet {
+    flex-grow: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+.ms-NavBar-horizontal-secondarySet {
+    flex-shrink: 0;
+    display: flex;
+    align-items: stretch;
+}
+
+
+.ms-NavBar-horizontal ::deep .ms-Button--commandBar.is-checked::after {
+    border-bottom: 2px solid var(--palette-ThemePrimary);
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+
+.ms-NavBar-horizontal ::deep .ms-Button.ms-Button--commandBar:hover {
+    color: var(--palette-ThemePrimary);
+}
+
+.ms-NavBar-horizontal ::deep .ms-Button.ms-Button--commandBar.is-checked:hover {
+    background-color: var(--semanticColors-BodyBackgroundHovered);
+}
+
+
+.ms-NavBar-horizontal ::deep .ms-Button.ms-Button--commandBar.is-checked .ms-Button-label {
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+.ms-NavBar-horizontal ::deep .ms-Button.ms-Button--commandBar.subgroup-is-checked {
+    background-color: var(--palette-NeutralLighter);
+}
+
+
+    .ms-NavBar-horizontal ::deep .ms-Button.ms-Button--commandBar.subgroup-is-checked::after {
+        border-bottom: 2px solid var(--palette-ThemeLight);
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+    }
+
+
+.ms-NavBar-horizontal ::deep .ms-Button.ms-Button--commandBar.is-checked:hover {
+    background-color: var(--semanticColors-BodyBackgroundHovered);
+}
+
+
+.ms-NavBar-horizontal ::deep .ms-ContextualMenu-item.is-checked .ms-ContextualMenu-itemText {
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+
+::deep .ms-ContextualMenu-link.subgroup-is-checked {
+    background-color: var(--palette-NeutralLighter);
+}

@@ -1,0 +1,56 @@
+﻿.ms-DocumentCardActivity {
+    padding: 8px 16px;
+    position: relative;
+}
+
+
+.ms-DocumentCardActivity-avatars {
+    margin-left: -2px;
+    height: 32px;
+}
+
+.ms-DocumentCardActivity-avatar {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+}
+
+    .ms-DocumentCardActivity-avatar::after {
+        content: '';
+        position: absolute;
+        left: -1px;
+        top: -1px;
+        right: -1px;
+        bottom: -1px;
+        border: 2px solid var(--palette-White);
+        border-radius: 50%;
+    }
+    .ms-DocumentCardActivity-avatar:nth-of-type(2) {
+        margin-left: -16px;
+    }
+
+.ms-DocumentCardActivity-name {
+    display: block;
+    font-size: var(--fontSize-Small);
+    line-height: 15px;
+    height: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--palette-NeutralPrimary);
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+.ms-DocumentCardActivity-activity {
+    display: block;
+    font-size: var(--fontSize-Small);
+    line-height: 15px;
+    height: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--palette-NeutralSecondary);
+}

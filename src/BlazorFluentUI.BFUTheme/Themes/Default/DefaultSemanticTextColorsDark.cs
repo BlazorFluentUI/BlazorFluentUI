@@ -11,7 +11,7 @@ namespace BlazorFluentUI
             ButtonText = palette.Black;
             ButtonTextPressed = palette.NeutralDark;
             ButtonTextHovered = palette.NeutralPrimary;
-            BodySubtext = palette.White;
+            BodySubtext = palette.Black;
 
             MenuItemText = palette.NeutralPrimary;
             MenuItemTextHovered = palette.NeutralDark;

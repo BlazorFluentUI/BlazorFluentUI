@@ -1,0 +1,54 @@
+﻿.ms-MarqueeSelection {
+    position: relative;
+    cursor: default;
+}
+
+.ms-MarqueeSelection-dragMask {
+    position: absolute;
+    background: rgba(255,0,0,0);
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+@media screen and (-ms-high-contrast: active){
+    .ms-MarqueeSelection-dragMask {
+        background: none;
+        background-color: transparent;
+    }
+}
+
+.ms-MarqueeSelection-box {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid var(--palette-ThemePrimary);
+    z-index: 10;
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-MarqueeSelection-box {
+        border-color: Highlight;
+    }
+}
+
+
+.ms-MarqueeSelection-boxFill {
+    position: absolute;
+    box-sizing: border-box;
+    background-color: var(--palette-ThemePrimary);
+    opacity: 0.1;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-MarqueeSelection-boxFill {
+        background: none;
+        background-color: transparent;
+    }
+}
+

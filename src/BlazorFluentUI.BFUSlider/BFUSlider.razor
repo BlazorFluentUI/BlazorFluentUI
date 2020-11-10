@@ -2,8 +2,6 @@
 @inherits BFUComponentBase
 @using Microsoft.AspNetCore.Components.Web  
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
 <div class=@($"{GlobalClassNames["root"]} {(Disabled ? GlobalClassNames["disabled"] : GlobalClassNames["enabled"])} {(Vertical ? GlobalClassNames["column"] : GlobalClassNames["row"])} {ClassName}")
      style=@Style>
     @if (!string.IsNullOrWhiteSpace(Label))

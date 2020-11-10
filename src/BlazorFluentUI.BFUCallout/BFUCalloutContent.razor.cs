@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCalloutContent : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
+    public partial class BFUCalloutContent : BFUComponentBase, IAsyncDisposable
     {
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
@@ -184,11 +184,6 @@ namespace BlazorFluentUI
         }
 
 
-        public async void Dispose()
-        {
-            if (eventHandlerIds != null)
-                await JSRuntime.InvokeAsync<object>("BlazorFluentUiCallout.unregisterHandlers", eventHandlerIds);
-        }
 
 
         //public void ShouldRerender()
@@ -794,40 +789,10 @@ namespace BlazorFluentUI
             };
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
+        public async ValueTask DisposeAsync()
         {
-            var calloutGlobalRules = new HashSet<IRule>();
-            calloutGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Callout-container" },
-                Properties = new CssString()
-                {
-                    Css = $"position:relative;"
-                }
-            });
-            calloutGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Callout-beakCurtain" },
-                Properties = new CssString()
-                {
-                    Css = $"position:absolute;" +
-                        $"top:0;" +
-                        $"right:0;" +
-                        $"bottom:0;" +
-                        $"left:0;" +
-                        $"background-color:{theme.SemanticColors.MenuBackground};" +
-                        $"border-radius:{theme.Effects.RoundedCorner2};"
-                }
-            });
-            calloutGlobalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast:active)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Callout {border-width:1px;border-style:solid;border-color:WindowText;}"
-                }
-            });
-            return calloutGlobalRules;
+            if (eventHandlerIds != null)
+                await JSRuntime.InvokeAsync<object>("BlazorFluentUiCallout.unregisterHandlers", eventHandlerIds);
         }
     }
 }

@@ -1,0 +1,783 @@
+﻿
+.ms-Calendar {
+    box-sizing: border-box;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+}
+
+
+
+    .ms-Calendar ::deep *::-moz-focus-inner {
+        border: 0;
+    }
+
+
+
+    .ms-Calendar ::deep * {
+        outline: transparent;
+        position: relative;
+    }
+
+
+
+.ms-Fabric--isFocusVisible .ms-Calendar ::deep *:focus:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    border: 1px solid var(--palette-NeutralSecondary);
+}
+
+
+
+.ms-Calendar-picker {
+    color: var(--palette-Black);
+    font-size: var(--fontSize-Medium);
+    position: relative;
+    text-align: left;
+}
+
+
+
+.ms-Calendar-holder {
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    display: none;
+}
+
+
+
+.ms-Calendar-picker.ms-Calendar-pickerIsOpened .ms-Calendar-holder {
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+
+
+.ms-Calendar-picker--opened {
+    position: relative;
+}
+
+
+
+.ms-Calendar-frame {
+    position: relative;
+}
+
+
+
+.ms-Calendar-wrap {
+    min-height: 212px;
+    padding: 12px;
+    display: flex;
+    box-sizing: content-box;
+}
+
+
+
+    .ms-Calendar-wrap.ms-Calendar-goTodaySpacing {
+        min-height: 228px;
+    }
+
+
+
+::deep .ms-Calendar-header {
+    position: relative;
+    display: inline-flex;
+    height: 28px;
+    line-height: 44px;
+    width: 100%;
+}
+
+
+
+::deep .ms-Calendar-divider {
+    top: 0;
+    margin-top: -12px;
+    margin-bottom: -12px;
+    border-right: 1px solid var(--palette-NeutralLight);
+}
+
+
+
+::deep .ms-Calendar-monthAndYear,
+::deep .ms-Calendar-year,
+::deep .ms-Calendar-decade {
+    display: inline-flex;
+    flex-grow: 1;
+    /*   @include ms-font-m; */
+    font-weight: 600;
+    color: var(--palette-NeutralPrimary);
+    padding: 0 5px;
+}
+
+
+
+    ::deep .ms-Calendar-monthAndYear:hover,
+    ::deep .ms-Calendar-currentYear:hover,
+    ::deep .ms-Calendar-currentDecade:hover {
+        cursor: default;
+    }
+
+
+
+::deep .ms-Calendar-table {
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    font-size: inherit;
+    margin-top: 3px;
+    width: 197px;
+}
+
+
+
+    ::deep .ms-Calendar-table td {
+        margin: 0;
+        padding: 0;
+    }
+
+
+
+::deep .ms-Calendar-dayWrapper,
+::deep .ms-Calendar-weekday {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    line-height: 28px;
+    font-size: var(--fontSize-Small);
+    /*  @include ms-font-m-plus; */
+    color: var(--palette-NeutralPrimary);
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+}
+
+
+
+    ::deep .ms-Calendar-dayWrapper *::-moz-focus-inner,
+    ::deep .ms-Calendar-weekday *::-moz-focus-inner {
+        border: 0;
+    }
+
+
+
+    ::deep .ms-Calendar-dayWrapper *,
+    ::deep .ms-Calendar-weekday * {
+        outline: transparent;
+        position: relative;
+    }
+
+
+
+.ms-Fabric--isFocusVisible .ms-Calendar ::deep .ms-Calendar-dayWrapper *:focus:after,
+.ms-Fabric--isFocusVisible .ms-Calendar ::deep .ms-Calendar-weekday *:focus:after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    bottom: -2px;
+    left: -2px;
+    pointer-events: none;
+    border: 1px solid var(--palette-NeutralSecondary);
+}
+
+
+::deep .ms-Calendar-monthComponents,
+::deep .ms-Calendar-yearComponents,
+::deep .ms-Calendar-decadeComponents {
+    display: inline-flex;
+    align-self: flex-end;
+}
+
+::deep .ms-Calendar-closeButton,
+::deep .ms-Calendar-prevMonth,
+::deep .ms-Calendar-nextMonth,
+::deep .ms-Calendar-prevYear,
+::deep .ms-Calendar-nextYear,
+::deep .ms-Calendar-prevDecade,
+::deep .ms-Calendar-nextDecade {
+    font-family:inherit;
+    width: 24px;
+    height: 24px;
+    display: block;
+    text-align: center;
+    line-height: 24px;
+    text-align:center;
+    font-size: var(--fontSize-Small);
+    color: var(--palette-NeutralPrimary);
+    border-radius: 2px;
+    position: relative;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+
+
+    ::deep .ms-Calendar-closeButton:hover,
+    ::deep .ms-Calendar-prevMonth:hover,
+    ::deep .ms-Calendar-nextMonth:hover,
+    ::deep .ms-Calendar-prevYear:hover,
+    ::deep .ms-Calendar-nextYear:hover,
+    ::deep .ms-Calendar-prevDecade:hover,
+    ::deep .ms-Calendar-nextDecade:hover {
+        cursor: pointer;
+        color: var(--palette-NeutralDark);
+        outline: 1px solid transparent;
+    }
+
+
+
+::deep .ms-Calendar-prevMonthIsDisabled,
+::deep .ms-Calendar-nextMonthIsDisabled,
+::deep .ms-Calendar-prevYearIsDisabled,
+::deep .ms-Calendar-nextYearIsDisabled,
+::deep .ms-Calendar-prevDecadeIsDisabled,
+::deep .ms-Calendar-nextDecadeIsDisabled {
+    pointer-events: none;
+    color: var(--palette-NeutralTertiaryAlt);
+}
+
+
+
+::deep .ms-Calendar-headerToggleView {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+}
+
+    ::deep .ms-Calendar-headerToggleView:hover {
+        color: var(--palette-Black);
+        cursor: pointer;
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    ::deep .ms-Calendar-headerToggleView:hover {
+        outline:1px solid Highlight;
+    }
+
+        ::deep .ms-Calendar-headerToggleView:hover:active {
+            color:Highlight;
+        }
+}
+
+
+
+::deep .ms-Calendar-currentYear,
+::deep .ms-Calendar-currentDecade {
+    display: inline-flex;
+    flex-grow: 1;
+    padding: 0 5px;
+    /*@include ms-font-m;*/
+    font-weight: 600;
+    color: var(--palette-NeutralPrimary);
+    height: 28px;
+    line-height: 28px;
+    margin-left: 5px;
+}
+
+
+
+::deep .ms-Calendar-optionGrid {
+    position: relative;
+    height: 210px;
+    width: 196px;
+    margin: 4px, 0, 0, 0;
+}
+
+
+
+::deep .ms-Calendar-monthOption,
+::deep .ms-Calendar-yearOption {
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+    width: 60px;
+    height: 60px;
+    line-height: 100%;
+    cursor: pointer;
+    float: left;
+    margin: 0 10px 10px 0;
+    /*@include ms-font-s-plus;*/
+    color: var(--palette-NeutralPrimary);
+    text-align: center;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 2px;
+}
+
+
+
+    ::deep .ms-Calendar-monthOption:hover,
+    ::deep .ms-Calendar-yearOption:hover {
+        color: var(--palette-NeutralDark);
+        background-color: var(--palette-NeutralLighter);
+        outline: 1px solid transparent;
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    ::deep .ms-Calendar-monthOption:hover,
+    ::deep .ms-Calendar-yearOption:hover {
+        outline-color:Highlight;
+    }
+    ::deep .ms-Calendar-monthOption:active,
+    ::deep .ms-Calendar-yearOption:active {
+        outline-color: Highlight;
+    }
+}
+
+::deep .ms-Calendar-monthOption.ms-Calendar-monthIsHighlighted,
+::deep .ms-Calendar-yearOption.ms-Calendar-yearIsHighlighted {
+    color: var(--palette-NeutralDark);
+    background-color: var(--palette-NeutralLight);
+}
+
+
+
+::deep .ms-Calendar-dayIsDisabled,
+::deep .ms-Calendar-monthOptionIsDisabled,
+::deep .ms-Calendar-yearOptionIsDisabled {
+    color: var(--palette-NeutralTertiaryAlt);
+    pointer-events: none;
+}
+
+    /*Button to navigate to the current date-*/
+
+.ms-Calendar-goToday {
+    bottom: 0;
+    color: var(--palette-ThemePrimary);
+    cursor: pointer;
+    /*@include ms-font-s;*/
+    color: var(--palette-NeutralPrimary);
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    background-color: transparent;
+    border: none;
+    position: absolute !important;
+    box-sizing: content-box;
+    right: 13px;
+}
+
+    .ms-Calendar-goToday:hover {
+        color: var(--palette-ThemePrimary);
+        outline: 1px solid transparent;
+    }
+
+    .ms-Calendar-goToday:active {
+        color: var(--palette-ThemeDark);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Calendar-goToday:hover {
+        outline-color: Highlight;
+    }
+
+    .ms-Calendar-goToday:active {
+        color: Highlight
+    }
+}
+
+
+
+.ms-Calendar-goToTodayIsDisabled {
+    color: var(--palette-NeutralTertiaryAlt);
+    pointer-events: none;
+}
+
+    .ms-Calendar-goTodayInlineMonth {
+        top: 212px;
+    }
+
+    /*Additional 28px padding needed when Go to today button is visible*/
+
+    .ms-Calendar-wrap.ms-Calendar-goTodaySpacing {
+        padding-bottom: 28px;
+    }
+
+    /*State: The picker is showing the year components.*/
+
+    .ms-Calendar-isPickingYears ::deep .ms-Calendar-dayPicker,
+    .ms-Calendar-isPickingYears ::deep .ms-Calendar-monthComponents {
+        display: none;
+    }
+
+
+
+    .ms-Calendar-isPickingYears ::deep .ms-Calendar-monthPicker {
+        display: none;
+    }
+
+
+
+    .ms-Calendar-isPickingYears ::deep .ms-Calendar-yearPicker {
+        display: block;
+    }
+
+
+
+    @media (min-device-width: 460px) {
+        .ms-Calendar-wrap {
+            padding: 12px;
+        }
+
+        ::deep .ms-Calendar-dayPicker,
+        ::deep .ms-Calendar-monthPicker {
+            min-height: 200px;
+        }
+
+        ::deep .ms-Calendar-header {
+            height: 28px;
+            line-height: 28px;
+            width: 100%;
+        }
+
+        ::deep .ms-Calendar-dayWrapper,
+        ::deep .ms-Calendar-weekday {
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            font-size: var(--fontSize-Small);
+        }
+
+        ::deep .ms-Calendar-closeButton,
+        ::deep .ms-Calendar-prevMonth,
+        ::deep .ms-Calendar-nextMonth,
+        ::deep .ms-Calendar-prevYear,
+        ::deep .ms-Calendar-nextYear,
+        ::deep .ms-Calendar-prevDecade,
+        ::deep .ms-Calendar-nextDecade {
+            font-size: var(--fontSize-Small);
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+        }
+
+        .ms-Calendar-holder {
+            display: inline-block;
+            height: auto;
+            overflow: hidden;
+        }
+
+        ::deep .ms-Calendar-monthAndYear,
+        ::deep .ms-Calendar-year,
+        ::deep .ms-Calendar-decade {
+            font-size: var(--fontSize-Medium);
+            color: var(--palette-NeutralPrimary);
+        }
+
+        ::deep .ms-Calendar-yearComponents {
+            margin-left: 1px;
+        }
+
+        ::deep .ms-Calendar.ms-Calendar-goToday {
+            padding: 0 3px;
+            /*@include ms-right(20px);*/
+        }
+
+        ::deep .ms-Calendar-showWeekNumbers ms-Calendar-table .ms-Calendar-dayWrapper,
+        ::deep .ms-Calendar-showWeekNumbers ms-Calendar-table .ms-Calendar-weekday {
+            width: 28px;
+        }
+
+        ::deep .ms-Calendar-monthPickerVisible .ms-Calendar-wrap {
+            padding: 12px;
+        }
+
+        ::deep .ms-Calendar-monthPickerVisible .ms-Calendar-dayPicker {
+            margin: -10px 0;
+            padding: 10px 0;
+            box-sizing: border-box;
+            width: 212px;
+            min-height: 200px;
+        }
+
+        ::deep .ms-Calendar-monthPickerVisible .ms-Calendar-monthPicker {
+            display: block;
+        }
+
+        ::deep .ms-Calendar-monthPickerVisible .ms-Calendar-optionGrid {
+            height: 150px;
+            width: 196px;
+        }
+
+        ::deep .ms-Calendar-toggleMonthView {
+            display: none;
+        }
+
+        ::deep .ms-Calendar-currentYear,
+        ::deep .ms-Calendar-currentDecade {
+            font-size: var(--fontSize-Medium);
+            margin: 0;
+            height: 28px;
+            line-height: 28px;
+            display: inline-block;
+        }
+
+        ::deep .ms-Calendar-monthOption,
+        ::deep .ms-Calendar-yearOption {
+            width: 40px;
+            height: 40px;
+            line-height: 100%;
+            font-size: var(--fontSize-Small);
+            margin: 0 12px 16px 0;
+        }
+
+            ::deep .ms-Calendar-monthOption:hover,
+            ::deep .ms-Calendar-yearOption:hover {
+                outline: 1px solid transparent;
+            }
+
+            ::deep .ms-Calendar-monthOption:nth-child(4n+4),
+            ::deep .ms-Calendar-yearOption:nth-child(4n+4) {
+                margin: 0 0px 16px 0;
+            }
+
+        ::deep .ms-Calendar-goToday {
+            font-size: var(--fontSize-Small);
+            height: 28px;
+            line-height: 28px;
+            padding: 0 10px;
+            right: 8px;
+            text-align: right;
+        }
+
+        ::deep .ms-Calendar-isPickingYears .ms-Calendar-dayPicker,
+        ::deep .ms-Calendar-isPickingYears .ms-Calendar-monthComponents {
+            display: block;
+        }
+
+        ::deep .ms-Calendar-isPickingYears .ms-Calendar-monthPicker {
+            display: none;
+        }
+
+        ::deep .ms-Calendar-isPickingYears .ms-Calendar-yearPicker {
+            display: block;
+        }
+
+        ::deep .ms-Calendar-calendarsInline .ms-Calendar-wrap {
+            padding: 12px;
+        }
+
+        ::deep .ms-Calendar-calendarsInline .ms-Calendar-holder {
+            height: auto;
+        }
+
+        ::deep .ms-Calendar-calendarsInline .ms-Calendar-table {
+            margin-right: 12px;
+        }
+
+        ::deep .ms-Calendar-calendarsInline .ms-Calendar-dayPicker {
+            width: auto;
+        }
+
+        ::deep .ms-Calendar-calendarsInline .ms-Calendar-monthPicker {
+            margin-left: 12px;
+        }
+
+        ::deep .ms-Calendar-calendarsInline .ms-Calendar-yearPicker {
+            margin-left: 12px;
+        }
+
+        ::deep .ms-Calendar-calendarsInline .ms-Calendar-goToday {
+            margin-right: 14px;
+            padding: 0 10px;
+        }
+
+        ::deep .ms-Calendar-calendarsInline .ms-Calendar-monthComponents {
+            margin-right: 12px;
+        }
+
+        ::deep .ms-Calendar-monthPickerOnly .ms-Calendar-wrap {
+            padding: 12px;
+        }
+
+        ::deep .ms-Calendar-monthPickerAsOverlay .ms-Calendar-wrap {
+            padding-bottom: 28px;
+            margin-bottom: 6px;
+        }
+
+        ::deep .ms-Calendar-monthPickerAsOverlay .ms-Calendar-holder {
+            height: 240px;
+            min-height: 240px;
+        }
+
+        ::deep .ms-Calendar-monthPickerAsOverlay .ms-Calendar-holderWithButton {
+            padding-top: 6px;
+            height: auto;
+        }
+    }
+
+
+
+    @media (max-device-width: 459px) {
+        ::deep .ms-Calendar-calendarsInline .ms-Calendar-monthPicker,
+        ::deep .ms-Calendar-calendarsInline .ms-Calendar-yearPicker {
+            /*// Month and year pickers, hidden on small screens by default. .monthPicker, .yearPicker*/
+            display: none;
+        }
+
+        /*// position year components so they do not move when switching between calendars (overlayed calendars)*/
+        ::deep .ms-Calendar-yearComponents {
+            margin-top: 2px;
+        }
+    }
+
+
+
+    ::deep .ms-Calendar-goToday {
+        width: auto;
+    }
+
+
+
+    ::deep .ms-Calendar-closeButton,
+    ::deep .ms-Calendar-nextMonth,
+    ::deep .ms-Calendar-prevMonth,
+    ::deep .ms-Calendar-nextYear,
+    ::deep .ms-Calendar-prevYear,
+    ::deep .ms-Calendar-nextDecade,
+    ::deep .ms-Calendar-prevDecade {
+        display: inline-block;
+    }
+
+
+
+        ::deep .ms-Calendar-closeButton:hover,
+        ::deep .ms-Calendar-nextMonth:hover,
+        ::deep .ms-Calendar-prevMonth:hover,
+        ::deep .ms-Calendar-nextYear:hover,
+        ::deep .ms-Calendar-prevYear:hover,
+        ::deep .ms-Calendar-nextDecade:hover,
+        ::deep .ms-Calendar-prevDecade:hover {
+            background-color: var(--palette-NeutralLighter);
+            color: var(--palette-NeutralDark);
+            /*@include high-contrast {
+                        outline: 1px solid highlight;
+                    }*/
+        }
+
+
+
+        ::deep .ms-Calendar-closeButton:active,
+        ::deep .ms-Calendar-nextMonth:active,
+        ::deep .ms-Calendar-prevMonth:active,
+        ::deep .ms-Calendar-nextYear:active,
+        ::deep .ms-Calendar-prevYear:active,
+        ::deep .ms-Calendar-nextDecade:active,
+        ::deep .ms-Calendar-prevDecade:active {
+            background-color: var(--palette-NeutralLight);
+            /*@include high-contrast {
+                        outline: 1px solid highlight;
+                    }*/
+        }
+
+
+
+    ::deep .ms-Calendar-monthIsHighlighted {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-NeutralDark);
+    }
+
+
+
+        ::deep .ms-Calendar-monthIsHighlighted.ms-Calendar-monthOption:hover {
+            background-color: var(--palette-NeutralLight);
+            /*@include high-contrast {
+                        color: highlight;
+                        border: 2px solid highlight;
+                        border-radius: 2px;
+
+                        &:hover {
+                            outline: 0 !important;
+                        }
+                    }*/
+        }
+
+
+
+    ::deep .ms-Calendar-monthIsCurrentMonth {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-White);
+    }
+
+
+
+        ::deep .ms-Calendar-monthIsCurrentMonth.ms-Calendar-monthOption:hover {
+            background-color: var(--palette-NeutralLighter);
+            color: var(--palette-White);
+        }
+
+
+
+    ::deep .ms-Calendar-monthOption:active {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-NeutralDark);
+    }
+
+
+
+    ::deep .ms-Calendar-yearIsHighlighted {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-NeutralDark);
+    }
+
+
+
+        ::deep .ms-Calendar-yearIsHighlighted.ms-Calendar-yearOption:hover {
+            background-color: var(--palette-NeutralLighter);
+        }
+
+
+
+    ::deep .ms-Calendar-yearIsCurrentYear {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-White);
+    }
+
+
+
+        ::deep .ms-Calendar-yearIsCurrentYear.yearOption:hover {
+            background-color: var(--palette-NeutralLighter);
+            color: var(--palette-White);
+        }
+
+
+
+    ::deep .ms-Calendar-yearOption:active {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-NeutralDark);
+    }
+
+    /*// Highlighted Month date styling.*/
+
+    ::deep .ms-Calendar-topLeftCornerDate {
+        border-top-left-radius: 2px;
+    }
+
+
+
+    ::deep .ms-Calendar-topRightCornerDate {
+        border-top-right-radius: 2px;
+    }
+
+
+
+    ::deep .ms-Calendar-bottomLeftCornerDate {
+        border-bottom-left-radius: 2px;
+    }
+
+
+
+    ::deep .ms-Calendar-bottomRightCornerDate {
+        border-bottom-right-radius: 2px;
+    }
+

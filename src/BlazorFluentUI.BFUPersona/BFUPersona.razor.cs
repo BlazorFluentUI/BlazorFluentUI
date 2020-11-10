@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPersona : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUPersona : BFUComponentBase
     {
         [Parameter] public bool AllowPhoneInitials { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -40,6 +40,8 @@ namespace BlazorFluentUI
         private Rule TertiaryTextRule = new Rule();
         private Rule OptionalTextRule = new Rule();
 
+        private const string LocalSpecificityClass = "localPersonaRule";
+
         protected override Task OnInitializedAsync()
         {
             CreateLocalCss();
@@ -64,12 +66,12 @@ namespace BlazorFluentUI
 
         private void CreateLocalCss()
         {
-            PersonaRootRule.Selector = new ClassSelector() { SelectorName = "ms-Persona" };
-            DetailsRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-details" };
-            PrimaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-primaryText" };
-            SecondaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-secondaryText" };
-            TertiaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-tertiaryText" };
-            OptionalTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-optionalText" };
+            PersonaRootRule.Selector = new ClassSelector() { SelectorName = "ms-Persona", LiteralPrefix = $".{LocalSpecificityClass}" };
+            DetailsRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-details", LiteralPrefix = $".{LocalSpecificityClass}" };
+            PrimaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-primaryText", LiteralPrefix = $".{LocalSpecificityClass}" };
+            SecondaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-secondaryText", LiteralPrefix = $".{LocalSpecificityClass}" };
+            TertiaryTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-tertiaryText", LiteralPrefix = $".{LocalSpecificityClass}" };
+            OptionalTextRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-optionalText", LiteralPrefix = $".{LocalSpecificityClass}" };
 
             PersonaRootRule.Properties = new CssString() { Css = "" };
             DetailsRule.Properties = new CssString() { Css = "" };
@@ -85,6 +87,7 @@ namespace BlazorFluentUI
             PersonaLocalRules.Add(TertiaryTextRule);
             PersonaLocalRules.Add(OptionalTextRule);
         }
+ 
 
         private void SetStyle()
         {
@@ -293,120 +296,7 @@ namespace BlazorFluentUI
             
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var personalRules = new HashSet<IRule>();
-            // ROOT
-            personalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona" },
-                Properties = new CssString()
-                {
-                    Css = $"box-shadow:none;" +
-                          $"margin:0;"+
-                          $"padding:0;"+
-                          $"box-sizing:border-box;"+
-                          $"color:{theme.SemanticTextColors.BodyText};"+
-                          $"position:relative;"+
-                          $"height:{PersonaSize.Size48};"+
-                          $"min-width:{PersonaSize.Size48};"+
-                          $"display:flex;"+
-                          $"align-items:center;"
-                }
-            });
-
-            personalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-details" },
-                Properties = new CssString()
-                {
-                    Css = $"padding:0 24px 0 16px;" +
-                          $"min-width:0;" +
-                          $"width:100%;"+
-                          $"text-align:left;"+
-                          $"display:flex;" +
-                          $"flex-direction:column;"+
-                          $"justify-content:space-around;"
-                }
-            });
-
-            personalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-primaryText" },
-                Properties = new CssString()
-                {
-                    Css = $"overflow: hidden;" +
-                            $"text-overflow: ellipsis;" +
-                            $"white-space: nowrap;" +
-                            $"color: {theme.SemanticTextColors.BodyText};" +
-                            $"font-weight: {theme.FontStyle.FontWeight.Regular};" +
-                            $"font-size: {theme.FontStyle.FontSize.Medium};"
-                }
-            });
-            personalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-primaryText:hover" },
-                Properties = new CssString()
-                {
-                    Css = $"color: {theme.SemanticTextColors.InputTextHovered};"
-                }
-            });
-
-            personalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-secondaryText" },
-                Properties = new CssString()
-                {
-                    Css = $"overflow: hidden;" +
-                            $"text-overflow: ellipsis;" +
-                            $"white-space: nowrap;" +
-                            $"color: {theme.SemanticTextColors.BodySubtext};" +
-                            $"font-weight: {theme.FontStyle.FontWeight.Regular};" +
-                            $"font-size: {theme.FontStyle.FontSize.Small};"
-                }
-            });
-
-            personalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-tertiaryText" },
-                Properties = new CssString()
-                {
-                    Css = $"overflow: hidden;" +
-                            $"text-overflow: ellipsis;" +
-                            $"white-space: nowrap;" +
-                            $"color: {theme.SemanticTextColors.BodySubtext};" +
-                            $"font-weight: {theme.FontStyle.FontWeight.Regular};" +
-                            $"font-size: {theme.FontStyle.FontSize.Small};"
-                }
-            });
-
-            personalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-optionalText" },
-                Properties = new CssString()
-                {
-                    Css = $"overflow: hidden;" +
-                            $"text-overflow: ellipsis;" +
-                            $"white-space: nowrap;" +
-                            $"color: {theme.SemanticTextColors.BodySubtext};" +
-                            $"font-weight: {theme.FontStyle.FontWeight.Regular};" +
-                            $"font-size: {theme.FontStyle.FontSize.Small};"
-                }
-            });
-
-            personalRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-textContent" },
-                Properties = new CssString()
-                {
-                    Css = $"overflow: hidden;" +
-                            $"text-overflow: ellipsis;" +
-                            $"white-space: nowrap;"
-                }
-            });
-
-            return personalRules;
-        }
+       
 
             //protected string GetRootStyles()
             //{

@@ -85,7 +85,7 @@ namespace BlazorFluentUI.BFUDropdownInternal
             if (Dropdown.MultiSelect)
             {
                 builder.OpenComponent<BFUCheckbox>(i);
-                //builder.AddAttribute(i + 2, "Key", this.Key);
+                    //builder.AddAttribute(i + 2, "Key", this.Key);
                 builder.AddAttribute(i + 2, "Disabled", Disabled);
                 builder.AddAttribute(i + 3, "ClassName", $"ms-Dropdown-item {(Disabled ? "is-disabled" : "")} {(Hidden ? "is-hidden" : "")}  {(isSelected ? "selected" : "")}");
                 builder.AddAttribute(i + 4, "Label", this.Text);

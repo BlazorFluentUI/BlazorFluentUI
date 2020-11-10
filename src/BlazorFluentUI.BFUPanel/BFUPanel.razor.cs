@@ -12,7 +12,7 @@ using System.Timers;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPanel : BFUComponentBase, IDisposable, IHasPreloadableGlobalStyle
+    public partial class BFUPanel : BFUComponentBase, IAsyncDisposable
     {
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
@@ -200,12 +200,6 @@ namespace BlazorFluentUI
                     }
                 }
             }
-        }
-
-        public override Task SetParametersAsync(ParameterView parameters)
-        {
-
-            return base.SetParametersAsync(parameters);
         }
 
         public void Open()
@@ -453,6 +447,14 @@ namespace BlazorFluentUI
 
         public async void Dispose()
         {
+           
+        }
+
+
+     
+
+        public async ValueTask DisposeAsync()
+        {
             _clearExistingAnimationTimer?.Invoke();
             if (_scrollerEventId != null)
             {
@@ -471,312 +473,6 @@ namespace BlazorFluentUI
             {
                 await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", _mouseDownId);
             }
-        }
-
-
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var panelRules = new HashSet<IRule>();
-            
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel--hasCloseButton" },
-                Properties = new CssString()
-                {
-                    Css = $"pointer-events:none;" +
-                          $"position:absolute;" +
-                          $"top:0;"+
-                          $"left:0;" +
-                          $"right:0;" +
-                          $"bottom:0;" 
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-overlay" },
-                Properties = new CssString()
-                {
-                    Css = $"pointer-events:auto;" +
-                          $"cursor:pointer;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-hiddenPanel" },
-                Properties = new CssString()
-                {
-                    Css = $"visibility:hidden;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-main" },
-                Properties = new CssString()
-                {
-                    Css = $"background-color:{theme.SemanticColors.BodyBackground};" +
-                          $"box-shadow:{theme.Effects.Elevation64};"+
-                          $"pointer-events:auto;" +
-                          $"position:absolute;" +
-                          $"display:flex;" +
-                          $"flex-direction:column;" +
-                          $"overflow-x:hidden;"+
-                          $"overflow-y:auto;" +
-                          $"-webkit-overflow-scrolling:touch;" +
-                          $"bottom:0;" +
-                          $"top:0;"+
-                          $"left:auto;"+
-                          $"right:0;"+
-                          $"width:100%;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel--smFluid .ms-Panel-main" },
-                Properties = new CssString()
-                {
-                    Css = $"left:0;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel--smLeft .ms-Panel-main" },
-                Properties = new CssString()
-                {
-                    Css = $"left:0;"+
-                          $"right:auto;"+
-                          $"width:272px;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel--custom .ms-Panel-main" },
-                Properties = new CssString()
-                {
-                    Css = $"max-width:100vw;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel--customLeft .ms-Panel-main" },
-                Properties = new CssString()
-                {
-                    Css = $"right:auto;"+
-                          $"left:0;"+
-                          $"max-width:100vw;"
-                }
-            });
-
-
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinMedium}px)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Panel--sm .ms-Panel-main, .ms-Panel--md .ms-Panel-main, .ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
-                          $"width:{PanelWidth.Sm}px;" +
-                          "}"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinLarge}px)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Panel--md .ms-Panel-main, .ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
-                          $"width:{PanelWidth.Md1}px;" +
-                          "}"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinXLarge}px)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Panel--md .ms-Panel-main, .ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
-                          $"width:{PanelWidth.Md2}px;" +
-                          "}"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinUhfMobile}px)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
-                          $"left:{PanelMargin.Md}px;width:{PanelWidth.Auto};" +
-                          "}"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinXXLarge}px)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Panel--lg .ms-Panel-main, .ms-Panel--fixed .ms-Panel-main, .ms-Panel--xl .ms-Panel-main {" +
-                         //"width:940px;" +
-                         $"left:{PanelMargin.Lg}px" +
-                         "}"+
-                         ".ms-Panel--fixed .ms-Panel-main {"+
-                         $"left:{PanelMargin.Auto};width:{PanelWidth.Lg}px;" +
-                         "}"+
-                         ".ms-Panel--xl .ms-Panel-main {" +
-                         $"left:{PanelMargin.Xl}px;" +
-                         "}"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Panel-main {" +
-                          $"border-left:3px solid {theme.SemanticColors.VariantBorder};border-right:3px solid {theme.SemanticColors.VariantBorder};" +
-                          "}"
-                }
-            });
-
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-navigation" },
-                Properties = new CssString()
-                {
-                    Css = $"padding:0 5px;" +
-                          $"height:44px;" +
-                          $"display:flex;"+
-                          $"justify-content:flex-end;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-contentInner" },
-                Properties = new CssString()
-                {
-                    Css = $"display:flex;" +
-                          $"flex-direction:column;"+
-                          $"flex-grow:1;"+
-                          $"overflow-y:hidden;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-header" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:16px;" +
-                          $"padding-right:16px;" +
-                          $"margin:14px 0;" +
-                          $"flex-shrink:0;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = $"@media screen and (min-width: {theme.CommonStyle.ScreenWidthMinXLarge}px)" },
-                Properties = new CssString()
-                {
-                    Css = ".ms-Panel-header {" +
-                         $"margin-top:30px;" +
-                         "}"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-headerText" },
-                Properties = new CssString()
-                {
-                    Css = $"color:{theme.Palette.NeutralPrimary};"+
-                          $"line-height:27px;" +
-                          $"margin:0;" +
-                          $"overflow-wrap:break-word;"+
-                          $"word-wrap:break-word;" +
-                          $"word-break:break-word;" +
-                          $"hyphens:auto;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-scrollableContent" },
-                Properties = new CssString()
-                {
-                    Css = $"overflow-y:auto;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-scrollableContent--isFooterAtBottom" },
-                Properties = new CssString()
-                {
-                    Css = $"flex-grow:1;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-content" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:16px;" +
-                          $"padding-right:16px;" +
-                          $"margin-bottom:0;" +
-                          $"padding-bottom:20px;"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-footer" },
-                Properties = new CssString()
-                {
-                    Css = $"flex-shrink:0;" +
-                          $"border-top:1px solid transparent;" +
-                          $"transition:opacity var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_2);"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-footer--isStick" },
-                Properties = new CssString()
-                {
-                    Css = $"background:{theme.SemanticColors.BodyBackground};" +
-                          $"border-top-color:{theme.SemanticColors.VariantBorder};"
-                }
-            });
-
-            panelRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Panel-footerInner" },
-                Properties = new CssString()
-                {
-                    Css = $"padding-left:16px;" +
-                          $"padding-right:16px;" +
-                          $"padding-bottom:16px;" +
-                          $"padding-top:16px;"
-                }
-            });
-
-
-
-            return panelRules;
         }
     }
 

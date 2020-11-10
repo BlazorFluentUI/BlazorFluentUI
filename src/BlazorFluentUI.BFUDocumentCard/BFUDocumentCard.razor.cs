@@ -20,7 +20,7 @@ namespace BlazorFluentUI
         Compact = 1
     }
 
-    public partial class BFUDocumentCard : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUDocumentCard : BFUComponentBase
     {
         [Parameter]
         public RenderFragment? ChildContent { get; set; }

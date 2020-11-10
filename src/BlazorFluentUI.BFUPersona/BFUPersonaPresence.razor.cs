@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPersonaPresence : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUPersonaPresence : BFUComponentBase
     {
         [Parameter] public int CoinSize { get; set; }
         [Parameter] public bool IsOutOfOffice { get; set; }
@@ -28,6 +28,9 @@ namespace BlazorFluentUI
         private Rule PresenceAfterRule = new Rule();
         private Rule PresenceBeforeRule = new Rule();
         private Rule IconRule = new Rule();
+
+        private const string LocalSpecificityClass = "localPersonaPresenceRule";
+
 
         protected override Task OnInitializedAsync()
         {
@@ -105,10 +108,10 @@ namespace BlazorFluentUI
 
         private void CreateLocalCss()
         {
-            PresenceRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-presence" };
-            PresenceAfterRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-presence", PseudoElement = PseudoElements.After };
-            PresenceBeforeRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-presence", PseudoElement = PseudoElements.Before };
-            IconRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-icon" };
+            PresenceRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-presence", LiteralPrefix = $".{LocalSpecificityClass}" };
+            PresenceAfterRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-presence", PseudoElement = PseudoElements.After, LiteralPrefix = $".{LocalSpecificityClass}" };
+            PresenceBeforeRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-presence", PseudoElement = PseudoElements.Before, LiteralPrefix = $".{LocalSpecificityClass}" };
+            IconRule.Selector = new ClassSelector() { SelectorName = "ms-Persona-icon", LiteralPrefix = $".{LocalSpecificityClass}" };
 
             PersonaPresenceLocalRules.Add(PresenceRule);
             PersonaPresenceLocalRules.Add(PresenceAfterRule);
@@ -349,66 +352,6 @@ namespace BlazorFluentUI
                       (iColor != null ? $"color:{iColor};" : "") +
                       (iBorderColor != null ? $"border-color:{iBorderColor};" : "")
             };
-        }
-
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var personaPresenceRules = new HashSet<IRule>();
-
-            personaPresenceRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-Persona-presence" },
-                Properties = new CssString()
-                {
-                    Css = $"position:absolute;" +
-                          $"height:{PersonaPresenceSize.Size12};" +
-                          $"width:{PersonaPresenceSize.Size12};" +
-                          $"border-radius:50%;" +
-                          $"top:auto;" +
-                          $"right:-2px;" +
-                          $"bottom:-2px;" +
-                          $"border:2px solid {theme.SemanticColors.BodyBackground};" +
-                          $"text-align:center;" +
-                          $"box-sizing:content-box;" +
-                          $"background-clip:content-box;" +
-                          $"-ms-high-contrast-adjust:none;"
-                }
-            });
-
-            personaPresenceRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString()
-                {
-                    Css = $"border-color:Window;" +
-                          $"background-color:WindowText;"
-                }
-            });
-
-            personaPresenceRules.Add(new Rule()
-            {
-                Selector=new CssStringSelector() { SelectorName= ".ms-Persona-icon"},
-                Properties = new CssString
-                {
-                    Css = $"color:{theme.SemanticColors.BodyBackground};"+
-                          $"font-size:6px;"+
-                          $"line-height:{PersonaPresenceSize.Size12};"+
-                          $"vertical-align:top;"
-                }
-            });
-
-            personaPresenceRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-                Properties = new CssString
-                {
-                    Css = ".ms-Persona-icon {" +
-                          $"color:Window;"+
-                          "}"
-                }
-            });
-
-            return personaPresenceRules;
         }
 
     }

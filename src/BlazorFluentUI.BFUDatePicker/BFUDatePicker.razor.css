@@ -1,0 +1,47 @@
+﻿.ms-DatePicker {
+    box-shadow: none;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+
+::deep .ms-DatePicker-textField {
+    position: relative;
+}
+
+    ::deep .ms-DatePicker-textField input:read-only {
+        cursor: pointer;
+    }
+
+
+    ::deep .ms-DatePicker-textField input::-ms-clear {
+        display: none;
+    }
+
+.ms-DatePicker--disabled .ms-DatePicker-textField input:read-only {
+    cursor: default;
+}
+
+::deep .ms-DatePicker-callout {
+    box-shadow: var(--effects-Elevation8);
+}
+
+.ms-DatePicker ::deep .ms-TextField-icon {
+    color: var(--palette-NeutralSecondary);
+    font-size: var(--fontSize-MediumPlus);
+    line-height: 18px;
+    pointer-events: none;
+    position: absolute;
+    padding-top: 7px;
+}
+
+.ms-DatePicker:not(.ms-DatePicker--is-disabled) ::deep .ms-Icon {
+    pointer-events: initial;
+    cursor: pointer;
+}
+
+.ms-DatePicker.ms-DatePicker--is-disabled ::deep .ms-Icon {
+    color: var(--semanticTextColors-DisabledText);
+    cursor: default;
+}

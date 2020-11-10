@@ -1,11 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="new BFUCalendar()" CreateGlobalCss="@(() => (CalendarStyle.GetCalendarStyle(Theme)))" />
-<BFUStylePreloader Component="new BFUIconButton()"/>
-<BFUStylePreloader Component="new BFUIcon()" />
-<BFUStylePreloader Component="new BFUTooltip()" />
-
 <div class=@($"ms-Calendar {ClassName}") role="application" @ref="RootElementReference" style=@Style>
     <div class=@($"ms-Calendar-picker ms-Calendar-pickerIsOpened ms-Calendar-pickerIsFocused{(IsMonthPickerVisibleInternal ? " ms-Calendar-monthPickerVisible" : "")}{(IsMonthPickerVisibleInternal && IsDayPickerVisibleInternal ? " ms-Calendar-calendarsInline" : "")}{(!ShowMonthPickerAsOverlay && !IsDayPickerVisibleInternal ? " ms-Calendar-monthPickerOnly" : "")}{(ShowMonthPickerAsOverlay ? " ms-Calendar-monthPickerAsOverlay" : "")}")>
         <div class=@($"ms-Calendar-holder ms-slideDownIn10{(ShowMonthPickerAsOverlay && ShowGoToToday ? " ms-Calendar-holderWithButton" : "")}")>
@@ -22,7 +17,7 @@
                                      FirstDayOfWeek=@FirstDayOfWeek
                                      DateRangeType=@DateRangeType
                                      AutoNavigateOnSelection=@AutoNavigateOnSelection
-                                     OnHeaderSelect=@(args => { if (ShowMonthPickerAsOverlay) { OnHeaderSelect(args); } })
+                                     OnHeaderSelect=@(ShowMonthPickerAsOverlay ? OnHeaderSelect : null)
                                      ShowWeekNumbers=@ShowWeekNumbers
                                      FirstWeekOfYear=@FirstWeekOfYear
                                      DateTimeFormatter=@DateTimeFormatter

@@ -1,14 +1,14 @@
 @namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />
-
 @if (IconType == IconType.Image)
 {
     <div class=@($"ms-Icon ms-Icon-imageContainer {this.ClassName}")
          style=@Style
          @ref="RootElementReference"
-         role="presentation">
+         role="presentation"   
+         @attributes=@ExtraParameters
+    >
 
     </div>
 }
@@ -18,8 +18,9 @@ else
        data-icon-name=@IconName
        role="presentation"
        style="@Style"
-       @ref="RootElementReference">
-
+       @ref="RootElementReference"
+       @attributes=@ExtraParameters
+       >
     </i>
 }
 

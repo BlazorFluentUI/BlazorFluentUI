@@ -2,11 +2,17 @@
     <style>
     @BlazorFluentUI.Models.Keyframes.DefaultKeyFrames
 
-    body {
-        font-size: 15px;
-        font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
-        -webkit-font-smoothing: antialiased;
+    :root{
+        @(GetGlobalVariables())
     }
+
+        body {
+            color: var(--semanticTextColors-BodyText);
+            background-color: var(--semanticColors-BodyBackground);
+            font-size: 15px;
+            font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
 
     .mediumFont {
         font-size: @(ThemeProvider.Theme.FontStyle.FontSize.Medium);/*var(--fontSize-Medium);*/
@@ -93,17 +99,17 @@
 
 @code {
     [Inject]
-    public ThemeProvider ThemeProvider { get; set; }
+        public ThemeProvider ThemeProvider { get; set; }
 
-    [Parameter]
-    public IPalette InitialPalette { get; set; }
-    [Parameter]
-    public ISemanticColors InitialSemanticColors { get; set; }
-    [Parameter]
-    public ISemanticTextColors InitialSemanticTextColors { get; set; }
+        [Parameter]
+        public IPalette InitialPalette { get; set; }
+        [Parameter]
+        public ISemanticColors InitialSemanticColors { get; set; }
+        [Parameter]
+        public ISemanticTextColors InitialSemanticTextColors { get; set; }
 
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
+        [Parameter]
+        public RenderFragment ChildContent { get; set; }
 
     private bool firstThemeCheck;
 
@@ -134,4 +140,101 @@
     {
         InvokeAsync(() => StateHasChanged());
     }
+
+    private string GetGlobalVariables()
+    {
+        System.Text.StringBuilder sbuilder = new System.Text.StringBuilder("");
+
+        try
+        {
+            if (this.ThemeProvider != null && this.ThemeProvider.Theme != null)
+            {
+                var props = ThemeProvider.Theme.Palette.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    System.Diagnostics.Debug.WriteLine($"Name: {name}");
+                    var val = prop.GetValue(this.ThemeProvider.Theme.Palette,null);
+                    sbuilder.Append($"--palette-{name}: {val};");
+                }
+
+                props = ThemeProvider.Theme.SemanticColors.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    sbuilder.Append($"--semanticColors-{name}: {prop.GetValue(this.ThemeProvider.Theme.SemanticColors,null)};");
+                }
+
+                props = ThemeProvider.Theme.SemanticTextColors.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    sbuilder.Append($"--semanticTextColors-{name}: {prop.GetValue(this.ThemeProvider.Theme.SemanticTextColors,null)};");
+                }
+
+                props = ThemeProvider.Theme.Effects.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    sbuilder.Append($"--effects-{name}: {prop.GetValue(this.ThemeProvider.Theme.Effects,null)};");
+                }
+
+                props = ThemeProvider.Theme.Depths.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    sbuilder.Append($"--depths-{name}: {prop.GetValue(this.ThemeProvider.Theme.Depths)};");
+                }
+
+                props = ThemeProvider.Theme.Animation.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    sbuilder.Append($"--animation-{name}: {prop.GetValue(this.ThemeProvider.Theme.Animation)};");
+                }
+
+                props = ThemeProvider.Theme.CommonStyle.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    sbuilder.Append($"--commonStyle-{name}: {prop.GetValue(this.ThemeProvider.Theme.CommonStyle)};");
+                }
+
+                props = ThemeProvider.Theme.FontStyle.FontSize.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    sbuilder.Append($"--fontSize-{name}: {prop.GetValue(this.ThemeProvider.Theme.FontStyle.FontSize)};");
+                }
+
+                props = ThemeProvider.Theme.FontStyle.FontWeight.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    sbuilder.Append($"--fontWeight-{name}: {prop.GetValue(this.ThemeProvider.Theme.FontStyle.FontWeight)};");
+                }
+
+                props = ThemeProvider.Theme.FontStyle.IconFontSize.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    sbuilder.Append($"--iconFontSize-{name}: {prop.GetValue(this.ThemeProvider.Theme.FontStyle.IconFontSize)};");
+                }
+
+                props = ThemeProvider.Theme.ZIndex.GetType().GetProperties();
+                foreach (var prop in props)
+                {
+                    var name = prop.Name;
+                    sbuilder.Append($"--zIndex-{name}: {prop.GetValue(this.ThemeProvider.Theme.ZIndex)};");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            sbuilder.Append($"--exception:{ex.Message}");
+        }
+
+        return sbuilder.ToString();
+    }
+
 }

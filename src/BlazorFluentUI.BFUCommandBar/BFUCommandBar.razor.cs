@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCommandBar : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUCommandBar : BFUComponentBase
     {
-
         [Parameter] public IEnumerable<IBFUCommandBarItem> Items { get; set; }
         [Parameter] public IEnumerable<IBFUCommandBarItem> OverflowItems { get; set; }
         [Parameter] public IEnumerable<IBFUCommandBarItem> FarItems { get; set; }
@@ -18,6 +17,8 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<IBFUCommandBarItem> OnDataGrown { get; set; }
 
         [Parameter] public bool ShiftOnReduce { get; set; }
+
+        [Parameter] public RenderFragment<IBFUCommandBarItem> ItemTemplate { get; set; }
 
         protected Func<BFUCommandBarData, BFUCommandBarData> onGrowData;
         protected Func<BFUCommandBarData, BFUCommandBarData> onReduceData;
@@ -94,42 +95,6 @@ namespace BlazorFluentUI
             return string.Join(" ", primaryKey, farKey, overflowKey);
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        {
-            var commandBarRules = new HashSet<IRule>();
-            commandBarRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar" },
-                Properties = new CssString()
-                {
-                    Css = $"display:flex;" +
-                            $"background-color:{theme.SemanticColors.BodyBackground};" +
-                            $"padding:0 14px 0 24px;" +
-                            $"height:44px;"
-                }
-            });
-            commandBarRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar-primarySet" },
-                Properties = new CssString()
-                {
-                    Css = $"flex-grow:1;" +
-                            $"display:flex;" +
-                            $"align-items:stretch;"
-                }
-            });
-            commandBarRules.Add(new Rule()
-            {
-                Selector = new CssStringSelector() { SelectorName = ".ms-CommandBar-secondarySet" },
-                Properties = new CssString()
-                {
-                    Css = $"flex-shrink:0;" +
-                            $"display:flex;" +
-                            $"align-items:stretch;"
-                }
-            });
-
-            return commandBarRules;
-        }
+        
     }
 }

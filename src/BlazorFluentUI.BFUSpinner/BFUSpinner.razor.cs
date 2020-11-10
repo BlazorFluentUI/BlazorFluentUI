@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUSpinner : BFUComponentBase, IHasPreloadableGlobalStyle
+    public partial class BFUSpinner : BFUComponentBase
     {
         [Parameter] public string Label { get; set; }
         [Parameter] public SpinnerLabelPosition LabelPosition { get; set; } = SpinnerLabelPosition.Bottom;

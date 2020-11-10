@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
+using System;
 
 namespace BlazorFluentUI
 {
+    [Obsolete]
     public class BFUCalendarDateButton : BFUButtonBase
     {
         [Parameter] public bool AriaSelected { get; set; }

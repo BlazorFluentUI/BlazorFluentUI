@@ -1,0 +1,144 @@
+﻿.ms-DetailsColumn {
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+}
+
+
+.ms-DetailsColumn {
+    color: var(--semanticTextColors-BodyText);
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    padding: 0 8px 0 12px;
+    line-height: inherit;
+    margin: 0;
+    height: 42px;
+    vertical-align: top;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+    .ms-DetailsColumn::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-DetailsColumn:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-DetailsColumn:focus::after {
+        
+    }
+}
+
+.ms-DetailsColumn.is-actionable:hover {
+    color: var(--semanticTextColors-BodyText);
+    background: var(--semanticColors-ListHeaderBackgroundHovered);
+}
+
+.ms-DetailsColumn.is-actionable:active {
+    background: var(--semanticColors-ListHeaderBackgroundPressed);
+}
+
+
+.ms-DetailsColumn.is-empty {
+    text-overflow: clip;
+}
+
+.ms-DetailsColumn.is-padded {
+    padding-right: 32px;
+}
+
+    .ms-DetailsColumn.is-padded:hover i[data-icon-name='GripperBarVertical'] {
+        display: block;
+    }
+
+/*GripperBarVerticalStyle*/
+.ms-DetailsColumn-gripperBar {
+    display: none;
+    position: absolute;
+    text-align: left;
+    color: var(--palette-NeutralTertiary);
+    left: 1px;
+}
+
+/*NearIcon*/
+.ms-DetailsColumn-nearIcon {
+    color: var(--semanticTextColors-BodySubtext);
+    opacity: 1;
+    padding-left: 8px;
+}
+
+/*SortIcon*/
+.ms-DetailsColumn-sortIcon {
+    color: var(--semanticTextColors-BodySubtext);
+    opacity: 1;
+    padding-left: 4px;
+    position: relative;
+    top: 1px;
+}
+
+/*FilterChevron*/
+.ms-DetailsColumn-filterChevron {
+    color: var(--palette-NeutralTertiary);
+    padding-left: 6px;
+    vertical-align: middle;
+    font-size: var(--fontSize-Small);
+}
+
+/*CellTitle*/
+.ms-DetailsColumn-cellTitle::-moz-focus-inner {
+    border: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-DetailsColumn-cellTitle:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-DetailsColumn-cellTitle:focus::after {
+    }
+}
+
+.ms-DetailsColumn-cellTitle {
+    outline: transparent;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 0 8px 0 12px;
+}
+.ms-DetailsColumn.is-iconOnly .ms-DetailsColumn-cellTitle .ms-DetailsColumn-nearIcon {
+    padding-left: 0;
+}
+
+
+/*CellTitle*/
+.ms-DetailsColumn-cellTooltip {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}

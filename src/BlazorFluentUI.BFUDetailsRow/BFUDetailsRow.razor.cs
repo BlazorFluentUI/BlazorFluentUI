@@ -1,4 +1,4 @@
-﻿using BlazorFluentUI.Style;
+using BlazorFluentUI.Style;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -19,9 +19,6 @@ namespace BlazorFluentUI
 
         [Parameter]
         public bool AnySelected { get; set; }
-
-        //[Parameter]
-        //public bool CanSelect { get; set; }
 
         [Parameter]
         public IEnumerable<BFUDetailsRowColumn<TItem>> Columns { get; set; }
@@ -47,9 +44,6 @@ namespace BlazorFluentUI
         [Parameter]
         public bool IsRowHeader { get; set; }
 
-        //[Parameter]
-        //public bool IsSelected { get; set; }
-
         [Parameter]
         public TItem Item { get; set; }
 
@@ -71,7 +65,7 @@ namespace BlazorFluentUI
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; }
-        
+
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
@@ -100,12 +94,10 @@ namespace BlazorFluentUI
         private void CreateLocalCss()
         {
             _localCheckCoverRule = new Rule();
-            _localCheckCoverRule.Selector = new ClassSelector() { SelectorName = "ms-DetailsRow-checkCover" };            
-            _localCheckCoverRule.Properties = new CssString() { Css = $"position:absolute;top:-1px;left:0;bottom:0;right:0;display:{(AnySelected ? "block" : "none")};" };            
+            _localCheckCoverRule.Selector = new ClassSelector() { SelectorName = "ms-DetailsRow-checkCover" };
+            _localCheckCoverRule.Properties = new CssString() { Css = $"position:absolute;top:-1px;left:0;bottom:0;right:0;display:{(AnySelected ? "block" : "none")};" };
             DetailsRowLocalRules.Add(_localCheckCoverRule);
         }
-
-
 
         protected override Task OnParametersSetAsync()
         {
@@ -167,6 +159,13 @@ namespace BlazorFluentUI
 
             //CreateCss();
             return base.OnParametersSetAsync();
+        }
+
+        private async Task OnClick(MouseEventArgs args)
+        {
+            SelectionZone.ClearSelection();
+            SelectionZone.HandleToggle(Item);
+            await SelectionZone.OnItemInvoked.InvokeAsync(Item);
         }
 
         public static int RowVerticalPadding = 11;

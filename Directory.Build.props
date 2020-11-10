@@ -18,6 +18,7 @@
 	  <PackageOutputPath>../../packages</PackageOutputPath>
     <Version>4.0.0</Version>
 
+
   </PropertyGroup>
 
   <ItemGroup Condition="$(ProjectName.Contains('Test')) == false">

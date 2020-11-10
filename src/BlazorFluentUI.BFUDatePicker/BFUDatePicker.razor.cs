@@ -61,7 +61,7 @@ namespace BlazorFluentUI
         protected string calloutId;
         protected ElementReference datePickerDiv;
         protected BFUTextField textFieldComponent;
-        //protected string id = Guid.NewGuid().ToString(); 
+        //protected string id = Guid.NewGuid().ToString();
 
         private bool _preventFocusOpeningPicker = false;
         private bool _oldIsDatePickerShown;
@@ -78,7 +78,6 @@ namespace BlazorFluentUI
             ErrorMessage = IsRequired && (Value == DateTime.MinValue) ? IsRequiredErrorMessage : null;
             return base.OnInitializedAsync();
         }
-
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
@@ -189,11 +188,7 @@ namespace BlazorFluentUI
             if (IsDatePickerShown)
             {
                 IsDatePickerShown = false;
-                //InvokeAsync(() =>
-                //{
                 ValidateTextInput();
-                //});
-                //StateHasChanged();
             }
         }
 
@@ -311,7 +306,6 @@ namespace BlazorFluentUI
                                 FormattedDate = FormatDateInternal(date);
                             }
                             ErrorMessage = InvalidInputErrorMessage;
-                            //StateHasChanged();
                         }
                         else
                         {
@@ -319,7 +313,6 @@ namespace BlazorFluentUI
                             if (IsDateOutOfBounds(date, MinDate, MaxDate))
                             {
                                 ErrorMessage = IsOutOfBoundsErrorMessage;
-                                //StateHasChanged();
                             }
                             else
                             {
@@ -372,7 +365,6 @@ namespace BlazorFluentUI
             if (setState)
             {
                 ErrorMessage = errorMessge;
-                //StateHasChanged();
             }
             return errorMessge;
         }

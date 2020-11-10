@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -72,7 +71,6 @@ namespace BlazorFluentUI
         private IJSRuntime? JSRuntime { get; set; }
 
         private bool isModal = false;
-
 
         private bool doNotRenderOnce = false;
 
@@ -175,7 +173,6 @@ namespace BlazorFluentUI
                 return 0;
         }
 
-
         [JSInvokable]
         public void SetModal(bool isModal)
         {
@@ -223,6 +220,5 @@ namespace BlazorFluentUI
         {
             OnItemInvoked?.Invoke(Selection.GetItems()[index], index);
         }
-
     }
 }

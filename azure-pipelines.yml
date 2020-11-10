@@ -43,7 +43,7 @@ steps:
   displayName: 'Create NuGet package'
   inputs:
     command: 'pack'
-    packagesToPack: '**/Components/*.csproj'
+    packagesToPack: '**/Src/*.csproj'
     nobuild: true
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '4'
@@ -56,5 +56,5 @@ steps:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
     nuGetFeedType: 'internal'
-    publishVstsFeed: '5355f597-190a-4424-83da-cd89cd362a24/62e4a3d2-c255-43ac-a465-30d8f5f041e1'
+    publishVstsFeed: '8e76533e-907d-4808-b7af-3c067bbe1f95'
 

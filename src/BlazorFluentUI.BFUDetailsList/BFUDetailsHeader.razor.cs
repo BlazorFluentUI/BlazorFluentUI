@@ -161,7 +161,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 dotNetRef = DotNetObjectReference.Create(this);
-                //await JSRuntime!.InvokeVoidAsync("BlazorFluentUiDetailsList.registerDetailsHeader", dotNetRef, RootElementReference);
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUiDetailsList.registerDetailsHeader", dotNetRef, RootElementReference);
             }
             await base.OnAfterRenderAsync(firstRender);
         }

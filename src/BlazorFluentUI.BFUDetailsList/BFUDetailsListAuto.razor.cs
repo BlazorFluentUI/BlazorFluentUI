@@ -265,11 +265,6 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            //if (GroupBy == null && ItemsSource != null)
-            //{
-            //    //selectionZone?.SetItemsSource(ItemsSource);
-            //}
-
             if (Selection != _selection)
             {
                 if (Selection == null)
@@ -281,8 +276,6 @@ namespace BlazorFluentUI
 
                 if (Selection.GetKey == null)
                     Selection.GetKey = this.GetKey;
-                
-
             }
 
             if (Selection.SelectionMode != this.SelectionMode)

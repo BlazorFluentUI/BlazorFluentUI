@@ -22,7 +22,7 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '5.x'
-    includePreviewVersions: true
+    includePreviewVersions: false
 
 - task: NuGetCommand@2
   inputs:

@@ -42,7 +42,7 @@ steps:
     command: 'pack'
     packagesToPack: '*BlazorFluentUI.sln'
     versioningScheme: 'byEnvVar'
-    versionEnvVar: '(Version)'
+    versionEnvVar: 'Version'
 
 - task: DotNetCoreCLI@2
   displayName: 'Push NuGet Packages'

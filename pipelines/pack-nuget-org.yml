@@ -4,7 +4,6 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger: none
-    
 
 pool:
   vmImage: 'windows-latest'

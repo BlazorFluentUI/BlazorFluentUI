@@ -1,4 +1,3 @@
-using BlazorFluentUI.Style;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -52,7 +51,7 @@ namespace BlazorFluentUI
 
         [Parameter]
         public EventCallback<BFUDetailsRow<TItem>> OnRowDidMount { get; set; }
-        
+
         [Parameter]
         public EventCallback<BFUDetailsRow<TItem>> OnRowWillUnmount { get; set; }
 
@@ -116,7 +115,7 @@ namespace BlazorFluentUI
 
                 if (Selection != null)
                 {
-                    
+
                     _selectionSubscription = Selection.SelectionChanged.Subscribe(_ =>
                     {
                         bool changed = false;
@@ -152,20 +151,13 @@ namespace BlazorFluentUI
                     isSelected = Selection.IsKeySelected(GetKey(Item), false);
                 }
                 else
-                { 
+                {
                     isSelected = Selection.IsIndexSelected(this.ItemIndex);
                 }
             }
 
             //CreateCss();
             return base.OnParametersSetAsync();
-        }
-
-        private async Task OnClick(MouseEventArgs args)
-        {
-            SelectionZone.ClearSelection();
-            SelectionZone.HandleToggle(Item);
-            await SelectionZone.OnItemInvoked.InvokeAsync(Item);
         }
 
         public static int RowVerticalPadding = 11;

@@ -11,7 +11,7 @@
          aria-label=@AriaLabel
          aria-readonly=true
          style="display:flex;flex-direction:column;">
-        <div 
+        <div
              role="presentation"
              class="ms-DetailsList-headerWrapper">
             @if (IsHeaderVisible)
@@ -34,13 +34,11 @@
                                       OnColumnAutoResized=@OnColumnAutoResized
                                       OnColumnResized=@OnColumnResizedInternal
                                       CheckboxVisibility=@CheckboxVisibility
-                                      SelectAllVisibility=@selectAllVisibility
-                                      
-                                      />
+                                      SelectAllVisibility=@selectAllVisibility />
                 }
             }
         </div>
-        <div 
+        <div
              role="presentation"
              class="ms-DetailsList-contentWrapper"
              style="overflow-y:hidden;height:100%;">
@@ -56,8 +54,7 @@
                                    SelectionPreservedOnEmptyClick=@SelectionPreservedOnEmptyClick
                                    SelectionMode=@SelectionMode
                                    EnterModalOnTouch=@EnterModalSelectionOnTouch
-                                   OnItemInvoked=@((item,index) => this.OnItemInvoked.InvokeAsync(item))
-                                   >
+                                   OnItemInvoked=@((item,index) => this.OnItemInvoked.InvokeAsync(item)) >
                         @if (SubGroupSelector == null)
                         {
                             <BFUList ItemsSource=@ItemsSource
@@ -100,7 +97,7 @@
                                                     Selection=@Selection
                                                    Columns=@_adjustedColumns
                                                    SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
-                                                
+
                                                    CheckboxVisibility=@CheckboxVisibility
                                                    Compact=@Compact />
                                 </ItemTemplate>
@@ -113,8 +110,7 @@
                 {
                     @if (SubGroupSelector == null)
                     {
-                        <BFUList ItemsSource=@ItemsSource
-                              >
+                        <BFUList ItemsSource=@ItemsSource >
                             <ItemTemplate>
                                 @if (RowTemplate != null)
                                 {

@@ -4,7 +4,6 @@ using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -12,7 +11,7 @@ namespace BlazorFluentUI
     public partial class BFUDetailsRow<TItem> : BFUComponentBase, IAsyncDisposable
     {
         [CascadingParameter]
-        public BFUSelectionZone<TItem> SelectionZone { get; set; } = null!
+        public BFUSelectionZone<TItem> SelectionZone { get; set; } = null!;
 
         [Parameter]
         public CheckboxVisibility CheckboxVisibility { get; set; } = CheckboxVisibility.OnHover;
@@ -69,17 +68,17 @@ namespace BlazorFluentUI
         public bool UseFastIcons { get; set; } = true;
 
         [Inject]
-        private IJSRuntime JSRuntime { get; set; } = null!
+        private IJSRuntime JSRuntime { get; set; } = null!;
 
         private bool canSelect;
         private bool showCheckbox;
         private ColumnMeasureInfo<TItem> columnMeasureInfo = null;
-        private readonly ElementReference cellMeasurer;
+        private ElementReference cellMeasurer;
         private bool isSelected;
         private bool isSelectionModal;
-        private Rule _localCheckCoverRule;
-        private Selection<TItem> _selection;
-        private IDisposable _selectionSubscription;
+        private Rule localCheckCoverRule;
+        private Selection<TItem> selection;
+        private IDisposable selectionSubscription;
 
         private ICollection<IRule> DetailsRowLocalRules { get; set; } = new List<IRule>();
 
@@ -97,12 +96,12 @@ namespace BlazorFluentUI
 
         private void CreateLocalCss()
         {
-            _localCheckCoverRule = new Rule
+            localCheckCoverRule = new Rule
             {
                 Selector = new ClassSelector() { SelectorName = "ms-DetailsRow-checkCover" },
                 Properties = new CssString() { Css = $"position:absolute;top:-1px;left:0;bottom:0;right:0;display:{(AnySelected ? "block" : "none")};" }
             };
-            DetailsRowLocalRules.Add(_localCheckCoverRule);
+            DetailsRowLocalRules.Add(localCheckCoverRule);
         }
 
         protected override Task OnParametersSetAsync()
@@ -110,19 +109,19 @@ namespace BlazorFluentUI
             showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
             canSelect = SelectionMode != SelectionMode.None;
 
-            if (Selection != _selection)
+            if (Selection != selection)
             {
-                if (_selectionSubscription != null)
+                if (selectionSubscription != null)
                 {
-                    _selectionSubscription.Dispose();
+                    selectionSubscription.Dispose();
                 }
 
-                _selection = Selection;
+                selection = Selection;
 
                 if (Selection != null)
                 {
 
-                    _selectionSubscription = Selection.SelectionChanged.Subscribe(_ =>
+                    selectionSubscription = Selection.SelectionChanged.Subscribe(_ =>
                     {
                         bool changed = false;
                         bool newIsSelected;
@@ -208,7 +207,7 @@ namespace BlazorFluentUI
         public async ValueTask DisposeAsync()
         {
             await OnRowWillUnmount.InvokeAsync(this);
-            _selectionSubscription?.Dispose();
+            selectionSubscription?.Dispose();
         }
     }
 }

@@ -88,8 +88,8 @@ namespace BlazorFluentUI
         [Parameter]
         public Selection<TItem> Selection { get; set; } = new Selection<TItem>();
 
-        [Parameter]
-        public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
+        //[Parameter]
+        //public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; }

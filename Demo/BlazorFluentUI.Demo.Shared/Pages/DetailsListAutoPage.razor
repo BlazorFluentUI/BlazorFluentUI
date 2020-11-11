@@ -15,7 +15,7 @@
                          @bind-SelectedOption=selectedModeOption
                          Style="max-width:300px;">
             </BFUDropdown>
-            <BFUDefaultButton OnClick=@(arg => selection1.SelectedItems = (new List<DataItem> { dataSource[2], dataSource[3] }) ) Text="Set #3 selected"/>
+            <BFUDefaultButton OnClick=@(arg => selection1.SelectedItems = (new List<DataItem> { dataSource[2], dataSource[3] }) ) Text="Set #3 & #4 selected"/>
         </BFUStack>
         <BFUTextField Label="Filter Description"
                       Value=@filter
@@ -29,7 +29,7 @@
                                 Columns="columnsSource"
                                 GetKey=@(x=>x.Key)
                                 LayoutMode="DetailsListLayoutMode.Justified"
-                                @bind-Selection="selection1"
+                                Selection="selection1"
                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
                                 />
         </div>
@@ -44,7 +44,7 @@
                                 Columns="fixedColumnsSource"
                                 GetKey=@(x=>x.Key)
                                 LayoutMode="DetailsListLayoutMode.FixedColumns"
-                                @bind-Selection="selection2"
+                                Selection="selection2"
                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
                                 />
         </div>
@@ -60,7 +60,7 @@
                                     Columns="columnsSource"
                                     GetKey=@(x=>x.Key)
                                     LayoutMode="DetailsListLayoutMode.Justified"
-                                    @bind-Selection="selection3"
+                                    Selection="selection3"
                                     SelectionMode="SelectionMode.Multiple"
                                     />
             </BFUMarqueeSelection>

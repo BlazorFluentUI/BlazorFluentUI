@@ -168,13 +168,13 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
-        public static int RowVerticalPadding = 11;
-        public static int CompactRowVerticalPadding = 6;
-        public static int RowHeight = 42;
-        public static int CompactRowHeight = 32;
-        public static int CellLeftPadding = 12;
-        public static int CellRightPadding = 8;
-        public static int CellExtraRightPadding = 24;
+        public const int ROW_VERTICAL_PADDING= 11;
+        public const int COMPACT_ROW_VERTICAL_PADDING = 6;
+        public const int ROW_HEIGHT = 42;
+        public const int COMPACT_ROW_HEIGHT = 32;
+        public const int CELL_LEFT_PADDING = 12;
+        public const int CELL_RIGHT_PADDING = 8;
+        public const int CELL_EXTRA_RIGHT_PADDING = 24;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {

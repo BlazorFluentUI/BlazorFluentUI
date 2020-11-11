@@ -6,6 +6,8 @@
                     Columns="Columns"
                     GetKey=@(item=>item.Key)
                     LayoutMode="DetailsListLayoutMode.Justified"
+                    TItem="DataItem"
+                    OnItemInvoked="OnClick"
                     Selection="selection"
                     SelectionMode="SelectionMode.Multiple">
     </BFUDetailsList>
@@ -42,5 +44,10 @@
         InputList = new List<DataItem>(column.IsSorted ? InputList.OrderBy(x => x.DisplayName) : InputList.OrderByDescending(x => x.DisplayName));
         column.IsSorted = !column.IsSorted;
         StateHasChanged();
+    }
+
+    private void OnClick(DataItem item)
+    {
+        Console.WriteLine("Clicked!");
     }
 }

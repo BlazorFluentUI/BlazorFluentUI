@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace BlazorFluentUI
     public partial class BFUDetailsRow<TItem> : BFUComponentBase, IAsyncDisposable
     {
         [CascadingParameter]
-        public BFUSelectionZone<TItem> SelectionZone { get; set; }
+        public BFUSelectionZone<TItem> SelectionZone { get; set; } = null!
 
         [Parameter]
         public CheckboxVisibility CheckboxVisibility { get; set; } = CheckboxVisibility.OnHover;
@@ -60,7 +61,6 @@ namespace BlazorFluentUI
 
         [Parameter]
         public Selection<TItem> Selection { get; set; }
-        //public bool IsSelected { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; }
@@ -69,18 +69,17 @@ namespace BlazorFluentUI
         public bool UseFastIcons { get; set; } = true;
 
         [Inject]
-        private IJSRuntime JSRuntime { get; set; }
+        private IJSRuntime JSRuntime { get; set; } = null!
 
         private bool canSelect;
         private bool showCheckbox;
         private ColumnMeasureInfo<TItem> columnMeasureInfo = null;
-        private ElementReference cellMeasurer;
+        private readonly ElementReference cellMeasurer;
         private bool isSelected;
         private bool isSelectionModal;
         private Rule _localCheckCoverRule;
-
-        Selection<TItem> _selection;
-        IDisposable _selectionSubscription;
+        private Selection<TItem> _selection;
+        private IDisposable _selectionSubscription;
 
         private ICollection<IRule> DetailsRowLocalRules { get; set; } = new List<IRule>();
 
@@ -90,26 +89,33 @@ namespace BlazorFluentUI
             return base.OnInitializedAsync();
         }
 
+        private async Task OnClick(MouseEventArgs args)
+        {
+            SelectionZone.SelectToIndex(ItemIndex, true);
+            SelectionZone.OnItemInvoked.Invoke(Item, ItemIndex);
+        }
+
         private void CreateLocalCss()
         {
-            _localCheckCoverRule = new Rule();
-            _localCheckCoverRule.Selector = new ClassSelector() { SelectorName = "ms-DetailsRow-checkCover" };
-            _localCheckCoverRule.Properties = new CssString() { Css = $"position:absolute;top:-1px;left:0;bottom:0;right:0;display:{(AnySelected ? "block" : "none")};" };
+            _localCheckCoverRule = new Rule
+            {
+                Selector = new ClassSelector() { SelectorName = "ms-DetailsRow-checkCover" },
+                Properties = new CssString() { Css = $"position:absolute;top:-1px;left:0;bottom:0;right:0;display:{(AnySelected ? "block" : "none")};" }
+            };
             DetailsRowLocalRules.Add(_localCheckCoverRule);
         }
 
         protected override Task OnParametersSetAsync()
         {
             showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
-
-            canSelect = SelectionMode != SelectionMode.None;//Selection != null;
-
-
+            canSelect = SelectionMode != SelectionMode.None;
 
             if (Selection != _selection)
             {
                 if (_selectionSubscription != null)
+                {
                     _selectionSubscription.Dispose();
+                }
 
                 _selection = Selection;
 
@@ -126,21 +132,23 @@ namespace BlazorFluentUI
                         }
                         else
                         {
-                            newIsSelected = Selection.IsIndexSelected(this.ItemIndex);
+                            newIsSelected = Selection.IsIndexSelected(ItemIndex);
                         }
                         if (newIsSelected != isSelected)
                         {
                             changed = true;
                             isSelected = newIsSelected;
                         }
-                        var newIsModal = Selection.IsModal();
+                        bool newIsModal = Selection.IsModal();
                         if (newIsModal != isSelectionModal)
                         {
                             changed = true;
                             isSelectionModal = newIsModal;
                         }
                         if (changed)
+                        {
                             InvokeAsync(StateHasChanged);
+                        }
                     });
                 }
             }
@@ -152,7 +160,7 @@ namespace BlazorFluentUI
                 }
                 else
                 {
-                    isSelected = Selection.IsIndexSelected(this.ItemIndex);
+                    isSelected = Selection.IsIndexSelected(ItemIndex);
                 }
             }
 
@@ -177,8 +185,8 @@ namespace BlazorFluentUI
 
             if (columnMeasureInfo != null && columnMeasureInfo.Index >= 0 && cellMeasurer.Id != null)
             {
-                var method = columnMeasureInfo.OnMeasureDone;
-                var size = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", cellMeasurer);
+                Action<double>? method = columnMeasureInfo.OnMeasureDone;
+                Rectangle? size = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", cellMeasurer);
                 method(size.width);
                 columnMeasureInfo = null;
                 InvokeAsync(StateHasChanged);
@@ -189,7 +197,7 @@ namespace BlazorFluentUI
 
         public void MeasureCell(int index, Action<double> onMeasureDone)
         {
-            var column = Columns.ElementAt(index);
+            BFUDetailsRowColumn<TItem>? column = Columns.ElementAt(index);
             column.MinWidth = 0;
             column.MaxWidth = 999999;
             column.CalculatedWidth = double.NaN;

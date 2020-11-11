@@ -164,7 +164,6 @@ namespace BlazorFluentUI
                 }
             }
 
-            //CreateCss();
             return base.OnParametersSetAsync();
         }
 
@@ -189,7 +188,7 @@ namespace BlazorFluentUI
                 Rectangle? size = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", cellMeasurer);
                 method(size.width);
                 columnMeasureInfo = null;
-                InvokeAsync(StateHasChanged);
+                await InvokeAsync(StateHasChanged);
             }
 
             await base.OnAfterRenderAsync(firstRender);

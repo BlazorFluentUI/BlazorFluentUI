@@ -2,7 +2,7 @@
 @inherits BFUComponentBase
 @typeparam TItem
 @using System.Linq
-@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components
 
 <div class=@($"ms-DetailsList {ClassName}")
      style=@($"{Style}")
@@ -54,6 +54,7 @@
                                       SelectionPreservedOnEmptyClick=@SelectionPreservedOnEmptyClick
                                       SelectionMode=@SelectionMode
                                       EnterModalOnTouch=@EnterModalSelectionOnTouch
+                                      OnItemInvoked=@((item,index) => this.OnItemInvoked.InvokeAsync(item))
                                       >
                         @if (GroupBy == null)
                         {

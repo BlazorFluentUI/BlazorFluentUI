@@ -272,6 +272,9 @@ namespace BlazorFluentUiSelectionZone {
                     } else if (target === itemRoot) {
                         if (!isSelectionDisabled) {
                             await this._onItemSurfaceClickAsync(ev, index);
+                        } else {
+                            // if selection is disabled, i.e. SelectionMode is none, then do a plain InvokeItem
+                            await this.dotNet.invokeMethodAsync("InvokeItem", index);
                         }
                         break;
                     } else if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.tagName === 'INPUT') {

@@ -15,6 +15,7 @@
                          @bind-SelectedOption=selectedModeOption
                          Style="max-width:300px;">
             </BFUDropdown>
+            <BFUDefaultButton OnClick=@(arg => selection1.SelectedItems = (new List<DataItem> { dataSource[2], dataSource[3] }) ) Text="Set #3 selected"/>
         </BFUStack>
         <BFUTextField Label="Filter Description"
                       Value=@filter

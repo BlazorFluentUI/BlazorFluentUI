@@ -16,8 +16,23 @@ namespace BlazorFluentUI
 
         public IList<TItem> SelectedItems
         {
-            get => _items;
-            set => _items = value;
+            get => GetSelection();
+            set => SetItemsSelected(value);
+        }
+
+        private void SetItemsSelected(IList<TItem> items)
+        {
+            if (GetKey == null)
+                throw new Exception("GetKey must not be null.");
+            SetChangeEvents(false);
+            SetAllSelected(false);
+            foreach (var item in items)
+            {
+                var key = GetKey(item);
+
+                SetKeySelected(key, true, false);
+            }
+            SetChangeEvents(true);
         }
 
         private SelectionMode _selectionMode = SelectionMode.Single;

@@ -20,6 +20,8 @@ You will now have to define your list's container separately from the list compo
 
 You also have to define `GetKey` for your list component.  This is a selector for your items to tell the component how to uniquely identify each item.  
 
+A big change is that `OnItemInvoked` will only work when `SelectionMode` is set to `None`.   If you need Selection active and the invoke item function to work at the same time, you can attach an event handler to the `Selection.OnSelelectionChanged` event or subscribe to the `SelectionChanged` observable.  
+
 #### Removed BFUGlobalCS, BFUStylePreloader, IHasPreloadableGlobalStyle
 These components and interfaces must be removed as they no longer function within this library. Switch to using CSS isolation with your razor components instead.  `BFULocalCS` is still present and encouraged for dynamic styling that requires flexibility.  (Using the style attribute on an element makes it difficult for users to override the style.)
 

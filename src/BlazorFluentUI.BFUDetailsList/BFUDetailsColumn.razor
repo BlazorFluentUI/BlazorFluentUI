@@ -2,14 +2,13 @@
 @inherits BFUComponentBase
 @typeparam TItem
 
-@*<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />*@
 <div role="columnheader"
      aria-sort=@(Column.IsSorted ? (Column.IsSortedDescending ? "descending" : "ascending"): "none")
      aria-colindex=@ColumnIndex
      class=@($"ms-DetailsColumn{(Column.ColumnActionsMode != ColumnActionsMode.Disabled ? " is-actionable" : "")}{(string.IsNullOrEmpty(Column.Name) ? " is-empty" : "")}{(Column.IsPadded ? " is-padded" : "")}{(Column.IsIconOnly ? " is-iconOnly" : "")}")
      data-is-draggable=@IsDraggable
      draggable=@IsDraggable
-     style=@($"width:{(Column.CalculatedWidth + BFUDetailsRow<TItem>.CellLeftPadding + BFUDetailsRow<TItem>.CellRightPadding + (Column.IsPadded ? BFUDetailsRow<TItem>.CellExtraRightPadding : 0))}px;")>
+     style=@($"width:{(Column.CalculatedWidth + BFUDetailsRow<TItem>.CELL_LEFT_PADDING + BFUDetailsRow<TItem>.CELL_RIGHT_PADDING + (Column.IsPadded ? BFUDetailsRow<TItem>.CELL_EXTRA_RIGHT_PADDING : 0))}px;")>
     @if (IsDraggable)
     {
         @if (UseFastIcons)

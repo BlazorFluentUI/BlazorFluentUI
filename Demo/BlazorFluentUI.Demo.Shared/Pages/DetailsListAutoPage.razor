@@ -1,5 +1,5 @@
 ﻿@page "/detailsListAutoPage"
-@using Microsoft.AspNetCore.Components.Web 
+@using Microsoft.AspNetCore.Components.Web
 @using DynamicData
 @using System.Reactive.Linq
 
@@ -23,6 +23,7 @@
              style="height:400px;overflow-y:auto;">
             <BFUDetailsListAuto ItemsSource="dataSource"
                                 IsVirtualizing="isVirtualizing"
+                                TItem="DataItem"
                                 Compact="isCompact"
                                 Columns="columnsSource"
                                 GetKey=@(x=>x.Key)
@@ -89,6 +90,7 @@
     string filter = "";
     BFUDetailsRowColumn<DataItem, string> descriptionColumn;
 
+   
     protected override void OnInitialized()
     {
         selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()

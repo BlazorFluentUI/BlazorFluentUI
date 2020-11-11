@@ -1,24 +1,23 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 @typeparam TItem
-@using Microsoft.AspNetCore.Components.Web
 
 <BFULocalCS @bind-Rules=@DetailsRowLocalRules />
 
-@*<div @onclick="args => SelectionZone.SelectItem(Item,true)" data-is-focusable="true">*@
 <div class="root"
      data-selection-index=@ItemIndex
      data-selection-touch-invoke="true"
      data-item-index=@ItemIndex
      aria-rowindex=@(ItemIndex + 1)
      data-automationid="DetailsRow">
+
     <BFUFocusZone Direction=@FocusZoneDirection.Horizontal
                   AriaLabel=@AriaLabel
                   AriaDescribedBy=@AriaDescribedBy
                   ClassName=@($"fadeIn400 {(Compact ? "is-compact " : "")}{(isSelected ? "is-selected " : "")}{(IsRowHeader ? "is-row-header " : "")}{(IsCheckVisible ? "is-check-visible " : "")}ms-DetailsRow")
                   AllowFocusRoot="true"
                   IsFocusable="true"
-                  >
+                  OnClick=@OnClick >
 
         @if (showCheckbox)
         {
@@ -28,6 +27,7 @@
                  class="ms-DetailsRow-checkCell"
                  @onclick="args => { }"
                  @onclick:stopPropagation="true">
+
                 <BFUDetailsRowCheck IsVisible=@(this.CheckboxVisibility == CheckboxVisibility.Always)
                                     Compact=@Compact
                                     Checked=@isSelected
@@ -50,6 +50,7 @@
                 <span role="presentation"
                       class="ms-DetailsRow-cellMeasurer ms-DetailsRow-cell"
                       @ref="cellMeasurer">
+
                     <BFUDetailsRowFields Item=@Item
                                          Columns=@Columns
                                          ColumnStartIndex=@((showCheckbox ? 1 : 0) + Columns.Count()) />
@@ -57,7 +58,7 @@
             }
         }
 
-    <span role="checkbox" class="@($"ms-DetailsRow-checkCover {_localCheckCoverRule.Selector.SelectorName}")" aria-checked=@isSelected data-selection-toggle="true" />
+    <span role="checkbox" class="@($"ms-DetailsRow-checkCover {localCheckCoverRule.Selector.SelectorName}")" aria-checked=@isSelected data-selection-toggle="true" />
 
     </BFUFocusZone>
 </div>

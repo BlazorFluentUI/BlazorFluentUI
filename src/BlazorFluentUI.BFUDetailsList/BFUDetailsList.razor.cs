@@ -387,9 +387,9 @@ namespace BlazorFluentUI
         private double GetPaddedWidth(BFUDetailsRowColumn<TItem> column, bool isFirst)
         {
             return column.CalculatedWidth +
-                    BFUDetailsRow<TItem>.CellLeftPadding +
-                    BFUDetailsRow<TItem>.CellRightPadding +
-                    (column.IsPadded ? BFUDetailsRow<TItem>.CellExtraRightPadding : 0);
+                    BFUDetailsRow<TItem>.CELL_LEFT_PADDING +
+                    BFUDetailsRow<TItem>.CELL_RIGHT_PADDING +
+                    (column.IsPadded ? BFUDetailsRow<TItem>.CELL_EXTRA_RIGHT_PADDING : 0);
         }
 
         private void OnColumnResizedInternal(ColumnResizedArgs<TItem> columnResizedArgs)

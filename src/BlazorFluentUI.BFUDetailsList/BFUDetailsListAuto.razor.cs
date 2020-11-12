@@ -200,28 +200,6 @@ namespace BlazorFluentUI
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
-            //shouldRender = false;
-
-            //var dictParameters = parameters.ToDictionary();
-            //if (lastParameters == null)
-            //{
-            //    shouldRender = true;
-            //}
-            //else
-            //{
-            //    var differences = dictParameters.Where(entry =>
-            //    {
-            //        return !lastParameters[entry.Key].Equals(entry.Value);
-            //    }
-            //    ).ToDictionary(entry => entry.Key, entry => entry.Value);
-
-            //    if (differences.Count > 0)
-            //    {
-            //        shouldRender = true;
-            //    }
-            //}
-            //lastParameters = dictParameters;
-
             if (_viewport != null && _viewport != _lastViewport)
             {
                 AdjustColumns(
@@ -265,22 +243,24 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            if (Selection != _selection)
+            if (!DisableSelectionZone)
             {
-                if (Selection == null)
+                if (Selection != _selection)
                 {
-                    Selection = new Selection<TItem>();
-                    Selection.GetKey = this.GetKey;
+                    if (Selection == null)
+                    {
+                        Selection = new Selection<TItem>();
+                        Selection.GetKey = this.GetKey;
+                    }
+                    _selection = Selection;
+
+                    if (Selection.GetKey == null)
+                        Selection.GetKey = this.GetKey;
                 }
-                _selection = Selection;
 
-                if (Selection.GetKey == null)
-                    Selection.GetKey = this.GetKey;
+                if (Selection.SelectionMode != this.SelectionMode)
+                    Selection.SelectionMode = this.SelectionMode;
             }
-
-            if (Selection.SelectionMode != this.SelectionMode)
-                Selection.SelectionMode = this.SelectionMode;
-
 
             //Setup SourceCache to pull from GetKey or from IList index
 
@@ -465,10 +445,11 @@ namespace BlazorFluentUI
                     InvokeAsync(StateHasChanged);
                 })
                 .Subscribe();
-    
-            if (GroupBy == null)
-                Selection?.SetItems(items);
 
+            if (GroupBy == null)
+            {
+                Selection?.SetItems(items);
+            }
         }
 
 

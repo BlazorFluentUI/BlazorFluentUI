@@ -124,7 +124,6 @@ namespace BlazorFluentUI
                 (items as INotifyCollectionChanged)!.CollectionChanged += Selection_CollectionChanged;
             }
 
-
             _unselectableCount = 0;
             int index = 0;
             foreach (var item in items)

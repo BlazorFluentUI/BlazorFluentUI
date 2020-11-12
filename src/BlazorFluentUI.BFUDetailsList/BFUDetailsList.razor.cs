@@ -45,8 +45,11 @@ namespace BlazorFluentUI
         [Parameter]
         public bool IsVirtualizing { get; set; } = true;
 
+        // Selection.SetItems will crash if a null source is passed in... but we need to clear it if the source is null, so pass in an empty list.
+        // Also, the internal BFUList<TItem> will also crash if a null itemssource is passed to it.
+        private IList<TItem> _itemsSource = new List<TItem>();
         [Parameter]
-        public IList<TItem> ItemsSource { get; set; }
+        public IList<TItem> ItemsSource { get => _itemsSource; set { if (value == null) { _itemsSource = new List<TItem>(); } else { _itemsSource = value; } } }
 
         [Parameter]
         public DetailsListLayoutMode LayoutMode { get; set; }
@@ -88,6 +91,7 @@ namespace BlazorFluentUI
         Viewport _viewport;
         private IEnumerable<BFUDetailsRowColumn<TItem>> _adjustedColumns = Enumerable.Empty<BFUDetailsRowColumn<TItem>>();
         const double MIN_COLUMN_WIDTH = 100;
+
 
         Dictionary<string, double> _columnOverrides = new Dictionary<string, double>();
 
@@ -175,24 +179,26 @@ namespace BlazorFluentUI
 
         protected override async Task OnParametersSetAsync()
         {
-            if (Selection != _selection)
+            if (!DisableSelectionZone)
             {
-                if (Selection == null)
+                if (Selection != _selection)
                 {
-                    Selection = new Selection<TItem>();
-                    Selection.GetKey = this.GetKey;
+                    if (Selection == null)
+                    {
+                        Selection = new Selection<TItem>();
+                        Selection.GetKey = this.GetKey;
+                    }
+                    _selection = Selection;
+
+                    if (Selection.GetKey == null)
+                        Selection.GetKey = this.GetKey;
+
+                    Selection.SetItems(ItemsSource);
                 }
-                _selection = Selection;
 
-                if (Selection.GetKey == null)
-                    Selection.GetKey = this.GetKey;
-               
-                Selection.SetItems(ItemsSource);
-
+                if (Selection.SelectionMode != this.SelectionMode)
+                    Selection.SelectionMode = this.SelectionMode;
             }
-
-            if (Selection.SelectionMode != this.SelectionMode)
-                Selection.SelectionMode = this.SelectionMode;
 
             await base.OnParametersSetAsync();
         }

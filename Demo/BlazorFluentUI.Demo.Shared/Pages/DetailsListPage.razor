@@ -15,6 +15,11 @@
                      @bind-SelectedOption=selectedModeOption
                      Style="max-width:300px;">
         </BFUDropdown>
+        <BFUToggle Label="Disable Selection"
+                   @bind-Checked="selectionDisabled"
+                   OnText="disabled"
+                   OffText="enabled"
+                    />
     </BFUStack>
     <BFUTextField Label="Filter Description"
                   @bind-Value=@dataContainer.Filter
@@ -23,14 +28,16 @@
              style="height:100%;overflow-y:auto;">
             @if (ReadonlyList != null)
             {
-                <BFUDetailsList ItemsSource="ReadonlyList"
+                <BFUDetailsList ItemsSource="null"
                                 IsVirtualizing="isVirtualizing"
                                 Compact="isCompact"
                                 Columns="ReadonlyColumns"
                                 GetKey=@(item => item.Key)
                                 LayoutMode="DetailsListLayoutMode.Justified"
                                 Selection="selection"
-                                SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key)) />
+                                SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
+                                DisableSelectionZone=@selectionDisabled
+                                />
             }
             else
             {
@@ -47,6 +54,7 @@
 
     bool isVirtualizing = true;
     bool isCompact = false;
+    bool selectionDisabled = false;
     IBFUDropdownOption selectedModeOption;
     List<IBFUDropdownOption> selectionModeOptions;
 
@@ -139,7 +147,7 @@
             // We're loading our sample data into the dataSource SourceCache.
             for (var i = 0; i < 100; i++)
             {
-                
+
                 count++;
                 dataSource.AddOrUpdate(new DataItem(count));
             }
@@ -154,7 +162,7 @@
                 columnsSource.AddOrUpdate(descColumn);
             });
 
-            
+
 
             // This is the meat of DynamicData.  We connect to the data SourceCache, apply the Filter (which is dynamic), 
             // apply the Sort expression (which is also dynamic), and Bind it to a readonly list property.  This is what we're

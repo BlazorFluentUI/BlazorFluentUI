@@ -38,11 +38,17 @@
                     @SubText
                 </p>
             }
-            @ContentTemplate
+            @if (ContentTemplate != null)
+            {
+                @ContentTemplate
+            }
         </div>
         <div class="ms-Dialog-actions">
             <div class="ms-Dialog-actionsRight">
-                @FooterTemplate
+                @if (FooterTemplate != null)
+                {
+                    @FooterTemplate
+                }
             </div>
         </div>
     </div>

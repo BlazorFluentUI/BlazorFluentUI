@@ -66,7 +66,7 @@
 }
 
 .ms-Dropdown.has-error.is-open .ms-Dropdown-title {
-    border-color: var(--semanticTextColors-ErrorText)
+    border: 2px solid var(--semanticTextColors-ErrorText)
 }
 
 .ms-Dropdown.is-disabled .ms-Dropdown-title {

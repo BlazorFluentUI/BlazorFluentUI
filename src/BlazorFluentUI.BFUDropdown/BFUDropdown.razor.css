@@ -62,11 +62,11 @@
 
 
 .ms-Dropdown.has-error .ms-Dropdown-title {
-    border-color: var(--palette-Red);
+    border-color: var(--semanticTextColors-ErrorText)
 }
 
 .ms-Dropdown.has-error.is-open .ms-Dropdown-title {
-    border-color: var(--palette-RedDark);
+    border-color: var(--semanticTextColors-ErrorText)
 }
 
 .ms-Dropdown.is-disabled .ms-Dropdown-title {

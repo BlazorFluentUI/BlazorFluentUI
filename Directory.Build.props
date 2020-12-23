@@ -20,17 +20,4 @@
 
   </PropertyGroup>
 
-  <!--<ItemGroup Condition="$(ProjectName.Contains('Test')) == false">
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>-->
-  
-  <!--<ItemGroup Condition="$(ProjectName.Contains('BaseComponent')) == false" > 
-    <Content Include="..\BlazorFluentUI.BFUBaseComponent\tsconfig.json">
-
-    </Content>
-  </ItemGroup>-->
-
 </Project>

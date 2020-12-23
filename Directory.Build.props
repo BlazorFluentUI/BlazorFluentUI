@@ -12,12 +12,11 @@
     <Copyright>Copyright BlazorFluentUI 2019</Copyright>
     <PackageTags>Blazor;Fluent UI;Fluent;controls;components</PackageTags>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 	  <PackageOutputPath>../../packages</PackageOutputPath>
     <Version>4.0.2</Version>
-
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 
   </PropertyGroup>
 

@@ -296,11 +296,11 @@ namespace BlazorFluentUI
                 await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", _resizeId);
             }
 
-            //if (IsOpen && !_scrollerRegistered)
-            //{
-            //    _scrollerRegistered = true;
-            //    _scrollerEventId = await JSRuntime.InvokeAsync<List<int>>("BlazorFluentUiPanel.makeElementScrollAllower", scrollableContent);
-            //}
+            if (IsOpen && !_scrollerRegistered)
+            {
+                _scrollerRegistered = true;
+                _scrollerEventId = await JSRuntime.InvokeAsync<List<int>>("BlazorFluentUiPanel.makeElementScrollAllower", scrollableContent);
+            }
 
             if (!IsOpen && _scrollerRegistered)
             {

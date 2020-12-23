@@ -30,7 +30,7 @@ namespace BlazorFluentUI
         }
 
 
-        public void AddOrUpdateHostedContent(string layerId, RenderFragment? renderFragment)
+        public async Task AddOrUpdateHostedContentAsync(string layerId, RenderFragment? renderFragment)
         {
             var foundPortalFragment = portalFragments.FirstOrDefault(x => x.Id == layerId);
             if (foundPortalFragment != null)
@@ -44,18 +44,18 @@ namespace BlazorFluentUI
                 if (layerId == null)
                     throw new Exception("The Layer Id should not be null.");
                 portalFragments.Add(new PortalDetails { Id = layerId, Fragment = renderFragment }); //should render the first time and not after unless explicitly set.
-                InvokeAsync(StateHasChanged);
+                await InvokeAsync(StateHasChanged);
             }
            
         }
 
-        public void RemoveHostedContent(string layerId)
+        public async Task RemoveHostedContentAsync(string layerId)
         {
             portalFragments.Remove(portalFragments.First(x => x.Id == layerId));
             if (portals.ContainsKey(layerId))
                 portals.Remove(layerId);
             portalSequenceStarts.Remove(layerId);
-            InvokeAsync(StateHasChanged);
+            await InvokeAsync(StateHasChanged);
         }
 
 

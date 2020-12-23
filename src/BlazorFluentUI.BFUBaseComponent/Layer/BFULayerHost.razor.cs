@@ -25,14 +25,14 @@ namespace BlazorFluentUI
         protected BFULayerPortalGenerator? portalGeneratorReference;
 
 
-        public void AddOrUpdateHostedContent(string layerId, RenderFragment? renderFragment)
+        public Task AddOrUpdateHostedContentAsync(string layerId, RenderFragment? renderFragment)
         {
-            portalGeneratorReference?.AddOrUpdateHostedContent(layerId, renderFragment);
+            return portalGeneratorReference?.AddOrUpdateHostedContentAsync(layerId, renderFragment);
         }
 
-        public void RemoveHostedContent(string layerId)
+        public Task RemoveHostedContentAsync(string layerId)
         {
-            portalGeneratorReference?.RemoveHostedContent(layerId);
+            return portalGeneratorReference?.RemoveHostedContentAsync(layerId);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

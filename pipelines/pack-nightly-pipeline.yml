@@ -6,6 +6,11 @@
 trigger:
 - master
 
+pr:
+ branches:
+    exclude:
+      - '*'
+
 pool:
   vmImage: 'windows-latest'
 

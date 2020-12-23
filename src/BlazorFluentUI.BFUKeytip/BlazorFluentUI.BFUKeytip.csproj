@@ -18,7 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BlazorFluentUI.BFUBaseComponent\BlazorFluentUI.BFUBaseComponent.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUCallout\BlazorFluentUI.BFUCallout.csproj" />
-    <ProjectReference Include="..\BlazorFluentUI.BFULayer\BlazorFluentUI.BFULayer.csproj" />
   </ItemGroup>
 
 </Project>

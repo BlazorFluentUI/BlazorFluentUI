@@ -27,7 +27,6 @@
     <ProjectReference Include="..\BlazorFluentUI.BFUBaseComponent\BlazorFluentUI.BFUBaseComponent.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUDetailsRow\BlazorFluentUI.BFUDetailsRow.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUGroupedList\BlazorFluentUI.BFUGroupedList.csproj" />
-    <ProjectReference Include="..\BlazorFluentUI.BFULayer\BlazorFluentUI.BFULayer.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUList\BlazorFluentUI.BFUList.csproj" />
   </ItemGroup>
 

@@ -36,7 +36,8 @@ namespace BlazorFluentUI
             if (foundPortalFragment != null)
             {
                 foundPortalFragment.Fragment = renderFragment;
-                portals[layerId].Rerender();
+                if (portals.ContainsKey(layerId))
+                    portals[layerId].Rerender();
             }
             else
             {

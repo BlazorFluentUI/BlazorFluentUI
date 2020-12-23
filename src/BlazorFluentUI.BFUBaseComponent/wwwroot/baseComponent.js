@@ -517,6 +517,14 @@ var BlazorFluentUiBaseComponent;
         layerElements[parent.dataset.layerId] = parent;
     }
     BlazorFluentUiBaseComponent.addOrUpdateVirtualParent = addOrUpdateVirtualParent;
+    function getVirtualParent(child) {
+        let parent;
+        if (child && child.dataset && child.dataset.parentLayerId) {
+            parent = layerElements[child.dataset.parentLayerId];
+        }
+        return parent;
+    }
+    BlazorFluentUiBaseComponent.getVirtualParent = getVirtualParent;
     //export function setVirtualParent(child: HTMLElement, parent: HTMLElement) {
     //    let virtualChild = <IVirtualElement>child;
     //    let virtualParent = <IVirtualElement>parent;
@@ -552,14 +560,6 @@ var BlazorFluentUiBaseComponent;
     //    }
     //    return parent;
     //}
-    function getVirtualParent(child) {
-        let parent;
-        if (child && child.dataset && child.dataset.parentLayerId) {
-            parent = layerElements[child.dataset.parentLayerId];
-        }
-        return parent;
-    }
-    BlazorFluentUiBaseComponent.getVirtualParent = getVirtualParent;
     function elementContains(parent, child, allowVirtualParents = true) {
         let isContained = false;
         if (parent && child) {

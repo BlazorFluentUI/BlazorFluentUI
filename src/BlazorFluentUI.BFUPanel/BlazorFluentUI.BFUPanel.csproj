@@ -23,7 +23,6 @@
     <ProjectReference Include="..\BlazorFluentUI.BFUBaseComponent\BlazorFluentUI.BFUBaseComponent.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUButton\BlazorFluentUI.BFUButton.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUFocusTrapZone\BlazorFluentUI.BFUFocusTrapZone.csproj" />
-    <ProjectReference Include="..\BlazorFluentUI.BFULayer\BlazorFluentUI.BFULayer.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUOverlay\BlazorFluentUI.BFUOverlay.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUPopup\BlazorFluentUI.BFUPopup.csproj" />
   </ItemGroup>

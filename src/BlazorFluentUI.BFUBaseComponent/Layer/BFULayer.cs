@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using System;
 using System.Diagnostics;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -11,31 +12,44 @@ namespace BlazorFluentUI
     // a LayerHost manually near the root of the app.  This will allow you to use a CascadeParameter 
     // to send the LayerHost to anywhere in the app and render items to it.
 
-    public class BFULayer : BFUComponentBase, IDisposable
+    public class BFULayer : BFUComponentBase, IAsyncDisposable
     {        
         [Inject] private IJSRuntime? JSRuntime { get; set; }
+        [Inject] private LayerHostService LayerHostService { get; set; }
         
         [Parameter] public RenderFragment? ChildContent { get; set; }
+        [Parameter] public string? HostId { get; set; }
 
-        [CascadingParameter(Name = "HostedContent")] protected BFULayerHost? LayerHost { get; set; }
+        //[CascadingParameter(Name = "HostedContent")] protected BFULayerHost? LayerHost { get; set; }
+        private BFULayerHost LayerHost { get; set; }
 
         private bool addedToHost = false;
 
         public string id = Guid.NewGuid().ToString();
         private ElementReference _element;
 
-        protected override Task OnParametersSetAsync()
+        private bool isFirstRendered = false;
+
+        protected override async Task OnParametersSetAsync()
         {
             if (!addedToHost)
             {
-                if (LayerHost == null)
+                if (HostId == null)
                 {
-                    throw new Exception("LayerHost is not present.  You need to add a LayerHost near the root of the app.");
+                    LayerHost = LayerHostService.GetDefaultHost();
                 }
-                LayerHost.AddOrUpdateHostedContent(id, ChildContent);
-                addedToHost = true;
+                else
+                {
+                    LayerHost = LayerHostService.GetHost(HostId);
+                }
+
+                if (LayerHost != null)
+                {
+                    LayerHost.AddOrUpdateHostedContent(id, ChildContent);
+                    addedToHost = true;
+                }
             }
-            return base.OnParametersSetAsync();
+            await base.OnParametersSetAsync();
         }
 
         protected override bool ShouldRender()
@@ -60,15 +74,38 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.addOrUpdateVirtualParent", _element);
+            if (firstRender)
+            {
+                isFirstRendered = true;
+                if (!addedToHost)
+                {
+                    if (HostId == null)
+                    {
+                        LayerHost = LayerHostService.GetDefaultHost();
+                    }
+                    else
+                    {
+                        LayerHost = LayerHostService.GetHost(HostId);
+                    }
+
+                    if (LayerHost != null)
+                    {
+                        LayerHost.AddOrUpdateHostedContent(id, ChildContent);
+                        addedToHost = true;
+                        StateHasChanged();
+                    }
+                }
+
+                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.addOrUpdateVirtualParent", _element);
+            }
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        public void Dispose()
+        public ValueTask DisposeAsync()
         {
             LayerHost?.RemoveHostedContent(this.id);
             addedToHost = false;
+            return ValueTask.CompletedTask;
         }
-
     }
 }

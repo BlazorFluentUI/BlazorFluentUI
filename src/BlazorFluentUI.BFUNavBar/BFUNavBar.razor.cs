@@ -98,14 +98,14 @@ namespace BlazorFluentUI
 
 
 
-           return base.OnParametersSetAsync();
+            return base.OnParametersSetAsync();
         }
 
         private string ComputeCacheKey(BFUNavBarData data)
         {
             var primaryKey = data.PrimaryItems.Aggregate("", (acc, item) => acc + item.CacheKey);
             //var farKey = data.FarItems.Aggregate("", (acc, item) => acc + item.CacheKey);
-               var overflowKey = data.OverflowItems.Aggregate("", (acc, item) => acc + item.CacheKey);
+            var overflowKey = data.OverflowItems.Aggregate("", (acc, item) => acc + item.CacheKey);
             return string.Join(" ", primaryKey, overflowKey);
         }
 
@@ -146,7 +146,7 @@ namespace BlazorFluentUI
             else
                 processUriAnchorOnly = "";
 
-            var allItems = Items.Concat(Items.Where(x=>x.Items != null).SelectMany(x => GetChild(x.Items)).Cast<IBFUNavBarItem>())
+            var allItems = Items.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items)).Cast<IBFUNavBarItem>())
                 .Concat(OverflowItems.Concat(OverflowItems.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items)).Cast<IBFUNavBarItem>()));
             foreach (var item in allItems)
             {
@@ -183,7 +183,7 @@ namespace BlazorFluentUI
                         }
                         break;
                 }
-                
+
             }
             StateHasChanged();
         }

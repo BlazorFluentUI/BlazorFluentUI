@@ -1,0 +1,18 @@
+﻿@using BlazorFluentUI.Resize;
+@inherits BFUResizeComponentBase<int>
+
+
+<BFUPivotItem HeaderText=@HeaderText>
+    <div @ref="RootElementReference" style="white-space: nowrap">
+        @ChildContent
+        @if (ItemTemplate != null && ItemsSource != null)
+        {
+            <div  @ref="updateHiddenDiv" style="display: inline">
+                @foreach (var item in ResizableGroups)
+                {
+                    @ItemTemplate(item)
+                }
+            </div>
+         }
+    </div>
+</BFUPivotItem>

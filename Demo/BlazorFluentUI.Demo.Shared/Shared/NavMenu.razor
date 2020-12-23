@@ -9,69 +9,70 @@
     <BFUStackItem VerticalFill="true" Style="overflow-y:auto;">
         <BFUNav>
             <BFUNavLinkGroup Name="Basic Controls" CollapseByDefault="false">
-                @*<BFUNavLink Name="Basic" Url="" Id="" Icon="ButtonControl" OnClick=@OnLinkClicked />*@
-                <BFUNavLink Name="Button" Url="" Id="" Icon="ButtonControl" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Checkbox" Url="checkboxPage" Id="checkboxPage" Icon="CheckboxComposite" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="ChoiceGroup" Url="choiceGroupPage" Id="choiceGroupPage" Icon="RadioBtnOn" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Dropdown" Url="dropdownPage" Id="dropdownPage" Icon="Dropdown" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Label" Url="labelPage" Id="labelPage" Icon="Label" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Link" Url="linkPage" Id="linkPage" Icon="Link" OnClick="@OnLinkClicked" />
-                <BFUNavLink Name="Rating" Url="ratingPage" Id="ratingPage" Icon="FavoriteStar" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Slider" Url="sliderPage" Id="sliderPage" Icon="Slider" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="TextField" Url="textFieldPage" Id="textFieldPage" Icon="TextField" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Toggle" Url="togglePage" Id="togglePage" Icon="ToggleLeft" OnClick=@OnLinkClicked />
+                @*<BFUNavLink Name="Basic" Url="" Id="" IconName="ButtonControl" OnClick=@OnLinkClicked />*@
+                <BFUNavLink Name="Button" Url="buttonsPage" Id="buttonsPage" IconName="ButtonControl" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Checkbox" Url="checkboxPage" Id="checkboxPage" IconName="CheckboxComposite" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="ChoiceGroup" Url="choiceGroupPage" Id="choiceGroupPage" IconName="RadioBtnOn" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Dropdown" Url="dropdownPage" Id="dropdownPage" IconName="Dropdown" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Label" Url="labelPage" Id="labelPage" IconName="Label" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Link" Url="linkPage" Id="linkPage" IconName="Link" OnClick="@OnLinkClicked" />
+                <BFUNavLink Name="Rating" Url="ratingPage" Id="ratingPage" IconName="FavoriteStar" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Slider" Url="sliderPage" Id="sliderPage" IconName="Slider" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="TextField" Url="textFieldPage" Id="textFieldPage" IconName="TextField" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Toggle" Url="togglePage" Id="togglePage" IconName="ToggleLeft" OnClick=@OnLinkClicked />
             </BFUNavLinkGroup>
             <BFUNavLinkGroup Name="Galleries & Pickers" CollapseByDefault="false">
-                <BFUNavLink Name="Calendar" Url="calendarPage" Id="calendarPage" Icon="Calendar" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="DatePicker" Url="datePickerPage" Id="datePickerPage" Icon="SearchCalendar" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Calendar" Url="calendarPage" Id="calendarPage" IconName="Calendar" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="DatePicker" Url="datePickerPage" Id="datePickerPage" IconName="SearchCalendar" OnClick=@OnLinkClicked />
             </BFUNavLinkGroup>
             <BFUNavLinkGroup Name="Items & Lists" CollapseByDefault="false">
-                <BFUNavLink Name="List" Url="listPage" Id="listPage" Icon="List" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="DetailsList Basic" Url="detailsListPageBasic" Id="detailsListPageBasic" Icon="List" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="DetailsList" Url="detailsListPage" Id="detailsListPage" Icon="List" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="DetailsListAuto" Url="detailsListAutoPage" Id="detailsListAutoPage" Icon="List" OnClick=@OnLinkClicked />
-                    <BFUNavLink Name="DetailsList-Grouped"
-                                NestedDepth="1"
-                                Url="detailsListGroupedPage"
-                                Id="detailsListGroupedPage"
-                                NavMatchType="NavMatchType.AnchorIncluded" />
-                    <BFUNavLink Name="DetailsListAuto-Grouped" NestedDepth="1" Url="detailsListAutoGroupedPage" Id="detailsListAutoGroupedPage" Icon="List" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="DocumentCard" Url="documentcard" Id="documentcardPage" Icon="ContactCard" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="GroupedList" Url="groupedListPage" Id="groupedListPage" Icon="Group" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Persona" Url="personaPage" Id="personaPage" Icon="Contact" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="List" Url="listPage" Id="listPage" IconName="List" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="DetailsList Basic" Url="detailsListPageBasic" Id="detailsListPageBasic" IconName="List" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="DetailsList" Url="detailsListPage" Id="detailsListPage" IconName="List" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="DetailsListAuto" Url="detailsListAutoPage" Id="detailsListAutoPage" IconName="List" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="DetailsList-Grouped"
+                            NestedDepth="1"
+                            Url="detailsListGroupedPage"
+                            Id="detailsListGroupedPage"
+                            NavMatchType="NavMatchType.AnchorIncluded" />
+                <BFUNavLink Name="DetailsListAuto-Grouped" NestedDepth="1" Url="detailsListAutoGroupedPage" Id="detailsListAutoGroupedPage" IconName="List" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="DocumentCard" Url="documentcard" Id="documentcardPage" IconName="ContactCard" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="GroupedList" Url="groupedListPage" Id="groupedListPage" IconName="Group" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Persona" Url="personaPage" Id="personaPage" IconName="Contact" OnClick=@OnLinkClicked />
             </BFUNavLinkGroup>
             <BFUNavLinkGroup Name="Commands, Menus & Navs" CollapseByDefault="false">
-                <BFUNavLink Name="CommandBar" Url="commandBarPage" Id="commandBarPage" Icon="Bar" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="ContextualMenu" Url="contextualMenuPage" Id="contextualMenuPage" Icon="ContextMenu" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Nav" Url="navPage" Id="navPage" Icon="SecondaryNav" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="NavBar" Url="navBarPage" Id="navBarPage" Icon="SecondaryNav" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="OverflowSet" Url="overflowSetPage" Id="overflowSetPage" Icon="More" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Pivot" Url="pivotPage" Id="pivotPage" Icon="TabCenter" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="CommandBar" Url="commandBarPage" Id="commandBarPage" IconName="Bar" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="ContextualMenu" Url="contextualMenuPage" Id="contextualMenuPage" IconName="ContextMenu" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Nav" Url="navPage" Id="navPage" IconName="SecondaryNav" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="NavBar" Url="navBarPage" Id="navBarPage" IconName="SecondaryNav" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="OverflowSet" Url="overflowSetPage" Id="overflowSetPage" IconName="More" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Pivot" Url="pivotPage" Id="pivotPage" IconName="TabCenter" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Ribbon Menu" Url="ribbonMenuPage" Id="ribbonMenuPage" IconName="TabCenter" OnClick=@OnLinkClicked />
             </BFUNavLinkGroup>
             <BFUNavLinkGroup Name="Notification & Engagement" CollapseByDefault="false">
-                <BFUNavLink Name="MessageBar" Url="messageBarPage" Id="messageBarPage" Icon="Message" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="MessageBar" Url="messageBarPage" Id="messageBarPage" IconName="Message" OnClick=@OnLinkClicked />
             </BFUNavLinkGroup>
             <BFUNavLinkGroup Name="Progress" CollapseByDefault="false">
-                <BFUNavLink Name="ProgressIndicator" Url="progressIndicatorPage" Id="progressIndicatorPage" Icon="ProgressLoopInner" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Spinner" Url="spinnerPage" Id="spinnerPage" Icon="ProgressRingDots" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="ProgressIndicator" Url="progressIndicatorPage" Id="progressIndicatorPage" IconName="ProgressLoopInner" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Spinner" Url="spinnerPage" Id="spinnerPage" IconName="ProgressRingDots" OnClick=@OnLinkClicked />
             </BFUNavLinkGroup>
             <BFUNavLinkGroup Name="Surfaces" CollapseByDefault="false">
-                <BFUNavLink Name="Callout" Url="calloutPage" Id="calloutPage" Icon="TextCallout" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Dialog" Url="dialogPage" Id="dialogPage" Icon="TextCallout" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Modal" Url="modalPage" Id="modalPage" Icon="TextCallout" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Panel" Url="panelPage" Id="panelPage" Icon="SidePanel" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Tooltip" Url="tooltipPage" Id="tooltipPage" Icon="DiagnosticDataBarTooltip" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Callout" Url="calloutPage" Id="calloutPage" IconName="TextCallout" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Dialog" Url="dialogPage" Id="dialogPage" IconName="TextCallout" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Modal" Url="modalPage" Id="modalPage" IconName="TextCallout" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Panel" Url="panelPage" Id="panelPage" IconName="SidePanel" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Tooltip" Url="tooltipPage" Id="tooltipPage" IconName="DiagnosticDataBarTooltip" OnClick=@OnLinkClicked />
             </BFUNavLinkGroup>
             <BFUNavLinkGroup Name="Utilities" CollapseByDefault="false">
-                <BFUNavLink Name="FocusTrapZone" Url="focusTrapZonePage" Id="focusTrapZonePage" Icon="Focus" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="FocusZone" Url="focusZonePage" Id="focusZonePage" Icon="Focus" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Image" Url="imagePage" Id="imagePage" Icon="ImagePixel" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Layer" Url="layerPage" Id="layerPage" Icon="MapLayers" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="MarqueeSelection" Url="marqueeSelectionPage" Id="marqueeSelectionPage" Icon="MapLayers" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="ResizeGroup" Url="resizeGroupPage" Id="resizeGroupPage" Icon="Resize" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="RichTextEditor" Url="richTextEditorPage" Id="richTextEditorPage" Icon="Edit" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Stack" Url="stackPage" Id="stackPage" Icon="Stack" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Text" Url="textPage" Id="textPage" Icon="PlainText" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="FocusTrapZone" Url="focusTrapZonePage" Id="focusTrapZonePage" IconName="Focus" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="FocusZone" Url="focusZonePage" Id="focusZonePage" IconName="Focus" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Image" Url="imagePage" Id="imagePage" IconName="ImagePixel" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Layer" Url="layerPage" Id="layerPage" IconName="MapLayers" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="MarqueeSelection" Url="marqueeSelectionPage" Id="marqueeSelectionPage" IconName="MapLayers" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="ResizeGroup" Url="resizeGroupPage" Id="resizeGroupPage" IconName="Resize" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="RichTextEditor" Url="richTextEditorPage" Id="richTextEditorPage" IconName="Edit" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Stack" Url="stackPage" Id="stackPage" IconName="Stack" OnClick=@OnLinkClicked />
+                <BFUNavLink Name="Text" Url="textPage" Id="textPage" IconName="PlainText" OnClick=@OnLinkClicked />
             </BFUNavLinkGroup>
         </BFUNav>
     </BFUStackItem>

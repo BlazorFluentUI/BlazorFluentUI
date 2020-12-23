@@ -23,7 +23,7 @@ namespace BlazorFluentUI
         [Parameter] public RenderFragment<IBFUDropdownOption>? ItemTemplate { get; set; }
         [Parameter] public string? Label { get; set; }
         [Parameter] public bool MultiSelect { get; set; }
-        [Parameter] public EventCallback<BFUDropdownChangeArgs> OnChange { get; set; } 
+        [Parameter] public EventCallback<BFUDropdownChangeArgs> OnChange { get; set; }
         [Parameter] public string? Placeholder { get; set; }
         [Parameter] public bool Required { get; set; }
         [Parameter] public ResponsiveMode ResponsiveMode { get; set; }
@@ -106,7 +106,7 @@ namespace BlazorFluentUI
             StateHasChanged();
         }
 
-       
+
         public void AddSelection(string key)
         {
             var option = ItemsSource.FirstOrDefault(x => x.Key == key);
@@ -116,7 +116,7 @@ namespace BlazorFluentUI
             CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
-            {                
+            {
                 if (SelectedOptions.Contains(option))
                     throw new Exception("This option was already selected somehow.");
 
@@ -143,7 +143,7 @@ namespace BlazorFluentUI
             }
             StateHasChanged();
         }
-        
+
         public void RemoveSelection(string key)
         {
             var option = ItemsSource.FirstOrDefault(x => x.Key == key);
@@ -182,7 +182,7 @@ namespace BlazorFluentUI
             StateHasChanged();
         }
 
-       
+
 
         [JSInvokable]
         public override async Task OnResizedAsync(double windowWidth, double windowHeight)
@@ -360,7 +360,7 @@ namespace BlazorFluentUI
 
         }
 
-     
+
 
     }
 }

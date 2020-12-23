@@ -35,7 +35,7 @@ namespace BlazorFluentUI
         //[Parameter] public string IconName { get; set; }
         //[Parameter] public bool HideChevron { get; set; }
 
-        //[Parameter] public IEnumerable<IBFUContextualMenuItem> MenuItems { get; set; }
+        //[Parameter] public IEnumerable<object> MenuItems { get; set; }
         ////[Parameter] public RenderFragment ContextualMenuContent { get; set; }
         ////[Parameter] public RenderFragment ContextualMenuItemsSource { get; set; }
         ////[Parameter] public RenderFragment ContextualMenuItemTemplate { get; set; }
@@ -109,11 +109,11 @@ namespace BlazorFluentUI
         }
 
         protected RenderFragment<BFUButtonBase> CustomBuildRenderTree = button => builder =>
-         {
+        {
             //base.BuildRenderTree(builder);
             button.StartRoot(builder, "");
 
-         };
+        };
 
 
         private void Command_CanExecuteChanged(object sender, EventArgs e)
@@ -644,11 +644,12 @@ namespace BlazorFluentUI
             builder.OpenElement(35, "span");
             builder.AddAttribute(36, "class", "ms-Button-flexContainer");
 
-            if (this.IconName != null)
+            if (IconName != null | IconSrc != null)
             {
                 builder.OpenComponent<BFUIcon>(40);
                 builder.AddAttribute(41, "ClassName", "ms-Button-icon");
-                builder.AddAttribute(42, "IconName", this.IconName);
+                builder.AddAttribute(42, "IconName", IconName);
+                builder.AddAttribute(42, "IconSrc", IconSrc);
                 builder.CloseComponent(); //closes Icon 40
             }
             if (this.Text != null || (isCompoundButton && SecondaryText != null))
@@ -685,6 +686,7 @@ namespace BlazorFluentUI
             {
                 builder.OpenComponent<BFUIcon>(90);
                 builder.AddAttribute(91, "IconName", "ChevronDown");
+                builder.AddAttribute(92, "IconSrc", "IconSrc");
                 builder.AddAttribute(92, "ClassName", "ms-Button-menuIcon");
                 builder.CloseComponent(); //closes Icon 90
             }
@@ -699,6 +701,9 @@ namespace BlazorFluentUI
                 }));
                 builder.AddAttribute(104, "Items", MenuItems);
                 builder.AddAttribute(105, "DirectionalHint", DirectionalHint.BottomLeftEdge);
+                builder.AddAttribute(106, "ItemTemplate", MenuItemTemplate);
+                builder.AddAttribute(107, "SubordinateItemTemplate", SubordinateItemTemplate);
+
                 builder.CloseComponent();  //closes ContextualMenu 100
             }
 

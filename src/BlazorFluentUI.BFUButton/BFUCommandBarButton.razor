@@ -18,41 +18,79 @@
                       Toggle=@Toggle
                       Split=@Split
                       IconName=@IconName
+                      IconSrc=@IconSrc
                       HideChevron=@HideChevron
                       MenuItems=@MenuItems
-                      CheckedChanged=@CheckedChanged
-                      OnClick=@OnClick
-                      OnKeyDown=@OnKeyDown
-                      Command=@Command
-                      CommandParameter=@CommandParameter
-                      UnknownProperties=@UnknownProperties 
-                      @ref="primaryButtonReference"/>
-}
-else
-{
-    <BFUDefaultButton Href=@Href
-                      ClassName=@(ClassName + " ms-Button--commandBar")
-                      Style=@Style
-                      Primary=@false
-                      Disabled=@Disabled
-                      AllowDisabledFocus=@AllowDisabledFocus
-                      PrimaryDisabled=@PrimaryDisabled
-                      Checked=@Checked
-                      AriaDescripton=@AriaDescripton
-                      Text=@Text
-                      SecondaryText=@SecondaryText
-                      Toggle=@Toggle
-                      Split=@Split
-                      IconName=@IconName
-                      HideChevron=@HideChevron
-                      MenuItems=@MenuItems
+                      MenuItemTemplate=@MenuItemTemplate
+                      SubordinateItemTemplate=@SubordinateItemTemplate
                       CheckedChanged=@CheckedChanged
                       OnClick=@OnClick
                       OnKeyDown=@OnKeyDown
                       Command=@Command
                       CommandParameter=@CommandParameter
                       UnknownProperties=@UnknownProperties
-                      @ref="defaultButtonReference"/>
+                      @ref="primaryButtonReference" />
+}
+else
+{
+    if (MenuItemTemplate == null)
+    {
+        <BFUDefaultButton Href=@Href
+                          ClassName=@(ClassName + " ms-Button--commandBar")
+                          Style=@Style
+                          Primary=@false
+                          Disabled=@Disabled
+                          AllowDisabledFocus=@AllowDisabledFocus
+                          PrimaryDisabled=@PrimaryDisabled
+                          Checked=@Checked
+                          AriaDescripton=@AriaDescripton
+                          Text=@Text
+                          SecondaryText=@SecondaryText
+                          Toggle=@Toggle
+                          Split=@Split
+                          IconName=@IconName
+                          IconSrc=@IconSrc
+                          HideChevron=@HideChevron
+                          MenuItems=@MenuItems
+                          SubordinateItemTemplate=@SubordinateItemTemplate
+                          CheckedChanged=@CheckedChanged
+                          OnClick=@OnClick
+                          OnKeyDown=@OnKeyDown
+                          Command=@Command
+                          CommandParameter=@CommandParameter
+                          UnknownProperties=@UnknownProperties
+                          @ref="defaultButtonReference" />
+    }
+    else
+    {
+        <BFUDefaultButton Href=@Href
+                          ClassName=@(ClassName + " ms-Button--commandBar")
+                          Style=@Style
+                          Primary=@false
+                          Disabled=@Disabled
+                          AllowDisabledFocus=@AllowDisabledFocus
+                          PrimaryDisabled=@PrimaryDisabled
+                          Checked=@Checked
+                          AriaDescripton=@AriaDescripton
+                          Text=@Text
+                          SecondaryText=@SecondaryText
+                          Toggle=@Toggle
+                          Split=@Split
+                          IconName=@IconName
+                          IconSrc=@IconSrc
+                          HideChevron=@HideChevron
+                          MenuItems=@MenuItems
+                          MenuItemTemplate=@MenuItemTemplate
+                          SubordinateItemTemplate=@SubordinateItemTemplate
+                          CheckedChanged=@CheckedChanged
+                          OnClick=@OnClick
+                          OnKeyDown=@OnKeyDown
+                          Command=@Command
+                          CommandParameter=@CommandParameter
+                          UnknownProperties=@UnknownProperties
+                          @ref="defaultButtonReference" />
+    }
+
 }
 
 @code{

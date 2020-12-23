@@ -13,7 +13,8 @@ namespace BlazorFluentUI
         [Parameter] public string HeaderText { get; set; }
         [Parameter] public string ItemKey { get; set; }
         [Parameter] public string ItemCount { get; set; }
-        [Parameter] public string ItemIcon { get; set; }
+        [Parameter] public string IconName { get; set; }
+        [Parameter] public string IconSrc { get; set; }
         [Parameter] public string KeyTip { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
         [CascadingParameter(Name = "Pivot")] protected BFUPivot ParentPivot { get; set; }
@@ -23,7 +24,7 @@ namespace BlazorFluentUI
         protected override void OnInitialized()
         {
             ParentPivot.PivotItems.Add(this);
-            dataContent = $"{(string.IsNullOrWhiteSpace(HeaderText) ? "" : HeaderText)}{(string.IsNullOrWhiteSpace(ItemCount) ? "" : $" ({ItemCount})")}{(string.IsNullOrWhiteSpace(ItemIcon) ? "" : " xx")}";
+            dataContent = $"{(string.IsNullOrWhiteSpace(HeaderText) ? "" : HeaderText)}{(string.IsNullOrWhiteSpace(ItemCount) ? "" : $" ({ItemCount})")}{(string.IsNullOrWhiteSpace(IconName) ? "" : " xx")}";
             base.OnInitialized();
         }
 

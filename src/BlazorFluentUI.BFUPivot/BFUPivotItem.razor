@@ -1,21 +1,19 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
 
-<BFUCommandButton
-               key="@ItemKey"
-               ClassName=@($"ms-Pivot-link mediumFont{(ParentPivot.Selected == this ? " is-selected" : "")}")
-               OnClick="SelectItem"
-               AriaLabel=@AriaLabel
-               role="tab"
-               aria-selected=@(ParentPivot.Selected == this ? "true" : "false")
-               name="@HeaderText"
-               data-content="@dataContent"
-               >
+<BFUCommandButton key="@ItemKey"
+                  ClassName=@($"ms-Pivot-link mediumFont{(ParentPivot.Selected == this ? " is-selected" : "")}")
+                  OnClick="SelectItem"
+                  AriaLabel=@AriaLabel
+                  role="tab"
+                  aria-selected=@(ParentPivot.Selected == this ? "true" : "false")
+                  name="@HeaderText"
+                  data-content="@dataContent">
     <span class="ms-Pivot-linkContent">
-        @if (!string.IsNullOrWhiteSpace(ItemIcon))
+        @if (!string.IsNullOrWhiteSpace(IconName))
         {
             <span class="ms-Pivot-icon">
-                <BFUIcon IconName=@ItemIcon />
+                <BFUIcon IconName=@IconName IconSrc=@IconSrc />
             </span>
         }
         @if (!string.IsNullOrWhiteSpace(HeaderText))

@@ -1,0 +1,15 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@typeparam TItem
+@using System.Collections.ObjectModel;
+<BFUPivot AriaLabel="Basic Pivot Example">
+    @ChildContent
+    @if (ItemTemplate != null && ItemsSource != null)
+    {
+        foreach (var item in ItemsSource)
+        {
+            @ItemTemplate(item)
+        }
+    }
+</BFUPivot>
+

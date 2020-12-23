@@ -53,7 +53,7 @@
                        id=@this.id
                        @bind-value=@CurrentValue
                        @bind-value:event="oninput"
-                           @onchange=@ChangeHandler
+                       @onchange=@ChangeHandler
                        autocomplete=@GetAutoCompleteString()
                        class="mediumFont ms-TextField-field"
                        aria-label=@this.AriaLabel
@@ -70,7 +70,7 @@
             }
             @if (hasIcon)
             {
-                <BFUIcon ClassName="ms-TextField-icon" IconName=@IconName />
+                <BFUIcon ClassName="ms-TextField-icon" IconName=@IconName IconSrc=@IconSrc />
             }
             @if (this.Suffix != null)
             {

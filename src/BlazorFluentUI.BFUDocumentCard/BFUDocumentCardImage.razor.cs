@@ -29,6 +29,8 @@ namespace BlazorFluentUI
 
         [Parameter]
         public string? IconName { get; set; }
+        [Parameter]
+        public string? IconSrc { get; set; }
 
         [Parameter]
         public ImageFit ImageFit { get; set; } = ImageFit.Unset;
@@ -81,7 +83,7 @@ namespace BlazorFluentUI
         {
             RootRule.Properties = new CssString()
             {
-                Css = $"border-bottom: 1px solid {Theme.Palette.NeutralLight};" +                    
+                Css = $"border-bottom: 1px solid {Theme.Palette.NeutralLight};" +
                     $"position: relative;" +
                     $"background-color: {Theme.Palette.NeutralLighterAlt};" +
                     $"overflow:hidden;" +
@@ -93,7 +95,7 @@ namespace BlazorFluentUI
             {
                 Css = $"height: {CenteredIconSize};" +
                     $"widtht: {CenteredIconSize};" +
-                    $"font-size: {CenteredIconSize};" 
+                    $"font-size: {CenteredIconSize};"
             };
 
             CenteredIconWrapperRule.Properties = new CssString()

@@ -48,6 +48,7 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFURating\BlazorFluentUI.BFURating.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUResizeGroup\BlazorFluentUI.BFUResizeGroup.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUResponsiveLayout\BlazorFluentUI.BFUResponsiveLayout.csproj" />
+    <ProjectReference Include="..\..\src\BlazorFluentUI.BFURibbonMenu\BlazorFluentUI.BFURibbonMenu.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFURichTextEditor\BlazorFluentUI.BFURichTextEditor.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUSelectionZone\BlazorFluentUI.BFUSelectionZone.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUSlider\BlazorFluentUI.BFUSlider.csproj" />

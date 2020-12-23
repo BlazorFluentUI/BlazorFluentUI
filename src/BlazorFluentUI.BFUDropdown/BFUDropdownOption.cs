@@ -9,7 +9,23 @@ namespace BlazorFluentUI
         public bool Disabled { get; set; }
         public bool Hidden { get; set; }
         public SelectableOptionMenuItemType ItemType { get; set; } = SelectableOptionMenuItemType.Normal;
-        public string Key { get; set; }
+
+        string key;
+        public string Key
+        {
+            get
+            {
+                if(key == null)
+                {
+                    key = Guid.NewGuid().ToString();
+                }
+                return key;
+            }
+            set
+            {
+                key= value;
+            }
+        }
         public string Text { get; set; }
     }
 }

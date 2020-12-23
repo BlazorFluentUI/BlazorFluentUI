@@ -1,7 +1,7 @@
 @namespace BlazorFluentUI
 @using Microsoft.AspNetCore.Components.Web
 @inherits BFUResponsiveComponentBase
-  
+
 <div class="ms-ContextualMenu-root">
     <BFUCallout FabricComponentTarget=@FabricComponentTarget
                 IsBeakVisible=@((int)CurrentMode <= (int)ResponsiveMode.Medium ? true : IsBeakVisible)
@@ -37,22 +37,51 @@
                     <ul class="ms-ContextualMenu-list" role="menu">
                         @foreach (var item in Items)
                         {
-                            @if (ItemTemplate != null)
+                            @if (ItemTemplate != null && SubordinateItemTemplate == false)
                             {
-                                @ItemTemplate(item)
+                                <li>
+                                    @ItemTemplate(item)
+                                </li>
                             }
                             else
                             {
-                                <BlazorFluentUI.BFUContextualMenuInternal.ContextualMenuItem CanCheck=@item.CanCheck Checked=@item.Checked ClassName=@item.ClassName Command=@item.Command CommandParameter=@item.CommandParameter
-                                                                                             Disabled=@item.Disabled Href=@item.Href IconName=@item.IconName Items=@item.Items ItemType=@item.ItemType Key=@item.Key
-                                                                                             OnClick=@item.OnClick SecondaryText=@item.SecondaryText Split=@item.Split Style=@item.Style Text=@item.Text
-                                                                                             OnKeyDown=@KeyDownHandler
-                                                                                             DismissMenu=@Dismiss
-                                                                                             HasIcons=@HasIcons
-                                                                                             HasCheckables=@HasCheckables
-                                                                                             SetSubmenu=@OnSetSubmenu
-                                                                                             SubmenuActiveKey=@SubmenuActiveKey
-                                                                                             NotifyCalloutDismiss=@OnNotifyCalloutDismiss />
+                                if (item is IBFUContextualMenuItem contextualMenuItem)
+                                {
+                                    <BlazorFluentUI.BFUContextualMenuInternal.ContextualMenuItem CanCheck=@contextualMenuItem.CanCheck
+                                                                                                 Checked=@contextualMenuItem.Checked
+                                                                                                 ClassName=@contextualMenuItem.ClassName
+                                                                                                 Command=@contextualMenuItem.Command
+                                                                                                 CommandParameter=@contextualMenuItem.CommandParameter
+                                                                                                 Disabled=@contextualMenuItem.Disabled
+                                                                                                 Href=@contextualMenuItem.Href
+                                                                                                 IconName=@contextualMenuItem.IconName
+                                                                                                 IconSrc=@contextualMenuItem.IconSrc
+                                                                                                 Items=@contextualMenuItem.Items
+                                                                                                 ItemType=@contextualMenuItem.ItemType
+                                                                                                 Key=@contextualMenuItem.Key
+                                                                                                 OnClick=@contextualMenuItem.OnClick
+                                                                                                 SecondaryText=@contextualMenuItem.SecondaryText
+                                                                                                 Split=@contextualMenuItem.Split
+                                                                                                 Style=@contextualMenuItem.Style
+                                                                                                 Text=@contextualMenuItem.Text
+                                                                                                 OnKeyDown=@KeyDownHandler
+                                                                                                 DismissMenu=@Dismiss
+                                                                                                 HasIcons=@HasIcons
+                                                                                                 HasCheckables=@HasCheckables
+                                                                                                 SetSubmenu=@OnSetSubmenu
+                                                                                                 SubmenuActiveKey=@SubmenuActiveKey
+                                                                                                 NotifyCalloutDismiss=@OnNotifyCalloutDismiss />
+                                }
+                                else if (ItemTemplate != null)
+                                {
+                                    <li>
+                                        @ItemTemplate(item)
+                                    </li>
+                                }
+                                else
+                                {
+                                    throw new Exception("ItemTemplate or ItemTemplateSelector needs to be defined if items are used, which are not type of IBFUContextualMenuItem");
+                                }
                             }
                         }
                     </ul>

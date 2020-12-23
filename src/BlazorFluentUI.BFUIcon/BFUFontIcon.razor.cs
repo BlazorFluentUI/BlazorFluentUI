@@ -6,17 +6,25 @@ namespace BlazorFluentUI
 {
     public partial class BFUFontIcon : BFUComponentBase
     {
-        private string icon;
+        private string? icon;
 
-        [Parameter] 
+        [Parameter]
         public string IconName { get; set; }
+        [Parameter] public string? IconSrc { get; set; }
 
-        [Parameter(CaptureUnmatchedValues = true)] 
+        [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> ExtraParameters { get; set; }
 
         protected override Task OnParametersSetAsync()
         {
-            MappedFontIcons.Icons.TryGetValue(IconName, out icon);
+            if (IconName != null)
+            {
+                MappedFontIcons.Icons.TryGetValue(IconName, out icon);
+            }
+            else
+            {
+                icon = IconSrc;
+            }
 
             return base.OnParametersSetAsync();
         }

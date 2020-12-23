@@ -9,14 +9,14 @@ namespace BlazorFluentUI
     public class BFUDetailsRowColumn<TItem, TProp> : BFUDetailsRowColumn<TItem>
     {
         private Func<TProp, bool>? _filterPredicate;
-        public new Func<TProp, bool>? FilterPredicate 
-        { 
-            get => _filterPredicate; 
-            set 
-            { 
+        public new Func<TProp, bool>? FilterPredicate
+        {
+            get => _filterPredicate;
+            set
+            {
                 base.FilterPredicate = x => FilterPredicate != null ? FilterPredicate((TProp)x) : true;
                 _filterPredicate = value;
-            } 
+            }
         }
 
         public BFUDetailsRowColumn()
@@ -58,23 +58,24 @@ namespace BlazorFluentUI
         public string FilterAriaLabel { get; set; }
 
         private Func<object, bool>? _filterPredicate;
-        public Func<object, bool>? FilterPredicate 
-        { 
-            get => _filterPredicate; 
-            set 
+        public Func<object, bool>? FilterPredicate
+        {
+            get => _filterPredicate;
+            set
             {
                 _filterPredicate = value; OnPropertyChanged();
                 //if (_filterPredicate == value) return; else { _filterPredicate = value; OnPropertyChanged(); } 
-            } 
+            }
         }
 
         public string GroupAriaLabel { get; set; }
         public string IconClassName { get; set; }
         public string IconName { get; set; }
+        public string IconSrc { get; set; }
         /// <summary>
         /// Forces columns to be in a particular order.  Useful for libraries (like DynamicData) that don't maintain order of collections internally.
         /// </summary>
-        public int Index { get; set; } 
+        public int Index { get; set; }
         public bool IsCollapsible { get; set; }
         public bool IsFiltered { get; set; }
         public bool IsGrouped { get; set; }

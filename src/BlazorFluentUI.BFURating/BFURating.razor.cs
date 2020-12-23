@@ -15,7 +15,7 @@ namespace BlazorFluentUI
         [Parameter]
         public bool AllowZeroStars { get; set; }
         [Parameter]
-        public string Icon { get; set; } = "FavoriteStarFill";
+        public string IconName { get; set; } = "FavoriteStarFill";
         [Parameter]
         public int Max { get; set; } = 5;
         [Parameter]
@@ -131,6 +131,6 @@ namespace BlazorFluentUI
             return fullStar;
         }
 
-       
+
     }
 }

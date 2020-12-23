@@ -13,7 +13,8 @@
         </BFULabel>
     }
     <BFUKeytipData Disabled=@Disabled>
-        <div tabindex=@(Disabled ? -1 : 0)
+        <div style=@Style
+             tabindex=@(Disabled ? -1 : 0)
              id=@id
              data-is-focusable="true"
              aria-expanded=@(isOpen ? "true" : "false")
@@ -48,7 +49,7 @@
                     }
                 }
             </span>
-            <span class="ms-Dropdown-caretDownWrapper">
+            <span style="display: inline-block" class="ms-Dropdown-caretDownWrapper">
                 <BFUIcon IconName="ChevronDown" ClassName="ms-Dropdown-caretDown" />
             </span>
         </div>
@@ -60,8 +61,8 @@
              tabindex="0">
             @*FocusZone has no Role=listbox *@
             <BFUFocusZone Direction="FocusZoneDirection.Vertical"
-                       ClassName="ms-Dropdown-dropdownItems"
-                       AriaLabel=@($"{id}-label")>
+                          ClassName="ms-Dropdown-dropdownItems"
+                          AriaLabel=@($"{id}-label")>
 
                 <CascadingValue Value=@this>
                     @if (ItemsSource != null)
@@ -90,23 +91,23 @@
         else
         {
             <BFUCallout IsBeakVisible="false"
-                                  GapSpace="0"
-                                  DoNotLayer="false"
-                                  DirectionalHintFixed="false"
-                                  DirectionalHint=@DirectionalHint.BottomLeftEdge
-                                  ClassName="ms-Dropdown-callout"
-                                  FabricComponentTarget=@this
-                                  OnDismiss=@DismissHandler
-                                  OnPositioned=@OnPositioned
-                                  CalloutWidth=@(DropdownWidth == 0 ? (int)dropDownBounds.width : DropdownWidth)>
+                        GapSpace="0"
+                        DoNotLayer="false"
+                        DirectionalHintFixed="false"
+                        DirectionalHint=@DirectionalHint.BottomLeftEdge
+                        ClassName="ms-Dropdown-callout"
+                        FabricComponentTarget=@this
+                        OnDismiss=@DismissHandler
+                        OnPositioned=@OnPositioned
+                        CalloutWidth=@(DropdownWidth == 0 ? (int)dropDownBounds.width : DropdownWidth)>
                 <div class="ms-Dropdown-itemsWrapper"
                      @ref="calloutReference"
                      tabindex="0">
 
                     <BFUFocusZone Direction="FocusZoneDirection.Vertical"
-                               @ref="calloutFocusZone"
-                               ClassName="ms-Dropdown-dropdownItems"
-                               AriaLabel=@($"{id}-label")>
+                                  @ref="calloutFocusZone"
+                                  ClassName="ms-Dropdown-dropdownItems"
+                                  AriaLabel=@($"{id}-label")>
                         <CascadingValue Value=@this>
                             @if (ItemsSource != null)
                             {
@@ -133,3 +134,4 @@
 
 
 </div>
+

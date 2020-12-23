@@ -1,6 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits BFUComponentBase
-@using BlazorFluentUI.BFUNavBarInternal 
+@using BlazorFluentUI.BFUNavBarInternal
 @using System.Linq
 
 @if (Direction == LayoutDirection.Horizontal)
@@ -23,6 +23,7 @@
                             <BFUTooltipHost>
                                 <ChildContent>
                                     <BFUCommandBarButton IconName=@context.IconName
+                                                         IconSrc=@context.IconSrc
                                                          Text=@(!context.IconOnly ? context.Text : null)
                                                          MenuItems=@context.Items
                                                          Href=@context.Url
@@ -40,6 +41,7 @@
                         else
                         {
                             <BFUCommandBarButton IconName=@context.IconName
+                                                 IconSrc=@context.IconSrc
                                                  Text=@(!context.IconOnly ? context.Text : null)
                                                  MenuItems=@context.Items
                                                  Href=@context.Url
@@ -72,12 +74,12 @@ else
                 <ChildContent>
                     @foreach (var item in Items)
                     {
-                        <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) Icon=@item.IconName
+                        <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) IconName=@item.IconName IconSrc=@item.IconSrc
                                              @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" />
                     }
                     @foreach (var item in OverflowItems)
                     {
-                        <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) Icon=@item.IconName
+                        <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) IconName=@item.IconName IconSrc=@item.IconSrc
                                              @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" />
                     }
                 </ChildContent>

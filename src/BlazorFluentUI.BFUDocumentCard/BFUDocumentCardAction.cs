@@ -6,6 +6,7 @@ namespace BlazorFluentUI
     public class BFUDocumentCardAction
     {
         public string? IconName { get; set; }
+        public string? IconSrc { get; set; }
 
         public string? IconAriaLabel { get; set; }
 

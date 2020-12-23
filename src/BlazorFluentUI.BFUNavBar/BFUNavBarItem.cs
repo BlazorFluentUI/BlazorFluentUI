@@ -30,7 +30,8 @@ namespace BlazorFluentUI
 
         public string Href { get => Url; set => Url = value; }
 
-        public string IconName { get; set; }
+        public string? IconName { get; set; }
+        public string? IconSrc { get; set; }
 
         public string Id { get; set; }
 
@@ -63,12 +64,12 @@ namespace BlazorFluentUI
         public string Style { get; set; }
 
         public string Target { get; set; } //link <a> target
-  
+
         public string Text { get; set; }
 
         public string Title { get; set; } //tooltip and ARIA
 
         public string Url { get; set; }
-        
+
     }
 }

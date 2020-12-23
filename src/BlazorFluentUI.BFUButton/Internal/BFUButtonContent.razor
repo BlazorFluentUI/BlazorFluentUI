@@ -7,10 +7,11 @@
 }
 <span class="ms-Button-flexContainer"
       @ref="RootElementReference">
-    @if (IconName != null)
+    @if (IconName != null || IconSrc != null)
     {
         <BFUIcon ClassName="ms-Button-icon"
-                 IconName=@IconName />
+                 IconName=@IconName
+                 IconSrc=@IconSrc />
     }
     @if (Text != null || (isCompoundButton && SecondaryText != null))
     {
@@ -37,21 +38,42 @@
     }
     @if (MenuItems != null && ContextMenuShown)
     {
-        <BFUContextualMenu FabricComponentTarget=@this
-                           ShouldFocusOnMount=@_menuShouldFocusOnMount
-                           OnDismiss=@(isDismissed => {
-                                           
-                                           ContextMenuShownChanged.InvokeAsync(false);
-                           })
-                           Items=@MenuItems
-                           DirectionalHint=@DirectionalHint.BottomLeftEdge
-                           />
+
+        if (MenuItemTemplate != null)
+        {
+            <BFUContextualMenu FabricComponentTarget=@this
+                               ShouldFocusOnMount=@_menuShouldFocusOnMount
+                               OnDismiss=@(isDismissed => {
+
+                                   ContextMenuShownChanged.InvokeAsync(false);
+                               })
+                               Items=@MenuItems
+                               DirectionalHint=@DirectionalHint.BottomLeftEdge
+                               ItemTemplate=@MenuItemTemplate
+                               SubordinateItemTemplate=@SubordinateItemTemplate>
+
+            </BFUContextualMenu>
+        }
+        else
+        {
+            <BFUContextualMenu FabricComponentTarget=@this
+                               ShouldFocusOnMount=@_menuShouldFocusOnMount
+                               OnDismiss=@(isDismissed => {
+
+                                   ContextMenuShownChanged.InvokeAsync(false);
+                               })
+                               Items=@MenuItems
+                               DirectionalHint=@DirectionalHint.BottomLeftEdge>
+            </BFUContextualMenu>
+        }
+
+
     }
 </span>
 
-    @code {
-        bool _menuShouldFocusOnMount = true;
+@code {
+    bool _menuShouldFocusOnMount = true;
 
-        [Parameter] public bool ContextMenuShown { get; set; }
-        [Parameter] public EventCallback<bool> ContextMenuShownChanged { get; set; }
-    }
+    [Parameter] public bool ContextMenuShown { get; set; }
+    [Parameter] public EventCallback<bool> ContextMenuShownChanged { get; set; }
+}

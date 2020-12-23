@@ -9,13 +9,14 @@ namespace BlazorFluentUI
 {
     public partial class BFUContextualMenu : BFUResponsiveComponentBase, IAsyncDisposable
     {
+        [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public bool AlignTargetEdge { get; set; }
         //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public int BeakWidth { get; set; } = 16;
         [Parameter] public Rectangle Bounds { get; set; }
         //[Parameter] public RenderFragment ChildContent { get; set; }
 
-        [Parameter] public IEnumerable<IBFUContextualMenuItem> Items { get; set; }
+        [Parameter] public IEnumerable<object> Items { get; set; }
 
         [Parameter] public bool CoverTarget { get; set; }
         [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.BottomAutoEdge;
@@ -25,8 +26,15 @@ namespace BlazorFluentUI
         [Parameter] public bool IsBeakVisible { get; set; } = false;
 
         //[Parameter] public IEnumerable<TItem> ItemsSource { get; set; }
-        [Parameter] public RenderFragment<IBFUContextualMenuItem> ItemTemplate { get; set; }
+        [Parameter] public RenderFragment<object>? ItemTemplate { get; set; }
         //[Parameter] public double SubMenuHoverDelay { get; set; } = 250;
+
+        /// <summary>
+        /// If true, it is tried first to generate the default item
+        /// if it is IBFUContextualMenuItem. If not than the 
+        /// ItemTemplate will be applied.
+        /// </summary>
+        [Parameter] public bool SubordinateItemTemplate { get; set; }
         [Parameter] public string Title { get; set; }
         [Parameter] public bool UseTargetWidth { get; set; } = false;
         [Parameter] public bool UseTargetAsMinWidth { get; set; } = false;
@@ -116,9 +124,10 @@ namespace BlazorFluentUI
             await base.OnParametersSetAsync();
             if (this.Items != null)
             {
-                if (this.Items.Count(x => x.IconName != null) > 0)
+                if (this.Items.Count(x =>
+                x is IBFUContextualMenuItem ? ((IBFUContextualMenuItem)x).IconName != null | ((IBFUContextualMenuItem)x).IconSrc != null : false) > 0)
                     HasIcons = true;
-                if (this.Items.Count(x => x.CanCheck == true) > 0)
+                if (this.Items.Count(x => x is IBFUContextualMenuItem ? ((IBFUContextualMenuItem)x).CanCheck == true : false) > 0)
                     HasCheckables = true;
             }
         }
@@ -143,6 +152,6 @@ namespace BlazorFluentUI
             await base.DisposeAsync();
         }
 
-        
+
     }
 }

@@ -14,12 +14,12 @@
         @if (UseFastIcons)
         {
             <BFUFontIcon IconName="GripperBarVertical"
-                      ClassName="ms-DetailsColumn-gripperBar" />
+                         ClassName="ms-DetailsColumn-gripperBar" />
         }
         else
         {
             <BFUIcon IconName="GripperBarVertical"
-                  ClassName="ms-DetailsColumn-gripperBar" />
+                     ClassName="ms-DetailsColumn-gripperBar" />
         }
     }
     @if (ColumnHeaderTooltipTemplate != null)
@@ -49,13 +49,20 @@
                         @if (UseFastIcons)
                         {
                             <BFUFontIcon IconName=@Column.IconName
-                                      ClassName=@Column.IconClassName />
+                                         ClassName=@Column.IconClassName />
                         }
                         else
                         {
                             <BFUIcon IconName=@Column.IconName
-                                  ClassName=@Column.IconClassName />
+                                     ClassName=@Column.IconClassName />
                         }
+                    }
+                    @if (!string.IsNullOrEmpty(Column.IconSrc))
+                    {
+
+                        <BFUIcon IconSrc=@Column.IconSrc
+                                 ClassName=@Column.IconClassName />
+
                     }
                     @if (Column.IsIconOnly)
                     {
@@ -71,12 +78,12 @@
                     @if (UseFastIcons)
                     {
                         <BFUFontIcon IconName="Filter"
-                                  ClassName="ms-DetailsColumn-nearIcon" />
+                                     ClassName="ms-DetailsColumn-nearIcon" />
                     }
                     else
                     {
                         <BFUIcon IconName="Filter"
-                              ClassName="ms-DetailsColumn-nearIcon" />
+                                 ClassName="ms-DetailsColumn-nearIcon" />
                     }
                 }
                 @if (Column.IsSorted)
@@ -84,12 +91,12 @@
                     @if (UseFastIcons)
                     {
                         <BFUFontIcon IconName=@(Column.IsSortedDescending ? "SortDown" : "SortUp")
-                                  ClassName="ms-DetailsColumn-sortIcon" />
+                                     ClassName="ms-DetailsColumn-sortIcon" />
                     }
                     else
                     {
                         <BFUIcon IconName=@(Column.IsSortedDescending ? "SortDown" : "SortUp")
-                              ClassName="ms-DetailsColumn-sortIcon" />
+                                 ClassName="ms-DetailsColumn-sortIcon" />
                     }
                 }
                 @if (Column.IsGrouped)
@@ -97,12 +104,12 @@
                     @if (UseFastIcons)
                     {
                         <BFUFontIcon IconName="GroupedDescending"
-                                  ClassName="ms-DetailsColumn-nearIcon" />
+                                     ClassName="ms-DetailsColumn-nearIcon" />
                     }
                     else
                     {
                         <BFUIcon IconName="GroupedDescending"
-                              ClassName="ms-DetailsColumn-nearIcon" />
+                                 ClassName="ms-DetailsColumn-nearIcon" />
                     }
                 }
                 @if (Column.ColumnActionsMode == ColumnActionsMode.HasDropdown && !Column.IsIconOnly)
@@ -110,14 +117,14 @@
                     @if (UseFastIcons)
                     {
                         <BFUFontIcon IconName="ChevronDown"
-                                  AriaHidden="true"
-                                  ClassName="ms-DetailsColumn-filterChevron" />
+                                     AriaHidden="true"
+                                     ClassName="ms-DetailsColumn-filterChevron" />
                     }
                     else
                     {
                         <BFUIcon IconName="ChevronDown"
-                              AriaHidden="true"
-                              ClassName="ms-DetailsColumn-filterChevron" />
+                                 AriaHidden="true"
+                                 ClassName="ms-DetailsColumn-filterChevron" />
                     }
                 }
             </span>
@@ -125,15 +132,15 @@
     }
 </div>
 @*@if (ColumnHeaderTooltipTemplate == null)
-{
-    @if (HasAccessibleLabel())
     {
-        <BFULabel id=@($"{ParentId}-{Column.Key}-tooltip")
-               class="ms-DetailsHeader-accessibleLabel">
-            @Column.AriaLabel
-            @(Column.IsFiltered ? Column.FilterAriaLabel : null)
-            @(Column.IsSorted ? (Column.IsSortedDescending ? Column.SortedDescendingAriaLabel : Column.SortedAscendingAriaLabel) : null)
-            @(Column.IsGrouped ? Column.FilterAriaLabel : null)
-        </BFULabel>
-    }
-}*@
+        @if (HasAccessibleLabel())
+        {
+            <BFULabel id=@($"{ParentId}-{Column.Key}-tooltip")
+                   class="ms-DetailsHeader-accessibleLabel">
+                @Column.AriaLabel
+                @(Column.IsFiltered ? Column.FilterAriaLabel : null)
+                @(Column.IsSorted ? (Column.IsSortedDescending ? Column.SortedDescendingAriaLabel : Column.SortedAscendingAriaLabel) : null)
+                @(Column.IsGrouped ? Column.FilterAriaLabel : null)
+            </BFULabel>
+        }
+    }*@

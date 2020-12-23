@@ -31,7 +31,8 @@ namespace BlazorFluentUI
 
         public string Href { get; set; }
 
-        public string IconName { get; set; }
+        public string? IconName { get; set; }
+        public string? IconSrc { get; set; }
 
         //public object IconProps { get; set; }
 
@@ -64,6 +65,6 @@ namespace BlazorFluentUI
         public string Text { get; set; }
 
         public string Title { get; set; }
-        
+
     }
 }

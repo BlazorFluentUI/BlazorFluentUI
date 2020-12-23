@@ -20,6 +20,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
         [Parameter] public string Text { get; set; }
         [Parameter] public string SecondaryText { get; set; }
         [Parameter] public string IconName { get; set; }
+        [Parameter] public string IconSrc { get; set; }
         [Parameter] public ContextualMenuItemType ItemType { get; set; }
 
         //[Parameter] public RenderFragment SubmenuContent { get; set; }
@@ -41,7 +42,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
 
         //[CascadingParameter] public ContextualMenuBase ContextualMenu { get; set; }
         [Parameter] public EventCallback<string> SetSubmenu { get; set; }
-        
+
         [Parameter] public EventCallback<bool> DismissMenu { get; set; }
         //[Parameter] public EventCallback DismissSubMenu { get; set; }
 
@@ -57,6 +58,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
         //private ElementReference linkElementReference;
         //private List<int> eventHandlerIds;
         private Timer enterTimer = new Timer();
+
 
         //[JSInvokable] public void MouseEnterHandler()
         //{
@@ -141,7 +143,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             if (dismissAll)
             {
                 await DismissMenu.InvokeAsync(true);
-            }    
+            }
         }
 
         private async void KeyDownHandler(KeyboardEventArgs args)
@@ -155,7 +157,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             // send it to the parent ContextualMenu so we can use a left key press to close the menu.
             await OnKeyDown.InvokeAsync(args);
         }
-        
+
         //[JSInvokable] 
         //public async void ClickHandler()
         //{
@@ -193,7 +195,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
                 enterTimer.Stop();
 
                 if (Items != null)
-                    SetSubmenu.InvokeAsync(this.Key);  
+                    SetSubmenu.InvokeAsync(this.Key);
                 else
                     SetSubmenu.InvokeAsync(null);
             });
@@ -213,7 +215,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             }
             else if (this.ItemType == ContextualMenuItemType.Section)
             {
-                
+
             }
             else
             {
@@ -245,7 +247,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             }
             //builder.AddElementReferenceCapture(15, (element) => RootElementReference = element);
             builder.CloseElement();
-        }      
+        }
 
         private void RenderNormalItem(RenderTreeBuilder builder)
         {
@@ -278,7 +280,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             builder.OpenElement(21, "a");
             builder.AddAttribute(22, "href", this.Href);
             builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, KeyDownHandler));
-            builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, ()=> this.DismissMenu.InvokeAsync(true)));
+            builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, () => this.DismissMenu.InvokeAsync(true)));
             //builder.AddAttribute(23, "onclick:preventDefault", true);
             builder.AddAttribute(24, "role", "menuitem");
             builder.AddAttribute(25, "class", $"ms-ContextualMenu-link ms-ContextualMenu-anchorLink mediumFont {(Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault(x => x.Checked == true) != null ? $" subgroup-is-checked" : "")}");  //the subgroup check is only for NavBar
@@ -315,7 +317,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             builder.CloseElement();
             builder.CloseElement();
         }
-        
+
 
         private void RenderMenuItemContent(RenderTreeBuilder builder)
         {
@@ -333,7 +335,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             {
                 RenderSubMenuIcon(builder);
                 if (isSubMenuOpen)
-                //if (ParentContextualMenu.SubmenuActiveKey == Key)
+                    //if (ParentContextualMenu.SubmenuActiveKey == Key)
                     RenderSubContextualMenu(builder);
             }
             builder.CloseElement();
@@ -351,8 +353,9 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
         private void RenderItemIcon(RenderTreeBuilder builder)
         {
             builder.OpenComponent<BFUIcon>(51);
-            builder.AddAttribute(52, "IconName", this.IconName);
-            builder.AddAttribute(53, "ClassName", "ms-ContextualMenu-icon");
+            builder.AddAttribute(52, "IconName", IconName);
+            builder.AddAttribute(53, "IconSrc", IconSrc);
+            builder.AddAttribute(54, "ClassName", "ms-ContextualMenu-icon");
             builder.CloseComponent();
         }
 
@@ -379,7 +382,7 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             builder.AddAttribute(67, "IconName", "ChevronRight");  //ignore RTL for now.
             builder.CloseComponent();
         }
-        
+
         private void RenderSubContextualMenu(RenderTreeBuilder builder)
         {
             builder.OpenComponent<BFUContextualMenu>(70);
@@ -395,12 +398,12 @@ namespace BlazorFluentUI.BFUContextualMenuInternal
             builder.CloseComponent();
         }
 
-     
-       
 
-       
 
-       
-    
+
+
+
+
+
     }
 }

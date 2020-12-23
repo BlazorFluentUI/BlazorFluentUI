@@ -42,6 +42,7 @@ namespace BlazorFluentUI
         [Parameter] public AutoComplete AutoComplete { get; set; } = AutoComplete.On;
         [Parameter] public string Placeholder { get; set; }
         [Parameter] public string IconName { get; set; }
+        [Parameter] public string IconSrc { get; set; }
 
         [Parameter]
         public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
@@ -116,7 +117,7 @@ namespace BlazorFluentUI
         protected ElementReference textAreaRef;
         protected double autoAdjustedHeight = -1;
         protected bool isFocused = false;
-              
+
 
         protected override Task OnInitializedAsync()
         {
@@ -127,7 +128,7 @@ namespace BlazorFluentUI
 
             // to prevent changes after initialisation
             deferredValidationTime = DeferredValidationTime;
-            hasIcon = !string.IsNullOrWhiteSpace(IconName);
+            hasIcon = !string.IsNullOrWhiteSpace(IconName) || !string.IsNullOrWhiteSpace(IconSrc);
             hasLabel = !string.IsNullOrWhiteSpace(Label);
             if (hasIcon)
             {
@@ -179,7 +180,7 @@ namespace BlazorFluentUI
                         //is this enough?
                         var prop = t.GetProperty("HasDelegate");
                         bool aHasDelegate = (bool)prop.GetValue(curr.Value);
-                        bool bHasDelegate= (bool)prop.GetValue(lastValue);
+                        bool bHasDelegate = (bool)prop.GetValue(lastValue);
 
                         if ((aHasDelegate && !bHasDelegate) || (!aHasDelegate && bHasDelegate))
                         {
@@ -238,7 +239,7 @@ namespace BlazorFluentUI
 
                         }
                     }
-                    
+
                 }
 
                 lastParameters = currentParameters;
@@ -257,7 +258,7 @@ namespace BlazorFluentUI
             }
 
 
-                return base.SetParametersAsync(ParameterView.Empty);
+            return base.SetParametersAsync(ParameterView.Empty);
         }
 
         private void CascadedEditContext_OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
@@ -346,7 +347,7 @@ namespace BlazorFluentUI
         protected async Task OnFocusInternal(FocusEventArgs args)
         {
             if (OnFocus.HasDelegate)
-            {                
+            {
                 await OnFocus.InvokeAsync(args);
             }
             isFocused = true;
@@ -361,7 +362,7 @@ namespace BlazorFluentUI
         protected async Task OnBlurInternal(FocusEventArgs args)
         {
             if (OnBlur.HasDelegate)
-            {               
+            {
                 await OnBlur.InvokeAsync(args);
             }
             isFocused = false;
@@ -424,7 +425,7 @@ namespace BlazorFluentUI
         }
 
         private void Validate(string value)
-        {            
+        {
             if (CascadedEditContext != null && ValueExpression != null)
             {
                 CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
@@ -449,10 +450,10 @@ namespace BlazorFluentUI
                     ErrorMessage = errorMessage;
                 }
                 OnNotifyValidationResult?.Invoke(errorMessage, value);
-                
+
                 OnNotifyValidationResult?.Invoke(ErrorMessage, value);
             }
-            
+
         }
 
         private bool ValidateAllChanges()
@@ -484,8 +485,8 @@ namespace BlazorFluentUI
                             shouldRender = true;
                             StateHasChanged();
                         });
-                    //invokeasync required for serverside
-                }).ConfigureAwait(false);
+                        //invokeasync required for serverside
+                    }).ConfigureAwait(false);
                 }
             }
         }
@@ -501,6 +502,6 @@ namespace BlazorFluentUI
             }
         }
 
-        
+
     }
 }

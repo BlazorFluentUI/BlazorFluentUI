@@ -18,13 +18,13 @@
 <BFURating ReadOnly="true" Rating="2.5" />
 
 <BFULabel>Custom icons:</BFULabel>
-<BFURating Rating="2.5" Icon="StarburstSolid" UnselectedIcon="Starburst" />
+<BFURating Rating="2.5" IconName="StarburstSolid" UnselectedIcon="Starburst" />
 
 <BFULabel>Two-Way-Binding:</BFULabel>
 <BFURating Max="10" @bind-Rating="rateten" />
 @rateten of 10 Stars selected!
 
- <BFULabel>Button binded rating (One-Way-Binding):</BFULabel>
+<BFULabel>Button binded rating (One-Way-Binding):</BFULabel>
 <BFURating AllowZeroStars="true" Rating="rate" ReadOnly="true" />
 <BFUPrimaryButton OnClick="SetRate" Text="@buttonText" />
 

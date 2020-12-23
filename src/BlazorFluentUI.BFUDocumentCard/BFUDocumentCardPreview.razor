@@ -11,7 +11,7 @@
         @if (PreviewImages[0].PreviewIconProps != null)
         {
             <div class="@PreviewIconRule.Selector.SelectorName" style="@($"width:{PreviewImages[0].Width}px; height:{PreviewImages[0].Height}px; {PreviewImages[0].Styles}")">
-                <BFUIcon IconName="@PreviewImages[0].PreviewIconProps?.IconName" Style="@PreviewImages[0].PreviewIconProps?.Styles"></BFUIcon>
+                <BFUIcon IconName="@PreviewImages[0].PreviewIconProps?.IconName" IconSrc="@PreviewImages[0].PreviewIconProps?.IconSrc" Style="@PreviewImages[0].PreviewIconProps?.Styles"></BFUIcon>
             </div>
         }
         else

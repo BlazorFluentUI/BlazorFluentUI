@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 namespace BlazorFluentUI
 {
     public partial class BFUNavLink : BFUComponentBase
-    { 
+    {
         [Inject] protected NavigationManager NavigationManager { get; set; }
-        
+
         [Parameter] public RenderFragment ChildContent { get; set; }  //LINKS
 
         //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool ForceAnchor { get; set; } //unused for now
-        [Parameter] public string Icon { get; set; }
+        [Parameter] public string? IconName { get; set; }
+        [Parameter] public string? IconSrc { get; set; }
         [Parameter] public bool IsButton { get; set; }
         [Parameter] public string Name { get; set; }
         [Parameter] public string Target { get; set; }  //link <a> target
@@ -32,7 +33,7 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<BFUNavLink> OnClick { get; set; }
         [Parameter] public EventCallback<bool> IsExpandedChanged { get; set; }
 
-        [CascadingParameter(Name="ClearSelectionAction")] Action ClearSelectionAction { get; set; }
+        [CascadingParameter(Name = "ClearSelectionAction")] Action ClearSelectionAction { get; set; }
 
         protected bool isExpanded { get; set; }
 
@@ -62,7 +63,7 @@ namespace BlazorFluentUI
 
         private void CreateLocalCss()
         {
-            NavLinkLeftPaddingRule.Selector = new ClassSelector() { SelectorName = "ms-Nav-link" , LiteralPrefix = ".ms-Nav .ms-Nav-compositeLink " };
+            NavLinkLeftPaddingRule.Selector = new ClassSelector() { SelectorName = "ms-Nav-link", LiteralPrefix = ".ms-Nav .ms-Nav-compositeLink " };
             NavLinkLocalRules.Add(NavLinkLeftPaddingRule);
 
             ChevronButtonLeftRule.Selector = new ClassSelector() { SelectorName = "ms-Nav-chevronButton", LiteralPrefix = ".ms-Nav-compositeLink:not(.is-button) " };
@@ -78,7 +79,7 @@ namespace BlazorFluentUI
 
             ChevronButtonLeftRule.Properties = new CssString()
             {
-                Css = $"left:{14*NestedDepth + 1}px;"
+                Css = $"left:{14 * NestedDepth + 1}px;"
             };
         }
 
@@ -96,7 +97,7 @@ namespace BlazorFluentUI
             switch (NavMatchType)
             {
                 case NavMatchType.RelativeLinkOnly:
-                    processedUri =  uri.Split('?', '#')[0];
+                    processedUri = uri.Split('?', '#')[0];
                     break;
                 case NavMatchType.AnchorIncluded:
                     var split = uri.Split('?');
@@ -123,7 +124,7 @@ namespace BlazorFluentUI
                     break;
             }
 
-            if ( processedUri.Equals(Id) && !isSelected)
+            if (processedUri.Equals(Id) && !isSelected)
             {
                 isSelected = true;
                 StateHasChanged();
@@ -176,7 +177,7 @@ namespace BlazorFluentUI
         }
 
         protected async Task ClickHandler(MouseEventArgs args)
-        {          
+        {
             await OnClick.InvokeAsync(this);
         }
     }

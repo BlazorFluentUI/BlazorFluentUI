@@ -27,9 +27,13 @@ namespace BlazorFluentUI
         [Parameter] public bool Toggle { get; set; }
         [Parameter] public bool Split { get; set; }
         [Parameter] public string IconName { get; set; }
+        [Parameter] public string IconSrc { get; set; }
         [Parameter] public bool HideChevron { get; set; }
-
-        [Parameter] public IEnumerable<IBFUContextualMenuItem> MenuItems { get; set; }
+        #region MenuItems
+        [Parameter] public IEnumerable<object> MenuItems { get; set; }
+        [Parameter] public RenderFragment<object> MenuItemTemplate { get; set; }
+        [Parameter] public bool SubordinateItemTemplate { get; set; }
+        #endregion
         //[Parameter] public RenderFragment ContextualMenuContent { get; set; }
         //[Parameter] public RenderFragment ContextualMenuItemsSource { get; set; }
         //[Parameter] public RenderFragment ContextualMenuItemTemplate { get; set; }

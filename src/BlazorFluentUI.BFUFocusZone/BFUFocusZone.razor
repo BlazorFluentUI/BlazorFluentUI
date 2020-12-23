@@ -2,7 +2,7 @@
 @inherits BFUComponentBase
 
 <div class=@($"ms-FocusZone {ClassName}")
-     style=@Style
+     style="display: inline"
      data-is-focusable=@(IsFocusable ? "true" : "false")
      tabindex=@(IsFocusable ? 0 : -1)
      aria-labelledby=@AriaLabelledBy
@@ -13,7 +13,6 @@
      aria-label=@AriaLabel
      role=@Role
      @onclick=@OnClick
-     @attributes=@UnknownAttributes
-     >
+     @attributes=@UnknownAttributes>
     @ChildContent
 </div>

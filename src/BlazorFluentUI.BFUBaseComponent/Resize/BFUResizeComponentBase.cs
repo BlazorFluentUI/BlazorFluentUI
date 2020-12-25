@@ -10,17 +10,13 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI.Resize
 {
-    public class BFUResizeComponentBase<TObject> : BFUComponentBase, IDisposable
+    public class BFUResizeComponentBase : BFUComponentBase, IDisposable
     {
         [Inject] IJSRuntime jSRuntime { get; set; }
-
         [Parameter] public bool Vertical { get; set; }
-        [Parameter] public TObject Data { get; set; }
-
-        [Parameter] public RenderFragment<TObject> DataTemplate { get; set; }
-        public Func<TObject, bool> OnGrowData { get; set; }
-        public Func<TObject, bool> OnReduceData { get; set; }
-        public Func<TObject, string> GetCacheKey { get; set; }
+        public Func<bool> OnGrowData { get; set; }
+        public Func<bool> OnReduceData { get; set; }
+        public Func<string> GetCacheKey { get; set; }
 
   
         protected string hiddenParentStyles = "position:relative;";
@@ -36,7 +32,6 @@ namespace BlazorFluentUI.Resize
         private Dictionary<string, double> _measurementCache = new Dictionary<string, double>();
 
         //STATE
-        private TObject _dataToMeasure;
         private bool _jsAvailable;
         private string _resizeEventToken;
 
@@ -47,24 +42,12 @@ namespace BlazorFluentUI.Resize
 
         protected override Task OnInitializedAsync()
         {
-            //Debug.WriteLine("Initialized");
-            var state = GetInitialState();
-            // Debug.WriteLine($"State dataToMeasure: {(state.DataToMeasure== null ? "null" : "not empty")}");
-            _dataToMeasure = state.DataToMeasure;
             return Task.CompletedTask;
         }
 
         protected override bool ShouldRender()
         {
-            if (_dataToMeasure == null || _measurementCache.ContainsKey(GetCacheKey(_dataToMeasure)))
-            {
-                _dataNeedsMeasuring = false;
-            }
-            else
-            {
-                _dataNeedsMeasuring = true;
-            }
-
+            _dataNeedsMeasuring = true;
             _isInitialMeasure = !_hasRenderedContent && _dataNeedsMeasuring;
 
             return base.ShouldRender();
@@ -117,7 +100,7 @@ namespace BlazorFluentUI.Resize
                 
                 if (elementDimension > containerDimension)
                 {
-                    if (OnReduceData(Data))
+                    if (OnReduceData())
                     {
                         onceOversized = true;
                         StateHasChanged();
@@ -127,7 +110,7 @@ namespace BlazorFluentUI.Resize
                 {
                     if (onceOversized == false)
                     {
-                        if (OnGrowData(Data))
+                        if (OnGrowData())
                         {
                             StateHasChanged();
                         }
@@ -149,10 +132,6 @@ namespace BlazorFluentUI.Resize
             return elementDimension;
         }
 
-        private ResizeGroupState<TObject> GetInitialState()
-        {
-            return new ResizeGroupState<TObject>() { ResizeDirection = ResizeDirection.Grow, DataToMeasure = this.Data, MeasureContainer = true };
-        }
         public async void Dispose()
         {
             try

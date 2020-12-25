@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFURibbonTab : BFUResizeComponentBase<int>
+    public partial class BFURibbonTab : BFUResizeComponentBase
     {
         [Inject] IJSRuntime jSRuntime { get; set; }
         [Parameter] public string? HeaderText { get; set; }
@@ -23,13 +23,12 @@ namespace BlazorFluentUI
         [Parameter] public RenderFragment<ResizeGroupData>? ItemTemplate { get; set; }
 
         Collection<ResizeGroupData> ResizableGroups = new Collection<ResizeGroupData>();
-     //   BFUResizeComponentBase<int> BFUResizeComponentBase { get; set; } = new BFUResizeComponentBase<int>();
 
 
         public BFURibbonTab()
         {
             
-           OnGrowData = data =>
+           OnGrowData = () =>
             {
 
                 if (ResizableGroups.Count > 0)
@@ -51,17 +50,9 @@ namespace BlazorFluentUI
                 }
 
                 return false;
-                //if (ItemsSource.Count() == 0)
-                //    return default;
-
-                //var firstItem = overflowItems.First();
-                //overflowItems.RemoveAt(0);
-                //items.Add(firstItem);
-
-                //return new ResizeGroupData<TItem>(items, overflowItems, ComputeCacheKey(items));
             };
 
-            OnReduceData = data =>
+            OnReduceData = () =>
             {
                 if (ResizableGroups.Count > 0)
                 {
@@ -83,22 +74,7 @@ namespace BlazorFluentUI
                 }
                 
                 return false;
-                //if (items.Count == 0)
-                //    return default;
-
-                //var lastItem = items.Last();
-                //items.Remove(lastItem);
-                //overflowItems.Insert(0, lastItem);
-
-                //return new ResizeGroupData<TItem>(items, overflowItems, ComputeCacheKey(items));
-
             };
-            GetCacheKey = data =>
-            {
-                return "A";
-            };
-
-
         }
 
         protected override Task OnInitializedAsync()

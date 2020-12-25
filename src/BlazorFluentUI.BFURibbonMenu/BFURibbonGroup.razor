@@ -3,7 +3,7 @@
 @inherits BFUComponentBase
 
 <div @ref="RootElementReference" style="display: inline">
-    <BFUOverflowSet Items=@((List<IRibbonItem>)items) OverflowItems=@((List<IRibbonItem>)overflowItems) GetKey=@(x => Guid.NewGuid().ToString())>
+    <BFUOverflowSet Items=@((List<IRibbonItem>)items) OverflowItems=@((List<IRibbonItem>)overflowItems) GetKey=@(x => Guid.NewGuid().ToString()) Style="display: inline-block;vertical-align: top">
         <ItemTemplate>
                 @ItemTemplate(context)
         </ItemTemplate>

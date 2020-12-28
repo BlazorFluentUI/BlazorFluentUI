@@ -1,4 +1,6 @@
-﻿@foreach (var portalPair in portalFragments)
+﻿@namespace BlazorFluentUI
+
+@foreach (var portalPair in portalFragments)
 {
     <BFULayerPortal @key=@portalPair.Id Id=@portalPair.Id @ref=@portals[portalPair.Id!] >
         @portalPair.Fragment

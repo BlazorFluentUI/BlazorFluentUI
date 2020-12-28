@@ -616,6 +616,14 @@
     export function addOrUpdateVirtualParent(parent: HTMLElement) {
         layerElements[parent.dataset.layerId] = parent;
     }
+
+    export function getVirtualParent(child: HTMLElement): HTMLElement | undefined {
+        let parent: HTMLElement | undefined;
+        if (child && child.dataset && child.dataset.parentLayerId) {
+            parent = layerElements[child.dataset.parentLayerId];
+        }
+        return parent;
+    }
     //export function setVirtualParent(child: HTMLElement, parent: HTMLElement) {
     //    let virtualChild = <IVirtualElement>child;
     //    let virtualParent = <IVirtualElement>parent;
@@ -653,13 +661,7 @@
     //    }
     //    return parent;
     //}
-    export function getVirtualParent(child: HTMLElement): HTMLElement | undefined {
-        let parent: HTMLElement | undefined;
-        if (child && child.dataset && child.dataset.parentLayerId) {
-            parent = layerElements[child.dataset.parentLayerId];
-        }
-        return parent;
-    }
+   
 
 
     export function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {

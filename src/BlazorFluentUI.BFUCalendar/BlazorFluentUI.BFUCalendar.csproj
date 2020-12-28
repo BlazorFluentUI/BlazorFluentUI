@@ -5,6 +5,7 @@
     <AssemblyName>BlazorFluentUI.BFUCalendar</AssemblyName>
     <RootNamespace>BlazorFluentUI</RootNamespace>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
 

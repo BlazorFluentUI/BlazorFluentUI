@@ -8,7 +8,7 @@
     <Product>BlazorFluentUI.AllComponents</Product>
     <Description>All components from the BlazorFluentUI library, a blazor clone of the Fluent UI React components</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -45,7 +45,6 @@
     <ProjectReference Include="..\BlazorFluentUI.BFUImage\BlazorFluentUI.BFUImage.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUKeytip\BlazorFluentUI.BFUKeytip.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFULabel\BlazorFluentUI.BFULabel.csproj" />
-    <ProjectReference Include="..\BlazorFluentUI.BFULayer\BlazorFluentUI.BFULayer.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFULink\BlazorFluentUI.BFULink.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUList\BlazorFluentUI.BFUList.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUMarqueeSelection\BlazorFluentUI.BFUMarqueeSelection.csproj" />
@@ -73,6 +72,13 @@
     <ProjectReference Include="..\BlazorFluentUI.BFUTheme\BlazorFluentUI.BFUTheme.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUToggle\BlazorFluentUI.BFUToggle.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUTooltip\BlazorFluentUI.BFUTooltip.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

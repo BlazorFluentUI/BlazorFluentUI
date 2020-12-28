@@ -10,7 +10,7 @@
     <Product>BlazorFluentUI.BFUBaseComponent</Product>
     <Description>Base classes from Blazor port of Fluent UI</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE">
+    <None Include="..\..\LICENSE" Link="Layer\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

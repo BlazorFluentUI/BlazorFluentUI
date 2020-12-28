@@ -51,6 +51,9 @@ namespace BlazorFluentUI
         public string HeaderText { get; set; }
 
         [Parameter]
+        public string? HostId { get; set; }
+
+        [Parameter]
         public bool IsBlocking { get; set; } = true;
 
         [Parameter]
@@ -444,14 +447,6 @@ namespace BlazorFluentUI
         {
             return IsBlocking && IsOpen;
         }
-
-        public async void Dispose()
-        {
-           
-        }
-
-
-     
 
         public async ValueTask DisposeAsync()
         {

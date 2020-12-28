@@ -32,7 +32,6 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUIcon\BlazorFluentUI.BFUIcon.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUImage\BlazorFluentUI.BFUImage.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFULabel\BlazorFluentUI.BFULabel.csproj" />
-    <ProjectReference Include="..\..\src\BlazorFluentUI.BFULayer\BlazorFluentUI.BFULayer.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFULink\BlazorFluentUI.BFULink.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUList\BlazorFluentUI.BFUList.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.BFUMarqueeSelection\BlazorFluentUI.BFUMarqueeSelection.csproj" />

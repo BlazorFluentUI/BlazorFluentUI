@@ -45,7 +45,7 @@ namespace BlazorFluentUI
 
                 if (LayerHost != null)
                 {
-                    LayerHost.AddOrUpdateHostedContent(id, ChildContent);
+                    LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent);
                     addedToHost = true;
                 }
             }
@@ -56,7 +56,7 @@ namespace BlazorFluentUI
         {
             if (LayerHost != null) 
             {
-                LayerHost.AddOrUpdateHostedContent(id, ChildContent);
+                LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent);
                 addedToHost = true;
             }
             return true;
@@ -90,7 +90,7 @@ namespace BlazorFluentUI
 
                     if (LayerHost != null)
                     {
-                        LayerHost.AddOrUpdateHostedContent(id, ChildContent);
+                        LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent);
                         addedToHost = true;
                         StateHasChanged();
                     }
@@ -101,11 +101,11 @@ namespace BlazorFluentUI
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        public ValueTask DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
-            LayerHost?.RemoveHostedContent(this.id);
+            await LayerHost?.RemoveHostedContentAsync(this.id);
             addedToHost = false;
-            return ValueTask.CompletedTask;
+            //return ValueTask.CompletedTask;
         }
     }
 }

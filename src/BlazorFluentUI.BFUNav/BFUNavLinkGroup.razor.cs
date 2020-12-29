@@ -16,6 +16,7 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<BFUNavLinkGroup> OnClick { get; set; }
 
         protected bool isExpanded = true;
+        private bool hasRenderedOnce;
 
         protected async Task ClickHandler(MouseEventArgs args)
         {
@@ -32,8 +33,19 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            isExpanded = !CollapseByDefault;
+            if (!hasRenderedOnce)
+                isExpanded = !CollapseByDefault;
             return base.OnParametersSetAsync();
+        }
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+            {
+                hasRenderedOnce = true;
+            }
+
+            base.OnAfterRender(firstRender);
         }
 
     }

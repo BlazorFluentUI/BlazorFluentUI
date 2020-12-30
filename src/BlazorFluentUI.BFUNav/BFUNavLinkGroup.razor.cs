@@ -35,7 +35,7 @@ namespace BlazorFluentUI
         protected override Task OnParametersSetAsync()
         {
             if (!hasRenderedOnce)
-                isCollapsed = !CollapseByDefault;
+                isCollapsed = CollapseByDefault;
             return base.OnParametersSetAsync();
         }
 

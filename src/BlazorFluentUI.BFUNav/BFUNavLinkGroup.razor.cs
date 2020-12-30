@@ -15,7 +15,9 @@ namespace BlazorFluentUI
 
         [Parameter] public EventCallback<BFUNavLinkGroup> OnClick { get; set; }
 
-        public bool isCollapsed { get; protected set; }
+        private bool isCollapsed;
+        public bool IsCollapsed => isCollapsed;
+        
         private bool hasRenderedOnce;
 
         protected async Task ClickHandler(MouseEventArgs args)

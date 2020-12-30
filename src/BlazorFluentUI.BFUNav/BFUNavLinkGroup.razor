@@ -2,7 +2,7 @@
 @inherits BFUComponentBase
 
 <div key={groupIndex}
-     class=@($"ms-Nav-group {(this.isExpanded ? "is-expanded":"")} {ClassName}")
+     class=@($"ms-Nav-group {(this.isCollapsed ? "is-expanded":"")} {ClassName}")
      style=@Style
      @ref="RootElementReference">
     @if (Name != null)

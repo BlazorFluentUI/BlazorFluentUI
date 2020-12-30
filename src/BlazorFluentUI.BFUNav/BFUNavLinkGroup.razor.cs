@@ -15,18 +15,19 @@ namespace BlazorFluentUI
 
         [Parameter] public EventCallback<BFUNavLinkGroup> OnClick { get; set; }
 
-        protected bool isExpanded = true;
+        public bool isCollapsed { get; protected set; }
         private bool hasRenderedOnce;
 
         protected async Task ClickHandler(MouseEventArgs args)
         {
-            isExpanded = !isExpanded;
+            isCollapsed = !isCollapsed;
             await OnClick.InvokeAsync(this);
             //return Task.CompletedTask;
         }
 
         protected override Task OnInitializedAsync()
         {
+            isCollapsed = false;
             //System.Diagnostics.Debug.WriteLine("Initializing NavLinkGroupBase");
             return base.OnInitializedAsync();
         }
@@ -34,7 +35,7 @@ namespace BlazorFluentUI
         protected override Task OnParametersSetAsync()
         {
             if (!hasRenderedOnce)
-                isExpanded = !CollapseByDefault;
+                isCollapsed = !CollapseByDefault;
             return base.OnParametersSetAsync();
         }
 

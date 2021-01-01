@@ -1,24 +1,26 @@
 ﻿@page "/listPage"
 @using System.Linq 
 
+<Demo Key="0" Header="Basic Vertical List with selection" MetadataPath="ListPage">
     <BFUStack Style="height:100%;">
         <div style="height:20px;">
             @DebugText
         </div>
 
         <BFUDropdown ItemsSource=@selectionModeOptions
-                  @bind-SelectedOption=SelectedModeOption                  
-                  Style="max-width:300px;">
+                     @bind-SelectedOption=SelectedModeOption
+                     Style="max-width:300px;">
         </BFUDropdown>
 
         <BFUPrimaryButton Text="Add 10 items" OnClick="@ClickHandler" />
         <BFUPrimaryButton Text="Add 5000 items" OnClick="@ClickHandler2" />
 
         <BFULabel>Virtualized List with selection modes</BFULabel>
-        
-        <div data-is-scrollable="true" style="overflow-y:auto;height:100%;">
+
+        <div data-is-scrollable="true" style="overflow-y:auto;height:400px;">
 
             <BFUSelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key))
+                              DisableRenderOnSelectionChanged="true"
                               Selection=@selection
                               TItem="DataItem"
                               @ref="selectionZone">
@@ -46,7 +48,8 @@
                 </BFUFocusZone>
             </BFUSelectionZone>
         </div>
-    </BFUStack> 
+    </BFUStack>
+</Demo>
 
 @code {
     int count = 0;

@@ -26,6 +26,15 @@ namespace BlazorFluentUI
         [Parameter] public string SecondaryText { get; set; }
         [Parameter] public bool Toggle { get; set; }
         [Parameter] public bool Split { get; set; }
+        [Obsolete("Use IconName instead")]
+        [Parameter]
+        public string Icon
+        {
+            set
+            {
+                IconName = value;
+            }
+        }
         [Parameter] public string IconName { get; set; }
         [Parameter] public string IconSrc { get; set; }
         [Parameter] public bool HideChevron { get; set; }

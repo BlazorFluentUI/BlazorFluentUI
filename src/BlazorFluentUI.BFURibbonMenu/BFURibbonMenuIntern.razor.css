@@ -1,0 +1,213 @@
+﻿
+.ms-Pivot-count {
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+::deep .is-selected.ms-Pivot-link {
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+
+    ::deep .is-selected.ms-Pivot-link::before {
+        background-color: var(--semanticColors-InputBackgroundChecked);
+    }
+
+
+    ::deep .is-selected.ms-Pivot-link:hover::before {
+        left: 0;
+        right: 0;
+    }
+
+
+@media screen and (-ms-high-contrast: active) {
+    ::deep .is-selected.ms-Pivot-link::before {
+        background-color: Highlight;
+    }
+
+    ::deep .is-selected.ms-Pivot-link {
+        color: Highlight;
+    }
+}
+
+::deep .ms-Pivot-link.ms-Button--default {
+    color: var(--semanticTextColors-ActionLink);
+    display: inline-block;
+    line-height: 44px;
+    height: 44px;
+    margin-right: 8px;
+    padding: 0 8px;
+    text-align: center;
+    position: relative;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+}
+
+
+::deep .ms-Pivot-link::before {
+    background-color: transparent;
+    bottom: 0;
+    content: '';
+    height: 2px;
+    left: 8px;
+    position: absolute;
+    right: 8px;
+    transition: left var(--animation-Duration2) var(--animation-EasingFunction2), right var(--animation-Duration2) var(--animation-EasingFunction2);
+}
+
+
+::deep .ms-Pivot-link::after {
+    color: transparent;
+    content: attr(data-content);
+    display: block;
+    font-weight: var(--fontWeight-Bold);
+    height: 1px;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+
+::deep .ms-Pivot-link:hover {
+    background-color: var(--semanticColors-ButtonBackgroundHovered);
+    color: var(--semanticTextColors-ButtonTextHovered);
+    cursor: pointer;
+}
+
+
+::deep .ms-Pivot-link:active {
+    background-color: var(--semanticColors-ButtonBackgroundPressed);
+    color: var(--semanticTextColors-ButtonTextHovered);
+}
+
+
+::deep .ms-Pivot-link:focus {
+    outline: none;
+}
+
+
+.ms-Fabric--isFocusVisible .ms-Pivot ::deep .ms-Pivot-link:focus {
+    outline: 1px solid var(--semanticColors-FocusBorder);
+}
+
+
+    .ms-Fabric--isFocusVisible .ms-Pivot ::deep .ms-Pivot-link:focus::after {
+        content: attr(data-content);
+        position: relative;
+        border: 0;
+    }
+
+::deep .ms-Pivot-linkContent {
+    flex: 0 1 100%;
+}
+
+
+    ::deep .ms-Pivot-linkContent > * {
+        margin-left: 4px;
+    }
+
+
+.ms-Pivot-linkContent > *:first-child {
+    margin-left: 0;
+}
+
+.ms-Pivot {
+    box-shadow: none;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    position: relative;
+    color: var(--semanticTextColors-Link);
+    white-space: nowrap;
+}
+
+    .ms-Pivot ::deep > * {
+        display: inline-block;
+    }
+
+    .ms-Pivot.ms-Pivot--large ::deep .ms-Pivot-link {
+        font-size: var(--fontSize.Large);
+    }
+
+
+    .ms-Pivot.ms-Pivot--tabs ::deep .ms-Pivot-link {
+        margin-right: 0;
+        height: 44px;
+        line-height: 44px;
+        background-color: var(--semanticColors-ButtonBackground);
+        padding: 0 10px;
+        vertical-align: top;
+    }
+
+
+        .ms-Pivot.ms-Pivot--tabs ::deep .ms-Pivot-link:focus {
+            outline-offset: -1px;
+        }
+
+
+        .ms-Pivot.ms-Pivot--tabs ::deep .ms-Pivot-link:not(.is-selected):hover,
+        .ms-Pivot.ms-Pivot--tabs ::deep .ms-Pivot-link:not(.is-selected):focus {
+            color: var(--semanticTextColors-ButtonTextCheckedHovered);
+        }
+
+
+        .ms-Pivot.ms-Pivot--tabs ::deep .ms-Pivot-link:not(.is-selected):active,
+        .ms-Pivot.ms-Pivot--tabs ::deep .ms-Pivot-link:not(.is-selected):hover {
+            color: var(--semanticTextColors-PrimaryButtonText);
+            background-color: var(--semanticColors-PrimaryButtonBackground);
+        }
+
+
+.ms-Pivot--tabs.ms-Pivot .is-selected {
+    background-color: var(--semanticColors-PrimaryButtonBackground);
+    color: var(--semanticTextColors-PrimaryButtonText);
+    font-weight: var(--fontWeight-Regular);
+}
+
+
+    .ms-Pivot--tabs.ms-Pivot .is-selected::before {
+        background-color: transparent;
+        transition: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: '';
+        height: auto;
+    }
+
+
+    .ms-Pivot--tabs.ms-Pivot .is-selected:hover {
+        background-color: var(--semanticColors-PrimaryButtonBackgroundHovered);
+        color: var(--semanticTextColors-PrimaryButtonText);
+    }
+
+
+    .ms-Pivot--tabs.ms-Pivot .is-selected:active {
+        background-color: var(--semanticColors-PrimaryButtonBackgroundPressed);
+        color: var(--semanticTextColors-PrimaryButtonText);
+    }
+
+
+.ms-Fabric--isFocusVisible .ms-Pivot--tabs.ms-Pivot ::deep .ms-Pivot-link:focus::before {
+    height: auto;
+    background-color: transparent;
+    transition: none;
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Pivot--tabs.ms-Pivot .is-selected {
+        font-weight: var(--fontWeight-SemiBold);
+        color: HighlightText;
+        background-color: Highlight;
+        -ms-high-contrast-adjust: none;
+    }
+}
+
+::deep .ms-Pivot-text {
+    display: inline-block;
+    vertical-align: top;
+}

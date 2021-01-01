@@ -58,7 +58,6 @@
     <ProjectReference Include="..\BlazorFluentUI.BFUPanel\BlazorFluentUI.BFUPanel.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUPersona\BlazorFluentUI.BFUPersona.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUPivot\BlazorFluentUI.BFUPivot.csproj" />
-    <ProjectReference Include="..\BlazorFluentUI.BFUPopup\BlazorFluentUI.BFUPopup.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUProgressIndicator\BlazorFluentUI.BFUProgressIndicator.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFURating\BlazorFluentUI.BFURating.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUResizeGroup\BlazorFluentUI.BFUResizeGroup.csproj" />

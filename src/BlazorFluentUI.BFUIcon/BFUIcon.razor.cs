@@ -1,10 +1,20 @@
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 
 namespace BlazorFluentUI
 {
     public partial class BFUIcon : BFUComponentBase
     {
+        [Obsolete("Use IconName instead")]
+        [Parameter]
+        public string Icon
+        {
+            set
+            {
+                IconName = value;
+            }
+        }
         [Parameter] public string IconName { get; set; }
         [Parameter] public string? IconSrc { get; set; }
         [Parameter] public IconType IconType { get; set; }

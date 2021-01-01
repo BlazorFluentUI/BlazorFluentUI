@@ -15,7 +15,16 @@
                 <BFUIcon ClassName="ms-Nav-chevron" IconName="ChevronDown" />
             </button>
         }
-        <BFUActionButton ClassName=@($"ms-Nav-link {NavLinkLeftPaddingRule.Selector.SelectorName} {(IconName != null |IconSrc != null ? "has-icon" : "")}") Href=@Url IconName=@IconName IconSrc=@IconSrc Disabled=@Disabled AriaLabel=@AriaLabel OnClick=@ClickHandler>
+        <BFUActionButton 
+            ClassName=@($"ms-Nav-link {NavLinkLeftPaddingRule.Selector.SelectorName} {(IconName != null |IconSrc != null ? "has-icon" : "")}")
+            Href=@Url 
+            IconName=@IconName 
+            IconSrc=@IconSrc 
+            Disabled=@Disabled 
+            AriaLabel=@AriaLabel 
+            OnClick=@ClickHandler
+            Command=@Command
+            CommandParameter=@CommandParameter>
             <div class="ms-Nav-linkText">@Name</div>
         </BFUActionButton>
     </div>

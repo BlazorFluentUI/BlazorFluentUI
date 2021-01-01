@@ -13,6 +13,14 @@ namespace BlazorFluentUI
         [Parameter] public string HeaderText { get; set; }
         [Parameter] public string ItemKey { get; set; }
         [Parameter] public string ItemCount { get; set; }
+        [Obsolete("Use IconName instead")]
+        [Parameter] public string ItemIcon
+        {
+            set
+            {
+                IconName = value;
+            }
+        }
         [Parameter] public string IconName { get; set; }
         [Parameter] public string IconSrc { get; set; }
         [Parameter] public string KeyTip { get; set; }

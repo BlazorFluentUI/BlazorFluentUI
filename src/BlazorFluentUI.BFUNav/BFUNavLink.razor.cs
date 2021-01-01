@@ -5,6 +5,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace BlazorFluentUI
 {
@@ -17,6 +18,15 @@ namespace BlazorFluentUI
         //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool ForceAnchor { get; set; } //unused for now
+        [Obsolete("Use IconName instead")]
+        [Parameter]
+        public string Icon
+        {
+            set
+            {
+                IconName = value;
+            }
+        }
         [Parameter] public string? IconName { get; set; }
         [Parameter] public string? IconSrc { get; set; }
         [Parameter] public bool IsButton { get; set; }
@@ -34,7 +44,8 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<bool> IsExpandedChanged { get; set; }
 
         [CascadingParameter(Name = "ClearSelectionAction")] Action ClearSelectionAction { get; set; }
-
+        [Parameter] public ICommand Command { get; set; }
+        [Parameter] public object CommandParameter { get; set; }
         protected bool isExpanded { get; set; }
 
 

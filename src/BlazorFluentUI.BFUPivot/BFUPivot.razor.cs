@@ -32,7 +32,7 @@ namespace BlazorFluentUI
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         public IList<BFUPivotItem> PivotItems { get; set; }
-        public BFUPivotItem Selected
+        public virtual BFUPivotItem Selected
         {
             get => _selected;
             set
@@ -52,12 +52,12 @@ namespace BlazorFluentUI
             }
         }
 
-        private BFUPivotItem _selected;
+        protected BFUPivotItem _selected;
         private bool _isControlled;
         private string _selectedKey;
-        private bool _redraw;
-        private RenderFragment _oldChildContent;
-        private int _oldIndex = 0;
+        protected bool _redraw;
+        protected RenderFragment _oldChildContent;
+        protected int _oldIndex = 0;
 
         protected override void OnInitialized()
         {
@@ -98,7 +98,7 @@ namespace BlazorFluentUI
 
         }
 
-        private void SetSelection(bool firstRender = false)
+        protected virtual void SetSelection(bool firstRender = false)
         {
             if (!_isControlled && firstRender)
             {

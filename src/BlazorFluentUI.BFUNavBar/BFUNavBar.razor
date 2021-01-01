@@ -31,7 +31,9 @@
                                                          AriaLabel=@context.AriaLabel
                                                          Checked=@context.Checked
                                                          ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault             (x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
-                                                         Split=@context.Split Style=@context.Style />
+                                                         Split=@context.Split Style=@context.Style 
+                                                         Command=@context.Command
+                                                         CommandParameter=@context.CommandParameter/>
                                 </ChildContent>
                                 <TooltipContent>
                                     @context.Text
@@ -49,7 +51,9 @@
                                                  AriaLabel=@context.AriaLabel
                                                  Checked=@context.Checked
                                                  ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault(x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
-                                                 Split=@context.Split Style=@context.Style />
+                                                 Split=@context.Split Style=@context.Style
+                                                 Command=@context.Command
+                                                 CommandParameter=@context.CommandParameter/>
                         }
                     </ItemTemplate>
                     <OverflowTemplate>
@@ -75,12 +79,14 @@ else
                     @foreach (var item in Items)
                     {
                         <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) IconName=@item.IconName IconSrc=@item.IconSrc
-                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" />
+                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" 
+                                             Command=@item.Command CommandParameter=@item.CommandParameter/>
                     }
                     @foreach (var item in OverflowItems)
                     {
                         <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) IconName=@item.IconName IconSrc=@item.IconSrc
-                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" />
+                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" 
+                                             Command=@item.Command CommandParameter=@item.CommandParameter/>
                     }
                 </ChildContent>
             </BFUNavLinkGroup>

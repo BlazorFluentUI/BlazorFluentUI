@@ -1,4 +1,5 @@
-﻿@namespace BlazorFluentUI.BFUNavBarInternal
+﻿@using System.Windows.Input 
+@namespace BlazorFluentUI.BFUNavBarInternal
 
 @if (Items == null)
 {
@@ -9,7 +10,9 @@
                 NestedDepth=@NestedDepth
                 IconName=@IconName
                 IconSrc=@IconSrc
-                @bind-IsExpanded=@IsExpanded />
+                @bind-IsExpanded=@IsExpanded
+                Command=@Command
+                CommandParameter=@CommandParameter/>
 }
 else
 {
@@ -20,7 +23,9 @@ else
                 NestedDepth=@NestedDepth
                 IconName=@IconName
                 IconSrc=@IconSrc
-                @bind-IsExpanded=@IsExpanded>
+                @bind-IsExpanded=@IsExpanded
+                Command=@Command
+                CommandParameter=@CommandParameter>
         @foreach (IBFUNavBarItem subItem in Items)
         {
             <BFURecursiveNavLink Name=@subItem.Text
@@ -31,7 +36,9 @@ else
                                  IconName=@subItem.IconName
                                  IconSrc=@subItem.IconSrc
                                  Items=@subItem.Items
-                                 @bind-IsExpanded=@IsExpanded />
+                                 @bind-IsExpanded=@IsExpanded
+                                 Command=@subItem.Command
+                                 CommandParameter=@subItem.CommandParameter/>
         }
     </BFUNavLink>
 }
@@ -41,6 +48,15 @@ else
 
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public bool ForceAnchor { get; set; } //unused for now
+    [Obsolete("Use IconName instead")]
+    [Parameter]
+    public string Icon
+    {
+        set
+        {
+            IconName = value;
+        }
+    }
     [Parameter] public string? IconName { get; set; }
     [Parameter] public string? IconSrc { get; set; }
     [Parameter] public bool IsButton { get; set; }
@@ -54,6 +70,7 @@ else
     [Parameter] public int NestedDepth { get; set; } = 0;
     [Parameter] public NavMatchType NavMatchType { get; set; } = NavMatchType.RelativeLinkOnly;
     [Parameter] public EventCallback<BFUNavLink> OnClick { get; set; }
-
+    [Parameter] public ICommand Command { get; set; }
+    [Parameter] public object CommandParameter { get; set; }
 
 }

@@ -1,8 +1,7 @@
 ﻿@page  "/ribbonMenuPage"
 @using System.Collections.ObjectModel;
 <h1>Ribbon Menu</h1>
-
-<BFURibbonMenu AriaLabel="Basic Pivot Example" ItemsSource=@Items>
+<BFURibbonMenu ItemsSource=@Items>
    <ItemTemplate Context="tab">
        <BFURibbonTab ItemsSource=@tab.Groups HeaderText=@tab.Header>
            <ItemTemplate Context="groupData">
@@ -34,9 +33,52 @@
                    </ItemTemplate>
                </BFURibbonGroup>
            </ItemTemplate>
-
        </BFURibbonTab>
    </ItemTemplate>
+</BFURibbonMenu>
+<h1>Ribbon Menu with backstage</h1>
+@*<BFUToggle @bind-Checked=@ShowBackstage OnText="On!" OffText="Off!" Label="Backstage state" />*@
+<BFURibbonMenu ItemsSource=@Items BackstageHeader="File" @bind-ShowBackstage=ShowBackstage>
+    <ItemTemplate Context="tab">
+        <BFURibbonTab ItemsSource=@tab.Groups HeaderText=@tab.Header>
+            <ItemTemplate Context="groupData">
+                <BFURibbonGroup ItemsSource=@groupData ItemTransform=@itemTransform>
+                    <ItemTemplate Context="item">
+                        <BFUTooltipHost>
+                            <TooltipContent>
+                                <div>@(((RibbonItem)item).Text)</div>
+                            </TooltipContent>
+                            <ChildContent>
+                                @switch (item)
+                                {
+                                    case BFUButtonViewModel buttonViewModel:
+                                        <BFUCommandBarButton IconName=@buttonViewModel.IconName
+                                                             IconSrc=@buttonViewModel.IconSrc
+                                                             Command=@buttonViewModel.Command
+                                                             CommandParameter=@buttonViewModel.CommandParameter
+                                                             Toggle=@buttonViewModel.Toggle />
+                                        break;
+                                    case BFUDropDownViewModel dropDownViewModel:
+                                        <BFUDropdown ItemsSource=@dropDownViewModel.DropdownOptions
+                                                     Placeholder="Select an option"
+                                                     @bind-SelectedOption=@dropDownViewModel.Selected
+                                                     Style=@("display: inline-block;width:" + @dropDownViewModel.Width) />
+                                        break;
+                                }
+                            </ChildContent>
+                        </BFUTooltipHost>
+                    </ItemTemplate>
+                </BFURibbonGroup>
+            </ItemTemplate>
+        </BFURibbonTab>
+    </ItemTemplate>
+    <Backstage>
+        <div style="width: 900px;background-color: white;">
+            <div style="width:150px">
+                <BFUNavBar Direction="LayoutDirection.Vertical" Items=@backstageItems/>
+            </div>
+        </div>
+    </Backstage>
 </BFURibbonMenu>
 
 
@@ -44,8 +86,23 @@
 @code{
     System.Collections.Generic.List<TabItem<GroupItem>> Items { get; set; } = new System.Collections.Generic.List<TabItem<GroupItem>>();
 
+    private List<BFUNavBarItem> backstageItems;
+
+    [Parameter] public bool ShowBackstage { get; set; }
+    [Parameter] public EventCallback<bool> ShowBackstageChanged { get; set; }
+
+    System.Windows.Input.ICommand BackCommand { get; set; }
+    void BackAction(object param)
+    {
+        ShowBackstage = false;
+        ShowBackstageChanged.InvokeAsync(false);
+        StateHasChanged();
+    }
+
+
     protected override void OnInitialized()
     {
+        BackCommand = new RelayCommand(BackAction);
 
         var undoRedoGroup = new GroupItem();
         undoRedoGroup.ItemsSource.Add(new BFUButtonViewModel() { Text = "Undo", IconName = "Undo"});
@@ -96,9 +153,22 @@
         Items.Add(new TabItem<GroupItem>() { Header = "Insert"});
         Items.Add(new TabItem<GroupItem>() { Header = "Design"});
 
-        //   Items.Add(new RibbonItem() { RibbonVisualItem = new BFUCommandBarButton() });
+
+        #region backstage items
+
+        backstageItems = new List<BFUNavBarItem> {
+            new BFUNavBarItem() {NavMatchType= NavMatchType.AnchorOnly,IconName="Back",Key="1", Command=BackCommand},
+            new BFUNavBarItem() {Text= "First",IconName="Add",Key="2"},
+            new BFUNavBarItem() {Text= "Second", IconName="Remove", Key="3"},
+            new BFUNavBarItem() {Text= "Third", IconName="Save", Key="4"}
+        };
+
+        #endregion
+
         base.OnInitialized();
     }
+
+
 
     Func<IEnumerable<object>, IEnumerable<object>> itemTransform => (items) =>
     {

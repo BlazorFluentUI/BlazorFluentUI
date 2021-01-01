@@ -14,6 +14,15 @@ namespace BlazorFluentUI
 
         [Parameter]
         public bool AllowZeroStars { get; set; }
+        [Obsolete("Use IconName instead")]
+        [Parameter]
+        public string Icon
+        {
+            set
+            {
+                IconName = value;
+            }
+        }
         [Parameter]
         public string IconName { get; set; } = "FavoriteStarFill";
         [Parameter]

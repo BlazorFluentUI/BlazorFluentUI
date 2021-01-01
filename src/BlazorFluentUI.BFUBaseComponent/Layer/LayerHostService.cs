@@ -66,15 +66,18 @@ namespace BlazorFluentUI
 
         public void RemoveHost(BFULayerHost host)
         {
-            if (hostSubjects.ContainsKey(host.Id))
+            if (host.Id != null)
             {
-                var subject = hostSubjects[host.Id];
-                subject.OnCompleted();
-                hostSubjects.Remove(host.Id);
-            }    
-            if (hosts.ContainsKey(host.Id))
-            {
-                hosts.Remove(host.Id);
+                if (hostSubjects.ContainsKey(host.Id))
+                {
+                    var subject = hostSubjects[host.Id];
+                    subject.OnCompleted();
+                    hostSubjects.Remove(host.Id);
+                }
+                if (hosts.ContainsKey(host.Id))
+                {
+                    hosts.Remove(host.Id);
+                }
             }
         }
 

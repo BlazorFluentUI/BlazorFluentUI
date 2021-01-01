@@ -18,20 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--<None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>-->
-    <None Include="wwwroot\fabricTextField.js" />
-    <None Include="wwwroot\fabricTextField.js.map" />
-    <None Include="wwwroot\fabricTextField.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BlazorFluentUI.BFUBaseComponent\BlazorFluentUI.BFUBaseComponent.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUDelayedRender\BlazorFluentUI.BFUDelayedRender.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFUIcon\BlazorFluentUI.BFUIcon.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.BFULabel\BlazorFluentUI.BFULabel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

@@ -1,16 +1,17 @@
 ﻿@namespace BlazorFluentUI.Demo.Shared
 <BFUTheme>
-    <BFULayerHost Style="display:flex; flex-direction: row;width:100vw;height:100vh;overflow:hidden;">
-        <Router AppAssembly="typeof(MainLayout).Assembly">
-            <Found Context="routeData">
-                <BFUResponsiveCascader>
-                    <RouteView RouteData="routeData" DefaultLayout="@typeof(MainLayout)" />
-                </BFUResponsiveCascader>
-            </Found>
-            <NotFound>
-                <p>Page not found.</p>
-            </NotFound>
-        </Router>
+
+    <Router AppAssembly="typeof(MainLayout).Assembly">
+        <Found Context="routeData">
+            <BFUResponsiveCascader>
+                <RouteView RouteData="routeData" DefaultLayout="@typeof(MainLayout)" />
+            </BFUResponsiveCascader>
+        </Found>
+        <NotFound>
+            <p>Page not found.</p>
+        </NotFound>
+    </Router>
+    <BFULayerHost>
     </BFULayerHost>
 </BFUTheme>
 <!-----        <Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }"> ---->

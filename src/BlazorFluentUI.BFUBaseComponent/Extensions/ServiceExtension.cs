@@ -9,6 +9,7 @@ namespace BlazorFluentUI
             services.AddScoped<IComponentStyle, ComponentStyle>();
             services.AddScoped<ThemeProvider>();
             services.AddScoped<ScopedStatics>();
+            services.AddScoped<LayerHostService>();
         }
     }
 }

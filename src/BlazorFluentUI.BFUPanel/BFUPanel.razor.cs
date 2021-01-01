@@ -51,6 +51,9 @@ namespace BlazorFluentUI
         public string HeaderText { get; set; }
 
         [Parameter]
+        public string? HostId { get; set; }
+
+        [Parameter]
         public bool IsBlocking { get; set; } = true;
 
         [Parameter]
@@ -293,11 +296,11 @@ namespace BlazorFluentUI
                 await JSRuntime.InvokeVoidAsync("BlazorFluentUiPanel.unregisterHandler", _resizeId);
             }
 
-            if (IsOpen && !_scrollerRegistered)
-            {
-                _scrollerRegistered = true;
-                _scrollerEventId = await JSRuntime.InvokeAsync<List<int>>("BlazorFluentUiPanel.makeElementScrollAllower", scrollableContent);
-            }
+            //if (IsOpen && !_scrollerRegistered)
+            //{
+            //    _scrollerRegistered = true;
+            //    _scrollerEventId = await JSRuntime.InvokeAsync<List<int>>("BlazorFluentUiPanel.makeElementScrollAllower", scrollableContent);
+            //}
 
             if (!IsOpen && _scrollerRegistered)
             {
@@ -444,14 +447,6 @@ namespace BlazorFluentUI
         {
             return IsBlocking && IsOpen;
         }
-
-        public async void Dispose()
-        {
-           
-        }
-
-
-     
 
         public async ValueTask DisposeAsync()
         {

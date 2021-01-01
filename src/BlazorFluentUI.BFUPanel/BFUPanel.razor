@@ -4,7 +4,7 @@
 @if (IsOpen || isAnimating || IsHiddenOnDismiss)
 {
 <div>
-    <BFULayer>
+    <BFULayer HostId=@HostId>
         <BFUPopup Role="dialog" AriaLabelledBy=@HeaderText
                   OnDismiss="OnDismiss"
                   ClassName=@(!IsOpen && !isAnimating && IsHiddenOnDismiss ? "ms-Panel-hiddenPanel" : "")>

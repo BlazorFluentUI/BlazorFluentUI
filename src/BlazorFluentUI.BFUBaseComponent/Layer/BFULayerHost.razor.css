@@ -1,4 +1,4 @@
-﻿::deep .ms-Layer--fixed {
+﻿.ms-Layer--fixed {
     position: fixed;
     z-index: var(--zIndex-Layer);
     top: 0;

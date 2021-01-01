@@ -195,6 +195,11 @@ namespace BlazorFluentUI
 
                     Selection.SetItems(ItemsSource);
                 }
+                else
+                {
+                    if (Selection.GetItems() != ItemsSource)
+                        Selection.SetItems(ItemsSource, false);
+                }
 
                 if (Selection.SelectionMode != this.SelectionMode)
                     Selection.SelectionMode = this.SelectionMode;

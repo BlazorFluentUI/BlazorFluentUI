@@ -11,15 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="BFUList.razor.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <TypeScriptCompile Remove="wwwroot\fabricList.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="BFUList.razor.txt" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,6 +4,7 @@
 
 namespace BlazorFluentUiList {
 
+    type EventGroup = BlazorFluentUiBaseComponent.EventGroup;
     interface DotNetReferenceType {
 
     invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
@@ -23,58 +24,11 @@ namespace BlazorFluentUiList {
         bottom?: number;
     }
 
-  //  interface IElementMeasurements {
-  //      left: number;
-  //      top: number;
-  //      width: number;
-  //      height: number;
-  //      right?: number;
-  //      bottom?: number;
-  //      cwidth: number;
-  //      cheight: number;
-  //      test: string;
-  //  }
-
-  //type ICancelable<T> = {
-  //  flush: () => T;
-  //  cancel: () => void;
-  //  pending: () => boolean;
-  //};
-
-  //export function measureElement(element: HTMLElement): IRectangle {
-  //  var rect: IRectangle = {
-  //    width: element.clientWidth,
-  //    height: element.clientHeight,
-  //    left: 0,
-  //    top: 0
-  //  }
-  //  return rect;
-  //};
-
-  //export function measureScrollWindow(element: HTMLElement): IRectangle {
-  //  var rect: IRectangle = {
-  //    width: element.scrollWidth,
-  //    height: element.scrollHeight,
-  //    top: element.scrollTop,
-  //    left: element.scrollLeft,
-  //    bottom: element.scrollTop + element.clientHeight,
-  //      right: element.scrollLeft + element.clientWidth        
-  //  }
-  //  return rect;
-  //};
-
-  //  export function measureElementRect(element: HTMLElement): IElementMeasurements {
-  //      var rect = element.getBoundingClientRect();
-
-  //      var elementMeasurements: IElementMeasurements = { height : rect.height, width: rect.width, left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, cheight:element.clientHeight, cwidth:element.clientWidth, test:"Random!"};
-
-  //      return elementMeasurements;
-  //  };
-
     var _lastId: number = 0;
     var cachedLists: Map<number, BFUList> = new Map<number, BFUList>();
     
     class BFUList {
+        events: EventGroup;
         cachedSizes: Map<string, number> = new Map<string, number>();
         averageHeight: number = 40;
         lastDate: number;
@@ -99,6 +53,11 @@ namespace BlazorFluentUiList {
             //this.surfaceElement = rootElement.children.item(0) as HTMLElement;
 
             this.scrollElement = BlazorFluentUiBaseComponent.findScrollableParent(spacerBefore);
+            // get initial width
+            this.component.invokeMethodAsync('ResizeHandler', this.scrollElement.clientWidth);
+
+            this.events = new BlazorFluentUiBaseComponent.EventGroup(this);
+            this.events.on(window, 'resize', this.resize);
 
             this.rootElement = spacerBefore.parentElement;
             //this.scrollElement = scrollElement;
@@ -149,7 +108,15 @@ namespace BlazorFluentUiList {
 
         }
 
+        resize(ev: Event): void {
+            this.component.invokeMethodAsync('ResizeHandler', this.scrollElement.clientWidth);
+        }
+
         disconnect(): void {
+
+            this.events.off(window, 'resize', this.resize);
+            this.events.dispose();
+            
             this.mutationObserverBefore.disconnect();
             this.mutationObserverAfter.disconnect();
 

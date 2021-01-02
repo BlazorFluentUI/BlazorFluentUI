@@ -517,6 +517,14 @@ var BlazorFluentUiBaseComponent;
         layerElements[parent.dataset.layerId] = parent;
     }
     BlazorFluentUiBaseComponent.addOrUpdateVirtualParent = addOrUpdateVirtualParent;
+    function getVirtualParent(child) {
+        let parent;
+        if (child && child.dataset && child.dataset.parentLayerId) {
+            parent = layerElements[child.dataset.parentLayerId];
+        }
+        return parent;
+    }
+    BlazorFluentUiBaseComponent.getVirtualParent = getVirtualParent;
     //export function setVirtualParent(child: HTMLElement, parent: HTMLElement) {
     //    let virtualChild = <IVirtualElement>child;
     //    let virtualParent = <IVirtualElement>parent;
@@ -552,14 +560,6 @@ var BlazorFluentUiBaseComponent;
     //    }
     //    return parent;
     //}
-    function getVirtualParent(child) {
-        let parent;
-        if (child && child.dataset && child.dataset.parentLayerId) {
-            parent = layerElements[child.dataset.parentLayerId];
-        }
-        return parent;
-    }
-    BlazorFluentUiBaseComponent.getVirtualParent = getVirtualParent;
     function elementContains(parent, child, allowVirtualParents = true) {
         let isContained = false;
         if (parent && child) {
@@ -3000,47 +3000,6 @@ window['BlazorFluentUiFocusZone'] = BlazorFluentUiFocusZone || {};
 /// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiList;
 (function (BlazorFluentUiList) {
-    //  interface IElementMeasurements {
-    //      left: number;
-    //      top: number;
-    //      width: number;
-    //      height: number;
-    //      right?: number;
-    //      bottom?: number;
-    //      cwidth: number;
-    //      cheight: number;
-    //      test: string;
-    //  }
-    //type ICancelable<T> = {
-    //  flush: () => T;
-    //  cancel: () => void;
-    //  pending: () => boolean;
-    //};
-    //export function measureElement(element: HTMLElement): IRectangle {
-    //  var rect: IRectangle = {
-    //    width: element.clientWidth,
-    //    height: element.clientHeight,
-    //    left: 0,
-    //    top: 0
-    //  }
-    //  return rect;
-    //};
-    //export function measureScrollWindow(element: HTMLElement): IRectangle {
-    //  var rect: IRectangle = {
-    //    width: element.scrollWidth,
-    //    height: element.scrollHeight,
-    //    top: element.scrollTop,
-    //    left: element.scrollLeft,
-    //    bottom: element.scrollTop + element.clientHeight,
-    //      right: element.scrollLeft + element.clientWidth        
-    //  }
-    //  return rect;
-    //};
-    //  export function measureElementRect(element: HTMLElement): IElementMeasurements {
-    //      var rect = element.getBoundingClientRect();
-    //      var elementMeasurements: IElementMeasurements = { height : rect.height, width: rect.width, left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, cheight:element.clientHeight, cwidth:element.clientWidth, test:"Random!"};
-    //      return elementMeasurements;
-    //  };
     var _lastId = 0;
     var cachedLists = new Map();
     class BFUList {
@@ -3051,6 +3010,10 @@ var BlazorFluentUiList;
             this.component = component;
             //this.surfaceElement = rootElement.children.item(0) as HTMLElement;
             this.scrollElement = BlazorFluentUiBaseComponent.findScrollableParent(spacerBefore);
+            // get initial width
+            this.component.invokeMethodAsync('ResizeHandler', this.scrollElement.clientWidth);
+            this.events = new BlazorFluentUiBaseComponent.EventGroup(this);
+            this.events.on(window, 'resize', this.resize);
             this.rootElement = spacerBefore.parentElement;
             //this.scrollElement = scrollElement;
             this.spacerBefore = spacerBefore;
@@ -3093,7 +3056,12 @@ var BlazorFluentUiList;
             });
             this.mutationObserverAfter.observe(this.spacerAfter, { attributes: true });
         }
+        resize(ev) {
+            this.component.invokeMethodAsync('ResizeHandler', this.scrollElement.clientWidth);
+        }
         disconnect() {
+            this.events.off(window, 'resize', this.resize);
+            this.events.dispose();
             this.mutationObserverBefore.disconnect();
             this.mutationObserverAfter.disconnect();
             this.intersectionObserver.unobserve(this.spacerBefore);
@@ -4331,15 +4299,6 @@ var BlazorFluentUiSlider;
     BlazorFluentUiSlider.unregisterHandlers = unregisterHandlers;
 })(BlazorFluentUiSlider || (BlazorFluentUiSlider = {}));
 window['BlazorFluentUiSlider'] = BlazorFluentUiSlider || {};
-//namespace BlazorFluentUiTextField {
-//    export function getScrollHeight(element: HTMLElement): number {
-//        var paddingTop = window.getComputedStyle(element, null).getPropertyValue('padding-top');
-//        var paddingBottom = window.getComputedStyle(element, null).getPropertyValue('padding-bottom');
-//        var yPadding = parseInt(paddingTop) + parseInt(paddingBottom);
-//        return element.scrollHeight - yPadding;
-//    };
-//}
-//(<any>window)['BlazorFluentUiTextField'] = BlazorFluentUiTextField || {};
 // https://github.com/pladaria/requestidlecallback-polyfill
 (function (factory) {
     if (typeof define === 'function' && define.amd) {

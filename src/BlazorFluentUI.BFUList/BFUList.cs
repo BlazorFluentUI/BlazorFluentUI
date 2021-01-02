@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUList<TItem> : BFUComponentBase, IAsyncDisposable
+    public class BFUList<TItem> : BFUComponentBase, IAsyncDisposable
     {
         private IJSRuntime? _jsInterop;
 
@@ -47,6 +47,8 @@ namespace BlazorFluentUI
         private DotNetObjectReference<BFUList<TItem>> _selfReference;
         private int _listId = -1;
 
+        private double _containerWidth;
+
         [Parameter]
         public bool IsVirtualizing { get; set; } = true;
         //[Parameter]
@@ -74,10 +76,16 @@ namespace BlazorFluentUI
         public RenderFragment<PlaceholderContext>? Placeholder { get; set; }
 
         /// <summary>
-        /// Gets the size of each item in pixels. Defaults to 50px.
+        /// Gets the size of each item in pixels. Defaults to 48px.
         /// </summary>
         [Parameter]
         public float ItemSize { get; set; } = 48f;
+
+        /// <summary>
+        /// Gets the width of each item in pixels. Defaults to 48px.
+        /// </summary>
+        [Parameter]
+        public float ItemWidth { get; set; } = 48f;
 
         /// <summary>
         /// Gets or sets the function providing items to the list.
@@ -105,6 +113,13 @@ namespace BlazorFluentUI
         /// </summary>
         [Parameter]
         public int StartIndex { get; set; } = 0;
+
+
+        /// <summary>
+        /// Experimental support for grid layout instead of list layout
+        /// </summary>
+        [Parameter]
+        public bool UseGridFlexLayout { get; set; }
 
         /// <summary>
         /// Instructs the component to re-request data from its <see cref="ItemsProvider"/>.
@@ -190,11 +205,15 @@ namespace BlazorFluentUI
             }
             builder.OpenElement(0, "div");
 
+            if (UseGridFlexLayout)
+                builder.AddAttribute(1, "style", "display:flex;flex-flow: row wrap;");
 
             builder.OpenElement(2, "div");
             builder.AddAttribute(3, "style", GetSpacerStyle(_itemsBefore));
             builder.AddElementReferenceCapture(4, elementReference => _spacerBefore = elementReference);
             builder.CloseElement();
+
+            
 
             var lastItemIndex = Math.Min(_itemsBefore + _visibleItemCapacity, _itemCount);
             var renderIndex = _itemsBefore;
@@ -223,9 +242,11 @@ namespace BlazorFluentUI
 
                 builder.OpenRegion(6);
 
+               
+
                 foreach (var item in itemsToShow)
                 {
-                    builder.OpenElement(7, "div");
+                    builder.OpenElement(11, "div");
                     builder.SetKey(item);
                     //builder.AddAttribute(8, "data-selection-index", _lastRenderedItemCount + _itemsBefore - _loadedItemsStartIndex + StartIndex);
                     _itemTemplate(new IndexedItem<TItem> {Item=item, Index = renderIndex + _lastRenderedItemCount + StartIndex })(builder);
@@ -241,7 +262,7 @@ namespace BlazorFluentUI
 
             _lastRenderedPlaceholderCount = Math.Max(0, lastItemIndex - _itemsBefore - _lastRenderedItemCount);
 
-            builder.OpenRegion(9);
+            builder.OpenRegion(12);
 
             // Render the placeholders after the loaded items.
             for (; renderIndex < lastItemIndex; renderIndex++)
@@ -253,9 +274,9 @@ namespace BlazorFluentUI
 
             var itemsAfter = Math.Max(0, _itemCount - _visibleItemCapacity - _itemsBefore);
 
-            builder.OpenElement(10, "div");
-            builder.AddAttribute(11, "style", GetSpacerStyle(itemsAfter));
-            builder.AddElementReferenceCapture(12, elementReference => _spacerAfter = elementReference);
+            builder.OpenElement(13, "div");
+            builder.AddAttribute(14, "style", GetSpacerStyle(itemsAfter));
+            builder.AddElementReferenceCapture(15, elementReference => _spacerAfter = elementReference);
 
             builder.CloseElement();
 
@@ -265,7 +286,13 @@ namespace BlazorFluentUI
         }
 
         private string GetSpacerStyle(int itemsInSpacer)
-            => $"height: {itemsInSpacer * _itemSize}px;";
+            => $"height: {itemsInSpacer * _itemSize}px;{(UseGridFlexLayout ? "width:100%;" : "")}";
+
+        [JSInvokable]
+        public void ResizeHandler(double width)
+        {
+            _containerWidth = width;
+        }
 
         [JSInvokable]
         public void OnBeforeSpacerVisible(float spacerSize, float spacerSeparation, float containerSize)
@@ -295,6 +322,13 @@ namespace BlazorFluentUI
                 CalcualteItemDistribution(spacerSize, spacerSeparation, containerSize, out var itemsAfter, out var visibleItemCapacity);
 
                 var itemsBefore = Math.Max(0, _itemCount - itemsAfter - visibleItemCapacity);
+                               
+                if (UseGridFlexLayout)
+                {
+                    //itemsBefore needs to be a multiple of numberPerRow
+                    var numberPerRow = (int)Math.Floor(_containerWidth / ItemWidth);
+                    itemsBefore = (int)Math.Ceiling((double)itemsBefore / numberPerRow) * numberPerRow;
+                }
 
                 UpdateItemDistribution(itemsBefore, visibleItemCapacity);
             }
@@ -329,6 +363,12 @@ namespace BlazorFluentUI
 
             itemsInSpacer = Math.Max(0, (int)Math.Floor(spacerSize / _itemSize) - OverscanCount);
             visibleItemCapacity = (int)Math.Ceiling(containerSize / _itemSize) + 2 * OverscanCount;
+
+            if (UseGridFlexLayout)
+            {
+                var numberPerRow = (int)Math.Floor(_containerWidth / ItemWidth);
+                visibleItemCapacity = visibleItemCapacity * numberPerRow;
+            }
         }
 
         private void UpdateItemDistribution(int itemsBefore, int visibleItemCapacity)

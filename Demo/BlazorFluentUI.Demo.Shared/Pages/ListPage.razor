@@ -1,8 +1,10 @@
 ﻿@page "/listPage"
 @using System.Linq 
 
-<Demo Key="0" Header="Basic Vertical List with selection" MetadataPath="ListPage">
-    <BFUStack Style="height:100%;">
+<h1>List</h1>
+
+<Demo Key="0" Header="Basic Vertical List with selection" MetadataPath="listPage">
+    <BFUStack Style="height:500px;">
         <div style="height:20px;">
             @DebugText
         </div>
@@ -32,6 +34,58 @@
                             <div style="display:flex; flex-direction:row;"
                                  data-selection-index=@context.Index
                                  class=@($"ms-List-cell-default{(selection.IsKeySelected(context.Item.Key) ? " is-selected":"")}")
+                                 data-is-focusable="true"
+                                 @onclick=@(()=> {
+
+                                            //selectionZone.HandleClick(context);
+                                            DebugText = context.Item.Key + " clicked";
+                                        })>
+                                <img height="25" width="25" src=@context.Item.ImgUrl />
+                                <em>This is item #@context.Item.Key</em>
+                                <span style="margin-left:10px;">@context.Item.DisplayName</span>
+                            </div>
+                        </ItemTemplate>
+                    </BFUList>
+
+                </BFUFocusZone>
+            </BFUSelectionZone>
+        </div>
+    </BFUStack>
+</Demo>
+
+<Demo Key="1" Header="Basic Grid List with selection" MetadataPath="listPage">
+    <BFUStack Style="height:500px;">
+        <div style="height:20px;">
+            @DebugText
+        </div>
+
+        <BFUDropdown ItemsSource=@selectionModeOptions
+                     @bind-SelectedOption=SelectedModeOption
+                     Style="max-width:300px;">
+        </BFUDropdown>
+
+        <BFUPrimaryButton Text="Add 10 items" OnClick="@ClickHandler" />
+        <BFUPrimaryButton Text="Add 5000 items" OnClick="@ClickHandler2" />
+
+        <BFULabel>Virtualized List with selection modes</BFULabel>
+
+        <div data-is-scrollable="true" style="overflow-y:auto;height:400px;">
+
+            <BFUSelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key))
+                              DisableRenderOnSelectionChanged="true"
+                              Selection=@selection
+                              TItem="DataItem"
+                              @ref="selectionZone">
+                <BFUFocusZone>
+                    <BFUList ItemsSource=@data
+                             UseGridFlexLayout="true"
+                             ItemWidth="120"
+                             TItem="DataItem">
+                        <ItemTemplate>
+
+                            <div style="display:flex; flex-direction:column; height:114px;width:114px;margin:3px;background-color:lightblue;overflow:hidden;"
+                                 data-selection-index=@context.Index
+                                 class=@($"{(selection.IsKeySelected(context.Item.Key) ? " is-selected":"")}")
                                  data-is-focusable="true"
                                  @onclick=@(()=> {
 

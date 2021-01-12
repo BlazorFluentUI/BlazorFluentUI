@@ -19,7 +19,7 @@ This is a layer host.
 
 
     <BFUPanel IsLightDismiss="true"
-              HostId=@(trapPanel ? "pageHost" : null)
+              HostId=@(trapPanel.GetValueOrDefault() ? "pageHost" : null)
               IsOpen=@panelIsOpen
               OnDismiss=@(() => panelIsOpen = false)>
         <p>
@@ -39,5 +39,5 @@ This is a layer host.
     public ITheme Theme { get; set; }
 
     bool panelIsOpen = false;
-    bool trapPanel = false;
+    bool? trapPanel = false;
 }

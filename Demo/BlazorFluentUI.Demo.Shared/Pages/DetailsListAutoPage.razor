@@ -23,9 +23,9 @@
         <div data-is-scrollable="true"
              style="height:400px;overflow-y:auto;">
             <BFUDetailsListAuto ItemsSource="dataSource"
-                                IsVirtualizing="isVirtualizing"
+                                IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
                                 TItem="DataItem"
-                                Compact="isCompact"
+                                Compact="@isCompact.GetValueOrDefault()"
                                 Columns="columnsSource"
                                 GetKey=@(x=>x.Key)
                                 LayoutMode="DetailsListLayoutMode.Justified"
@@ -71,8 +71,8 @@
 
 @code {
 
-    bool isVirtualizing = true;
-    bool isCompact = false;
+    bool? isVirtualizing = true;
+    bool? isCompact = false;
     IBFUDropdownOption selectedModeOption;
     List<IBFUDropdownOption> selectionModeOptions;
 

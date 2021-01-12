@@ -59,7 +59,7 @@
     [Inject]
     public ThemeProvider ThemeProvider { get; set; }
 
-    private bool customTheme;
+    private bool? customTheme;
 
     private Rule ScrollbarRule = new Rule();
     //private ICollection<IRule> DarkThemeLocalRules { get; set; } = new System.Collections.Generic.List<IRule>();
@@ -74,7 +74,7 @@
     private ICollection<IRule> CreateGlobalCss(ITheme theme)
     {
         var themeGlobalRules = new HashSet<IRule>();
-        if (customTheme)
+        if (customTheme.GetValueOrDefault())
         {
             // for Firefox
             themeGlobalRules.Add(new Rule()
@@ -204,10 +204,10 @@
 
 
 
-    private Task SwitchTheme(bool checkedState)
+    private Task SwitchTheme(bool? checkedState)
     {
         customTheme = checkedState;
-        if (checkedState)
+        if (checkedState.GetValueOrDefault())
         {
             var palette = new DefaultPaletteDark();
             ThemeProvider.UpdateTheme(palette, new DefaultSemanticColorsDark(palette), new DefaultSemanticTextColorsDark(palette));

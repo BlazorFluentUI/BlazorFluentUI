@@ -20,11 +20,11 @@
 
 @code {
 
-    private bool IsChecked=false;
+    private bool? IsChecked=false;
 
-    private bool BoundChecked=false;
+    private bool? BoundChecked=false;
 
-    Task OnChecked(bool isChecked)
+    Task OnChecked(bool? isChecked)
     {
         IsChecked = isChecked;
         return Task.CompletedTask;

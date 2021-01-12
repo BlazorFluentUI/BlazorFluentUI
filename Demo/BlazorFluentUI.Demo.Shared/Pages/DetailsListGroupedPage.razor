@@ -21,8 +21,8 @@
                         Columns="ReadonlyColumns"
                         GetKey="(item)=>item.Key"
                         TItem="GroupedDataItem"
-                        Compact="isCompact"
-                        IsVirtualizing="isVirtualizing"
+                        Compact="@isCompact.GetValueOrDefault()"
+                        IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
                         SubGroupSelector=@(item=> item.ObservableData)
                         GroupTitleSelector=@(item=>item.DisplayName)
                         LayoutMode="DetailsListLayoutMode.Justified"
@@ -32,8 +32,8 @@
     </BFUStack>
 
 @code {
-    bool isVirtualizing = true;
-    bool isCompact = false;
+    bool? isVirtualizing = true;
+    bool? isCompact = false;
     IBFUDropdownOption selectedModeOption;
     List<IBFUDropdownOption> selectionModeOptions;
 

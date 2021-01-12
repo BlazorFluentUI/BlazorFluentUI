@@ -16,8 +16,8 @@
                 <BFUGroupedList ItemsSource=@groupedData
                                 TKey="object"
                                 GetKey="item => item.Key"
-                                Compact=@isCompact
-                                IsVirtualizing=@isVirtualizing
+                                Compact=@isCompact.GetValueOrDefault()
+                                IsVirtualizing=@isVirtualizing.GetValueOrDefault()
                                 TItem="GroupedDataItem"
                                 GroupTitleSelector=@(x=>x.DisplayName)
                                 Selection=@selection
@@ -26,7 +26,7 @@
                     <ItemTemplate>
                         <BFUDetailsRow Item=@context.Item.Item
                                        Columns=@columns
-                                       Compact=@isCompact
+                                       Compact=@isCompact.GetValueOrDefault()
                                        ItemIndex=@context.Index
                                        Selection=@selection
                                        GroupNestingDepth=@context.Item.Depth
@@ -40,8 +40,8 @@
 
 @code {
     string DebugText = "";
-    bool isCompact;
-    bool isVirtualizing = true;
+    bool? isCompact;
+    bool? isVirtualizing = true;
     int count = 0;
     //GroupedDataItem rootGroup;
     List<DataItem> data;

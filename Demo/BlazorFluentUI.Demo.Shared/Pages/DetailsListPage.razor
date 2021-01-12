@@ -29,14 +29,14 @@
             @if (ReadonlyList != null)
             {
                 <BFUDetailsList ItemsSource="null"
-                                IsVirtualizing="isVirtualizing"
-                                Compact="isCompact"
+                                IsVirtualizing=@isVirtualizing.GetValueOrDefault()
+                                Compact=@isCompact.GetValueOrDefault()
                                 Columns="ReadonlyColumns"
                                 GetKey=@(item => item.Key)
                                 LayoutMode="DetailsListLayoutMode.Justified"
                                 Selection="selection"
                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
-                                DisableSelectionZone=@selectionDisabled
+                                DisableSelectionZone=@selectionDisabled.GetValueOrDefault()
                                 />
             }
             else
@@ -52,9 +52,9 @@
     // https://developer.microsoft.com/en-us/fluentui#/controls/web/detailslist for examples of how to use DetailsList
     // other ways.
 
-    bool isVirtualizing = true;
-    bool isCompact = false;
-    bool selectionDisabled = false;
+    bool? isVirtualizing = true;
+    bool? isCompact = false;
+    bool? selectionDisabled = false;
     IBFUDropdownOption selectedModeOption;
     List<IBFUDropdownOption> selectionModeOptions;
 

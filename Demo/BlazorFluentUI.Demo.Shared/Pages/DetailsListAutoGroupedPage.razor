@@ -24,10 +24,10 @@
         <BFUDetailsListAuto ItemsSource="dataSource"
                             @ref="detailsList"
                             Columns="columnsSource"
-                            Compact="isCompact"
+                            Compact="@isCompact.GetValueOrDefault()"
                             GetKey=@(x=>x.Key)
                             TItem="DataItem"
-                            IsVirtualizing="isVirtualizing"
+                            IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
                             GroupBy=@(new List<Func<DataItem,object>>
                               {
                                   x=>x.GroupName,
@@ -40,8 +40,8 @@
 </BFUStack>
 
 @code {
-    bool isVirtualizing = true;
-    bool isCompact = false;
+    bool? isVirtualizing = true;
+    bool? isCompact = false;
     IBFUDropdownOption selectedModeOption;
     List<IBFUDropdownOption> selectionModeOptions;
 

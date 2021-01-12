@@ -18,8 +18,9 @@ namespace BlazorFluentUI
         [Parameter] public string OffText { get; set; }
         [Parameter] public string OnLabel { get; set; }
 
-        [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+        [Parameter] public EventCallback<bool?> CheckedChanged { get; set; }
         [Parameter] public string OnText { get; set; }
+        [Parameter] public string DefaultText { get; set; }
 
         [Parameter] public ICommand Command { get; set; }
         [Parameter] public object CommandParameter { get; set; }
@@ -33,7 +34,7 @@ namespace BlazorFluentUI
         protected string StateTextId => Id + "-stateText";
         protected string BadAriaLabel;
         protected string LabelledById;
-        protected string StateText => IsChecked ? OnText : OffText;
+        protected string StateText => Checked.HasValue ? (Checked.GetValueOrDefault() ? OnText : OffText) : DefaultText ?? "";
 
         private bool onOffMissing = false;
 

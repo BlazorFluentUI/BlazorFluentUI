@@ -33,9 +33,9 @@ jobs:
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match you app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/Demo/FluentUI.Demo.ClientSide" # App source code path
+          app_location: "published/wwwroot" # App source code path
           api_location: "Api" # Api source code path - optional
-          output_location: "wwwroot" # Built app content directory - optional
+          output_location: "published/wwwroot" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:

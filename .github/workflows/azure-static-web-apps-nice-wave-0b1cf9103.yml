@@ -18,6 +18,15 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+      - run: |
+          npm install
+          name: Webpack client
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.100
+      - name: Build App
+        run: dotnet publish -c Release -o published Demo/FluentUI.Demo.ClientSide/
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v0.0.1-preview

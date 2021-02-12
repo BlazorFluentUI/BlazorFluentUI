@@ -36,21 +36,21 @@ steps:
   displayName: 'restore nugets'
   inputs:
     command: 'restore'
-    projects: '**/*BlazorFluentUI.sln'
+    projects: '**/*FluentUI.sln'
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
   inputs:
     command: 'build'
-    projects: '**/*BlazorFluentUI.sln'
+    projects: '**/*FluentUI.sln'
     arguments: '-c Release --no-restore'
 
 - task: DotNetCoreCLI@2
   displayName: 'Create NuGet package'
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.csproj;!**/BlazorFluentUI.Demo.*.csproj'
+    packagesToPack: '**/*.csproj;!**/FluentUI.Demo.*.csproj'
     versioningScheme: 'byEnvVar'
     versionEnvVar: 'Version'
 
@@ -60,7 +60,7 @@ steps:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
     nuGetFeedType: 'external'
-    publishFeedCredentials: 'Nuget-BlazorFluentUI'
+    publishFeedCredentials: 'Nuget-FluentUI'
     includeNuGetOrg: true
     feedsToUse: select
     

@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - demo/fluentui.demo.clientside/**
+      - Demo/FluentUI.Demo.ClientSide/**
       - .github/workflows/azure-static-web-apps-victorious-ground-0765e8903.yml
   pull_request:
     types: [opened, synchronize, reopened, closed]

@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>FluentUI.DetailsList</AssemblyName>
+    <RootNamespace>FluentUI</RootNamespace>
+    <Nullable>disable</Nullable>
+    <RepositoryUrl>https://github.com/vnbaaij/FluentUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/vnbaaij/FluentUI</PackageProjectUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\detailsList.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\detailsList.ts" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\FluentUI.BaseComponent\FluentUI.BaseComponent.csproj" />
+    <ProjectReference Include="..\FluentUI.DetailsRow\FluentUI.DetailsRow.csproj" />
+    <ProjectReference Include="..\FluentUI.GroupedList\FluentUI.GroupedList.csproj" />
+    <ProjectReference Include="..\FluentUI.List\FluentUI.List.csproj" />
+  </ItemGroup>
+
+</Project>

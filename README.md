@@ -1,5 +1,5 @@
-# BlazorFluentUI
-Simple port of Fluent UI (formerly Office Fabric) React components and style to Blazor
+# FluentUI for Blazor
+Simple port of FluentUI (formerly Office Fabric) React components and style to Blazor
 
 ## ClientSide Demo (web assembly)
 https://www.blazorfluentui.net/
@@ -8,7 +8,7 @@ https://www.blazorfluentui.net/
 https://blazorfluentui.azurewebsites.net/
 
 ## Telegram dev channel
-https://t.me/blazorfabric
+https://t.me/blazorfabric and then go to 'View discussion' which should bring you to the BlazorFluentUI Chat
 
 ## Dev Nuget Packages
 On each commit new dev nuget builds will be created automatically. To access those, add a new Package Source to Visual Studio or your project with the following URL:
@@ -17,6 +17,11 @@ On each commit new dev nuget builds will be created automatically. To access tho
 https://pkgs.dev.azure.com/blazor-fluentui/5355f597-190a-4424-83da-cd89cd362a24/_packaging/DevChannel/nuget/v3/index.json
 ```
 For a more detailed tutorial, head over to our [Public Feed](https://dev.azure.com/blazor-fluentui/Blazor%20FluentUI/_packaging?_a=feed&feed=DevChannel), click on "Connect To Feed" and select the platform. 
+
+## Breaking Changes for v5.0 (net5)
+#### Renaming all the stuff
+Every project has dropped the 'Blazor' precix and is now called FluentUI...
+Every component has dropped the 'BFU' prefix and is now on par with it's FluentUI React counterpart (or will be soon)
 
 ## Breaking Changes for v4.0 (net5)
 

@@ -1,0 +1,15 @@
+﻿@namespace FluentUI.Demo.Shared
+<Theme>
+    <Router AppAssembly="typeof(MainLayout).Assembly">
+        <Found Context="routeData">
+            <ResponsiveCascader>
+                <RouteView RouteData="routeData" DefaultLayout="@typeof(MainLayout)" />
+            </ResponsiveCascader>
+        </Found>
+        <NotFound>
+            <p>Page not found.</p>
+        </NotFound>
+    </Router>
+    <LayerHost></LayerHost>
+</Theme>
+<!-----        <Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }"> ---->

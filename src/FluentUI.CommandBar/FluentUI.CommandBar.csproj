@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>FluentUI.CommandBar</AssemblyName>
+    <RootNamespace>FluentUI</RootNamespace>
+    <Nullable>disable</Nullable>
+    <RepositoryUrl>https://github.com/vnbaaij/FluentUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/vnbaaij/FluentUI</PackageProjectUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Internal\**" />
+    <Content Remove="Internal\**" />
+    <EmbeddedResource Remove="Internal\**" />
+    <None Remove="Internal\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FluentUI.BaseComponent\FluentUI.BaseComponent.csproj" />
+    <ProjectReference Include="..\FluentUI.Button\FluentUI.Button.csproj" />
+    <ProjectReference Include="..\FluentUI.OverflowSet\FluentUI.OverflowSet.csproj" />
+    <ProjectReference Include="..\FluentUI.ResizeGroup\FluentUI.ResizeGroup.csproj" />
+    <ProjectReference Include="..\FluentUI.Tooltip\FluentUI.Tooltip.csproj" />
+  </ItemGroup>
+
+</Project>

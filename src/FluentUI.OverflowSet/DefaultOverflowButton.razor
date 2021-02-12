@@ -1,0 +1,9 @@
+﻿@namespace FluentUI.OverflowSetInternal
+@inherits FluentUIComponentBase
+
+    <IconButton IconName="More" MenuItems=@OverflowItems />
+
+@code {
+            [Parameter] public IEnumerable<IContextualMenuItem> OverflowItems { get; set; }
+
+}

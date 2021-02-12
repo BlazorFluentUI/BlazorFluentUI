@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\FluentUI.BaseComponent\FluentUI.BaseComponent.csproj" />
+    <ProjectReference Include="..\FluentUI.Button\FluentUI.Button.csproj" />
+    <ProjectReference Include="..\FluentUI.CommandBar\FluentUI.CommandBar.csproj" />
+    <ProjectReference Include="..\FluentUI.Nav\FluentUI.Nav.csproj" />
+    <ProjectReference Include="..\FluentUI.OverflowSet\FluentUI.OverflowSet.csproj" />
+    <ProjectReference Include="..\FluentUI.ResizeGroup\FluentUI.ResizeGroup.csproj" />
+    <ProjectReference Include="..\FluentUI.Stack\FluentUI.Stack.csproj" />
+    <ProjectReference Include="..\FluentUI.Tooltip\FluentUI.Tooltip.csproj" />
+  </ItemGroup>
+
+</Project>

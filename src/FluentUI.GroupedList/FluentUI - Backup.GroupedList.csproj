@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>BlazorFluentUI.GroupedList</AssemblyName>
+    <RootNamespace>BlazorFluentUI</RootNamespace>
+    <Nullable>disable</Nullable>
+    <RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="DynamicData" Version="6.14.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorFluentUI.BaseComponent\BlazorFluentUI.BaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.Check\BlazorFluentUI.Check.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.DetailsRow\BlazorFluentUI.DetailsRow.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.FocusZone\BlazorFluentUI.FocusZone.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.List\BlazorFluentUI.List.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.SelectionZone\BlazorFluentUI.SelectionZone.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.Spinner\BlazorFluentUI.Spinner.csproj" />
+  </ItemGroup>
+
+</Project>

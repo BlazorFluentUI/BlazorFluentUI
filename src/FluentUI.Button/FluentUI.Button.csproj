@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>FluentUI.Button</AssemblyName>
+    <RootNamespace>FluentUI</RootNamespace>
+    <Nullable>disable</Nullable>
+    <Description>Buttons from Blazor port of FluentUI React library</Description>
+    <RepositoryUrl>https://github.com/vnbaaij/FluentUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/vnbaaij/FluentUI</PackageProjectUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FluentUI.BaseComponent\FluentUI.BaseComponent.csproj" />
+    <ProjectReference Include="..\FluentUI.ContextualMenu\FluentUI.ContextualMenu.csproj" />
+    <ProjectReference Include="..\FluentUI.Icon\FluentUI.Icon.csproj" />
+    <ProjectReference Include="..\FluentUI.Keytip\FluentUI.Keytip.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>

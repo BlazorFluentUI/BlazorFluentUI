@@ -1,0 +1,31 @@
+﻿@namespace FluentUI
+@inherits FluentUIComponentBase
+
+<div key={groupIndex}
+     class=@($"ms-Nav-group {(!this.isCollapsed ? "is-expanded":"")} {ClassName}")
+     style=@Style
+     @ref="RootElementReference">
+    @if (Name != null)
+    {
+        @if (GroupHeaderTemplate == null)
+        {
+            <button class="ms-Nav-chevronButton is-group "
+                    @onclick=@ClickHandler
+                    aria-label=@this.ExpandButtonAriaLabel
+                    aria-expanded={this._isGroupExpanded(group)}>
+                <Icon ClassName="ms-Nav-chevron" IconName="ChevronDown" />
+                <span class="largeFont">@Name</span>
+            </button>
+        }
+        else
+        {
+            @GroupHeaderTemplate(Name)
+        }
+    }
+
+    <div class="ms-Nav-groupContent slideDownIn20">
+        <ul role="list" class="ms-Nav-navItems">
+            @ChildContent
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>FluentUI.DocumentCard</AssemblyName>
+    <RootNamespace>FluentUI</RootNamespace>
+    <Nullable>disable</Nullable>
+    <RepositoryUrl>https://github.com/vnbaaij/FluentUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/vnbaaij/FluentUI</PackageProjectUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\documentCard.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\documentCard.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FluentUI.BaseComponent\FluentUI.BaseComponent.csproj" />
+    <ProjectReference Include="..\FluentUI.Button\FluentUI.Button.csproj" />
+    <ProjectReference Include="..\FluentUI.Icon\FluentUI.Icon.csproj" />
+    <ProjectReference Include="..\FluentUI.Link\FluentUI.Link.csproj" />
+    <ProjectReference Include="..\FluentUI.Persona\FluentUI.Persona.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FluentUI.Theme\FluentUI.Theme.csproj" />
+    <ProjectReference Include="..\FluentUI.Demo.Shared\FluentUI.Demo.Shared.csproj" />
+  </ItemGroup>
+
+ <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <DemoSource Include="$(ProjectDir)..\FluentUI.Demo.Shared\Pages\**\*.*" />
+      <!--<Test Include="$(ProjectDir)wwwroot\examples\%(RecursiveDir)\*.razor" />-->
+      <!--<Readme Include="$(SolutionDir)README.md" />-->
+    </ItemGroup>
+
+    <Message Text="Copying the demo source files to the wwwroot/md folder." Importance="High" />
+    <Copy SourceFiles="@(DemoSource)" DestinationFiles="$(ProjectDir)wwwroot\md\%(RecursiveDir)%(Filename).md" />
+
+  </Target>
+
+</Project>

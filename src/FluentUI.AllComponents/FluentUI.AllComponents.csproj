@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>FluentUI.AllComponents</AssemblyName>
+    <RootNamespace>FluentUI</RootNamespace>
+    <Nullable>disable</Nullable>
+    <Product>FluentUI.AllComponents</Product>
+    <Description>All components from the FluentUI library, a Blazor clone of the FluentUI React library</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Authors>Vincent Baaij, Lee McPherson, Lukas Frensel</Authors>
+    <Company>FluentUI</Company>
+    <Version>5.0.0</Version>
+    <PackageProjectUrl>https://github.com/vnbaaij/FluentUI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/vnbaaij/FluentUI</RepositoryUrl>
+    <PackageTags>Blazor;FluentUI;components</PackageTags>
+    <Copyright>Copyright 2020</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FluentUI.BaseComponent\FluentUI.BaseComponent.csproj" />
+    <ProjectReference Include="..\FluentUI.Button\FluentUI.Button.csproj" />
+    <ProjectReference Include="..\FluentUI.Calendar\FluentUI.Calendar.csproj" />
+    <ProjectReference Include="..\FluentUI.Callout\FluentUI.Callout.csproj" />
+    <ProjectReference Include="..\FluentUI.Checkbox\FluentUI.Checkbox.csproj" />
+    <ProjectReference Include="..\FluentUI.Check\FluentUI.Check.csproj" />
+    <ProjectReference Include="..\FluentUI.ChoiceGroup\FluentUI.ChoiceGroup.csproj" />
+    <ProjectReference Include="..\FluentUI.CommandBar\FluentUI.CommandBar.csproj" />
+    <ProjectReference Include="..\FluentUI.ComponentStyle\FluentUI.ComponentStyle.csproj" />
+    <ProjectReference Include="..\FluentUI.ContextualMenu\FluentUI.ContextualMenu.csproj" />
+    <ProjectReference Include="..\FluentUI.DatePicker\FluentUI.DatePicker.csproj" />
+    <ProjectReference Include="..\FluentUI.DelayedRender\FluentUI.DelayedRender.csproj" />
+    <ProjectReference Include="..\FluentUI.DetailsList\FluentUI.DetailsList.csproj" />
+    <ProjectReference Include="..\FluentUI.DetailsRow\FluentUI.DetailsRow.csproj" />
+    <ProjectReference Include="..\FluentUI.Dialog\FluentUI.Dialog.csproj" />
+    <ProjectReference Include="..\FluentUI.DocumentCard\FluentUI.DocumentCard.csproj" />
+    <ProjectReference Include="..\FluentUI.Dropdown\FluentUI.Dropdown.csproj" />
+    <ProjectReference Include="..\FluentUI.FocusTrapZone\FluentUI.FocusTrapZone.csproj" />
+    <ProjectReference Include="..\FluentUI.FocusZone\FluentUI.FocusZone.csproj" />
+    <ProjectReference Include="..\FluentUI.Forms\FluentUI.Forms.csproj" />
+    <ProjectReference Include="..\FluentUI.GroupedList\FluentUI.GroupedList.csproj" />
+    <ProjectReference Include="..\FluentUI.Icon\FluentUI.Icon.csproj" />
+    <ProjectReference Include="..\FluentUI.Image\FluentUI.Image.csproj" />
+    <ProjectReference Include="..\FluentUI.Keytip\FluentUI.Keytip.csproj" />
+    <ProjectReference Include="..\FluentUI.Label\FluentUI.Label.csproj" />
+    <ProjectReference Include="..\FluentUI.Link\FluentUI.Link.csproj" />
+    <ProjectReference Include="..\FluentUI.List\FluentUI.List.csproj" />
+    <ProjectReference Include="..\FluentUI.MarqueeSelection\FluentUI.MarqueeSelection.csproj" />
+    <ProjectReference Include="..\FluentUI.MessageBar\FluentUI.MessageBar.csproj" />
+    <ProjectReference Include="..\FluentUI.Modal\FluentUI.Modal.csproj" />
+    <ProjectReference Include="..\FluentUI.NavBar\FluentUI.NavBar.csproj" />
+    <ProjectReference Include="..\FluentUI.Nav\FluentUI.Nav.csproj" />
+    <ProjectReference Include="..\FluentUI.OverflowSet\FluentUI.OverflowSet.csproj" />
+    <ProjectReference Include="..\FluentUI.Overlay\FluentUI.Overlay.csproj" />
+    <ProjectReference Include="..\FluentUI.Panel\FluentUI.Panel.csproj" />
+    <ProjectReference Include="..\FluentUI.Persona\FluentUI.Persona.csproj" />
+    <ProjectReference Include="..\FluentUI.Pivot\FluentUI.Pivot.csproj" />
+    <ProjectReference Include="..\FluentUI.ProgressIndicator\FluentUI.ProgressIndicator.csproj" />
+    <ProjectReference Include="..\FluentUI.Rating\FluentUI.Rating.csproj" />
+    <ProjectReference Include="..\FluentUI.ResizeGroup\FluentUI.ResizeGroup.csproj" />
+    <ProjectReference Include="..\FluentUI.ResponsiveLayout\FluentUI.ResponsiveLayout.csproj" />
+    <ProjectReference Include="..\FluentUI.RichTextEditor\FluentUI.RichTextEditor.csproj" />
+    <ProjectReference Include="..\FluentUI.SelectionZone\FluentUI.SelectionZone.csproj" />
+    <ProjectReference Include="..\FluentUI.Slider\FluentUI.Slider.csproj" />
+    <ProjectReference Include="..\FluentUI.Spinner\FluentUI.Spinner.csproj" />
+    <ProjectReference Include="..\FluentUI.Stack\FluentUI.Stack.csproj" />
+    <ProjectReference Include="..\FluentUI.TextField\FluentUI.TextField.csproj" />
+    <ProjectReference Include="..\FluentUI.Text\FluentUI.Text.csproj" />
+    <ProjectReference Include="..\FluentUI.Theme\FluentUI.Theme.csproj" />
+    <ProjectReference Include="..\FluentUI.Toggle\FluentUI.Toggle.csproj" />
+    <ProjectReference Include="..\FluentUI.Tooltip\FluentUI.Tooltip.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorFluentUI.BaseComponent\BlazorFluentUI.BaseComponent.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.Button\BlazorFluentUI.Button.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.CommandBar\BlazorFluentUI.CommandBar.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.Nav\BlazorFluentUI.Nav.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.OverflowSet\BlazorFluentUI.OverflowSet.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.ResizeGroup\BlazorFluentUI.ResizeGroup.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.Stack\BlazorFluentUI.Stack.csproj" />
+    <ProjectReference Include="..\BlazorFluentUI.Tooltip\BlazorFluentUI.Tooltip.csproj" />
+  </ItemGroup>
+
+</Project>

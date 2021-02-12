@@ -2,10 +2,10 @@
 Simple port of FluentUI (formerly Office Fabric) React components and style to Blazor
 
 ## ClientSide Demo (web assembly)
-https://www.blazorfluentui.net/
+https://nice-wave-0b1cf9103.azurestaticapps.net/
 
 ## ServerSide Demo (SignalR)
-https://blazorfluentui.azurewebsites.net/
+Not available online yet. You can fork, build and run locally.
 
 ## Telegram dev channel
 https://t.me/blazorfabric and then go to 'View discussion' which should bring you to the BlazorFluentUI Chat

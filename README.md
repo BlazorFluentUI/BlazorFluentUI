@@ -2,7 +2,7 @@
 Simple port of FluentUI (formerly Office Fabric) React components and style to Blazor
 
 ## ClientSide Demo (web assembly)
-https://nice-wave-0b1cf9103.azurestaticapps.net/ratingPage
+https://nice-wave-0b1cf9103.azurestaticapps.net/
 
 ## ServerSide Demo (SignalR)
 Not available online yet. You can fork, build and run locally.

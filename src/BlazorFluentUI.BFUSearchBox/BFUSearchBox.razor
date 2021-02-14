@@ -1,0 +1,62 @@
+﻿@namespace BlazorFluentUI
+@inherits BFUComponentBase
+@typeparam T
+
+<div style="display: inline">
+    @if (IsMultiSelect && SelectedItems != null)
+    {
+        foreach (T selectedItem in SelectedItems)
+        {
+
+            <div style="display: inline">
+                @{
+                    RenderFragment SelectedItemRederFragment() => __builder =>
+                    {
+                        __builder.OpenComponent(0, typeof(SelectedItem<T>));
+                        __builder.AddAttribute(1, "Content", selectedItem);
+                        __builder.AddAttribute(2, "Clicked", Microsoft.AspNetCore.Components.EventCallback.Factory.Create<BlazorFluentUI.SelectedItem<T>>(this, ClickedDeletedHandler));
+                        if (ProvideString != null)
+                        {
+                            __builder.AddAttribute(3, "ProvideString", ProvideString);
+                        }
+                        if (SelectedItemTemplate != null)
+                        {
+                            __builder.AddAttribute(4, "ItemTemplate", SelectedItemTemplate);
+                        }
+                        __builder.CloseComponent();
+                    };
+                }
+                @SelectedItemRederFragment()
+            </div> 
+        }
+     }
+    <BFUTextField Style=@("display: inline-block;width:" + InputWidth + "px")
+                  @ref="textFieldRef"
+                  IconName=@IconName
+                  IconSrc=@IconSrc
+                  Placeholder=@Placeholder
+                  @bind-Value=Filter />
+</div>
+    @if (isOpen)
+    {
+        <BFUContextualMenu FabricComponentTarget=@textFieldRef
+                           ShouldFocusOnMount=@true
+                           OnDismiss=@DismissHandler
+                           Items=@suggestions
+                           DirectionalHint=@DirectionalHint.BottomLeftEdge
+                           SubordinateItemTemplate="true">
+            <ItemTemplate>
+                @if (SearchItemTemplate == null)
+                {
+                    <SearchItem T="T" Content=@((T)context)
+                                Clicked=@ClickedSelectHandler />
+                }
+                else
+                {
+                    <SearchItem T="T" Content=@((T)context)
+                                Clicked=@ClickedSelectHandler
+                                ItemTemplate=@SearchItemTemplate />
+                }
+            </ItemTemplate>
+        </BFUContextualMenu>
+    }

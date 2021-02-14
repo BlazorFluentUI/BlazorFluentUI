@@ -54,9 +54,10 @@
         {
             __builder.AddAttribute(28, "ChildContent", ChildContent);
         }
+        __builder.AddAttribute(29, "IsRadioButton", IsRadioButton);
+        __builder.AddAttribute(30, "GroupName", GroupName);
 
-
-        __builder.AddComponentReferenceCapture(29, (__value) =>
+        __builder.AddComponentReferenceCapture(31, (__value) =>
         {
             if (Primary)
             {
@@ -68,6 +69,7 @@
             }
         }
         );
+
         __builder.CloseComponent();
     };
 }

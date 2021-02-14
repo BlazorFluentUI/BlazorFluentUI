@@ -9,7 +9,7 @@
                    Style="max-width:300px; margin:0 0 15px 0;"
                    @bind-Value="selectedDate1"
                    Placeholder="Select a date..."
-                   FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeekOption?.Text)) />
+                   FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeekOption?.Key)) />
     <BFUDropdown ItemsSource=@DaysOfWeek.Select(x=>new BFUDropdownOption {Key=x.ToString(), Text=System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(x) })
                  Style="max-width:300px; margin:0 0 15px 0;"
                  Placeholder="Select an option"
@@ -61,13 +61,26 @@
     </EditForm>
 </Demo>
 
-    <div style="height:100px;"></div>
+    <Demo Header="DatePicker with TimePicker" Key="6" MetadataPath="DatePickerPage">
+
+            <BFUDatePicker AllowTextInput="false"
+                           Style="max-width:300px; margin:0 0 15px 0;"
+                           IsMonthPickerVisible="false"
+                           IsTimePickerVisible="true"
+                           @bind-Value="selectedDate4"
+                           Placeholder="Select a date..."
+                           FormatDate=@((date) => date.ToString())/>
+        
+                    <BFUDefaultButton Text="Set date to null" @onclick=@(args => selectedDate4 = null) />       
+    </Demo>
 
 
     @code {
-        DateTime selectedDate1;
-        DateTime selectedDate2;
-        DateTime selectedDate3;
+        DateTime? selectedDate1;
+        DateTime? selectedDate2;
+        DateTime? selectedDate3;
+        DateTime? selectedDate4;
+
 
         //string selectedDayOfWeek = DayOfWeek.Sunday.ToString();
         IBFUDropdownOption selectedDayOfWeekOption = new BFUDropdownOption { Key = DayOfWeek.Sunday.ToString(), Text = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(DayOfWeek.Sunday) };
@@ -98,7 +111,7 @@
         class ExampleModel
         {
             [MondayValidation]
-            public DateTime DateTime { get; set; }
+            public DateTime? DateTime { get; set; }
 
         }
 

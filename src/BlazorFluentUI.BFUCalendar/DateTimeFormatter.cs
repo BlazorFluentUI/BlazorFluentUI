@@ -8,6 +8,7 @@ namespace BlazorFluentUI
         public Func<DateTime, string> FormatMonthYear { get; set; }
         public Func<DateTime, string> FormatDay { get; set; }
         public Func<DateTime, string> FormatYear { get; set; }
+        public Func<DateTime, string> FormatTime { get; set; }
 
         public DateTimeFormatter()
         {
@@ -15,6 +16,7 @@ namespace BlazorFluentUI
             FormatMonthYear = (dateTime) => dateTime.ToString("Y");
             FormatDay = (dateTime) => dateTime.Day.ToString();
             FormatYear = (dateTime) => dateTime.Year.ToString();
+            FormatTime = (dateTime) => dateTime.TimeOfDay.ToString();
         }
 
 

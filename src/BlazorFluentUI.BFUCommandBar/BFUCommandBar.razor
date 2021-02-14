@@ -30,7 +30,9 @@
                                                              OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                              Command=@context.Command CommandParameter=@context.CommandParameter
                                                              Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                                             Split=@context.Split Style=@context.Style />
+                                                             Split=@context.Split Style=@context.Style 
+                                                             Toggle=@context.Toggle
+                                                             IsRadioButton=@context.IsRadioButton GroupName=@context.GroupName />
                                     </ChildContent>
                                     <TooltipContent>
                                         @context.Text
@@ -47,7 +49,9 @@
                                                      OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                      Command=@context.Command CommandParameter=@context.CommandParameter
                                                      Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                                     Split=@context.Split Style=@context.Style />
+                                                     Split=@context.Split Style=@context.Style 
+                                                     Toggle=@context.Toggle
+                                                     IsRadioButton=@context.IsRadioButton GroupName=@context.GroupName/>
                             }
                         }
                     </ItemTemplate>
@@ -71,7 +75,9 @@
                                                          OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                          Command=@context.Command CommandParameter=@context.CommandParameter
                                                          Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                                         Split=@context.Split Style=@context.Style />
+                                                         Split=@context.Split Style=@context.Style 
+                                                         Toggle=@context.Toggle
+                                                         IsRadioButton=@context.IsRadioButton GroupName=@context.GroupName/>
                                 </ChildContent>
                                 <TooltipContent>
                                     @context.Text
@@ -88,7 +94,9 @@
                                                  OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                  Command=@context.Command CommandParameter=@context.CommandParameter
                                                  Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                                 Split=@context.Split Style=@context.Style />
+                                                 Split=@context.Split Style=@context.Style 
+                                                 Toggle=@context.Toggle
+                                                 IsRadioButton=@context.IsRadioButton GroupName=@context.GroupName/>
                         }
                     </ItemTemplate>
 

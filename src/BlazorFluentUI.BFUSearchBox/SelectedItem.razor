@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Components.Web;
+@typeparam T
+
+
+<div style="display: inline">
+    @if (Content is string)
+    {
+        @Content
+    }
+    else
+    {
+        if(ItemTemplate != null)
+        {
+            @ItemTemplate(Content)
+        }
+        else
+        {
+            @ProvideString(Content);
+        }
+    }
+    <button @onclick="ButtonClicked" class="ms-ContextualMenu-link mediumFont">
+        <BFUIcon IconName="Cancel" />
+    </button>
+</div>
+
+@code {
+
+    [Parameter] public T Content { get; set; }
+    [Parameter] public EventCallback<SelectedItem<T>> Clicked { get; set; }
+    [Parameter] public RenderFragment<T> ItemTemplate { get; set; }
+    [Parameter] public Func<T, string> ProvideString { get; set; }
+
+    private void ButtonClicked(MouseEventArgs e)
+    {
+        Clicked.InvokeAsync(this);
+    }
+}

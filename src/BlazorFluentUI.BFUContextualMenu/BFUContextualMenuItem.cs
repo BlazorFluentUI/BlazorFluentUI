@@ -29,6 +29,7 @@ namespace BlazorFluentUI
         public string Target { get; set; }
         public string Text { get; set; }
         public string Title { get; set; }
+        public bool Toggle { get; set; }
         public ICommand Command { get; set; }
         public object CommandParameter { get; set; }
         public IEnumerable<IBFUContextualMenuItem> Items { get; set; }

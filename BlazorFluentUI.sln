@@ -141,6 +141,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFURibbonMen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUPopup", "src\BlazorFluentUI.BFUPopup\BlazorFluentUI.BFUPopup.csproj", "{D68CC446-5103-431E-AF89-743158CECE4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFluentUI.BFUSearchBox", "src\BlazorFluentUI.BFUSearchBox\BlazorFluentUI.BFUSearchBox.csproj", "{CECC2468-E341-47DD-ADDE-AFCC2D80FC06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -375,6 +377,10 @@ Global
 		{D68CC446-5103-431E-AF89-743158CECE4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D68CC446-5103-431E-AF89-743158CECE4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D68CC446-5103-431E-AF89-743158CECE4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CECC2468-E341-47DD-ADDE-AFCC2D80FC06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CECC2468-E341-47DD-ADDE-AFCC2D80FC06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CECC2468-E341-47DD-ADDE-AFCC2D80FC06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CECC2468-E341-47DD-ADDE-AFCC2D80FC06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -440,6 +446,7 @@ Global
 		{221473F9-0513-442A-B2FD-C7D446C0EB4B} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{380E865A-2C71-43FE-BAFE-8B592B77A379} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{D68CC446-5103-431E-AF89-743158CECE4F} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{CECC2468-E341-47DD-ADDE-AFCC2D80FC06} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

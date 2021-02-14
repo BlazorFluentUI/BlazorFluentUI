@@ -25,7 +25,20 @@ namespace BlazorFluentUI.Models
                 Items.Add(item);
             }
             ShowDelimiter = !isLastGroupInTab;
-  
+            if(allItems is ObservableCollection<IRibbonItem> observableCollectionAllItems)
+            {
+                observableCollectionAllItems.CollectionChanged += ObservableCollectionAllItems_CollectionChanged;
+            }
+        }
+
+        private void ObservableCollectionAllItems_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Items.Clear();
+            OverflowItems.Clear();
+            foreach (var item in allItems)
+            {
+                Items.Add(item);
+            }
         }
 
         public double LowestPriorityInItems()

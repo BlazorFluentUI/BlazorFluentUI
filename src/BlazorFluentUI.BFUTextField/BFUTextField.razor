@@ -50,6 +50,7 @@
             else
             {
                 <input type="@TypeUtils.InputMap[this.InputType]"
+                       @ref="inputRef"
                        id=@this.id
                        @bind-value=@CurrentValue
                        @bind-value:event="oninput"

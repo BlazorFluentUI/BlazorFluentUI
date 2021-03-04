@@ -1,0 +1,97 @@
+﻿@page "/groupedListPage"
+@using DynamicData
+
+
+<BFUStack Style="height:calc(100% - 0px);">
+    <BFUToggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
+    <BFUToggle OffText="Normal" OnText="Compact" Label="Enable compact mode" @bind-Checked="isCompact" />
+    <BFULabel>Grouped List</BFULabel>
+
+    <div data-is-scrollable="true"
+         style="height:100%;overflow-y:auto;">
+        <BFUSelectionZone Selection=@selection
+                          DisableRenderOnSelectionChanged="true"
+                          SelectionMode=@SelectionMode.Multiple>
+            <BFUFocusZone Direction="FocusZoneDirection.Vertical">
+                <BFUGroupedList ItemsSource=@groupedData
+                                TKey="object"
+                                GetKey="item => item.Key"
+                                Compact=@isCompact.GetValueOrDefault()
+                                IsVirtualizing=@isVirtualizing.GetValueOrDefault()
+                                TItem="GroupedDataItem"
+                                GroupTitleSelector=@(x=>x.DisplayName)
+                                Selection=@selection
+                                SubGroupSelector=@(x=>x.Data)
+                                SelectionMode=@SelectionMode.Multiple>
+                    <ItemTemplate>
+                        <BFUDetailsRow Item=@context.Item.Item
+                                       Columns=@columns
+                                       Compact=@isCompact.GetValueOrDefault()
+                                       ItemIndex=@context.Index
+                                       Selection=@selection
+                                       GroupNestingDepth=@context.Item.Depth
+                                       SelectionMode=@SelectionMode.Multiple />
+                    </ItemTemplate>
+                </BFUGroupedList>
+            </BFUFocusZone>
+        </BFUSelectionZone>
+    </div>
+</BFUStack>
+
+@code {
+    string DebugText = "";
+    bool? isCompact;
+    bool? isVirtualizing = true;
+    int count = 0;
+    //GroupedDataItem rootGroup;
+    List<DataItem> data;
+    List<GroupedDataItem> groupedData;
+    Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
+
+    List<BFUDetailsRowColumn<GroupedDataItem>> columns;
+
+    protected override Task OnInitializedAsync()
+    {        
+
+        columns = new List<BFUDetailsRowColumn<GroupedDataItem>>();
+        columns.Add(new BFUDetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Key, Name = "Key", MinWidth=60 });
+        columns.Add(new BFUDetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.DisplayName, Name = "Name" });
+        columns.Add(new BFUDetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Description, Name = "Description" });
+
+        data = new List<DataItem>();
+
+        for (var i = 0; i < 100; i++)
+        {
+            count++;
+            data.Add(new DataItem(count));
+        }
+
+        groupedData = data.GroupBy(x =>
+        {
+            var number = int.Parse(x.Key);
+            int group = (number - 1) / 10;
+            return group;
+        }).Select(x =>
+        {
+            var subGroup = new GroupedDataItem(x);
+            subGroup.Data = subGroup.Data.GroupBy(y =>
+            {
+                var number = int.Parse(y.Key);
+                int group = (number - 1) / 5;
+                return group;
+            }).Select(y =>
+            {
+                var subSubGroup = new GroupedDataItem(y);
+                return subSubGroup;
+            }).ToList();
+
+            return subGroup;
+        }).ToList();
+
+        //groupedData.Add(new GroupedDataItem(new DataItem("TEST!") ) );
+        //rootGroup = new GroupedDataItem(new DataItem("root"));
+        //rootGroup.Data = groupedData;
+
+        return Task.CompletedTask;
+    }
+}

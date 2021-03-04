@@ -6,7 +6,7 @@
     <RootNamespace>BlazorFluentUI</RootNamespace>
     <Nullable>enable</Nullable>
     <Product>BlazorFluentUI.AllComponents</Product>
-    <Description>All components from the BlazorFluentUI library, a blazor clone of the Fluent UI React components</Description>
+    <Description>All components from the BlazorFluentUI component library, a Blazor clone of the Fluent UI React library</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>

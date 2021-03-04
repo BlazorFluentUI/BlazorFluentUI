@@ -2,35 +2,28 @@
 
 <Project>
 
-  <PropertyGroup>
-    <Authors>Lee McPherson, Lukas Frensel</Authors>
-    <Owners>Lee McPherson</Owners>
-    <Company>BlazorFluentUI</Company>
-    <RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
-    <Product>BlazorFluentUI</Product>
-    <Copyright>Copyright BlazorFluentUI 2019</Copyright>
-    <PackageTags>Blazor;Fluent UI;Fluent;controls;components</PackageTags>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <IsPackable>true</IsPackable>
-    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
-	  <PackageOutputPath>../../packages</PackageOutputPath>
-    <Version>4.0.2</Version>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	<PropertyGroup>
+		<Authors>Lee McPherson, Lukas Frensel</Authors>
+		<Owners>Lee McPherson</Owners>
+		<Company>BlazorFluentUI</Company>
+		<RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
+		<Product>BlazorFluentUI</Product>
+		<Copyright>Copyright BlazorFluentUI 2021</Copyright>
+		<PackageTags>Blazor;Fluent UI;Fluent;components</PackageTags>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<IsPackable>true</IsPackable>
+		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+		<PackageOutputPath>../../packages</PackageOutputPath>
+		<Version>5.0.0</Version>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 
-  </PropertyGroup>
+	</PropertyGroup>
 
-  <ItemGroup Condition="$(ProjectName.Contains('Test')) == false">
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-  
-  <!--<ItemGroup Condition="$(ProjectName.Contains('BaseComponent')) == false" > 
-    <Content Include="..\BlazorFluentUI.BFUBaseComponent\tsconfig.json">
-
-    </Content>
-  </ItemGroup>-->
-
+	<ItemGroup Condition="$(ProjectName.Contains('Test')) == false">
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 </Project>

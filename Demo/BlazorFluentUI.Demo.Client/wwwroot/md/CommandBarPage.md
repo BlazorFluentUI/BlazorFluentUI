@@ -1,0 +1,150 @@
+﻿@page "/commandBarPage"
+
+<h1>CommandBar</h1>
+
+<Demo Header="Basic CommandBar" Key="0" MetadataPath="CommandBarPage">
+    <BFUCommandBar Items=@items />
+</Demo>
+
+<Demo Header="CommandBar with right items" Key="1" MetadataPath="CommandBarPage">
+    <BFUCommandBar Items=@items FarItems=@farItems OverflowItems=@overflowItems />
+</Demo>
+
+<Demo Header="CommandBar with custom item rendering" Key="2" MetadataPath="CommandBarPage">
+    <BFUCommandBar Items=@customItems >
+        <ItemTemplate>
+            @if (context.ItemType == ContextualMenuItemType.Divider)
+            {
+                <BFUCommandBarButton Disabled="true" IconName="GripperBarVertical" />
+            }
+            else
+            {
+                <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
+                                     MenuItems=@context.Items
+                                     Href=@context.Href
+                                     OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
+                                     Command=@context.Command CommandParameter=@context.CommandParameter
+                                     Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
+                                     Split=@context.Split Style=@context.Style />
+            }
+        </ItemTemplate>
+    </BFUCommandBar>
+</Demo>
+
+<Demo Header="Custom content in CommmandBarButton" Key="3" MetadataPath="CommandBarPage">
+    <BFUCommandBar Items=@contentItems>
+        <ItemTemplate>
+            <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
+                                 MenuItems=@context.Items
+                                 Href=@context.Href
+                                 OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
+                                 Command=@context.Command CommandParameter=@context.CommandParameter
+                                 Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
+                                 Split=@context.Split Style=@context.Style>
+                @switch (context.Key)
+                {
+                    case "yellowCircle":
+                        <svg height="14" width="40">
+                            <ellipse cx="20" cy="8" rx="10" ry="5" style="fill:yellow;stroke:purple;stroke-width:2" />
+                            Sorry, your browser does not support inline SVG.
+                        </svg>
+                        break;
+                    case "greenCircle":
+                        <svg height="14" width="40">
+                            <ellipse cx="20" cy="8" rx="10" ry="5" style="fill:green;stroke:purple;stroke-width:2" />
+                            Sorry, your browser does not support inline SVG.
+                        </svg>
+                        break;
+                }
+            </BFUCommandBarButton>
+        </ItemTemplate>
+    </BFUCommandBar>
+</Demo>
+
+<Demo Header="CommandBar with RadioButtons" Key="4" MetadataPath="CommandBarPage">
+    <BFUCommandBar Items=@itemsWithRadioButtons />
+</Demo>
+
+<em>@debugText</em>
+
+@code {
+    private System.Windows.Input.ICommand buttonCommand;
+    private string debugText;
+    private int commandCount = 0;
+
+    private List<BFUCommandBarItem> items;
+    private List<BFUCommandBarItem> farItems;
+    private List<BFUCommandBarItem> overflowItems;
+
+    private List<BFUCommandBarItem> customItems;
+    private List<BFUCommandBarItem> contentItems;
+    private List<BFUCommandBarItem> itemsWithRadioButtons;
+
+    private Action<ItemClickedArgs> OnClick => args =>
+    {
+        var item = farItems.FirstOrDefault(x => x.Key == args.Key);
+        if (item != null)
+        {
+            item.Checked = !item.Checked;
+        }
+    };
+
+    protected override Task OnInitializedAsync()
+    {
+        buttonCommand = new Utils.RelayCommand((p) =>
+        {
+            debugText = $"{p.ToString()} button was clicked. {commandCount++}";
+            StateHasChanged();
+        });
+
+        items = new List<BFUCommandBarItem> {
+            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new BFUCommandBarItem() {Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new BFUCommandBarItem() {Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new BFUCommandBarItem() {Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+        };
+
+        overflowItems = new List<BFUCommandBarItem> {
+            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="9",  Command=buttonCommand, CommandParameter="First Overflow"},
+            new BFUCommandBarItem() {Text= "Second", IconName="Home", Key="10", Command=buttonCommand, CommandParameter="Second Overflow"},
+            new BFUCommandBarItem() {Text= "Third", IconName="Home", Key="11", Command=buttonCommand, CommandParameter="Third Overflow"},
+            new BFUCommandBarItem() {Text= "Fourth", IconName="Home", Key="12", Command=buttonCommand, CommandParameter="Fourth Overflow"}
+        };
+
+        farItems = new List<BFUCommandBarItem> {
+            new BFUCommandBarItem() { Text= "First", IconName="Info", Key="5",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="First Far"},
+            new BFUCommandBarItem() {Text= "Second", IconName="Share", Key="6",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Second Far"},
+            new BFUCommandBarItem() {Text= "Third", IconName="Tiles", Key="7", IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Third Far"},
+            new BFUCommandBarItem() {Text= "Fourth", IconName="SortLines", Key="8",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Fourth Far"}
+        };
+
+        customItems = new List<BFUCommandBarItem> {
+            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new BFUCommandBarItem() { Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new BFUCommandBarItem() { Key="divider1", ItemType = ContextualMenuItemType.Divider },
+            new BFUCommandBarItem() { Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new BFUCommandBarItem() { Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+        };
+
+        contentItems = new List<BFUCommandBarItem> {
+            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new BFUCommandBarItem() { Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new BFUCommandBarItem() { Key="yellowCircle" },
+            new BFUCommandBarItem() { Key="greenCircle" },
+            new BFUCommandBarItem() { Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new BFUCommandBarItem() { Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+        };
+        itemsWithRadioButtons = new List<BFUCommandBarItem>
+        {
+            new BFUCommandBarItem() { Text= "Non radio", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="Non radio", Toggle=true},
+            new BFUCommandBarItem() { Text= "RadioA1", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="RadioA1", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
+            new BFUCommandBarItem() { Text= "RadioA2", IconName="Add", Key="3", Command=buttonCommand, CommandParameter="RadioA2", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
+            new BFUCommandBarItem() { Text= "RadioA3", IconName="Add", Key="4", Command=buttonCommand, CommandParameter="RadioA3", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
+            new BFUCommandBarItem() { Text= "RadioB1", IconName="Remove", Key="5", Command=buttonCommand, CommandParameter="RadioB1", IsRadioButton = true, GroupName = "secondRadioButtonGroup"},
+            new BFUCommandBarItem() { Text= "RadioB2", IconName="Remove", Key="6", Command=buttonCommand, CommandParameter="RadioB2", IsRadioButton = true, GroupName = "secondRadioButtonGroup"},
+            new BFUCommandBarItem() { Text= "RadioB3", IconName="Remove", Key="7", Command=buttonCommand, CommandParameter="RadioB3", IsRadioButton = true, GroupName = "secondRadioButtonGroup"}
+        };
+
+        return Task.CompletedTask;
+    }
+}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public class BFUResponsiveComponentBase : BFUComponentBase, IAsyncDisposable
+    public class ResponsiveComponentBase : FluentUIComponentBase, IAsyncDisposable
     {
         private string? _resizeRegistration;
 

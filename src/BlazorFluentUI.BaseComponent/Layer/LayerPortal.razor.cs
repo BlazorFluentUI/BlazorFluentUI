@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFULayerPortal : BFUComponentBase, IDisposable
+    public partial class LayerPortal : FluentUIComponentBase, IDisposable
     {
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public string? Id { get; set; }

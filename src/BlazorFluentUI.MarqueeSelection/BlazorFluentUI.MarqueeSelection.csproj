@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>FluentUIBlazor.MarqueeSelection</AssemblyName>
+    <Description>MarqueeSelection component from Blazor port of Fluent UI React library</Description>
+    <RootNamespace>BlazorFluentUI</RootNamespace>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
 

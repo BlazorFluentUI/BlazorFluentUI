@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFULayerPortalGenerator : ComponentBase
+    public partial class LayerPortalGenerator : ComponentBase
     {
         [Parameter] public RenderFragment? ChildContent { get; set; }
 
         //private int sequenceCount = 0;
         private Dictionary<string, int> portalSequenceStarts = new Dictionary<string, int>();
         private List<PortalDetails> portalFragments = new List<PortalDetails>();
-        private Dictionary<string, BFULayerPortal> portals = new Dictionary<string, BFULayerPortal>();
+        private Dictionary<string, LayerPortal> portals = new Dictionary<string, LayerPortal>();
 
 
         private void Portals_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -46,7 +46,7 @@ namespace BlazorFluentUI
                 portalFragments.Add(new PortalDetails { Id = layerId, Fragment = renderFragment }); //should render the first time and not after unless explicitly set.
                 await InvokeAsync(StateHasChanged);
             }
-           
+
         }
 
         public async Task RemoveHostedContentAsync(string layerId)

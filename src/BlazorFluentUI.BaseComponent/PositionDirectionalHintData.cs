@@ -9,9 +9,9 @@
 
         public PositionDirectionalHintData(RectangleEdge targetEdge, RectangleEdge alignmentEdge, bool isAuto = false)
         {
-            this.TargetEdge = targetEdge;
-            this.AlignmentEdge = alignmentEdge;
-            this.IsAuto = isAuto;
+            TargetEdge = targetEdge;
+            AlignmentEdge = alignmentEdge;
+            IsAuto = isAuto;
         }
     }
 

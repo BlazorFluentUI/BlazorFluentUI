@@ -37,10 +37,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Dialog", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB2D25EA-CCF8-4754-9CA8-46ED8134D0D9}"
 	ProjectSection(SolutionItems) = preProject
+		CONTRIBUTING.md = CONTRIBUTING.md
 		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
 		MsIconSubsetUnicodeList.txt = MsIconSubsetUnicodeList.txt
-		nugetInfo.txt = nugetInfo.txt
+		README.md = README.md
 		TypescriptCommands.txt = TypescriptCommands.txt
+		WhatsNew.md = WhatsNew.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.CommandBar", "src\BlazorFluentUI.CommandBar\BlazorFluentUI.CommandBar.csproj", "{C9BE1FD4-E451-4EC5-898D-F7BE9250E335}"

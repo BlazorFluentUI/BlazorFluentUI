@@ -10,14 +10,14 @@ namespace BlazorFluentUI
 {
     public class LayerHostService
     {
-        Dictionary<string, BFULayerHost> hosts = new Dictionary<string, BFULayerHost>();
-        Dictionary<string, BehaviorSubject<BFULayerHost>> hostSubjects = new Dictionary<string, BehaviorSubject<BFULayerHost>>();
+        Dictionary<string, LayerHost> hosts = new Dictionary<string, LayerHost>();
+        Dictionary<string, BehaviorSubject<LayerHost>> hostSubjects = new Dictionary<string, BehaviorSubject<LayerHost>>();
 
-        BFULayerHost? rootHost;
+        LayerHost? rootHost;
 
         
 
-        public void RegisterHost(BFULayerHost host)
+        public void RegisterHost(LayerHost host)
         {
             if (host.Id == null)
             {
@@ -38,33 +38,33 @@ namespace BlazorFluentUI
             }
         }
 
-        public BFULayerHost GetHost(string id)
+        public LayerHost GetHost(string id)
         {
-            BFULayerHost host = null;
+            LayerHost host = null;
             if (hosts.ContainsKey(id))
                 host = hosts[id];
 
             return host;
         }
 
-        public IObservable<BFULayerHost> GetHostObs(string id)
+        public IObservable<LayerHost> GetHostObs(string id)
         {
-            BehaviorSubject<BFULayerHost> subject = null;
+            BehaviorSubject<LayerHost> subject = null;
             if (hostSubjects.ContainsKey(id))
                 subject = hostSubjects[id];
             else
             {
-                BFULayerHost host = null;
+                LayerHost host = null;
                 if (hosts.ContainsKey(id))
                     host = hosts[id];
-                subject = new BehaviorSubject<BFULayerHost>(host);
+                subject = new BehaviorSubject<LayerHost>(host);
                 hostSubjects.Add(id, subject);
             }
             return subject.AsObservable();
             
         }
 
-        public void RemoveHost(BFULayerHost host)
+        public void RemoveHost(LayerHost host)
         {
             if (host.Id != null)
             {
@@ -81,10 +81,10 @@ namespace BlazorFluentUI
             }
         }
 
-        public BFULayerHost GetDefaultHost()
+        public LayerHost GetDefaultHost()
         {
             //if (rootHost == null)
-                //throw new Exception("You need to add a BFULayerHost somewhere after your Router root component.");
+                //throw new Exception("You need to add a LayerHost somewhere after your Router root component.");
             return rootHost;
         }
     }

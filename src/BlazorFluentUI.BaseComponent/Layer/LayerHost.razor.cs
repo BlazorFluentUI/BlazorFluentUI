@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFULayerHost : BFUComponentBase, IDisposable
+    public partial class LayerHost : FluentUIComponentBase, IDisposable
     {
 
         [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -22,7 +22,7 @@ namespace BlazorFluentUI
         [Inject] private IJSRuntime JSRuntime { get; set; }
         [Inject] private LayerHostService LayerHostService { get; set; }
 
-        protected BFULayerPortalGenerator? portalGeneratorReference;
+        protected LayerPortalGenerator? portalGeneratorReference;
 
 
         public Task AddOrUpdateHostedContentAsync(string layerId, RenderFragment? renderFragment)

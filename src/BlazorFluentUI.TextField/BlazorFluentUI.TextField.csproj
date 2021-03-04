@@ -3,10 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>BlazorFluentUI.TextField</AssemblyName>
+		<Description>TextField component from Blazor port of Fluent UI React library</Description>
     <RootNamespace>BlazorFluentUI</RootNamespace>
     <Nullable>enable</Nullable>
-    <RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,10 +21,6 @@
     <ProjectReference Include="..\BlazorFluentUI.DelayedRender\BlazorFluentUI.DelayedRender.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.Icon\BlazorFluentUI.Icon.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.Label\BlazorFluentUI.Label.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

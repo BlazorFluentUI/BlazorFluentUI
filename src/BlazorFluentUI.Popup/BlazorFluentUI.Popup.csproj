@@ -2,11 +2,10 @@
 
   <PropertyGroup>	
     <TargetFramework>net5.0</TargetFramework>	
-    <AssemblyName>BlazorFluentUI.Popup</AssemblyName>	
+    <AssemblyName>BlazorFluentUI.Popup</AssemblyName>
+		<Description>Popup component from Blazor port of Fluent UI React library</Description>	
     <RootNamespace>BlazorFluentUI</RootNamespace>	
     <Nullable>enable</Nullable>	
-    <RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>	
-    <PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>	
   </PropertyGroup>	
 
   <ItemGroup>	

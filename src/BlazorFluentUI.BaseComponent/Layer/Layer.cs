@@ -12,7 +12,7 @@ namespace BlazorFluentUI
     // a LayerHost manually near the root of the app.  This will allow you to use a CascadeParameter 
     // to send the LayerHost to anywhere in the app and render items to it.
 
-    public class BFULayer : BFUComponentBase, IAsyncDisposable
+    public class Layer : FluentUIComponentBase, IAsyncDisposable
     {        
         [Inject] private IJSRuntime? JSRuntime { get; set; }
         [Inject] private LayerHostService LayerHostService { get; set; }
@@ -20,8 +20,8 @@ namespace BlazorFluentUI
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public string? HostId { get; set; }
 
-        //[CascadingParameter(Name = "HostedContent")] protected BFULayerHost? LayerHost { get; set; }
-        private BFULayerHost LayerHost { get; set; }
+        //[CascadingParameter(Name = "HostedContent")] protected LayerHost? LayerHost { get; set; }
+        private LayerHost LayerHost { get; set; }
 
         private bool addedToHost = false;
 
@@ -66,8 +66,8 @@ namespace BlazorFluentUI
         {
             builder.OpenElement(0, "span");
             builder.AddAttribute(1, "class", "ms-layer");
-            builder.AddAttribute(2, "style", this.Style);
-            builder.AddAttribute(3, "data-layer-id", this.id);
+            builder.AddAttribute(2, "style", Style);
+            builder.AddAttribute(3, "data-layer-id", id);
             builder.AddElementReferenceCapture(4, element => _element=element);
             builder.CloseElement();
         }
@@ -103,7 +103,7 @@ namespace BlazorFluentUI
 
         public async ValueTask DisposeAsync()
         {
-            await LayerHost?.RemoveHostedContentAsync(this.id);
+            await LayerHost?.RemoveHostedContentAsync(id);
             addedToHost = false;
             //return ValueTask.CompletedTask;
         }

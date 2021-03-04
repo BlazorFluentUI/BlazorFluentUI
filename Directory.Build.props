@@ -3,14 +3,14 @@
 <Project>
 
 	<PropertyGroup>
-		<Authors>Lee McPherson, Lukas Frensel</Authors>
-		<Owners>Lee McPherson</Owners>
+		<Authors>Lee McPherson, Vincent Baaij, Lukas Frensel, Steven Rasmussen, Frank Strieder</Authors>
+		<Owners>BlazorFluentUI</Owners>
 		<Company>BlazorFluentUI</Company>
 		<RepositoryUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/BlazorFluentUI/BlazorFluentUI</PackageProjectUrl>
 		<Product>BlazorFluentUI</Product>
-		<Copyright>Copyright BlazorFluentUI 2021</Copyright>
-		<PackageTags>Blazor;Fluent UI;Fluent;components</PackageTags>
+		<Copyright>Copyright 2021</Copyright>
+		<PackageTags>Blazor;FluentUI;Fluent;components</PackageTags>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IsPackable>true</IsPackable>
 		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI.Resize
 {
-    public class BFUResizeComponentBase : BFUComponentBase, IDisposable
+    public class ResizeComponentBase : FluentUIComponentBase, IDisposable
     {
         [Inject] IJSRuntime jSRuntime { get; set; }
         [Parameter] public bool Vertical { get; set; }
@@ -65,9 +65,9 @@ namespace BlazorFluentUI.Resize
             double newContainerDimension = double.NaN;
             if (RootElementReference.Id != null)
             {
-                boundsTask = this.GetBoundsAsync(elementReference,boundsCTS.Token);
+                boundsTask = GetBoundsAsync(elementReference,boundsCTS.Token);
                 var bounds = await boundsTask;
-                newContainerDimension = (this.Vertical ? bounds.height : bounds.width);
+                newContainerDimension = (Vertical ? bounds.height : bounds.width);
             }
             return newContainerDimension;
         }
@@ -126,8 +126,8 @@ namespace BlazorFluentUI.Resize
         private async Task<double> GetElementDimensionsAsync(CancellationToken cancellationToken)
         {
             // must get this via a funcion because we don't know yet if either of these elements will exist to be measured.
-            var refToMeasure = !_hasRenderedContent ? this.initialHiddenDiv : this.updateHiddenDiv;
-            var elementBounds = await jSRuntime.InvokeAsync<ScrollDimensions>("BlazorFluentUiBaseComponent.measureScrollDimensions", cancellationToken, refToMeasure);
+            var refToMeasure = !_hasRenderedContent ? initialHiddenDiv : updateHiddenDiv;
+            var elementBounds = await jSRuntime.InvokeAsync<ScrollDimensions>("FluentUIBaseComponent.measureScrollDimensions", cancellationToken, refToMeasure);
             var elementDimension = Vertical ? elementBounds.ScrollHeight : elementBounds.ScrollWidth;
             return elementDimension;
         }

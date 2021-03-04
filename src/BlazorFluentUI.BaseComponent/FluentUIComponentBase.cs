@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public class BFUComponentBase : ComponentBase
+    public class FluentUIComponentBase : ComponentBase
     {
         [CascadingParameter(Name = "Theme")]
         public ITheme Theme { get; set; }
@@ -45,8 +45,8 @@ namespace BlazorFluentUI
 
         public ElementReference RootElementReference;
 
-        private ITheme _theme;
-        private bool reloadStyle;
+        //private ITheme _theme;
+        //private bool reloadStyle;
 
         [Inject] ScopedStatics ScopedStatics { get; set; }
 
@@ -74,7 +74,7 @@ namespace BlazorFluentUI
                 var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", RootElementReference);
                 return rectangle;
             }
-            catch (JSException ex)
+            catch (JSException)
             {
                 return new Rectangle();
             }
@@ -87,7 +87,7 @@ namespace BlazorFluentUI
                 var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", cancellationToken, RootElementReference);
                 return rectangle;
             }
-            catch (JSException ex)
+            catch (JSException) 
             {
                 return new Rectangle();
             }
@@ -100,7 +100,7 @@ namespace BlazorFluentUI
                 var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", cancellationToken, elementReference);
                 return rectangle;
             }
-            catch (JSException ex)
+            catch (JSException)
             {
                 return new Rectangle();
             }
@@ -113,13 +113,13 @@ namespace BlazorFluentUI
                 var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", elementReference);
                 return rectangle;
             }
-            catch (JSException ex)
+            catch (JSException)
             {
                 return new Rectangle();
             }
         }
-        
-        private void OnThemeChangedProtected(object sender, BFUThemeChangedArgs themeChangedArgs)
+
+        private void OnThemeChangedProtected(object sender, ThemeChangedArgs themeChangedArgs)
         {
             Theme = themeChangedArgs.Theme;
             OnThemeChanged();
@@ -127,9 +127,9 @@ namespace BlazorFluentUI
 
         protected virtual void OnThemeChanged() { }
 
-        private void OnThemeChangedPrivate(object sender, BFUThemeChangedArgs themeChangedArgs)
+        private void OnThemeChangedPrivate(object sender, ThemeChangedArgs themeChangedArgs)
         {
-            reloadStyle = true;
+            //reloadStyle = true;
         }
 
         //private ICollection<IRule> CreateGlobalCss()

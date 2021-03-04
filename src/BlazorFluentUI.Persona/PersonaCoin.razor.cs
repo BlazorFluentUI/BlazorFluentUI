@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPersonaCoin : BFUComponentBase
+    public partial class PersonaCoin : FluentUIComponentBase
     {
         [Parameter] public bool AllowPhoneInitials { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -20,6 +20,7 @@ namespace BlazorFluentUI
         [Parameter] public bool IsOutOfOffice { get; set; }
         [Parameter] public PersonaPresenceStatus Presence { get; set; }
         [Parameter] public string PresenceTitle { get; set; }  //tooltip on hover
+        [Parameter] public PersonaInitialsColor InitialsColor { get; set; }
         [Parameter] public bool ShowInitialsUntilImageLoads { get; set; }
         [Parameter] public bool ShowUnknownPersonaCoin { get; set; }
         [Parameter] public string Size { get; set; }
@@ -136,24 +137,24 @@ namespace BlazorFluentUI
         private void SetStyle()
         {
             var dimension = CoinSize != -1 ? CoinSize : PersonaSize.SizeToPixels(Size);
-            string fontSize = Theme.FontStyle.FontSize.Large;
-            if (dimension < 32)
-                fontSize = Theme.FontStyle.FontSize.XSmall;
-            else if (dimension >= 32 && dimension < 40)
-                fontSize = Theme.FontStyle.FontSize.Medium;
-            else if (dimension >= 40 && dimension < 56)
-                fontSize = Theme.FontStyle.FontSize.MediumPlus;
-            else if (dimension >= 56 && dimension < 72)
-                fontSize = Theme.FontStyle.FontSize.XLarge;
-            else if (dimension >= 72 && dimension < 100)
-                fontSize = Theme.FontStyle.FontSize.XxLarge;
-            else if (dimension >= 100)
-                fontSize = Theme.FontStyle.FontSize.SuperLarge;
+            string fontSize = dimension switch
+            {
+                < 32 => Theme.FontStyle.FontSize.XSmall,
+                >= 32 and < 40 => Theme.FontStyle.FontSize.Medium,
+                >= 40 and < 48 => Theme.FontStyle.FontSize.MediumPlus,
+                >= 48 and < 56 => Theme.FontStyle.FontSize.Large,
+                >= 56 and < 72 => Theme.FontStyle.FontSize.XLarge,
+                >= 72 and < 100 => Theme.FontStyle.FontSize.XxLarge,
+                >= 100 => Theme.FontStyle.FontSize.SuperLarge,
+            };
+
+            string color = InitialsColor.ToString() != "" ? PersonaColorUtils.GetPersonaColorHexCode(InitialsColor) : PersonaColorUtils.GetPersonaColorHexCode(PersonaColorUtils.GetInitialsColorFromName(Text));
 
             InitialsRule.Properties = new CssString
             {
+
                 Css = $"height:{dimension}px;" +
-                     $"background-color:{PersonaColorUtils.GetPersonaColorHexCode(PersonaColorUtils.GetInitialsColorFromName(Text))};" +
+                     $"background-color:{color};" +
                      $"line-height:{(dimension == 48 ? 46 : dimension)}px;"+
                      $"font-size:{fontSize};"
             };

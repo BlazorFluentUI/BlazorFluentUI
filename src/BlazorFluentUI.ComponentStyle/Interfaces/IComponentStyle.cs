@@ -5,9 +5,9 @@ namespace BlazorFluentUI
 {
     public interface IComponentStyle
     {
-        bool ClientSide { get; }
+        bool isClient { get; }
 
-        BFUGlobalRules GlobalRules { get; set; }
+        GlobalRules GlobalRules { get; set; }
 
         ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
 

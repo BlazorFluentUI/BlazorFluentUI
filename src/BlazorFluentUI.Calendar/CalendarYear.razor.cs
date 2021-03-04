@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCalendarYear : BFUComponentBase
+    public partial class CalendarYear : FluentUIComponentBase
     {
         [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; }
         [Parameter] public int MaxYear { get; set; }

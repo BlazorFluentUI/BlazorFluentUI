@@ -20,7 +20,7 @@ namespace BlazorFluentUI
         Compact = 1
     }
 
-    public partial class BFUDocumentCard : BFUComponentBase
+    public partial class DocumentCard : FluentUIComponentBase
     {
         [Parameter]
         public RenderFragment? ChildContent { get; set; }
@@ -185,7 +185,7 @@ namespace BlazorFluentUI
             });
             documentCardRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $".ms-DocumentCard--compact.{BFUDocumentCardPreview.GlobalClassNames["root"]}" },
+                Selector = new CssStringSelector() { SelectorName = $".ms-DocumentCard--compact.{DocumentCardPreview.GlobalClassNames["root"]}" },
                 Properties = new CssString()
                 {
                     Css = $"border-right:1px solid {theme.Palette.NeutralLight};" +
@@ -196,7 +196,7 @@ namespace BlazorFluentUI
             });
             documentCardRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $".ms-DocumentCard--compact.{BFUDocumentCardPreview.GlobalClassNames["icon"]}" },
+                Selector = new CssStringSelector() { SelectorName = $".ms-DocumentCard--compact.{DocumentCardPreview.GlobalClassNames["icon"]}" },
                 Properties = new CssString()
                 {
                     Css = "max-height: 32px;" +
@@ -206,7 +206,7 @@ namespace BlazorFluentUI
 
             documentCardRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $".ms-DocumentCard--compact.{BFUDocumentCardActivity.GlobalClassNames["root"]}" },
+                Selector = new CssStringSelector() { SelectorName = $".ms-DocumentCard--compact.{DocumentCardActivity.GlobalClassNames["root"]}" },
                 Properties = new CssString()
                 {
                     Css = "padding-bottom: 12px"
@@ -215,7 +215,7 @@ namespace BlazorFluentUI
 
             documentCardRules.Add(new Rule()
             {
-                Selector = new CssStringSelector() { SelectorName = $".ms-DocumentCard--compact.{BFUDocumentCardTitle.GlobalClassNames["root"]}" },
+                Selector = new CssStringSelector() { SelectorName = $".ms-DocumentCard--compact.{DocumentCardTitle.GlobalClassNames["root"]}" },
                 Properties = new CssString()
                 {
                     Css = "padding-bottom: 12px 16px 8px 16px;" +

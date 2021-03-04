@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUKeytipData : BFUComponentBase
+    public partial class KeytipData : FluentUIComponentBase
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }

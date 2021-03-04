@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class="ms-Calendar-dayPicker"
      id=@DayPickerId>
@@ -35,7 +35,7 @@
                         title=@(PreviousMonthAriaLabel + " " + NavigatedDate.AddMonths(-1).ToString("MMMM"))
                         role="button"
                         type="button">
-                    <BFUIcon IconName="Up" />
+                    <Icon IconName="Up" />
                 </button>
                 <button class=@($"ms-Calendar-nextMonth {(!NextMonthInBounds ? "ms-Calendar-nextMonthIsDisabled" : "")}")
                         aria-disabled=@(!NextMonthInBounds)
@@ -45,26 +45,26 @@
                         title=@(NextMonthAriaLabel + " " + NavigatedDate.AddMonths(1).ToString("MMMM"))
                         role="button"
                         type="button">
-                    <BFUIcon IconName="Down" />
+                    <Icon IconName="Down" />
                 </button>
 
                 @if (ShowCloseButton)
                 {
-                    @*<BFUTooltipHost>
-                        <BFUTooltipContent>
+                    @*<TooltipHost>
+                        <TooltipContent>
                             @(NextMonthAriaLabel + " " + NavigatedDate.AddMonths(1).ToString("MMMM"))
-                        </BFUTooltipContent>
+                        </TooltipContent>
                         <ChildContent>*@
-                    <BFUIconButton IconName="Cancel"
+                    <IconButton IconName="Cancel"
                                 OnClick=@OnClose />
                     @*</ChildContent>
-                        </BFUTooltipHost>*@
+                        </TooltipHost>*@
                 }
 
             </div>
         </div>
     </div>
-    <BFUFocusZone>
+    <FocusZone>
         <table class="ms-Calendar-table"
                aria-readonly="true"
                aria-multiselectable="false"
@@ -174,6 +174,6 @@
             </tbody>
 
         </table>
-    </BFUFocusZone>
+    </FocusZone>
 
 </div>

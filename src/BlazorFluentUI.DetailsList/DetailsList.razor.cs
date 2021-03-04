@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsList<TItem> : BFUComponentBase, IAsyncDisposable
+    public partial class DetailsList<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
         [Parameter]
         public CheckboxVisibility CheckboxVisibility { get; set; } = CheckboxVisibility.OnHover;
 
         [Parameter]
-        public IEnumerable<BFUDetailsRowColumn<TItem>> Columns { get; set; }
+        public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
@@ -46,7 +46,7 @@ namespace BlazorFluentUI
         public bool IsVirtualizing { get; set; } = true;
 
         // Selection.SetItems will crash if a null source is passed in... but we need to clear it if the source is null, so pass in an empty list.
-        // Also, the internal BFUList<TItem> will also crash if a null itemssource is passed to it.
+        // Also, the internal List<TItem> will also crash if a null itemssource is passed to it.
         private IList<TItem> _itemsSource = new List<TItem>();
         [Parameter]
         public IList<TItem> ItemsSource { get => _itemsSource; set { if (value == null) { _itemsSource = new List<TItem>(); } else { _itemsSource = value; } } }
@@ -89,7 +89,7 @@ namespace BlazorFluentUI
         SelectionMode _lastSelectionMode;
         Viewport _lastViewport;
         Viewport _viewport;
-        private IEnumerable<BFUDetailsRowColumn<TItem>> _adjustedColumns = Enumerable.Empty<BFUDetailsRowColumn<TItem>>();
+        private IEnumerable<DetailsRowColumn<TItem>> _adjustedColumns = Enumerable.Empty<DetailsRowColumn<TItem>>();
         const double MIN_COLUMN_WIDTH = 100;
 
 
@@ -97,9 +97,9 @@ namespace BlazorFluentUI
 
         private Selection<TItem> _selection = new Selection<TItem>();
 
-        BFUGroupedList<TItem,object> groupedList;
-        BFUList<TItem> list;
-        BFUSelectionZone<TItem> selectionZone;
+        GroupedList<TItem,object> groupedList;
+        List<TItem> list;
+        SelectionZone<TItem> selectionZone;
 
         protected bool isAllSelected;
         private bool shouldRender = true;
@@ -107,10 +107,10 @@ namespace BlazorFluentUI
         private IReadOnlyDictionary<string, object> lastParameters = null;
 
         protected SelectAllVisibility selectAllVisibility = SelectAllVisibility.None;
-        private DotNetObjectReference<BFUDetailsList<TItem>> selfReference;
+        private DotNetObjectReference<DetailsList<TItem>> selfReference;
         private int _viewportRegistration;
 
-        public BFUDetailsList()
+        public DetailsList()
         {
             Selection = new Selection<TItem>();
 
@@ -141,7 +141,7 @@ namespace BlazorFluentUI
                     parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode"),
                     parameters.GetValueOrDefault<SelectionMode>("SelectionMode"),
                     parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility"),
-                    parameters.GetValueOrDefault<IEnumerable<BFUDetailsRowColumn<TItem>>>("Columns"),
+                    parameters.GetValueOrDefault<IEnumerable<DetailsRowColumn<TItem>>>("Columns"),
                     true
                     );
             }
@@ -171,7 +171,7 @@ namespace BlazorFluentUI
             return base.SetParametersAsync(parameters);
         }
 
-        //private void BFUDetailsList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        //private void DetailsList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         //{
         //    // collection changed... rerun selection stuff without clearing selection
         //    //Selection?.SetItems(ItemsSource, false);
@@ -186,12 +186,12 @@ namespace BlazorFluentUI
                     if (Selection == null)
                     {
                         Selection = new Selection<TItem>();
-                        Selection.GetKey = this.GetKey;
+                        Selection.GetKey = GetKey;
                     }
                     _selection = Selection;
 
                     if (Selection.GetKey == null)
-                        Selection.GetKey = this.GetKey;
+                        Selection.GetKey = GetKey;
 
                     Selection.SetItems(ItemsSource);
                 }
@@ -201,8 +201,8 @@ namespace BlazorFluentUI
                         Selection.SetItems(ItemsSource, false);
                 }
 
-                if (Selection.SelectionMode != this.SelectionMode)
-                    Selection.SelectionMode = this.SelectionMode;
+                if (Selection.SelectionMode != SelectionMode)
+                    Selection.SelectionMode = SelectionMode;
             }
 
             await base.OnParametersSetAsync();
@@ -247,23 +247,23 @@ namespace BlazorFluentUI
             }
         }
 
-        private void AdjustColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<BFUDetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex = -1)
+        private void AdjustColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<DetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex = -1)
         {
             _adjustedColumns = GetAdjustedColumns(newItems, newLayoutMode, newSelectionMode, newCheckboxVisibility, newColumns, forceUpdate, resizingColumnIndex);
         }
 
-        private IEnumerable<BFUDetailsRowColumn<TItem>> GetAdjustedColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<BFUDetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex)
+        private IEnumerable<DetailsRowColumn<TItem>> GetAdjustedColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<DetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex)
         {
             var columns = Columns.EmptyIfNull();
             var lastWidth = _lastWidth;
             var lastSelectionMode = _lastSelectionMode;
 
             if (!forceUpdate && _lastViewport.Width == _viewport.Width && SelectionMode == newSelectionMode && (Columns == null || newColumns == Columns))
-                return Enumerable.Empty<BFUDetailsRowColumn<TItem>>();
+                return Enumerable.Empty<DetailsRowColumn<TItem>>();
 
             // skipping default column builder... user must provide columns always
 
-            IEnumerable<BFUDetailsRowColumn<TItem>> adjustedColumns = null;
+            IEnumerable<DetailsRowColumn<TItem>> adjustedColumns = null;
 
             if (LayoutMode == DetailsListLayoutMode.FixedColumns)
             {
@@ -294,7 +294,7 @@ namespace BlazorFluentUI
             return adjustedColumns;
         }
 
-        private IEnumerable<BFUDetailsRowColumn<TItem>> GetFixedColumns(IEnumerable<BFUDetailsRowColumn<TItem>> newColumns)
+        private IEnumerable<DetailsRowColumn<TItem>> GetFixedColumns(IEnumerable<DetailsRowColumn<TItem>> newColumns)
         {
             foreach (var col in newColumns)
             {
@@ -303,7 +303,7 @@ namespace BlazorFluentUI
             return newColumns;
         }
 
-        private IEnumerable<BFUDetailsRowColumn<TItem>> GetJustifiedColumnsAfterResize(IEnumerable<BFUDetailsRowColumn<TItem>> newColumns, CheckboxVisibility newCheckboxVisibility, SelectionMode newSelectionMode, double viewportWidth, int resizingColumnIndex)
+        private IEnumerable<DetailsRowColumn<TItem>> GetJustifiedColumnsAfterResize(IEnumerable<DetailsRowColumn<TItem>> newColumns, CheckboxVisibility newCheckboxVisibility, SelectionMode newSelectionMode, double viewportWidth, int resizingColumnIndex)
         {
             var fixedColumns = newColumns.Take(resizingColumnIndex);
             foreach (var col in fixedColumns)
@@ -315,7 +315,7 @@ namespace BlazorFluentUI
             }
 
             int count = 0;
-            var fixedWidth = fixedColumns.Aggregate<BFUDetailsRowColumn<TItem>, double, double>(0, (total, column) => total + GetPaddedWidth(column, ++count == 0), x => x);
+            var fixedWidth = fixedColumns.Aggregate<DetailsRowColumn<TItem>, double, double>(0, (total, column) => total + GetPaddedWidth(column, ++count == 0), x => x);
 
             var remainingColumns = newColumns.Skip(resizingColumnIndex).Take(newColumns.Count() - resizingColumnIndex);
             var remainingWidth = viewportWidth - fixedWidth;
@@ -325,7 +325,7 @@ namespace BlazorFluentUI
             return Enumerable.Concat(fixedColumns, adjustedColumns);
         }
 
-        private IEnumerable<BFUDetailsRowColumn<TItem>> GetJustifiedColumns(IEnumerable<BFUDetailsRowColumn<TItem>> newColumns, CheckboxVisibility newCheckboxVisibility, SelectionMode newSelectionMode, double viewportWidth, int resizingColumnIndex)
+        private IEnumerable<DetailsRowColumn<TItem>> GetJustifiedColumns(IEnumerable<DetailsRowColumn<TItem>> newColumns, CheckboxVisibility newCheckboxVisibility, SelectionMode newSelectionMode, double viewportWidth, int resizingColumnIndex)
         {
             var rowCheckWidth = newSelectionMode != SelectionMode.None && newCheckboxVisibility != CheckboxVisibility.Hidden ? 48 : 0;  //DetailsRowCheckbox width
             var groupExpandedWidth = 0; //skipping this for now.
@@ -333,7 +333,7 @@ namespace BlazorFluentUI
             var availableWidth = viewportWidth - (rowCheckWidth + groupExpandedWidth);
             int count = 0;
 
-            System.Collections.Generic.List<BFUDetailsRowColumn<TItem>> adjustedColumns = new System.Collections.Generic.List<BFUDetailsRowColumn<TItem>>();
+            System.Collections.Generic.List<DetailsRowColumn<TItem>> adjustedColumns = new System.Collections.Generic.List<DetailsRowColumn<TItem>>();
             foreach (var col in newColumns)
             {
                 adjustedColumns.Add(col);
@@ -395,12 +395,12 @@ namespace BlazorFluentUI
             return adjustedColumns;
         }
 
-        private double GetPaddedWidth(BFUDetailsRowColumn<TItem> column, bool isFirst)
+        private double GetPaddedWidth(DetailsRowColumn<TItem> column, bool isFirst)
         {
             return column.CalculatedWidth +
-                    BFUDetailsRow<TItem>.CELL_LEFT_PADDING +
-                    BFUDetailsRow<TItem>.CELL_RIGHT_PADDING +
-                    (column.IsPadded ? BFUDetailsRow<TItem>.CELL_EXTRA_RIGHT_PADDING : 0);
+                    DetailsRow<TItem>.CELL_LEFT_PADDING +
+                    DetailsRow<TItem>.CELL_RIGHT_PADDING +
+                    (column.IsPadded ? DetailsRow<TItem>.CELL_EXTRA_RIGHT_PADDING : 0);
         }
 
         private void OnColumnResizedInternal(ColumnResizedArgs<TItem> columnResizedArgs)
@@ -411,7 +411,7 @@ namespace BlazorFluentUI
             AdjustColumns(ItemsSource, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true, columnResizedArgs.ColumnIndex);
         }
 
-        private void OnColumnAutoResized(ItemContainer<BFUDetailsRowColumn<TItem>> itemContainer)
+        private void OnColumnAutoResized(ItemContainer<DetailsRowColumn<TItem>> itemContainer)
         {
             // TO-DO - will require measuring row cells, jsinterop
         }

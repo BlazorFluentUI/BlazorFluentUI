@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
-<BFUCommandButton key="@ItemKey"
+<CommandButton key="@ItemKey"
                   ClassName=@($"ms-Pivot-link mediumFont{(ParentPivot.Selected == this ? " is-selected" : "")}")
                   OnClick="SelectItem"
                   AriaLabel=@AriaLabel
@@ -13,7 +13,7 @@
         @if (!string.IsNullOrWhiteSpace(IconName))
         {
             <span class="ms-Pivot-icon">
-                <BFUIcon IconName=@IconName IconSrc=@IconSrc />
+                <Icon IconName=@IconName IconSrc=@IconSrc />
             </span>
         }
         @if (!string.IsNullOrWhiteSpace(HeaderText))
@@ -25,4 +25,4 @@
             <span class="ms-Pivot-count"> (@ItemCount)</span>
         }
     </span>
-</BFUCommandButton>
+</CommandButton>

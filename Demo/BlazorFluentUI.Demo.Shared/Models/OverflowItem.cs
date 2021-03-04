@@ -1,6 +1,6 @@
 ﻿namespace BlazorFluentUI.Demo.Shared.Models
 {
-    public class OverflowItem : IBFUOverflowSetItem
+    public class OverflowItem : IOverflowSetItem
     {
         public string Key { get; set; }
 

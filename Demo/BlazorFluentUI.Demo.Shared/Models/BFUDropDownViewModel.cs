@@ -5,10 +5,10 @@ using System.Text;
 
 namespace BlazorFluentUI.Demo.Shared.Models
 {
-    class BFUDropDownViewModel : RibbonItem
+    class DropDownViewModel : RibbonItem
     {
-        public IEnumerable<IBFUDropdownOption> DropdownOptions { get; set; }
-        public IBFUDropdownOption Selected { get; set; }
+        public IEnumerable<IDropdownOption> DropdownOptions { get; set; }
+        public IDropdownOption Selected { get; set; }
 
         public string Width { get; set; } = "200px";
     }

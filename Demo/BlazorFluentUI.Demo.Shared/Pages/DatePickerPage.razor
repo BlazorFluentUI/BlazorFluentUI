@@ -5,12 +5,12 @@
 <h1>DatePicker</h1>
 
 <Demo Header="Basic DatePicker" Key="1" MetadataPath="DatePickerPage">
-    <BFUDatePicker AllowTextInput="false"
+    <DatePicker AllowTextInput="false"
                    Style="max-width:300px; margin:0 0 15px 0;"
                    @bind-Value="selectedDate1"
                    Placeholder="Select a date..."
                    FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeekOption?.Key)) />
-    <BFUDropdown ItemsSource=@DaysOfWeek.Select(x=>new BFUDropdownOption {Key=x.ToString(), Text=System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(x) })
+    <Dropdown ItemsSource=@DaysOfWeek.Select(x=>new DropdownOption {Key=x.ToString(), Text=System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(x) })
                  Style="max-width:300px; margin:0 0 15px 0;"
                  Placeholder="Select an option"
                  @bind-SelectedOption=@selectedDayOfWeekOption
@@ -19,7 +19,7 @@
 
 
 <Demo Header="DatePicker Required" Key="2" MetadataPath="DatePickerPage">
-    <BFUDatePicker AllowTextInput="false"
+    <DatePicker AllowTextInput="false"
                    Style="max-width:300px; margin:0 0 15px 0;"
                    IsRequired="true"
                    @bind-Value="selectedDate2"
@@ -27,12 +27,12 @@
 </Demo>
 
 <Demo Header="DatePicker Disabled" Key="3" MetadataPath="DatePickerPage">
-    <BFUDatePicker AllowTextInput="false"
+    <DatePicker AllowTextInput="false"
                    Style="max-width:300px; margin:0 0 15px 0;"
                    Disabled="true"
                    @bind-Value="selectedDate2"
                    Placeholder="Select a date..." />
-    <BFUDatePicker AllowTextInput="false"
+    <DatePicker AllowTextInput="false"
                    Style="max-width:300px; margin:0 0 15px 0;"
                    Disabled="true"
                    Label="Disabled (with Label)"
@@ -45,7 +45,7 @@
         Text input is parsed using .NET's (mono's) <span style="font-family:Courier">DateTime.TryParse</span> method.  It is region-aware so should be able to identify many date string inputs.
         String input is intended to be accomplished through keyboard navigation as mouse-clicking will open the picker.
     </p>
-    <BFUDatePicker AllowTextInput="true"
+    <DatePicker AllowTextInput="true"
                    Style="max-width:300px; margin:0 0 15px 0;"
                    Label="DatePicker with string date input"
                    @bind-Value="selectedDate3"
@@ -55,15 +55,15 @@
 <Demo Header="DatePicker with Blazor Forms Validation" Key="5" MetadataPath="CalendarPage">
     <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
         <DataAnnotationsValidator />
-        <BFUValidationSummary />
-        <BFUDatePicker @bind-Value=@exampleModel.DateTime ShowMonthPickerAsOverlay="true" />
-        <BFUSubmitButton Text="Submit" />
+        <ValidationSummary />
+        <DatePicker @bind-Value=@exampleModel.DateTime ShowMonthPickerAsOverlay="true" />
+        <SubmitButton Text="Submit" />
     </EditForm>
 </Demo>
 
     <Demo Header="DatePicker with TimePicker" Key="6" MetadataPath="DatePickerPage">
 
-            <BFUDatePicker AllowTextInput="false"
+            <DatePicker AllowTextInput="false"
                            Style="max-width:300px; margin:0 0 15px 0;"
                            IsMonthPickerVisible="false"
                            IsTimePickerVisible="true"
@@ -71,7 +71,7 @@
                            Placeholder="Select a date..."
                            FormatDate=@((date) => date.ToString())/>
         
-                    <BFUDefaultButton Text="Set date to null" @onclick=@(args => selectedDate4 = null) />       
+                    <DefaultButton Text="Set date to null" @onclick=@(args => selectedDate4 = null) />       
     </Demo>
 
 
@@ -83,7 +83,7 @@
 
 
         //string selectedDayOfWeek = DayOfWeek.Sunday.ToString();
-        IBFUDropdownOption selectedDayOfWeekOption = new BFUDropdownOption { Key = DayOfWeek.Sunday.ToString(), Text = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(DayOfWeek.Sunday) };
+        IDropdownOption selectedDayOfWeekOption = new DropdownOption { Key = DayOfWeek.Sunday.ToString(), Text = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(DayOfWeek.Sunday) };
         List<DayOfWeek> DaysOfWeek = Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>().ToList(); // new System.Collections.Generic.List<DayOfWeek>();
 
         ExampleModel exampleModel = new ExampleModel();

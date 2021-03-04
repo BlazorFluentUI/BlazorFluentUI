@@ -1,9 +1,9 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 @if (IsYearPickerVisible)
 {
-    <BFUCalendarYear @key=@($"calendarYear_{NavigatedDate.Year}")
+    <CalendarYear @key=@($"calendarYear_{NavigatedDate.Year}")
                   DateTimeFormatter=@DateTimeFormatter
                   MinYear=@(MinDate.Year)
                   MaxYear=@(MaxDate.Year)
@@ -45,7 +45,7 @@ else
                             title=@(PreviousYearAriaLabel + " " + NavigatedDate.AddYears(-1).ToString("yyy"))
                             role="button"
                             type="button">
-                        <BFUIcon IconName="Up" />
+                        <Icon IconName="Up" />
                     </button>
                     <button class=@($"ms-Calendar-nextYear {(!IsNextYearInBounds ? "ms-Calendar-nextYearIsDisabled" : "")}")
                             aria-disabled=@(!IsNextYearInBounds)
@@ -55,12 +55,12 @@ else
                             title=@(NextYearAriaLabel + " " + NavigatedDate.AddYears(1).ToString("yyy"))
                             role="button"
                             type="button">
-                        <BFUIcon IconName="Down" />
+                        <Icon IconName="Down" />
                     </button>
                 </div>
             </div>
         </div>
-        <BFUFocusZone>
+        <FocusZone>
             <div class="ms-Calendar-optionGrid" role="grid" aria-readonly="true">
 
                 @foreach (var rowNum in RowIndexes)
@@ -95,6 +95,6 @@ else
                     </div>
                 }
             </div>
-        </BFUFocusZone>
+        </FocusZone>
     </div>
 }

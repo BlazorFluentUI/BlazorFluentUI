@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardDetails : BFUComponentBase
+    public partial class DocumentCardDetails : FluentUIComponentBase
     {
         [Parameter]
         public RenderFragment? ChildContent { get; set; }

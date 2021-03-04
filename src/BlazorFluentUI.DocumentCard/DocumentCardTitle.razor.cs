@@ -7,11 +7,11 @@ using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardTitle : BFUComponentBase, IAsyncDisposable
+    public partial class DocumentCardTitle : FluentUIComponentBase, IAsyncDisposable
     {
         public string Id { get; set; }
 
-        private DotNetObjectReference<BFUDocumentCardTitle>? _dotNetObjectReference;
+        private DotNetObjectReference<DocumentCardTitle>? _dotNetObjectReference;
 
         /// <summary>
         /// Title text.
@@ -50,7 +50,7 @@ namespace BlazorFluentUI
             {"root", "ms-DocumentCardTitle"}
         };
 
-        public BFUDocumentCardTitle()
+        public DocumentCardTitle()
         {
             ShouldTruncate = true;
             Id = $"documentCard" + Guid.NewGuid();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCalendar : BFUComponentBase
+    public partial class Calendar : FluentUIComponentBase
     {
         [Parameter] public bool AllFocusable { get; set; } = false;
         [Parameter] public bool AutoNavigateOnSelection { get; set; } = false;

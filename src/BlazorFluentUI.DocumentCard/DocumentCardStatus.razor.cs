@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardStatus : BFUComponentBase
+    public partial class DocumentCardStatus : FluentUIComponentBase
     {
         /// <summary>
         /// Describes DocumentCard status icon.

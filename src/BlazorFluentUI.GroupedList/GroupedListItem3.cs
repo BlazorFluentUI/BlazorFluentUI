@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BlazorFluentUI
 {
     public interface IGroupedListItem3<TItem> 
@@ -112,7 +113,7 @@ namespace BlazorFluentUI
                 else
                 {
                     Items.Add(new HeaderItem3<TItem, TKey>(subItem, depth + 1, cummulativeCount, subGroupSelector, groupTitleSelector));
-                    var subItemCount = BFUGroupedList<TItem, TKey>.GetPlainItemsCount(subItem, subGroupSelector);
+                    var subItemCount = GroupedList<TItem, TKey>.GetPlainItemsCount(subItem, subGroupSelector);
                     cummulativeCount += subItemCount;
                 }
             }
@@ -251,10 +252,10 @@ namespace BlazorFluentUI
 
         public PlainItem3(TItem item, int depth)
         {
-            this.Item = item;
-            this.Depth = depth;
+            Item = item;
+            Depth = depth;
 
-            if (this.Item == null)
+            if (Item == null)
                 throw new Exception("Item is null!");
         }
         public int Depth { get; private set; }

@@ -4,10 +4,10 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public class BFUThemeChangedArgs : EventArgs
+    public class ThemeChangedArgs : EventArgs
     {
         public ITheme Theme { get; }
-        public BFUThemeChangedArgs(ITheme theme)
+        public ThemeChangedArgs(ITheme theme)
         {
             Theme = theme;
         }

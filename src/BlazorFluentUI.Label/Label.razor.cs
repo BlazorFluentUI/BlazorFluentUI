@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFULabel : BFUComponentBase
+    public partial class Label : FluentUIComponentBase
     {
         [Parameter]
         public string Id { get; set; }
@@ -34,8 +34,8 @@ namespace BlazorFluentUI
         {
             base.OnParametersSet();
 
-            if (string.IsNullOrWhiteSpace(this.Id))
-                this.Id = this.Id = $"g{Guid.NewGuid()}";
+            if (string.IsNullOrWhiteSpace(Id))
+                Id = Id = $"g{Guid.NewGuid()}";
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDialog : BFUComponentBase
+    public partial class Dialog : FluentUIComponentBase
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public string ContainerClass { get; set; }
@@ -52,7 +52,7 @@ namespace BlazorFluentUI
         private Rule DialogMainMediaRule = new Rule();
 
 
-        public BFUDialog()
+        public Dialog()
         {
             Id = Guid.NewGuid().ToString();
             DefaultTitleTextId = Id = "-title";

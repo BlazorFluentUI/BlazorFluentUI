@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUGlobalRules : IDisposable
+    public partial class GlobalRules : IDisposable
     {
         [Inject]
         public IComponentStyle ComponentStyle { get; set; }

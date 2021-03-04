@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardPreview : BFUComponentBase
+    public partial class DocumentCardPreview : FluentUIComponentBase
     {
         public const int LIST_ITEM_COUNT = 3;
 
@@ -16,7 +16,7 @@ namespace BlazorFluentUI
         ///  One or more preview images to display.
         /// </summary>
         [Parameter]
-        public BFUDocumentPreviewImage[]? PreviewImages { get; set; }
+        public DocumentPreviewImage[]? PreviewImages { get; set; }
 
         /// <summary>
         /// The function return string that will describe the number of overflow documents.

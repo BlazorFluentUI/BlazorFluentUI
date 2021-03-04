@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public interface IBFUNavItem
+    public interface INavItem
     {
         string Name { get; set; }
         string Icon { get; set; }

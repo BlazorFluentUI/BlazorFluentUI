@@ -1,29 +1,29 @@
 ﻿@page "/messageBarPage"
 
-<BFUStack>
-    <BFUStackItem Align=Alignment.Start>
+<Stack>
+    <StackItem Align=Alignment.Start>
         <h1>MessageBar</h1>
-    </BFUStackItem>
-    <BFUStack>
-        <BFUStack Tokens=@(new BFUStackTokens { ChildrenGap = new[] { 20.0 }, MaxWidth=650.0, Padding=8.0 })>
-            <BFUStackItem>
-                <BFUMessageBar>
+    </StackItem>
+    <Stack>
+        <Stack Tokens=@(new StackTokens { ChildrenGap = new[] { 20.0 }, MaxWidth=650.0, Padding=8.0 })>
+            <StackItem>
+                <MessageBar>
                     Info/Default MessageBar.
-                    <BFULink Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
+                    <Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
                     Visit us on GitHub.
-                    </BFULink>
-                </BFUMessageBar>
-            </BFUStackItem>
-            <BFUStackItem>
-                <BFUMessageBar MessageBarType="MessageBarType.Error" IsMultiline="false" OnDismiss="OnDismiss">
+                    </Link>
+                </MessageBar>
+            </StackItem>
+            <StackItem>
+                <MessageBar MessageBarType="MessageBarType.Error" IsMultiline="false" OnDismiss="OnDismiss">
                     Error MessageBar with single line, with dismiss button.
-                    <BFULink Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
+                    <Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
                     Visit us on GitHub.
-                    </BFULink>
-                </BFUMessageBar>
-            </BFUStackItem>
-            <BFUStackItem>
-                <BFUMessageBar MessageBarType=MessageBarType.Blocked
+                    </Link>
+                </MessageBar>
+            </StackItem>
+            <StackItem>
+                <MessageBar MessageBarType=MessageBarType.Blocked
                             IsMultiline=false
                             OnDismiss="OnDismiss"
                             DismissButtonAriaLabel="Close"
@@ -36,65 +36,65 @@
                     pulvinar commodo odio sit amet faucibus. In hac habitasse platea dictumst. Duis eu ante commodo, condimentum nibh pellentesque, laoreet
                     enim. Fusce massa lorem, ultrices eu mi a, fermentum suscipit magna. Integer porta purus pulvinar, hendrerit felis eget, condimentum
                     mauris.
-                </BFUMessageBar>
-            </BFUStackItem>
-            <BFUStackItem>
-                <BFUMessageBar MessageBarType=MessageBarType.SevereWarning>
+                </MessageBar>
+            </StackItem>
+            <StackItem>
+                <MessageBar MessageBarType=MessageBarType.SevereWarning>
                     <Actions>
                         <div>
-                            <BFUMessageBarButton Text="Yes" />
-                            <BFUMessageBarButton Text="No" />
+                            <MessageBarButton Text="Yes" />
+                            <MessageBarButton Text="No" />
                         </div>
                     </Actions>
                     <ChildContent>
                         SevereWarning MessageBar with action buttons which defaults to multiline.
-                        <BFULink Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
+                        <Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
                         Visit us on GitHub.
-                        </BFULink>
+                        </Link>
                     </ChildContent>
-                </BFUMessageBar>
-            </BFUStackItem>
-            <BFUStackItem>
-                <BFUMessageBar MessageBarType=MessageBarType.Success
+                </MessageBar>
+            </StackItem>
+            <StackItem>
+                <MessageBar MessageBarType=MessageBarType.Success
                             IsMultiline=false>
                     <Actions>
                         <div>
-                            <BFUMessageBarButton Text="Yes" />
-                            <BFUMessageBarButton Text="No" />
+                            <MessageBarButton Text="Yes" />
+                            <MessageBarButton Text="No" />
                         </div>
                     </Actions>
                     <ChildContent>
                         Success MessageBar with single line and action buttons.
-                        <BFULink Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
+                        <Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
                         Visit us on GitHub.
-                        </BFULink>
+                        </Link>
                     </ChildContent>
-                </BFUMessageBar>
-            </BFUStackItem>
-            <BFUStackItem>
-                <BFUMessageBar MessageBarType=MessageBarType.Warning
+                </MessageBar>
+            </StackItem>
+            <StackItem>
+                <MessageBar MessageBarType=MessageBarType.Warning
                             IsMultiline=false
                             OnDismiss=@OnDismiss
                             DismissButtonAriaLabel="Close">
                     <Actions>
-                        <div><BFUMessageBarButton Text="Action" /></div>
+                        <div><MessageBarButton Text="Action" /></div>
                     </Actions>
                     <ChildContent>
                         Warning MessageBar content.
-                        <BFULink Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
+                        <Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
                         Visit us on GitHub.
-                        </BFULink>
+                        </Link>
                     </ChildContent>
-                </BFUMessageBar>
-            </BFUStackItem>
-            <BFUStackItem>
-                <BFUMessageBar OnDismiss=@OnDismiss
+                </MessageBar>
+            </StackItem>
+            <StackItem>
+                <MessageBar OnDismiss=@OnDismiss
                             DismissButtonAriaLabel="Close"
                             MessageBarType=MessageBarType.Warning>
                     <Actions>
                         <div>
-                            <BFUMessageBarButton Text="Yes" />
-                            <BFUMessageBarButton Text="No" />
+                            <MessageBarButton Text="Yes" />
+                            <MessageBarButton Text="No" />
                         </div>
                     </Actions>
                     <ChildContent>
@@ -103,31 +103,31 @@
                         condimentum porttitor et sed lacus. Vivamus ac efficitur leo. Cras faucibus mauris libero, ac placerat erat euismod et. Donec pulvinar
                         commodo odio sit amet faucibus. In hac habitasse platea dictumst. Duis eu ante commodo, condimentum nibh pellentesque, laoreet enim.
                         Fusce massa lorem, ultrices eu mi a, fermentum suscipit magna. Integer porta purus pulvinar, hendrerit felis eget, condimentum mauris.
-                        <BFULink Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
+                        <Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">
                         Visit us on GitHub.
-                        </BFULink>
+                        </Link>
                     </ChildContent>
-                </BFUMessageBar>
-            </BFUStackItem>
+                </MessageBar>
+            </StackItem>
             @if (onDismissIsClicked)
             {
-            <BFUStackItem>
-                <BFUMessageBar OnDismiss=@OnDismissClose
+            <StackItem>
+                <MessageBar OnDismiss=@OnDismissClose
                             DismissButtonAriaLabel="Close">
                     <ChildContent>
                         OnDismiss has been clicked!
                     </ChildContent>
                     <Actions>
                         <div>
-                            <BFUMessageBarButton OnClick=@OnDismissClose Text="Close" />
+                            <MessageBarButton OnClick=@OnDismissClose Text="Close" />
                         </div>
                     </Actions>
-                </BFUMessageBar>
-            </BFUStackItem>
+                </MessageBar>
+            </StackItem>
             }
-        </BFUStack>
-    </BFUStack>
-</BFUStack>
+        </Stack>
+    </Stack>
+</Stack>
 
 @code
 {

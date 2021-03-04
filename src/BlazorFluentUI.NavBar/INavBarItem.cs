@@ -2,7 +2,7 @@
 
 namespace BlazorFluentUI
 {
-    public interface IBFUNavBarItem : IBFUContextualMenuItem, IBFUCommandBarItem
+    public interface INavBarItem : IContextualMenuItem, ICommandBarItem
     {
         //buttonStyles
         string CacheKey { get; set; }
@@ -18,6 +18,6 @@ namespace BlazorFluentUI
         //tooltipHostProps
         string Url { get; set; }
 
-        IEnumerable<IBFUContextualMenuItem> Items { get; set; }
+        IEnumerable<IContextualMenuItem> Items { get; set; }
     }
 }

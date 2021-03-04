@@ -1,9 +1,9 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
-<BFULocalCS @bind-Rules="@DialogLocalRules" />
+<LocalCS @bind-Rules="@DialogLocalRules" />
 
-<BFUModal ClassName=@($"ms-Dialog {this.ClassName}")
+<Modal ClassName=@($"ms-Dialog {this.ClassName}")
        Style=@Style
        ElementToFocusOnDismiss=@ElementToFocusOnDismiss
        FirstFocusableSelector=@FirstFocusableSelector
@@ -17,7 +17,7 @@
        OnDismiss=@OnDismiss
        SubtitleAriaId=@(AriaDescribedBy != null ? AriaDescribedBy : SubText)
        TitleAriaId=@(AriaLabelledBy != null ? AriaLabelledBy : Title)>
-    <BFUDialogContent TitleId=@DefaultTitleTextId
+    <DialogContent TitleId=@DefaultTitleTextId
                    SubTextId=@DefaultSubTextId
                    Title=@Title
                    SubText=@SubText
@@ -30,4 +30,4 @@
                    DraggableHeaderClassName=@DraggableHeaderClassName
                    IsMultiline=@IsMultiline />
 
-</BFUModal>
+</Modal>

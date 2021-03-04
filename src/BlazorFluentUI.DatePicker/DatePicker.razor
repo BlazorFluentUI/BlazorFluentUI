@@ -1,12 +1,12 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class=@($"mediumFont ms-DatePicker{(IsDatePickerShown ? " ms-DatePicker--is-open" : "" )} {(Disabled ? " ms-DatePicker--is-disabled" : "" )} {ClassName}")
      style=@Style>
     <div aria-haspopup="true"
          aria-owns=@(IsDatePickerShown ? calloutId : "")
          @ref="datePickerDiv">
-        <BFUTextField Label=@Label
+        <TextField Label=@Label
                       @ref="textFieldComponent"
                       AriaLabel=@AriaLabel
                       AriaControls=@(IsDatePickerShown ? calloutId : "")
@@ -38,7 +38,7 @@
     </div>
     @if (IsDatePickerShown)
     {
-        <BFUCallout Role="dialog"
+        <Callout Role="dialog"
                     AriaLabel=@PickerAriaLabel
                     IsBeakVisible="false"
                     GapSpace="0"
@@ -47,10 +47,10 @@
                     DirectionalHint="DirectionalHint.BottomLeftEdge"
                     ClassName="ms-DatePicker-callout"
                     OnDismiss=@CalendarDismissed>
-            <BFUFocusTrapZone IsClickableOutsideFocusTrap="true"
+            <FocusTrapZone IsClickableOutsideFocusTrap="true"
                               DisableFirstFocus=@DisableAutoFocus
                               ForceFocusInsideTrap="false">
-                <BFUCalendar OnSelectDate=@OnSelectedDate
+                <Calendar OnSelectDate=@OnSelectedDate
                              OnDismiss=@CalendarDismissed
                              IsMonthPickerVisible=@IsMonthPickerVisible
                              IsTimePickerVisible=@IsTimePickerVisible
@@ -68,7 +68,7 @@
                              MaxDate=@MaxDate
                              ShowCloseButton=@ShowCloseButton
                              AllFocusable=@AllFocusable />
-            </BFUFocusTrapZone>
-        </BFUCallout>
+            </FocusTrapZone>
+        </Callout>
     }
 </div>

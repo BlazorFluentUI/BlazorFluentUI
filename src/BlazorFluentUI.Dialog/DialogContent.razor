@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class=@($"mediumFont ms-Dialog-content{(DialogType == DialogType.LargeHeader ? " ms-Dialog--lgHeader":"")}{(DialogType == DialogType.Close ? " ms-Dialog--close":"")}{(IsMultiline ? " ms-Dialog--multiline":"")} {this.ClassName}")>
     <div class="ms-Dialog-header" style=@(string.IsNullOrWhiteSpace(DraggableHeaderClassName) ? "" : "cursor: move;")>
@@ -15,9 +15,9 @@
             @if (DialogType == DialogType.Close || (ShowCloseButton && DialogType != DialogType.LargeHeader))
             {
                 /* This is causing problems when we try to dismiss the window while this is in animation. */
-                <BFUTooltipHost>
+                <TooltipHost>
                     <ChildContent>
-                        <BFUIconButton ClassName="ms-Dialog-button"
+                        <IconButton ClassName="ms-Dialog-button"
                                     IconName="Cancel"
                                     AriaLabel=@CloseButtonAriaLabel
                                     OnClick=@(ev => OnDismiss.InvokeAsync(ev)) />
@@ -25,7 +25,7 @@
                     <TooltipContent>
                         @CloseButtonAriaLabel
                     </TooltipContent>
-                </BFUTooltipHost>
+                </TooltipHost>
 
             }
         </div>

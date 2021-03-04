@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUNavLink : BFUComponentBase
+    public partial class NavLink : FluentUIComponentBase
     {
         [Inject] protected NavigationManager NavigationManager { get; set; }
 
@@ -18,15 +18,7 @@ namespace BlazorFluentUI
         //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool ForceAnchor { get; set; } //unused for now
-        [Obsolete("Use IconName instead")]
-        [Parameter]
-        public string Icon
-        {
-            set
-            {
-                IconName = value;
-            }
-        }
+        
         [Parameter] public string? IconName { get; set; }
         [Parameter] public string? IconSrc { get; set; }
         [Parameter] public bool IsButton { get; set; }
@@ -40,7 +32,7 @@ namespace BlazorFluentUI
         [Parameter] public int NestedDepth { get; set; }
         [Parameter] public NavMatchType NavMatchType { get; set; } = NavMatchType.RelativeLinkOnly;
 
-        [Parameter] public EventCallback<BFUNavLink> OnClick { get; set; }
+        [Parameter] public EventCallback<NavLink> OnClick { get; set; }
         [Parameter] public EventCallback<bool> IsExpandedChanged { get; set; }
 
         [CascadingParameter(Name = "ClearSelectionAction")] Action ClearSelectionAction { get; set; }

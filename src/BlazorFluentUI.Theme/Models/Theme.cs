@@ -2,7 +2,7 @@
 
 namespace BlazorFluentUI
 {
-    public class Theme : ITheme
+    public partial class Theme : ITheme
     {
         public IPalette Palette { get; set; }
         public ISemanticTextColors SemanticTextColors { get; set; }

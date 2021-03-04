@@ -1,4 +1,4 @@
-﻿@inherits BFUButtonParameters
+﻿@inherits ButtonParameters
 @namespace BlazorFluentUI
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Forms 
@@ -6,7 +6,7 @@
 
 @if (ChildContent == null)
 {
-    <BFUButtonBase Href=@Href
+    <ButtonBase Href=@Href
                    ClassName=@ClassName
                    Style=@Style
                    Primary=@primary
@@ -32,7 +32,7 @@
 }
 else
 {
-    <BFUButtonBase Href=@Href
+    <ButtonBase Href=@Href
                    ClassName=@ClassName
                    Style=@Style
                    Primary=@primary
@@ -62,7 +62,7 @@ else
     [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
     [Parameter] public bool ForceDefault { get; set; } = false;
 
-    private BFUButtonBase baseReference;
+    private ButtonBase baseReference;
     private bool primary = true;
 
     protected override void OnParametersSet()

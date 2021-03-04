@@ -1,6 +1,6 @@
 ﻿namespace BlazorFluentUI
 {
-    public class BFUIconProperties
+    public class IconProperties
     {
         /// <summary>
         /// The name of the icon to use from the icon font.

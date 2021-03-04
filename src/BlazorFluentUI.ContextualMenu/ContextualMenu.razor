@@ -1,9 +1,9 @@
 @namespace BlazorFluentUI
 @using Microsoft.AspNetCore.Components.Web
-@inherits BFUResponsiveComponentBase
+@inherits ResponsiveComponentBase
 
 <div class="ms-ContextualMenu-root">
-    <BFUCallout FabricComponentTarget=@FabricComponentTarget
+    <Callout FabricComponentTarget=@FabricComponentTarget
                 IsBeakVisible=@((int)CurrentMode <= (int)ResponsiveMode.Medium ? true : IsBeakVisible)
                 BeakWidth=@BeakWidth
                 DirectionalHint=@DirectionalHint
@@ -29,7 +29,7 @@
             }
             @if (Items != null && Items.Count() > 0)
             {
-                <BFUFocusZone ClassName=@($"ms-ContextualMenu")
+                <FocusZone ClassName=@($"ms-ContextualMenu")
                               @ref="_focusZoneReference"
                               Direction="FocusZoneDirection.Vertical"
                               IsCircularNavigation="true"
@@ -45,9 +45,9 @@
                             }
                             else
                             {
-                                if (item is IBFUContextualMenuItem contextualMenuItem)
+                                if (item is IContextualMenuItem contextualMenuItem)
                                 {
-                                    <BlazorFluentUI.BFUContextualMenuInternal.ContextualMenuItem CanCheck=@contextualMenuItem.CanCheck
+                                    <BlazorFluentUI.ContextualMenuInternal.ContextualMenuItem CanCheck=@contextualMenuItem.CanCheck
                                                                                                  Checked=@contextualMenuItem.Checked
                                                                                                  ClassName=@contextualMenuItem.ClassName
                                                                                                  Command=@contextualMenuItem.Command
@@ -80,14 +80,14 @@
                                 }
                                 else
                                 {
-                                    throw new Exception("ItemTemplate or ItemTemplateSelector needs to be defined if items are used, which are not type of IBFUContextualMenuItem");
+                                    throw new Exception("ItemTemplate or ItemTemplateSelector needs to be defined if items are used, which are not type of IContextualMenuItem");
                                 }
                             }
                         }
                     </ul>
-                </BFUFocusZone>
+                </FocusZone>
             }
         </div>
 
-    </BFUCallout>
+    </Callout>
 </div>

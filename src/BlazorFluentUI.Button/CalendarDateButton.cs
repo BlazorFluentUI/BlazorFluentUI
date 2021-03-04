@@ -6,7 +6,7 @@ using System;
 namespace BlazorFluentUI
 {
     [Obsolete]
-    public class BFUCalendarDateButton : BFUButtonBase
+    public class CalendarDateButton : ButtonBase
     {
         [Parameter] public bool AriaSelected { get; set; }
 
@@ -26,14 +26,14 @@ namespace BlazorFluentUI
         {
             builder.OpenElement(21, "button");
 
-            builder.AddAttribute(23, "class", $"mediumFont ms-Button {buttonClassName} {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")} {this.ClassName}");
-            builder.AddAttribute(24, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ClickHandler));
-            builder.AddAttribute(25, "disabled", this.Disabled && !this.AllowDisabledFocus);
-            builder.AddAttribute(26, "data-is-focusable", this.Disabled || this.Split ? false : true);
-            builder.AddAttribute(27, "style", this.Style);
+            builder.AddAttribute(23, "class", $"mediumFont ms-Button {buttonClassName} {(Disabled ? "is-disabled" : "")} {(isChecked ? "is-checked" : "")} {ClassName}");
+            builder.AddAttribute(24, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, ClickHandler));
+            builder.AddAttribute(25, "disabled", Disabled && !AllowDisabledFocus);
+            builder.AddAttribute(26, "data-is-focusable", Disabled || Split ? false : true);
+            builder.AddAttribute(27, "style", Style);
 
-            builder.AddAttribute(28, "aria-selected", this.AriaSelected);
-            builder.AddAttribute(29, "aria-label", this.AriaLabel);
+            builder.AddAttribute(28, "aria-selected", AriaSelected);
+            builder.AddAttribute(29, "aria-label", AriaLabel);
 
             builder.AddElementReferenceCapture(30, (elementRef) => { RootElementReference = elementRef; });
 
@@ -41,21 +41,21 @@ namespace BlazorFluentUI
             builder.OpenElement(40, "div");
             builder.AddAttribute(41, "class", "ms-Button-flexContainer");
 
-            if (this.Text != null)
+            if (Text != null)
             {
                 builder.OpenElement(51, "div");
                 builder.AddAttribute(52, "class", "ms-Button-textContainer");
                 builder.OpenElement(53, "div");
                 builder.AddAttribute(54, "class", "ms-Button-label");
-                builder.AddContent(55, this.Text);
+                builder.AddContent(55, Text);
                 builder.CloseElement();
                 builder.CloseElement();
             }
-            if (this.AriaDescripton != null)
+            if (AriaDescripton != null)
             {
                 builder.OpenElement(71, "span");
                 builder.AddAttribute(72, "class", "ms-Button-screenReaderText");
-                builder.AddContent(73, this.AriaDescripton);
+                builder.AddContent(73, AriaDescripton);
                 builder.CloseElement();
             }
 

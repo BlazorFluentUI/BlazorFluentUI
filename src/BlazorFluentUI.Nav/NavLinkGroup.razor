@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div key={groupIndex}
      class=@($"ms-Nav-group {(!this.isCollapsed ? "is-expanded":"")} {ClassName}")
@@ -13,7 +13,7 @@
                     @onclick=@ClickHandler
                     aria-label=@this.ExpandButtonAriaLabel
                     aria-expanded={this._isGroupExpanded(group)}>
-                <BFUIcon ClassName="ms-Nav-chevron" IconName="ChevronDown" />
+                <Icon ClassName="ms-Nav-chevron" IconName="ChevronRight" />
                 <span class="largeFont">@Name</span>
             </button>
         }

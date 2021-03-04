@@ -1,6 +1,6 @@
 namespace BlazorFluentUI
 {
-    public interface IBFUPivotItem
+    public interface IPivotItem
     {
         string LinkText {get;set;}
         string HeaderText {get;set;}

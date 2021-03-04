@@ -19,11 +19,11 @@ using System.Collections.Specialized;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUGroupedListAuto<TItem,TKey> : BFUComponentBase, IDisposable
+    public partial class GroupedListAuto<TItem,TKey> : FluentUIComponentBase, IDisposable
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private BFUList<IGroupedListItem3<TItem>> listReference;
+        private FluentUIList<IGroupedListItem3<TItem>> listReference;
 
         private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> dataItems;
 
@@ -43,15 +43,15 @@ namespace BlazorFluentUI
         private IDisposable _transformedDisposable;
 
         [CascadingParameter]
-        public BFUSelectionZone<TItem> SelectionZone { get; set; }
+        public SelectionZone<TItem> SelectionZone { get; set; }
 
-        private IEnumerable<BFUDetailsRowColumn<TItem>> _columns;
+        private IEnumerable<DetailsRowColumn<TItem>> _columns;
       
         /// <summary>
         /// This is intended to be populated only when GroupedList is rendered under DetailsList.
         /// </summary>
         [Parameter]
-        public IEnumerable<BFUDetailsRowColumn<TItem>> Columns { get => _columns; set { if (_columns == value) return; else { _columns = value; OnPropertyChanged(); } } }
+        public IEnumerable<DetailsRowColumn<TItem>> Columns { get => _columns; set { if (_columns == value) return; else { _columns = value; OnPropertyChanged(); } } }
 
 
         [Parameter]
@@ -343,7 +343,7 @@ namespace BlazorFluentUI
                 {
                     if (_itemsSource is INotifyCollectionChanged)
                     {
-                        (_itemsSource as INotifyCollectionChanged).CollectionChanged -= BFUGroupedListAuto_CollectionChanged;
+                        (_itemsSource as INotifyCollectionChanged).CollectionChanged -= GroupedListAuto_CollectionChanged;
                     }
 
                     _itemsSource = ItemsSource;
@@ -351,7 +351,7 @@ namespace BlazorFluentUI
                     
                     if (_itemsSource is INotifyCollectionChanged)
                     {
-                        (_itemsSource as INotifyCollectionChanged).CollectionChanged += BFUGroupedListAuto_CollectionChanged;
+                        (_itemsSource as INotifyCollectionChanged).CollectionChanged += GroupedListAuto_CollectionChanged;
                     }
 
                     if (_itemsSource != null)
@@ -364,7 +364,7 @@ namespace BlazorFluentUI
 
         }
 
-        private void BFUGroupedListAuto_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private void GroupedListAuto_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {

@@ -1,15 +1,15 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUPivot
+@inherits Pivot
 
 
 <div role="tablist" aria-label=@AriaLabel style="overflow:hidden;">
-    <BFUFocusZone Direction=FocusZoneDirection.Horizontal @ref="calloutTarget">
+    <FocusZone Direction=FocusZoneDirection.Horizontal @ref="calloutTarget">
         <CascadingValue Name="Pivot" Value="@this">
             <div class=@($"ms-Pivot mediumFont{(LinkFormat == PivotLinkFormat.Tabs ? " ms-Pivot--tabs" : "")}{(LinkSize == PivotLinkSize.Large ? " ms-Pivot--large" : "")}")>
                 @ChildContent
             </div>
         </CascadingValue>
-    </BFUFocusZone>
+    </FocusZone>
 
     @if (!HeadersOnly && !(Selected == null) && PivotItems.IndexOf(Selected) == _oldIndex)
     {
@@ -36,11 +36,11 @@
 
 @if (ShowBackstage)
 {
-    <BFUCallout FabricComponentTarget=@calloutTarget
+    <Callout FabricComponentTarget=@calloutTarget
                 DirectionalHint=@DirectionalHint.LeftTopEdge
                 OnDismiss=@PanelDismiss
                 IsBeakVisible="false"
                 CoverTarget="true">
         @Backstage
-    </BFUCallout>
+    </Callout>
 }

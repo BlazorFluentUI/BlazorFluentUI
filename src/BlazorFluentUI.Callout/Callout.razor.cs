@@ -3,14 +3,14 @@ using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCallout : BFUComponentBase
+    public partial class Callout : FluentUIComponentBase
     {
         //[Inject] private IComponentContext ComponentContext { get; set; }
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public ElementReference ElementTarget { get; set; }  // not working yet
-        [Parameter] public BFUComponentBase FabricComponentTarget { get; set; }
+        [Parameter] public FluentUIComponentBase FabricComponentTarget { get; set; }
 
         [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.BottomAutoEdge;
         [Parameter] public bool DirectionalHintFixed { get; set; }

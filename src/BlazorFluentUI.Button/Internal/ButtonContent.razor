@@ -1,4 +1,4 @@
-﻿@inherits BFUButtonParameters
+﻿@inherits ButtonParameters
 @using Microsoft.AspNetCore.Components.Web
 
 @{
@@ -9,7 +9,7 @@
       @ref="RootElementReference">
     @if (IconName != null || IconSrc != null)
     {
-        <BFUIcon ClassName="ms-Button-icon"
+        <Icon ClassName="ms-Button-icon"
                  IconName=@IconName
                  IconSrc=@IconSrc />
     }
@@ -33,7 +33,7 @@
     }
     @if (!isSplitButton && MenuItems != null && !HideChevron)
     {
-        <BFUIcon IconName="ChevronDown"
+        <Icon IconName="ChevronDown"
                  ClassName="ms-Button-menuIcon" />
     }
     @if (MenuItems != null && ContextMenuShown)
@@ -41,7 +41,7 @@
 
         if (MenuItemTemplate != null)
         {
-            <BFUContextualMenu FabricComponentTarget=@this
+            <ContextualMenu FabricComponentTarget=@this
                                ShouldFocusOnMount=@_menuShouldFocusOnMount
                                OnDismiss=@(isDismissed => {
 
@@ -52,11 +52,11 @@
                                ItemTemplate=@MenuItemTemplate
                                SubordinateItemTemplate=@SubordinateItemTemplate>
 
-            </BFUContextualMenu>
+            </ContextualMenu>
         }
         else
         {
-            <BFUContextualMenu FabricComponentTarget=@this
+            <ContextualMenu FabricComponentTarget=@this
                                ShouldFocusOnMount=@_menuShouldFocusOnMount
                                OnDismiss=@(isDismissed => {
 
@@ -64,7 +64,7 @@
                                })
                                Items=@MenuItems
                                DirectionalHint=@DirectionalHint.BottomLeftEdge>
-            </BFUContextualMenu>
+            </ContextualMenu>
         }
 
 

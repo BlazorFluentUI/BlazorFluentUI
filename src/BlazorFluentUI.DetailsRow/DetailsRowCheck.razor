@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
-@*<BFUGlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />*@
+@*<GlobalCS Component=@this CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />*@
 
 @if (CanSelect)
 {
@@ -12,7 +12,7 @@
          data-selection-toggle="true"
          data-automationid="DetailsRowCheck"
          data-is-focusable=@IsFocusable>
-            <BFUCheck UseFastIcons=@UseFastIcons Checked=@Checked />
+            <Check UseFastIcons=@UseFastIcons Checked=@Checked />
     </div>
 }
 else

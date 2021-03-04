@@ -3,58 +3,58 @@
 <h1>DocumentCard</h1>
 
 <Demo Header="Default Style" Key="0" MetadataPath="DocumentCardPage">
-    <BFUStack Style="width:100%;" Tokens="@(new BFUStackTokens() { ChildrenGap = new [] {20d}})">
-        <BFUDocumentCard Type="DocumentCardType.Normal" OnClickHref="http://bing.com">
-            <BFUDocumentCardPreview PreviewImages="@defaultImages.Take(1).ToArray()"></BFUDocumentCardPreview>
-            <BFUDocumentCardTitle Title="this is a title a long title a really long title very long indeed this is a title a long title a really long title very long indeed" ShouldTruncate="true"></BFUDocumentCardTitle>
-            <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
-        </BFUDocumentCard>
-    </BFUStack>
+    <Stack Style="width:100%;" Tokens="@(new StackTokens() { ChildrenGap = new [] {20d}})">
+        <DocumentCard Type="DocumentCardType.Normal" OnClickHref="http://bing.com">
+            <DocumentCardPreview PreviewImages="@defaultImages.Take(1).ToArray()"></DocumentCardPreview>
+            <DocumentCardTitle Title="this is a title a long title a really long title very long indeed this is a title a long title a really long title very long indeed" ShouldTruncate="true"></DocumentCardTitle>
+            <DocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></DocumentCardActivity>
+        </DocumentCard>
+    </Stack>
 </Demo>
 
 <Demo Header="Compact Style" Key="1" MetadataPath="DocumentCardPage">
-    <BFUStack Style="width:100%;" Tokens="@(new BFUStackTokens() { ChildrenGap = new [] {20d}})">
-        <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
-            <BFUDocumentCardPreview PreviewImages="@images.Take(1).ToArray()"></BFUDocumentCardPreview>
-            <BFUDocumentCardDetails>
-                <BFUDocumentCardTitle ShouldTruncate="false" Title="My Heading"></BFUDocumentCardTitle>
-                <BFUDocumentCardActivity Activity="Test activity" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
-            </BFUDocumentCardDetails>
-        </BFUDocumentCard>
-        <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
-            <BFUDocumentCardPreview PreviewImages="@images"></BFUDocumentCardPreview>
-            <BFUDocumentCardDetails>
-                <BFUDocumentCardTitle ShouldTruncate="false" Title="My Heading"></BFUDocumentCardTitle>
-                <BFUDocumentCardActivity Activity="Test activity" People="@persons"></BFUDocumentCardActivity>
-            </BFUDocumentCardDetails>
-        </BFUDocumentCard>
-        <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
-            <BFUDocumentCardPreview PreviewImages="@previewImagesUsingIcon"></BFUDocumentCardPreview>
-            <BFUDocumentCardDetails>
-                <BFUDocumentCardTitle ShouldTruncate="false" Title="View and share files"></BFUDocumentCardTitle>
-                <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
-            </BFUDocumentCardDetails>
-        </BFUDocumentCard>
-        <BFUDocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
-            <BFUDocumentCardPreview PreviewImages="@previewOutlookUsingIcon"></BFUDocumentCardPreview>
-            <BFUDocumentCardDetails>
-                <BFUDocumentCardTitle ShouldTruncate="false" Title="View and share files"></BFUDocumentCardTitle>
-                <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
-            </BFUDocumentCardDetails>
-        </BFUDocumentCard>
-    </BFUStack>
+    <Stack Style="width:100%;" Tokens="@(new StackTokens() { ChildrenGap = new [] {20d}})">
+        <DocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <DocumentCardPreview PreviewImages="@images.Take(1).ToArray()"></DocumentCardPreview>
+            <DocumentCardDetails>
+                <DocumentCardTitle ShouldTruncate="false" Title="My Heading"></DocumentCardTitle>
+                <DocumentCardActivity Activity="Test activity" People="@persons.Take(1).ToArray()"></DocumentCardActivity>
+            </DocumentCardDetails>
+        </DocumentCard>
+        <DocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <DocumentCardPreview PreviewImages="@images"></DocumentCardPreview>
+            <DocumentCardDetails>
+                <DocumentCardTitle ShouldTruncate="false" Title="My Heading"></DocumentCardTitle>
+                <DocumentCardActivity Activity="Test activity" People="@persons"></DocumentCardActivity>
+            </DocumentCardDetails>
+        </DocumentCard>
+        <DocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <DocumentCardPreview PreviewImages="@previewImagesUsingIcon"></DocumentCardPreview>
+            <DocumentCardDetails>
+                <DocumentCardTitle ShouldTruncate="false" Title="View and share files"></DocumentCardTitle>
+                <DocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></DocumentCardActivity>
+            </DocumentCardDetails>
+        </DocumentCard>
+        <DocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
+            <DocumentCardPreview PreviewImages="@previewOutlookUsingIcon"></DocumentCardPreview>
+            <DocumentCardDetails>
+                <DocumentCardTitle ShouldTruncate="false" Title="View and share files"></DocumentCardTitle>
+                <DocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></DocumentCardActivity>
+            </DocumentCardDetails>
+        </DocumentCard>
+    </Stack>
 </Demo>
 
 <Demo Header="Commands" Key="2" MetadataPath="DocumentCardPage">
-    <BFUStack Style="width:100%;margin-bottom:50px;" Tokens="@(new BFUStackTokens() { ChildrenGap = new [] {20d}})">
-        <BFUDocumentCard Type="DocumentCardType.Normal">
-            <BFUDocumentCardPreview PreviewImages="@images"></BFUDocumentCardPreview>
-            <BFUDocumentCardLocation Location="Github" LocationHref="https://www.github.com"></BFUDocumentCardLocation>
-            <BFUDocumentCardTitle Title="this is a title" ShouldTruncate="false"></BFUDocumentCardTitle>
-            <BFUDocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></BFUDocumentCardActivity>
-            <BFUDocumentCardActions Actions="@actions" Views="342"></BFUDocumentCardActions>
-        </BFUDocumentCard>
-    </BFUStack>
+    <Stack Style="width:100%;margin-bottom:50px;" Tokens="@(new StackTokens() { ChildrenGap = new [] {20d}})">
+        <DocumentCard Type="DocumentCardType.Normal">
+            <DocumentCardPreview PreviewImages="@images"></DocumentCardPreview>
+            <DocumentCardLocation Location="Github" LocationHref="https://www.github.com"></DocumentCardLocation>
+            <DocumentCardTitle Title="this is a title" ShouldTruncate="false"></DocumentCardTitle>
+            <DocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></DocumentCardActivity>
+            <DocumentCardActions Actions="@actions" Views="342"></DocumentCardActions>
+        </DocumentCard>
+    </Stack>
 </Demo>
 
 @code {
@@ -62,20 +62,20 @@
 
     public ITheme Theme => ThemeProvider.Theme;
 
-    BFUDocumentPreviewImage[] defaultImages;
-    BFUDocumentPreviewImage[] previewImagesUsingIcon;
-    BFUDocumentPreviewImage[] previewOutlookUsingIcon;
-    BFUDocumentCardActivityPerson[] persons;
-    BFUDocumentPreviewImage[] images;
-    BFUDocumentCardAction[] actions;
+    DocumentPreviewImage[] defaultImages;
+    DocumentPreviewImage[] previewImagesUsingIcon;
+    DocumentPreviewImage[] previewOutlookUsingIcon;
+    DocumentCardActivityPerson[] persons;
+    DocumentPreviewImage[] images;
+    DocumentCardAction[] actions;
 
     protected override Task OnParametersSetAsync()
     {
-        previewImagesUsingIcon = new BFUDocumentPreviewImage[]
+        previewImagesUsingIcon = new DocumentPreviewImage[]
         {
-            new BFUDocumentPreviewImage()
+            new DocumentPreviewImage()
             {
-                PreviewIconProps = new BFUIconProperties()
+                PreviewIconProps = new IconProperties()
                 {
                     IconName = "Mail",
                     Styles = $"color: white; font-size: {Theme.FontStyle.FontSize.SuperLarge};"
@@ -84,11 +84,11 @@
                 Styles = $"background-color:{Theme.Palette.ThemePrimary}"
         }
                };
-        previewOutlookUsingIcon = new BFUDocumentPreviewImage[]
+        previewOutlookUsingIcon = new DocumentPreviewImage[]
    {
-            new BFUDocumentPreviewImage()
+            new DocumentPreviewImage()
             {
-                PreviewIconProps = new BFUIconProperties()
+                PreviewIconProps = new IconProperties()
                 {
                     IconName = "OutlookLogo",
                     Styles = $"color: #0078d7; font-size: {Theme.FontStyle.FontSize.SuperLarge};background-color:{Theme.Palette.NeutralLighterAlt};"
@@ -98,19 +98,19 @@
         }
           };
 
-        actions = new BFUDocumentCardAction[]
+        actions = new DocumentCardAction[]
         {
-            new BFUDocumentCardAction()
+            new DocumentCardAction()
             {
                 IconName = "Share",
                 OnClickHandler = EventCallback.Factory.Create<MouseEventArgs>(this, ClickHandler)
             },
-             new BFUDocumentCardAction()
+             new DocumentCardAction()
             {
                 IconName = "Pin",
                 OnClickHandler = EventCallback.Factory.Create<MouseEventArgs>(this, ClickHandler)
             },
-              new BFUDocumentCardAction()
+              new DocumentCardAction()
             {
                 IconName = "Ringer",
                 OnClickHandler = EventCallback.Factory.Create<MouseEventArgs>(this, ClickHandler)
@@ -127,9 +127,9 @@
 
     public DocumentCardPage()
     {
-        defaultImages = new BFUDocumentPreviewImage[]
+        defaultImages = new DocumentPreviewImage[]
         {
-            new BFUDocumentPreviewImage()
+            new DocumentPreviewImage()
             {
                 Width = 318,
                 Height = 196,
@@ -146,13 +146,13 @@
                                     };
 
 
-        List<BFUDocumentCardActivityPerson> p = new List<BFUDocumentCardActivityPerson>();
-        p.Add(new BFUDocumentCardActivityPerson()
+        List<DocumentCardActivityPerson> p = new List<DocumentCardActivityPerson>();
+        p.Add(new DocumentCardActivityPerson()
         {
             Name = "Albert Einstein",
             AllowPhoneInitials = true
         });
-        p.Add(new BFUDocumentCardActivityPerson()
+        p.Add(new DocumentCardActivityPerson()
         {
             Name = "Marie Curie",
             AllowPhoneInitials = true,
@@ -161,8 +161,8 @@
 
         persons = p.ToArray();
 
-        List<BFUDocumentPreviewImage> i = new List<BFUDocumentPreviewImage>();
-        i.Add(new BFUDocumentPreviewImage()
+        List<DocumentPreviewImage> i = new List<DocumentPreviewImage>();
+        i.Add(new DocumentPreviewImage()
         {
             Width = 144,
             Name = "A preview image",
@@ -175,7 +175,7 @@
             }
         });
 
-        i.Add(new BFUDocumentPreviewImage()
+        i.Add(new DocumentPreviewImage()
         {
             Width = 144,
             Name = "A preview image",
@@ -188,7 +188,7 @@
             }
         });
 
-        i.Add(new BFUDocumentPreviewImage()
+        i.Add(new DocumentPreviewImage()
         {
             Width = 144,
             Name = "A preview image",
@@ -201,7 +201,7 @@
             }
         });
 
-        i.Add(new BFUDocumentPreviewImage()
+        i.Add(new DocumentPreviewImage()
         {
             Width = 144,
             Name = "A preview image",
@@ -214,7 +214,7 @@
             }
         });
 
-        i.Add(new BFUDocumentPreviewImage()
+        i.Add(new DocumentPreviewImage()
         {
             Width = 144,
             Name = "A preview image",

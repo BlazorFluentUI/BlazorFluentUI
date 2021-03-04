@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPivot : BFUComponentBase
+    public partial class Pivot : FluentUIComponentBase
     {
         [Parameter] public int? DefaultSelectedIndex { get; set; }
         [Parameter] public string DefaultSelectedKey { get; set; }
         [Parameter] public bool HeadersOnly { get; set; }
         [Parameter] public PivotLinkFormat LinkFormat { get; set; }
         [Parameter] public PivotLinkSize LinkSize { get; set; }
-        [Parameter] public Action<BFUPivotItem, MouseEventArgs> OnLinkClick { get; set; }
+        [Parameter] public Action<PivotItem, MouseEventArgs> OnLinkClick { get; set; }
         [Parameter] public EventCallback<string> SelectedKeyChanged { get; set; }
         [Parameter]
         public string SelectedKey
@@ -31,8 +31,8 @@ namespace BlazorFluentUI
         }
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        public IList<BFUPivotItem> PivotItems { get; set; }
-        public virtual BFUPivotItem Selected
+        public IList<PivotItem> PivotItems { get; set; }
+        public virtual PivotItem Selected
         {
             get => _selected;
             set
@@ -52,7 +52,7 @@ namespace BlazorFluentUI
             }
         }
 
-        protected BFUPivotItem _selected;
+        protected PivotItem _selected;
         private bool _isControlled;
         private string _selectedKey;
         protected bool _redraw;
@@ -61,7 +61,7 @@ namespace BlazorFluentUI
 
         protected override void OnInitialized()
         {
-            PivotItems = new List<BFUPivotItem>();
+            PivotItems = new List<PivotItem>();
             if (SelectedKey != null)
             {
                 _isControlled = true;

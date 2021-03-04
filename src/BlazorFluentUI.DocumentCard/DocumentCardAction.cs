@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorFluentUI
 {
-    public class BFUDocumentCardAction
+    public class DocumentCardAction
     {
         public string? IconName { get; set; }
         public string? IconSrc { get; set; }

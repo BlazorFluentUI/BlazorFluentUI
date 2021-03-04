@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
-<BFULocalCS @bind-Rules="PersonaCoinLocalRules" />
+<LocalCS @bind-Rules="PersonaCoinLocalRules" />
 <div @ref="RootElementReference" class=@($"{ClassName} mediumFont ms-Persona-coin") style=@Style>
     @if (Size != PersonaSize.Size8)
     {
@@ -12,7 +12,7 @@
                      aria-hidden="true">
                     @if (ShowUnknownPersonaCoin)
                     {
-                        <BFUIcon IconName="Help" />
+                        <Icon IconName="Help" />
                     }
                     else
                     {
@@ -23,7 +23,7 @@
                         }
                         else
                         {
-                            <BFUIcon IconName="Contact" />
+                            <Icon IconName="Contact" />
                         }
                     }
                 </div>
@@ -31,7 +31,7 @@
             @if (ImageUrl != null)
             {
                 var dimension = CoinSize != -1 ? CoinSize : PersonaSize.SizeToPixels(Size);
-                <BFUImage Src=@ImageUrl
+                <Image Src=@ImageUrl
                           ClassName=@($"ms-Persona-image {LocalSpecificityClass} {ImageRule.Selector.SelectorName}")
                           ImageFit=@ImageFit.Cover
                           Width=@dimension
@@ -43,7 +43,7 @@
             }
             @if (Presence != PersonaPresenceStatus.None)
             {
-                <BFUPersonaPresence CoinSize=@CoinSize IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle Size=@Size />
+                <PersonaPresence CoinSize=@CoinSize IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle Size=@Size />
             }
         </div>
     }
@@ -51,11 +51,11 @@
     {
         if (Presence != PersonaPresenceStatus.None)
         {
-            <BFUPersonaPresence CoinSize=@CoinSize IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle Size=@Size />
+            <PersonaPresence CoinSize=@CoinSize IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle Size=@Size />
         }
         else
         {
-            <BFUIcon IconName="Contact" ClassName="ms-Persona-size10WithoutPresenceIcon" />
+            <Icon IconName="Contact" ClassName="ms-Persona-size10WithoutPresenceIcon" />
         }
     }
     @ChildContent

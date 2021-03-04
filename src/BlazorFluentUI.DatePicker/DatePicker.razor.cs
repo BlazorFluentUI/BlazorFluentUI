@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDatePicker : BFUComponentBase
+    public partial class DatePicker : FluentUIComponentBase
     {
         [Parameter] public bool AllFocusable { get; set; } = false;
         [Parameter] public bool AllowTextInput { get; set; } = false;
@@ -62,7 +62,7 @@ namespace BlazorFluentUI
 
         protected string calloutId;
         protected ElementReference datePickerDiv;
-        protected BFUTextField textFieldComponent;
+        protected TextField textFieldComponent;
         //protected string id = Guid.NewGuid().ToString();
 
         private bool _preventFocusOpeningPicker = false;
@@ -112,7 +112,7 @@ namespace BlazorFluentUI
                 return base.SetParametersAsync(parameters);
             }
 
-            this.SetErrorMessage(true, nextIsRequired, nextValue, nextMinDate, nextMaxDate, nextInitialPickerDate);
+            SetErrorMessage(true, nextIsRequired, nextValue, nextMinDate, nextMaxDate, nextInitialPickerDate);
 
             var oldValue = SelectedDate;
             if (DateTimeCompareNullable(oldValue, nextValue) != 0 

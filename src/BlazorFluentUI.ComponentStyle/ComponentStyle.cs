@@ -17,9 +17,9 @@ namespace BlazorFluentUI
         private static Dictionary<PropertyInfo, List<Attribute>> _attributeDictionary = new Dictionary<PropertyInfo, List<Attribute>>();
         private static Dictionary<PropertyInfo, Func<object, object>> _rulePropertiesGetters = new Dictionary<PropertyInfo, Func<object, object>>();
 
-        public bool ClientSide { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY"));
+        public bool isClient { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY"));
 
-        public BFUGlobalRules? GlobalRules { get; set; }
+        public GlobalRules? GlobalRules { get; set; }
 
         public ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
         public ObservableCollection<IGlobalCSSheet> GlobalCSSheets { get; set; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCheckbox : BFUComponentBase
+    public partial class Checkbox : FluentUIComponentBase
     {
         [Parameter]
         public int? AriaPositionInSet { get; set; }

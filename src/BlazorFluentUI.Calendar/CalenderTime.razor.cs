@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCalenderTime : BFUComponentBase
+    public partial class CalenderTime : FluentUIComponentBase
     {
         [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; }
         [Parameter] public DateTime SelectedDate { get; set; }

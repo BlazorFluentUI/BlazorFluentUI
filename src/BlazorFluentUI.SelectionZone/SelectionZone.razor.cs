@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUSelectionZone<TItem> : BFUComponentBase, IAsyncDisposable
+    public partial class SelectionZone<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }
@@ -74,8 +74,8 @@ namespace BlazorFluentUI
 
         private bool doNotRenderOnce = false;
 
-        private DotNetObjectReference<BFUSelectionZone<TItem>>? dotNetRef;
-        private BFUSelectionZoneProps props;
+        private DotNetObjectReference<SelectionZone<TItem>>? dotNetRef;
+        private SelectionZoneProps props;
 
         protected override bool ShouldRender()
         {
@@ -119,15 +119,15 @@ namespace BlazorFluentUI
             await base.OnParametersSetAsync();
         }
 
-        private BFUSelectionZoneProps GenerateProps()
+        private SelectionZoneProps GenerateProps()
         {
-            return new BFUSelectionZoneProps
+            return new SelectionZoneProps
             {
                 IsModal = isModal,
-                SelectionMode = this.SelectionMode,
-                DisableAutoSelectOnInputElements = this.DisableAutoSelectOnInputElements,
-                EnterModalOnTouch = this.EnterModalOnTouch,
-                EnableTouchInvocationTarget=this.EnableTouchInvocationTarget,
+                SelectionMode = SelectionMode,
+                DisableAutoSelectOnInputElements = DisableAutoSelectOnInputElements,
+                EnterModalOnTouch = EnterModalOnTouch,
+                EnableTouchInvocationTarget=EnableTouchInvocationTarget,
                 OnItemInvokeSet = (OnItemInvoked != null)
             };
         }
@@ -137,7 +137,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 dotNetRef = DotNetObjectReference.Create(this);
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUiSelectionZone.registerSelectionZone", dotNetRef, RootElementReference, new BFUSelectionZoneProps { IsModal = this.isModal, SelectionMode = this.SelectionMode });
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUiSelectionZone.registerSelectionZone", dotNetRef, RootElementReference, new SelectionZoneProps { IsModal = isModal, SelectionMode = SelectionMode });
             }
             await base.OnAfterRenderAsync(firstRender);
         }

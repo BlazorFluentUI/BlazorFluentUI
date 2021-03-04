@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace BlazorFluentUI
 {
-    public class BFUCommandBarItem : IBFUCommandBarItem
+    public class CommandBarItem : ICommandBarItem
     {
         public string CacheKey { get; set; }
 
@@ -36,7 +36,7 @@ namespace BlazorFluentUI
 
         //public object IconProps { get; set; }
 
-        public IEnumerable<IBFUContextualMenuItem> Items { get; set; }
+        public IEnumerable<IContextualMenuItem> Items { get; set; }
 
         public ContextualMenuItemType ItemType { get; set; }
 

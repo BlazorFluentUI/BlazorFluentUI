@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUResponsiveCascader : BFUResponsiveComponentBase
+    public partial class ResponsiveCascader : ResponsiveComponentBase
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }

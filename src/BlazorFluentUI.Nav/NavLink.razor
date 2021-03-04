@@ -1,8 +1,7 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
-<BFUStylePreloader Component="new BFUActionButton()" />
-<BFULocalCS @bind-Rules=@NavLinkLocalRules />
+<LocalCS @bind-Rules=@NavLinkLocalRules />
 
 <li role="listitem"
     class=@($"ms-Nav-navItem {ClassName}")
@@ -12,10 +11,10 @@
         @if (this.ChildContent != null)
         {
             <button class=@($"ms-Nav-chevronButton {ChevronButtonLeftRule.Selector.SelectorName}") @onclick=@ExpandHandler aria-label=@AriaLabel aria-expanded=@IsExpanded>
-                <BFUIcon ClassName="ms-Nav-chevron" IconName="ChevronDown" />
+                <Icon ClassName="ms-Nav-chevron" IconName="ChevronDown" />
             </button>
         }
-        <BFUActionButton 
+        <ActionButton 
             ClassName=@($"ms-Nav-link {NavLinkLeftPaddingRule.Selector.SelectorName} {(IconName != null |IconSrc != null ? "has-icon" : "")}")
             Href=@Url 
             IconName=@IconName 
@@ -26,7 +25,7 @@
             Command=@Command
             CommandParameter=@CommandParameter>
             <div class="ms-Nav-linkText">@Name</div>
-        </BFUActionButton>
+        </ActionButton>
     </div>
     @if (this.IsExpanded)
     {

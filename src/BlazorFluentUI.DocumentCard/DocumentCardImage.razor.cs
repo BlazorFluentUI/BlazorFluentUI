@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardImage : BFUComponentBase
+    public partial class DocumentCardImage : FluentUIComponentBase
     {
-        private ICollection<IRule> BFUDocumentCardImageRules { get; set; } = new List<IRule>();
+        private ICollection<IRule> DocumentCardImageRules { get; set; } = new List<IRule>();
 
         private Rule RootRule = new Rule();
         private Rule CenteredIconRule = new Rule();
@@ -69,14 +69,14 @@ namespace BlazorFluentUI
         private void CreateLocalCss()
         {
             RootRule.Selector = new ClassSelector() { SelectorName = $"{GlobalClassNames["root"]}" };
-            BFUDocumentCardImageRules.Add(RootRule);
+            DocumentCardImageRules.Add(RootRule);
 
             CenteredIconRule.Selector = new ClassSelector() { SelectorName = $"{GlobalClassNames["centeredIcon"]}" };
-            BFUDocumentCardImageRules.Add(CenteredIconRule);
+            DocumentCardImageRules.Add(CenteredIconRule);
             CenteredIconWrapperRule.Selector = new ClassSelector() { SelectorName = $"{GlobalClassNames["centeredIconWrapper"]}" };
-            BFUDocumentCardImageRules.Add(CenteredIconWrapperRule);
+            DocumentCardImageRules.Add(CenteredIconWrapperRule);
             CornerIconRule.Selector = new ClassSelector() { SelectorName = $"{GlobalClassNames["cornerIcon"]}" };
-            BFUDocumentCardImageRules.Add(CornerIconRule);
+            DocumentCardImageRules.Add(CornerIconRule);
         }
 
         private void SetStyle()

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFURibbonGroup: BFUComponentBase
+    public partial class RibbonGroup: FluentUIComponentBase
     {
         [Parameter] public RenderFragment<IRibbonItem>? ItemTemplate { get; set; }
 

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsRow<TItem> : BFUComponentBase, IAsyncDisposable
+    public partial class DetailsRow<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
         [CascadingParameter]
-        public BFUSelectionZone<TItem> SelectionZone { get; set; } = null!;
+        public SelectionZone<TItem> SelectionZone { get; set; } = null!;
 
         [Parameter]
         public CheckboxVisibility CheckboxVisibility { get; set; } = CheckboxVisibility.OnHover;
@@ -20,7 +20,7 @@ namespace BlazorFluentUI
         public bool AnySelected { get; set; }
 
         [Parameter]
-        public IEnumerable<BFUDetailsRowColumn<TItem>> Columns { get; set; }
+        public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
@@ -50,10 +50,10 @@ namespace BlazorFluentUI
         public int ItemIndex { get; set; }
 
         [Parameter]
-        public EventCallback<BFUDetailsRow<TItem>> OnRowDidMount { get; set; }
+        public EventCallback<DetailsRow<TItem>> OnRowDidMount { get; set; }
 
         [Parameter]
-        public EventCallback<BFUDetailsRow<TItem>> OnRowWillUnmount { get; set; }
+        public EventCallback<DetailsRow<TItem>> OnRowWillUnmount { get; set; }
 
         [Parameter]
         public double RowWidth { get; set; } = 0;
@@ -198,7 +198,7 @@ namespace BlazorFluentUI
 
         public void MeasureCell(int index, Action<double> onMeasureDone)
         {
-            BFUDetailsRowColumn<TItem>? column = Columns.ElementAt(index);
+            DetailsRowColumn<TItem>? column = Columns.ElementAt(index);
             column.MinWidth = 0;
             column.MaxWidth = 999999;
             column.CalculatedWidth = double.NaN;

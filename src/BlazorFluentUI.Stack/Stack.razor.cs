@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUStack : BFUComponentBase
+    public partial class Stack : FluentUIComponentBase
     {
         protected double rowGap;
         protected double columnGap;
@@ -24,7 +24,7 @@ namespace BlazorFluentUI
         [Parameter] public bool VerticalFill { get; set; } = false;
         [Parameter] public bool Wrap { get; set; } = false;
 
-        [Parameter] public BFUStackTokens Tokens { get; set; } = new BFUStackTokens();
+        [Parameter] public StackTokens Tokens { get; set; } = new StackTokens();
 
         protected override Task OnParametersSetAsync()
         {

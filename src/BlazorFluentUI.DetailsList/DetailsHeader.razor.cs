@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsHeader<TItem> : BFUComponentBase, IAsyncDisposable
+    public partial class DetailsHeader<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
         //[CascadingParameter]
-        //private BFUSelectionZone<TItem> SelectionZone { get; set; }
+        //private SelectionZone<TItem> SelectionZone { get; set; }
 
         [Parameter]
         public string AriaLabelForSelectAllCheckbox { get; set; }
@@ -40,7 +40,7 @@ namespace BlazorFluentUI
         public object ColumnReorderProps { get; set; }
 
         [Parameter]
-        public IEnumerable<BFUDetailsRowColumn<TItem>> Columns { get; set; }
+        public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
                
         [Parameter]
         public RenderFragment DetailsCheckboxTemplate { get; set; }
@@ -65,13 +65,13 @@ namespace BlazorFluentUI
 
 
         [Parameter]
-        public EventCallback<ItemContainer<BFUDetailsRowColumn<TItem>>> OnColumnAutoResized { get; set; }
+        public EventCallback<ItemContainer<DetailsRowColumn<TItem>>> OnColumnAutoResized { get; set; }
 
         [Parameter]
-        public EventCallback<BFUDetailsRowColumn<TItem>> OnColumnClick { get; set; }
+        public EventCallback<DetailsRowColumn<TItem>> OnColumnClick { get; set; }
 
         [Parameter]
-        public EventCallback<BFUDetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
+        public EventCallback<DetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
 
         [Parameter]
         public EventCallback<object> OnColumnIsSizingChanged { get; set; }
@@ -123,7 +123,7 @@ namespace BlazorFluentUI
         private double resizeColumnMinWidth;
         private double resizeColumnOriginX;
 
-        private DotNetObjectReference<BFUDetailsHeader<TItem>>? dotNetRef;
+        private DotNetObjectReference<DetailsHeader<TItem>>? dotNetRef;
         private ElementReference cellSizer;
 
         protected override Task OnInitializedAsync()
@@ -180,7 +180,7 @@ namespace BlazorFluentUI
         public void OnDoubleClick(int columnIndex)
         {
             //System.Diagnostics.Debug.WriteLine("DoubleClick happened.");
-            OnColumnAutoResized.InvokeAsync(new ItemContainer<BFUDetailsRowColumn<TItem>> { Item = Columns.ElementAt(columnIndex), Index = columnIndex });
+            OnColumnAutoResized.InvokeAsync(new ItemContainer<DetailsRowColumn<TItem>> { Item = Columns.ElementAt(columnIndex), Index = columnIndex });
         }
 
         private void OnSelectAllClicked(MouseEventArgs mouseEventArgs)
@@ -215,7 +215,7 @@ namespace BlazorFluentUI
                 var movement = mouseEventArgs.ClientX - resizeColumnOriginX;
                 //skipping RTL check
                 var calculatedWidth = resizeColumnMinWidth + movement;
-                var currentColumnMinWidth = this.Columns.ElementAt(resizeColumnIndex).MinWidth;
+                var currentColumnMinWidth = Columns.ElementAt(resizeColumnIndex).MinWidth;
                 var constrictedCalculatedWidth = Math.Max((currentColumnMinWidth < 0 || double.IsNaN(currentColumnMinWidth) ? MIN_COLUMN_WIDTH : currentColumnMinWidth), calculatedWidth);
                 OnColumnResized.InvokeAsync(new ColumnResizedArgs<TItem>(Columns.ElementAt(resizeColumnIndex), resizeColumnIndex, constrictedCalculatedWidth));
 

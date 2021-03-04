@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUResizeGroup<TObject> : BFUComponentBase, IDisposable
+    public partial class ResizeGroup<TObject> : FluentUIComponentBase, IDisposable
     {
         [Inject] IJSRuntime jSRuntime { get; set; }
 
@@ -121,9 +121,9 @@ namespace BlazorFluentUI
                     //    boundsCTS.Dispose();
                     //    boundsCTS = new CancellationTokenSource();
                     //}
-                    boundsTask = this.GetBoundsAsync(boundsCTS.Token);
+                    boundsTask = GetBoundsAsync(boundsCTS.Token);
                     var bounds = await boundsTask;
-                    newContainerDimension = (this.Vertical ? bounds.height : bounds.width);
+                    newContainerDimension = (Vertical ? bounds.height : bounds.width);
                 }
                 //Debug.WriteLine($"Container dimension: {_containerDimension}");
 
@@ -160,7 +160,7 @@ namespace BlazorFluentUI
         private async Task<double> GetElementDimensionsAsync(CancellationToken cancellationToken)
         {
             // must get this via a funcion because we don't know yet if either of these elements will exist to be measured.
-            var refToMeasure = !_hasRenderedContent ? this.initialHiddenDiv : this.updateHiddenDiv;
+            var refToMeasure = !_hasRenderedContent ? initialHiddenDiv : updateHiddenDiv;
             var elementBounds = await jSRuntime.InvokeAsync<ScrollDimensions>("BlazorFluentUiBaseComponent.measureScrollDimensions", cancellationToken, refToMeasure);
             var elementDimension = Vertical ? elementBounds.ScrollHeight : elementBounds.ScrollWidth;
             return elementDimension;
@@ -168,7 +168,7 @@ namespace BlazorFluentUI
 
         private ResizeGroupState<TObject> GetInitialState()
         {
-            return new ResizeGroupState<TObject>() { ResizeDirection = ResizeDirection.Grow, DataToMeasure = this.Data, MeasureContainer = true };
+            return new ResizeGroupState<TObject>() { ResizeDirection = ResizeDirection.Grow, DataToMeasure = Data, MeasureContainer = true };
         }
 
         private async Task<ResizeGroupState<TObject>> GetNextStateAsync(double newContainerDimension, double oldContainerDimension, TObject dataToMeasure, TObject renderedData, ResizeDirection resizeDirection, CancellationToken cancellationToken)
@@ -183,7 +183,7 @@ namespace BlazorFluentUI
                 if (!double.IsNaN(oldContainerDimension) && renderedData != null && dataToMeasure == null)
                 {
                     var state = new ResizeGroupState<TObject>(renderedData, resizeDirection, dataToMeasure);
-                    var alteredState = UpdateContainerDimension(oldContainerDimension, newContainerDimension, this.Data, renderedData);
+                    var alteredState = UpdateContainerDimension(oldContainerDimension, newContainerDimension, Data, renderedData);
                     state.ReplaceProperties(alteredState);
                     return state;
                 }
@@ -201,7 +201,7 @@ namespace BlazorFluentUI
                 //get elementDimension here
                 var elementDimension = await GetElementDimensionsAsync(cancellationToken);
 
-                if (resizeDirection == ResizeDirection.Grow && this.OnGrowData != null)
+                if (resizeDirection == ResizeDirection.Grow && OnGrowData != null)
                 {
                     var alteredState = GrowDataUntilItDoesNotFit(dataToMeasure, elementDimension, replacementContainerDimension);
                     nextState.ReplaceProperties(alteredState);
@@ -248,14 +248,14 @@ namespace BlazorFluentUI
             while (elementDimension < containerDimension)
             {
                 Debug.WriteLine("Loop in GrowUntilNotFit");
-                var nextMeasuredData = this.OnGrowData(dataToMeasure);
+                var nextMeasuredData = OnGrowData(dataToMeasure);
                 if (nextMeasuredData == null)
                 {
                     Debug.WriteLine($"GrowUntilNotFit:  got null nextMeasuredData");
                     return new ResizeGroupState<TObject>() { RenderedData = dataToMeasure, NullifyDataToMeasure = true, ForceNoneResizeDirection = true, ContainerDimension = containerDimension };
                 }
 
-                var found = _measurementCache.TryGetValue(this.GetCacheKey(nextMeasuredData), out elementDimension);
+                var found = _measurementCache.TryGetValue(GetCacheKey(nextMeasuredData), out elementDimension);
                 if (!found)
                 {
                     return new ResizeGroupState<TObject>() { DataToMeasure = nextMeasuredData, ContainerDimension = containerDimension };
@@ -277,7 +277,7 @@ namespace BlazorFluentUI
             while (elementDimension > containerDimension)
             {
                 Debug.WriteLine("Loop in ShrinkUntilTheyFit");
-                var nextMeasuredData = this.OnReduceData(dataToMeasure);
+                var nextMeasuredData = OnReduceData(dataToMeasure);
                 if (nextMeasuredData == null)
                 {
                     Debug.WriteLine("ShrinkUntilTheyFit:  nextMeasuredData was null");
@@ -286,7 +286,7 @@ namespace BlazorFluentUI
                 }
 
 
-                var found = _measurementCache.TryGetValue(this.GetCacheKey(nextMeasuredData), out elementDimension);
+                var found = _measurementCache.TryGetValue(GetCacheKey(nextMeasuredData), out elementDimension);
                 if (!found)
                 {
                     return new ResizeGroupState<TObject>() { DataToMeasure = nextMeasuredData, ResizeDirection = ResizeDirection.Shrink, ContainerDimension = containerDimension };

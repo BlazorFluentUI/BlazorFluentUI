@@ -1,5 +1,5 @@
-﻿using BlazorFluentUI.BFUCommandBarInternal;
-using BlazorFluentUI.BFUNavBarInternal;
+﻿using BlazorFluentUI.CommandBarInternal;
+using BlazorFluentUI.NavBarInternal;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
@@ -11,26 +11,26 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUNavBar : BFUComponentBase
+    public partial class NavBar : FluentUIComponentBase
     {
         [Parameter] public LayoutDirection Direction { get; set; }
         [Parameter] public string Header { get; set; }
 
-        [Parameter] public IEnumerable<IBFUNavBarItem> Items { get; set; } = new List<BFUNavBarItem>();
-        [Parameter] public IEnumerable<IBFUNavBarItem> OverflowItems { get; set; } = new List<BFUNavBarItem>();
-        //[Parameter] public IEnumerable<IBFUNavBarItem> FarItems { get; set; } = new List<BFUNavBarItem>();
+        [Parameter] public IEnumerable<INavBarItem> Items { get; set; } = new List<NavBarItem>();
+        [Parameter] public IEnumerable<INavBarItem> OverflowItems { get; set; } = new List<NavBarItem>();
+        //[Parameter] public IEnumerable<INavBarItem> FarItems { get; set; } = new List<NavBarItem>();
 
-        [Parameter] public EventCallback<IBFUNavBarItem> OnDataReduced { get; set; }
-        [Parameter] public EventCallback<IBFUNavBarItem> OnDataGrown { get; set; }
+        [Parameter] public EventCallback<INavBarItem> OnDataReduced { get; set; }
+        [Parameter] public EventCallback<INavBarItem> OnDataGrown { get; set; }
 
         [Parameter] public bool ShiftOnReduce { get; set; }
 
         [Parameter] public RenderFragment FooterTemplate { get; set; }
 
-        protected Func<BFUNavBarData, BFUNavBarData> onGrowData;
-        protected Func<BFUNavBarData, BFUNavBarData> onReduceData;
+        protected Func<NavBarData, NavBarData> onGrowData;
+        protected Func<NavBarData, NavBarData> onReduceData;
 
-        protected BFUNavBarData _currentData;
+        protected NavBarData _currentData;
 
         [Inject] protected NavigationManager NavigationManager { get; set; }
 
@@ -40,7 +40,7 @@ namespace BlazorFluentUI
             {
                 if (data.PrimaryItems.Count > 0)
                 {
-                    IBFUNavBarItem movedItem = data.PrimaryItems[ShiftOnReduce ? 0 : data.PrimaryItems.Count() - 1];
+                    INavBarItem movedItem = data.PrimaryItems[ShiftOnReduce ? 0 : data.PrimaryItems.Count() - 1];
                     movedItem.RenderedInOverflow = true;
 
                     data.OverflowItems.Insert(0, movedItem);
@@ -87,11 +87,11 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            _currentData = new BFUNavBarData()
+            _currentData = new NavBarData()
             {
-                PrimaryItems = new List<IBFUNavBarItem>(Items != null ? Items : new List<IBFUNavBarItem>()),
-                OverflowItems = new List<IBFUNavBarItem>(OverflowItems != null ? OverflowItems : new List<IBFUNavBarItem>()),
-                //FarItems = new List<IBFUCommandBarItem>(FarItems != null ? FarItems : new List<IBFUCommandBarItem>()),
+                PrimaryItems = new List<INavBarItem>(Items != null ? Items : new List<INavBarItem>()),
+                OverflowItems = new List<INavBarItem>(OverflowItems != null ? OverflowItems : new List<INavBarItem>()),
+                //FarItems = new List<ICommandBarItem>(FarItems != null ? FarItems : new List<ICommandBarItem>()),
                 MinimumOverflowItems = OverflowItems != null ? OverflowItems.Count() : 0,
                 CacheKey = ""
             };
@@ -101,7 +101,7 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
-        private string ComputeCacheKey(BFUNavBarData data)
+        private string ComputeCacheKey(NavBarData data)
         {
             var primaryKey = data.PrimaryItems.Aggregate("", (acc, item) => acc + item.CacheKey);
             //var farKey = data.FarItems.Aggregate("", (acc, item) => acc + item.CacheKey);
@@ -146,8 +146,8 @@ namespace BlazorFluentUI
             else
                 processUriAnchorOnly = "";
 
-            var allItems = Items.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items)).Cast<IBFUNavBarItem>())
-                .Concat(OverflowItems.Concat(OverflowItems.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items)).Cast<IBFUNavBarItem>()));
+            var allItems = Items.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items)).Cast<INavBarItem>())
+                .Concat(OverflowItems.Concat(OverflowItems.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items)).Cast<INavBarItem>()));
             foreach (var item in allItems)
             {
                 switch (item.NavMatchType)
@@ -188,7 +188,7 @@ namespace BlazorFluentUI
             StateHasChanged();
         }
 
-        protected IEnumerable<IBFUContextualMenuItem> GetChild(IEnumerable<IBFUContextualMenuItem> list)
+        protected IEnumerable<IContextualMenuItem> GetChild(IEnumerable<IContextualMenuItem> list)
         {
             return list.Concat(list.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items)));
         }

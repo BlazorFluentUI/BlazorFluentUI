@@ -1,11 +1,11 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class="ms-Calendar-monthPicker" style="margin-left: 12px">
     <div class="ms-Calendar-header">
       
     </div>
-    <BFUFocusZone>
+    <FocusZone>
         <div class="ms-Calendar-optionGrid" role="grid" aria-readonly="true">
 
             @for(int row = 0; row < 6;row++)
@@ -29,5 +29,5 @@
                 </div>
             }
         </div>
-    </BFUFocusZone>
+    </FocusZone>
 </div>

@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace BlazorFluentUI
 {
-    public class BFUNavBarItem : IBFUNavBarItem
+    public class NavBarItem : INavBarItem
     {
         public string CacheKey { get; set; }
 
@@ -37,7 +37,7 @@ namespace BlazorFluentUI
 
         public bool IsExpanded { get; set; }
 
-        public IEnumerable<IBFUContextualMenuItem> Items { get; set; }
+        public IEnumerable<IContextualMenuItem> Items { get; set; }
 
         public ContextualMenuItemType ItemType { get; set; }
 

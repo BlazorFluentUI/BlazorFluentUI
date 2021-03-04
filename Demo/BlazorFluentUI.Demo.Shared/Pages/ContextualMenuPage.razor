@@ -5,7 +5,7 @@
 <h1>ContextualMenu</h1>
 
 <Demo Header="Basic ContextMenu" Key="0" MetadataPath="ContextualMenuPage">
-    <BFUDefaultButton Text="Show ContextualMenu" MenuItems=@contextualMenuItems />
+    <DefaultButton Text="Show ContextualMenu" MenuItems=@contextualMenuItems />
 </Demo>
 
 <p>
@@ -15,7 +15,7 @@
 
 
 @code {
-    List<IBFUContextualMenuItem> contextualMenuItems;
+    List<IContextualMenuItem> contextualMenuItems;
 
     private System.Windows.Input.ICommand buttonCommand;
     private string debugText;
@@ -42,9 +42,9 @@
             StateHasChanged();
         });
 
-        contextualMenuItems = new List<IBFUContextualMenuItem>()
+        contextualMenuItems = new List<IContextualMenuItem>()
         {
-            new BFUContextualMenuItem()
+            new ContextualMenuItem()
             {
                 Text = "Header1",
                 ItemType = ContextualMenuItemType.Header,
@@ -52,7 +52,7 @@
                 Command = buttonCommand,
                 CommandParameter = "Header1"
             },
-            new BFUContextualMenuItem()
+            new ContextualMenuItem()
             {
                 Text = "Test1",
                 ItemType = ContextualMenuItemType.Normal,
@@ -61,7 +61,7 @@
                 Command = buttonCommand,
                 CommandParameter = "Test1"
             },
-            new BFUContextualMenuItem()
+            new ContextualMenuItem()
             {
                 Text = "Test2",
                 ItemType = ContextualMenuItemType.Normal,
@@ -71,21 +71,21 @@
                 Command = buttonCommand,
                 CommandParameter = "Test2"
             },
-            new BFUContextualMenuItem()
+            new ContextualMenuItem()
             {
                 ItemType = ContextualMenuItemType.Divider,
                 Key = "Divider1"
             },
-            new BFUContextualMenuItem()
+            new ContextualMenuItem()
             {
                 Text = "Test3",
                 ItemType = ContextualMenuItemType.Normal,
                 Key = "Test3",
                 Command = buttonCommand,
                 CommandParameter = "Test3",
-                Items = new System.Collections.Generic.List<IBFUContextualMenuItem>()
+                Items = new System.Collections.Generic.List<IContextualMenuItem>()
                 {
-                    new BFUContextualMenuItem()
+                    new ContextualMenuItem()
                     {
                         Text = "SubTest1",
                         ItemType = ContextualMenuItemType.Normal,
@@ -93,7 +93,7 @@
                         Command = buttonCommand,
                         CommandParameter = "SubTest1",
                     },
-                    new BFUContextualMenuItem()
+                    new ContextualMenuItem()
                     {
                         Text = "SubTest2",
                         ItemType = ContextualMenuItemType.Normal,

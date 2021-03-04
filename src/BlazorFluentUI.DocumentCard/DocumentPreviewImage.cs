@@ -1,6 +1,6 @@
 ﻿namespace BlazorFluentUI
 {
-    public class BFUDocumentPreviewImage
+    public class DocumentPreviewImage
     {
         /// <summary>
         /// File name for the document this preview represents.
@@ -36,7 +36,7 @@
         /// </summary>
         public string? PreviewIconContainerClass { get; set; }
         public string? Styles { get; set; }
-        public BFUIconProperties? PreviewIconProps { get; set; }
+        public IconProperties? PreviewIconProps { get; set; }
 
         /// <summary>
         /// The props for the preview icon.

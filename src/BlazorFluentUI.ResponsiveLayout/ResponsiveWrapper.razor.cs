@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUResponsiveWrapper : BFUResponsiveComponentBase
+    public partial class ResponsiveWrapper : ResponsiveComponentBase
     {
         [Parameter]
         public RenderFragment<ResponsiveMode> ChildContent { get; set; }

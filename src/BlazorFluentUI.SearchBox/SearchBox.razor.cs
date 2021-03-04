@@ -6,7 +6,7 @@ using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUSearchBox<T> : BFUComponentBase
+    public partial class SearchBox<T> : FluentUIComponentBase
 
     {
         [Parameter] public int Delay { get; set; }
@@ -53,22 +53,20 @@ namespace BlazorFluentUI
         [Parameter] public RenderFragment<T> SearchItemTemplate { get; set; }
         [Parameter] public RenderFragment<T> SelectedItemTemplate { get; set; }
 
-        readonly List<object> suggestions = new();
+        List<object> suggestions = new List<object>();
         protected bool IsOpen { get; set; }
-#pragma warning disable IDE0044 // Add readonly modifier
-        BFUTextField textFieldRef;
-#pragma warning restore IDE0044 // Add readonly modifier
-        readonly List<SelectedItem<T>> selectedItemsVisuals = new();
+        TextField textFieldRef;
+        List<SelectedItem<T>> selectedItemsVisuals = new List<SelectedItem<T>>();
 
         private ICollection<IRule> DropdownLocalRules { get; set; } = new List<IRule>();
 
         void SearchNewEntries()
         {
             suggestions.Clear();
-            IEnumerable<T> suggestionsInt = ProvideSuggestions(filter);
+            var suggestionsInt = ProvideSuggestions(filter);
             if (suggestionsInt != null)
             {
-                foreach (T suggestionInt in suggestionsInt)
+                foreach (var suggestionInt in suggestionsInt)
                 {
                      suggestions.Add(suggestionInt);
                 }

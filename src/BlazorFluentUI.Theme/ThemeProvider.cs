@@ -11,17 +11,17 @@ namespace BlazorFluentUI
     {
         private ITheme _theme;
 
-        public ICollection<BFUTheme> ThemeComponents { get; set; }
+        public ICollection<Theme> ThemeComponents { get; set; }
 
         public ITheme Theme { get => _theme; }
 
-        public event EventHandler<BFUThemeChangedArgs> ThemeChanged;
+        public event EventHandler<ThemeChangedArgs> ThemeChanged;
 
         public ThemeProvider()
         {
-            ThemeComponents = new HashSet<BFUTheme>();
+            ThemeComponents = new HashSet<Theme>();
             _theme = CreateTheme();
-            ThemeChanged?.Invoke(this, new BFUThemeChangedArgs(_theme));
+            ThemeChanged?.Invoke(this, new ThemeChangedArgs(_theme));
         }
 
         public void UpdateTheme(IPalette palette)
@@ -31,7 +31,7 @@ namespace BlazorFluentUI
             {
                 comp.UpdateTheme();
             }
-            ThemeChanged?.Invoke(this, new BFUThemeChangedArgs(_theme));
+            ThemeChanged?.Invoke(this, new ThemeChangedArgs(_theme));
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace BlazorFluentUI
             {
                 comp.UpdateTheme();
             }
-            ThemeChanged?.Invoke(this, new BFUThemeChangedArgs(_theme));
+            ThemeChanged?.Invoke(this, new ThemeChangedArgs(_theme));
         }
 
         private ITheme CreateTheme(IPalette palette = null)

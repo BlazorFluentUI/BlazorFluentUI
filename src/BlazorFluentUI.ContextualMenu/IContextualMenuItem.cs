@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace BlazorFluentUI
 {
-    public interface IBFUContextualMenuItem
+    public interface IContextualMenuItem
     {
         string AriaLabel { get; set; }
         bool CanCheck { get; set; }
@@ -39,6 +39,6 @@ namespace BlazorFluentUI
 
         ICommand Command { get; set; }
         object CommandParameter { get; set; }
-        IEnumerable<IBFUContextualMenuItem> Items { get; set; }
+        IEnumerable<IContextualMenuItem> Items { get; set; }
     }
 }

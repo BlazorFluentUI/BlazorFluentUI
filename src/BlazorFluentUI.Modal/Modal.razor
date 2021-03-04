@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 @if (!IsOpen && !isAnimating)
 {
@@ -7,9 +7,8 @@
 }
 else
 {
-    @*<div>*@
-    <BFULayer ClassName="ms-Modal-Layer">
-        <BFUPopup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
+    <Layer ClassName="ms-Modal-Layer">
+        <Popup Role=@((IsModeless || !IsBlocking) ? "dialog" : "alertdialog" )
                ClassName=@(!IsOpen && !isAnimating ? "ms-Modal-hiddenModal" : "")
                AriaLabelledBy=@TitleAriaId
                AriaDescribedBy=@SubtitleAriaId
@@ -21,15 +20,15 @@ else
                 {
                     if (IsBlocking)
                     {
-                        <BFUOverlay IsDarkThemed=@IsDarkOverlay />
+                        <Overlay IsDarkThemed=@IsDarkOverlay />
                     }
                     else
                     {
-                        <BFUOverlay IsDarkThemed=@IsDarkOverlay
+                        <Overlay IsDarkThemed=@IsDarkOverlay
                                               OnClick=@((ev) => OnDismiss.InvokeAsync(ev)) />
                     }
                 }
-                <BFUFocusTrapZone ClassName=@($"ms-Modal-main {ContainerClass}")
+                <FocusTrapZone ClassName=@($"ms-Modal-main {ContainerClass}")
                                Disabled=@(!IsOpen)
                                ElementToFocusOnDismiss=@ElementToFocusOnDismiss
                                IsClickableOutsideFocusTrap=@(IsModeless || IsClickableOutsideFocusTrap || !IsBlocking)
@@ -42,9 +41,9 @@ else
                          data-is-scrollable=true>
                         @ChildContent
                     </div>
-                </BFUFocusTrapZone>
+                </FocusTrapZone>
             </div>
-        </BFUPopup>
-    </BFULayer>
-    @*</div>*@
+        </Popup>
+    </Layer>
+
 }

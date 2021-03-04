@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace BlazorFluentUI
 {
-    public class BFUDetailsRowColumn<TItem, TProp> : BFUDetailsRowColumn<TItem>
+    public class DetailsRowColumn<TItem, TProp> : DetailsRowColumn<TItem>
     {
         private Func<TProp, bool>? _filterPredicate;
         public new Func<TProp, bool>? FilterPredicate
@@ -19,13 +19,13 @@ namespace BlazorFluentUI
             }
         }
 
-        public BFUDetailsRowColumn()
+        public DetailsRowColumn()
         {
             PropType = typeof(TProp);
             Initialize();
         }
 
-        public BFUDetailsRowColumn(string fieldName, Func<TItem, object> fieldSelector)
+        public DetailsRowColumn(string fieldName, Func<TItem, object> fieldSelector)
         {
             PropType = typeof(TProp);
 
@@ -38,11 +38,11 @@ namespace BlazorFluentUI
         }
     }
 
-    public class BFUDetailsRowColumn<TItem>
+    public class DetailsRowColumn<TItem>
     {
-        public BFUDetailsRowColumn()
+        public DetailsRowColumn()
         { }
-        public BFUDetailsRowColumn(string fieldName, Func<TItem, IComparable> fieldSelector)
+        public DetailsRowColumn(string fieldName, Func<TItem, IComparable> fieldSelector)
         {
             Name = fieldName;
             Key = fieldName;
@@ -95,8 +95,8 @@ namespace BlazorFluentUI
         public double MaxWidth { get; set; } = 300;
         public double MinWidth { get; set; } = 100;
         public string Name { get; set; }
-        public Action<BFUDetailsRowColumn<TItem>> OnColumnClick { get; set; }
-        public Action<BFUDetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
+        public Action<DetailsRowColumn<TItem>> OnColumnClick { get; set; }
+        public Action<DetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
         public Type PropType { get; protected set; }
         public string SortedAscendingAriaLabel { get; set; }
         public string SortedDescendingAriaLabel { get; set; }
@@ -113,14 +113,14 @@ namespace BlazorFluentUI
 
         protected void Initialize()
         {
-            this.WhenPropertyChanged = Observable.FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+            WhenPropertyChanged = Observable.FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
               handler =>
               {
                   PropertyChangedEventHandler changed = (sender, e) => handler(e);
                   return changed;
               },
-              handler => this.PropertyChanged += handler,
-              handler => this.PropertyChanged -= handler);
+              handler => PropertyChanged += handler,
+              handler => PropertyChanged -= handler);
         }
     }
 

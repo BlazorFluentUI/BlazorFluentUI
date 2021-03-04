@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUMarqueeSelection<TItem> : BFUComponentBase, IAsyncDisposable
+    public partial class MarqueeSelection<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public bool IsDraggingConstrainedToRoot { get; set; }
@@ -19,12 +19,12 @@ namespace BlazorFluentUI
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
 
-        [CascadingParameter] public BFUSelectionZone<TItem>? SelectionZone { get; set; }
+        [CascadingParameter] public SelectionZone<TItem>? SelectionZone { get; set; }
 
 
         private ManualRectangle? dragRect;
-        private DotNetObjectReference<BFUMarqueeSelection<TItem>>? dotNetRef;
-        private BFUMarqueeSelectionProps props;
+        private DotNetObjectReference<MarqueeSelection<TItem>>? dotNetRef;
+        private MarqueeSelectionProps props;
 
         public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
         {
@@ -64,12 +64,12 @@ namespace BlazorFluentUI
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        private BFUMarqueeSelectionProps GenerateProps()
+        private MarqueeSelectionProps GenerateProps()
         {
-            return new BFUMarqueeSelectionProps
+            return new MarqueeSelectionProps
             {
-                IsDraggingConstrainedToRoot = this.IsDraggingConstrainedToRoot,
-                IsEnabled = this.IsEnabled
+                IsDraggingConstrainedToRoot = IsDraggingConstrainedToRoot,
+                IsEnabled = IsEnabled
             };
         }
 

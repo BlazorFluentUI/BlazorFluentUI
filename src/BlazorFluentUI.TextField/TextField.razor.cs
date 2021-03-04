@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUTextField : BFUComponentBase
+    public partial class TextField : FluentUIComponentBase
     {
         [Inject] private IJSRuntime JSRuntime { get; set; }
         [Parameter] public bool Required { get; set; }
@@ -387,7 +387,7 @@ namespace BlazorFluentUI
 
         private async Task AdjustInputHeightAsync()
         {
-            if (this.AutoAdjustHeight == true && this.Multiline)
+            if (AutoAdjustHeight == true && Multiline)
             {
                 var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getScrollHeight", textAreaRef);
                 //inlineTextAreaStyle = $"height: {scrollHeight}px";

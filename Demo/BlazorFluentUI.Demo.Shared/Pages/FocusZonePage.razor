@@ -5,27 +5,27 @@
 <h4>FocusZone with horizontal movement</h4>
 
 <div style="padding: 50px; background-color:yellow;">
-    <BFUFocusZone Direction="FocusZoneDirection.Horizontal">
-        <BFUDefaultButton Text="First Button" OnClick=@OnInnerClick />
-        <BFUDefaultButton Text="Second Button" OnClick=@OnInnerClick />
-        <BFUDefaultButton Text="Third Button" OnClick=@OnInnerClick />
-    </BFUFocusZone>
+    <FocusZone Direction="FocusZoneDirection.Horizontal">
+        <DefaultButton Text="First Button" OnClick=@OnInnerClick />
+        <DefaultButton Text="Second Button" OnClick=@OnInnerClick />
+        <DefaultButton Text="Third Button" OnClick=@OnInnerClick />
+    </FocusZone>
 </div>
 
-<BFUDefaultButton Text="Outside Button" OnClick=@OnOuterClick />
+<DefaultButton Text="Outside Button" OnClick=@OnOuterClick />
 
 <h4>FocusZone with vertical &amp; circular movement</h4>
 
-    <BFUFocusZone Direction="FocusZoneDirection.Vertical" IsCircularNavigation="true">
-        <BFUList ItemsSource=@items >
+    <FocusZone Direction="FocusZoneDirection.Vertical" IsCircularNavigation="true">
+        <FluentUIList ItemsSource=@items >
             <ItemTemplate>
                 <div style="display:flex;flex-direction:row;width:100%;" data-is-focusable="true">
-                    <BFUImage Src="redArrow.jpg" Height="50" Width="50" />
-                    <BFULabel>This is an item #@context</BFULabel>
+                    <Image Src="redArrow.jpg" Height="50" Width="50" />
+                    <Label>This is an item #@context</Label>
                 </div>
             </ItemTemplate>
-        </BFUList>
-    </BFUFocusZone>
+        </FluentUIList>
+    </FocusZone>
 
 <style>
     .photoCell {
@@ -52,19 +52,19 @@
 </style>
 
 <h4>FocusZone with bidirectional movement</h4>
-<BFUFocusZone Direction="FocusZoneDirection.Bidirectional"
+<FocusZone Direction="FocusZoneDirection.Bidirectional"
            Style="display:inline-block;border:1px solid var(--palette-NeutralTertiary);padding:10px;line-height:0;overflow:hidden;">
     @for (var i = 0; i < photos.Count; i++)
     {
         <li @key=@i
             data-is-focusable="true"
             class="photoCell">
-            <BFUImage Src=@photos[i].Url
+            <Image Src=@photos[i].Url
                    Width=@photos[i].Width
                    Height=@photos[i].Height />
         </li>
     }
-</BFUFocusZone>
+</FocusZone>
 
 @code {
     bool isFocusTrapped = false;

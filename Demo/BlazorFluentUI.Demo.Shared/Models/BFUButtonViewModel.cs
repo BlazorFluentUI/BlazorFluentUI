@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace BlazorFluentUI.Demo.Shared.Models
 {
-    class BFUButtonViewModel: RibbonItem
+    class ButtonViewModel: RibbonItem
     {
         
         public string IconName { get; set; }

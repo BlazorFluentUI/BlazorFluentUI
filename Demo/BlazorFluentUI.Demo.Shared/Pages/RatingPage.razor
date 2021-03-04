@@ -2,31 +2,31 @@
 
 <h1>Rating</h1>
 
-<BFULabel>Large Stars:</BFULabel>
-<BFURating Size="RatingSize.Large" />
+<Label>Large Stars:</Label>
+<Rating Size="RatingSize.Large" />
 
-<BFULabel>Small Stars:</BFULabel>
-<BFURating Rating="3" />
+<Label>Small Stars:</Label>
+<Rating Rating="3" />
 
-<BFULabel>10 Small Stars:</BFULabel>
-<BFURating Max="10" />
+<Label>10 Small Stars:</Label>
+<Rating Max="10" />
 
-<BFULabel>Disabled:</BFULabel>
-<BFURating Disabled="true" />
+<Label>Disabled:</Label>
+<Rating Disabled="true" />
 
-<BFULabel>Half star in readOnly mode:</BFULabel>
-<BFURating ReadOnly="true" Rating="2.5" />
+<Label>Half star in readOnly mode:</Label>
+<Rating ReadOnly="true" Rating="2.5" />
 
-<BFULabel>Custom icons:</BFULabel>
-<BFURating Rating="2.5" IconName="StarburstSolid" UnselectedIcon="Starburst" />
+<Label>Custom icons:</Label>
+<Rating Rating="2.5" IconName="StarburstSolid" UnselectedIcon="Starburst" />
 
-<BFULabel>Two-Way-Binding:</BFULabel>
-<BFURating Max="10" @bind-Rating="rateten" />
+<Label>Two-Way-Binding:</Label>
+<Rating Max="10" @bind-Rating="rateten" />
 @rateten of 10 Stars selected!
 
-<BFULabel>Button binded rating (One-Way-Binding):</BFULabel>
-<BFURating AllowZeroStars="true" Rating="rate" ReadOnly="true" />
-<BFUPrimaryButton OnClick="SetRate" Text="@buttonText" />
+<Label>Button binded rating (One-Way-Binding):</Label>
+<Rating AllowZeroStars="true" Rating="rate" ReadOnly="true" />
+<PrimaryButton OnClick="SetRate" Text="@buttonText" />
 
 @code
 {

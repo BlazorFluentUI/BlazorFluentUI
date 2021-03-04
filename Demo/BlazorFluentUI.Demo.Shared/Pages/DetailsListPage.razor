@@ -6,29 +6,29 @@
 @using System.Reactive.Linq
 @using System.Reactive.Subjects
 
-<BFUStack Style="height:100%;">
+<Stack Style="height:100%;">
     <h3>DetailsList</h3>
-    <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
-        <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
-        <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
-        <BFUDropdown ItemsSource=@selectionModeOptions
+    <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
+        <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+        <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+        <Dropdown ItemsSource=@selectionModeOptions
                      @bind-SelectedOption=selectedModeOption
                      Style="max-width:300px;">
-        </BFUDropdown>
-        <BFUToggle Label="Disable Selection"
+        </Dropdown>
+        <Toggle Label="Disable Selection"
                    @bind-Checked="selectionDisabled"
                    OnText="disabled"
                    OffText="enabled"
                     />
-    </BFUStack>
-    <BFUTextField Label="Filter Description"
+    </Stack>
+    <TextField Label="Filter Description"
                   @bind-Value=@dataContainer.Filter
                   @bind-Value:event="OnInput" />
         <div data-is-scrollable="true"
              style="height:400px;overflow-y:auto;">
             @if (ReadonlyList != null)
             {
-                <BFUDetailsList ItemsSource="null"
+                <DetailsList ItemsSource="null"
                                 IsVirtualizing=@isVirtualizing.GetValueOrDefault()
                                 Compact=@isCompact.GetValueOrDefault()
                                 Columns="ReadonlyColumns"
@@ -44,7 +44,7 @@
                 @("Loading...")
             }
         </div>
-</BFUStack>
+</Stack>
 
 @code {
 
@@ -55,8 +55,8 @@
     bool? isVirtualizing = true;
     bool? isCompact = false;
     bool? selectionDisabled = false;
-    IBFUDropdownOption selectedModeOption;
-    List<IBFUDropdownOption> selectionModeOptions;
+    IDropdownOption selectedModeOption;
+    List<IDropdownOption> selectionModeOptions;
 
 
     Selection<DataItem> selection = new Selection<DataItem>();
@@ -67,8 +67,8 @@
     int count = 0;
 
     // We're creating another container for the column array that needs to be defined to show columns in DetailsList.
-    SourceCache<BFUDetailsRowColumn<DataItem>, string> columnsSource = new SourceCache<BFUDetailsRowColumn<DataItem>, string>(x => x.Key);
-    public ReadOnlyObservableCollection<BFUDetailsRowColumn<DataItem>> ReadonlyColumns;
+    SourceCache<DetailsRowColumn<DataItem>, string> columnsSource = new SourceCache<DetailsRowColumn<DataItem>, string>(x => x.Key);
+    public ReadOnlyObservableCollection<DetailsRowColumn<DataItem>> ReadonlyColumns;
 
     // This class just holds some properties that make it easier to sort and filter data. 
     ObservableDataContainer dataContainer = new ObservableDataContainer();
@@ -131,17 +131,17 @@
     protected override async Task OnInitializedAsync()
     {
         selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()
-           .Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() })
-           .Cast<IBFUDropdownOption>()
+           .Select(x => new DropdownOption { Key = x.ToString(), Text = x.ToString() })
+           .Cast<IDropdownOption>()
            .ToList();
         selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Single");
 
         await Task.Run(() =>
         {
             // We load the column data into the columnsSource SourceCache.
-            columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick, IsResizable = true });
-            columnsSource.AddOrUpdate(new BFUDetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-            var descColumn = new BFUDetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
+            columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick, IsResizable = true });
+            columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+            var descColumn = new DetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
             columnsSource.AddOrUpdate(descColumn);
 
             // We're loading our sample data into the dataSource SourceCache.
@@ -178,7 +178,7 @@
             // automatically.  We also have a Do operator in there that calls a StateHasChanged whenever the contents are changed or if
             // the Sort expression changes.
             columnsSource.Connect()
-                .Sort(SortExpressionComparer<BFUDetailsRowColumn<DataItem>>.Ascending(x => x.Index))
+                .Sort(SortExpressionComparer<DetailsRowColumn<DataItem>>.Ascending(x => x.Index))
                 .Bind(out ReadonlyColumns)
                 .Do(_ => InvokeAsync(StateHasChanged))  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
                 .Subscribe();
@@ -191,7 +191,7 @@
     // This callback is fired when a column header is clicked.  We go through each column item and change their sort properties.
     // To update the changes in our UI, we just use the `AddOrUpdate` method and DynamicData will make the changes in the bound
     // list.
-    private void OnColumnClick(BFUDetailsRowColumn<DataItem> column)
+    private void OnColumnClick(DetailsRowColumn<DataItem> column)
     {
         if (column.IsSorted)
         {

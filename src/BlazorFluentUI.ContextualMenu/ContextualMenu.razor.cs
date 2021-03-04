@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUContextualMenu : BFUResponsiveComponentBase, IAsyncDisposable
+    public partial class ContextualMenu : ResponsiveComponentBase, IAsyncDisposable
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public bool AlignTargetEdge { get; set; }
@@ -21,7 +21,7 @@ namespace BlazorFluentUI
         [Parameter] public bool CoverTarget { get; set; }
         [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.BottomAutoEdge;
         [Parameter] public bool DirectionalHintFixed { get; set; }
-        [Parameter] public BFUComponentBase FabricComponentTarget { get; set; }
+        [Parameter] public FluentUIComponentBase FabricComponentTarget { get; set; }
         [Parameter] public int GapSpace { get; set; } = 0;
         [Parameter] public bool IsBeakVisible { get; set; } = false;
 
@@ -31,7 +31,7 @@ namespace BlazorFluentUI
 
         /// <summary>
         /// If true, it is tried first to generate the default item
-        /// if it is IBFUContextualMenuItem. If not than the 
+        /// if it is IContextualMenuItem. If not than the 
         /// ItemTemplate will be applied.
         /// </summary>
         [Parameter] public bool SubordinateItemTemplate { get; set; }
@@ -40,8 +40,8 @@ namespace BlazorFluentUI
         [Parameter] public bool UseTargetAsMinWidth { get; set; } = false;
 
         [Parameter] public EventCallback<bool> OnDismiss { get; set; }
-        [Parameter] public EventCallback<BFUContextualMenu> OnMenuDismissed { get; set; }
-        [Parameter] public EventCallback<BFUContextualMenu> OnMenuOpened { get; set; }
+        [Parameter] public EventCallback<ContextualMenu> OnMenuDismissed { get; set; }
+        [Parameter] public EventCallback<ContextualMenu> OnMenuOpened { get; set; }
 
         [Parameter] public bool IsSubMenu { get; set; } = false;
 
@@ -55,7 +55,7 @@ namespace BlazorFluentUI
         private bool HasIcons = false; //needed to shift margins and make space for all 
         private bool HasCheckables = false;
 
-        private BFUFocusZone _focusZoneReference;
+        private FocusZone _focusZoneReference;
 
         public string SubmenuActiveKey { get; set; }
         //public void SetSubmenuActiveKey(string key)
@@ -92,7 +92,7 @@ namespace BlazorFluentUI
 
         protected void Dismiss(bool dismissAll = false)
         {
-            this.OnDismiss.InvokeAsync(dismissAll);
+            OnDismiss.InvokeAsync(dismissAll);
         }
 
         protected Action OnCalloutDismiss => () =>
@@ -113,7 +113,7 @@ namespace BlazorFluentUI
 
         protected Action<string> OnSetSubmenu => (key) =>
         {
-            this.SubmenuActiveKey = key;
+            SubmenuActiveKey = key;
         };
 
         protected override Task OnInitializedAsync()
@@ -125,12 +125,12 @@ namespace BlazorFluentUI
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync();
-            if (this.Items != null)
+            if (Items != null)
             {
-                if (this.Items.Count(x =>
-                x is IBFUContextualMenuItem ? ((IBFUContextualMenuItem)x).IconName != null | ((IBFUContextualMenuItem)x).IconSrc != null : false) > 0)
+                if (Items.Count(x =>
+                x is IContextualMenuItem ? ((IContextualMenuItem)x).IconName != null | ((IContextualMenuItem)x).IconSrc != null : false) > 0)
                     HasIcons = true;
-                if (this.Items.Count(x => x is IBFUContextualMenuItem ? ((IBFUContextualMenuItem)x).CanCheck == true : false) > 0)
+                if (Items.Count(x => x is IContextualMenuItem ? ((IContextualMenuItem)x).CanCheck == true : false) > 0)
                     HasCheckables = true;
             }
         }
@@ -146,12 +146,12 @@ namespace BlazorFluentUI
 
         private async Task OnMenuOpenedAsync()
         {
-            await this.OnMenuOpened.InvokeAsync(this);
+            await OnMenuOpened.InvokeAsync(this);
         }
 
         public override async ValueTask DisposeAsync()
         {
-            await this.OnMenuDismissed.InvokeAsync(this);
+            await OnMenuDismissed.InvokeAsync(this);
             await base.DisposeAsync();
         }
 

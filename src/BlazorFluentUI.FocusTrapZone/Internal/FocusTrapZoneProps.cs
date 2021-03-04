@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace BlazorFluentUI.BFUFocusTrapZoneInternal
+namespace BlazorFluentUI.FocusTrapZoneInternal
 {
     public class FocusTrapZoneProps
     {      
@@ -17,7 +17,7 @@ namespace BlazorFluentUI.BFUFocusTrapZoneInternal
         public ElementReference FirstBumper { get; set; }
         public ElementReference LastBumper { get; set; }
 
-        public FocusTrapZoneProps(BFUFocusTrapZone focusTrapZone, ElementReference firstBumper, ElementReference lastBumper)
+        public FocusTrapZoneProps(FocusTrapZone focusTrapZone, ElementReference firstBumper, ElementReference lastBumper)
         {
             Disabled = focusTrapZone.Disabled;
             DisableFirstFocus = focusTrapZone.DisableFirstFocus;

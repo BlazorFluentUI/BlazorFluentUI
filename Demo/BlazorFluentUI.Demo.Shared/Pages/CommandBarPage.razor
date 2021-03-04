@@ -3,23 +3,23 @@
 <h1>CommandBar</h1>
 
 <Demo Header="Basic CommandBar" Key="0" MetadataPath="CommandBarPage">
-    <BFUCommandBar Items=@items />
+    <CommandBar Items=@items />
 </Demo>
 
 <Demo Header="CommandBar with right items" Key="1" MetadataPath="CommandBarPage">
-    <BFUCommandBar Items=@items FarItems=@farItems OverflowItems=@overflowItems />
+    <CommandBar Items=@items FarItems=@farItems OverflowItems=@overflowItems />
 </Demo>
 
 <Demo Header="CommandBar with custom item rendering" Key="2" MetadataPath="CommandBarPage">
-    <BFUCommandBar Items=@customItems >
+    <CommandBar Items=@customItems >
         <ItemTemplate>
             @if (context.ItemType == ContextualMenuItemType.Divider)
             {
-                <BFUCommandBarButton Disabled="true" IconName="GripperBarVertical" />
+                <CommandBarButton Disabled="true" IconName="GripperBarVertical" />
             }
             else
             {
-                <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
+                <CommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
                                      MenuItems=@context.Items
                                      Href=@context.Href
                                      OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
@@ -28,13 +28,13 @@
                                      Split=@context.Split Style=@context.Style />
             }
         </ItemTemplate>
-    </BFUCommandBar>
+    </CommandBar>
 </Demo>
 
 <Demo Header="Custom content in CommmandBarButton" Key="3" MetadataPath="CommandBarPage">
-    <BFUCommandBar Items=@contentItems>
+    <CommandBar Items=@contentItems>
         <ItemTemplate>
-            <BFUCommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
+            <CommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
                                  MenuItems=@context.Items
                                  Href=@context.Href
                                  OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
@@ -56,13 +56,13 @@
                         </svg>
                         break;
                 }
-            </BFUCommandBarButton>
+            </CommandBarButton>
         </ItemTemplate>
-    </BFUCommandBar>
+    </CommandBar>
 </Demo>
 
 <Demo Header="CommandBar with RadioButtons" Key="4" MetadataPath="CommandBarPage">
-    <BFUCommandBar Items=@itemsWithRadioButtons />
+    <CommandBar Items=@itemsWithRadioButtons />
 </Demo>
 
 <em>@debugText</em>
@@ -72,13 +72,13 @@
     private string debugText;
     private int commandCount = 0;
 
-    private List<BFUCommandBarItem> items;
-    private List<BFUCommandBarItem> farItems;
-    private List<BFUCommandBarItem> overflowItems;
+    private List<CommandBarItem> items;
+    private List<CommandBarItem> farItems;
+    private List<CommandBarItem> overflowItems;
 
-    private List<BFUCommandBarItem> customItems;
-    private List<BFUCommandBarItem> contentItems;
-    private List<BFUCommandBarItem> itemsWithRadioButtons;
+    private List<CommandBarItem> customItems;
+    private List<CommandBarItem> contentItems;
+    private List<CommandBarItem> itemsWithRadioButtons;
 
     private Action<ItemClickedArgs> OnClick => args =>
     {
@@ -97,52 +97,52 @@
             StateHasChanged();
         });
 
-        items = new List<BFUCommandBarItem> {
-            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
-            new BFUCommandBarItem() {Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
-            new BFUCommandBarItem() {Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
-            new BFUCommandBarItem() {Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+        items = new List<CommandBarItem> {
+            new CommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new CommandBarItem() {Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new CommandBarItem() {Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new CommandBarItem() {Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
         };
 
-        overflowItems = new List<BFUCommandBarItem> {
-            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="9",  Command=buttonCommand, CommandParameter="First Overflow"},
-            new BFUCommandBarItem() {Text= "Second", IconName="Home", Key="10", Command=buttonCommand, CommandParameter="Second Overflow"},
-            new BFUCommandBarItem() {Text= "Third", IconName="Home", Key="11", Command=buttonCommand, CommandParameter="Third Overflow"},
-            new BFUCommandBarItem() {Text= "Fourth", IconName="Home", Key="12", Command=buttonCommand, CommandParameter="Fourth Overflow"}
+        overflowItems = new List<CommandBarItem> {
+            new CommandBarItem() { Text= "First", IconName="Home", Key="9",  Command=buttonCommand, CommandParameter="First Overflow"},
+            new CommandBarItem() {Text= "Second", IconName="Home", Key="10", Command=buttonCommand, CommandParameter="Second Overflow"},
+            new CommandBarItem() {Text= "Third", IconName="Home", Key="11", Command=buttonCommand, CommandParameter="Third Overflow"},
+            new CommandBarItem() {Text= "Fourth", IconName="Home", Key="12", Command=buttonCommand, CommandParameter="Fourth Overflow"}
         };
 
-        farItems = new List<BFUCommandBarItem> {
-            new BFUCommandBarItem() { Text= "First", IconName="Info", Key="5",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="First Far"},
-            new BFUCommandBarItem() {Text= "Second", IconName="Share", Key="6",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Second Far"},
-            new BFUCommandBarItem() {Text= "Third", IconName="Tiles", Key="7", IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Third Far"},
-            new BFUCommandBarItem() {Text= "Fourth", IconName="SortLines", Key="8",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Fourth Far"}
+        farItems = new List<CommandBarItem> {
+            new CommandBarItem() { Text= "First", IconName="Info", Key="5",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="First Far"},
+            new CommandBarItem() {Text= "Second", IconName="Share", Key="6",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Second Far"},
+            new CommandBarItem() {Text= "Third", IconName="Tiles", Key="7", IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Third Far"},
+            new CommandBarItem() {Text= "Fourth", IconName="SortLines", Key="8",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Fourth Far"}
         };
 
-        customItems = new List<BFUCommandBarItem> {
-            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
-            new BFUCommandBarItem() { Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
-            new BFUCommandBarItem() { Key="divider1", ItemType = ContextualMenuItemType.Divider },
-            new BFUCommandBarItem() { Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
-            new BFUCommandBarItem() { Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+        customItems = new List<CommandBarItem> {
+            new CommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new CommandBarItem() { Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new CommandBarItem() { Key="divider1", ItemType = ContextualMenuItemType.Divider },
+            new CommandBarItem() { Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new CommandBarItem() { Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
         };
 
-        contentItems = new List<BFUCommandBarItem> {
-            new BFUCommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
-            new BFUCommandBarItem() { Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
-            new BFUCommandBarItem() { Key="yellowCircle" },
-            new BFUCommandBarItem() { Key="greenCircle" },
-            new BFUCommandBarItem() { Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
-            new BFUCommandBarItem() { Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+        contentItems = new List<CommandBarItem> {
+            new CommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new CommandBarItem() { Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new CommandBarItem() { Key="yellowCircle" },
+            new CommandBarItem() { Key="greenCircle" },
+            new CommandBarItem() { Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new CommandBarItem() { Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
         };
-        itemsWithRadioButtons = new List<BFUCommandBarItem>
+        itemsWithRadioButtons = new List<CommandBarItem>
         {
-            new BFUCommandBarItem() { Text= "Non radio", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="Non radio", Toggle=true},
-            new BFUCommandBarItem() { Text= "RadioA1", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="RadioA1", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
-            new BFUCommandBarItem() { Text= "RadioA2", IconName="Add", Key="3", Command=buttonCommand, CommandParameter="RadioA2", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
-            new BFUCommandBarItem() { Text= "RadioA3", IconName="Add", Key="4", Command=buttonCommand, CommandParameter="RadioA3", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
-            new BFUCommandBarItem() { Text= "RadioB1", IconName="Remove", Key="5", Command=buttonCommand, CommandParameter="RadioB1", IsRadioButton = true, GroupName = "secondRadioButtonGroup"},
-            new BFUCommandBarItem() { Text= "RadioB2", IconName="Remove", Key="6", Command=buttonCommand, CommandParameter="RadioB2", IsRadioButton = true, GroupName = "secondRadioButtonGroup"},
-            new BFUCommandBarItem() { Text= "RadioB3", IconName="Remove", Key="7", Command=buttonCommand, CommandParameter="RadioB3", IsRadioButton = true, GroupName = "secondRadioButtonGroup"}
+            new CommandBarItem() { Text= "Non radio", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="Non radio", Toggle=true},
+            new CommandBarItem() { Text= "RadioA1", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="RadioA1", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
+            new CommandBarItem() { Text= "RadioA2", IconName="Add", Key="3", Command=buttonCommand, CommandParameter="RadioA2", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
+            new CommandBarItem() { Text= "RadioA3", IconName="Add", Key="4", Command=buttonCommand, CommandParameter="RadioA3", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
+            new CommandBarItem() { Text= "RadioB1", IconName="Remove", Key="5", Command=buttonCommand, CommandParameter="RadioB1", IsRadioButton = true, GroupName = "secondRadioButtonGroup"},
+            new CommandBarItem() { Text= "RadioB2", IconName="Remove", Key="6", Command=buttonCommand, CommandParameter="RadioB2", IsRadioButton = true, GroupName = "secondRadioButtonGroup"},
+            new CommandBarItem() { Text= "RadioB3", IconName="Remove", Key="7", Command=buttonCommand, CommandParameter="RadioB3", IsRadioButton = true, GroupName = "secondRadioButtonGroup"}
         };
 
         return Task.CompletedTask;

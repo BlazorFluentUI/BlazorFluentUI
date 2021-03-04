@@ -1,4 +1,4 @@
-﻿using BlazorFluentUI.BFUPanelInternal;
+﻿using BlazorFluentUI.PanelInternal;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -12,7 +12,7 @@ using System.Timers;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPanel : BFUComponentBase, IAsyncDisposable
+    public partial class Panel : FluentUIComponentBase, IAsyncDisposable
     {
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
@@ -123,7 +123,7 @@ namespace BlazorFluentUI
 
         private bool _jsAvailable = false;
 
-        public BFUPanel()
+        public Panel()
         {
             HeaderTemplate = builder =>
             {
@@ -148,7 +148,7 @@ namespace BlazorFluentUI
 
             onPanelClick = () =>
             {
-                this._dismiss();
+                _dismiss();
             };
 
             _dismiss = () =>
@@ -156,7 +156,7 @@ namespace BlazorFluentUI
                 OnDismiss.InvokeAsync(null);
                 //normally, would check react synth events to see if event was interrupted from the OnDismiss callback before calling the following... 
                 // To Do
-                this.Close();
+                Close();
             };
 
 

@@ -1,12 +1,12 @@
 ﻿@page "/modalPage"
 <h1>ModalPage</h1>
 
-<BFUCheckbox Label="Is Blocking" 
+<Checkbox Label="Is Blocking" 
                                 @bind-Checked="isBlocking" 
                                 @bind-Checked:event="CheckedChanged" />
-<BFUDefaultButton OnClick="@ShowModal" 
+<DefaultButton OnClick="@ShowModal" 
                                    Text="Show Modal" />
-<BFUModal IsOpen=@isOpen 
+<Modal IsOpen=@isOpen 
                           ContainerClass="modalContainerOverride" 
                           OnDismiss="DismissHandler"
                           IsBlocking="@isBlocking">
@@ -14,7 +14,7 @@
         <span>Lorem Ipsum</span>
     </div>
     <div style="padding: 10px;">
-        <BFUDefaultButton OnClick="@CloseModal" Text="Close" />
+        <DefaultButton OnClick="@CloseModal" Text="Close" />
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lorem nulla, malesuada ut sagittis sit amet, vulputate in
             leo. Maecenas vulputate congue sapien eu tincidunt. Etiam eu sem turpis. Fusce tempor sagittis nunc, ut interdum ipsum
@@ -51,7 +51,7 @@
             Duis a feugiat nibh. Sed a hendrerit diam, a mattis est. In augue dolor, faucibus vel metus at, convallis rhoncus dui.
         </p>
     </div>
-</BFUModal>
+</Modal>
 
 @code {
     bool isOpen = false;

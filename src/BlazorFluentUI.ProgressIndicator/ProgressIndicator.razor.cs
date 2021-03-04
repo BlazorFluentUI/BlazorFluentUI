@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUProgressIndicator : BFUComponentBase
+    public partial class ProgressIndicator : FluentUIComponentBase
     {
         // if the percentComplete is near 0, don't animate it.
         // This prevents animations on reset to 0 scenarios

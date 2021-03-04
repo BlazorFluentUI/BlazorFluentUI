@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 @typeparam TItem
 
 @if (DoNotContainWithinFocusZone)
@@ -22,14 +22,14 @@
         }
         @*else if (OverflowTemplate == null && OverflowItems != null && OverflowItems.Count() > 0)
             {
-                <BlazorFluentUI.BFUOverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
+                <BlazorFluentUI.OverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
             }*@
     </div>
 }
 else
 {
     <div class=@($"ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}") style="display: inline">
-        <BFUFocusZone ClassName=@($"ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")
+        <FocusZone ClassName=@($"ms-OverflowSet{(Vertical ? " ms-OverflowSet--vertical" : "")} {ClassName}")
                       Style=@Style
                       Direction=@(Vertical ? FocusZoneDirection.Vertical : FocusZoneDirection.Horizontal)
                       @ref=@focusZoneComponent>
@@ -49,9 +49,9 @@ else
             }
             @*else if (OverflowTemplate == null && OverflowItems != null && OverflowItems.Count() > 0)
                 {
-                    <BlazorFluentUI.BFUOverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
+                    <BlazorFluentUI.OverflowSetInternal.DefaultOverflowButton OverflowItems="OverflowItems" />
                 }*@
 
-        </BFUFocusZone>
+        </FocusZone>
     </div>
 }

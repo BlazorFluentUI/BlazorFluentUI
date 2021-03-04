@@ -1,11 +1,11 @@
-﻿@inherits BFUButtonParameters
+﻿@inherits ButtonParameters
 @namespace BlazorFluentUI
 @using Microsoft.AspNetCore.Components.Web
 
 
 @if (Primary)
 {
-    <BFUPrimaryButton Href=@Href
+    <PrimaryButton Href=@Href
                       ClassName=@(ClassName + " ms-Button--compound")
                       Style=@Style
                       Primary=@Primary
@@ -32,7 +32,7 @@
 }
 else
 {
-    <BFUDefaultButton Href=@Href
+    <DefaultButton Href=@Href
                       ClassName=@(ClassName + " ms-Button--compound")
                       Style=@Style
                       Primary=@Primary
@@ -59,8 +59,8 @@ else
 }
 
 @code{
-    private BFUDefaultButton defaultButtonReference;
-    private BFUPrimaryButton primaryButtonReference;
+    private DefaultButton defaultButtonReference;
+    private PrimaryButton primaryButtonReference;
     protected override void OnAfterRender(bool firstRender)
     {
         if (Primary)

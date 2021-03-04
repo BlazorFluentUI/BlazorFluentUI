@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BlazorFluentUI.Models
 {
-    public class OverflowItem : IBFUOverflowSetItem
+    public class OverflowItem : IOverflowSetItem
     {
         public string Key { get; set; }
 

@@ -2,24 +2,24 @@
 
 <h1>ResizeGroupPage</h1>
 
-<BFUResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
+<ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
              Data=@(new ResizeGroupData<OverflowItem>(items, overflowItems, ComputeCacheKey(items)))
              GetCacheKey=@getCacheKey
 >
     <DataTemplate Context="data">
-        <BFUOverflowSet Items=@data.Items OverflowItems=@data.OverflowItems GetKey=@(x=> x.Key)>
+        <OverflowSet Items=@data.Items OverflowItems=@data.OverflowItems GetKey=@(x=> x.Key)>
             <ItemTemplate>
-                <BFUCommandBarButton IconName="Add" Text=@context.Name />
+                <CommandBarButton IconName="Add" Text=@context.Name />
             </ItemTemplate>
             <OverflowTemplate>
-                <BFUCommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@(itemTransform(context)) />
+                <CommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@(itemTransform(context)) />
             </OverflowTemplate>
             @*<OverflowItemTemplate>
                 <ContextualMenuItem Text=@context.Name Key=@context.Key />
             </OverflowItemTemplate>*@
-        </BFUOverflowSet>
+        </OverflowSet>
     </DataTemplate>
-</BFUResizeGroup>
+</ResizeGroup>
 
 
 @code {
@@ -29,14 +29,14 @@
     Func<ResizeGroupData<OverflowItem>, ResizeGroupData<OverflowItem>> onGrowData;
     Func<ResizeGroupData<OverflowItem>, ResizeGroupData<OverflowItem>>  onReduceData;
 
-    Func<IEnumerable<OverflowItem>, IEnumerable<IBFUContextualMenuItem>> itemTransform => (items) =>
+    Func<IEnumerable<OverflowItem>, IEnumerable<IContextualMenuItem>> itemTransform => (items) =>
     {
-        var menuItems = new List<IBFUContextualMenuItem>();
+        var menuItems = new List<IContextualMenuItem>();
         if (items == null)
             return menuItems;
         foreach (var item in items)
         {
-            var menuItem = new BFUContextualMenuItem()
+            var menuItem = new ContextualMenuItem()
             {
                 Key = item.Key,
                 Text = item.Name,
@@ -47,14 +47,14 @@
         return menuItems;
     };
 
-    @*Func<(IEnumerable<OverflowItem> primary, IEnumerable<OverflowItem> overflow, string cacheKey), RenderFragment> onRenderData = data =>@<BFUOverflowSet Items=@data.primary OverflowItems=@data.overflow>
+    @*Func<(IEnumerable<OverflowItem> primary, IEnumerable<OverflowItem> overflow, string cacheKey), RenderFragment> onRenderData = data =>@<OverflowSet Items=@data.primary OverflowItems=@data.overflow>
     <ItemTemplate>
-        <BFUCommandBarButton IconName="Add" Text=@context.Name />
+        <CommandBarButton IconName="Add" Text=@context.Name />
     </ItemTemplate>
     <OverflowItemTemplate>
         <ContextualMenuItem Text=@context.Name Key=@context.Key />
     </OverflowItemTemplate>
-</BFUOverflowSet>;*@
+</OverflowSet>;*@
     Func<ResizeGroupData<OverflowItem>, string> getCacheKey = data => data.CacheKey;
 
 

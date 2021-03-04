@@ -62,7 +62,7 @@ namespace BlazorFluentUI
             if (_resizeRegistration != null)
             {
                 await jSRuntime!.InvokeVoidAsync("BlazorFluentUiBaseComponent.deregisterResizeEvent", _resizeRegistration);
-                //Debug.WriteLine($"BFUResponsiveComponentBase unregistered");
+                //Debug.WriteLine($"ResponsiveComponentBase unregistered");
                 _resizeRegistration = null;
             }
         }

@@ -3,9 +3,9 @@
 @using Microsoft.AspNetCore.Components.Web
 @typeparam TItem
 
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
-@*<BFUGlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />*@
+@*<GlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />*@
 
 <div class=@($"{GlobalClassNames["root"]} {ClassName}")
      @ref="RootElementReference">

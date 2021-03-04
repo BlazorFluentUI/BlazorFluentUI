@@ -144,7 +144,7 @@ namespace BlazorFluentUI
 
         private void Initialize(IEqualityComparer<TKey> comparer = null)
         {
-            this.Comparer = comparer;
+            Comparer = comparer;
             if (comparer != null)
             {
                 _keyedCollection = new KeyedCollection2<TKey, KeyValuePair<TKey, TValue>>(x => x.Key, comparer);
@@ -208,7 +208,7 @@ namespace BlazorFluentUI
         /// <returns>True if the value is found.  False otherwise.</returns>
         public bool ContainsValue(TValue value)
         {
-            return this.Values.Contains(value);
+            return Values.Contains(value);
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace BlazorFluentUI
         /// <returns>True if the value is found.  False otherwise.</returns>
         public bool ContainsValue(TValue value, IEqualityComparer<TValue> comparer)
         {
-            return this.Values.Contains(value, comparer);
+            return Values.Contains(value, comparer);
         }
 
         /// <summary>
@@ -558,7 +558,7 @@ namespace BlazorFluentUI
 
         ICollection IDictionary.Keys
         {
-            get { return (ICollection)this.Keys; }
+            get { return (ICollection)Keys; }
         }
 
         void IDictionary.Remove(object key)
@@ -568,7 +568,7 @@ namespace BlazorFluentUI
 
         ICollection IDictionary.Values
         {
-            get { return (ICollection)this.Values; }
+            get { return (ICollection)Values; }
         }
 
         object IDictionary.this[object key]

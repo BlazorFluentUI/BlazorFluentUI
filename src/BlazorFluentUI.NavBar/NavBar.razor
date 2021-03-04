@@ -1,11 +1,11 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
-@using BlazorFluentUI.BFUNavBarInternal
+@inherits FluentUIComponentBase
+@using BlazorFluentUI.NavBarInternal
 @using System.Linq
 
 @if (Direction == LayoutDirection.Horizontal)
 {
-    <BFUResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
+    <ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
                     Data=@_currentData
                     GetCacheKey=@(x => x.CacheKey)
                     ClassName=@ClassName
@@ -16,13 +16,13 @@
                     @HeaderTemplate(Header)
                 </div>
                 @*Primary*@
-                <BFUOverflowSet ClassName="ms-NavBar-horizontal-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
+                <OverflowSet ClassName="ms-NavBar-horizontal-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
                     <ItemTemplate>
                         @if (context.IconOnly)
                         {
-                            <BFUTooltipHost>
+                            <TooltipHost>
                                 <ChildContent>
-                                    <BFUCommandBarButton IconName=@context.IconName
+                                    <CommandBarButton IconName=@context.IconName
                                                          IconSrc=@context.IconSrc
                                                          Text=@(!context.IconOnly ? context.Text : null)
                                                          MenuItems=@context.Items
@@ -38,11 +38,11 @@
                                 <TooltipContent>
                                     @context.Text
                                 </TooltipContent>
-                            </BFUTooltipHost>
+                            </TooltipHost>
                         }
                         else
                         {
-                            <BFUCommandBarButton IconName=@context.IconName
+                            <CommandBarButton IconName=@context.IconName
                                                  IconSrc=@context.IconSrc
                                                  Text=@(!context.IconOnly ? context.Text : null)
                                                  MenuItems=@context.Items
@@ -57,45 +57,45 @@
                         }
                     </ItemTemplate>
                     <OverflowTemplate>
-                        <BFUCommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@context />
+                        <CommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@context />
                     </OverflowTemplate>
 
-                </BFUOverflowSet>
+                </OverflowSet>
                 <div class="ms-NavBar-horizontal-secondarySet">
                     @FooterTemplate
                 </div>
             </div>
         </DataTemplate>
-    </BFUResizeGroup>
+    </ResizeGroup>
 }
 else
 {
-    <BFUStack>
-        <BFUNav>
-            <BFUNavLinkGroup GroupHeaderTemplate=@HeaderTemplate
+    <Stack>
+        <Nav>
+            <NavLinkGroup GroupHeaderTemplate=@HeaderTemplate
                              Name=@Header
                              CollapseByDefault="false">
                 <ChildContent>
                     @foreach (var item in Items)
                     {
-                        <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) IconName=@item.IconName IconSrc=@item.IconSrc
+                        <RecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) IconName=@item.IconName IconSrc=@item.IconSrc
                                              @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" 
                                              Command=@item.Command CommandParameter=@item.CommandParameter/>
                     }
                     @foreach (var item in OverflowItems)
                     {
-                        <BFURecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) IconName=@item.IconName IconSrc=@item.IconSrc
+                        <RecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) IconName=@item.IconName IconSrc=@item.IconSrc
                                              @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" 
                                              Command=@item.Command CommandParameter=@item.CommandParameter/>
                     }
                 </ChildContent>
-            </BFUNavLinkGroup>
+            </NavLinkGroup>
 
-        </BFUNav>
-        <BFUStackItem Shrink="0">
+        </Nav>
+        <StackItem Shrink="0">
             @FooterTemplate
-        </BFUStackItem>
-    </BFUStack>
+        </StackItem>
+    </Stack>
 }
 
 @code{

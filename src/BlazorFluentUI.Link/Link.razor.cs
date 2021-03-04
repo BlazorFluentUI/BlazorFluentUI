@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BlazorFluentUI
 {
-    public partial class BFULink : BFUComponentBase
+    public partial class Link : FluentUIComponentBase
     {
         [Parameter]
         public LinkType? Type { get; set; }

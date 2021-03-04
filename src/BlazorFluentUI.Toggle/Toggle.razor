@@ -1,15 +1,15 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class=@($"mediumFont ms-Toggle {GetClassExtras()}") style=@Style>
     @if (!string.IsNullOrWhiteSpace(Label))
     {
-        <BFULabel ClassName="ms-Toggle-label" HtmlFor=@Id>
+        <Label ClassName="ms-Toggle-label" HtmlFor=@Id>
             @Label
-        </BFULabel>
+        </Label>
     }
     <div class="ms-Toggle-container">
-        <BFUKeytipData>
+        <KeytipData>
             <button class="ms-Toggle-pill"
                     disabled=@(Disabled || commandDisabled)
                     id=@Id
@@ -23,12 +23,12 @@
                     aria-labelledby=@LabelledById>
                 <div class="ms-Toggle-thumb" />
             </button>
-        </BFUKeytipData>
+        </KeytipData>
         @if (!string.IsNullOrWhiteSpace(StateText))
         {
-            <BFULabel HtmlFor=@Id ClassName="ms-Toggle-stateText">
+            <Label HtmlFor=@Id ClassName="ms-Toggle-stateText">
                 @StateText
-            </BFULabel>
+            </Label>
         }
     </div>
 </div>

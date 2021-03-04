@@ -1,4 +1,4 @@
-﻿using BlazorFluentUI.BFUFocusTrapZoneInternal;
+﻿using BlazorFluentUI.FocusTrapZoneInternal;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUFocusTrapZone : BFUComponentBase, IDisposable
+    public partial class FocusTrapZone : FluentUIComponentBase, IDisposable
     {
-        protected static Stack<BFUFocusTrapZone> _focusStack = new Stack<BFUFocusTrapZone>();
+        protected static Stack<FocusTrapZone> _focusStack = new Stack<FocusTrapZone>();
 
         [Inject]
         private IJSRuntime jsRuntime { get; set; }

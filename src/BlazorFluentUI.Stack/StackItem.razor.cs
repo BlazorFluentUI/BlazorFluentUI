@@ -2,7 +2,7 @@
 
 namespace BlazorFluentUI
 {
-    public partial class BFUStackItem : BFUComponentBase
+    public partial class StackItem : FluentUIComponentBase
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
 
@@ -13,7 +13,7 @@ namespace BlazorFluentUI
         [Parameter] public bool VerticalFill { get; set; } = true;
         [Parameter] public int? Order { get; set; }
 
-        [Parameter] public BFUStackItemTokens Tokens { get; set; } = new BFUStackItemTokens();
+        [Parameter] public StackItemTokens Tokens { get; set; } = new StackItemTokens();
 
         protected string GetStyles()
         {

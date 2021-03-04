@@ -1,6 +1,6 @@
 ﻿namespace BlazorFluentUI
 {
-    public interface IBFUOverflowSetItem
+    public interface IOverflowSetItem
     {
         string Key { get; }
     }

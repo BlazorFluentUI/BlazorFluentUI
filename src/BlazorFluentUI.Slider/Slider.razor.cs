@@ -12,7 +12,7 @@ using System.Timers;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUSlider : BFUComponentBase, IAsyncDisposable
+    public partial class Slider : FluentUIComponentBase, IAsyncDisposable
     {
         [Parameter] public Func<double, string>? AriaValueText { get; set; }
         [Parameter] public double? DefaultValue { get; set; }
@@ -45,7 +45,7 @@ namespace BlazorFluentUI
         private bool initialValueSet = false;
         private double value;
         private bool jsAvailable;
-        private DotNetObjectReference<BFUSlider>? dotNetObjectReference;
+        private DotNetObjectReference<Slider>? dotNetObjectReference;
         private Timer timer = new Timer();
 
         private string lengthString => (Vertical ? "height" : "width");

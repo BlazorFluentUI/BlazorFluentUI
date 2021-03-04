@@ -1,11 +1,11 @@
-﻿<BFUStack HorizontalAlign="Alignment.Start" Style="width:100%;">
-    <BFUStack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.End"
+﻿<Stack HorizontalAlign="Alignment.Start" Style="width:100%;">
+    <Stack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.End"
               Style=@($"border-bottom: 1px solid {ThemeProvider.Theme.SemanticColors.BodyDivider}; margin-bottom:18.620px;width:100%;")>
         <div style="font-size:@ThemeProvider.Theme.FontStyle.FontSize.MediumPlus; font-weight:@ThemeProvider.Theme.FontStyle.FontWeight.SemiBold;">@Header</div>
         <div>
-            <BFUCommandBarButton Text=@codeLabel IconName="ChevronDown" OnClick=@(arg=> { showCode = !showCode; showCCode = false; codeLabel = showCode ? "Hide Code" : "Show Code"; }) />
+            <CommandBarButton Text=@codeLabel IconName="ChevronDown" OnClick=@(arg=> { showCode = !showCode; showCCode = false; codeLabel = showCode ? "Hide Code" : "Show Code"; }) />
         </div>
-    </BFUStack>
+    </Stack>
     <div style="width:100%;">
         @ChildContent
     </div>
@@ -14,13 +14,13 @@
            @codeLiteral
            @if (!showCCode)
            {
-        <BFULink OnClick="(args)=>showCCode=true">Show additional C# code...</BFULink>}
+        <Link OnClick="(args)=>showCCode=true">Show additional C# code...</Link>}
            else
            {
             @ccodeLiteral
            }</pre>
     </div>
-</BFUStack>
+</Stack>
 
 
 @code {

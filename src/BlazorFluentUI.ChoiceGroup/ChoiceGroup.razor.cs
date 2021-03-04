@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUChoiceGroup<TItem> : BFUComponentBase
+    public partial class ChoiceGroup<TItem> : FluentUIComponentBase
     {
         [Parameter] public string Label { get; set; } = "Pick one";
         [Parameter] public IList<TItem> ItemsSource { get; set; }
@@ -21,13 +21,13 @@ namespace BlazorFluentUI
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync();
-            if (string.IsNullOrWhiteSpace(this.Id))
-                this.Id = this.Id = $"g{Guid.NewGuid()}";
+            if (string.IsNullOrWhiteSpace(Id))
+                Id = Id = $"g{Guid.NewGuid()}";
         }
 
         private async Task OnChoiceOptionClicked(ChoiceGroupOptionClickedEventArgs choiceGroupOptionClickedEventArgs)
         {
-            await this.ValueChanged.InvokeAsync((TItem)choiceGroupOptionClickedEventArgs.Item);
+            await ValueChanged.InvokeAsync((TItem)choiceGroupOptionClickedEventArgs.Item);
         }
 
         private void OnFocus(ChoiceGroupOptionFocusEventArgs args)

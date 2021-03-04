@@ -1,6 +1,6 @@
 ﻿namespace BlazorFluentUI
 {
-    public class BFUStackTokens
+    public class StackTokens
     {
         public double[] ChildrenGap { get; set; } = null;
         public CssValue MaxHeight { get; set; }

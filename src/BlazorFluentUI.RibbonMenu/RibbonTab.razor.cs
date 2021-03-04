@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFURibbonTab : BFUResizeComponentBase
+    public partial class RibbonTab : ResizeComponentBase
     {
         [Inject] IJSRuntime jSRuntime { get; set; }
         [Parameter] public string? HeaderText { get; set; }
@@ -25,7 +25,7 @@ namespace BlazorFluentUI
         Collection<ResizeGroupData> ResizableGroups = new Collection<ResizeGroupData>();
 
 
-        public BFURibbonTab()
+        public RibbonTab()
         {
             
            OnGrowData = () =>

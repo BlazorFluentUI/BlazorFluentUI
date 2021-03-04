@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public class BFUSelectionZoneProps
+    public class SelectionZoneProps
     {
         public bool DisableAutoSelectOnInputElements { get; set; }    
         public bool EnableTouchInvocationTarget { get; set; }

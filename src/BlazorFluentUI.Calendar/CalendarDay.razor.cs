@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCalendarDay : BFUComponentBase
+    public partial class CalendarDay : FluentUIComponentBase
     {
         [Parameter] public bool AllFocusable { get; set; }
         [Parameter] public bool AutoNavigateOnSelection { get; set; }

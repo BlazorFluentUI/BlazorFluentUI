@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUFontIcon : BFUComponentBase
+    public partial class FontIcon : FluentUIComponentBase
     {
         private string? icon;
 

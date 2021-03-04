@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsRowCheck : BFUComponentBase
+    public partial class DetailsRowCheck : FluentUIComponentBase
     {
         [Parameter]
         public bool AnySelected { get; set; }

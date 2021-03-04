@@ -4,19 +4,19 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public class BFUDropdownChangeArgs
+    public class DropdownChangeArgs
     {
-        public IBFUDropdownOption Option { get; set; }
+        public IDropdownOption Option { get; set; }
         //[Obsolete] public string? Key { get; set; } 
         public bool IsAdded { get; set; }
 
-        //public BFUDropdownChangeArgs(string key, bool isAdded)
+        //public DropdownChangeArgs(string key, bool isAdded)
         //{
         //    Key = key;
         //    IsAdded = isAdded;
         //}
 
-        public BFUDropdownChangeArgs(IBFUDropdownOption option, bool isAdded)
+        public DropdownChangeArgs(IDropdownOption option, bool isAdded)
         {
             Option = option;
             IsAdded = isAdded;

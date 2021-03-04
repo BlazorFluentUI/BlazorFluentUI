@@ -8,24 +8,17 @@ namespace BlazorFluentUI
 
     // ToDo Test KeyTip
     // ToDo Add OnRenderItemLink
-    public partial class BFUPivotItem : BFUComponentBase, IDisposable
+    public partial class PivotItem : FluentUIComponentBase, IDisposable
     {
         [Parameter] public string HeaderText { get; set; }
         [Parameter] public string ItemKey { get; set; }
         [Parameter] public string ItemCount { get; set; }
-        [Obsolete("Use IconName instead")]
-        [Parameter] public string ItemIcon
-        {
-            set
-            {
-                IconName = value;
-            }
-        }
+
         [Parameter] public string IconName { get; set; }
         [Parameter] public string IconSrc { get; set; }
         [Parameter] public string KeyTip { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
-        [CascadingParameter(Name = "Pivot")] protected BFUPivot ParentPivot { get; set; }
+        [CascadingParameter(Name = "Pivot")] protected Pivot ParentPivot { get; set; }
 
         private string dataContent;
 
@@ -52,6 +45,8 @@ namespace BlazorFluentUI
         public void Dispose()
         {
             ParentPivot.PivotItems.Remove(this);
+
+            GC.SuppressFinalize(this);
             return;
         }
     }

@@ -9,7 +9,7 @@
     <br />
     Calendar Date range: @(calendar1Range != null && calendar1Range.Count > 0 ? calendar1Range.Min().ToString("D") + " - " + calendar1Range.Max().ToString("D") : "")
 
-    <BFUCalendar @bind-Value=@calendar1Value @bind-Range=@calendar1Range />
+    <Calendar @bind-Value=@calendar1Value @bind-Range=@calendar1Range />
 </Demo>
 
 <Demo Header="Calendar with week range" Key="1" MetadataPath="CalendarPage">
@@ -18,7 +18,7 @@
     <br />
     Calendar Date range: @(calendar2Range != null && calendar2Range.Count > 0 ? calendar2Range.Min().ToString("D") + " - " + calendar2Range.Max().ToString("D") : "")
 
-    <BFUCalendar DateRangeType="DateRangeType.Week" @bind-Value="calendar2Value" @bind-Range="calendar2Range" />
+    <Calendar DateRangeType="DateRangeType.Week" @bind-Value="calendar2Value" @bind-Range="calendar2Range" />
 </Demo>
 
 <Demo Header="Calendar with month range" Key="2" MetadataPath="CalendarPage">
@@ -27,7 +27,7 @@
     <br />
     Calendar Date range: @(calendar3Range != null && calendar3Range.Count > 0 ? calendar3Range.Min().ToString("D") + " - " + calendar3Range.Max().ToString("D") : "")
 
-    <BFUCalendar DateRangeType="DateRangeType.Month" @bind-Value="calendar3Value" @bind-Range="calendar3Range" />
+    <Calendar DateRangeType="DateRangeType.Month" @bind-Value="calendar3Value" @bind-Range="calendar3Range" />
 </Demo>
 
 <Demo Header="Calendar with minimum, maximum, and restricted dates" Key="3" MetadataPath="CalendarPage">
@@ -41,7 +41,7 @@
     <br />
     Calendar Date range: @(calendar4Range != null && calendar4Range.Count > 0 ? calendar4Range.Min().ToString("D") + " - " + calendar4Range.Max().ToString("D") : "")
 
-    <BFUCalendar @bind-Value="calendar4Value" @bind-Range="calendar4Range" MinDate="minDate" MaxDate="maxDate" RestrictedDates="restrictedDates" />
+    <Calendar @bind-Value="calendar4Value" @bind-Range="calendar4Range" MinDate="minDate" MaxDate="maxDate" RestrictedDates="restrictedDates" />
 </Demo>
 
 <Demo Header="Calendar with just dates, Header click reveals months" Key="4" MetadataPath="CalendarPage">
@@ -49,15 +49,15 @@
     <br />
     Calendar Date range: @(calendar1Range != null && calendar1Range.Count > 0 ? calendar1Range.Min().ToString("D") + " - " + calendar1Range.Max().ToString("D") : "")
 
-    <BFUCalendar @bind-Value=@calendar1Value @bind-Range=@calendar1Range ShowMonthPickerAsOverlay="true" />
+    <Calendar @bind-Value=@calendar1Value @bind-Range=@calendar1Range ShowMonthPickerAsOverlay="true" />
 </Demo>
 
 <Demo Header="Calendar with Blazor Forms Validation" Key="5" MetadataPath="CalendarPage">
     <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
         <DataAnnotationsValidator />
-        <BFUValidationSummary />
-        <BFUCalendar @bind-Value=@exampleModel.DateTime @bind-Range=@calendar1Range ShowMonthPickerAsOverlay="true" />
-        <BFUSubmitButton Text="Submit" />
+        <ValidationSummary />
+        <Calendar @bind-Value=@exampleModel.DateTime @bind-Range=@calendar1Range ShowMonthPickerAsOverlay="true" />
+        <SubmitButton Text="Submit" />
     </EditForm>
 </Demo>
 

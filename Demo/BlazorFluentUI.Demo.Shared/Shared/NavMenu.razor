@@ -1,87 +1,87 @@
 ﻿
-<BFUStack Horizontal="false" VerticalFill="true" Style="overflow:hidden;">
-    <BFUStackItem Grow="0" VerticalFill="false" Align="Alignment.Center">
+<Stack Horizontal="false" VerticalFill="true" Style="overflow:hidden;">
+    <StackItem Grow="0" VerticalFill="false" Align="Alignment.Center">
         <div class="top-row">
-            <BFULink Href="/">BlazorFluentUI V@(System.Reflection.Assembly.GetAssembly(typeof(BFUComponentBase))?.GetName()?.Version.ToString() ?? "NULL")</BFULink>
+            <Link Href="/">BlazorFluentUI V@(System.Reflection.Assembly.GetAssembly(typeof(ComponentBase))?.GetName()?.Version.ToString() ?? "NULL")</Link>
         </div>
-    </BFUStackItem>
+    </StackItem>
 
-    <BFUStackItem VerticalFill="true" Style="overflow-y:auto;">
-        <BFUNav>
-            <BFUNavLinkGroup Name="Basic Controls" CollapseByDefault="false">
-                @*<BFUNavLink Name="Basic" Url="" Id="" IconName="ButtonControl" OnClick=@OnLinkClicked />*@
-                <BFUNavLink Name="Button" Url="buttonsPage" Id="buttonsPage" IconName="ButtonControl" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Checkbox" Url="checkboxPage" Id="checkboxPage" IconName="CheckboxComposite" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="ChoiceGroup" Url="choiceGroupPage" Id="choiceGroupPage" IconName="RadioBtnOn" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Dropdown" Url="dropdownPage" Id="dropdownPage" IconName="Dropdown" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Label" Url="labelPage" Id="labelPage" IconName="Label" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Link" Url="linkPage" Id="linkPage" IconName="Link" OnClick="@OnLinkClicked" />
-                <BFUNavLink Name="Rating" Url="ratingPage" Id="ratingPage" IconName="FavoriteStar" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Slider" Url="sliderPage" Id="sliderPage" IconName="Slider" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="TextField" Url="textFieldPage" Id="textFieldPage" IconName="TextField" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Toggle" Url="togglePage" Id="togglePage" IconName="ToggleLeft" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="SearchBox" Url="searchBoxPage" Id="searchBoxPage" IconName="Search" OnClick=@OnLinkClicked />
-            </BFUNavLinkGroup>
-            <BFUNavLinkGroup Name="Galleries & Pickers" CollapseByDefault="false">
-                <BFUNavLink Name="Calendar" Url="calendarPage" Id="calendarPage" IconName="Calendar" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="DatePicker" Url="datePickerPage" Id="datePickerPage" IconName="SearchCalendar" OnClick=@OnLinkClicked />
-            </BFUNavLinkGroup>
-            <BFUNavLinkGroup Name="Items & Lists" CollapseByDefault="false">
-                <BFUNavLink Name="List" Url="listPage" Id="listPage" IconName="List" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="DetailsList" Url="detailsListPageBasic" Id="detailsListPageBasic" IconName="List" OnClick=@OnLinkClicked />
-                @*<BFUNavLink Name="DetailsList" Url="detailsListPage" Id="detailsListPage" IconName="List" OnClick=@OnLinkClicked />*@
-                <BFUNavLink Name="DetailsListAuto" Url="detailsListAutoPage" Id="detailsListAutoPage" IconName="List" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="DetailsList-Grouped"
+    <StackItem VerticalFill="true" Style="overflow-y:auto;">
+        <Nav>
+            <NavLinkGroup Name="Basic Controls" CollapseByDefault="false">
+                @*<NavLink Name="Basic" Url="" Id="" IconName="ButtonControl" OnClick=@OnLinkClicked />*@
+                <NavLink Name="Button" Url="buttonsPage" Id="buttonsPage" IconName="ButtonControl" OnClick=@OnLinkClicked />
+                <NavLink Name="Checkbox" Url="checkboxPage" Id="checkboxPage" IconName="CheckboxComposite" OnClick=@OnLinkClicked />
+                <NavLink Name="ChoiceGroup" Url="choiceGroupPage" Id="choiceGroupPage" IconName="RadioBtnOn" OnClick=@OnLinkClicked />
+                <NavLink Name="Dropdown" Url="dropdownPage" Id="dropdownPage" IconName="Dropdown" OnClick=@OnLinkClicked />
+                <NavLink Name="Label" Url="labelPage" Id="labelPage" IconName="Label" OnClick=@OnLinkClicked />
+                <NavLink Name="Link" Url="linkPage" Id="linkPage" IconName="Link" OnClick="@OnLinkClicked" />
+                <NavLink Name="Rating" Url="ratingPage" Id="ratingPage" IconName="FavoriteStar" OnClick=@OnLinkClicked />
+                <NavLink Name="Slider" Url="sliderPage" Id="sliderPage" IconName="Slider" OnClick=@OnLinkClicked />
+                <NavLink Name="TextField" Url="textFieldPage" Id="textFieldPage" IconName="TextField" OnClick=@OnLinkClicked />
+                <NavLink Name="Toggle" Url="togglePage" Id="togglePage" IconName="ToggleLeft" OnClick=@OnLinkClicked />
+                <NavLink Name="SearchBox" Url="searchBoxPage" Id="searchBoxPage" IconName="Search" OnClick=@OnLinkClicked />
+            </NavLinkGroup>
+            <NavLinkGroup Name="Galleries & Pickers" CollapseByDefault="false">
+                <NavLink Name="Calendar" Url="calendarPage" Id="calendarPage" IconName="Calendar" OnClick=@OnLinkClicked />
+                <NavLink Name="DatePicker" Url="datePickerPage" Id="datePickerPage" IconName="SearchCalendar" OnClick=@OnLinkClicked />
+            </NavLinkGroup>
+            <NavLinkGroup Name="Items & Lists" CollapseByDefault="false">
+                <NavLink Name="List" Url="listPage" Id="listPage" IconName="List" OnClick=@OnLinkClicked />
+                <NavLink Name="DetailsList" Url="detailsListPageBasic" Id="detailsListPageBasic" IconName="List" OnClick=@OnLinkClicked />
+                @*<NavLink Name="DetailsList" Url="detailsListPage" Id="detailsListPage" IconName="List" OnClick=@OnLinkClicked />*@
+                <NavLink Name="DetailsListAuto" Url="detailsListAutoPage" Id="detailsListAutoPage" IconName="List" OnClick=@OnLinkClicked />
+                <NavLink Name="DetailsList-Grouped"
                             NestedDepth="1"
                             Url="detailsListGroupedPage"
                             Id="detailsListGroupedPage"
                             NavMatchType="NavMatchType.AnchorIncluded" />
-                <BFUNavLink Name="DetailsListAuto-Grouped" NestedDepth="1" Url="detailsListAutoGroupedPage" Id="detailsListAutoGroupedPage" IconName="List" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="DocumentCard" Url="documentcard" Id="documentcardPage" IconName="ContactCard" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="GroupedList" Url="groupedListPage" Id="groupedListPage" IconName="Group" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Persona" Url="personaPage" Id="personaPage" IconName="Contact" OnClick=@OnLinkClicked />
-            </BFUNavLinkGroup>
-            <BFUNavLinkGroup Name="Commands, Menus & Navs" CollapseByDefault="false">
-                <BFUNavLink Name="CommandBar" Url="commandBarPage" Id="commandBarPage" IconName="Bar" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="ContextualMenu" Url="contextualMenuPage" Id="contextualMenuPage" IconName="ContextMenu" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Nav" Url="navPage" Id="navPage" IconName="SecondaryNav" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="NavBar" Url="navBarPage" Id="navBarPage" IconName="SecondaryNav" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="OverflowSet" Url="overflowSetPage" Id="overflowSetPage" IconName="More" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Pivot" Url="pivotPage" Id="pivotPage" IconName="TabCenter" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Ribbon Menu" Url="ribbonMenuPage" Id="ribbonMenuPage" IconName="TabCenter" OnClick=@OnLinkClicked />
-            </BFUNavLinkGroup>
-            <BFUNavLinkGroup Name="Notification & Engagement" CollapseByDefault="false">
-                <BFUNavLink Name="MessageBar" Url="messageBarPage" Id="messageBarPage" IconName="Message" OnClick=@OnLinkClicked />
-            </BFUNavLinkGroup>
-            <BFUNavLinkGroup Name="Progress" CollapseByDefault="false">
-                <BFUNavLink Name="ProgressIndicator" Url="progressIndicatorPage" Id="progressIndicatorPage" IconName="ProgressLoopInner" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Spinner" Url="spinnerPage" Id="spinnerPage" IconName="ProgressRingDots" OnClick=@OnLinkClicked />
-            </BFUNavLinkGroup>
-            <BFUNavLinkGroup Name="Surfaces" CollapseByDefault="false">
-                <BFUNavLink Name="Callout" Url="calloutPage" Id="calloutPage" IconName="TextCallout" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Dialog" Url="dialogPage" Id="dialogPage" IconName="TextCallout" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Modal" Url="modalPage" Id="modalPage" IconName="TextCallout" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Panel" Url="panelPage" Id="panelPage" IconName="SidePanel" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Tooltip" Url="tooltipPage" Id="tooltipPage" IconName="DiagnosticDataBarTooltip" OnClick=@OnLinkClicked />
-            </BFUNavLinkGroup>
-            <BFUNavLinkGroup Name="Utilities" CollapseByDefault="false">
-                <BFUNavLink Name="FocusTrapZone" Url="focusTrapZonePage" Id="focusTrapZonePage" IconName="Focus" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="FocusZone" Url="focusZonePage" Id="focusZonePage" IconName="Focus" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Image" Url="imagePage" Id="imagePage" IconName="ImagePixel" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Layer" Url="layerPage" Id="layerPage" IconName="MapLayers" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="MarqueeSelection" Url="marqueeSelectionPage" Id="marqueeSelectionPage" IconName="MapLayers" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="ResizeGroup" Url="resizeGroupPage" Id="resizeGroupPage" IconName="Resize" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="RichTextEditor" Url="richTextEditorPage" Id="richTextEditorPage" IconName="Edit" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Stack" Url="stackPage" Id="stackPage" IconName="Stack" OnClick=@OnLinkClicked />
-                <BFUNavLink Name="Text" Url="textPage" Id="textPage" IconName="PlainText" OnClick=@OnLinkClicked />
-            </BFUNavLinkGroup>
-        </BFUNav>
-    </BFUStackItem>
-</BFUStack>
+                <NavLink Name="DetailsListAuto-Grouped" NestedDepth="1" Url="detailsListAutoGroupedPage" Id="detailsListAutoGroupedPage" IconName="List" OnClick=@OnLinkClicked />
+                <NavLink Name="DocumentCard" Url="documentcard" Id="documentcardPage" IconName="ContactCard" OnClick=@OnLinkClicked />
+                <NavLink Name="GroupedList" Url="groupedListPage" Id="groupedListPage" IconName="Group" OnClick=@OnLinkClicked />
+                <NavLink Name="Persona" Url="personaPage" Id="personaPage" IconName="Contact" OnClick=@OnLinkClicked />
+            </NavLinkGroup>
+            <NavLinkGroup Name="Commands, Menus & Navs" CollapseByDefault="false">
+                <NavLink Name="CommandBar" Url="commandBarPage" Id="commandBarPage" IconName="Bar" OnClick=@OnLinkClicked />
+                <NavLink Name="ContextualMenu" Url="contextualMenuPage" Id="contextualMenuPage" IconName="ContextMenu" OnClick=@OnLinkClicked />
+                <NavLink Name="Nav" Url="navPage" Id="navPage" IconName="SecondaryNav" OnClick=@OnLinkClicked />
+                <NavLink Name="NavBar" Url="navBarPage" Id="navBarPage" IconName="SecondaryNav" OnClick=@OnLinkClicked />
+                <NavLink Name="OverflowSet" Url="overflowSetPage" Id="overflowSetPage" IconName="More" OnClick=@OnLinkClicked />
+                <NavLink Name="Pivot" Url="pivotPage" Id="pivotPage" IconName="TabCenter" OnClick=@OnLinkClicked />
+                <NavLink Name="Ribbon Menu" Url="ribbonMenuPage" Id="ribbonMenuPage" IconName="TabCenter" OnClick=@OnLinkClicked />
+            </NavLinkGroup>
+            <NavLinkGroup Name="Notification & Engagement" CollapseByDefault="false">
+                <NavLink Name="MessageBar" Url="messageBarPage" Id="messageBarPage" IconName="Message" OnClick=@OnLinkClicked />
+            </NavLinkGroup>
+            <NavLinkGroup Name="Progress" CollapseByDefault="false">
+                <NavLink Name="ProgressIndicator" Url="progressIndicatorPage" Id="progressIndicatorPage" IconName="ProgressLoopInner" OnClick=@OnLinkClicked />
+                <NavLink Name="Spinner" Url="spinnerPage" Id="spinnerPage" IconName="ProgressRingDots" OnClick=@OnLinkClicked />
+            </NavLinkGroup>
+            <NavLinkGroup Name="Surfaces" CollapseByDefault="false">
+                <NavLink Name="Callout" Url="calloutPage" Id="calloutPage" IconName="TextCallout" OnClick=@OnLinkClicked />
+                <NavLink Name="Dialog" Url="dialogPage" Id="dialogPage" IconName="TextCallout" OnClick=@OnLinkClicked />
+                <NavLink Name="Modal" Url="modalPage" Id="modalPage" IconName="TextCallout" OnClick=@OnLinkClicked />
+                <NavLink Name="Panel" Url="panelPage" Id="panelPage" IconName="SidePanel" OnClick=@OnLinkClicked />
+                <NavLink Name="Tooltip" Url="tooltipPage" Id="tooltipPage" IconName="DiagnosticDataBarTooltip" OnClick=@OnLinkClicked />
+            </NavLinkGroup>
+            <NavLinkGroup Name="Utilities" CollapseByDefault="false">
+                <NavLink Name="FocusTrapZone" Url="focusTrapZonePage" Id="focusTrapZonePage" IconName="Focus" OnClick=@OnLinkClicked />
+                <NavLink Name="FocusZone" Url="focusZonePage" Id="focusZonePage" IconName="Focus" OnClick=@OnLinkClicked />
+                <NavLink Name="Image" Url="imagePage" Id="imagePage" IconName="ImagePixel" OnClick=@OnLinkClicked />
+                <NavLink Name="Layer" Url="layerPage" Id="layerPage" IconName="MapLayers" OnClick=@OnLinkClicked />
+                <NavLink Name="MarqueeSelection" Url="marqueeSelectionPage" Id="marqueeSelectionPage" IconName="MapLayers" OnClick=@OnLinkClicked />
+                <NavLink Name="ResizeGroup" Url="resizeGroupPage" Id="resizeGroupPage" IconName="Resize" OnClick=@OnLinkClicked />
+                <NavLink Name="RichTextEditor" Url="richTextEditorPage" Id="richTextEditorPage" IconName="Edit" OnClick=@OnLinkClicked />
+                <NavLink Name="Stack" Url="stackPage" Id="stackPage" IconName="Stack" OnClick=@OnLinkClicked />
+                <NavLink Name="Text" Url="textPage" Id="textPage" IconName="PlainText" OnClick=@OnLinkClicked />
+            </NavLinkGroup>
+        </Nav>
+    </StackItem>
+</Stack>
 
 @code {
 
-    [Parameter] public EventCallback<BFUNavLink> OnLinkClicked { get; set; }
+    [Parameter] public EventCallback<NavLink> OnLinkClicked { get; set; }
 
     bool collapseNavMenu = true;
 

@@ -15,18 +15,18 @@
         }
 
     .mediumFont {
-        font-size: @(ThemeProvider.Theme.FontStyle.FontSize.Medium);/*var(--fontSize-Medium);*/
-        font-weight: @(ThemeProvider.Theme.FontStyle.FontWeight.Regular);/*var(--fontWeight-Regular);*/
+        font-size: @(ThemeProvider?.Theme.FontStyle.FontSize.Medium);/*var(--fontSize-Medium);*/
+        font-weight: @(ThemeProvider?.Theme.FontStyle.FontWeight.Regular);/*var(--fontWeight-Regular);*/
     }
 
     .largeFont {
-        font-size: @(ThemeProvider.Theme.FontStyle.FontSize.Large);/*var(--fontSize-Large);*/
-        font-weight: @(ThemeProvider.Theme.FontStyle.FontWeight.Regular);/*var(--fontWeight-Regular);*/
+        font-size: @(ThemeProvider?.Theme.FontStyle.FontSize.Large);/*var(--fontSize-Large);*/
+        font-weight: @(ThemeProvider?.Theme.FontStyle.FontWeight.Regular);/*var(--fontWeight-Regular);*/
     }
 
     .xlargeFont {
-        font-size: @(ThemeProvider.Theme.FontStyle.FontSize.XLarge); /*var(--fontSize-XLarge);*/
-        font-weight: @(ThemeProvider.Theme.FontStyle.FontWeight.SemiBold); /*var(--fontWeight-SemiBold);*/
+        font-size: @(ThemeProvider?.Theme.FontStyle.FontSize.XLarge); /*var(--fontSize-XLarge);*/
+        font-weight: @(ThemeProvider?.Theme.FontStyle.FontWeight.SemiBold); /*var(--fontWeight-SemiBold);*/
     }
 
     .disabledBodyScroll {
@@ -34,64 +34,64 @@
     }
 
     .slideDownIn10 {
-        animation: Slide_down_in_10 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+        animation: Slide_down_in_10 @(ThemeProvider?.Theme.Animation.Duration3) @(ThemeProvider?.Theme.Animation.EasingFunction1);
     }
 
     .slideDownIn20 {
-        animation: Slide_down_in_20 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+        animation: Slide_down_in_20 @(ThemeProvider?.Theme.Animation.Duration3) @(ThemeProvider?.Theme.Animation.EasingFunction1);
     }
 
     .slideRightIn10 {
-        animation: Slide_right_in_10 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+        animation: Slide_right_in_10 @(ThemeProvider?.Theme.Animation.Duration3) @(ThemeProvider?.Theme.Animation.EasingFunction1);
     }
 
     .slideRightIn40 {
-        animation: Slide_right_in_40 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+        animation: Slide_right_in_40 @(ThemeProvider?.Theme.Animation.Duration3) @(ThemeProvider?.Theme.Animation.EasingFunction1);
     }
 
     .slideUpIn10 {
-        animation: Slide_up_in_10 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+        animation: Slide_up_in_10 @(ThemeProvider?.Theme.Animation.Duration3) @(ThemeProvider?.Theme.Animation.EasingFunction1);
     }
 
     .slideLeftIn10 {
-        animation: Slide_left_in_10 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+        animation: Slide_left_in_10 @(ThemeProvider?.Theme.Animation.Duration3) @(ThemeProvider?.Theme.Animation.EasingFunction1);
     }
 
     .slideLeftIn40 {
-        animation: Slide_left_in_40 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+        animation: Slide_left_in_40 @(ThemeProvider?.Theme.Animation.Duration3) @(ThemeProvider?.Theme.Animation.EasingFunction1);
     }
 
     .slideRightOut40 {
-        animation: Slide_right_out_40 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+        animation: Slide_right_out_40 @(ThemeProvider?.Theme.Animation.Duration3) @(ThemeProvider?.Theme.Animation.EasingFunction1);
     }
 
     .slideLeftOut40 {
-        animation: Slide_left_out_40 @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction1);
+        animation: Slide_left_out_40 @(ThemeProvider?.Theme.Animation.Duration3) @(ThemeProvider?.Theme.Animation.EasingFunction1);
     }
 
     .fadeIn100 {
-        animation: Fade_in @(ThemeProvider.Theme.Animation.Duration1) @(ThemeProvider.Theme.Animation.EasingFunction2);
+        animation: Fade_in @(ThemeProvider?.Theme.Animation.Duration1) @(ThemeProvider?.Theme.Animation.EasingFunction2);
     }
 
     .fadeOut100 {
-        animation: Fade_out @(ThemeProvider.Theme.Animation.Duration1) @(ThemeProvider.Theme.Animation.EasingFunction2);
+        animation: Fade_out @(ThemeProvider?.Theme.Animation.Duration1) @(ThemeProvider?.Theme.Animation.EasingFunction2);
     }
 
     .fadeIn200 {
-        animation: Fade_in @(ThemeProvider.Theme.Animation.Duration2) @(ThemeProvider.Theme.Animation.EasingFunction2);
+        animation: Fade_in @(ThemeProvider?.Theme.Animation.Duration2) @(ThemeProvider?.Theme.Animation.EasingFunction2);
     }
 
     .fadeOut200 {
-        animation: Fade_out @(ThemeProvider.Theme.Animation.Duration2) @(ThemeProvider.Theme.Animation.EasingFunction2);
+        animation: Fade_out @ThemeProvider?.Theme.Animation.Duration2 @(ThemeProvider?.Theme.Animation.EasingFunction2);
     }
 
     .fadeIn400 {
-        animation: Fade_in @(ThemeProvider.Theme.Animation.Duration3) @(ThemeProvider.Theme.Animation.EasingFunction2);
+        animation: Fade_in @(ThemeProvider?.Theme.Animation.Duration3) @(ThemeProvider?.Theme.Animation.EasingFunction2);
     }
 
     </style>
 
-<CascadingValue Value="ThemeProvider.Theme" Name="Theme">
+<CascadingValue Value="ThemeProvider?.Theme" Name="Theme">
     <div dir="ltr"> @*This is a fix to allow some fonts to display properly.  We may want to move this later.*@
         @ChildContent
     </div>
@@ -99,23 +99,23 @@
 
 @code {
     [Inject]
-        public ThemeProvider ThemeProvider { get; set; }
+        public ThemeProvider? ThemeProvider { get; set; }
 
         [Parameter]
-        public IPalette InitialPalette { get; set; }
+        public IPalette? InitialPalette { get; set; }
         [Parameter]
-        public ISemanticColors InitialSemanticColors { get; set; }
+        public ISemanticColors? InitialSemanticColors { get; set; }
         [Parameter]
-        public ISemanticTextColors InitialSemanticTextColors { get; set; }
+        public ISemanticTextColors? InitialSemanticTextColors { get; set; }
 
         [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        public RenderFragment? ChildContent { get; set; }
 
     private bool firstThemeCheck;
 
     protected override void OnInitialized()
     {
-        ThemeProvider.ThemeComponents.Add(this);
+        ThemeProvider?.ThemeComponents.Add(this);
         base.OnInitialized();
     }
 
@@ -126,11 +126,11 @@
             firstThemeCheck = true;
             if (InitialSemanticColors != null && InitialSemanticTextColors != null)
             {
-                ThemeProvider.UpdateTheme(InitialPalette, InitialSemanticColors, InitialSemanticTextColors);
+                ThemeProvider?.UpdateTheme(InitialPalette, InitialSemanticColors, InitialSemanticTextColors);
             }
             else
             {
-                ThemeProvider.UpdateTheme(InitialPalette);
+                ThemeProvider?.UpdateTheme(InitialPalette);
             }
         }
         return base.OnParametersSetAsync();
@@ -154,7 +154,7 @@
                 {
                     var name = prop.Name;
                     System.Diagnostics.Debug.WriteLine($"Name: {name}");
-                    var val = prop.GetValue(this.ThemeProvider.Theme.Palette,null);
+                    var val = prop.GetValue(this.ThemeProvider?.Theme.Palette,null);
                     sbuilder.Append($"--palette-{name}: {val};");
                 }
 
@@ -162,70 +162,70 @@
                 foreach (var prop in props)
                 {
                     var name = prop.Name;
-                    sbuilder.Append($"--semanticColors-{name}: {prop.GetValue(this.ThemeProvider.Theme.SemanticColors,null)};");
+                    sbuilder.Append($"--semanticColors-{name}: {prop.GetValue(this.ThemeProvider?.Theme.SemanticColors,null)};");
                 }
 
                 props = ThemeProvider.Theme.SemanticTextColors.GetType().GetProperties();
                 foreach (var prop in props)
                 {
                     var name = prop.Name;
-                    sbuilder.Append($"--semanticTextColors-{name}: {prop.GetValue(this.ThemeProvider.Theme.SemanticTextColors,null)};");
+                    sbuilder.Append($"--semanticTextColors-{name}: {prop.GetValue(this.ThemeProvider?.Theme.SemanticTextColors,null)};");
                 }
 
                 props = ThemeProvider.Theme.Effects.GetType().GetProperties();
                 foreach (var prop in props)
                 {
                     var name = prop.Name;
-                    sbuilder.Append($"--effects-{name}: {prop.GetValue(this.ThemeProvider.Theme.Effects,null)};");
+                    sbuilder.Append($"--effects-{name}: {prop.GetValue(this.ThemeProvider?.Theme.Effects,null)};");
                 }
 
                 props = ThemeProvider.Theme.Depths.GetType().GetProperties();
                 foreach (var prop in props)
                 {
                     var name = prop.Name;
-                    sbuilder.Append($"--depths-{name}: {prop.GetValue(this.ThemeProvider.Theme.Depths)};");
+                    sbuilder.Append($"--depths-{name}: {prop.GetValue(this.ThemeProvider?.Theme.Depths)};");
                 }
 
                 props = ThemeProvider.Theme.Animation.GetType().GetProperties();
                 foreach (var prop in props)
                 {
                     var name = prop.Name;
-                    sbuilder.Append($"--animation-{name}: {prop.GetValue(this.ThemeProvider.Theme.Animation)};");
+                    sbuilder.Append($"--animation-{name}: {prop.GetValue(this.ThemeProvider?.Theme.Animation)};");
                 }
 
                 props = ThemeProvider.Theme.CommonStyle.GetType().GetProperties();
                 foreach (var prop in props)
                 {
                     var name = prop.Name;
-                    sbuilder.Append($"--commonStyle-{name}: {prop.GetValue(this.ThemeProvider.Theme.CommonStyle)};");
+                    sbuilder.Append($"--commonStyle-{name}: {prop.GetValue(this.ThemeProvider?.Theme.CommonStyle)};");
                 }
 
                 props = ThemeProvider.Theme.FontStyle.FontSize.GetType().GetProperties();
                 foreach (var prop in props)
                 {
                     var name = prop.Name;
-                    sbuilder.Append($"--fontSize-{name}: {prop.GetValue(this.ThemeProvider.Theme.FontStyle.FontSize)};");
+                    sbuilder.Append($"--fontSize-{name}: {prop.GetValue(this.ThemeProvider?.Theme.FontStyle.FontSize)};");
                 }
 
                 props = ThemeProvider.Theme.FontStyle.FontWeight.GetType().GetProperties();
                 foreach (var prop in props)
                 {
                     var name = prop.Name;
-                    sbuilder.Append($"--fontWeight-{name}: {prop.GetValue(this.ThemeProvider.Theme.FontStyle.FontWeight)};");
+                    sbuilder.Append($"--fontWeight-{name}: {prop.GetValue(this.ThemeProvider?.Theme.FontStyle.FontWeight)};");
                 }
 
                 props = ThemeProvider.Theme.FontStyle.IconFontSize.GetType().GetProperties();
                 foreach (var prop in props)
                 {
                     var name = prop.Name;
-                    sbuilder.Append($"--iconFontSize-{name}: {prop.GetValue(this.ThemeProvider.Theme.FontStyle.IconFontSize)};");
+                    sbuilder.Append($"--iconFontSize-{name}: {prop.GetValue(this.ThemeProvider?.Theme.FontStyle.IconFontSize)};");
                 }
 
                 props = ThemeProvider.Theme.ZIndex.GetType().GetProperties();
                 foreach (var prop in props)
                 {
                     var name = prop.Name;
-                    sbuilder.Append($"--zIndex-{name}: {prop.GetValue(this.ThemeProvider.Theme.ZIndex)};");
+                    sbuilder.Append($"--zIndex-{name}: {prop.GetValue(this.ThemeProvider?.Theme.ZIndex)};");
                 }
             }
         }

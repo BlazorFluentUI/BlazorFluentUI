@@ -1,8 +1,8 @@
 ﻿@using BlazorFluentUI.Resize;
-@inherits BFUResizeComponentBase
+@inherits ResizeComponentBase
 
 
-<BFUPivotItem HeaderText=@HeaderText>
+<PivotItem HeaderText=@HeaderText>
     <div @ref="RootElementReference" style="white-space: nowrap">
         @ChildContent
         @if (ItemTemplate != null && ItemsSource != null)
@@ -15,4 +15,4 @@
             </div>
          }
     </div>
-</BFUPivotItem>
+</PivotItem>

@@ -3,8 +3,8 @@
 @inherits ValidationSummary
 
 @{ var validationMessages = Model is null ?
-                                     BFUCurrentEditContext.GetValidationMessages() :
-                                     BFUCurrentEditContext.GetValidationMessages(new FieldIdentifier(Model, string.Empty));
+                                     FluentUIEditContext.GetValidationMessages() :
+                                     FluentUIEditContext.GetValidationMessages(new FieldIdentifier(Model, string.Empty));
 
     @if (validationMessages.Count() > 0)
     {
@@ -13,10 +13,10 @@
 
         @foreach (var error in validationMessages)
         {
-            <BFUMessageBar MessageBarType="MessageBarType.Error" IsMultiline="false">
+            <MessageBar MessageBarType="MessageBarType.Error" IsMultiline="false">
                 <span class="validation-message">@error</span>
 
-            </BFUMessageBar>
+            </MessageBar>
         }
     </div>
     }
@@ -24,6 +24,6 @@
 }
 
 @code {
-    [CascadingParameter] EditContext BFUCurrentEditContext { get; set; } = default!;
+    [CascadingParameter] EditContext FluentUIEditContext { get; set; } = default!;
 
 }

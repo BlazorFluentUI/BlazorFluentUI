@@ -11,7 +11,7 @@ namespace BlazorFluentUI
     /**	
      * This adds accessibility to Dialog and Panel controls	
      */	
-    public partial class BFUPopup : BFUComponentBase, IDisposable	
+    public partial class Popup : FluentUIComponentBase, IDisposable	
     {	
         [Parameter] public RenderFragment ChildContent { get; set; }	
 

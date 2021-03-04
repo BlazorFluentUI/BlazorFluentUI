@@ -2,9 +2,9 @@
 
 <Demo MetadataPath="DetailsListPageBasic" Key="0" Header="Basic DetailsList">
     <div style="height:400px;" data-is-scrollable>
-        <BFUStack Style="height:100%;">
+        <Stack Style="height:100%;">
             <h3>DetailsList</h3>
-            <BFUDetailsList ItemsSource="InputList"
+            <DetailsList ItemsSource="InputList"
                             Columns="Columns"
                             GetKey=@(item=>item.Key)
                             LayoutMode="DetailsListLayoutMode.Justified"
@@ -12,8 +12,8 @@
                             OnItemInvoked="OnClick"
                             Selection="selection"
                             SelectionMode="SelectionMode.Multiple">
-            </BFUDetailsList>
-        </BFUStack>
+            </DetailsList>
+        </Stack>
     </div>
 </Demo>
     @code {
@@ -22,14 +22,14 @@
 
         Selection<DataItem> selection = new Selection<DataItem>();
 
-        public List<BFUDetailsRowColumn<DataItem>> Columns = new List<BFUDetailsRowColumn<DataItem>>();
+        public List<DetailsRowColumn<DataItem>> Columns = new List<DetailsRowColumn<DataItem>>();
 
         protected override void OnInitialized()
         {
             selection.GetKey = (item => item.Key);
-            Columns.Add(new BFUDetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0 });
-            Columns.Add(new BFUDetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-            Columns.Add(new BFUDetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2 });
+            Columns.Add(new DetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0 });
+            Columns.Add(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+            Columns.Add(new DetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2 });
 
             int count = 0;
             for (var i = 0; i < 1000; i++)
@@ -42,7 +42,7 @@
             base.OnInitialized();
         }
 
-        private void OnColumnClick(BFUDetailsRowColumn<DataItem> column)
+        private void OnColumnClick(DetailsRowColumn<DataItem> column)
         {
             // since we're creating a new list, we need to make a copy of what was previously selected
             var selected = selection.GetSelection();

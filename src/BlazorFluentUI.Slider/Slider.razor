@@ -1,17 +1,17 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 @using Microsoft.AspNetCore.Components.Web  
 
 <div class=@($"{GlobalClassNames["root"]} {(Disabled ? GlobalClassNames["disabled"] : GlobalClassNames["enabled"])} {(Vertical ? GlobalClassNames["column"] : GlobalClassNames["row"])} {ClassName}")
      style=@Style>
     @if (!string.IsNullOrWhiteSpace(Label))
     {
-        <BFULabel ClassName=@($"{GlobalClassNames["titleLabel"]} {TitleLabelClassName}")
+        <Label ClassName=@($"{GlobalClassNames["titleLabel"]} {TitleLabelClassName}")
                   AriaLabel=@AriaLabel
                   HtmlFor=@(string.IsNullOrWhiteSpace(AriaLabel)? id : null)
                   >
             @Label
-        </BFULabel>
+        </Label>
     }
     <div class=@($"{GlobalClassNames["container"]}")>
         <div id=@id
@@ -57,11 +57,11 @@
         </div>
         @if (ShowValue)
         {
-            <BFULabel ClassName=@GlobalClassNames["valueLabel"]
+            <Label ClassName=@GlobalClassNames["valueLabel"]
                       Disabled=@Disabled
                       >
                 @(ValueFormat != null ? ValueFormat(value) : value.ToString())
-            </BFULabel>
+            </Label>
         }
     </div>
 </div>

@@ -12,7 +12,7 @@ using System.Timers;
 
 namespace BlazorFluentUI
 {
-    public partial class BFURichTextEditor : BFUComponentBase
+    public partial class RichTextEditor : FluentUIComponentBase
     {
         
         [Inject] private IJSRuntime jsRuntime { get; set; }
@@ -25,7 +25,7 @@ namespace BlazorFluentUI
 
         [Parameter] public EventCallback<string> RichTextChanged { get; set; }
                
-        private System.Collections.Generic.List<BFUCommandBarItem> items;
+        private System.Collections.Generic.List<CommandBarItem> items;
         private bool hasFocus = false;
 
         private bool isImageDialogOpen = false;
@@ -46,7 +46,7 @@ namespace BlazorFluentUI
         private FormattingState _waitingFormattingState;
         private bool _readonlySet;
 
-        public BFURichTextEditor()
+        public RichTextEditor()
         {
             buttonCommand = new RelayCommand(async (p) =>
             {
@@ -113,14 +113,14 @@ namespace BlazorFluentUI
                 });
             };
 
-            items = new System.Collections.Generic.List<BFUCommandBarItem> {
-                new BFUCommandBarItem() { Text= "Bold", CanCheck=true, IconOnly=true, IconName="Bold", Key="Bold", Command=buttonCommand, CommandParameter="Bold"},
-                new BFUCommandBarItem() { Text= "Italic", CanCheck=true, IconOnly=true, IconName="Italic", Key="Italic", Command=buttonCommand, CommandParameter="Italic"},
-                new BFUCommandBarItem() { Text= "Underline", CanCheck=true, IconOnly=true, IconName="Underline", Key="Underline", Command=buttonCommand, CommandParameter="Underline"},
-                new BFUCommandBarItem() { Text= "Superscript", CanCheck=true, IconOnly=true, IconName="Superscript", Key="Superscript", Command=buttonCommand, CommandParameter="Superscript"},
-                new BFUCommandBarItem() { Text= "Subscript", CanCheck=true, IconOnly=true, IconName="Subscript", Key="Subscript", Command=buttonCommand, CommandParameter="Subscript"},
+            items = new System.Collections.Generic.List<CommandBarItem> {
+                new CommandBarItem() { Text= "Bold", CanCheck=true, IconOnly=true, IconName="Bold", Key="Bold", Command=buttonCommand, CommandParameter="Bold"},
+                new CommandBarItem() { Text= "Italic", CanCheck=true, IconOnly=true, IconName="Italic", Key="Italic", Command=buttonCommand, CommandParameter="Italic"},
+                new CommandBarItem() { Text= "Underline", CanCheck=true, IconOnly=true, IconName="Underline", Key="Underline", Command=buttonCommand, CommandParameter="Underline"},
+                new CommandBarItem() { Text= "Superscript", CanCheck=true, IconOnly=true, IconName="Superscript", Key="Superscript", Command=buttonCommand, CommandParameter="Superscript"},
+                new CommandBarItem() { Text= "Subscript", CanCheck=true, IconOnly=true, IconName="Subscript", Key="Subscript", Command=buttonCommand, CommandParameter="Subscript"},
 
-                new BFUCommandBarItem() { Text= "Insert Image", CanCheck=false, IconOnly=true, IconName="ImagePixel", Key="Image", Command=buttonCommand, CommandParameter="Image"}
+                new CommandBarItem() { Text= "Insert Image", CanCheck=false, IconOnly=true, IconName="ImagePixel", Key="Image", Command=buttonCommand, CommandParameter="Image"}
             };
         }
 
@@ -134,7 +134,7 @@ namespace BlazorFluentUI
 
                 internalRichText = args.Html;
 
-                if (args.Html != this.RichText)
+                if (args.Html != RichText)
                 {
                     _waitingText = args.Html;
                     _debounceTextTimer.Start();

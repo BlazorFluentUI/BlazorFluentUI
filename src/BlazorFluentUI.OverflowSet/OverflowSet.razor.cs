@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUOverflowSet<TItem> : BFUComponentBase
+    public partial class OverflowSet<TItem> : FluentUIComponentBase
     {
         [Parameter] public bool Vertical { get; set; }
         [Parameter] public IEnumerable<TItem> Items { get; set; }
@@ -24,7 +24,7 @@ namespace BlazorFluentUI
         //protected System.Collections.Generic.List<TItem> calculatedItems;
         //protected System.Collections.Generic.List<TItem> calculatedOverflowItems;
 
-        protected BFUFocusZone focusZoneComponent;
+        protected FocusZone focusZoneComponent;
 
         //public ICollection<IRule> CreateGlobalCss(ITheme theme)
         //{

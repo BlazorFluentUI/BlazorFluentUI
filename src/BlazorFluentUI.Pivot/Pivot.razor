@@ -1,14 +1,14 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div role="tablist" aria-label=@AriaLabel style="overflow:hidden;">
-    <BFUFocusZone Direction=FocusZoneDirection.Horizontal>
+    <FocusZone Direction=FocusZoneDirection.Horizontal>
         <CascadingValue Name="Pivot" Value="@this">
             <div class=@($"ms-Pivot mediumFont{(LinkFormat == PivotLinkFormat.Tabs ? " ms-Pivot--tabs" : "")}{(LinkSize == PivotLinkSize.Large ? " ms-Pivot--large" : "")}")>
                 @ChildContent
             </div>
         </CascadingValue>
-    </BFUFocusZone>
+    </FocusZone>
 
     @if (!HeadersOnly && !(Selected == null) && PivotItems.IndexOf(Selected) == _oldIndex)
     {

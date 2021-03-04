@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUButtonParameters
+@inherits ButtonParameters
 @using Microsoft.AspNetCore.Components.Web
 
 @{
@@ -8,9 +8,9 @@
 }
 
 @{
-    RenderFragment BFUButtonContentRederFragment() => __builder =>
+    RenderFragment ButtonContentRederFragment() => __builder =>
     {
-        __builder.OpenComponent(0, typeof(BlazorFluentUI.Internal.BFUButtonContent));
+        __builder.OpenComponent(0, typeof(BlazorFluentUI.Internal.ButtonContent));
         __builder.AddAttribute(1, "Href", Href);
         __builder.AddAttribute(2, "ClassName", ClassName);
         __builder.AddAttribute(3, "Style", Style);
@@ -49,8 +49,8 @@
     };
 
 
-    RenderFragment BFUKeytipDataRenderFragment =
-    @<BFUKeytipData>
+    RenderFragment KeytipDataRenderFragment =
+    @<KeytipData>
 
         @if (Href == null)
         {
@@ -62,7 +62,7 @@
                     style=@Style
                     @attributes=@UnknownProperties
                     @ref="RootElementReference">
-                @BFUButtonContentRederFragment()
+                @ButtonContentRederFragment()
 
             </button>
         }
@@ -77,21 +77,21 @@
                style=@Style
                @attributes=@UnknownProperties
                @ref="RootElementReference">
-                @BFUButtonContentRederFragment()
+                @ButtonContentRederFragment()
 
             </a>
         }
-    </BFUKeytipData>;
+    </KeytipData>;
 
 @if (isSplitButton)
 {
     <div class="ms-Button-splitContainer"
          tabindex=@(!Disabled && !PrimaryDisabled && !commandDisabled ? 0 : -1)>
         <span style="display:flex;">
-            @BFUKeytipDataRenderFragment
+            @KeytipDataRenderFragment
             @if (Primary)
             {
-                <BFUPrimaryButton IconName="ChevronDown"
+                <PrimaryButton IconName="ChevronDown"
                                   ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
                                   OnClick=@MenuClickHandler
                                   Disabled=@Disabled />
@@ -99,7 +99,7 @@
             }
             else
             {
-                <BFUDefaultButton IconName="ChevronDown"
+                <DefaultButton IconName="ChevronDown"
                                   ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
                                   OnClick=@MenuClickHandler
                                   Disabled=@Disabled />
@@ -110,7 +110,7 @@
 }
 else
 {
-    @BFUKeytipDataRenderFragment
+    @KeytipDataRenderFragment
 }
 }
 
@@ -118,12 +118,12 @@ else
 
 
 @code{
-    @*RenderFragment<BFUButtonBase> ButtonContent = buttonBase => __builder =>
+    @*RenderFragment<ButtonBase> ButtonContent = buttonBase => __builder =>
         {
             <span class="ms-Button-flexContainer">
                 @if (buttonBase.IconName != null)
                 {
-                    <BFUIcon ClassName="ms-Button-icon"
+                    <Icon ClassName="ms-Button-icon"
                              IconName=@buttonBase.IconName />
                 }
                 @if (buttonBase.Text != null || (buttonBase.isCompoundButton && buttonBase.SecondaryText != null))
@@ -147,12 +147,12 @@ else
                 }
                 @if (!buttonBase.isSplitButton && buttonBase.MenuItems != null && !buttonBase.HideChevron)
                 {
-                    <BFUIcon IconName="ChevronDown"
+                    <Icon IconName="ChevronDown"
                              ClassName="ms-Button-menuIcon" />
                 }
                 @if (buttonBase.MenuItems != null  && buttonBase.contextMenuShown)
                 {
-                    <BFUContextualMenu FabricComponentTarget=@buttonBase
+                    <ContextualMenu FabricComponentTarget=@buttonBase
                                        ShouldFocusOnMount=@buttonBase._menuShouldFocusOnMount
                                        OnDismiss=@(EventCallback.Empty)
                                        />

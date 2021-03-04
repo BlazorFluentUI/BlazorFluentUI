@@ -1,14 +1,14 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 @typeparam TItem
 
 @if(@Backstage != null)
 {
-    <BFURibbonMenuIntern BackstageHeader=@BackstageHeader Backstage=@Backstage @bind-ShowBackstage="ShowBackstage">
+    <RibbonMenuIntern BackstageHeader=@BackstageHeader Backstage=@Backstage @bind-ShowBackstage="ShowBackstage">
         @ChildContent
         @if (Backstage != null)
         {
-            <BFUPivotItem HeaderText=@BackstageHeader />
+            <PivotItem HeaderText=@BackstageHeader />
         }
         @if (ItemTemplate != null && ItemsSource != null)
         {
@@ -17,15 +17,15 @@
                 @ItemTemplate(item)
             }
         }
-    </BFURibbonMenuIntern>
+    </RibbonMenuIntern>
 }
 else
 {
-    <BFURibbonMenuIntern>
+    <RibbonMenuIntern>
         @ChildContent
         @if (Backstage != null)
         {
-            <BFUPivotItem HeaderText=@BackstageHeader />
+            <PivotItem HeaderText=@BackstageHeader />
         }
         @if (ItemTemplate != null && ItemsSource != null)
         {
@@ -34,6 +34,6 @@ else
                 @ItemTemplate(item)
             }
         }
-    </BFURibbonMenuIntern>
+    </RibbonMenuIntern>
 }
 

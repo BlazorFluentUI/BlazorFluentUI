@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
-<BFULocalCS @bind-Rules="@TextFieldLocalRules" />
+<LocalCS @bind-Rules="@TextFieldLocalRules" />
 
 <div class=@($"ms-TextField mediumFont {(this.Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(hasLabel ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )} {ClassName}")
      style=@Style
@@ -10,7 +10,7 @@
     <div class="ms-TextField-wrapper">
         @if (hasLabel)
         {
-            <BlazorFluentUI.BFULabel ClassName="ms-TextField-label" Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</BlazorFluentUI.BFULabel>
+            <BlazorFluentUI.Label ClassName="ms-TextField-label" Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</BlazorFluentUI.Label>
         }
         <div class="ms-TextField-fieldGroup">
             @if (this.Prefix != null)
@@ -71,7 +71,7 @@
             }
             @if (hasIcon)
             {
-                <BFUIcon ClassName="ms-TextField-icon" IconName=@IconName IconSrc=@IconSrc />
+                <Icon ClassName="ms-TextField-icon" IconName=@IconName IconSrc=@IconSrc />
             }
             @if (this.Suffix != null)
             {
@@ -94,11 +94,11 @@
             @if (!string.IsNullOrWhiteSpace(this.ErrorMessage))
             {
                 <div role="alert">
-                    <BlazorFluentUI.BFUDelayedRender Delay="100">
+                    <BlazorFluentUI.DelayedRender Delay="100">
                         <p class="slideDownIn20 ms-TextField--errorMessage">
                             <span data-automation-id="error-message">@this.ErrorMessage</span>
                         </p>
-                    </BlazorFluentUI.BFUDelayedRender>
+                    </BlazorFluentUI.DelayedRender>
                 </div>
             }
         </span>

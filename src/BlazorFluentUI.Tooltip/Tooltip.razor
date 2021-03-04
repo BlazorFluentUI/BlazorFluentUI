@@ -1,9 +1,9 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
-<BFULocalCS @bind-Rules="@TooltipLocalRules" />
+<LocalCS @bind-Rules="@TooltipLocalRules" />
 
-<BFUCallout ClassName=@($"mediumFont fadeIn200 {TooltipRule.Selector.SelectorName} {TooltipAfterRule.Selector.SelectorName} {ClassName}")
+<Callout ClassName=@($"mediumFont fadeIn200 {TooltipRule.Selector.SelectorName} {TooltipAfterRule.Selector.SelectorName} {ClassName}")
          FabricComponentTarget=@FabricComponentTarget
          DirectionalHint=@DirectionalHint
          Style=@($"{Style}")
@@ -19,4 +19,4 @@
             @ChildContent
         </p>
     </div>
-</BFUCallout>
+</Callout>

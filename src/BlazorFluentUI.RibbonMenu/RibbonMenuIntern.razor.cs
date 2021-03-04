@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    partial class BFURibbonMenuIntern :BFUPivot
+    partial class RibbonMenuIntern :Pivot
     {
         [Parameter] public string? BackstageHeader { get; set; }
         [Parameter] public RenderFragment Backstage { get; set; }
@@ -21,9 +21,9 @@ namespace BlazorFluentUI
 
         //    await ShowBackstageChanged.InvokeAsync(showBackstage);
         //}
-        BFUComponentBase calloutTarget;
+        FluentUIComponentBase calloutTarget;
         string backstageItemKey;
-        public override BFUPivotItem Selected
+        public override PivotItem Selected
         {
             get => base.Selected;
             set

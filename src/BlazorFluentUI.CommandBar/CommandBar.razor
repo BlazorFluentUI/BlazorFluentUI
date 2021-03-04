@@ -1,8 +1,8 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div>
-    <BFUResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
+    <ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
                     Data=@_currentData
                     GetCacheKey=@(x => x.CacheKey)
                     ClassName=@ClassName
@@ -10,7 +10,7 @@
         <DataTemplate Context="data">
             <div class="mediumFont ms-CommandBar" role="menubar">
                 @*Primary*@
-                <BFUOverflowSet ClassName="ms-CommandBar-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
+                <OverflowSet ClassName="ms-CommandBar-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
                     <ItemTemplate>
                         @if (ItemTemplate != null)
                         {
@@ -20,9 +20,9 @@
                         {
                             @if (context.IconOnly)
                             {
-                                <BFUTooltipHost>
+                                <TooltipHost>
                                     <ChildContent>
-                                        <BFUCommandBarButton IconName=@context.IconName
+                                        <CommandBarButton IconName=@context.IconName
                                                              IconSrc="@context.IconSrc"
                                                              Text=@(!context.IconOnly ? context.Text : null)
                                                              MenuItems=@context.Items
@@ -37,11 +37,11 @@
                                     <TooltipContent>
                                         @context.Text
                                     </TooltipContent>
-                                </BFUTooltipHost>
+                                </TooltipHost>
                             }
                             else
                             {
-                                <BFUCommandBarButton IconName=@context.IconName
+                                <CommandBarButton IconName=@context.IconName
                                                      IconSrc="@context.IconSrc"
                                                      Text=@(!context.IconOnly ? context.Text : null)
                                                      MenuItems=@context.Items
@@ -56,18 +56,18 @@
                         }
                     </ItemTemplate>
                     <OverflowTemplate>
-                        <BFUCommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@context />
+                        <CommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@context />
                     </OverflowTemplate>
 
-                </BFUOverflowSet>
+                </OverflowSet>
                 @*Secondary*@
-                <BFUOverflowSet ClassName="ms-CommandBar-secondarySet" Items=@data.FarItems GetKey=@(x=>x.Key)>
+                <OverflowSet ClassName="ms-CommandBar-secondarySet" Items=@data.FarItems GetKey=@(x=>x.Key)>
                     <ItemTemplate>
                         @if (context.IconOnly)
                         {
-                            <BFUTooltipHost>
+                            <TooltipHost>
                                 <ChildContent>
-                                    <BFUCommandBarButton IconName=@context.IconName
+                                    <CommandBarButton IconName=@context.IconName
                                                          IconSrc="@context.IconSrc"
                                                          Text=@(!context.IconOnly ? context.Text : null)
                                                          MenuItems=@context.Items
@@ -82,11 +82,11 @@
                                 <TooltipContent>
                                     @context.Text
                                 </TooltipContent>
-                            </BFUTooltipHost>
+                            </TooltipHost>
                         }
                         else
                         {
-                            <BFUCommandBarButton IconName=@context.IconName
+                            <CommandBarButton IconName=@context.IconName
                                                  IconSrc=@context.IconSrc
                                                  Text=@(!context.IconOnly ? context.Text : null)
                                                  Href=@context.Href
@@ -100,8 +100,8 @@
                         }
                     </ItemTemplate>
 
-                </BFUOverflowSet>
+                </OverflowSet>
             </div>
         </DataTemplate>
-    </BFUResizeGroup>
+    </ResizeGroup>
 </div>

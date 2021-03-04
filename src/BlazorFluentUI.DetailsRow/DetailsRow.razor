@@ -1,8 +1,8 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 @typeparam TItem
 
-<BFULocalCS @bind-Rules=@DetailsRowLocalRules />
+<LocalCS @bind-Rules=@DetailsRowLocalRules />
 
 <div class="root"
      data-selection-index=@ItemIndex
@@ -11,7 +11,7 @@
      aria-rowindex=@(ItemIndex + 1)
      data-automationid="DetailsRow">
 
-    <BFUFocusZone Direction=@FocusZoneDirection.Horizontal
+    <FocusZone Direction=@FocusZoneDirection.Horizontal
                   AriaLabel=@AriaLabel
                   AriaDescribedBy=@AriaDescribedBy
                   ClassName=@($"fadeIn400 {(Compact ? "is-compact " : "")}{(isSelected ? "is-selected " : "")}{(IsRowHeader ? "is-row-header " : "")}{(IsCheckVisible ? "is-check-visible " : "")}ms-DetailsRow")
@@ -28,7 +28,7 @@
                  @onclick="args => { }"
                  @onclick:stopPropagation="true">
 
-                <BFUDetailsRowCheck IsVisible=@(this.CheckboxVisibility == CheckboxVisibility.Always)
+                <DetailsRowCheck IsVisible=@(this.CheckboxVisibility == CheckboxVisibility.Always)
                                     Compact=@Compact
                                     Checked=@isSelected
                                     UseFastIcons="true"
@@ -36,12 +36,12 @@
             </div>
         }
 
-        <BFUGroupSpacer IndentWidth=@IndentWidth
+        <GroupSpacer IndentWidth=@IndentWidth
                         Count=@GroupNestingDepth />
 
         @if (Item != null)
         {
-            <BFUDetailsRowFields Item=@Item
+            <DetailsRowFields Item=@Item
                                  Columns=@Columns
                                  ColumnStartIndex=@((showCheckbox ? 1 : 0)) />
 
@@ -51,7 +51,7 @@
                       class="ms-DetailsRow-cellMeasurer ms-DetailsRow-cell"
                       @ref="cellMeasurer">
 
-                    <BFUDetailsRowFields Item=@Item
+                    <DetailsRowFields Item=@Item
                                          Columns=@Columns
                                          ColumnStartIndex=@((showCheckbox ? 1 : 0) + Columns.Count()) />
                 </span>
@@ -60,5 +60,5 @@
 
     <span role="checkbox" class="@($"ms-DetailsRow-checkCover {localCheckCoverRule.Selector.SelectorName}")" aria-checked=@isSelected data-selection-toggle="true" />
 
-    </BFUFocusZone>
+    </FocusZone>
 </div>

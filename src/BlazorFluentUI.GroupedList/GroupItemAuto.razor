@@ -1,9 +1,9 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 @typeparam TItem
 @typeparam TKey
 
-<BFUList TItem="IGroupedListItem3<TItem>"
+<FluentUIList TItem="IGroupedListItem3<TItem>"
          @ref="listReference"
          ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
          IsVirtualizing=@IsVirtualizing
@@ -33,7 +33,7 @@
                     headerSubscriptions.Add(header, disposable);
                 }
             }
-            <BFUGroupHeader IsOpen=@header.IsOpen
+            <GroupHeader IsOpen=@header.IsOpen
                             OnOpenChanged=@((isOpen)=>
                                                 {
                                                     if (header.IsOpen != isOpen)
@@ -52,7 +52,7 @@
                             OnToggle=@(()=>OnHeaderToggle(context)) />
             @if (header.IsOpen)
             {
-                <BFUGroupItemAuto ItemsSource=@header.Items
+                <GroupItemAuto ItemsSource=@header.Items
                               TItem=@TItem
                               TKey=@TKey
                               GetKey=@GetKey
@@ -75,4 +75,4 @@
 
         }
     </ItemTemplate>
-</BFUList>
+</FluentUIList>

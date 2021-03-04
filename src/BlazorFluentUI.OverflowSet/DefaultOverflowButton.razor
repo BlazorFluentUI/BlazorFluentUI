@@ -1,9 +1,9 @@
-﻿@namespace BlazorFluentUI.BFUOverflowSetInternal
-@inherits ComponentBase
+﻿@namespace BlazorFluentUI.OverflowSetInternal
+@inherits FluentUIComponentBase
 
-    <BFUIconButton IconName="More" MenuItems=@OverflowItems />
+    <IconButton IconName="More" MenuItems=@OverflowItems />
 
 @code {
-            [Parameter] public IEnumerable<IBFUContextualMenuItem> OverflowItems { get; set; }
+            [Parameter] public IEnumerable<IContextualMenuItem> OverflowItems { get; set; }
 
 }

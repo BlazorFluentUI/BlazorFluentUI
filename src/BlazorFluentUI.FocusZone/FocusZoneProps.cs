@@ -46,7 +46,7 @@ namespace BlazorFluentUI
         [JsonPropertyName("shouldInputLoseFocusOnArrowKeyExists")]
         public bool ShouldInputLoseFocusOnArrowKeyExists { get; set; }
 
-        public static FocusZoneProps GenerateProps(BFUFocusZone focusZone, string id, ElementReference root)
+        public static FocusZoneProps GenerateProps(FocusZone focusZone, string id, ElementReference root)
         {
             var props = new FocusZoneProps()
             {

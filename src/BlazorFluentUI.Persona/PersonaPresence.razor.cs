@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPersonaPresence : BFUComponentBase
+    public partial class PersonaPresence : FluentUIComponentBase
     {
         [Parameter] public int CoinSize { get; set; }
         [Parameter] public bool IsOutOfOffice { get; set; }
@@ -310,32 +310,30 @@ namespace BlazorFluentUI
             }
             if (isOpenCirclePresence)
             {
-                if (Presence == PersonaPresenceStatus.Online)
+                switch (Presence)
                 {
-                    iColor = PresenceColor.Available;
-                    iBorderColor = PresenceColor.Available;
+                    case PersonaPresenceStatus.Online:
+                        iColor = PresenceColor.Available;
+                        iBorderColor = PresenceColor.Available;
+                        break;
+                    case PersonaPresenceStatus.Busy:
+                        iColor = PresenceColor.Busy;
+                        iBorderColor = PresenceColor.Busy;
+                        break;
+                    case PersonaPresenceStatus.Away:
+                        iColor = PresenceColor.Away;
+                        iBorderColor = PresenceColor.Away;
+                        break;
+                    case PersonaPresenceStatus.DND:
+                        iColor = PresenceColor.Dnd;
+                        iBorderColor = PresenceColor.Dnd;
+                        break;
+                    case PersonaPresenceStatus.Offline:
+                        iColor = PresenceColor.Offline;
+                        iBorderColor = PresenceColor.Offline;
+                        break;
                 }
-                else if (Presence == PersonaPresenceStatus.Busy)
-                {
-                    iColor = PresenceColor.Busy;
-                    iBorderColor = PresenceColor.Busy;
-                }
-                else if (Presence == PersonaPresenceStatus.Away)
-                {
-                    iColor = PresenceColor.Away;
-                    iBorderColor = PresenceColor.Away;
-                }
-                else if (Presence == PersonaPresenceStatus.DND)
-                {
-                    iColor = PresenceColor.Dnd;
-                    iBorderColor = PresenceColor.Dnd;
-                }
-                else if (Presence == PersonaPresenceStatus.Offline)
-                {
-                    iColor = PresenceColor.Offline;
-                    iBorderColor = PresenceColor.Offline;
-                }
-                if (Presence == PersonaPresenceStatus.Offline && IsOutOfOffice)
+                if ((Presence == PersonaPresenceStatus.Offline || Presence == PersonaPresenceStatus.Away) && IsOutOfOffice)
                 {
                     iColor = PresenceColor.Oof;
                     iBorderColor = PresenceColor.Oof;

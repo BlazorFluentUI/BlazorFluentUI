@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUToggle : BFUComponentBase
+    public partial class Toggle : FluentUIComponentBase
     {
         [Parameter] public bool? Checked { get; set; }
         [Parameter] public bool DefaultChecked { get; set; }

@@ -6,19 +6,19 @@
     @ChildContent
 </div>
 <div class="narrowScreen">
-    <BFUIconButton IconName="GlobalNavButton" OnClick=@ShowMenu
+    <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu
                 ClassName="hamburgerButton" />
 
-    <BFUPanel Type=@PanelType.SmallFixedNear OnDismiss=@HideMenu IsOpen=@isPanelOpen ClassName="hiddenMenu">
+    <Panel Type=@PanelType.SmallFixedNear OnDismiss=@HideMenu IsOpen=@isPanelOpen ClassName="hiddenMenu">
         <NavigationTemplate>
-            <BFUIconButton IconName="GlobalNavButton" OnClick=@HideMenu
+            <IconButton IconName="GlobalNavButton" OnClick=@HideMenu
                         ClassName="hamburgerButton" />
         </NavigationTemplate>
         <ChildContent>
             @ChildContent
         </ChildContent>
 
-    </BFUPanel>
+    </Panel>
 </div>
 
 
@@ -39,7 +39,7 @@
         isPanelOpen = false;
     }
 
-    void OnNavLinkClick(BFUNavLink linkBase)
+    void OnNavLinkClick(NavLink linkBase)
     {
         isPanelOpen = false;
     }

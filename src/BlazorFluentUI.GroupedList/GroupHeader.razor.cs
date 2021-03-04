@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUGroupHeader : BFUComponentBase, IDisposable
+    public partial class GroupHeader : FluentUIComponentBase, IDisposable
     {
         
         bool isLoadingVisible;
@@ -59,7 +59,7 @@ namespace BlazorFluentUI
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
         [CascadingParameter]
-        private BFUSelectionZone<object> SelectionZone { get; set; }
+        private SelectionZone<object> SelectionZone { get; set; }
 
         protected bool isSelected { get; set; }
 

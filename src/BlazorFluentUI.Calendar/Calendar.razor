@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class=@($"ms-Calendar {ClassName}") role="application" @ref="RootElementReference" style=@Style>
     <div class=@($"ms-Calendar-picker ms-Calendar-pickerIsOpened ms-Calendar-pickerIsFocused{(IsMonthPickerVisibleInternal ? " ms-Calendar-monthPickerVisible" : "")}{(IsMonthPickerVisibleInternal && IsDayPickerVisibleInternal ? " ms-Calendar-calendarsInline" : "")}{(!ShowMonthPickerAsOverlay && !IsDayPickerVisibleInternal ? " ms-Calendar-monthPickerOnly" : "")}{(ShowMonthPickerAsOverlay ? " ms-Calendar-monthPickerAsOverlay" : "")}")>
@@ -8,7 +8,7 @@
                 <div class=@($"ms-Calendar-wrap{(ShowGoToToday ? " ms-Calendar-goTodaySpacing" : "")}")>
                     @if (IsDayPickerVisibleInternal)
                     {
-                        <BFUCalendarDay SelectedDate=@SelectedDate
+                        <CalendarDay SelectedDate=@SelectedDate
                                         NavigatedDate=@NavigatedDayDate
                                         Today=@Today
                                         OnSelectDate=@OnSelectDateInternal
@@ -35,7 +35,7 @@
                     }
                     @if (IsMonthPickerVisibleInternal)
                     {
-                        <BFUCalendarMonth NavigatedDate=@NavigatedMonthDate
+                        <CalendarMonth NavigatedDate=@NavigatedMonthDate
                                           SelectedDate=@NavigatedDayDate
                                           OnNavigateDate=@OnNavigateMonthDate
                                           Today=@Today
@@ -50,7 +50,7 @@
                     @if (IsTimePickerVisible)
                     {
                         <div class="ms-Calendar-divider"/>
-                        <BFUCalenderTime NavigatedDate=@NavigatedMonthDate
+                        <CalenderTime NavigatedDate=@NavigatedMonthDate
                                          OnNavigateDate=@OnNavigateMonthDate
                                          SelectedDate=@NavigatedDayDate
                                          DateTimeFormatter=@DateTimeFormatter />

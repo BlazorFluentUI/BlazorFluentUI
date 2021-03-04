@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlazorFluentUI.BFUResizeGroup
+namespace BlazorFluentUI.ResizeGroup
 {
     public class ResizeGroupChange<TItem>
     {

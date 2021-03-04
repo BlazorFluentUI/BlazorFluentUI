@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    internal class BFUMarqueeSelectionProps
+    internal class MarqueeSelectionProps
     {
         public bool IsDraggingConstrainedToRoot { get; set; }
         public bool IsEnabled { get; set; }

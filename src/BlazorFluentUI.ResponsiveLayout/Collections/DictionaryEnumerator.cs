@@ -13,7 +13,7 @@ namespace BlazorFluentUI
         public void Dispose() { _impl.Dispose(); }
         public DictionaryEnumerator(IDictionary<TKey, TValue> value)
         {
-            this._impl = value.GetEnumerator();
+            _impl = value.GetEnumerator();
         }
         public void Reset() { _impl.Reset(); }
         public bool MoveNext() { return _impl.MoveNext(); }

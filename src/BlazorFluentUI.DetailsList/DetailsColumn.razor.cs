@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsColumn<TItem> : BFUComponentBase
+    public partial class DetailsColumn<TItem> : FluentUIComponentBase
     {
 
         [Parameter]
-        public BFUDetailsRowColumn<TItem> Column { get; set; }
+        public DetailsRowColumn<TItem> Column { get; set; }
 
         [Parameter]
         public RenderFragment<object> ColumnHeaderTooltipTemplate { get; set; }
@@ -27,10 +27,10 @@ namespace BlazorFluentUI
         public bool IsDropped { get; set; }
 
         [Parameter]
-        public EventCallback<BFUDetailsRowColumn<TItem>> OnColumnClick { get; set; }
+        public EventCallback<DetailsRowColumn<TItem>> OnColumnClick { get; set; }
 
         [Parameter]
-        public EventCallback<BFUDetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
+        public EventCallback<DetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
 
         [Parameter]
         public string ParentId { get; set; }
@@ -75,7 +75,7 @@ namespace BlazorFluentUI
         //        }
         //    });
 
-        //    var cellStyles = BFUDetailsHeader<TItem>.GetCellStyles(".ms-DetailsColumn", theme);
+        //    var cellStyles = DetailsHeader<TItem>.GetCellStyles(".ms-DetailsColumn", theme);
         //    foreach (var rule in cellStyles)
         //        columnRules.Add(rule);
 
@@ -109,7 +109,7 @@ namespace BlazorFluentUI
         //        Selector = new CssStringSelector() { SelectorName = ".ms-DetailsColumn.is-padded" },
         //        Properties = new CssString()
         //        {
-        //            Css = $"padding-right:{BFUDetailsRow<TItem>.CellExtraRightPadding + BFUDetailsRow<TItem>.CellRightPadding}px;"
+        //            Css = $"padding-right:{DetailsRow<TItem>.CellExtraRightPadding + DetailsRow<TItem>.CellRightPadding}px;"
         //        }
         //    });
         //    columnRules.Add(new Rule()
@@ -202,7 +202,7 @@ namespace BlazorFluentUI
         //                  $"align-items:stretch;"+
         //                  $"box-sizing:border-box;"+
         //                  $"overflow:hidden;"+
-        //                  $"padding:0 {BFUDetailsRow<TItem>.CellRightPadding}px 0 {BFUDetailsRow<TItem>.CellLeftPadding}px;"
+        //                  $"padding:0 {DetailsRow<TItem>.CellRightPadding}px 0 {DetailsRow<TItem>.CellLeftPadding}px;"
         //        }
         //    });
         //    columnRules.Add(new Rule()

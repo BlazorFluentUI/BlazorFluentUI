@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 @typeparam T
 
 <div style="display: inline">
@@ -30,7 +30,7 @@
             </div>
         }
      }
-    <BFUTextField Style=@("display: inline-block;width:" + InputWidth + "px")
+    <TextField Style=@("display: inline-block;width:" + InputWidth + "px")
                   @ref="textFieldRef"
                   IconName=@IconName
                   IconSrc=@IconSrc
@@ -38,7 +38,7 @@
                   @bind-Value=Filter />
 </div>
     @if (IsOpen)
-    {        <BFUContextualMenu FabricComponentTarget=@textFieldRef
+    {        <ContextualMenu FabricComponentTarget=@textFieldRef
                            ShouldFocusOnMount=@true
                            OnDismiss=@DismissHandler
                            Items=@suggestions
@@ -57,5 +57,5 @@
                                 ItemTemplate=@SearchItemTemplate />
                 }
             </ItemTemplate>
-        </BFUContextualMenu>
+        </ContextualMenu>
     }

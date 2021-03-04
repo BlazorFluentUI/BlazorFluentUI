@@ -1,8 +1,8 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class="ms-Nav-root">
-    <BFUFocusZone Direction="FocusZoneDirection.Vertical">
+    <FocusZone Direction="FocusZoneDirection.Vertical">
         <nav role="navigation"
              @ref="RootElementReference"
              class=@($"mediumFont ms-Nav {(IsOnTop?"is-on-top":"")} {(IsOnTop?"slideRightIn40":"")} {ClassName}")
@@ -12,5 +12,5 @@
                 @ChildContent
             </CascadingValue>
         </nav>
-    </BFUFocusZone>
+    </FocusZone>
 </div>

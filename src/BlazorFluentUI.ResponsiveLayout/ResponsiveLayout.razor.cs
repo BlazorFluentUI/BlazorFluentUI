@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUResponsiveLayout : ComponentBase
+    public partial class ResponsiveLayout : ComponentBase
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }

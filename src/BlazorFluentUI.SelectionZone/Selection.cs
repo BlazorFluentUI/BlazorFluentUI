@@ -265,7 +265,7 @@ namespace BlazorFluentUI
 
         public void SetAllSelected(bool isAllSelected, bool preserveModalState = false)
         {
-            if (isAllSelected && this.SelectionMode != SelectionMode.Multiple)
+            if (isAllSelected && SelectionMode != SelectionMode.Multiple)
                 return;
 
             var selectableCount = _items != null ? _items.Count() - _unselectableCount : 0;
@@ -419,7 +419,7 @@ namespace BlazorFluentUI
 
         public void SetKeySelected(object key, bool isSelected, bool shouldAnchor)
         {
-            var index = this._keyToIndexMap[key];
+            var index = _keyToIndexMap[key];
 
             if (index >= 0)
             {
@@ -438,7 +438,7 @@ namespace BlazorFluentUI
             index = Math.Min(Math.Max(0, index), _items!.Count - 1);
 
             // No-op on out of bounds selections.
-            if (index < 0 || index >= this._items.Count)
+            if (index < 0 || index >= _items.Count)
             {
                 return;
             }
@@ -457,7 +457,7 @@ namespace BlazorFluentUI
                 }
 
                 // Determine if we need to remove the exemption.
-                if (isExempt && ((isSelected && this._isAllSelected) || (!isSelected && !this._isAllSelected)))
+                if (isExempt && ((isSelected && _isAllSelected) || (!isSelected && !_isAllSelected)))
                 {
                     _exemptedKeys.Remove(_exemptedIndices[index]);
                     _exemptedIndices.Remove(index);
@@ -466,7 +466,7 @@ namespace BlazorFluentUI
                 }
 
                 // Determine if we need to add the exemption.
-                if (!isExempt && ((isSelected && !this._isAllSelected) || (!isSelected && this._isAllSelected)))
+                if (!isExempt && ((isSelected && !_isAllSelected) || (!isSelected && _isAllSelected)))
                 {
                     var key = GetKey(_items[index]);
                     _exemptedKeys.Add(key);
@@ -487,7 +487,7 @@ namespace BlazorFluentUI
 
         public void SelectToKey(object key, bool clearSelection = false)
         {
-            SelectToIndex(this._keyToIndexMap[key], clearSelection);
+            SelectToIndex(_keyToIndexMap[key], clearSelection);
         }
 
         public void SelectToIndex(int index, bool clearSelection = false)

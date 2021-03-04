@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardActivity : BFUComponentBase
+    public partial class DocumentCardActivity : FluentUIComponentBase
     {
         /// <summary>
         /// Describes the activity that has taken place, such as "Created Feb 23, 2016".
@@ -18,11 +18,11 @@ namespace BlazorFluentUI
         /// <summary>
         /// One or more people who are involved in this activity.
         /// </summary>
-        [Parameter] public BFUDocumentCardActivityPerson[]? People { get; set; }
+        [Parameter] public DocumentCardActivityPerson[]? People { get; set; }
 
         public bool MultiPeople => People != null && People.Length > 1;
 
-        private ICollection<IRule> BFUDocumentCardActivityLocalRules { get; set; } = new List<IRule>();
+        private ICollection<IRule> DocumentCardActivityLocalRules { get; set; } = new List<IRule>();
 
         private Rule DetailsRule = new Rule();
 
@@ -76,7 +76,7 @@ namespace BlazorFluentUI
         private void CreateLocalCss()
         {
             DetailsRule.Selector = new ClassSelector() { SelectorName = $"{GlobalClassNames["details"]}" };
-            BFUDocumentCardActivityLocalRules.Add(DetailsRule);
+            DocumentCardActivityLocalRules.Add(DetailsRule);
         }
 
         public string? GetNameString()

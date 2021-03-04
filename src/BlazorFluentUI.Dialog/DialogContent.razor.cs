@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDialogContent : BFUComponentBase
+    public partial class DialogContent : FluentUIComponentBase
     {
         [Parameter] public string CloseButtonAriaLabel { get; set; } = "Close";  //need to localize
         [Parameter] public RenderFragment ContentTemplate { get; set; }

@@ -11,11 +11,11 @@ using System.Collections.ObjectModel;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUGroupedList<TItem,TKey> : BFUComponentBase, IDisposable
+    public partial class GroupedList<TItem,TKey> : FluentUIComponentBase, IDisposable
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private BFUList<IGroupedListItem3<TItem>> listReference;
+        private FluentUIList<IGroupedListItem3<TItem>> listReference;
 
         private ObservableCollection<IGroupedListItem3<TItem>> dataItems;
 
@@ -32,13 +32,13 @@ namespace BlazorFluentUI
         private IDisposable _transformedDisposable;
 
         [CascadingParameter]
-        public BFUSelectionZone<TItem> SelectionZone { get; set; }
+        public SelectionZone<TItem> SelectionZone { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
 
         /// <summary>
-        /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.  
+        /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.
         /// </summary>
         [Parameter]
         public Func<TItem, TKey> GetKey { get; set; }
@@ -63,7 +63,7 @@ namespace BlazorFluentUI
 
         [Parameter]
         public Func<bool> OnShouldVirtualize { get; set; } = () => true;
-                
+
         [Parameter]
         public Selection<TItem> Selection { get; set; }
 
@@ -129,7 +129,7 @@ namespace BlazorFluentUI
 
             if (Selection != null)
             {
-                Selection.SelectionMode = this.SelectionMode;
+                Selection.SelectionMode = SelectionMode;
                 Selection.GetKey = item => GetKey(item);
             }
 
@@ -144,7 +144,7 @@ namespace BlazorFluentUI
                         Selection.SetItems(FlattenList(ItemsSource, SubGroupSelector), false);
                     }
                     _itemsSource = ItemsSource;
-                    
+
                     if (_itemsSource != null)
                     {
                         dataItems = new ObservableCollection<IGroupedListItem3<TItem>>();
@@ -153,7 +153,7 @@ namespace BlazorFluentUI
                         {
                             var group = new HeaderItem3<TItem, TKey>(_itemsSource[i], 0, cummulativeCount, SubGroupSelector, GroupTitleSelector);
                             dataItems.Add(group);
-                            var subItemCount = BFUGroupedList<TItem, TKey>.GetPlainItemsCount(_itemsSource[i], SubGroupSelector);
+                            var subItemCount = GroupedList<TItem, TKey>.GetPlainItemsCount(_itemsSource[i], SubGroupSelector);
                             cummulativeCount += subItemCount;
                         }
 
@@ -194,7 +194,7 @@ namespace BlazorFluentUI
                 int count = 0;
                 foreach (var subItem in subItems)
                 {
-                    var subcount = BFUGroupedList<TItem,TKey>.GetPlainItemsCount(subItem, subgroupSelector);
+                    var subcount = GroupedList<TItem,TKey>.GetPlainItemsCount(subItem, subgroupSelector);
                     count += subcount;
                 }
                 return count;

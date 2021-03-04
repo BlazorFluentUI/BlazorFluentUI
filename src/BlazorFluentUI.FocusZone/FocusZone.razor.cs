@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 namespace BlazorFluentUI
 {
 
-    public partial class BFUFocusZone : BFUComponentBase, IAsyncDisposable
+    public partial class FocusZone : FluentUIComponentBase, IAsyncDisposable
     {
         [Inject] private IJSRuntime jsRuntime { get; set; }
 
         [Parameter] public bool AllowFocusRoot { get=>allowFocusRoot; set { if (value != allowFocusRoot) { updateFocusZone = true; allowFocusRoot = value; } } }
-        //[Parameter] public BFUComponentBase As { get; set; }
+        //[Parameter] public ComponentBase As { get; set; }
         [Parameter] public bool CheckForNoWrap { get => checkForNoWrap; set { if (value != checkForNoWrap) { updateFocusZone = true; checkForNoWrap = value; } } }
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public string DefaultActiveElement { get => defaultActiveElement; set { if (value != defaultActiveElement) { updateFocusZone = true; defaultActiveElement = value; } } }

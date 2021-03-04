@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardLogo : BFUComponentBase
+    public partial class DocumentCardLogo : FluentUIComponentBase
     {
         /// <summary>
         /// Describes DocumentCard Logo badge.

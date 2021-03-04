@@ -1,10 +1,10 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class=@($"mediumFont ms-GroupHeader{(Compact ? " ms-GroupHeader--compact" : "")}{(!IsOpen ? " is-collapsed" : "")}{(CurrentlySelected ? " is-selected": "")}{(string.IsNullOrEmpty(ClassName) ? "":" " + ClassName)}")
      @onclick=@OnClick 
      data-is-focusable="true">
-    <BFUFocusZone ClassName="ms-GroupHeader-groupHeaderContainer"
+    <FocusZone ClassName="ms-GroupHeader-groupHeaderContainer"
                Direction="FocusZoneDirection.Horizontal">
         @if (IsSelectionCheckVisible)
         {
@@ -15,13 +15,13 @@
                     data-selection-toggle="true"
                     @onclick=@OnToggle
                     @onclick:stopPropagation="true">
-                <BFUCheck Checked=@CurrentlySelected />
+                <Check Checked=@CurrentlySelected />
             </button>
         }
-        <BFUGroupSpacer Count=@GroupLevel />
+        <GroupSpacer Count=@GroupLevel />
 
         <div class="ms-GroupHeader-dropIcon">
-            <BFUIcon IconName="Tag" />
+            <Icon IconName="Tag" />
         </div>
         <button type="button"
                 class="ms-GroupHeader-expand"
@@ -29,7 +29,7 @@
                 @onclick:stopPropagation="true"
                 aria-expanded=""
                 aria-controls="">
-            <BFUIcon ClassName="ms-GroupHeader-expandIsCollapsed" IconName="ChevronRightMed" />
+            <Icon ClassName="ms-GroupHeader-expandIsCollapsed" IconName="ChevronRightMed" />
         </button>
         <div class="ms-GroupHeader-title">
             <span>@Name</span>
@@ -40,8 +40,8 @@
 
         @if (isLoadingVisible)
         {
-            <BFUSpinner Label=@LoadingText />
+            <Spinner Label=@LoadingText />
         }
 
-    </BFUFocusZone>
+    </FocusZone>
 </div>

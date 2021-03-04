@@ -4,30 +4,30 @@
 <h1>List</h1>
 
 <Demo Key="0" Header="Basic Vertical List with selection" MetadataPath="listPage">
-    <BFUStack Style="height:500px;">
+    <Stack Style="height:500px;">
         <div style="height:20px;">
             @DebugText
         </div>
 
-        <BFUDropdown ItemsSource=@selectionModeOptions
+        <Dropdown ItemsSource=@selectionModeOptions
                      @bind-SelectedOption=SelectedModeOption
                      Style="max-width:300px;">
-        </BFUDropdown>
+        </Dropdown>
 
-        <BFUPrimaryButton Text="Add 10 items" OnClick="@ClickHandler" />
-        <BFUPrimaryButton Text="Add 5000 items" OnClick="@ClickHandler2" />
+        <PrimaryButton Text="Add 10 items" OnClick="@ClickHandler" />
+        <PrimaryButton Text="Add 5000 items" OnClick="@ClickHandler2" />
 
-        <BFULabel>Virtualized List with selection modes</BFULabel>
+        <Label>Virtualized List with selection modes</Label>
 
         <div data-is-scrollable="true" style="overflow-y:auto;height:400px;">
 
-            <BFUSelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key))
+            <SelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key))
                               DisableRenderOnSelectionChanged="true"
                               Selection=@selection
                               TItem="DataItem"
                               @ref="selectionZone">
-                <BFUFocusZone>
-                    <BFUList ItemsSource=@data
+                <FocusZone>
+                    <FluentUIList ItemsSource=@data
                              TItem="DataItem">
                         <ItemTemplate>
 
@@ -45,39 +45,39 @@
                                 <span style="margin-left:10px;">@context.Item.DisplayName</span>
                             </div>
                         </ItemTemplate>
-                    </BFUList>
+                    </FluentUIList>
 
-                </BFUFocusZone>
-            </BFUSelectionZone>
+                </FocusZone>
+            </SelectionZone>
         </div>
-    </BFUStack>
+    </Stack>
 </Demo>
 
 <Demo Key="1" Header="Basic Grid List with selection" MetadataPath="listPage">
-    <BFUStack Style="height:500px;">
+    <Stack Style="height:500px;">
         <div style="height:20px;">
             @DebugText
         </div>
 
-        <BFUDropdown ItemsSource=@selectionModeOptions
+        <Dropdown ItemsSource=@selectionModeOptions
                      @bind-SelectedOption=SelectedModeOption
                      Style="max-width:300px;">
-        </BFUDropdown>
+        </Dropdown>
 
-        <BFUPrimaryButton Text="Add 10 items" OnClick="@ClickHandler" />
-        <BFUPrimaryButton Text="Add 5000 items" OnClick="@ClickHandler2" />
+        <PrimaryButton Text="Add 10 items" OnClick="@ClickHandler" />
+        <PrimaryButton Text="Add 5000 items" OnClick="@ClickHandler2" />
 
-        <BFULabel>Virtualized List with selection modes</BFULabel>
+        <Label>Virtualized List with selection modes</Label>
 
         <div data-is-scrollable="true" style="overflow-y:auto;height:400px;">
 
-            <BFUSelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key))
+            <SelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key))
                               DisableRenderOnSelectionChanged="true"
                               Selection=@selection
                               TItem="DataItem"
                               @ref="selectionZone">
-                <BFUFocusZone>
-                    <BFUList ItemsSource=@data
+                <FocusZone>
+                    <FluentUIList ItemsSource=@data
                              UseGridFlexLayout="true"
                              ItemWidth="120"
                              TItem="DataItem">
@@ -97,12 +97,12 @@
                                 <span style="margin-left:10px;">@context.Item.DisplayName</span>
                             </div>
                         </ItemTemplate>
-                    </BFUList>
+                    </FluentUIList>
 
-                </BFUFocusZone>
-            </BFUSelectionZone>
+                </FocusZone>
+            </SelectionZone>
         </div>
-    </BFUStack>
+    </Stack>
 </Demo>
 
 @code {
@@ -110,13 +110,13 @@
     System.Collections.ObjectModel.RangeObservableCollection<DataItem> data;
     string DebugText = "";
 
-    private IBFUDropdownOption selectedModeOption;
-    IBFUDropdownOption SelectedModeOption { get => selectedModeOption; set { selectedModeOption = value; this.selection.SelectionMode = (SelectionMode)Enum.Parse(typeof(SelectionMode), value.Key); } }
+    private IDropdownOption selectedModeOption;
+    IDropdownOption SelectedModeOption { get => selectedModeOption; set { selectedModeOption = value; this.selection.SelectionMode = (SelectionMode)Enum.Parse(typeof(SelectionMode), value.Key); } }
 
-    List<IBFUDropdownOption> selectionModeOptions;
+    List<IDropdownOption> selectionModeOptions;
 
     Selection<DataItem> selection = new Selection<DataItem>();
-    BFUSelectionZone<DataItem> selectionZone;
+    SelectionZone<DataItem> selectionZone;
 
     protected override Task OnInitializedAsync()
     {
@@ -126,8 +126,8 @@
         selection.SelectionChanged.Subscribe(_ => InvokeAsync(StateHasChanged));
 
         selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()
-            .Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() })
-            .Cast<IBFUDropdownOption>()
+            .Select(x => new DropdownOption { Key = x.ToString(), Text = x.ToString() })
+            .Cast<IDropdownOption>()
             .ToList();
         selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Single");
 

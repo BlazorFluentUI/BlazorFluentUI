@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFURibbonMenu<TItem> : BFUComponentBase
+    public partial class RibbonMenu<TItem> : FluentUIComponentBase
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
 

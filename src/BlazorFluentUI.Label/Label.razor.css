@@ -1,4 +1,6 @@
 ﻿.ms-Label {
+    -webkit-font-smoothing: antialiased;
+    font-size: var(--fontSize-Medium);
     font-weight: var(--fontWeight-SemiBold);
     color: var(--semanticTextColors-BodyText);
     box-sizing: border-box;

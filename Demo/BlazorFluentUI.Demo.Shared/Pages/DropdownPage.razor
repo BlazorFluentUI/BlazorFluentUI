@@ -4,7 +4,7 @@
 <h1>Dropdown</h1>
 
 <Demo Header="Uncontrolled Single Selection" Key="0" MetadataPath="DropdownPage">
-    <BFUDropdown ItemsSource=@items
+    <Dropdown ItemsSource=@items
                  Placeholder="Select an option"
                  OnChange=@UncontrolledSingleChangeHandler
                  Label=@($"Selected: {uncontrolledSingleSelectionResult?.Text}")
@@ -12,8 +12,8 @@
 </Demo>
 
 <Demo Header="Uncontrolled Multi-Selection" Key="1" MetadataPath="DropdownPage">
-    <BlazorFluentUI.BFULabel>Selected: @string.Join(", ", uncontrolledMultiSelectionResult.Select(x=>x.Text))</BlazorFluentUI.BFULabel>
-    <BFUDropdown ItemsSource=@items
+    <BlazorFluentUI.Label>Selected: @string.Join(", ", uncontrolledMultiSelectionResult.Select(x=>x.Text))</BlazorFluentUI.Label>
+    <Dropdown ItemsSource=@items
                  MultiSelect="true"
                  Placeholder="Select options..."
                  OnChange=@UncontrolledMultiChangeHandler
@@ -21,16 +21,16 @@
 </Demo>
 
 <Demo Header="Controlled Single Selection" Key="2" MetadataPath="DropdownPage">
-    <BlazorFluentUI.BFULabel>Selected: @(controlledSingleSelectionResult?.Text)</BlazorFluentUI.BFULabel>
-    <BFUDropdown ItemsSource=@items 
+    <BlazorFluentUI.Label>Selected: @(controlledSingleSelectionResult?.Text)</BlazorFluentUI.Label>
+    <Dropdown ItemsSource=@items 
                  Placeholder="Select an option" 
                  @bind-SelectedOption=@controlledSingleSelectionResult 
                  Style="width:300px;" />
 </Demo>
 
 <Demo Header="Controlled Multi-Selection" Key="3" MetadataPath="DropdownPage">
-    <BlazorFluentUI.BFULabel>Selected: @string.Join(", ", controlledMultiSelectionResult.Select(x=>x.Text))</BlazorFluentUI.BFULabel>
-    <BFUDropdown ItemsSource=@items 
+    <BlazorFluentUI.Label>Selected: @string.Join(", ", controlledMultiSelectionResult.Select(x=>x.Text))</BlazorFluentUI.Label>
+    <Dropdown ItemsSource=@items 
                  MultiSelect="true" 
                  Placeholder="Select options..." 
                  @bind-SelectedOptions=@controlledMultiSelectionResult 
@@ -38,14 +38,14 @@
 </Demo>
 
 <Demo Header="Disabled" Key="4" MetadataPath="DropdownPage">
-    <BFUDropdown ItemsSource=@items 
+    <Dropdown ItemsSource=@items 
                  Disabled="true" 
                  Placeholder="Select an option"
                  Style="width:300px;" />
 </Demo>
 
 <Demo Header="Disabled with Selected" Key="5" MetadataPath="DropdownPage">
-    <BFUDropdown ItemsSource=@items
+    <Dropdown ItemsSource=@items
                  Disabled="true"
                  Placeholder="Select an option"
                  @bind-SelectedOption=@controlledSingleSelectionResult
@@ -55,24 +55,24 @@
 <Demo Header="Dropdown using Blazor Forms Validation" Key="6" MetadataPath="DropdownPage">
     <EditForm Model="exampleModel" OnValidSubmit=@HandleValidSubmit>
         <DataAnnotationsValidator />
-        <BFUValidationSummary />
-        <BFUDropdown ItemsSource=@items
+        <ValidationSummary />
+        <Dropdown ItemsSource=@items
                      Placeholder="Select an option"
                      @bind-SelectedOption=@(exampleModel.SelectionResult)
                      Style="width:300px;" />
-        <BFUSubmitButton Text="Submit" />
+        <SubmitButton Text="Submit" />
     </EditForm>
 </Demo>
 
 @code {
 
-    IBFUDropdownOption uncontrolledSingleSelectionResult;
-    IEnumerable<IBFUDropdownOption> uncontrolledMultiSelectionResult = new List<IBFUDropdownOption>();
+    IDropdownOption uncontrolledSingleSelectionResult;
+    IEnumerable<IDropdownOption> uncontrolledMultiSelectionResult = new List<IDropdownOption>();
 
-    IBFUDropdownOption controlledSingleSelectionResult;
-    IEnumerable<IBFUDropdownOption> controlledMultiSelectionResult;
+    IDropdownOption controlledSingleSelectionResult;
+    IEnumerable<IDropdownOption> controlledMultiSelectionResult;
 
-    List<IBFUDropdownOption> items;
+    List<IDropdownOption> items;
 
     protected override Task OnInitializedAsync()
     {
@@ -88,7 +88,7 @@
             new DataItem("Broccoli"),
             new DataItem("Carrot"),
             new DataItem("Lettuce")
-        }.Select(x => new BFUDropdownOption { Key = x.Key, Text = x.DisplayName, ItemType = x.Type }).Cast<IBFUDropdownOption>().ToList();
+        }.Select(x => new DropdownOption { Key = x.Key, Text = x.DisplayName, ItemType = x.Type }).Cast<IDropdownOption>().ToList();
 
         controlledSingleSelectionResult = items.First(x => x.Key == "Banana");
 
@@ -97,12 +97,12 @@
         return base.OnInitializedAsync();
     }
 
-    void UncontrolledSingleChangeHandler(BFUDropdownChangeArgs args)
+    void UncontrolledSingleChangeHandler(DropdownChangeArgs args)
     {
         uncontrolledSingleSelectionResult = args.Option;
     }
 
-    void UncontrolledMultiChangeHandler(BFUDropdownChangeArgs args)
+    void UncontrolledMultiChangeHandler(DropdownChangeArgs args)
     {
         if (args.IsAdded)
             uncontrolledMultiSelectionResult = uncontrolledMultiSelectionResult.Append(args.Option);
@@ -116,7 +116,7 @@
     class ExampleModel
     {
         [Required]
-        public IBFUDropdownOption SelectionResult { get; set; }
+        public IDropdownOption SelectionResult { get; set; }
     }
 
     public void HandleValidSubmit()

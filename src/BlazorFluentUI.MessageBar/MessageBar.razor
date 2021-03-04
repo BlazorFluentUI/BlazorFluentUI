@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 @if (IsMultiline)
 {
@@ -8,7 +8,7 @@
             <div class="ms-MessageBar-content">
 
                 <div class=@($"ms-MessageBar-icon {GetTypeCss()}") aria-hidden="true">
-                    <BFUIcon IconName=@MessageBarIcon.IconMap[MessageBarType] />
+                    <Icon IconName=@MessageBarIcon.IconMap[MessageBarType] />
                 </div>
 
                 <div class="ms-MessageBar-text" role="status" aria-live=@(MessageBarType == MessageBarType.Blocked || MessageBarType == MessageBarType.Error || MessageBarType == MessageBarType.SevereWarning ? "assertive" : "polite")>
@@ -22,7 +22,7 @@
                 @*DismissSingleLine*@
                 @if (HasDismiss)
                 {
-                    <BFUIconButton IconName="Clear"
+                    <IconButton IconName="Clear"
                                 Disabled="false"
                                 ClassName="ms-MessageBar-dismissal"
                                 OnClick=@OnDismiss
@@ -45,7 +45,7 @@ else
 
                 @*Icon*@
                 <div class=@($"ms-MessageBar-icon {GetTypeCss()}") aria-hidden="true">
-                    <BFUIcon IconName=@MessageBarIcon.IconMap[MessageBarType] />
+                    <Icon IconName=@MessageBarIcon.IconMap[MessageBarType] />
                 </div>
 
                 @*ChildContent*@
@@ -61,7 +61,7 @@ else
                 @if (HasExpand)
                 {
                     <div class="ms-MessageBar-expandSingleLine">
-                        <BFUIconButton Disabled="false"
+                        <IconButton Disabled="false"
                                     ClassName="ms-MessageBar-expand"
                                     OnClick=@Truncate
                                     IconName=@( ExpandSingelLine ? "DoubleChevronUp" : "DoubleChevronDown" )
@@ -79,7 +79,7 @@ else
                 @if (HasDismiss)
                 {
                     <div class="ms-MessageBar-dismissSingleLine">
-                        <BFUIconButton IconName="Clear"
+                        <IconButton IconName="Clear"
                                     Disabled="false"
                                     ClassName="ms-MessageBar-dismissal"
                                     OnClick=@OnDismiss

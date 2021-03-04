@@ -1,17 +1,17 @@
-﻿@inherits BFUButtonParameters
+﻿@inherits ButtonParameters
 @namespace BlazorFluentUI
 @using Microsoft.AspNetCore.Components.Web
 
 @{
-    RenderFragment RenderBFUPrimaryButton() => __builder =>
+    RenderFragment RenderPrimaryButton() => __builder =>
     {
         if (Primary)
         {
-            __builder.OpenComponent(0, typeof(BFUPrimaryButton));
+            __builder.OpenComponent(0, typeof(PrimaryButton));
         }
         else
         {
-            __builder.OpenComponent(0, typeof(BFUDefaultButton));
+            __builder.OpenComponent(0, typeof(DefaultButton));
         }
         __builder.AddAttribute(1, "Href", Href);
         __builder.AddAttribute(2, "ClassName", ClassName + " ms-Button--commandBar");
@@ -61,11 +61,11 @@
         {
             if (Primary)
             {
-                primaryButtonReference = (BFUPrimaryButton)__value;
+                primaryButtonReference = (PrimaryButton)__value;
             }
             else
             {
-                defaultButtonReference = (BFUDefaultButton)__value;
+                defaultButtonReference = (DefaultButton)__value;
             }
         }
         );
@@ -73,12 +73,12 @@
         __builder.CloseComponent();
     };
 }
-@RenderBFUPrimaryButton()
+@RenderPrimaryButton()
 
 
 @code{
-    private BFUDefaultButton defaultButtonReference {get;set;}
-    private BFUPrimaryButton primaryButtonReference;
+    private DefaultButton defaultButtonReference {get;set;}
+    private PrimaryButton primaryButtonReference;
     protected override void OnAfterRender(bool firstRender)
     {
         if (Primary)

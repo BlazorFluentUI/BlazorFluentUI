@@ -1,4 +1,4 @@
-﻿using BlazorFluentUI.BFUCommandBarInternal;
+﻿using BlazorFluentUI.CommandBarInternal;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCommandBar : BFUComponentBase
+    public partial class CommandBar : FluentUIComponentBase
     {
-        [Parameter] public IEnumerable<IBFUCommandBarItem> Items { get; set; }
-        [Parameter] public IEnumerable<IBFUCommandBarItem> OverflowItems { get; set; }
-        [Parameter] public IEnumerable<IBFUCommandBarItem> FarItems { get; set; }
+        [Parameter] public IEnumerable<ICommandBarItem> Items { get; set; }
+        [Parameter] public IEnumerable<ICommandBarItem> OverflowItems { get; set; }
+        [Parameter] public IEnumerable<ICommandBarItem> FarItems { get; set; }
 
-        [Parameter] public EventCallback<IBFUCommandBarItem> OnDataReduced { get; set; }
-        [Parameter] public EventCallback<IBFUCommandBarItem> OnDataGrown { get; set; }
+        [Parameter] public EventCallback<ICommandBarItem> OnDataReduced { get; set; }
+        [Parameter] public EventCallback<ICommandBarItem> OnDataGrown { get; set; }
 
         [Parameter] public bool ShiftOnReduce { get; set; }
 
-        [Parameter] public RenderFragment<IBFUCommandBarItem> ItemTemplate { get; set; }
+        [Parameter] public RenderFragment<ICommandBarItem> ItemTemplate { get; set; }
 
-        protected Func<BFUCommandBarData, BFUCommandBarData> onGrowData;
-        protected Func<BFUCommandBarData, BFUCommandBarData> onReduceData;
+        protected Func<CommandBarData, CommandBarData> onGrowData;
+        protected Func<CommandBarData, CommandBarData> onReduceData;
 
-        protected BFUCommandBarData _currentData;
+        protected CommandBarData _currentData;
 
         protected override Task OnInitializedAsync()
         {
@@ -31,7 +31,7 @@ namespace BlazorFluentUI
             {
                 if (data.PrimaryItems.Count > 0)
                 {
-                    IBFUCommandBarItem movedItem = data.PrimaryItems[ShiftOnReduce ? 0 : data.PrimaryItems.Count() - 1];
+                    ICommandBarItem movedItem = data.PrimaryItems[ShiftOnReduce ? 0 : data.PrimaryItems.Count() - 1];
                     movedItem.RenderedInOverflow = true;
 
                     data.OverflowItems.Insert(0, movedItem);
@@ -75,11 +75,11 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            _currentData = new BFUCommandBarData()
+            _currentData = new CommandBarData()
             {
-                PrimaryItems = new List<IBFUCommandBarItem>(Items != null ? Items : new List<IBFUCommandBarItem>()),
-                OverflowItems = new List<IBFUCommandBarItem>(OverflowItems != null ? OverflowItems : new List<IBFUCommandBarItem>()),
-                FarItems = new List<IBFUCommandBarItem>(FarItems != null ? FarItems : new List<IBFUCommandBarItem>()),
+                PrimaryItems = new List<ICommandBarItem>(Items != null ? Items : new List<ICommandBarItem>()),
+                OverflowItems = new List<ICommandBarItem>(OverflowItems != null ? OverflowItems : new List<ICommandBarItem>()),
+                FarItems = new List<ICommandBarItem>(FarItems != null ? FarItems : new List<ICommandBarItem>()),
                 MinimumOverflowItems = OverflowItems != null ? OverflowItems.Count() : 0,
                 CacheKey = ""
             };
@@ -87,7 +87,7 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
-        private string ComputeCacheKey(BFUCommandBarData data)
+        private string ComputeCacheKey(CommandBarData data)
         {
             var primaryKey = data.PrimaryItems.Aggregate("", (acc, item) => acc + item.CacheKey);
             var farKey = data.FarItems.Aggregate("", (acc, item) => acc + item.CacheKey);

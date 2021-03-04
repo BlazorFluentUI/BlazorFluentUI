@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCalendarMonth : BFUComponentBase
+    public partial class CalendarMonth : FluentUIComponentBase
     {
         [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; }
         [Parameter] public bool HighlightCurrentMonth { get; set; }

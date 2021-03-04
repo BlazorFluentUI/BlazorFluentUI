@@ -8,7 +8,7 @@ using System.Text.Encodings.Web;
 
 namespace BlazorFluentUI
 {
-    public partial class BFULocalCS : ComponentBase, ILocalCSSheet, IDisposable
+    public partial class LocalCS : ComponentBase, ILocalCSSheet, IDisposable
     {
         private string css;
         private ICollection<IRule> rules;

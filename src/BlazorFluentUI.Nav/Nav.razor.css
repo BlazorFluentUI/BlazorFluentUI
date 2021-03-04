@@ -201,10 +201,10 @@
 }
 
 ::deep .ms-Nav-group.is-expanded > * > .ms-Nav-chevron {
-    transform: rotate(-180deg);
+    transform: rotate(90deg);
 }
 ::deep .ms-Nav-group:not(.is-button) > * > .ms-Nav-chevron {
-    top: 0;
+    top: 5px;
 }
 
 
@@ -221,7 +221,7 @@
 }
 ::deep .ms-Nav-groupContent {
     display: none;
-    margin-bottom: 40px;
+    margin-bottom: 0px;
 }
 
 ::deep .ms-Nav-group.is-expanded .ms-Nav-groupContent {

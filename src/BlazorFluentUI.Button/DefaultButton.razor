@@ -1,4 +1,4 @@
-﻿@inherits BFUButtonParameters
+﻿@inherits ButtonParameters
 @namespace BlazorFluentUI
 @using Microsoft.AspNetCore.Components.Web
 
@@ -6,7 +6,7 @@
 {
     if (MenuItemTemplate == null)
     {
-        <BFUButtonBase Href=@Href
+        <ButtonBase Href=@Href
                        ClassName=@ClassName
                        Style=@Style
                        Primary=@false
@@ -36,7 +36,7 @@
     }
     else
     {
-        <BFUButtonBase Href=@Href
+        <ButtonBase Href=@Href
                        ClassName=@ClassName
                        Style=@Style
                        Primary=@false
@@ -70,7 +70,7 @@ else
 {
     if (MenuItemTemplate == null)
     {
-        <BFUButtonBase Href=@Href
+        <ButtonBase Href=@Href
                        ClassName=@ClassName
                        Style=@Style
                        Primary=@false
@@ -101,7 +101,7 @@ else
     }
     else
     {
-        <BFUButtonBase Href=@Href
+        <ButtonBase Href=@Href
                        ClassName=@ClassName
                        Style=@Style
                        Primary=@false
@@ -134,7 +134,7 @@ else
 }
 
 @code{
-    private BFUButtonBase baseReference;
+    private ButtonBase baseReference;
     protected override void OnAfterRender(bool firstRender)
     {
         RootElementReference = baseReference.RootElementReference;

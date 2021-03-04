@@ -1,10 +1,10 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 @typeparam TItem
 
     <div class="ms-DetailsHeader-root"
          @ref=@RootElementReference>
-        <BFUFocusZone Role="row"
+        <FocusZone Role="row"
                       AriaLabel=@AriaLabel
                       ClassName=@($"ms-DetailsHeader{(IsAllSelected?" is-allSelected":"")}{(isResizingColumn?" is-resizingColumn":"")}")
                       Direction="FocusZoneDirection.Horizontal"
@@ -24,7 +24,7 @@
                     {
                         // No tooltip is shown if you don't override ColumnHeaderTooltipTemplate and put in the TooltipHost
                         <span class="ms-DetailsHeader-checkTooltip">
-                            <BFUDetailsRowCheck Id=@($"{id}-check")
+                            <DetailsRowCheck Id=@($"{id}-check")
                                                 AriaLabel=@(SelectionMode == SelectionMode.Multiple ? AriaLabelForSelectAllCheckbox : AriaLabelForSelectionColumn)
                                                 AriaDescribedBy=@(!isCheckboxHidden
                                     ? !string.IsNullOrEmpty(AriaLabelForSelectAllCheckbox)
@@ -41,7 +41,7 @@
                                                 ClassName="ms-DetailsHeader-check"
                                                 UseFastIcons=@UseFastIcons
                                                 IsVisible=@isCheckboxAlwaysVisible>
-                            </BFUDetailsRowCheck>
+                            </DetailsRowCheck>
                         </span>
                     }
                 </div>
@@ -56,17 +56,17 @@
                      role=@(!string.IsNullOrEmpty(AriaLabelForToggleAllGroup) ? "button" : null)>
                     @if (UseFastIcons)
                     {
-                        <BFUFontIcon ClassName=@($"ms-DetailsHeader-collapseButton{(isAllCollapsed ? " is-collapsed":"")}")
+                        <FontIcon ClassName=@($"ms-DetailsHeader-collapseButton{(isAllCollapsed ? " is-collapsed":"")}")
                                      IconName="ChevronRightMed" />
                     }
                     else
                     {
-                        <BFUIcon ClassName=@($"ms-DetailsHeader-collapseButton{(isAllCollapsed ? " is-collapsed":"")}")
+                        <Icon ClassName=@($"ms-DetailsHeader-collapseButton{(isAllCollapsed ? " is-collapsed":"")}")
                                  IconName="ChevronRightMed" />
                     }
                 </div>
             }
-            <BFUGroupSpacer IndentWidth=@IndentWidth
+            <GroupSpacer IndentWidth=@IndentWidth
                             Count=@(GroupNestingDepth-1) />
             @for (var colIndex = 0; colIndex < Columns.Count(); colIndex++)
             {
@@ -78,7 +78,7 @@
                          id=@($"columnDropHint_{currentColIndex}")>
                         @if (UseFastIcons)
                         {
-                            <BFUFontIcon ClassName="ms-DetailsHeader-dropHintCaret"
+                            <FontIcon ClassName="ms-DetailsHeader-dropHintCaret"
                                          AriaHidden="true"
                                          IconName="CircleShapeSolid"
                                          data-sizer-index=@currentColIndex
@@ -86,7 +86,7 @@
                         }
                         else
                         {
-                            <BFUIcon ClassName="ms-DetailsHeader-dropHintCaret"
+                            <Icon ClassName="ms-DetailsHeader-dropHintCaret"
                                      AriaHidden="true"
                                      IconName="CircleShapeSolid"
                                      data-sizer-index=@currentColIndex
@@ -98,7 +98,7 @@
                              data-is-focusable="false"/>
                     </div>
                 }
-                <BFUDetailsColumn Column=@Columns.ElementAt(currentColIndex)
+                <DetailsColumn Column=@Columns.ElementAt(currentColIndex)
                                   ColumnIndex=@((showCheckbox ? 2 : 1) + currentColIndex)
                                   ParentId=@id
                                   IsDraggable=@isDraggable
@@ -120,7 +120,7 @@
                          @ondblclick=@((args) =>
                                        {
                                            //System.Diagnostics.Debug.WriteLine("DoubleClick happened.");
-                                           //OnColumnAutoResized.InvokeAsync(new ItemContainer<BFUDetailsRowColumn<TItem>> { Item = Columns.ElementAt(currentColIndex), Index = currentColIndex });
+                                           //OnColumnAutoResized.InvokeAsync(new ItemContainer<DetailsRowColumn<TItem>> { Item = Columns.ElementAt(currentColIndex), Index = currentColIndex });
                                        })
                           @onmousedown=@(args =>
                                         {
@@ -135,7 +135,7 @@
                      id=@($"columnDropHint_{Columns.Count()}")>
                     @if (UseFastIcons)
                     {
-                        <BFUFontIcon ClassName="ms-DetailsHeader-dropHintCaret"
+                        <FontIcon ClassName="ms-DetailsHeader-dropHintCaret"
                                      AriaHidden="true"
                                      IconName="CircleShapeSolid" 
                                      data-sizer-index=@Columns.Count()
@@ -144,7 +144,7 @@
                     }
                     else
                     {
-                        <BFUIcon ClassName="ms-DetailsHeader-dropHintCaret"
+                        <Icon ClassName="ms-DetailsHeader-dropHintCaret"
                                  AriaHidden="true"
                                  IconName="CircleShapeSolid"
                                  data-sizer-index=@Columns.Count()
@@ -159,12 +159,12 @@
             }
             @if (isSizing)
             {
-                <BFULayer>
+                <Layer>
                     <div class=@($"ms-DetailsHeader-sizingOverlay{(isSizing ? " is-sizing": "")}")
                          @onmousemove=@OnSizerMouseMove
                          @onmouseup=@OnSizerMouseUp></div>
-                </BFULayer>
+                </Layer>
             }
 
-        </BFUFocusZone>
+        </FocusZone>
     </div>

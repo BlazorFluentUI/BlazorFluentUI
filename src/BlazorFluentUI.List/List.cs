@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public class BFUList<TItem> : BFUComponentBase, IAsyncDisposable
+    public class FluentUIList<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
         private IJSRuntime? _jsInterop;
 
@@ -44,7 +44,7 @@ namespace BlazorFluentUI
         private RenderFragment<IndexedItem<TItem>>? _itemTemplate;
 
         private RenderFragment<PlaceholderContext>? _placeholder;
-        private DotNetObjectReference<BFUList<TItem>> _selfReference;
+        private DotNetObjectReference<FluentUIList<TItem>> _selfReference;
         private int _listId = -1;
 
         private double _containerWidth;
@@ -213,7 +213,7 @@ namespace BlazorFluentUI
             builder.AddElementReferenceCapture(4, elementReference => _spacerBefore = elementReference);
             builder.CloseElement();
 
-            
+
 
             var lastItemIndex = Math.Min(_itemsBefore + _visibleItemCapacity, _itemCount);
             var renderIndex = _itemsBefore;
@@ -242,7 +242,7 @@ namespace BlazorFluentUI
 
                 builder.OpenRegion(6);
 
-               
+
 
                 foreach (var item in itemsToShow)
                 {
@@ -322,7 +322,7 @@ namespace BlazorFluentUI
                 CalcualteItemDistribution(spacerSize, spacerSeparation, containerSize, out var itemsAfter, out var visibleItemCapacity);
 
                 var itemsBefore = Math.Max(0, _itemCount - itemsAfter - visibleItemCapacity);
-                               
+
                 if (UseGridFlexLayout)
                 {
                     //itemsBefore needs to be a multiple of numberPerRow

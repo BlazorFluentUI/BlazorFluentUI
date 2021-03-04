@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class="ms-Calendar-yearPicker">
     <div class="ms-Calendar-header">
@@ -30,7 +30,7 @@
                         tabindex="0"
                         title=@PrevYearRangeAriaLabel
                         disabled=@(FromYear <= MinYear)>
-                    <BFUIcon IconName="Up" />
+                    <Icon IconName="Up" />
                 </button>
                 <button class=@($"ms-Calendar-nextDecade{(FromYear + 12 -1 -1>= MaxYear ? " ms-Calendar-nextDecadeIsDisabled":"")}")
                         @onclick=@(args=> { if ((FromYear + 12 -1 -1) < MaxYear) { OnSelectNextDecade(); } })
@@ -38,12 +38,12 @@
                         tabindex="0"
                         title=@NextYearRangeAriaLabel
                         disabled=@(FromYear + 12 -1 -1 >= MaxYear)>
-                    <BFUIcon IconName="Down" />
+                    <Icon IconName="Down" />
                 </button>
             </div>
         </div>
     </div>
-    <BFUFocusZone>
+    <FocusZone>
         <div class="ms-Calendar-optionGrid"
              role="grid">
             <div role="row">
@@ -63,5 +63,5 @@
                 }
             </div>
         </div>
-    </BFUFocusZone>
+    </FocusZone>
 </div>

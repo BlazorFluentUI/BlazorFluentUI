@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDetailsRowFields<TItem> : BFUComponentBase
+    public partial class DetailsRowFields<TItem> : FluentUIComponentBase
     {
         [Parameter]
         public TItem Item { get; set; }
@@ -27,7 +27,7 @@ namespace BlazorFluentUI
         public int ColumnStartIndex { get; set; }
 
         [Parameter]
-        public IEnumerable<BFUDetailsRowColumn<TItem>> Columns { get; set; }
+        public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }

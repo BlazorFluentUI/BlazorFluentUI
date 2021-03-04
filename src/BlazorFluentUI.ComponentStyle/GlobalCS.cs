@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public class BFUGlobalCS : ComponentBase, IGlobalCSSheet, IDisposable
+    public class GlobalCS : ComponentBase, IGlobalCSSheet, IDisposable
     {
         [Inject]
         public IComponentStyle ComponentStyle { get; set; }

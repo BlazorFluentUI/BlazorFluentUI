@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardActions : BFUComponentBase
+    public partial class DocumentCardActions : FluentUIComponentBase
     {
         /// <summary>
         ///  The number of views this document has received.
@@ -18,7 +18,7 @@ namespace BlazorFluentUI
         /// The actions available for this document.
         /// </summary>
         [Parameter]
-        public BFUDocumentCardAction[]? Actions { get; set; }
+        public DocumentCardAction[]? Actions { get; set; }
 
         private ICollection<IRule> DocumentCardActionsRules { get; set; } = new List<IRule>();
 

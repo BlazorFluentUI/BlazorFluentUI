@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFURating : BFUComponentBase
+    public partial class Rating : FluentUIComponentBase
     {
         private double rating = -1;
 
@@ -14,21 +14,13 @@ namespace BlazorFluentUI
 
         [Parameter]
         public bool AllowZeroStars { get; set; }
-        [Obsolete("Use IconName instead")]
-        [Parameter]
-        public string Icon
-        {
-            set
-            {
-                IconName = value;
-            }
-        }
+
         [Parameter]
         public string IconName { get; set; } = "FavoriteStarFill";
         [Parameter]
         public int Max { get; set; } = 5;
         [Parameter]
-        public double Rating
+        public double RatingValue
         {
             get => rating;
             set
@@ -38,7 +30,7 @@ namespace BlazorFluentUI
                     return;
                 }
                 rating = value;
-                RatingChanged.InvokeAsync(value);
+                RatingValueChanged.InvokeAsync(value);
                 OnChange.InvokeAsync(value);
                 //StateHasChanged();
             }
@@ -54,7 +46,7 @@ namespace BlazorFluentUI
         [Parameter]
         public Func<double, double, string> GetAriaLabel { get; set; }
         [Parameter]
-        public EventCallback<double> RatingChanged { get; set; }
+        public EventCallback<double> RatingValueChanged { get; set; }
         [Parameter]
         public EventCallback<double> OnChange { get; set; }
 
@@ -65,7 +57,7 @@ namespace BlazorFluentUI
 
         protected override Task OnInitializedAsync()
         {
-            Rating = GetRatingSecure();
+            RatingValue = GetRatingSecure();
             return base.OnInitializedAsync();
         }
 
@@ -105,18 +97,18 @@ namespace BlazorFluentUI
             if (ReadOnly || Disabled)
                 return Task.CompletedTask;
 
-            Rating = value;
+            RatingValue = value;
             return Task.CompletedTask;
         }
 
         private double GetRatingSecure()
         {
-            return Math.Min(Math.Max(Rating, (AllowZeroStars ? 0 : 1)), Max);
+            return Math.Min(Math.Max(RatingValue, (AllowZeroStars ? 0 : 1)), Max);
         }
 
         protected double GetFullRating()
         {
-            return Math.Ceiling(Rating);
+            return Math.Ceiling(RatingValue);
         }
 
         protected double GetPercentageOf(int starNumber)
@@ -124,13 +116,13 @@ namespace BlazorFluentUI
             double fullRating = GetFullRating();
             double fullStar = 100;
 
-            if (starNumber == Rating)
+            if (starNumber == RatingValue)
             {
                 fullStar = 100;
             }
             else if (starNumber == fullRating)
             {
-                fullStar = 100 * (Rating % 1);
+                fullStar = 100 * (RatingValue % 1);
             }
             else if (starNumber > fullRating)
             {

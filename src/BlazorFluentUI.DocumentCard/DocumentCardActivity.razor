@@ -1,8 +1,8 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 @using Microsoft.AspNetCore.Components.Web
 
-<BFULocalCS @bind-Rules="@BFUDocumentCardActivityLocalRules" />
+<LocalCS @bind-Rules="@DocumentCardActivityLocalRules" />
 
 <div class=@($"{GlobalClassNames["root"]} {ClassName}") style=@Style @ref=RootElementReference>
     @if (People != null)
@@ -11,8 +11,8 @@
             @foreach (var people in People.Take(2).Reverse())
             {
                 <div class="@GlobalClassNames["avatar"]">
-                    <BFUPersonaCoin Text="@people.Name" ImageUrl="@people.ProfileImageSrc" AllowPhoneInitials="@people.AllowPhoneInitials" AriaRoleDescription="presentation"
-                                    Size="@PersonaPresenceSize.Size32" CoinSize="32"></BFUPersonaCoin>
+                    <PersonaCoin Text="@people.Name" ImageUrl="@people.ProfileImageSrc" AllowPhoneInitials="@people.AllowPhoneInitials" AriaRoleDescription="presentation"
+                                    Size="@PersonaPresenceSize.Size32" CoinSize="32"></PersonaCoin>
                 </div>
             }
         </div>

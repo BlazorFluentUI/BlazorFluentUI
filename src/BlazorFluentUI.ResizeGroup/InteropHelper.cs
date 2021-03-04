@@ -1,7 +1,7 @@
 ﻿using Microsoft.JSInterop;
 using System;
 
-namespace BlazorFluentUI.BFUResizeGroupInternal
+namespace BlazorFluentUI.ResizeGroupInternal
 {
     public class InteropHelper
     {

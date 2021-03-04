@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUNavLinkGroup : BFUComponentBase
+    public partial class NavLinkGroup : FluentUIComponentBase
     {
         [Parameter] public bool CollapseByDefault { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -13,7 +13,7 @@ namespace BlazorFluentUI
 
         [CascadingParameter] protected string ExpandButtonAriaLabel { get; set; }
 
-        [Parameter] public EventCallback<BFUNavLinkGroup> OnClick { get; set; }
+        [Parameter] public EventCallback<NavLinkGroup> OnClick { get; set; }
 
         private bool isCollapsed;
         public bool IsCollapsed => isCollapsed;

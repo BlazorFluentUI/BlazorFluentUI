@@ -1,11 +1,11 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 @typeparam TItem
 @typeparam TKey
 
-<BFUFocusZone Direction="FocusZoneDirection.Vertical"
+<FocusZone Direction="FocusZoneDirection.Vertical"
               ClassName="ms-GroupedList">
-    <BFUList TItem="IGroupedListItem3<TItem>"
+    <FluentUIList TItem="IGroupedListItem3<TItem>"
              @ref="listReference"
              ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
              IsVirtualizing=@IsVirtualizing
@@ -36,7 +36,7 @@
                     }
                 }
 
-                <BFUGroupHeader IsOpen=@header.IsOpen
+                <GroupHeader IsOpen=@header.IsOpen
                                 OnOpenChanged=@((isOpen)=>
                                                 {
                                                     if (header.IsOpen != isOpen)
@@ -55,7 +55,7 @@
                                 OnToggle=@(()=>OnHeaderToggled(context)) />
                 @if (header.IsOpen)
                 {
-                    <BFUGroupItem ItemsSource=@header.Items
+                    <GroupItem ItemsSource=@header.Items
                                   TItem=@TItem
                                   TKey=@TKey
                                   GetKey=@GetKey
@@ -78,6 +78,6 @@
                 }
             }
         </ItemTemplate>
-    </BFUList>
+    </FluentUIList>
 
-</BFUFocusZone>
+</FocusZone>

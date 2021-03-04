@@ -1,6 +1,6 @@
 ﻿namespace BlazorFluentUI
 {
-    public interface IBFUCommandBarItem : IBFUContextualMenuItem
+    public interface ICommandBarItem : IContextualMenuItem
     {
         //buttonStyles
         string CacheKey { get; set; }

@@ -8,7 +8,7 @@ using System.Timers;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUModal : BFUComponentBase, IDisposable
+    public partial class Modal : FluentUIComponentBase, IDisposable
     {
         [Parameter]
         public string ContainerClass { get; set; }
@@ -78,7 +78,7 @@ namespace BlazorFluentUI
         private bool _jsAvailable;
         private string _keydownRegistration;
 
-        public BFUModal()
+        public Modal()
         {
             _animationTimer = new Timer();
             _clearExistingAnimationTimer = () =>

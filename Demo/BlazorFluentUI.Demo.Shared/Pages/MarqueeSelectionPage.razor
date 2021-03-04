@@ -11,11 +11,11 @@
 
 <Demo Header="Basic Selection Example" Key="0" MetadataPath="MarqueeSelectionPage">
 
-    <BFUMarqueeSelection TItem="Photo" 
+    <MarqueeSelection TItem="Photo" 
                          IsEnabled="toggleIsMarqueeEnabled"
                          Selection="selection"
                          >
-        <BFUCheckbox Label="Is marquee enabled"
+        <Checkbox Label="Is marquee enabled"
                      Style="margin:10px 0;"
                   @bind-Checked="toggleIsMarqueeEnabled" />
         <p>Drag a rectangle around the items below to select them:</p>
@@ -31,7 +31,7 @@
             </div>
             }
         </ul>
-    </BFUMarqueeSelection>
+    </MarqueeSelection>
 </Demo>
 
 

@@ -5,60 +5,60 @@
 <div style="margin:20px">
     <h1>ChoiceGroup</h1>
     <Demo Header="ChoiceGroup with ItemSource as List<string>" MetadataPath="ChoiceGroupPage" Key="0">
-        <BFUStack>
-            <BFUChoiceGroup ItemsSource="this._stringItems" @bind-Value="this._selectedStringOption" Required="true">
-            </BFUChoiceGroup>
+        <Stack>
+            <ChoiceGroup ItemsSource="this._stringItems" @bind-Value="this._selectedStringOption" Required="true">
+            </ChoiceGroup>
             <br />
             <div>
                 Selected option: @(_selectedStringOption ?? "none")
             </div>
-        </BFUStack>
+        </Stack>
     </Demo>
 
     <Demo Header="ChoiceGroup with ItemSource as List<IChoiceGroupOption>" MetadataPath="ChoiceGroupPage" Key="1">
-        <BFUStack>
-            <BFUChoiceGroup ItemsSource="this._choiceGroupOptions" @bind-Value="this._selectedChoiceGroupOption">
-            </BFUChoiceGroup>
+        <Stack>
+            <ChoiceGroup ItemsSource="this._choiceGroupOptions" @bind-Value="this._selectedChoiceGroupOption">
+            </ChoiceGroup>
             <br />
             <div>
                 Selected option: @(_selectedChoiceGroupOption?.Label ?? "none")
             </div>
-        </BFUStack>
+        </Stack>
     </Demo>
 
     <Demo Header="ChoiceGroup with ItemSource as List<CustomObject> using OptionTemplate" MetadataPath="ChoiceGroupPage" Key="2">
-        <BFUStack>
-            <BFUChoiceGroup ItemsSource="this._customObjects" @bind-Value="this._selectedCustomObject" ItemAlignment="FlexDirection.Row">
+        <Stack>
+            <ChoiceGroup ItemsSource="this._customObjects" @bind-Value="this._selectedCustomObject" ItemAlignment="FlexDirection.Row">
                 <OptionTemplate Context="item">
-                    <BFUIcon IconName="@item.IconName" Style="font-size:36px"></BFUIcon>
+                    <Icon IconName="@item.IconName" Style="font-size:36px"></Icon>
                 </OptionTemplate>
-            </BFUChoiceGroup>
+            </ChoiceGroup>
             <br />
             <div>
                 Selected option: @(_selectedCustomObject?.Label ?? "none")
             </div>
-        </BFUStack>
+        </Stack>
 
-        <BFUStack>
+        <Stack>
             <h3>Datasource is a List&lt;CustomObject&gt; using the "OptionTemplate"</h3>
-            <BFUChoiceGroup ItemsSource="this._customObjects2" @bind-Value="this._selectedCustomObject2" ItemAlignment="FlexDirection.Row">
+            <ChoiceGroup ItemsSource="this._customObjects2" @bind-Value="this._selectedCustomObject2" ItemAlignment="FlexDirection.Row">
                 <OptionTemplate Context="item">
                     <div style="width:200px;height:90px">
-                        <BFUIcon IconName="@item.IconName" Style="font-size:36px;margin-bottom:10px"></BFUIcon>
+                        <Icon IconName="@item.IconName" Style="font-size:36px;margin-bottom:10px"></Icon>
                         @if (item.Id == 1)
                         {
-                            <BFUDatePicker Disabled="_selectedCustomObject2?.Id != 1" @bind-Value="_selectedDate"></BFUDatePicker>
+                            <DatePicker Disabled="_selectedCustomObject2?.Id != 1" @bind-Value="_selectedDate"></DatePicker>
                         }
                         else if (item.Id == 3)
                         {
-                            <BFUDropdown ItemsSource=@_months.Select(x=>new BFUDropdownOption { Key = x.Name, Text = x.Name })
+                            <Dropdown ItemsSource=@_months.Select(x=>new DropdownOption { Key = x.Name, Text = x.Name })
                                          Disabled="_selectedCustomObject2?.Id != 3"
                                          Placeholder="Select a Month"
                                          @bind-SelectedOption=@_selectedMonthOption />
                         }
                     </div>
                 </OptionTemplate>
-            </BFUChoiceGroup>
+            </ChoiceGroup>
             <br />
             <div>
                 Selected option id: @(_selectedCustomObject2?.Id.ToString() ?? "none")
@@ -69,7 +69,7 @@
             <div>
                 Selected month: @(_selectedMonthOption?.Text ?? "none")
             </div>
-        </BFUStack>
+        </Stack>
     </Demo>
 
         <div style="height:150px"></div>
@@ -82,7 +82,7 @@
     private CustomObject _selectedCustomObject2;
     private DateTime? _selectedDate;
     //private string _selectedMonth;
-    private IBFUDropdownOption _selectedMonthOption;
+    private IDropdownOption _selectedMonthOption;
 
     private List<string> _stringItems = new List<string>
     {

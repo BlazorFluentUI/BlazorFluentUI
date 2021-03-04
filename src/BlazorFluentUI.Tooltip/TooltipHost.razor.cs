@@ -8,23 +8,23 @@ using System.Timers;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUTooltipHost : BFUComponentBase, IDisposable
+    public partial class TooltipHost : FluentUIComponentBase, IDisposable
     {
-        private static BFUTooltipHost CurrentVisibleTooltip { get; set; }
+        private static TooltipHost CurrentVisibleTooltip { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public double CloseDelay { get; set; } = double.NaN;
         [Parameter] public TooltipDelay Delay { get; set; } = TooltipDelay.Medium;
         [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.TopCenter;
-        //[Parameter] public BFUComponentBase FabricComponentTarget { get; set; }
+        //[Parameter] public FluentUIComponentBase FabricComponentTarget { get; set; }
         [Parameter] public string HostClassName { get; set; }
         [Parameter] public EventCallback<bool> OnTooltipToggle { get; set; }
         [Parameter] public TooltipOverflowMode OverflowMode { get; set; } = TooltipOverflowMode.None;
-        [Parameter] public BFUComponentBase Parent { get; set; }
+        [Parameter] public FluentUIComponentBase Parent { get; set; }
         [Parameter] public bool SetAriaDescribedBy { get; set; }
         [Parameter] public RenderFragment TooltipContent { get; set; }
 
-        protected BFUComponentBase TargetElement;
+        protected FluentUIComponentBase TargetElement;
         protected bool ShowTooltip;
 
         protected bool IsTooltipVisible = false;
@@ -80,10 +80,10 @@ namespace BlazorFluentUI
         protected Task OnTooltipMouseEnter(EventArgs args)
         {
             Debug.WriteLine("OnMouseEnter");
-            if (BFUTooltipHost.CurrentVisibleTooltip != null && BFUTooltipHost.CurrentVisibleTooltip != this)
-                BFUTooltipHost.CurrentVisibleTooltip.Dismiss();
+            if (TooltipHost.CurrentVisibleTooltip != null && TooltipHost.CurrentVisibleTooltip != this)
+                TooltipHost.CurrentVisibleTooltip.Dismiss();
 
-            BFUTooltipHost.CurrentVisibleTooltip = this;
+            TooltipHost.CurrentVisibleTooltip = this;
 
             if (OverflowMode != TooltipOverflowMode.None)
             {
@@ -132,9 +132,9 @@ namespace BlazorFluentUI
                     ToggleTooltip(false);
                 }
 
-                if (BFUTooltipHost.CurrentVisibleTooltip == this)
+                if (TooltipHost.CurrentVisibleTooltip == this)
                 {
-                    BFUTooltipHost.CurrentVisibleTooltip = null;
+                    TooltipHost.CurrentVisibleTooltip = null;
                 }
             }
             return Task.CompletedTask;
@@ -197,8 +197,8 @@ namespace BlazorFluentUI
 
 
 
-            if (BFUTooltipHost.CurrentVisibleTooltip == this)
-                BFUTooltipHost.CurrentVisibleTooltip = null;
+            if (TooltipHost.CurrentVisibleTooltip == this)
+                TooltipHost.CurrentVisibleTooltip = null;
         }
     }
 }

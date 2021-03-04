@@ -17,11 +17,11 @@ using System.Reactive;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUGroupItemAuto<TItem, TKey> : BFUComponentBase, IAsyncDisposable
+    public partial class GroupItemAuto<TItem, TKey> : FluentUIComponentBase, IAsyncDisposable
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private BFUList<IGroupedListItem3<TItem>> listReference;
+        private FluentUIList<IGroupedListItem3<TItem>> listReference;
 
         //private ReadOnlyObservableCollection<IGroupedListItem3> dataItems;
 
@@ -41,7 +41,7 @@ namespace BlazorFluentUI
         private IDisposable _transformedDisposable;
 
         [CascadingParameter]
-        public BFUSelectionZone<TItem> SelectionZone { get; set; }
+        public SelectionZone<TItem> SelectionZone { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }

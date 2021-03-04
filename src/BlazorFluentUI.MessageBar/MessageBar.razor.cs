@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUMessageBar : BFUComponentBase
+    public partial class MessageBar : FluentUIComponentBase
     {
         [Parameter]
         public bool IsMultiline { get; set; } = true;
@@ -34,7 +34,7 @@ namespace BlazorFluentUI
         public EventCallback OnDismiss { get; set; }
 
         [Parameter]
-        public BFUMessageBar ComponentRef
+        public MessageBar ComponentRef
         {
             get => componentRef;
             set
@@ -48,9 +48,9 @@ namespace BlazorFluentUI
         }
 
         [Parameter]
-        public EventCallback<BFUMessageBar> ComponentRefChanged { get; set; }
+        public EventCallback<MessageBar> ComponentRefChanged { get; set; }
 
-        private BFUMessageBar componentRef;
+        private MessageBar componentRef;
 
         protected bool HasDismiss { get => (OnDismiss.HasDelegate); }
 
@@ -67,7 +67,7 @@ namespace BlazorFluentUI
         {
 
             if (firstRender)
-                ComponentRef = this as BFUMessageBar;
+                ComponentRef = this as MessageBar;
             return base.OnAfterRenderAsync(firstRender);
         }
 

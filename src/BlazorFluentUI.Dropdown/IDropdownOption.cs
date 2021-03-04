@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BlazorFluentUI
 {
-    public interface IBFUDropdownOption
+    public interface IDropdownOption
     {
         bool Disabled { get; set; }
         bool Hidden { get; set; }

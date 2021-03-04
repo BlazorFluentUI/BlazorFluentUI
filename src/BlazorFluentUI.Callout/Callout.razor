@@ -1,9 +1,9 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 @if (this.DoNotLayer)
 {
-    <BFUCalloutContent AlignTargetEdge=@AlignTargetEdge
+    <CalloutContent AlignTargetEdge=@AlignTargetEdge
                     AriaDescribedBy=@AriaDescribedBy
                     AriaLabel=@AriaLabel
                     AriaLabelledBy=@AriaLabelledBy
@@ -34,8 +34,8 @@
 }
 else
 {
-<BFULayer>
-    <BFUCalloutContent AlignTargetEdge=@AlignTargetEdge
+<Layer>
+    <CalloutContent AlignTargetEdge=@AlignTargetEdge
                     AriaDescribedBy=@AriaDescribedBy
                     AriaLabel=@AriaLabel
                     AriaLabelledBy=@AriaLabelledBy
@@ -64,5 +64,5 @@ else
                     OnPositioned=@OnPositioned
 
                     />
-</BFULayer>
+</Layer>
 }

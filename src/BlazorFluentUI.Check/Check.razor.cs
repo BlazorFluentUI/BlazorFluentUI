@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUCheck : BFUComponentBase
+    public partial class Check : FluentUIComponentBase
     {
         [Parameter]
         public bool Checked { get; set; }

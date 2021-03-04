@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUDocumentCardLocation : BFUComponentBase
+    public partial class DocumentCardLocation : FluentUIComponentBase
     {
         /// <summary>
         /// Text for the location of the document.
@@ -27,7 +27,7 @@ namespace BlazorFluentUI
         /// </summary>
         public EventCallback? OnClick { get; set; }
 
-        private ICollection<IRule> BFUDocumentCardLocationRules { get; set; } = new List<IRule>();
+        private ICollection<IRule> DocumentCardLocationRules { get; set; } = new List<IRule>();
 
         private Rule RootRule = new Rule();
         private Rule RootHoverRule = new Rule();
@@ -53,10 +53,10 @@ namespace BlazorFluentUI
         private void CreateLocalCss()
         {
             RootRule.Selector = new ClassSelector() { SelectorName = $"ms-DocumentCardLocation" };
-            BFUDocumentCardLocationRules.Add(RootRule);
+            DocumentCardLocationRules.Add(RootRule);
 
             RootHoverRule.Selector = new ClassSelector() { SelectorName = $"ms-DocumentCardLocation:hover" };
-            BFUDocumentCardLocationRules.Add(RootHoverRule);
+            DocumentCardLocationRules.Add(RootHoverRule);
         }
 
         private void SetStyle()

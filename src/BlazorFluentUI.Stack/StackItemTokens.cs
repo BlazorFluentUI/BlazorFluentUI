@@ -1,6 +1,6 @@
 ﻿namespace BlazorFluentUI
 {
-    public class BFUStackItemTokens
+    public class StackItemTokens
     {
         public CssValue Margin { get; set; }
         public CssValue Padding { get; set; }

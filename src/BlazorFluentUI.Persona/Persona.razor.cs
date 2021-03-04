@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class BFUPersona : BFUComponentBase
+    public partial class Persona : FluentUIComponentBase
     {
         [Parameter] public bool AllowPhoneInitials { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public int CoinSize { get; set; } = -1;
-        [Parameter] public bool HidePersonalDetails { get; set; }
+        [Parameter] public bool HidePersonaDetails { get; set; }
         [Parameter] public string ImageAlt { get; set; }
         [Parameter] public string ImageInitials{ get; set; }
         [Parameter] public bool ImageShouldFadeIn { get; set; }
         [Parameter] public bool ImageShouldStartVisible { get; set; }
         [Parameter] public string ImageUrl { get; set; }
-        [Parameter] public string InitialsColor { get; set; }
+        [Parameter] public PersonaInitialsColor InitialsColor { get; set; }
         [Parameter] public bool IsOutOfOffice { get; set; }
         [Parameter] public string OptionalText { get; set; }
         [Parameter] public PersonaPresenceStatus Presence { get; set; }

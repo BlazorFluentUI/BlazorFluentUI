@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 @typeparam TItem
 
 <div class=@($"ms-DetailsList {ClassName}")
@@ -22,7 +22,7 @@
                 }
                 else
                 {
-                    <BFUDetailsHeader Columns=@_adjustedColumns
+                    <DetailsHeader Columns=@_adjustedColumns
                                       TItem="TItem"
                                       Selection=@Selection
                                       LayoutMode=@LayoutMode
@@ -42,13 +42,13 @@
              role="presentation"
              class="ms-DetailsList-contentWrapper"
              style="overflow-y:hidden;height:100%;">
-            <BFUFocusZone ClassName="ms-DetailsList-focusZone"
+            <FocusZone ClassName="ms-DetailsList-focusZone"
                        Direction="FocusZoneDirection.Vertical"
                        InnerZoneKeystrokeTriggers="new System.Collections.Generic.List<ConsoleKey> { ConsoleKey.RightArrow }"
                        >
                 @if (!DisableSelectionZone)
                 {
-                    <BFUSelectionZone Selection=@Selection
+                    <SelectionZone Selection=@Selection
                                    @ref="selectionZone"
                                    DisableRenderOnSelectionChanged="true"
                                    SelectionPreservedOnEmptyClick=@SelectionPreservedOnEmptyClick
@@ -57,7 +57,7 @@
                                    OnItemInvoked=@((item,index) => this.OnItemInvoked.InvokeAsync(item)) >
                         @if (SubGroupSelector == null)
                         {
-                            <BFUList ItemsSource=@ItemsSource
+                            <FluentUIList ItemsSource=@ItemsSource
                                      IsVirtualizing=@IsVirtualizing
                                      >
                                 <ItemTemplate>
@@ -67,7 +67,7 @@
                                     }
                                     else
                                     {
-                                        <BFUDetailsRow Item=@context.Item
+                                        <DetailsRow Item=@context.Item
                                                        ItemIndex=@context.Index
                                                     Columns=@_adjustedColumns
                                                     SelectionMode=@SelectionMode
@@ -76,11 +76,11 @@
                                                     CheckboxVisibility=@CheckboxVisibility />
                                     }
                                 </ItemTemplate>
-                            </BFUList>
+                            </FluentUIList>
                         }
                         else
                         {
-                            <BFUGroupedList ItemsSource=@ItemsSource
+                            <GroupedList ItemsSource=@ItemsSource
                                             TItem="TItem"
                                             TKey="object"
                                          @ref=@groupedList
@@ -91,7 +91,7 @@
                                          IsVirtualizing=@IsVirtualizing
                                          SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                                 <ItemTemplate>
-                                    <BFUDetailsRow Item=@context.Item.Item
+                                    <DetailsRow Item=@context.Item.Item
                                                    TItem="TItem"
                                                    ItemIndex=@context.Index
                                                     Selection=@Selection
@@ -101,16 +101,16 @@
                                                    CheckboxVisibility=@CheckboxVisibility
                                                    Compact=@Compact />
                                 </ItemTemplate>
-                            </BFUGroupedList>
+                            </GroupedList>
                         }
-                    </BFUSelectionZone>
+                    </SelectionZone>
 
                 }
                 else
                 {
                     @if (SubGroupSelector == null)
                     {
-                        <BFUList ItemsSource=@ItemsSource >
+                        <FluentUIList ItemsSource=@ItemsSource >
                             <ItemTemplate>
                                 @if (RowTemplate != null)
                                 {
@@ -118,7 +118,7 @@
                                 }
                                 else
                                 {
-                                    <BFUDetailsRow Item=@context.Item
+                                    <DetailsRow Item=@context.Item
                                                    TItem="TItem"
                                                 Columns=@_adjustedColumns
                                                 SelectionMode=@SelectionMode
@@ -127,11 +127,11 @@
                                                 CheckboxVisibility=@CheckboxVisibility />
                                 }
                             </ItemTemplate>
-                        </BFUList>
+                        </FluentUIList>
                     }
                     else
                     {
-                        <BFUGroupedList ItemsSource=@ItemsSource
+                        <GroupedList ItemsSource=@ItemsSource
                                         TItem="TItem"
                                         TKey="object"
                                         GetKey=@GetKey
@@ -141,7 +141,7 @@
                                         GroupTitleSelector=@GroupTitleSelector
                                         SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                             <ItemTemplate>
-                                <BFUDetailsRow Item=@context.Item.Item
+                                <DetailsRow Item=@context.Item.Item
                                             ItemIndex=@context.Index
                                                TItem="TItem"
                                             Columns=@_adjustedColumns
@@ -150,10 +150,10 @@
                                             CheckboxVisibility=@CheckboxVisibility
                                             Compact=@Compact />
                             </ItemTemplate>
-                        </BFUGroupedList>
+                        </GroupedList>
                     }
                 }
-            </BFUFocusZone>
+            </FocusZone>
         </div>
         @if (FooterTemplate != null)
         {

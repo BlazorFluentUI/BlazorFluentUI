@@ -6,17 +6,17 @@
 @using System.Reactive.Linq
 @using System.Reactive.Subjects
 
-    <BFUStack Style="height:100%;">
+    <Stack Style="height:100%;">
         <h3>DetailsList - Grouped Data</h3>
-        <BFUStack Horizontal="true" Tokens="new BFUStackTokens { ChildrenGap = new double[] { 10.0 } }">
-            <BFUToggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
-            <BFUToggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
-            <BFUDropdown ItemsSource=@selectionModeOptions
+        <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
+            <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+            <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+            <Dropdown ItemsSource=@selectionModeOptions
                          @bind-SelectedOption=selectedModeOption
                          Style="max-width:300px;">
-            </BFUDropdown>
-        </BFUStack>
-        <BFUDetailsList ItemsSource="ReadonlyList"
+            </Dropdown>
+        </Stack>
+        <DetailsList ItemsSource="ReadonlyList"
                         @ref="detailsList"
                         Columns="ReadonlyColumns"
                         GetKey="(item)=>item.Key"
@@ -28,14 +28,14 @@
                         LayoutMode="DetailsListLayoutMode.Justified"
                         Selection="selection"
                         SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
-        </BFUDetailsList>
-    </BFUStack>
+        </DetailsList>
+    </Stack>
 
 @code {
     bool? isVirtualizing = true;
     bool? isCompact = false;
-    IBFUDropdownOption selectedModeOption;
-    List<IBFUDropdownOption> selectionModeOptions;
+    IDropdownOption selectedModeOption;
+    List<IDropdownOption> selectionModeOptions;
 
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
@@ -43,10 +43,10 @@
     public System.ComponentModel.BindingList<GroupedDataItem> ReadonlyList = new System.ComponentModel.BindingList<GroupedDataItem>();
     int count = 0;
 
-    SourceCache<BFUDetailsRowColumn<GroupedDataItem>, string> columnsSource = new SourceCache<BFUDetailsRowColumn<GroupedDataItem>, string>(x => x.Key);
-    public ReadOnlyObservableCollection<BFUDetailsRowColumn<GroupedDataItem>> ReadonlyColumns;
+    SourceCache<DetailsRowColumn<GroupedDataItem>, string> columnsSource = new SourceCache<DetailsRowColumn<GroupedDataItem>, string>(x => x.Key);
+    public ReadOnlyObservableCollection<DetailsRowColumn<GroupedDataItem>> ReadonlyColumns;
 
-    BFUDetailsList<GroupedDataItem> detailsList;
+    DetailsList<GroupedDataItem> detailsList;
 
     ObservableDataContainer dataContainer = new ObservableDataContainer();
 
@@ -84,14 +84,14 @@
     protected override void OnInitialized()
     {
         selectionModeOptions = Enum.GetValues(typeof(SelectionMode)).Cast<SelectionMode>()
-           .Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() })
-           .Cast<IBFUDropdownOption>()
+           .Select(x => new DropdownOption { Key = x.ToString(), Text = x.ToString() })
+           .Cast<IDropdownOption>()
            .ToList();
         selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Multiple");
 
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem,int>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick });
-        columnsSource.AddOrUpdate(new BFUDetailsRowColumn<GroupedDataItem,string>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-        var descColumn = new BFUDetailsRowColumn<GroupedDataItem,string>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
+        columnsSource.AddOrUpdate(new DetailsRowColumn<GroupedDataItem,int>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick });
+        columnsSource.AddOrUpdate(new DetailsRowColumn<GroupedDataItem,string>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+        var descColumn = new DetailsRowColumn<GroupedDataItem,string>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
         columnsSource.AddOrUpdate(descColumn);
 
 
@@ -112,7 +112,7 @@
             .Subscribe();
 
         columnsSource.Connect()
-            .Sort(SortExpressionComparer<BFUDetailsRowColumn<GroupedDataItem>>.Ascending(x => x.Index))
+            .Sort(SortExpressionComparer<DetailsRowColumn<GroupedDataItem>>.Ascending(x => x.Index))
             .Bind(out ReadonlyColumns)
             .Do(_ => StateHasChanged())  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
             .Subscribe();
@@ -120,7 +120,7 @@
         base.OnInitialized();
     }
 
-    private void OnColumnClick(BFUDetailsRowColumn<GroupedDataItem> column)
+    private void OnColumnClick(DetailsRowColumn<GroupedDataItem> column)
     {
 
         if (column.IsSorted)

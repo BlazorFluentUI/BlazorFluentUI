@@ -1,12 +1,12 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class=@($"{(Disabled || ReadOnly ? "" : "ms-RatingStar-root")} mediumFont {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
      @ref=@RootElementReference>
-    <BFUFocusZone ClassName=@($"ms-Rating-focuszone {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
+    <FocusZone ClassName=@($"ms-Rating-focuszone {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
                   Direction="FocusZoneDirection.Horizontal"
-                  DefaultActiveElement=@(Rating != -1 && starReferences.Length == Max ? (starReferences[(int)Math.Max(0, Math.Ceiling(Rating)-1)]).Id : "")
-                  AriaLabel=@(ReadOnly ? (GetAriaLabel != null ? GetAriaLabel(Rating != -1 ? Rating : 0, Max) : null) : null)
+                  DefaultActiveElement=@(RatingValue != -1 && starReferences.Length == Max ? (starReferences[(int)Math.Max(0, Math.Ceiling(RatingValue)-1)]).Id : "")
+                  AriaLabel=@(ReadOnly ? (GetAriaLabel != null ? GetAriaLabel(RatingValue != -1 ? RatingValue : 0, Max) : null) : null)
                   AriaReadonly=@ReadOnly
                   IsFocusable=@ReadOnly
                   Disabled=@ReadOnly
@@ -14,7 +14,7 @@
                   tabindex=@(ReadOnly ? "0" : "-1" )>
         @for (int i = 1; i <= Max; i++)
         {
-            var percantage = GetPercentageOf(i);
+            var percentage = GetPercentageOf(i);
             var value = i;
             var style = $"width:{GetPercentageOf(i)}%;";
             <button disabled="@(Disabled || ReadOnly)"
@@ -26,13 +26,13 @@
                     @onclick="(() =>OnClick(value))">
                 <span class="ms-Rating-labelText">Select @value of 5 stars</span>
                 <div class="ms-RatingStar-container">
-                    <BFUIcon ClassName=@(Disabled ? "ms-RatingStar-back--disabled" : "ms-RatingStar-back") IconName="@(percantage > 0 ? IconName : UnselectedIcon)" />
+                    <Icon ClassName=@(Disabled ? "ms-RatingStar-back--disabled" : "ms-RatingStar-back") IconName="@(percentage > 0 ? IconName : UnselectedIcon)" />
                     @if (!Disabled)
                     {
-                        <BFUIcon ClassName="ms-RatingStar-front" IconName="@(percantage > 0 ? IconName : UnselectedIcon)" Style=@($"width:{percantage}%;") />
+                        <Icon ClassName="ms-RatingStar-front" IconName="@(percentage > 0 ? IconName : UnselectedIcon)" Style=@($"width:{percentage}%;") />
                     }
                 </div>
             </button>
         }
-    </BFUFocusZone>
+    </FocusZone>
 </div>

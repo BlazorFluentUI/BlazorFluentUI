@@ -1,5 +1,5 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUComponentBase
+@inherits FluentUIComponentBase
 
 <div class=@($"ms-TooltipHost {ClassName}")
      style=@Style
@@ -14,12 +14,12 @@
 
     @if (IsTooltipVisible)
     {
-        <BFUTooltip DirectionalHint=@DirectionalHint
+        <Tooltip DirectionalHint=@DirectionalHint
                  FabricComponentTarget=@TargetElement
                  OnMouseLeave=@OnTooltipMouseEnter
                  OnMouseEnter=@OnTooltipMouseLeave>
             @TooltipContent
-        </BFUTooltip>
+        </Tooltip>
     }
     @if (IsAriaPlaceholderRendered)
     {

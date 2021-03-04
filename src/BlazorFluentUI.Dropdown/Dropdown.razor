@@ -1,18 +1,18 @@
 ﻿@namespace BlazorFluentUI
-@inherits BFUResponsiveComponentBase
+@inherits ResponsiveComponentBase
 
-<BFULocalCS @bind-Rules="@DropdownLocalRules" />
+<LocalCS @bind-Rules="@DropdownLocalRules" />
 
 <div class="ms-Dropdown-root"
      style=@Style
      @ref=@RootElementReference>
     @if (this.Label != null)
     {
-        <BFULabel ClassName="ms-Dropdown-label" HtmlFor=@id Required=@Required>
+        <Label ClassName="ms-Dropdown-label" HtmlFor=@id Required=@Required>
             @Label
-        </BFULabel>
+        </Label>
     }
-    <BFUKeytipData Disabled=@Disabled>
+    <KeytipData Disabled=@Disabled>
         <div style=@Style
              tabindex=@(Disabled ? -1 : 0)
              id=@id
@@ -50,17 +50,17 @@
                 }
             </span>
             <span style="display: inline-block" class="ms-Dropdown-caretDownWrapper">
-                <BFUIcon IconName="ChevronDown" ClassName="ms-Dropdown-caretDown" />
+                <Icon IconName="ChevronDown" ClassName="ms-Dropdown-caretDown" />
             </span>
         </div>
-    </BFUKeytipData>
+    </KeytipData>
 
-    <BFUPanel IsOpen=@((int)CurrentMode <= (int)ResponsiveMode.Medium && isOpen) IsLightDismiss="true" OnDismiss=@DismissHandler HasCloseButton="false">
+    <Panel IsOpen=@((int)CurrentMode <= (int)ResponsiveMode.Medium && isOpen) IsLightDismiss="true" OnDismiss=@DismissHandler HasCloseButton="false">
         <div class="ms-Dropdown-itemsWrapper"
              @ref="panelReference"
              tabindex="0">
             @*FocusZone has no Role=listbox *@
-            <BFUFocusZone Direction="FocusZoneDirection.Vertical"
+            <FocusZone Direction="FocusZoneDirection.Vertical"
                           ClassName="ms-Dropdown-dropdownItems"
                           AriaLabel=@($"{id}-label")>
 
@@ -78,9 +78,9 @@
                     }
                 </CascadingValue>
 
-            </BFUFocusZone>
+            </FocusZone>
         </div>
-    </BFUPanel>
+    </Panel>
     @if (isOpen)
     {
         //render container
@@ -90,7 +90,7 @@
         }
         else
         {
-            <BFUCallout IsBeakVisible="false"
+            <Callout IsBeakVisible="false"
                         GapSpace="0"
                         DoNotLayer="false"
                         DirectionalHintFixed="false"
@@ -104,7 +104,7 @@
                      @ref="calloutReference"
                      tabindex="0">
 
-                    <BFUFocusZone Direction="FocusZoneDirection.Vertical"
+                    <FocusZone Direction="FocusZoneDirection.Vertical"
                                   @ref="calloutFocusZone"
                                   ClassName="ms-Dropdown-dropdownItems"
                                   AriaLabel=@($"{id}-label")>
@@ -121,9 +121,9 @@
                                 @ChildContent
                             }
                         </CascadingValue>
-                    </BFUFocusZone>
+                    </FocusZone>
                 </div>
-            </BFUCallout>
+            </Callout>
 
         }
     }

@@ -68,8 +68,14 @@ namespace BlazorFluentUI
         public string Text { get; set; }
 
         public string Title { get; set; } //tooltip and ARIA
+        public bool Toggle { get; set; }
 
         public string Url { get; set; }
+        #region RadioButton feature
+        public bool IsRadioButton { get; set; }
+        public string GroupName { get; set; }
+
+        #endregion
 
     }
 }

@@ -63,6 +63,7 @@ namespace BlazorFluentUI
         private object _registrationToken;
 
         private bool _menuShouldFocusOnMount = true;
+        static List<BFUButtonBase> radioButtons = new List<BFUButtonBase>();
 
         protected override Task OnParametersSetAsync()
         {
@@ -87,6 +88,10 @@ namespace BlazorFluentUI
             if (this.Checked.HasValue)
             {
                 isChecked = this.Checked.Value;
+            }
+            if(IsRadioButton)
+            {
+                radioButtons.Add(this);
             }
 
             return base.OnParametersSetAsync();
@@ -128,6 +133,23 @@ namespace BlazorFluentUI
             {
                 this.isChecked = !this.isChecked;
                 await this.CheckedChanged.InvokeAsync(this.isChecked);
+            }
+            if(IsRadioButton)
+            {
+                isChecked = true;
+                await this.CheckedChanged.InvokeAsync(this.isChecked);
+                foreach(BFUButtonBase bFUButtonBase in radioButtons)
+                {
+                    if(bFUButtonBase != this && bFUButtonBase.GroupName == GroupName)
+                    {
+                        if (bFUButtonBase.isChecked == true)
+                        {
+                            bFUButtonBase.isChecked = false;
+                            bFUButtonBase.CheckedChanged.InvokeAsync(false);
+                            bFUButtonBase.StateHasChanged();
+                        }
+                    }
+                }
             }
             if (!isSplitButton && MenuItems != null)
             {
@@ -764,6 +786,11 @@ namespace BlazorFluentUI
         {
             if (_registrationToken != null)
                 await DeregisterListFocusAsync();
+
+            if (IsRadioButton && radioButtons.Contains(this))
+            {
+                radioButtons.Remove(this);
+            }
         }
     }
 }

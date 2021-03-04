@@ -314,28 +314,50 @@
     border-radius: 2px;
 }
 
+::deep .ms-Calendar-timeOption{
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+    width: 30px;
+    height: 21px;
+    line-height: 100%;
+    cursor: pointer;
+    float: left;
+    margin: 0 10px 10px 0;
+    /*@include ms-font-s-plus;*/
+    color: var(--palette-NeutralPrimary);
+    text-align: center;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 2px;
+}
 
 
-    ::deep .ms-Calendar-monthOption:hover,
-    ::deep .ms-Calendar-yearOption:hover {
-        color: var(--palette-NeutralDark);
-        background-color: var(--palette-NeutralLighter);
-        outline: 1px solid transparent;
-    }
+
+::deep .ms-Calendar-monthOption:hover,
+::deep .ms-Calendar-yearOption:hover,
+::deep .ms-Calendar-timeOption:hover{
+    color: var(--palette-NeutralDark);
+    background-color: var(--palette-NeutralLighter);
+    outline: 1px solid transparent;
+}
 
 @media screen and (-ms-high-contrast: active) {
     ::deep .ms-Calendar-monthOption:hover,
-    ::deep .ms-Calendar-yearOption:hover {
-        outline-color:Highlight;
+    ::deep .ms-Calendar-yearOption:hover,
+    ::deep .ms-Calendar-timeOption:hover {
+        outline-color: Highlight;
     }
     ::deep .ms-Calendar-monthOption:active,
-    ::deep .ms-Calendar-yearOption:active {
+    ::deep .ms-Calendar-yearOption:active,
+    ::deep .ms-Calendar-timeOption:active {
         outline-color: Highlight;
     }
 }
 
 ::deep .ms-Calendar-monthOption.ms-Calendar-monthIsHighlighted,
-::deep .ms-Calendar-yearOption.ms-Calendar-yearIsHighlighted {
+::deep .ms-Calendar-yearOption.ms-Calendar-yearIsHighlighted,
+::deep .ms-Calendar-timeOption.ms-Calendar-timeIsHighlighted {
     color: var(--palette-NeutralDark);
     background-color: var(--palette-NeutralLight);
 }

@@ -7,5 +7,7 @@ namespace BlazorFluentUI
     {
         public DateTime Date { get; set; }
         public List<DateTime> SelectedDateRange { get; set; }
+
+        public bool ShouldLetOpenDatePicker { get; set; }
     }
 }

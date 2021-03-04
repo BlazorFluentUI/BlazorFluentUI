@@ -110,11 +110,12 @@ namespace BlazorFluentUI
                 currentValue = value;
 
                 InputHandler(new ChangeEventArgs { Value = currentValue });
-                //ChangeHandler(new ChangeEventArgs() { Value = value }).ConfigureAwait(true);
+                ChangeHandler(new ChangeEventArgs() { Value = value }).ConfigureAwait(true);
             }
         }
 
         protected ElementReference textAreaRef;
+        protected ElementReference inputRef;
         protected double autoAdjustedHeight = -1;
         protected bool isFocused = false;
 
@@ -500,6 +501,19 @@ namespace BlazorFluentUI
                     Css = $"padding-right:{(Multiline ? "40px" : "24px")};"
                 };
             }
+        }
+
+        public async Task Focus()
+        {
+            if (textAreaRef.Id != null)
+            {
+                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.focusElement", textAreaRef).ConfigureAwait(false);
+            }
+            if (inputRef.Id != null)
+            {
+                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.focusElement", inputRef).ConfigureAwait(false);
+            }
+           
         }
 
 

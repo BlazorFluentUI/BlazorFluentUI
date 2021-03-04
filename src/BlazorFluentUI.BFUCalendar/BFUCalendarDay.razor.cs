@@ -23,7 +23,7 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<NavigatedDateResult> OnNavigateDate { get; set; }
         [Parameter] public EventCallback<SelectedDateResult> OnSelectDate { get; set; }
         [Parameter] public List<DateTime> RestrictedDates { get; set; }
-        [Parameter] public DateTime SelectedDate { get; set; }
+        [Parameter] public DateTime? SelectedDate { get; set; }
         [Parameter] public bool ShowCloseButton { get; set; }
         [Parameter] public bool ShowSixWeeksByDefault { get; set; }
         [Parameter] public bool ShowWeekNumbers { get; set; }
@@ -51,8 +51,15 @@ namespace BlazorFluentUI
         protected int PressWeek = -1;
         protected int PressMonth = -1;
 
+        TimeSpan timeOfDay;
+        bool onFirstRender = true;
         protected override Task OnParametersSetAsync()
         {
+            if(onFirstRender)
+            {
+                timeOfDay = NavigatedDate.TimeOfDay;
+                onFirstRender = false;
+            }
             GenerateWeeks();
 
             if (ShowWeekNumbers)
@@ -69,6 +76,14 @@ namespace BlazorFluentUI
             var firstDayOfMonth = new DateTime(NavigatedDate.Year, NavigatedDate.Month, 1);
             PrevMonthInBounds = DateTime.Compare(MinDate, firstDayOfMonth) < 0;
             NextMonthInBounds = DateTime.Compare(firstDayOfMonth.AddMonths(1).AddDays(-1), MaxDate) < 0;
+
+            #region time of day setting
+            if (timeOfDay != NavigatedDate.TimeOfDay)
+            {
+                timeOfDay = NavigatedDate.TimeOfDay;
+                OnSelectDateInternal(NavigatedDate.Date,true);
+            }
+            #endregion
 
             return base.OnParametersSetAsync();
         }
@@ -253,21 +268,22 @@ namespace BlazorFluentUI
             return weekCornersStyled;
         }
 
-        private void OnSelectDateInternal(DateTime selectedDate)
+        private void OnSelectDateInternal(DateTime selectedDate, bool shouldLetOpenDatePicker)
         {
             // stop propagation - needed?
+            DateTime selectedDateWithTime = selectedDate.Add(timeOfDay);
 
             var dateRange = DateUtilities.GetDateRangeArray(selectedDate, DateRangeType, FirstDayOfWeek, WorkWeekDays);
             if (DateRangeType != DateRangeType.Day)
                 dateRange = GetBoundedDateRange(dateRange, MinDate, MaxDate);
             dateRange = dateRange.Where(d => !GetIsRestrictedDate(d)).ToList();
 
-            OnSelectDate.InvokeAsync(new SelectedDateResult() { Date = selectedDate, SelectedDateRange = dateRange });
+            OnSelectDate.InvokeAsync(new SelectedDateResult() { Date = selectedDateWithTime, SelectedDateRange = dateRange, ShouldLetOpenDatePicker= shouldLetOpenDatePicker });
 
             // Navigate to next or previous month if needed
-            if (AutoNavigateOnSelection && selectedDate.Month != NavigatedDate.Month)
+            if (AutoNavigateOnSelection && selectedDateWithTime.Month != NavigatedDate.Month)
             {
-                var compareResult = DateTime.Compare(selectedDate.Date, NavigatedDate.Date);
+                var compareResult = DateTime.Compare(selectedDateWithTime.Date, NavigatedDate.Date);
                 if (compareResult < 0)
                     OnSelectPrevMonth();
                 else if (compareResult > 0)
@@ -292,7 +308,7 @@ namespace BlazorFluentUI
 
             // in work week view we want to select the whole week
             var selecteDateRangeType = DateRangeType == DateRangeType.WorkWeek ? DateRangeType.Week : DateRangeType;
-            var selectedDates = DateUtilities.GetDateRangeArray(SelectedDate, selecteDateRangeType, FirstDayOfWeek, WorkWeekDays);
+            var selectedDates = SelectedDate == null ? new List<DateTime>(): DateUtilities.GetDateRangeArray((DateTime)SelectedDate, selecteDateRangeType, FirstDayOfWeek, WorkWeekDays);
             if (DateRangeType != DateRangeType.Day)
             {
                 selectedDates = GetBoundedDateRange(selectedDates, MinDate, MaxDate);
@@ -316,7 +332,7 @@ namespace BlazorFluentUI
                         IsInMonth = date.Month == NavigatedDate.Month,
                         IsToday = DateTime.Compare(DateTime.Now.Date, originalDate) == 0,
                         IsSelected = IsInDateRangeArray(date, selectedDates),
-                        OnSelected = () => OnSelectDateInternal(originalDate),
+                        OnSelected = () => OnSelectDateInternal(originalDate, false),
                         IsInBounds =
                             (DateTime.Compare(MinDate, date) < 1 ) &&
                             (DateTime.Compare(date, MaxDate) < 1 ) &&

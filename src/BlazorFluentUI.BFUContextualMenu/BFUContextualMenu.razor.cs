@@ -78,7 +78,10 @@ namespace BlazorFluentUI
 
         private void OnCalloutPositioned()
         {
-            _focusZoneReference.FocusFirstElement();
+            if (Items != null && Items.Count() > 0)
+            {
+                _focusZoneReference.FocusFirstElement();
+            }
         }
 
         protected Action OnNotifyCalloutDismiss => () =>

@@ -23,6 +23,7 @@ namespace BlazorFluentUI
         [Parameter] public bool HighlightSelectedMonth { get; set; } = false;
         [Parameter] public DateTime InitialPickerDate { get; set; } = DateTime.MinValue;
         [Parameter] public bool IsMonthPickerVisible { get; set; } = true;
+        [Parameter] public bool IsTimePickerVisible { get; set; }
         [Parameter] public string IsOutOfBoundsErrorMessage { get; set; } = "Date must be between {0}-{1}";
         [Parameter] public string InvalidInputErrorMessage { get; set; } = "Invalid date format.";
         [Parameter] public bool IsRequired { get; set; } = false;
@@ -31,7 +32,7 @@ namespace BlazorFluentUI
         [Parameter] public DateTime MaxDate { get; set; } = DateTime.MaxValue;
         [Parameter] public DateTime MinDate { get; set; } = DateTime.MinValue;
         [Parameter] public EventCallback OnAfterMenuDismiss { get; set; }
-        [Parameter] public EventCallback<DateTime> OnSelectDate { get; set; }
+        [Parameter] public EventCallback<DateTime?> OnSelectDate { get; set; }
         [Parameter]
         public Func<string, DateTime> ParseDateFromString { get; set; } = text =>
         {
@@ -48,14 +49,15 @@ namespace BlazorFluentUI
         [Parameter] public int TabIndex { get; set; }
         [Parameter] public DateTime Today { get; set; } = DateTimeOffset.Now.Date;
         [Parameter] public bool Underlined { get; set; } = false;
-        [Parameter] public DateTime Value { get; set; } = DateTime.MinValue;
-        [Parameter] public EventCallback<DateTime> ValueChanged { get; set; }
+        [Parameter] public DateTime? Value { get; set; } = DateTime.MinValue;
+        [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
+
 
         // State
         protected string ErrorMessage = null;
-        protected bool IsDatePickerShown = false;
+        [Parameter] public bool IsDatePickerShown { get; set; } = false;
         protected string FormattedDate = "";
-        protected DateTime SelectedDate = DateTime.MinValue;
+        protected DateTime? SelectedDate = DateTime.MinValue;
 
 
         protected string calloutId;
@@ -71,7 +73,7 @@ namespace BlazorFluentUI
         private FieldIdentifier FieldIdentifier;
 
         [Parameter]
-        public Expression<Func<DateTime>>? ValueExpression { get; set; }
+        public Expression<Func<DateTime?>>? ValueExpression { get; set; }
 
         protected override Task OnInitializedAsync()
         {
@@ -83,7 +85,8 @@ namespace BlazorFluentUI
         {
             _oldIsDatePickerShown = IsDatePickerShown;
 
-            DateTime nextMinDate, nextMaxDate, nextValue, nextInitialPickerDate;
+            DateTime nextMinDate, nextMaxDate, nextInitialPickerDate;
+            DateTime? nextValue;
             bool nextIsRequired;
             Func<DateTime, string> nextFormatDate;
             if (!parameters.TryGetValue("MinDate", out nextMinDate))
@@ -102,7 +105,7 @@ namespace BlazorFluentUI
             if (DateTime.Compare(MinDate, nextMinDate) == 0 &&
                 DateTime.Compare(MaxDate, nextMaxDate) == 0 &&
                 IsRequired == nextIsRequired &&
-                DateTime.Compare(SelectedDate, nextValue) == 0 &&
+                DateTimeCompareNullable(SelectedDate, nextValue) == 0 &&
                 FormatDate != null &&
                 (FormatDate.Equals(nextFormatDate) || nextFormatDate == null))  //since FormatDate may not be set as a parameter, it's ok for nextFormatDate to be null
             {
@@ -112,16 +115,33 @@ namespace BlazorFluentUI
             this.SetErrorMessage(true, nextIsRequired, nextValue, nextMinDate, nextMaxDate, nextInitialPickerDate);
 
             var oldValue = SelectedDate;
-            if (DateTime.Compare(oldValue, nextValue) != 0 
+            if (DateTimeCompareNullable(oldValue, nextValue) != 0 
                 || (FormatDate != null 
                 && nextFormatDate != null 
-                && (FormatDate(nextValue) != nextFormatDate(nextValue))))
+                && ((nextValue != null? FormatDate((DateTime)nextValue): null) != (nextValue != null? nextFormatDate((DateTime)nextValue): null))))
             {
                 SelectedDate = nextValue;
                 FormattedDate = FormatDateInternal(nextValue);
             }
 
             return base.SetParametersAsync(parameters);
+        }
+
+        int DateTimeCompareNullable(DateTime? val1, DateTime? val2)
+        {
+            if(val1 == null && val2 == null)
+            {
+                return 0;
+            }
+            else if(val1 != null && val2 != null)
+            {
+                return DateTime.Compare((DateTime)val1,(DateTime)val2);
+            }
+            else
+            {
+                return 1; // One value is null and the other not, therefore return 1 in order to indicate that they are unequal
+            }
+
         }
 
         protected override Task OnParametersSetAsync()
@@ -131,7 +151,7 @@ namespace BlazorFluentUI
             if (CascadedEditContext != null && ValueExpression != null)
             {
                 
-                FieldIdentifier = FieldIdentifier.Create<DateTime>(ValueExpression);
+                FieldIdentifier = FieldIdentifier.Create<DateTime?>(ValueExpression);
 
                 CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
@@ -145,13 +165,13 @@ namespace BlazorFluentUI
             InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
         }
 
-        private string FormatDateInternal(DateTime dateTime)
+        private string FormatDateInternal(DateTime? dateTime)
         {
-            if (dateTime != DateTime.MinValue)
+            if (dateTime != null)
             {
                 if (FormatDate != null)
                 {
-                    return FormatDate(dateTime);
+                    return FormatDate((DateTime)dateTime);
                 }
             }
             return "";
@@ -201,16 +221,19 @@ namespace BlazorFluentUI
         protected void OnSelectedDate(SelectedDateResult selectedDateResult)
         {
             //skip calendar props OnSelectedDate callback, not implemented through DatePicker
+    
+                SelectedDate = selectedDateResult.Date;
+                FormattedDate = FormatDateInternal(selectedDateResult.Date);
+                ErrorMessage = "";
 
-            SelectedDate = selectedDateResult.Date;
-            FormattedDate = FormatDateInternal(selectedDateResult.Date);
-            ErrorMessage = "";
-
-            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
-            OnSelectDate.InvokeAsync(selectedDateResult.Date);
-            ValueChanged.InvokeAsync(selectedDateResult.Date);
-
-            CalendarDismissed();
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+                OnSelectDate.InvokeAsync(selectedDateResult.Date);
+                ValueChanged.InvokeAsync(selectedDateResult.Date);
+                if (!selectedDateResult.ShouldLetOpenDatePicker)
+                {
+                    CalendarDismissed();
+                }
+            
         }
 
         protected void OnTextFieldFocus()
@@ -286,7 +309,7 @@ namespace BlazorFluentUI
 
             if (AllowTextInput)
             {
-                DateTime date = DateTime.MinValue;
+                DateTime? date = DateTime.MinValue;
                 if (!string.IsNullOrWhiteSpace(inputValue))
                 {
                     if (SelectedDate != DateTime.MinValue && FormatDate != null && FormatDateInternal(SelectedDate) == inputValue)
@@ -355,11 +378,11 @@ namespace BlazorFluentUI
             }
         }
 
-        private string SetErrorMessage(bool setState, bool isRequired, DateTime value, DateTime minDate, DateTime maxDate, DateTime initialPickerDate)
+        private string SetErrorMessage(bool setState, bool isRequired, DateTime? value, DateTime minDate, DateTime maxDate, DateTime initialPickerDate)
         {
             string errorMessge = (initialPickerDate == DateTime.MinValue) && isRequired && (value == DateTime.MinValue) ? IsRequiredErrorMessage : null;
 
-            if (errorMessge == null && value != DateTime.MinValue)
+            if (errorMessge == null && value != null)
                 errorMessge = IsDateOutOfBounds(value, minDate, maxDate) ? string.Format(IsOutOfBoundsErrorMessage, minDate.Date.ToShortDateString(), maxDate.Date.ToShortDateString()) : null;
 
             if (setState)
@@ -369,9 +392,9 @@ namespace BlazorFluentUI
             return errorMessge;
         }
 
-        private bool IsDateOutOfBounds(DateTime date, DateTime minDate, DateTime maxDate)
+        private bool IsDateOutOfBounds(DateTime? date, DateTime minDate, DateTime maxDate)
         {
-            return DateTime.Compare(minDate, date) > 0 || DateTime.Compare(maxDate, date) < 0;
+            return DateTimeCompareNullable(minDate, date) > 0 || DateTimeCompareNullable(maxDate, date) < 0;
         }
 
     }

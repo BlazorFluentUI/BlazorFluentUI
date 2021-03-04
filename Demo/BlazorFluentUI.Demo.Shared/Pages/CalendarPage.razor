@@ -5,7 +5,7 @@
 
 <Demo Header="single date range" Key="0" MetadataPath="CalendarPage">
 
-    Calendar Date selected: @calendar1Value.ToString("D")
+    Calendar Date selected: @(((DateTime)calendar1Value).ToString("D"))
     <br />
     Calendar Date range: @(calendar1Range != null && calendar1Range.Count > 0 ? calendar1Range.Min().ToString("D") + " - " + calendar1Range.Max().ToString("D") : "")
 
@@ -14,7 +14,7 @@
 
 <Demo Header="Calendar with week range" Key="1" MetadataPath="CalendarPage">
 
-    Calendar Date selected: @calendar2Value.ToString("D")
+    Calendar Date selected: @(((DateTime)calendar2Value).ToString("D"))
     <br />
     Calendar Date range: @(calendar2Range != null && calendar2Range.Count > 0 ? calendar2Range.Min().ToString("D") + " - " + calendar2Range.Max().ToString("D") : "")
 
@@ -23,7 +23,7 @@
 
 <Demo Header="Calendar with month range" Key="2" MetadataPath="CalendarPage">
 
-    Calendar Date selected: @calendar3Value.ToString("D")
+    Calendar Date selected: @(((DateTime)calendar3Value).ToString("D"))
     <br />
     Calendar Date range: @(calendar3Range != null && calendar3Range.Count > 0 ? calendar3Range.Min().ToString("D") + " - " + calendar3Range.Max().ToString("D") : "")
 
@@ -37,7 +37,7 @@
     <br />
     Restricted dates: @(restrictedDates != null ? string.Join(", ", restrictedDates.Select(x => x.ToShortDateString())) : "")
     <br />
-    Calendar Date selected: @calendar4Value.ToString("D")
+    Calendar Date selected: @((DateTime)calendar4Value).ToString("D")
     <br />
     Calendar Date range: @(calendar4Range != null && calendar4Range.Count > 0 ? calendar4Range.Min().ToString("D") + " - " + calendar4Range.Max().ToString("D") : "")
 
@@ -45,7 +45,7 @@
 </Demo>
 
 <Demo Header="Calendar with just dates, Header click reveals months" Key="4" MetadataPath="CalendarPage">
-    Calendar Date selected: @calendar1Value.ToString("D")
+    Calendar Date selected: @(((DateTime)calendar1Value).ToString("D"))
     <br />
     Calendar Date range: @(calendar1Range != null && calendar1Range.Count > 0 ? calendar1Range.Min().ToString("D") + " - " + calendar1Range.Max().ToString("D") : "")
 
@@ -64,16 +64,16 @@
 
 @code {
 
-        DateTime calendar1Value = DateTime.Now;
+        DateTime? calendar1Value = DateTime.Now;
         System.Collections.Generic.List<DateTime> calendar1Range;
 
-        DateTime calendar2Value = DateTime.Now;
+        DateTime? calendar2Value = DateTime.Now;
         System.Collections.Generic.List<DateTime> calendar2Range;
 
-        DateTime calendar3Value = DateTime.Now;
+        DateTime? calendar3Value = DateTime.Now;
         System.Collections.Generic.List<DateTime> calendar3Range;
 
-        DateTime calendar4Value = DateTime.Now;
+        DateTime? calendar4Value = DateTime.Now;
         System.Collections.Generic.List<DateTime> calendar4Range;
         DateTime maxDate = DateTime.Now + TimeSpan.FromDays(60);
         DateTime minDate = DateTime.Now - TimeSpan.FromDays(60);
@@ -104,7 +104,7 @@
     class ExampleModel
     {
         [MondayValidation]
-        public DateTime DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
 
     }
 

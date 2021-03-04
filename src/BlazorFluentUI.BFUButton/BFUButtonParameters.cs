@@ -52,6 +52,11 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
         [Parameter] public ICommand Command { get; set; }
         [Parameter] public object CommandParameter { get; set; }
+        #region RadioButton feature
+        [Parameter] public bool IsRadioButton { get; set; }
+        [Parameter] public string GroupName { get; set; }
+
+        #endregion
         [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> UnknownProperties { get; set; }
     }
 }

@@ -64,7 +64,7 @@
                 Selected option id: @(_selectedCustomObject2?.Id.ToString() ?? "none")
             </div>
             <div>
-                Selected date: @(_selectedDate != DateTime.MinValue ? _selectedDate.ToShortDateString() : "none")
+                Selected date: @(_selectedDate != DateTime.MinValue ? ((DateTime)_selectedDate).ToShortDateString() : "none")
             </div>
             <div>
                 Selected month: @(_selectedMonthOption?.Text ?? "none")
@@ -80,7 +80,7 @@
     private ChoiceGroupOption _selectedChoiceGroupOption;
     private CustomObject _selectedCustomObject;
     private CustomObject _selectedCustomObject2;
-    private DateTime _selectedDate;
+    private DateTime? _selectedDate;
     //private string _selectedMonth;
     private IBFUDropdownOption _selectedMonthOption;
 

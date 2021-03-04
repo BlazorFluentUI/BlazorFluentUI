@@ -35,6 +35,7 @@ namespace BlazorFluentUI
         string Target { get; set; }
         string Text { get; set; }
         string Title { get; set; }
+        bool Toggle { get; set; }
 
         ICommand Command { get; set; }
         object CommandParameter { get; set; }

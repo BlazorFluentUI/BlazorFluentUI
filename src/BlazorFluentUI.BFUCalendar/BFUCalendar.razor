@@ -9,25 +9,25 @@
                     @if (IsDayPickerVisibleInternal)
                     {
                         <BFUCalendarDay SelectedDate=@SelectedDate
-                                     NavigatedDate=@NavigatedDayDate
-                                     Today=@Today
-                                     OnSelectDate=@OnSelectDateInternal
-                                     OnNavigateDate=@OnNavigateDayDate
-                                     OnDismiss=@OnDismiss
-                                     FirstDayOfWeek=@FirstDayOfWeek
-                                     DateRangeType=@DateRangeType
-                                     AutoNavigateOnSelection=@AutoNavigateOnSelection
-                                     OnHeaderSelect=@(ShowMonthPickerAsOverlay ? OnHeaderSelect : null)
-                                     ShowWeekNumbers=@ShowWeekNumbers
-                                     FirstWeekOfYear=@FirstWeekOfYear
-                                     DateTimeFormatter=@DateTimeFormatter
-                                     ShowSixWeeksByDefault=@ShowSixWeeksByDefault
-                                     MinDate=@MinDate
-                                     MaxDate=@MaxDate
-                                     RestrictedDates=@RestrictedDates
-                                     WorkWeekDays=@WorkWeekDays
-                                     ShowCloseButton=@ShowCloseButton
-                                     AllFocusable=@AllFocusable />
+                                        NavigatedDate=@NavigatedDayDate
+                                        Today=@Today
+                                        OnSelectDate=@OnSelectDateInternal
+                                        OnNavigateDate=@OnNavigateDayDate
+                                        OnDismiss=@OnDismiss
+                                        FirstDayOfWeek=@FirstDayOfWeek
+                                        DateRangeType=@DateRangeType
+                                        AutoNavigateOnSelection=@AutoNavigateOnSelection
+                                        OnHeaderSelect=@(ShowMonthPickerAsOverlay ? OnHeaderSelect : null)
+                                        ShowWeekNumbers=@ShowWeekNumbers
+                                        FirstWeekOfYear=@FirstWeekOfYear
+                                        DateTimeFormatter=@DateTimeFormatter
+                                        ShowSixWeeksByDefault=@ShowSixWeeksByDefault
+                                        MinDate=@MinDate
+                                        MaxDate=@MaxDate
+                                        RestrictedDates=@RestrictedDates
+                                        WorkWeekDays=@WorkWeekDays
+                                        ShowCloseButton=@ShowCloseButton
+                                        AllFocusable=@AllFocusable />
                     }
                     @if (IsDayPickerVisibleInternal && IsMonthPickerVisibleInternal)
                     {
@@ -36,16 +36,24 @@
                     @if (IsMonthPickerVisibleInternal)
                     {
                         <BFUCalendarMonth NavigatedDate=@NavigatedMonthDate
-                                       SelectedDate=@NavigatedDayDate
-                                       OnNavigateDate=@OnNavigateMonthDate
-                                       Today=@Today
-                                       HighlightCurrentMonth=@HighlightCurrentMonth
-                                       HighlightSelectedMonth=@HighlightSelectedMonth
-                                       OnHeaderSelect=@(args => { if (ShowMonthPickerAsOverlay) { OnHeaderSelect(args); } })
-                                       DateTimeFormatter=@DateTimeFormatter
-                                       MinDate=@MinDate
-                                       MaxDate=@MaxDate
-                                       YearPickerHidden=@(YearPickerHidden || ShowMonthPickerAsOverlay) />
+                                          SelectedDate=@NavigatedDayDate
+                                          OnNavigateDate=@OnNavigateMonthDate
+                                          Today=@Today
+                                          HighlightCurrentMonth=@HighlightCurrentMonth
+                                          HighlightSelectedMonth=@HighlightSelectedMonth
+                                          OnHeaderSelect=@(args => { if (ShowMonthPickerAsOverlay) { OnHeaderSelect(args); } })
+                                          DateTimeFormatter=@DateTimeFormatter
+                                          MinDate=@MinDate
+                                          MaxDate=@MaxDate
+                                          YearPickerHidden=@(YearPickerHidden || ShowMonthPickerAsOverlay) />
+                    }
+                    @if (IsTimePickerVisible)
+                    {
+                        <div class="ms-Calendar-divider"/>
+                        <BFUCalenderTime NavigatedDate=@NavigatedMonthDate
+                                         OnNavigateDate=@OnNavigateMonthDate
+                                         SelectedDate=@NavigatedDayDate
+                                         DateTimeFormatter=@DateTimeFormatter />
                     }
                     @if (ShowGoToToday)
                     {

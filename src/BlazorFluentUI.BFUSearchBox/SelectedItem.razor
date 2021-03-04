@@ -1,4 +1,6 @@
-﻿@using Microsoft.AspNetCore.Components.Web;
+﻿@namespace BlazorFluentUI
+
+@using Microsoft.AspNetCore.Components.Web;
 @typeparam T
 
 
@@ -18,9 +20,7 @@
             @ProvideString(Content);
         }
     }
-    <button @onclick="ButtonClicked" class="ms-ContextualMenu-link mediumFont">
-        <BFUIcon IconName="Cancel" />
-    </button>
+    <BFUIconButton OnClick=ButtonClicked IconName="Cancel" />
 </div>
 
 @code {

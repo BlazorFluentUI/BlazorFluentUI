@@ -14,7 +14,7 @@
                     {
                         __builder.OpenComponent(0, typeof(SelectedItem<T>));
                         __builder.AddAttribute(1, "Content", selectedItem);
-                        __builder.AddAttribute(2, "Clicked", Microsoft.AspNetCore.Components.EventCallback.Factory.Create<BlazorFluentUI.SelectedItem<T>>(this, ClickedDeletedHandler));
+                        __builder.AddAttribute(2, "Clicked", Microsoft.AspNetCore.Components.EventCallback.Factory.Create<SelectedItem<T>>(this, ClickedDeletedHandler));
                         if (ProvideString != null)
                         {
                             __builder.AddAttribute(3, "ProvideString", ProvideString);
@@ -27,7 +27,7 @@
                     };
                 }
                 @SelectedItemRederFragment()
-            </div> 
+            </div>
         }
      }
     <BFUTextField Style=@("display: inline-block;width:" + InputWidth + "px")
@@ -37,9 +37,8 @@
                   Placeholder=@Placeholder
                   @bind-Value=Filter />
 </div>
-    @if (isOpen)
-    {
-        <BFUContextualMenu FabricComponentTarget=@textFieldRef
+    @if (IsOpen)
+    {        <BFUContextualMenu FabricComponentTarget=@textFieldRef
                            ShouldFocusOnMount=@true
                            OnDismiss=@DismissHandler
                            Items=@suggestions

@@ -14,7 +14,6 @@ else
 
 
 @code {
-    //[Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public T Content { get; set; }
     [Parameter] public EventCallback<SearchItem<T>> Clicked { get; set; }
     [Parameter] public RenderFragment<T> ItemTemplate { get; set; }

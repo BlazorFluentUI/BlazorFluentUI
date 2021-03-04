@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.0.3">
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.2.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
   </ItemGroup>
 
 </Project>

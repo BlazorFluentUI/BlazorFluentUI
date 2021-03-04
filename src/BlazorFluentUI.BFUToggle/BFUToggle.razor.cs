@@ -73,7 +73,7 @@ namespace BlazorFluentUI
 
         protected override void OnInitialized()
         {
-            IsChecked = this.Checked ?? this.DefaultChecked;
+            IsChecked = Checked ?? DefaultChecked;
             base.OnInitialized();
         }
 
@@ -84,7 +84,7 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            IsChecked = this.Checked ?? IsChecked;
+            IsChecked = Checked ?? IsChecked;
 
             if (string.IsNullOrWhiteSpace(AriaLabel) && string.IsNullOrWhiteSpace(BadAriaLabel))
                 LabelledById = LabelId;
@@ -115,17 +115,8 @@ namespace BlazorFluentUI
 
         protected Task OnClick(MouseEventArgs args)
         {
-            Debug.WriteLine("Clicked");
-            if (!Disabled)
-            {
-                Debug.WriteLine("Not Disabled");
-                if (Checked == null)  // only update internally if Checked is not set
-                {
-                    Debug.WriteLine($"Checked not set so switch to: {!IsChecked}");
-                    IsChecked = !IsChecked;
-                }
-            }
-
+            Debug.WriteLine($"Clicked and {(!Disabled ? "not" : "")} Disabled");
+            
             if (Command != null)
             {
                 Command.Execute(CommandParameter);

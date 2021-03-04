@@ -5,37 +5,37 @@ VisualStudioVersion = 16.0.29411.138
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{1D626552-1388-4C03-85DD-891C6A1D79E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFULabel", "src\BlazorFluentUI.BFULabel\BlazorFluentUI.BFULabel.csproj", "{0DAB42DB-7021-4B8E-B113-53D786A7A783}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Label", "src\BlazorFluentUI.Label\BlazorFluentUI.Label.csproj", "{0DAB42DB-7021-4B8E-B113-53D786A7A783}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUBaseComponent", "src\BlazorFluentUI.BFUBaseComponent\BlazorFluentUI.BFUBaseComponent.csproj", "{4F61DC73-0306-4E84-B0AD-96DA696538BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BaseComponent", "src\BlazorFluentUI.BaseComponent\BlazorFluentUI.BaseComponent.csproj", "{4F61DC73-0306-4E84-B0AD-96DA696538BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServerSide", "ServerSide", "{138B8CC9-BD89-40A9-8BFD-C1B4794C64C7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUCheckbox", "src\BlazorFluentUI.BFUCheckbox\BlazorFluentUI.BFUCheckbox.csproj", "{84CC73BB-8759-44DE-9148-BD5293E0193E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Checkbox", "src\BlazorFluentUI.Checkbox\BlazorFluentUI.Checkbox.csproj", "{84CC73BB-8759-44DE-9148-BD5293E0193E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUList", "src\BlazorFluentUI.BFUList\BlazorFluentUI.BFUList.csproj", "{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.List", "src\BlazorFluentUI.List\BlazorFluentUI.List.csproj", "{9E9C0F68-7613-4919-A0B3-B0AB5FDF00FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUButton", "src\BlazorFluentUI.BFUButton\BlazorFluentUI.BFUButton.csproj", "{629DA8C5-0BE1-487E-B191-79AE709FFE81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Button", "src\BlazorFluentUI.Button\BlazorFluentUI.Button.csproj", "{629DA8C5-0BE1-487E-B191-79AE709FFE81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUTextField", "src\BlazorFluentUI.BFUTextField\BlazorFluentUI.BFUTextField.csproj", "{209132FE-0F19-4791-A2DD-B4EAD4B2D7AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.TextField", "src\BlazorFluentUI.TextField\BlazorFluentUI.TextField.csproj", "{209132FE-0F19-4791-A2DD-B4EAD4B2D7AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUDelayedRender", "src\BlazorFluentUI.BFUDelayedRender\BlazorFluentUI.BFUDelayedRender.csproj", "{B9DD8A1F-0DBA-424D-AEC4-01931917F6B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.DelayedRender", "src\BlazorFluentUI.DelayedRender\BlazorFluentUI.DelayedRender.csproj", "{B9DD8A1F-0DBA-424D-AEC4-01931917F6B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUIcon", "src\BlazorFluentUI.BFUIcon\BlazorFluentUI.BFUIcon.csproj", "{552C8577-272A-4814-BCDC-DEE133EDCF48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Icon", "src\BlazorFluentUI.Icon\BlazorFluentUI.Icon.csproj", "{552C8577-272A-4814-BCDC-DEE133EDCF48}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUNav", "src\BlazorFluentUI.BFUNav\BlazorFluentUI.BFUNav.csproj", "{96D5BABC-AA99-434B-AE4B-C3883534DBC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Nav", "src\BlazorFluentUI.Nav\BlazorFluentUI.Nav.csproj", "{96D5BABC-AA99-434B-AE4B-C3883534DBC2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUContextualMenu", "src\BlazorFluentUI.BFUContextualMenu\BlazorFluentUI.BFUContextualMenu.csproj", "{BADE3975-2343-4525-A06B-C138ABA4A3E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.ContextualMenu", "src\BlazorFluentUI.ContextualMenu\BlazorFluentUI.ContextualMenu.csproj", "{BADE3975-2343-4525-A06B-C138ABA4A3E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUCallout", "src\BlazorFluentUI.BFUCallout\BlazorFluentUI.BFUCallout.csproj", "{EFC1DA1F-FDCB-4BE4-B667-239ED0B61725}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Callout", "src\BlazorFluentUI.Callout\BlazorFluentUI.Callout.csproj", "{EFC1DA1F-FDCB-4BE4-B667-239ED0B61725}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUDropdown", "src\BlazorFluentUI.BFUDropdown\BlazorFluentUI.BFUDropdown.csproj", "{C994D495-7DBA-4650-B0AE-B1B437EFB923}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Dropdown", "src\BlazorFluentUI.Dropdown\BlazorFluentUI.Dropdown.csproj", "{C994D495-7DBA-4650-B0AE-B1B437EFB923}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUOverlay", "src\BlazorFluentUI.BFUOverlay\BlazorFluentUI.BFUOverlay.csproj", "{02AC0F9E-B67E-482F-BE4C-8D82EE40FA4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Overlay", "src\BlazorFluentUI.Overlay\BlazorFluentUI.Overlay.csproj", "{02AC0F9E-B67E-482F-BE4C-8D82EE40FA4D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUModal", "src\BlazorFluentUI.BFUModal\BlazorFluentUI.BFUModal.csproj", "{FB6C5F27-11C0-4040-981D-3BC7FBE5F450}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Modal", "src\BlazorFluentUI.Modal\BlazorFluentUI.Modal.csproj", "{FB6C5F27-11C0-4040-981D-3BC7FBE5F450}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUDialog", "src\BlazorFluentUI.BFUDialog\BlazorFluentUI.BFUDialog.csproj", "{722D49BD-5E33-4F5E-99A0-177341DFC2BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Dialog", "src\BlazorFluentUI.Dialog\BlazorFluentUI.Dialog.csproj", "{722D49BD-5E33-4F5E-99A0-177341DFC2BE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB2D25EA-CCF8-4754-9CA8-46ED8134D0D9}"
 	ProjectSection(SolutionItems) = preProject
@@ -45,59 +45,59 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TypescriptCommands.txt = TypescriptCommands.txt
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUCommandBar", "src\BlazorFluentUI.BFUCommandBar\BlazorFluentUI.BFUCommandBar.csproj", "{C9BE1FD4-E451-4EC5-898D-F7BE9250E335}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.CommandBar", "src\BlazorFluentUI.CommandBar\BlazorFluentUI.CommandBar.csproj", "{C9BE1FD4-E451-4EC5-898D-F7BE9250E335}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUResizeGroup", "src\BlazorFluentUI.BFUResizeGroup\BlazorFluentUI.BFUResizeGroup.csproj", "{302AE6DD-E232-40EB-9174-48C52433B18E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.ResizeGroup", "src\BlazorFluentUI.ResizeGroup\BlazorFluentUI.ResizeGroup.csproj", "{302AE6DD-E232-40EB-9174-48C52433B18E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUOverflowSet", "src\BlazorFluentUI.BFUOverflowSet\BlazorFluentUI.BFUOverflowSet.csproj", "{B9A75D82-F614-4184-8228-81292A93E13B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.OverflowSet", "src\BlazorFluentUI.OverflowSet\BlazorFluentUI.OverflowSet.csproj", "{B9A75D82-F614-4184-8228-81292A93E13B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUFocusTrapZone", "src\BlazorFluentUI.BFUFocusTrapZone\BlazorFluentUI.BFUFocusTrapZone.csproj", "{530DE948-C970-4098-9ABC-C0A45CCFB17D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.FocusTrapZone", "src\BlazorFluentUI.FocusTrapZone\BlazorFluentUI.FocusTrapZone.csproj", "{530DE948-C970-4098-9ABC-C0A45CCFB17D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUPanel", "src\BlazorFluentUI.BFUPanel\BlazorFluentUI.BFUPanel.csproj", "{30E49935-4A5F-403B-9F8D-EF204640A40A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Panel", "src\BlazorFluentUI.Panel\BlazorFluentUI.Panel.csproj", "{30E49935-4A5F-403B-9F8D-EF204640A40A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUSpinner", "src\BlazorFluentUI.BFUSpinner\BlazorFluentUI.BFUSpinner.csproj", "{B9E6DF8E-8EB7-48A2-BC51-1A53AF65D393}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Spinner", "src\BlazorFluentUI.Spinner\BlazorFluentUI.Spinner.csproj", "{B9E6DF8E-8EB7-48A2-BC51-1A53AF65D393}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUPersona", "src\BlazorFluentUI.BFUPersona\BlazorFluentUI.BFUPersona.csproj", "{B38AD4D1-E580-47F5-83E3-30DBB826CFAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Persona", "src\BlazorFluentUI.Persona\BlazorFluentUI.Persona.csproj", "{B38AD4D1-E580-47F5-83E3-30DBB826CFAF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUImage", "src\BlazorFluentUI.BFUImage\BlazorFluentUI.BFUImage.csproj", "{E0B93BFF-9B13-4AEB-B068-426362274423}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Image", "src\BlazorFluentUI.Image\BlazorFluentUI.Image.csproj", "{E0B93BFF-9B13-4AEB-B068-426362274423}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUTooltip", "src\BlazorFluentUI.BFUTooltip\BlazorFluentUI.BFUTooltip.csproj", "{C91D462E-C98A-48B8-83BC-F61A51770281}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Tooltip", "src\BlazorFluentUI.Tooltip\BlazorFluentUI.Tooltip.csproj", "{C91D462E-C98A-48B8-83BC-F61A51770281}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUStack", "src\BlazorFluentUI.BFUStack\BlazorFluentUI.BFUStack.csproj", "{8186F366-E32A-4BA6-B5E6-2FBDAA8D1E43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Stack", "src\BlazorFluentUI.Stack\BlazorFluentUI.Stack.csproj", "{8186F366-E32A-4BA6-B5E6-2FBDAA8D1E43}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUResponsiveLayout", "src\BlazorFluentUI.BFUResponsiveLayout\BlazorFluentUI.BFUResponsiveLayout.csproj", "{ABF0CD6D-4643-48D1-939A-6D551AF0838B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.ResponsiveLayout", "src\BlazorFluentUI.ResponsiveLayout\BlazorFluentUI.ResponsiveLayout.csproj", "{ABF0CD6D-4643-48D1-939A-6D551AF0838B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUKeytip", "src\BlazorFluentUI.BFUKeytip\BlazorFluentUI.BFUKeytip.csproj", "{F69F702F-48D6-455B-80A0-6D985D6A47E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Keytip", "src\BlazorFluentUI.Keytip\BlazorFluentUI.Keytip.csproj", "{F69F702F-48D6-455B-80A0-6D985D6A47E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUToggle", "src\BlazorFluentUI.BFUToggle\BlazorFluentUI.BFUToggle.csproj", "{7BBD94DE-CB86-4846-A81A-FF187D9F573C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Toggle", "src\BlazorFluentUI.Toggle\BlazorFluentUI.Toggle.csproj", "{7BBD94DE-CB86-4846-A81A-FF187D9F573C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFURating", "src\BlazorFluentUI.BFURating\BlazorFluentUI.BFURating.csproj", "{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Rating", "src\BlazorFluentUI.Rating\BlazorFluentUI.Rating.csproj", "{D8AF8D8A-76C6-4512-9E94-D9CFECFE4F2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUProgressIndicator", "src\BlazorFluentUI.BFUProgressIndicator\BlazorFluentUI.BFUProgressIndicator.csproj", "{5944607F-C675-4C79-B74E-CC7A0534895E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.ProgressIndicator", "src\BlazorFluentUI.ProgressIndicator\BlazorFluentUI.ProgressIndicator.csproj", "{5944607F-C675-4C79-B74E-CC7A0534895E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUFocusZone", "src\BlazorFluentUI.BFUFocusZone\BlazorFluentUI.BFUFocusZone.csproj", "{4AB7EB15-1021-4A6A-88D2-D1745F4FF1BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.FocusZone", "src\BlazorFluentUI.FocusZone\BlazorFluentUI.FocusZone.csproj", "{4AB7EB15-1021-4A6A-88D2-D1745F4FF1BD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4F61DC73-0306-4E84-B0AD-96DA696538BD} = {4F61DC73-0306-4E84-B0AD-96DA696538BD}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFULink", "src\BlazorFluentUI.BFULink\BlazorFluentUI.BFULink.csproj", "{FB7DDD7B-578E-44BC-86F3-7FE684ED35C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Link", "src\BlazorFluentUI.Link\BlazorFluentUI.Link.csproj", "{FB7DDD7B-578E-44BC-86F3-7FE684ED35C7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4F61DC73-0306-4E84-B0AD-96DA696538BD} = {4F61DC73-0306-4E84-B0AD-96DA696538BD}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUMessageBar", "src\BlazorFluentUI.BFUMessageBar\BlazorFluentUI.BFUMessageBar.csproj", "{2D14A6D0-A08B-4B6F-B2CE-A667E7E9A024}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.MessageBar", "src\BlazorFluentUI.MessageBar\BlazorFluentUI.MessageBar.csproj", "{2D14A6D0-A08B-4B6F-B2CE-A667E7E9A024}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUCalendar", "src\BlazorFluentUI.BFUCalendar\BlazorFluentUI.BFUCalendar.csproj", "{C86B034B-954B-4F5F-BB5A-A7AB28F0C7E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Calendar", "src\BlazorFluentUI.Calendar\BlazorFluentUI.Calendar.csproj", "{C86B034B-954B-4F5F-BB5A-A7AB28F0C7E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUDatePicker", "src\BlazorFluentUI.BFUDatePicker\BlazorFluentUI.BFUDatePicker.csproj", "{EB377F06-1430-4E77-98C8-B8651BDED2B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.DatePicker", "src\BlazorFluentUI.DatePicker\BlazorFluentUI.DatePicker.csproj", "{EB377F06-1430-4E77-98C8-B8651BDED2B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUPivot", "src\BlazorFluentUI.BFUPivot\BlazorFluentUI.BFUPivot.csproj", "{BEB13581-C0F5-46F2-A05F-1A5447171989}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Pivot", "src\BlazorFluentUI.Pivot\BlazorFluentUI.Pivot.csproj", "{BEB13581-C0F5-46F2-A05F-1A5447171989}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUText", "src\BlazorFluentUI.BFUText\BlazorFluentUI.BFUText.csproj", "{D1AA4FD9-DC30-46D9-9CEB-368396C01954}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Text", "src\BlazorFluentUI.Text\BlazorFluentUI.Text.csproj", "{D1AA4FD9-DC30-46D9-9CEB-368396C01954}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFURichTextEditor", "src\BlazorFluentUI.BFURichTextEditor\BlazorFluentUI.BFURichTextEditor.csproj", "{6A5D3904-E052-4EC6-A932-8E97C4B00BAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.RichTextEditor", "src\BlazorFluentUI.RichTextEditor\BlazorFluentUI.RichTextEditor.csproj", "{6A5D3904-E052-4EC6-A932-8E97C4B00BAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUComponentStyle", "src\BlazorFluentUI.BFUComponentStyle\BlazorFluentUI.BFUComponentStyle.csproj", "{2358EE4C-82F7-44D3-97F4-897C676E42AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.ComponentStyle", "src\BlazorFluentUI.ComponentStyle\BlazorFluentUI.ComponentStyle.csproj", "{2358EE4C-82F7-44D3-97F4-897C676E42AE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Demo.Shared", "Demo\BlazorFluentUI.Demo.Shared\BlazorFluentUI.Demo.Shared.csproj", "{5E329328-347A-443B-896A-7DC1E7248039}"
 EndProject
@@ -111,37 +111,37 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Demo.ClientS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Demo.ServerSide", "Demo\BlazorFluentUI.Demo.ServerSide\BlazorFluentUI.Demo.ServerSide.csproj", "{DBB167DF-0D7F-4D40-997C-60A4B5351DAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUTheme", "src\BlazorFluentUI.BFUTheme\BlazorFluentUI.BFUTheme.csproj", "{9C060E23-B2BA-40D0-83E5-23CF07B22DFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Theme", "src\BlazorFluentUI.Theme\BlazorFluentUI.Theme.csproj", "{9C060E23-B2BA-40D0-83E5-23CF07B22DFD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUGroupedList", "src\BlazorFluentUI.BFUGroupedList\BlazorFluentUI.BFUGroupedList.csproj", "{51E3F869-66A1-4E66-94B4-81979E6C2C01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.GroupedList", "src\BlazorFluentUI.GroupedList\BlazorFluentUI.GroupedList.csproj", "{51E3F869-66A1-4E66-94B4-81979E6C2C01}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUCheck", "src\BlazorFluentUI.BFUCheck\BlazorFluentUI.BFUCheck.csproj", "{1A7948C5-272F-4541-A689-00C9FD99ACED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Check", "src\BlazorFluentUI.Check\BlazorFluentUI.Check.csproj", "{1A7948C5-272F-4541-A689-00C9FD99ACED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUDetailsList", "src\BlazorFluentUI.BFUDetailsList\BlazorFluentUI.BFUDetailsList.csproj", "{1AF76159-8216-4FA8-9FDB-FBA7BCDC1A9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.DetailsList", "src\BlazorFluentUI.DetailsList\BlazorFluentUI.DetailsList.csproj", "{1AF76159-8216-4FA8-9FDB-FBA7BCDC1A9C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUDetailsRow", "src\BlazorFluentUI.BFUDetailsRow\BlazorFluentUI.BFUDetailsRow.csproj", "{C3924927-6504-4DEC-BCFE-8242C0E055FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.DetailsRow", "src\BlazorFluentUI.DetailsRow\BlazorFluentUI.DetailsRow.csproj", "{C3924927-6504-4DEC-BCFE-8242C0E055FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUSelectionZone", "src\BlazorFluentUI.BFUSelectionZone\BlazorFluentUI.BFUSelectionZone.csproj", "{FCA7939B-666C-4B37-A4BC-610DA1619034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.SelectionZone", "src\BlazorFluentUI.SelectionZone\BlazorFluentUI.SelectionZone.csproj", "{FCA7939B-666C-4B37-A4BC-610DA1619034}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.AllComponents", "src\BlazorFluentUI.AllComponents\BlazorFluentUI.AllComponents.csproj", "{C2770245-5501-476A-9F85-7964DD343026}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUNavBar", "src\BlazorFluentUI.BFUNavBar\BlazorFluentUI.BFUNavBar.csproj", "{D49CED54-F6B7-442E-B0D3-0191E4820C96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.NavBar", "src\BlazorFluentUI.NavBar\BlazorFluentUI.NavBar.csproj", "{D49CED54-F6B7-442E-B0D3-0191E4820C96}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUChoiceGroup", "src\BlazorFluentUI.BFUChoiceGroup\BlazorFluentUI.BFUChoiceGroup.csproj", "{B4B9BB51-9B0B-4CDB-BE38-F56BAD19598F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.ChoiceGroup", "src\BlazorFluentUI.ChoiceGroup\BlazorFluentUI.ChoiceGroup.csproj", "{B4B9BB51-9B0B-4CDB-BE38-F56BAD19598F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUDocumentCard", "src\BlazorFluentUI.BFUDocumentCard\BlazorFluentUI.BFUDocumentCard.csproj", "{64CCAC60-097F-4F7A-B212-8D5F53F23E13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.DocumentCard", "src\BlazorFluentUI.DocumentCard\BlazorFluentUI.DocumentCard.csproj", "{64CCAC60-097F-4F7A-B212-8D5F53F23E13}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUSlider", "src\BlazorFluentUI.BFUSlider\BlazorFluentUI.BFUSlider.csproj", "{26419A6D-2A7E-4A6B-AD21-2B7F7B34DCD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Slider", "src\BlazorFluentUI.Slider\BlazorFluentUI.Slider.csproj", "{26419A6D-2A7E-4A6B-AD21-2B7F7B34DCD1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUMarqueeSelection", "src\BlazorFluentUI.BFUMarqueeSelection\BlazorFluentUI.BFUMarqueeSelection.csproj", "{8B484FDF-6C72-48A6-B50E-AF2DEFFCA94C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.MarqueeSelection", "src\BlazorFluentUI.MarqueeSelection\BlazorFluentUI.MarqueeSelection.csproj", "{8B484FDF-6C72-48A6-B50E-AF2DEFFCA94C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUForms", "src\BlazorFluentUI.BFUForms\BlazorFluentUI.BFUForms.csproj", "{221473F9-0513-442A-B2FD-C7D446C0EB4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Forms", "src\BlazorFluentUI.Forms\BlazorFluentUI.Forms.csproj", "{221473F9-0513-442A-B2FD-C7D446C0EB4B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFURibbonMenu", "src\BlazorFluentUI.BFURibbonMenu\BlazorFluentUI.BFURibbonMenu.csproj", "{380E865A-2C71-43FE-BAFE-8B592B77A379}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.RibbonMenu", "src\BlazorFluentUI.RibbonMenu\BlazorFluentUI.RibbonMenu.csproj", "{380E865A-2C71-43FE-BAFE-8B592B77A379}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.BFUPopup", "src\BlazorFluentUI.BFUPopup\BlazorFluentUI.BFUPopup.csproj", "{D68CC446-5103-431E-AF89-743158CECE4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Popup", "src\BlazorFluentUI.Popup\BlazorFluentUI.Popup.csproj", "{D68CC446-5103-431E-AF89-743158CECE4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFluentUI.BFUSearchBox", "src\BlazorFluentUI.BFUSearchBox\BlazorFluentUI.BFUSearchBox.csproj", "{CECC2468-E341-47DD-ADDE-AFCC2D80FC06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFluentUI.SearchBox", "src\BlazorFluentUI.SearchBox\BlazorFluentUI.SearchBox.csproj", "{CECC2468-E341-47DD-ADDE-AFCC2D80FC06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

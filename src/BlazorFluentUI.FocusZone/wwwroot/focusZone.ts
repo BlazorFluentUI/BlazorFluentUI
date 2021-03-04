@@ -1,4 +1,4 @@
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 
 namespace BlazorFluentUiFocusZone {
     interface Set<T> {

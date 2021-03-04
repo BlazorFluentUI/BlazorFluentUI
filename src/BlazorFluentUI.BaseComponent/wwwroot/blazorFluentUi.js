@@ -1749,7 +1749,7 @@ var BlazorFluentUiCallout;
     ;
 })(BlazorFluentUiCallout || (BlazorFluentUiCallout = {}));
 window['BlazorFluentUiCallout'] = BlazorFluentUiCallout || {};
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiDocumentCard;
 (function (BlazorFluentUiDocumentCard) {
     class CardTitleMap {
@@ -1851,7 +1851,7 @@ var BlazorFluentUiDocumentCard;
     }
 })(BlazorFluentUiDocumentCard || (BlazorFluentUiDocumentCard = {}));
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiFocusTrapZone;
 (function (BlazorFluentUiFocusTrapZone) {
     const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
@@ -2218,7 +2218,7 @@ var BlazorFluentUiFocusTrapZone;
     //}
 })(BlazorFluentUiFocusTrapZone || (BlazorFluentUiFocusTrapZone = {}));
 window['BlazorFluentUiFocusTrapZone'] = BlazorFluentUiFocusTrapZone || {};
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiFocusZone;
 (function (BlazorFluentUiFocusZone) {
     let FocusZoneDirection;
@@ -2996,8 +2996,8 @@ var BlazorFluentUiFocusZone;
 //window.BlazorFluentUiFocusZone = BlazorFluentUiFocusZone;
 window['BlazorFluentUiFocusZone'] = BlazorFluentUiFocusZone || {};
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-// /// <reference path="../../BlazorFluentUI.BFUFocusTrapZone/wwwroot/focusTrapZone.ts" />
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+// /// <reference path="../../BlazorFluentUI.FocusTrapZone/wwwroot/focusTrapZone.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiList;
 (function (BlazorFluentUiList) {
     var _lastId = 0;
@@ -3160,7 +3160,7 @@ var BlazorFluentUiList;
     }
 })(BlazorFluentUiList || (BlazorFluentUiList = {}));
 window['BlazorFluentUiList'] = BlazorFluentUiList || {};
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiDetailsList;
 (function (BlazorFluentUiDetailsList) {
     const MOUSEDOWN_PRIMARY_BUTTON = 0; // for mouse down event we are using ev.button property, 0 means left button
@@ -3211,7 +3211,7 @@ var BlazorFluentUiDetailsList;
     }
 })(BlazorFluentUiDetailsList || (BlazorFluentUiDetailsList = {}));
 window['BlazorFluentUiDetailsList'] = BlazorFluentUiDetailsList || {};
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiMarqueeSelection;
 (function (BlazorFluentUiMarqueeSelection) {
     function getDistanceBetweenPoints(point1, point2) {
@@ -3685,8 +3685,8 @@ var BlazorFluentUiMarqueeSelection;
 })(BlazorFluentUiMarqueeSelection || (BlazorFluentUiMarqueeSelection = {}));
 window['BlazorFluentUiMarqueeSelection'] = BlazorFluentUiMarqueeSelection || {};
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-/// <reference path="../../BlazorFluentUI.BFUFocusTrapZone/wwwroot/focusTrapZone.ts" />
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.FocusTrapZone/wwwroot/focusTrapZone.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiPanel;
 (function (BlazorFluentUiPanel) {
     class Handler {
@@ -3805,7 +3805,7 @@ var BlazorFluentUiPanel;
     }
 })(BlazorFluentUiPanel || (BlazorFluentUiPanel = {}));
 window['BlazorFluentUiPanel'] = BlazorFluentUiPanel || {};
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiSelectionZone;
 (function (BlazorFluentUiSelectionZone) {
     const SELECTION_DISABLED_ATTRIBUTE_NAME = 'data-selection-disabled';
@@ -4183,7 +4183,7 @@ var BlazorFluentUiSelectionZone;
     }
 })(BlazorFluentUiSelectionZone || (BlazorFluentUiSelectionZone = {}));
 window['BlazorFluentUiSelectionZone'] = BlazorFluentUiSelectionZone || {};
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 var BlazorFluentUiSlider;
 (function (BlazorFluentUiSlider) {
     class Handler {

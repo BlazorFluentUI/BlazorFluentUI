@@ -1,4 +1,4 @@
-/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -176,7 +176,7 @@ var BlazorFluentUiMarqueeSelection;
     }
     BlazorFluentUiMarqueeSelection.registerMarqueeSelection = registerMarqueeSelection;
     function updateProps(dotNet, props) {
-        //assume itemsource may have changed... 
+        //assume itemsource may have changed...
         var marqueeSelection = marqueeSelections.get(dotNet._id);
         if (marqueeSelection !== null) {
             marqueeSelection.props = props;

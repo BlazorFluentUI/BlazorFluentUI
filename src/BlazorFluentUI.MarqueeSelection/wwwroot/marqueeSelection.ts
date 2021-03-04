@@ -1,4 +1,4 @@
-﻿/// <reference path="../../BlazorFluentUI.BFUBaseComponent/wwwroot/baseComponent.ts" />
+﻿/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 
 
 namespace BlazorFluentUiMarqueeSelection {
@@ -29,8 +29,8 @@ namespace BlazorFluentUiMarqueeSelection {
         return distance;
     }
 
-   
-    
+
+
 
     declare function setTimeout(cb: Function, delay: number): number;
 
@@ -219,7 +219,7 @@ namespace BlazorFluentUiMarqueeSelection {
     }
 
     export function updateProps(dotNet: DotNetReferenceType, props: IMarqueeSelectionProps) {
-        //assume itemsource may have changed... 
+        //assume itemsource may have changed...
 
         var marqueeSelection = marqueeSelections.get(dotNet._id);
         if (marqueeSelection !== null) {

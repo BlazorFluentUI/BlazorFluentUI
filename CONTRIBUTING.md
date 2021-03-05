@@ -3,7 +3,7 @@
 Any and all help is appreciated!  But here are some guidelines:
 
 If you want to add a new control, follow the format of all of the other controls. 
-1.  Namespace is `FluentUI`.
+1.  Namespace is `BlazorFluentUI`.
 2.  Control should use `FluentUIComponentBase` as the base class.
     1.   Add `Styles` and `ClassName` contents to the appropriate element.
 3.  Class names mimic the original fabric-react class names with some exceptions:

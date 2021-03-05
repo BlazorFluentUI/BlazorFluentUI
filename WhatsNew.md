@@ -2,9 +2,9 @@
 Temporary demo: todo
 
 ## Renaming all the stuff
-We renamed the root namespace to `FluentUI`.
+We renamed the root namespace to `BlazorFluentUI`.
 
-We dropped the `BFU` prefix from all the component- and project names. In the cases where this would lead to collisions with already existing Blazor components or .NET classes, we prefixed with `FluentUI`
+We dropped the `BFU` prefix from all the component-and project names. In the cases where this would lead to collisions with already existing Blazor components or .NET classes, we prefixed with `FluentUI`
 
 Both changes were made to align the library a bit more to the Fluent UI React environment. Also the code is not so cluttered with 'Blazor' and 'BFU' anymore.
 

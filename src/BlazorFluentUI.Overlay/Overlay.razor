@@ -22,13 +22,13 @@
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.disableBodyScroll");
+            await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.disableBodyScroll");
         }
 
     }
 
     public async ValueTask DisposeAsync()
     {
-        await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.enableBodyScroll");
+        await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.enableBodyScroll");
     }
 }

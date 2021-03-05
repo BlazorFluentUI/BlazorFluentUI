@@ -10,11 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Remove="wwwroot\fabricList.ts" />
+    <Content Remove="tsconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\fabricList.ts" />
+    <TypeScriptCompile Remove="wwwroot\fluentUIList.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\fluentUIList.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +31,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFluentUI.BaseComponent\BlazorFluentUI.BaseComponent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="tsconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </TypeScriptCompile>
   </ItemGroup>
 
   <PropertyGroup>

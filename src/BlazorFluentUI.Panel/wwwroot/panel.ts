@@ -2,7 +2,7 @@
 /// <reference path="../../BlazorFluentUI.FocusTrapZone/wwwroot/focusTrapZone.ts" />
 /// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 
-namespace BlazorFluentUiPanel {
+namespace BlazorFluentUIPanel {
 
     interface DotNetReferenceType {
 
@@ -47,8 +47,8 @@ namespace BlazorFluentUiPanel {
         {
             //first get whether click is inside panel
             if (!ev.defaultPrevented) {
-                var contains = BlazorFluentUiBaseComponent.elementContains(panelElement, <HTMLElement>ev.target);
-                //var contains = window["BlazorFluentUiFocusTrapZone"].elementContains(panelElement, ev.target);
+                var contains = FluentUIBaseComponent.elementContains(panelElement, <HTMLElement>ev.target);
+                //var contains = window["BlazorFluentUIFocusTrapZone"].elementContains(panelElement, ev.target);
                 if (!contains) {
                     ev.preventDefault();
                     panelDotNet.invokeMethodAsync("DismissOnOuterClick", contains);
@@ -164,5 +164,5 @@ namespace BlazorFluentUiPanel {
 
 }
 
-(<any>window)['BlazorFluentUiPanel'] = BlazorFluentUiPanel || {};
+(<any>window)['BlazorFluentUIPanel'] = BlazorFluentUIPanel || {};
 

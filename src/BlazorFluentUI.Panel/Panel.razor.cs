@@ -173,8 +173,8 @@ namespace BlazorFluentUI
         public async Task UpdateFooterPositionAsync()
         {
             //Debug.WriteLine("Calling UpdateFooterPositionAsync");
-            var clientHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getClientHeight", scrollableContent);
-            var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getScrollHeight", scrollableContent);
+            var clientHeight = await JSRuntime.InvokeAsync<double>("FluentUIBaseComponent.getClientHeight", scrollableContent);
+            var scrollHeight = await JSRuntime.InvokeAsync<double>("FluentUIBaseComponent.getScrollHeight", scrollableContent);
 
             if (clientHeight < scrollHeight)
                 isFooterSticky = true;

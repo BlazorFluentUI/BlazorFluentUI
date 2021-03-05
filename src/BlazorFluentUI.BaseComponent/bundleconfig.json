@@ -1,0 +1,29 @@
+[
+  {
+    "outputFileName": "wwwroot/blazorFluentUI.min.js",
+
+    "inputFiles": [
+      "../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.js",
+      "../BlazorFluentUI.Callout/wwwroot/callout.js",
+      "../BlazorFluentUI.DocumentCard/wwwroot/documentCard.js",
+      "../BlazorFluentUI.FocusTrapZone/wwwroot/focusTrapZone.js",
+      "../BlazorFluentUI.FocusZone/wwwroot/focusZone.js",
+      "../BlazorFluentUI.List/wwwroot/fluentUIList.js",
+      "../BlazorFluentUI.DetailsList/wwwroot/detailsList.js",
+      "../BlazorFluentUI.MarqueeSelection/wwwroot/marqueeSelection.js",
+      "../BlazorFluentUI.Panel/wwwroot/panel.js",
+      "../BlazorFluentUI.SelectionZone/wwwroot/selectionZone.js",
+      "../BlazorFluentUI.Slider/wwwroot/slider.js",
+      "../BlazorFluentUI.BaseComponent/wwwroot/requestIdleCallbackPolyfill.js"
+    ],
+    "minify": { "enabled": false },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "../BlazorFluentUI.RichTextEditor/wwwroot/richTextEditor.min.js",
+    "inputFiles": [
+      "../BlazorFluentUI.RichTextEditor/wwwroot/richTextEditor.js"
+    ],
+    "sourceMap": true
+  }
+]

@@ -1,7 +1,7 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 /// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
-var BlazorFluentUiFocusTrapZone;
-(function (BlazorFluentUiFocusTrapZone) {
+var BlazorFluentUIFocusTrapZone;
+(function (BlazorFluentUIFocusTrapZone) {
     const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
     const d = 445;
     const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
@@ -29,7 +29,7 @@ var BlazorFluentUiFocusTrapZone;
                     // on the event
                     relatedTarget = document.activeElement;
                 }
-                if (!BlazorFluentUiBaseComponent.elementContains(this._props.rootElement, relatedTarget)) {
+                if (!FluentUIBaseComponent.elementContains(this._props.rootElement, relatedTarget)) {
                     this._hasFocus = false;
                 }
             };
@@ -96,7 +96,7 @@ var BlazorFluentUiFocusTrapZone;
             this._previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss && elementToFocusOnDismiss.__internalId != null
                 ? elementToFocusOnDismiss
                 : document.activeElement;
-            if (!disableFirstFocus && !BlazorFluentUiBaseComponent.elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {
+            if (!disableFirstFocus && !FluentUIBaseComponent.elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {
                 this.focus();
             }
         }
@@ -109,7 +109,7 @@ var BlazorFluentUiFocusTrapZone;
             if (!ignoreExternalFocusing &&
                 this._previouslyFocusedElementOutsideTrapZone &&
                 typeof this._previouslyFocusedElementOutsideTrapZone.focus === 'function' &&
-                (BlazorFluentUiBaseComponent.elementContains(rootElement, activeElement) || activeElement === document.body)) {
+                (FluentUIBaseComponent.elementContains(rootElement, activeElement) || activeElement === document.body)) {
                 this._focusAsync(this._previouslyFocusedElementOutsideTrapZone);
             }
         }
@@ -125,7 +125,7 @@ var BlazorFluentUiFocusTrapZone;
             const { focusPreviouslyFocusedInnerElement, firstFocusableSelector, rootElement } = this._props;
             if (focusPreviouslyFocusedInnerElement &&
                 this._previouslyFocusedElementInTrapZone &&
-                BlazorFluentUiBaseComponent.elementContains(rootElement, this._previouslyFocusedElementInTrapZone)) {
+                FluentUIBaseComponent.elementContains(rootElement, this._previouslyFocusedElementInTrapZone)) {
                 // focus on the last item that had focus in the zone before we left the zone
                 this._focusAsync(this._previouslyFocusedElementInTrapZone);
                 return;
@@ -154,7 +154,7 @@ var BlazorFluentUiFocusTrapZone;
         focusTrapZones[currentId] = new FocusTrapZoneInternal(props, focusTrapZone);
         return currentId;
     }
-    BlazorFluentUiFocusTrapZone.register = register;
+    BlazorFluentUIFocusTrapZone.register = register;
     function unregister(id) {
         let focusTrapZone = focusTrapZones[id];
         if (focusTrapZone) {
@@ -162,21 +162,21 @@ var BlazorFluentUiFocusTrapZone;
         }
         delete focusTrapZones[id];
     }
-    BlazorFluentUiFocusTrapZone.unregister = unregister;
+    BlazorFluentUIFocusTrapZone.unregister = unregister;
     function updateProps(id, props) {
         let focusTrapZone = focusTrapZones[id];
         if (focusTrapZone) {
             focusTrapZone.updateProps(props);
         }
     }
-    BlazorFluentUiFocusTrapZone.updateProps = updateProps;
+    BlazorFluentUIFocusTrapZone.updateProps = updateProps;
     function focus(id) {
         let focusTrapZone = focusTrapZones[id];
         if (focusTrapZone) {
             focusTrapZone.focus();
         }
     }
-    BlazorFluentUiFocusTrapZone.focus = focus;
+    BlazorFluentUIFocusTrapZone.focus = focus;
     //export function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {
     //    let isContained = false;
     //    if (parent && child) {
@@ -364,6 +364,5 @@ var BlazorFluentUiFocusTrapZone;
     //        }
     //    }
     //}
-})(BlazorFluentUiFocusTrapZone || (BlazorFluentUiFocusTrapZone = {}));
-window['BlazorFluentUiFocusTrapZone'] = BlazorFluentUiFocusTrapZone || {};
-//# sourceMappingURL=focusTrapZone.js.map
+})(BlazorFluentUIFocusTrapZone || (BlazorFluentUIFocusTrapZone = {}));
+window['BlazorFluentUIFocusTrapZone'] = BlazorFluentUIFocusTrapZone || {};

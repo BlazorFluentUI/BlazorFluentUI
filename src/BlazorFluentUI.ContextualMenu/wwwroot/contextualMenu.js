@@ -1,5 +1,5 @@
 ///// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
-//namespace BlazorFluentUiContextualMenu {
+//namespace BlazorFluentUIContextualMenu {
 //    interface DotNetReferenceType {
 //        invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
 //        invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
@@ -16,10 +16,10 @@
 //        var window = targetElement.ownerDocument.defaultView;
 //        var mouseClickId = Handler.addListener(targetElement, "click", (ev: Event) => { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("ClickHandler"); }, false);
 //        //var keyDownId = Handler.addListener(targetElement, "keydown", (ev: KeyboardEvent) => {
-//        //    if (ev.keyCode === BlazorFluentUiBaseComponent.KeyCodes.right) {
+//        //    if (ev.keyCode === FluentUIBaseComponent.KeyCodes.right) {
 //        //        ev.preventDefault();
 //        //        contextualMenuItem.invokeMethodAsync("KeyDownHandler", true);
-//        //    } else if (ev.keyCode === BlazorFluentUiBaseComponent.KeyCodes.left) {
+//        //    } else if (ev.keyCode === FluentUIBaseComponent.KeyCodes.left) {
 //        //        ev.preventDefault();
 //        //        contextualMenuItem.invokeMethodAsync("KeyDownHandler", false);
 //        //    }
@@ -58,5 +58,4 @@
 //        }
 //    }
 //}
-//(<any>window)['BlazorFluentUiContextualMenu'] = BlazorFluentUiContextualMenu || {};
-//# sourceMappingURL=contextualMenu.js.map
+//(<any>window)['BlazorFluentUIContextualMenu'] = BlazorFluentUIContextualMenu || {};

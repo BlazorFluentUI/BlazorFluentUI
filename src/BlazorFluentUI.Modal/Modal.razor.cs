@@ -164,7 +164,7 @@ namespace BlazorFluentUI
             {
                 _jsAvailable = true;
                 // 27 is Escape code
-                _keydownRegistration = await JSRuntime.InvokeAsync<string>("BlazorFluentUiBaseComponent.registerWindowKeyDownEvent", DotNetObjectReference.Create(this), "27", "ProcessKeyDown");
+                _keydownRegistration = await JSRuntime.InvokeAsync<string>("FluentUIBaseComponent.registerWindowKeyDownEvent", DotNetObjectReference.Create(this), "27", "ProcessKeyDown");
             }
             
             await base.OnAfterRenderAsync(firstRender);
@@ -205,7 +205,7 @@ namespace BlazorFluentUI
             _clearExistingAnimationTimer();
             if (_keydownRegistration != null)
             {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.deregisterWindowKeyDownEvent", _keydownRegistration);
+                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.deregisterWindowKeyDownEvent", _keydownRegistration);
                 _keydownRegistration = null;
             }
         }

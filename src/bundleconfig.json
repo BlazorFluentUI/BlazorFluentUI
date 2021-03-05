@@ -1,0 +1,29 @@
+[
+  {
+    "outputFileName": "wwwroot/fluentUIBlazor.min.js",
+
+    "inputFiles": [
+      "BaseComponent/wwwroot/baseComponent.js",
+      "Callout/wwwroot/callout.js",
+      "DocumentCard/wwwroot/documentCard.js",
+      "FocusTrapZone/wwwroot/focusTrapZone.js",
+      "FocusZone/wwwroot/focusZone.js",
+      "List/wwwroot/fabricList.js",
+      "DetailsList/wwwroot/detailsList.js",
+      "MarqueeSelection/wwwroot/marqueeSelection.js",
+      "Panel/wwwroot/panel.js",
+      "SelectionZone/wwwroot/selectionZone.js",
+      "Slider/wwwroot/slider.js",
+      "BaseComponent/wwwroot/requestIdleCallbackPolyfill.js"
+    ],
+    "minify": { "enabled": false },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/richTextEditor.min.js",
+    "inputFiles": [
+      "wwwroot/richTextEditor.js"
+    ],
+    "sourceMap": true
+  }
+]

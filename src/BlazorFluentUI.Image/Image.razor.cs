@@ -60,7 +60,7 @@ namespace BlazorFluentUI
         {
             if (!SupportsObjectFit.HasValue)
             {
-                SupportsObjectFit = await JSRuntime.InvokeAsync<bool>("BlazorFluentUiBaseComponent.supportsObjectFit");
+                SupportsObjectFit = await JSRuntime.InvokeAsync<bool>("FluentUIBaseComponent.supportsObjectFit");
             }
             if (firstRender)
                 hasRenderedOnce = firstRender;
@@ -179,7 +179,7 @@ namespace BlazorFluentUI
             if (CoverStyle == ImageCoverStyle.None)
             {
                 var rootBounds = await GetBoundsAsync();
-                var imageNaturalBounds = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.getNaturalBounds", imageRef);
+                var imageNaturalBounds = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.getNaturalBounds", imageRef);
 
                 if (imageNaturalBounds== null)
                 {

@@ -389,7 +389,7 @@ namespace BlazorFluentUI
         {
             if (AutoAdjustHeight == true && Multiline)
             {
-                var scrollHeight = await JSRuntime.InvokeAsync<double>("BlazorFluentUiBaseComponent.getScrollHeight", textAreaRef);
+                var scrollHeight = await JSRuntime.InvokeAsync<double>("FluentUIBaseComponent.getScrollHeight", textAreaRef);
                 //inlineTextAreaStyle = $"height: {scrollHeight}px";
                 if (autoAdjustedHeight != scrollHeight)
                 {
@@ -507,11 +507,11 @@ namespace BlazorFluentUI
         {
             if (textAreaRef.Id != null)
             {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.focusElement", textAreaRef).ConfigureAwait(false);
+                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", textAreaRef).ConfigureAwait(false);
             }
             if (inputRef.Id != null)
             {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.focusElement", inputRef).ConfigureAwait(false);
+                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", inputRef).ConfigureAwait(false);
             }
            
         }

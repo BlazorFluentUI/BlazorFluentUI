@@ -53,12 +53,12 @@ namespace BlazorFluentUI
 
         public async void Focus()
         {
-            await jsRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.focusElement", RootElementReference);
+            await jsRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", RootElementReference);
         }
 
         public async void FocusFirstElement()
         {
-            await jsRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.focusFirstElementChild", RootElementReference);
+            await jsRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusFirstElementChild", RootElementReference);
         }
 
         protected string Id = Guid.NewGuid().ToString();

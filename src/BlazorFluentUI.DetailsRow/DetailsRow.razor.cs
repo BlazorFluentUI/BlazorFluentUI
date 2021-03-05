@@ -187,7 +187,7 @@ namespace BlazorFluentUI
             if (columnMeasureInfo != null && columnMeasureInfo.Index >= 0 && cellMeasurer.Id != null)
             {
                 Action<double>? method = columnMeasureInfo.OnMeasureDone;
-                Rectangle? size = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", cellMeasurer);
+                Rectangle? size = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", cellMeasurer);
                 method(size.width);
                 columnMeasureInfo = null;
                 await InvokeAsync(StateHasChanged);

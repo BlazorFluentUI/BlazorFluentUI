@@ -96,7 +96,7 @@ namespace BlazorFluentUI
                     }
                 }
 
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.addOrUpdateVirtualParent", _element);
+                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.addOrUpdateVirtualParent", _element);
             }
             await base.OnAfterRenderAsync(firstRender);
         }

@@ -1,7 +1,7 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 
 
-namespace BlazorFluentUiCallout {
+namespace BlazorFluentUICallout {
 
     interface DotNetReferenceType {
 
@@ -22,7 +22,7 @@ namespace BlazorFluentUiCallout {
         var window = targetElement.ownerDocument.defaultView;
 
         var calloutDivId = Handler.addCallout(targetElement);
-        
+
         var scrollId = Handler.addListener(window, "scroll", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ScrollHandler"); }; }, true);
         var resizeId = Handler.addListener(window, "resize", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ResizeHandler"); }; }, true);
         var focusId = Handler.addListener(document.documentElement, "focus", (ev: Event) =>
@@ -53,7 +53,7 @@ namespace BlazorFluentUiCallout {
         }, true);
 
         //set focus, too
-        
+
         return [scrollId, resizeId, focusId, clickId, calloutDivId];
     }
 
@@ -78,7 +78,7 @@ namespace BlazorFluentUiCallout {
         [K: number]: T;
     }
 
-    class Handler {       
+    class Handler {
 
         static i: number = 1;
         static listeners: Map<EventParams> = {};
@@ -97,7 +97,7 @@ namespace BlazorFluentUiCallout {
             element.addEventListener(event, handler, capture);
             this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
             return this.i++;
-        } 
+        }
         static removeListener(id: number): void {
             if (id in this.listeners) {
                 var h = this.listeners[id];
@@ -108,7 +108,7 @@ namespace BlazorFluentUiCallout {
     }
 
     function clickHandler(ev: Event) {
-        
+
     }
 
 
@@ -128,7 +128,7 @@ namespace BlazorFluentUiCallout {
         //    return true;
         //}
         //return false;
-    }    
+    }
 
     function elementContains(parent: HTMLElement | null, child: HTMLElement | null, allowVirtualParents: boolean = true): boolean {
         let isContained = false;
@@ -155,7 +155,7 @@ namespace BlazorFluentUiCallout {
         return child && (child.parentNode && (child.parentNode as HTMLElement));
     }
 
-  
+
 
     export function getWindow(element: HTMLElement): Window {
         return element.ownerDocument.defaultView;
@@ -174,9 +174,5 @@ namespace BlazorFluentUiCallout {
 
 
 }
-
-
-
-
-(<any>window)['BlazorFluentUiCallout'] = BlazorFluentUiCallout || {};
+(<any>window)['BlazorFluentUICallout'] = BlazorFluentUICallout || {};
 

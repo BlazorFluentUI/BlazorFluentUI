@@ -8,8 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var BlazorFluentUiMarqueeSelection;
-(function (BlazorFluentUiMarqueeSelection) {
+var BlazorFluentUIMarqueeSelection;
+(function (BlazorFluentUIMarqueeSelection) {
     function getDistanceBetweenPoints(point1, point2) {
         const left1 = point1.left || 0;
         const top1 = point1.top || 0;
@@ -18,7 +18,7 @@ var BlazorFluentUiMarqueeSelection;
         let distance = Math.sqrt(Math.pow(left1 - left2, 2) + Math.pow(top1 - top2, 2));
         return distance;
     }
-    BlazorFluentUiMarqueeSelection.getDistanceBetweenPoints = getDistanceBetweenPoints;
+    BlazorFluentUIMarqueeSelection.getDistanceBetweenPoints = getDistanceBetweenPoints;
     const SCROLL_ITERATION_DELAY = 16;
     const SCROLL_GUTTER = 100;
     const MAX_SCROLL_VELOCITY = 15;
@@ -41,11 +41,11 @@ var BlazorFluentUiMarqueeSelection;
         }
         return rect;
     }
-    BlazorFluentUiMarqueeSelection.getRect = getRect;
+    BlazorFluentUIMarqueeSelection.getRect = getRect;
     class AutoScroll {
         constructor(element) {
-            this._events = new BlazorFluentUiBaseComponent.EventGroup(this);
-            this._scrollableParent = BlazorFluentUiBaseComponent.findScrollableParent(element);
+            this._events = new FluentUIBaseComponent.EventGroup(this);
+            this._scrollableParent = FluentUIBaseComponent.findScrollableParent(element);
             this._incrementScroll = this._incrementScroll.bind(this);
             this._scrollRect = getRect(this._scrollableParent);
             // tslint:disable-next-line:no-any
@@ -144,7 +144,7 @@ var BlazorFluentUiMarqueeSelection;
             }
         }
     }
-    BlazorFluentUiMarqueeSelection.AutoScroll = AutoScroll;
+    BlazorFluentUIMarqueeSelection.AutoScroll = AutoScroll;
     //class Handler {
     //    static objectListeners: Map<DotNetReferenceType, Map<string, EventParams>> = new Map<DotNetReferenceType, Map<string, EventParams>>();
     //    static addListener(ref: DotNetReferenceType, element: HTMLElement | Window, event: string, handler: (ev: Event) => void, capture: boolean): void {
@@ -174,7 +174,7 @@ var BlazorFluentUiMarqueeSelection;
         let marqueeSelection = new MarqueeSelection(dotNet, root, props);
         marqueeSelections.set(dotNet._id, marqueeSelection);
     }
-    BlazorFluentUiMarqueeSelection.registerMarqueeSelection = registerMarqueeSelection;
+    BlazorFluentUIMarqueeSelection.registerMarqueeSelection = registerMarqueeSelection;
     function updateProps(dotNet, props) {
         //assume itemsource may have changed...
         var marqueeSelection = marqueeSelections.get(dotNet._id);
@@ -182,13 +182,13 @@ var BlazorFluentUiMarqueeSelection;
             marqueeSelection.props = props;
         }
     }
-    BlazorFluentUiMarqueeSelection.updateProps = updateProps;
+    BlazorFluentUIMarqueeSelection.updateProps = updateProps;
     function unregisterMarqueeSelection(dotNet) {
         let marqueeSelection = marqueeSelections.get(dotNet._id);
         marqueeSelection.dispose();
         marqueeSelections.delete(dotNet._id);
     }
-    BlazorFluentUiMarqueeSelection.unregisterMarqueeSelection = unregisterMarqueeSelection;
+    BlazorFluentUIMarqueeSelection.unregisterMarqueeSelection = unregisterMarqueeSelection;
     const MIN_DRAG_DISTANCE = 5;
     class MarqueeSelection {
         constructor(dotNet, root, props) {
@@ -223,9 +223,9 @@ var BlazorFluentUiMarqueeSelection;
             this.dotNet = dotNet;
             this.root = root;
             this.props = props;
-            this.events = new BlazorFluentUiBaseComponent.EventGroup(this);
-            this._async = new BlazorFluentUiBaseComponent.Async(this);
-            this.scrollableParent = BlazorFluentUiBaseComponent.findScrollableParent(root);
+            this.events = new FluentUIBaseComponent.EventGroup(this);
+            this._async = new FluentUIBaseComponent.Async(this);
+            this.scrollableParent = FluentUIBaseComponent.findScrollableParent(root);
             this.scrollableSurface = this.scrollableParent === window ? document.body : this.scrollableParent;
             const hitTarget = props.isDraggingConstrainedToRoot ? this.root : this.scrollableSurface;
             this.events.on(hitTarget, 'mousedown', this.onMouseDown);
@@ -478,6 +478,5 @@ var BlazorFluentUiMarqueeSelection;
                 rectangle.right > point.left);
         }
     }
-})(BlazorFluentUiMarqueeSelection || (BlazorFluentUiMarqueeSelection = {}));
-window['BlazorFluentUiMarqueeSelection'] = BlazorFluentUiMarqueeSelection || {};
-//# sourceMappingURL=marqueeSelection.js.map
+})(BlazorFluentUIMarqueeSelection || (BlazorFluentUIMarqueeSelection = {}));
+window['BlazorFluentUIMarqueeSelection'] = BlazorFluentUIMarqueeSelection || {};

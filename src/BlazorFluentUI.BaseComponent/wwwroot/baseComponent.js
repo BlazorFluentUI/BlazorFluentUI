@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var BlazorFluentUiBaseComponent;
-(function (BlazorFluentUiBaseComponent) {
+var FluentUIBaseComponent;
+(function (FluentUIBaseComponent) {
     const test = 12333;
     const DATA_IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
     const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
@@ -36,7 +36,7 @@ var BlazorFluentUiBaseComponent;
             window.addEventListener("keydown", _onFocusRectKeyDown, true);
         }
     }
-    BlazorFluentUiBaseComponent.initializeFocusRects = initializeFocusRects;
+    FluentUIBaseComponent.initializeFocusRects = initializeFocusRects;
     function _onFocusRectMouseDown(ev) {
         if (window.document.body.classList.contains(IsFocusVisibleClassName)) {
             window.document.body.classList.remove(IsFocusVisibleClassName);
@@ -72,7 +72,7 @@ var BlazorFluentUiBaseComponent;
             _bodyScrollDisabledCount--;
         }
     }
-    BlazorFluentUiBaseComponent.enableBodyScroll = enableBodyScroll;
+    FluentUIBaseComponent.enableBodyScroll = enableBodyScroll;
     function disableBodyScroll() {
         if (!_bodyScrollDisabledCount) {
             document.body.classList.add("disabledBodyScroll");
@@ -80,7 +80,7 @@ var BlazorFluentUiBaseComponent;
         }
         _bodyScrollDisabledCount++;
     }
-    BlazorFluentUiBaseComponent.disableBodyScroll = disableBodyScroll;
+    FluentUIBaseComponent.disableBodyScroll = disableBodyScroll;
     const _disableIosBodyScroll = (event) => {
         event.preventDefault();
     };
@@ -90,13 +90,13 @@ var BlazorFluentUiBaseComponent;
             return 0;
         return element.clientHeight;
     }
-    BlazorFluentUiBaseComponent.getClientHeight = getClientHeight;
+    FluentUIBaseComponent.getClientHeight = getClientHeight;
     function getScrollHeight(element) {
         if (element == null)
             return 0;
         return element.scrollHeight;
     }
-    BlazorFluentUiBaseComponent.getScrollHeight = getScrollHeight;
+    FluentUIBaseComponent.getScrollHeight = getScrollHeight;
     function findScrollableParent(startingElement) {
         let el = startingElement;
         // First do a quick scan for the scrollable attribute.
@@ -125,7 +125,7 @@ var BlazorFluentUiBaseComponent;
         }
         return el;
     }
-    BlazorFluentUiBaseComponent.findScrollableParent = findScrollableParent;
+    FluentUIBaseComponent.findScrollableParent = findScrollableParent;
     function measureElement(element) {
         var rect = {
             width: element.clientWidth,
@@ -135,7 +135,7 @@ var BlazorFluentUiBaseComponent;
         };
         return rect;
     }
-    BlazorFluentUiBaseComponent.measureElement = measureElement;
+    FluentUIBaseComponent.measureElement = measureElement;
     function getNaturalBounds(image) {
         if (image && image !== null) {
             var rect = {
@@ -148,15 +148,15 @@ var BlazorFluentUiBaseComponent;
         }
         return null;
     }
-    BlazorFluentUiBaseComponent.getNaturalBounds = getNaturalBounds;
+    FluentUIBaseComponent.getNaturalBounds = getNaturalBounds;
     function supportsObjectFit() {
         return window !== undefined && window.navigator.msMaxTouchPoints === undefined;
     }
-    BlazorFluentUiBaseComponent.supportsObjectFit = supportsObjectFit;
+    FluentUIBaseComponent.supportsObjectFit = supportsObjectFit;
     function hasOverflow(element) {
         return false;
     }
-    BlazorFluentUiBaseComponent.hasOverflow = hasOverflow;
+    FluentUIBaseComponent.hasOverflow = hasOverflow;
     function measureScrollWindow(element) {
         var rect = {
             width: element.scrollWidth,
@@ -168,7 +168,7 @@ var BlazorFluentUiBaseComponent;
         };
         return rect;
     }
-    BlazorFluentUiBaseComponent.measureScrollWindow = measureScrollWindow;
+    FluentUIBaseComponent.measureScrollWindow = measureScrollWindow;
     function measureScrollDimensions(element) {
         var dimensions = {
             scrollHeight: element.scrollHeight,
@@ -176,7 +176,7 @@ var BlazorFluentUiBaseComponent;
         };
         return dimensions;
     }
-    BlazorFluentUiBaseComponent.measureScrollDimensions = measureScrollDimensions;
+    FluentUIBaseComponent.measureScrollDimensions = measureScrollDimensions;
     function measureElementRect(element) {
         if (element !== undefined && element !== null) {
             // EdgeHTML's rectangle can't be serialized for some reason.... serializes to 0 everything.   So break it apart into simple JSON.
@@ -186,11 +186,11 @@ var BlazorFluentUiBaseComponent;
         else
             return { height: 0, width: 0, left: 0, right: 0, top: 0, bottom: 0 };
     }
-    BlazorFluentUiBaseComponent.measureElementRect = measureElementRect;
+    FluentUIBaseComponent.measureElementRect = measureElementRect;
     function getWindow(element) {
         return element.ownerDocument.defaultView;
     }
-    BlazorFluentUiBaseComponent.getWindow = getWindow;
+    FluentUIBaseComponent.getWindow = getWindow;
     function getWindowRect() {
         var rect = {
             width: window.innerWidth,
@@ -200,14 +200,14 @@ var BlazorFluentUiBaseComponent;
         };
         return rect;
     }
-    BlazorFluentUiBaseComponent.getWindowRect = getWindowRect;
+    FluentUIBaseComponent.getWindowRect = getWindowRect;
     function getElementId(element) {
         if (element !== undefined) {
             return element.id;
         }
         return null;
     }
-    BlazorFluentUiBaseComponent.getElementId = getElementId;
+    FluentUIBaseComponent.getElementId = getElementId;
     var eventRegister = {};
     var eventElementRegister = {};
     /* Function for Dropdown, but could apply to focusing on any element after onkeydown outside of list containing is-element-focusable items */
@@ -245,7 +245,7 @@ var BlazorFluentUiBaseComponent;
             return null;
         }
     }
-    BlazorFluentUiBaseComponent.registerKeyEventsForList = registerKeyEventsForList;
+    FluentUIBaseComponent.registerKeyEventsForList = registerKeyEventsForList;
     function deregisterKeyEventsForList(guid) {
         var tuple = eventElementRegister[guid];
         if (tuple) {
@@ -255,7 +255,7 @@ var BlazorFluentUiBaseComponent;
             eventElementRegister[guid] = null;
         }
     }
-    BlazorFluentUiBaseComponent.deregisterKeyEventsForList = deregisterKeyEventsForList;
+    FluentUIBaseComponent.deregisterKeyEventsForList = deregisterKeyEventsForList;
     function registerWindowKeyDownEvent(dotnetRef, keyCode, functionName) {
         var guid = Guid.newGuid();
         eventRegister[guid] = (ev) => {
@@ -268,13 +268,13 @@ var BlazorFluentUiBaseComponent;
         window.addEventListener("keydown", eventRegister[guid]);
         return guid;
     }
-    BlazorFluentUiBaseComponent.registerWindowKeyDownEvent = registerWindowKeyDownEvent;
+    FluentUIBaseComponent.registerWindowKeyDownEvent = registerWindowKeyDownEvent;
     function deregisterWindowKeyDownEvent(guid) {
         var func = eventRegister[guid];
         window.removeEventListener("keydown", func);
         eventRegister[guid] = null;
     }
-    BlazorFluentUiBaseComponent.deregisterWindowKeyDownEvent = deregisterWindowKeyDownEvent;
+    FluentUIBaseComponent.deregisterWindowKeyDownEvent = deregisterWindowKeyDownEvent;
     function registerResizeEvent(dotnetRef, functionName) {
         var guid = Guid.newGuid();
         eventRegister[guid] = debounce((ev) => {
@@ -283,13 +283,13 @@ var BlazorFluentUiBaseComponent;
         window.addEventListener("resize", eventRegister[guid]);
         return guid;
     }
-    BlazorFluentUiBaseComponent.registerResizeEvent = registerResizeEvent;
+    FluentUIBaseComponent.registerResizeEvent = registerResizeEvent;
     function deregisterResizeEvent(guid) {
         var func = eventRegister[guid];
         window.removeEventListener("resize", func);
         eventRegister[guid] = null;
     }
-    BlazorFluentUiBaseComponent.deregisterResizeEvent = deregisterResizeEvent;
+    FluentUIBaseComponent.deregisterResizeEvent = deregisterResizeEvent;
     class Guid {
         static newGuid() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -356,13 +356,13 @@ var BlazorFluentUiBaseComponent;
         cachedViewports.set(viewport.id, viewport);
         return viewport.id;
     }
-    BlazorFluentUiBaseComponent.addViewport = addViewport;
+    FluentUIBaseComponent.addViewport = addViewport;
     function removeViewport(id) {
         let viewport = cachedViewports.get(id);
         viewport.disconnect();
         cachedViewports.delete(id);
     }
-    BlazorFluentUiBaseComponent.removeViewport = removeViewport;
+    FluentUIBaseComponent.removeViewport = removeViewport;
     function getRect(element) {
         let rect;
         if (element) {
@@ -382,19 +382,19 @@ var BlazorFluentUiBaseComponent;
         }
         return rect;
     }
-    BlazorFluentUiBaseComponent.getRect = getRect;
+    FluentUIBaseComponent.getRect = getRect;
     function findElementRecursive(element, matchFunction) {
         if (!element || element === document.body) {
             return null;
         }
         return matchFunction(element) ? element : findElementRecursive(getParent(element), matchFunction);
     }
-    BlazorFluentUiBaseComponent.findElementRecursive = findElementRecursive;
+    FluentUIBaseComponent.findElementRecursive = findElementRecursive;
     function elementContainsAttribute(element, attribute) {
         let elementMatch = findElementRecursive(element, (testElement) => testElement.hasAttribute(attribute));
         return elementMatch && elementMatch.getAttribute(attribute);
     }
-    BlazorFluentUiBaseComponent.elementContainsAttribute = elementContainsAttribute;
+    FluentUIBaseComponent.elementContainsAttribute = elementContainsAttribute;
     /* Focus stuff */
     /* Since elements can be stored in Blazor and we don't want to create more js files, this will hold last focused elements for restoring focus later. */
     var _lastFocus = {};
@@ -408,7 +408,7 @@ var BlazorFluentUiBaseComponent;
         }
         return null;
     }
-    BlazorFluentUiBaseComponent.storeLastFocusedElement = storeLastFocusedElement;
+    FluentUIBaseComponent.storeLastFocusedElement = storeLastFocusedElement;
     function restoreLastFocus(guid, restoreFocus = true) {
         var htmlElement = _lastFocus[guid];
         if (htmlElement != null) {
@@ -418,15 +418,15 @@ var BlazorFluentUiBaseComponent;
             delete _lastFocus[guid];
         }
     }
-    BlazorFluentUiBaseComponent.restoreLastFocus = restoreLastFocus;
+    FluentUIBaseComponent.restoreLastFocus = restoreLastFocus;
     function getActiveElement() {
         return document.activeElement;
     }
-    BlazorFluentUiBaseComponent.getActiveElement = getActiveElement;
+    FluentUIBaseComponent.getActiveElement = getActiveElement;
     function focusElement(element) {
         element.focus();
     }
-    BlazorFluentUiBaseComponent.focusElement = focusElement;
+    FluentUIBaseComponent.focusElement = focusElement;
     function focusFirstElementChild(element) {
         let child = this.getFirstFocusable(element, element, true);
         if (child) {
@@ -436,11 +436,11 @@ var BlazorFluentUiBaseComponent;
             element.focus();
         }
     }
-    BlazorFluentUiBaseComponent.focusFirstElementChild = focusFirstElementChild;
+    FluentUIBaseComponent.focusFirstElementChild = focusFirstElementChild;
     function shouldWrapFocus(element, noWrapDataAttribute) {
         return elementContainsAttribute(element, noWrapDataAttribute) === 'true' ? false : true;
     }
-    BlazorFluentUiBaseComponent.shouldWrapFocus = shouldWrapFocus;
+    FluentUIBaseComponent.shouldWrapFocus = shouldWrapFocus;
     function getFocusableByIndexPath(parent, path) {
         let element = parent;
         for (const index of path) {
@@ -453,15 +453,15 @@ var BlazorFluentUiBaseComponent;
         element = isElementTabbable(element) && isElementVisible(element) ? element : getNextElement(parent, element, true) || getPreviousElement(parent, element);
         return { element: element, isNull: !element };
     }
-    BlazorFluentUiBaseComponent.getFocusableByIndexPath = getFocusableByIndexPath;
+    FluentUIBaseComponent.getFocusableByIndexPath = getFocusableByIndexPath;
     function getFirstFocusable(rootElement, currentElement, includeElementsInFocusZones) {
         return getNextElement(rootElement, currentElement, true /*checkNode*/, false /*suppressParentTraversal*/, false /*suppressChildTraversal*/, includeElementsInFocusZones);
     }
-    BlazorFluentUiBaseComponent.getFirstFocusable = getFirstFocusable;
+    FluentUIBaseComponent.getFirstFocusable = getFirstFocusable;
     function getLastFocusable(rootElement, currentElement, includeElementsInFocusZones) {
         return getPreviousElement(rootElement, currentElement, true /*checkNode*/, false /*suppressParentTraversal*/, true /*suppressChildTraversal*/, includeElementsInFocusZones);
     }
-    BlazorFluentUiBaseComponent.getLastFocusable = getLastFocusable;
+    FluentUIBaseComponent.getLastFocusable = getLastFocusable;
     function isElementTabbable(element, checkTabIndex) {
         // If this element is null or is disabled, it is not considered tabbable.
         if (!element || element.disabled) {
@@ -487,7 +487,7 @@ var BlazorFluentUiBaseComponent;
                 isTabIndexSet);
         return checkTabIndex ? tabIndex !== -1 && result : result;
     }
-    BlazorFluentUiBaseComponent.isElementTabbable = isElementTabbable;
+    FluentUIBaseComponent.isElementTabbable = isElementTabbable;
     function isElementVisible(element) {
         // If the element is not valid, return false.
         if (!element || !element.getAttribute) {
@@ -504,19 +504,19 @@ var BlazorFluentUiBaseComponent;
             // tslint:disable-next-line:no-any
             element.isVisible === true); // used as a workaround for testing.
     }
-    BlazorFluentUiBaseComponent.isElementVisible = isElementVisible;
+    FluentUIBaseComponent.isElementVisible = isElementVisible;
     function focusFirstChild(rootElement) {
         return false;
     }
-    BlazorFluentUiBaseComponent.focusFirstChild = focusFirstChild;
+    FluentUIBaseComponent.focusFirstChild = focusFirstChild;
     function getParent(child, allowVirtualParents = true) {
         return child && ((allowVirtualParents && getVirtualParent(child)) || (child.parentNode && child.parentNode));
     }
-    BlazorFluentUiBaseComponent.getParent = getParent;
+    FluentUIBaseComponent.getParent = getParent;
     function addOrUpdateVirtualParent(parent) {
         layerElements[parent.dataset.layerId] = parent;
     }
-    BlazorFluentUiBaseComponent.addOrUpdateVirtualParent = addOrUpdateVirtualParent;
+    FluentUIBaseComponent.addOrUpdateVirtualParent = addOrUpdateVirtualParent;
     function getVirtualParent(child) {
         let parent;
         if (child && child.dataset && child.dataset.parentLayerId) {
@@ -524,7 +524,7 @@ var BlazorFluentUiBaseComponent;
         }
         return parent;
     }
-    BlazorFluentUiBaseComponent.getVirtualParent = getVirtualParent;
+    FluentUIBaseComponent.getVirtualParent = getVirtualParent;
     //export function setVirtualParent(child: HTMLElement, parent: HTMLElement) {
     //    let virtualChild = <IVirtualElement>child;
     //    let virtualParent = <IVirtualElement>parent;
@@ -580,7 +580,7 @@ var BlazorFluentUiBaseComponent;
         }
         return isContained;
     }
-    BlazorFluentUiBaseComponent.elementContains = elementContains;
+    FluentUIBaseComponent.elementContains = elementContains;
     function getNextElement(rootElement, currentElement, checkNode, suppressParentTraversal, suppressChildTraversal, includeElementsInFocusZones, allowFocusRoot, tabbable) {
         if (!currentElement || (currentElement === rootElement && suppressChildTraversal && !allowFocusRoot)) {
             return null;
@@ -612,7 +612,7 @@ var BlazorFluentUiBaseComponent;
         }
         return null;
     }
-    BlazorFluentUiBaseComponent.getNextElement = getNextElement;
+    FluentUIBaseComponent.getNextElement = getNextElement;
     function getPreviousElement(rootElement, currentElement, checkNode, suppressParentTraversal, traverseChildren, includeElementsInFocusZones, allowFocusRoot, tabbable) {
         if (!currentElement || (!allowFocusRoot && currentElement === rootElement)) {
             return null;
@@ -660,14 +660,14 @@ var BlazorFluentUiBaseComponent;
         }
         return null;
     }
-    BlazorFluentUiBaseComponent.getPreviousElement = getPreviousElement;
+    FluentUIBaseComponent.getPreviousElement = getPreviousElement;
     /** Raises a click event. */
     function raiseClick(target) {
         const event = createNewEvent('MouseEvents');
         event.initEvent('click', true, true);
         target.dispatchEvent(event);
     }
-    BlazorFluentUiBaseComponent.raiseClick = raiseClick;
+    FluentUIBaseComponent.raiseClick = raiseClick;
     function createNewEvent(eventName) {
         let event;
         if (typeof Event === 'function') {
@@ -684,16 +684,16 @@ var BlazorFluentUiBaseComponent;
     function isElementFocusZone(element) {
         return !!(element && element.getAttribute && !!element.getAttribute(FOCUSZONE_ID_ATTRIBUTE));
     }
-    BlazorFluentUiBaseComponent.isElementFocusZone = isElementFocusZone;
+    FluentUIBaseComponent.isElementFocusZone = isElementFocusZone;
     function isElementFocusSubZone(element) {
         return !!(element && element.getAttribute && element.getAttribute(FOCUSZONE_SUB_ATTRIBUTE) === 'true');
     }
-    BlazorFluentUiBaseComponent.isElementFocusSubZone = isElementFocusSubZone;
+    FluentUIBaseComponent.isElementFocusSubZone = isElementFocusSubZone;
     function on(element, eventName, callback, options) {
         element.addEventListener(eventName, callback, options);
         return () => element.removeEventListener(eventName, callback, options);
     }
-    BlazorFluentUiBaseComponent.on = on;
+    FluentUIBaseComponent.on = on;
     function _expandRect(rect, pagesBefore, pagesAfter) {
         const top = rect.top - pagesBefore * rect.height;
         const height = rect.height + (pagesBefore + pagesAfter) * rect.height;
@@ -820,7 +820,7 @@ var BlazorFluentUiBaseComponent;
         resultFunction.pending = pending;
         return resultFunction;
     }
-    BlazorFluentUiBaseComponent.debounce = debounce;
+    FluentUIBaseComponent.debounce = debounce;
     const RTL_LOCAL_STORAGE_KEY = 'isRTL';
     let _isRTL;
     function getRTL() {
@@ -839,7 +839,7 @@ var BlazorFluentUiBaseComponent;
         }
         return !!_isRTL;
     }
-    BlazorFluentUiBaseComponent.getRTL = getRTL;
+    FluentUIBaseComponent.getRTL = getRTL;
     function setRTL(isRTL, persistSetting = false) {
         let doc = document;
         if (doc) {
@@ -851,7 +851,7 @@ var BlazorFluentUiBaseComponent;
         _isRTL = isRTL;
         //mergeStylesSetRTL(_isRTL);
     }
-    BlazorFluentUiBaseComponent.setRTL = setRTL;
+    FluentUIBaseComponent.setRTL = setRTL;
     function getItem(key) {
         let result = null;
         try {
@@ -862,7 +862,7 @@ var BlazorFluentUiBaseComponent;
         }
         return result;
     }
-    BlazorFluentUiBaseComponent.getItem = getItem;
+    FluentUIBaseComponent.getItem = getItem;
     function setItem(key, data) {
         try {
             window.sessionStorage.setItem(key, data);
@@ -871,7 +871,7 @@ var BlazorFluentUiBaseComponent;
             /* Eat the exception */
         }
     }
-    BlazorFluentUiBaseComponent.setItem = setItem;
+    FluentUIBaseComponent.setItem = setItem;
     class Async {
         // tslint:disable-next-line:no-any
         constructor(parent, onError) {
@@ -1275,11 +1275,11 @@ var BlazorFluentUiBaseComponent;
             }
         }
     }
-    BlazorFluentUiBaseComponent.Async = Async;
+    FluentUIBaseComponent.Async = Async;
     function assign(target, ...args) {
         return filteredAssign.apply(this, [null, target].concat(args));
     }
-    BlazorFluentUiBaseComponent.assign = assign;
+    FluentUIBaseComponent.assign = assign;
     function filteredAssign(isAllowed, target, ...args) {
         target = target || {};
         for (let sourceObject of args) {
@@ -1293,7 +1293,7 @@ var BlazorFluentUiBaseComponent;
         }
         return target;
     }
-    BlazorFluentUiBaseComponent.filteredAssign = filteredAssign;
+    FluentUIBaseComponent.filteredAssign = filteredAssign;
     /** An instance of EventGroup allows anything with a handle to it to trigger events on it.
          *  If the target is an HTMLElement, the event will be attached to the element and can be
          *  triggered as usual (like clicking for onClick).
@@ -1544,10 +1544,10 @@ var BlazorFluentUiBaseComponent;
         }
     }
     EventGroup._uniqueId = 0;
-    BlazorFluentUiBaseComponent.EventGroup = EventGroup;
-})(BlazorFluentUiBaseComponent || (BlazorFluentUiBaseComponent = {}));
+    FluentUIBaseComponent.EventGroup = EventGroup;
+})(FluentUIBaseComponent || (FluentUIBaseComponent = {}));
 //}
-window.BlazorFluentUiBaseComponent = BlazorFluentUiBaseComponent;
+window.FluentUIBaseComponent = FluentUIBaseComponent;
 // Workaround to prevent default on keypress until we can do it in Blazor conditionally without javascript
 // https://stackoverflow.com/questions/24386354/execute-js-code-after-pressing-the-spacebar
 window.addEventListener("load", function () {
@@ -1617,4 +1617,3 @@ window.addEventListener("load", function () {
     //Also check all elements when loaded.
     setupPreventDefaultOnEnterOnElements(document.getElementsByClassName("prevent-default-on-space"), true);
 });
-//# sourceMappingURL=baseComponent.js.map

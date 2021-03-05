@@ -31,7 +31,7 @@ namespace BlazorFluentUI
         public static async Task<ResponsiveMode> GetResponsiveModeAsync(IJSRuntime jSRuntime)
         {
             var responsiveMode = ResponsiveMode.Small;
-            var windowRect = await jSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.getWindowRect");
+            var windowRect = await jSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.getWindowRect");
             try
             {
                 while (windowRect.width > RESPONSIVE_MAX_CONSTRAINT[(int)responsiveMode])

@@ -179,7 +179,7 @@ namespace BlazorFluentUI
 
         public async Task Focus()
         {
-            await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.focusElement", slideBox).ConfigureAwait(false);
+            await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", slideBox).ConfigureAwait(false);
         }
 
         private void ClearOnKeyDownTimer()

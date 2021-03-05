@@ -189,7 +189,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 _selfReference = DotNetObjectReference.Create(this);
-                _listId = await JSRuntime.InvokeAsync<int>($"BlazorFluentUiList.initialize", _selfReference, _spacerBefore, _spacerAfter);
+                _listId = await JSRuntime.InvokeAsync<int>($"BlazorFluentUIList.initialize", _selfReference, _spacerBefore, _spacerAfter);
             }
         }
 
@@ -464,7 +464,7 @@ namespace BlazorFluentUI
             {
                 if (_listId != -1)
                 {
-                    await JSRuntime.InvokeVoidAsync("BlazorFluentUiList.removeList", _listId);
+                    await JSRuntime.InvokeVoidAsync("BlazorFluentUIList.removeList", _listId);
                 }
                 _selfReference.Dispose();
             }

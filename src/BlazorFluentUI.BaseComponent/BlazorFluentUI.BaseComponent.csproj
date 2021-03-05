@@ -11,21 +11,13 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="src\**" />
-    <Content Remove="src\**" />
-    <EmbeddedResource Remove="src\**" />
-    <None Remove="src\**" />
-    <TypeScriptCompile Remove="src\**" />
-  </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="tsconfig.json" />
     <Content Remove="wwwroot\baseComponent.d.ts" />
   </ItemGroup>
 
-  <ItemGroup>
-    <TypeScriptCompile Remove="wwwroot\baseComponent.d.ts" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
@@ -41,8 +33,8 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Include="bundleconfig.json" />
     <None Include="wwwroot\baseComponent.ts" />
-
   </ItemGroup>
 
   <ItemGroup>
@@ -51,33 +43,14 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <!--<ItemGroup>
-    <TypeScriptCompile Update="wwwroot\baseComponent.ts">
-      <Generator>TypescriptCompile</Generator>
-    </TypeScriptCompile>
-  </ItemGroup>-->
-
   <ItemGroup>
     <ProjectReference Include="..\BlazorFluentUI.ComponentStyle\BlazorFluentUI.ComponentStyle.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.Theme\BlazorFluentUI.Theme.csproj" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <TypeScriptTarget>ES6</TypeScriptTarget>
-    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
-    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
-    <TypeScriptOutFile>wwwroot/baseComponent.js</TypeScriptOutFile>
-    <TypeScriptOutDir />
-    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
-    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
-    <TypeScriptSourceMap>True</TypeScriptSourceMap>
-    <TypeScriptMapRoot />
-    <TypeScriptSourceRoot />
-  </PropertyGroup>
-
- 
-  
+  <ItemGroup>
+    <TypeScriptCompile Include="tsconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </TypeScriptCompile>
+  </ItemGroup>
 </Project>

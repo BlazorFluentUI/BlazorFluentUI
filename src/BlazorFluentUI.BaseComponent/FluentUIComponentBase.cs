@@ -62,7 +62,7 @@ namespace BlazorFluentUI
             if (!ScopedStatics.FocusRectsInitialized)
             {
                 ScopedStatics.FocusRectsInitialized = true;
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.initializeFocusRects");
+                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.initializeFocusRects");
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -71,7 +71,7 @@ namespace BlazorFluentUI
         {
             try
             {
-                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", RootElementReference);
+                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", RootElementReference);
                 return rectangle;
             }
             catch (JSException)
@@ -84,7 +84,7 @@ namespace BlazorFluentUI
         {
             try
             {
-                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", cancellationToken, RootElementReference);
+                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", cancellationToken, RootElementReference);
                 return rectangle;
             }
             catch (JSException) 
@@ -97,7 +97,7 @@ namespace BlazorFluentUI
         {
             try
             {
-                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", cancellationToken, elementReference);
+                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", cancellationToken, elementReference);
                 return rectangle;
             }
             catch (JSException)
@@ -110,7 +110,7 @@ namespace BlazorFluentUI
         {
             try
             {
-                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.measureElementRect", elementReference);
+                var rectangle = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", elementReference);
                 return rectangle;
             }
             catch (JSException)

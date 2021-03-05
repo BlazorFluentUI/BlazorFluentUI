@@ -1,11 +1,11 @@
 ﻿/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 
 
-namespace BlazorFluentUiMarqueeSelection {
+namespace BlazorFluentUIMarqueeSelection {
 
-    type IRectangle = BlazorFluentUiBaseComponent.IRectangle;
-    type EventGroup = BlazorFluentUiBaseComponent.EventGroup;
-    type EventParams = BlazorFluentUiBaseComponent.EventParams;
+    type IRectangle = FluentUIBaseComponent.IRectangle;
+    type EventGroup = FluentUIBaseComponent.EventGroup;
+    type EventParams = FluentUIBaseComponent.EventParams;
 
     interface DotNetReferenceType {
         invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
@@ -66,8 +66,8 @@ namespace BlazorFluentUiMarqueeSelection {
         private _timeoutId: number;
 
         constructor(element: HTMLElement) {
-            this._events = new BlazorFluentUiBaseComponent.EventGroup(this);
-            this._scrollableParent = BlazorFluentUiBaseComponent.findScrollableParent(element) as HTMLElement;
+            this._events = new FluentUIBaseComponent.EventGroup(this);
+            this._scrollableParent = FluentUIBaseComponent.findScrollableParent(element) as HTMLElement;
 
             this._incrementScroll = this._incrementScroll.bind(this);
             this._scrollRect = getRect(this._scrollableParent);
@@ -252,7 +252,7 @@ namespace BlazorFluentUiMarqueeSelection {
 
         events: EventGroup;
         autoScroll: AutoScroll;
-        _async: BlazorFluentUiBaseComponent.Async;
+        _async: FluentUIBaseComponent.Async;
 
         props: IMarqueeSelectionProps;
         dragRect: IRectangle;
@@ -276,10 +276,10 @@ namespace BlazorFluentUiMarqueeSelection {
             this.root = root;
             this.props = props;
 
-            this.events = new BlazorFluentUiBaseComponent.EventGroup(this);
-            this._async = new BlazorFluentUiBaseComponent.Async(this);
+            this.events = new FluentUIBaseComponent.EventGroup(this);
+            this._async = new FluentUIBaseComponent.Async(this);
 
-            this.scrollableParent = BlazorFluentUiBaseComponent.findScrollableParent(root);
+            this.scrollableParent = FluentUIBaseComponent.findScrollableParent(root);
             this.scrollableSurface = this.scrollableParent === (window as any) ? document.body : this.scrollableParent;
 
             const hitTarget = props.isDraggingConstrainedToRoot ? this.root : this.scrollableSurface;
@@ -627,5 +627,5 @@ namespace BlazorFluentUiMarqueeSelection {
 
 }
 
-(<any>window)['BlazorFluentUiMarqueeSelection'] = BlazorFluentUiMarqueeSelection || {};
+(<any>window)['BlazorFluentUIMarqueeSelection'] = BlazorFluentUIMarqueeSelection || {};
 

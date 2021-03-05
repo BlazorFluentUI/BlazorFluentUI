@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": false,
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "ES6",
+    "outFile": "wwwroot/fluentUIBlazor.js",
+    "allowJs": true
+  },
+  "files": [
+    "BaseComponent/wwwroot/baseComponent.ts",
+    "Callout/wwwroot/callout.ts",
+    "DocumentCard/wwwroot/documentCard.ts",
+    "FocusTrapZone/wwwroot/focusTrapZone.ts",
+    "FocusZone/wwwroot/focusZone.ts",
+    "List/wwwroot/fabricList.ts",
+    "DetailsList/wwwroot/detailsList.ts",
+    "MarqueeSelection/wwwroot/marqueeSelection.ts",
+    "Panel/wwwroot/panel.ts",
+    "SelectionZone/wwwroot/selectionZone.ts",
+    "Slider/wwwroot/slider.ts",
+    "BaseComponent/wwwroot/requestIdleCallbackPolyfill.js"
+  ],
+  "exclude": [
+    "node_modules"
+   ]
+}

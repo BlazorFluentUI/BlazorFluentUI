@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="tsconfig.json" />
     <Content Remove="wwwroot\contextualMenu.ts" />
   </ItemGroup>
 
@@ -31,6 +32,12 @@
     <ProjectReference Include="..\BlazorFluentUI.FocusZone\BlazorFluentUI.FocusZone.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.Icon\BlazorFluentUI.Icon.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.ResponsiveLayout\BlazorFluentUI.ResponsiveLayout.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="tsconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </TypeScriptCompile>
   </ItemGroup>
 
 </Project>

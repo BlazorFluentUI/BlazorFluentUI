@@ -1,6 +1,6 @@
 /// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 
-namespace BlazorFluentUiSlider {
+namespace BlazorFluentUISlider {
 
     interface DotNetReferenceType {
         invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
@@ -103,18 +103,18 @@ namespace BlazorFluentUiSlider {
         let diff: number;
         let value: number;
         switch (event.which) {
-            case BlazorFluentUiBaseComponent.KeyCodes.right: //right arrow
-            case BlazorFluentUiBaseComponent.KeyCodes.up: //up arrow
+            case FluentUIBaseComponent.KeyCodes.right: //right arrow
+            case FluentUIBaseComponent.KeyCodes.up: //up arrow
                 slider.invokeMethodAsync("OnKeyDown", { step: +1 });
                 break;
-            case BlazorFluentUiBaseComponent.KeyCodes.left: //left arrow
-            case BlazorFluentUiBaseComponent.KeyCodes.down: //down arrow
+            case FluentUIBaseComponent.KeyCodes.left: //left arrow
+            case FluentUIBaseComponent.KeyCodes.down: //down arrow
                 slider.invokeMethodAsync("OnKeyDown", { step: -1 });
                 break;
-            case BlazorFluentUiBaseComponent.KeyCodes.home: //home
+            case FluentUIBaseComponent.KeyCodes.home: //home
                 slider.invokeMethodAsync("OnKeyDown", { min: true });
                 break;
-            case BlazorFluentUiBaseComponent.KeyCodes.end: //end
+            case FluentUIBaseComponent.KeyCodes.end: //end
                 slider.invokeMethodAsync("OnKeyDown", { max: true });
                 break;
             default:
@@ -132,5 +132,5 @@ namespace BlazorFluentUiSlider {
     }
 }
 
-(<any>window)['BlazorFluentUiSlider'] = BlazorFluentUiSlider || {};
+(<any>window)['BlazorFluentUISlider'] = BlazorFluentUISlider || {};
 

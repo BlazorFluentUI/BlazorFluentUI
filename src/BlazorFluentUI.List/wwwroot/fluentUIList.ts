@@ -4,7 +4,7 @@
 
 namespace BlazorFluentUiList {
 
-    type EventGroup = BlazorFluentUiBaseComponent.EventGroup;
+    type EventGroup = FluentUIBaseComponent.EventGroup;
     interface DotNetReferenceType {
 
     invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
@@ -52,11 +52,11 @@ namespace BlazorFluentUiList {
 
             //this.surfaceElement = rootElement.children.item(0) as HTMLElement;
 
-            this.scrollElement = BlazorFluentUiBaseComponent.findScrollableParent(spacerBefore);
+            this.scrollElement = FluentUIBaseComponent.findScrollableParent(spacerBefore);
             // get initial width
             this.component.invokeMethodAsync('ResizeHandler', this.scrollElement.clientWidth);
 
-            this.events = new BlazorFluentUiBaseComponent.EventGroup(this);
+            this.events = new FluentUIBaseComponent.EventGroup(this);
             this.events.on(window, 'resize', this.resize);
 
             this.rootElement = spacerBefore.parentElement;

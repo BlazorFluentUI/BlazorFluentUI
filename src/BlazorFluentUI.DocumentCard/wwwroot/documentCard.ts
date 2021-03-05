@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 
-namespace BlazorFluentUiDocumentCard {
+namespace BlazorFluentUIDocumentCard {
     class CardTitleMap {
         id: string;
         element: HTMLDivElement;

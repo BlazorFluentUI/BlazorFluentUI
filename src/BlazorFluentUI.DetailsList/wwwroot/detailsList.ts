@@ -1,8 +1,8 @@
 ﻿/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 
-namespace BlazorFluentUiDetailsList {
+namespace BlazorFluentUIDetailsList {
 
-    type EventGroup = BlazorFluentUiBaseComponent.EventGroup;
+    type EventGroup = FluentUIBaseComponent.EventGroup;
 
     interface DotNetReferenceType {
 
@@ -35,10 +35,10 @@ namespace BlazorFluentUiDetailsList {
 
         constructor(dotNet: DotNetReferenceType, root: HTMLElement) {
             this.dotNet = dotNet;
-            this.root = root;            
+            this.root = root;
 
-            this.events = new BlazorFluentUiBaseComponent.EventGroup(this);
-            
+            this.events = new FluentUIBaseComponent.EventGroup(this);
+
             this.events.on(root, 'mousedown', this._onRootMouseDown);
             this.events.on(root, 'dblclick', this._onRootDblClick);
         }
@@ -73,11 +73,11 @@ namespace BlazorFluentUiDetailsList {
 
             await this.dotNet.invokeMethodAsync<void>("OnDoubleClick", columnIndex);
 
-           
+
         };
 
     }
 
 }
 
-(<any>window)['BlazorFluentUiDetailsList'] = BlazorFluentUiDetailsList || {};
+(<any>window)['BlazorFluentUIDetailsList'] = BlazorFluentUIDetailsList || {};

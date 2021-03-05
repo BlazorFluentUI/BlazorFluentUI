@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="tsconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Remove="wwwroot\selectionZone.ts" />
   </ItemGroup>
 
@@ -28,6 +32,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFluentUI.BaseComponent\BlazorFluentUI.BaseComponent.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <TypeScriptCompile Include="tsconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </TypeScriptCompile>
   </ItemGroup>
 
 

@@ -19,7 +19,7 @@ namespace BlazorFluentUI
         {
             if (firstRender)
             {
-                var windowRect = await jSRuntime!.InvokeAsync<Rectangle>("BlazorFluentUiBaseComponent.getWindowRect");
+                var windowRect = await jSRuntime!.InvokeAsync<Rectangle>("FluentUIBaseComponent.getWindowRect");
                 foreach (var item in Enum.GetValues(typeof(ResponsiveMode)))
                 {
                     if (windowRect.width <= ResponsiveModeUtils.RESPONSIVE_MAX_CONSTRAINT[(int)item])
@@ -30,7 +30,7 @@ namespace BlazorFluentUI
                 }
                 //Debug.WriteLine($"ResponsiveMode: {CurrentMode}");
 
-                _resizeRegistration = await jSRuntime!.InvokeAsync<string>("BlazorFluentUiBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
+                _resizeRegistration = await jSRuntime!.InvokeAsync<string>("FluentUIBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
                 StateHasChanged();  // we will never have window size until after first render, so re-render after this to update the component with ResponsiveMode info.
             }
             await base.OnAfterRenderAsync(firstRender);
@@ -61,7 +61,7 @@ namespace BlazorFluentUI
         {
             if (_resizeRegistration != null)
             {
-                await jSRuntime!.InvokeVoidAsync("BlazorFluentUiBaseComponent.deregisterResizeEvent", _resizeRegistration);
+                await jSRuntime!.InvokeVoidAsync("FluentUIBaseComponent.deregisterResizeEvent", _resizeRegistration);
                 //Debug.WriteLine($"ResponsiveComponentBase unregistered");
                 _resizeRegistration = null;
             }

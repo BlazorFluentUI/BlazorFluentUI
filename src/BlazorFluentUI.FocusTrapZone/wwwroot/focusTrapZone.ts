@@ -1,7 +1,7 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 /// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 
-namespace BlazorFluentUiFocusTrapZone { 
+namespace BlazorFluentUIFocusTrapZone { 
 
 
     interface DotNetReferenceType {
@@ -101,7 +101,7 @@ namespace BlazorFluentUiFocusTrapZone {
                 relatedTarget = document.activeElement as Element;
             }
 
-            if (!BlazorFluentUiBaseComponent.elementContains(this._props.rootElement, relatedTarget as HTMLElement)) {
+            if (!FluentUIBaseComponent.elementContains(this._props.rootElement, relatedTarget as HTMLElement)) {
                 this._hasFocus = false;
             }
         };
@@ -150,7 +150,7 @@ namespace BlazorFluentUiFocusTrapZone {
             this._previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss && (<any>elementToFocusOnDismiss).__internalId != null
                 ? elementToFocusOnDismiss
                 : (document.activeElement as HTMLElement);
-            if (!disableFirstFocus && !BlazorFluentUiBaseComponent.elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {
+            if (!disableFirstFocus && !FluentUIBaseComponent.elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {
                 this.focus();
             }
         }
@@ -167,7 +167,7 @@ namespace BlazorFluentUiFocusTrapZone {
                 !ignoreExternalFocusing &&
                 this._previouslyFocusedElementOutsideTrapZone &&
                 typeof this._previouslyFocusedElementOutsideTrapZone.focus === 'function' &&
-                (BlazorFluentUiBaseComponent.elementContains(rootElement, activeElement) || activeElement === document.body)
+                (FluentUIBaseComponent.elementContains(rootElement, activeElement) || activeElement === document.body)
             ) {
                 this._focusAsync(this._previouslyFocusedElementOutsideTrapZone);
             }
@@ -190,7 +190,7 @@ namespace BlazorFluentUiFocusTrapZone {
             if (
                 focusPreviouslyFocusedInnerElement &&
                 this._previouslyFocusedElementInTrapZone &&
-                BlazorFluentUiBaseComponent.elementContains(rootElement, this._previouslyFocusedElementInTrapZone)
+                FluentUIBaseComponent.elementContains(rootElement, this._previouslyFocusedElementInTrapZone)
             ) {
                 // focus on the last item that had focus in the zone before we left the zone
                 this._focusAsync(this._previouslyFocusedElementInTrapZone);
@@ -642,5 +642,5 @@ namespace BlazorFluentUiFocusTrapZone {
     //}
 }
 
-(<any>window)['BlazorFluentUiFocusTrapZone'] = BlazorFluentUiFocusTrapZone || {};
+(<any>window)['BlazorFluentUIFocusTrapZone'] = BlazorFluentUIFocusTrapZone || {};
 

@@ -89,7 +89,7 @@ namespace BlazorFluentUI.Resize
             if (firstRender)
             {
                 _jsAvailable = true;
-                _resizeEventTokenTask = jSRuntime.InvokeAsync<string>("BlazorFluentUiBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHappenedAsync");
+                _resizeEventTokenTask = jSRuntime.InvokeAsync<string>("FluentUIBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHappenedAsync");
             }
 
             double containerDimension = await GetContainerDimension();
@@ -141,7 +141,7 @@ namespace BlazorFluentUI.Resize
                     if (_resizeEventTokenTask.IsCompleted)
                     {
                         _resizeEventToken = await _resizeEventTokenTask;
-                        await jSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.deregisterResizeEvent", _resizeEventToken);
+                        await jSRuntime.InvokeVoidAsync("FluentUIBaseComponent.deregisterResizeEvent", _resizeEventToken);
                     }
                 }
             }

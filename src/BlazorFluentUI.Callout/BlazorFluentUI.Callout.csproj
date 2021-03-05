@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="tsconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.2.2">
       <PrivateAssets>all</PrivateAssets>
@@ -30,6 +34,12 @@
     <None Include="wwwroot\callout.ts">
       <Generator>TypescriptCompile</Generator>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="tsconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </TypeScriptCompile>
   </ItemGroup>
 
   <ItemGroup>

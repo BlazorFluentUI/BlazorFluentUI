@@ -464,7 +464,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 selfReference = DotNetObjectReference.Create(this);
-                _viewportRegistration = await JSRuntime.InvokeAsync<int>("BlazorFluentUiBaseComponent.addViewport", selfReference, RootElementReference);
+                _viewportRegistration = await JSRuntime.InvokeAsync<int>("FluentUIBaseComponent.addViewport", selfReference, RootElementReference);
                 
             }
             await base.OnAfterRenderAsync(firstRender);
@@ -744,7 +744,7 @@ namespace BlazorFluentUI
         {
             if (_viewportRegistration != -1)
             {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.removeViewport", _viewportRegistration);
+                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.removeViewport", _viewportRegistration);
             }
             selfReference?.Dispose();
         }

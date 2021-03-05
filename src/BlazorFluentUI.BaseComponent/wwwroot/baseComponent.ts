@@ -1,4 +1,4 @@
-﻿namespace BlazorFluentUiBaseComponent {
+﻿namespace FluentUIBaseComponent {
     const test = 12333;
     const DATA_IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
     const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
@@ -2079,11 +2079,11 @@
 
 //declare global {
     interface Window {
-        BlazorFluentUiBaseComponent: typeof BlazorFluentUiBaseComponent
+        FluentUIBaseComponent: typeof FluentUIBaseComponent
     }
 //}
 
-window.BlazorFluentUiBaseComponent = BlazorFluentUiBaseComponent;
+window.FluentUIBaseComponent = FluentUIBaseComponent;
 
 
 // Workaround to prevent default on keypress until we can do it in Blazor conditionally without javascript

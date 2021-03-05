@@ -37,7 +37,7 @@ namespace BlazorFluentUI
         {	
             if (firstRender)	
             {	
-                _handleToLastFocusedElement = await jSRuntime.InvokeAsync<string>("BlazorFluentUiBaseComponent.storeLastFocusedElement");	
+                _handleToLastFocusedElement = await jSRuntime.InvokeAsync<string>("FluentUIBaseComponent.storeLastFocusedElement");	
             }	
             await base.OnAfterRenderAsync(firstRender);	
         }	
@@ -58,7 +58,7 @@ namespace BlazorFluentUI
         {	
             if (_handleToLastFocusedElement != null)	
             {	
-                await jSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.restoreLastFocus", _handleToLastFocusedElement, ShouldRestoreFocus);	
+                await jSRuntime.InvokeVoidAsync("FluentUIBaseComponent.restoreLastFocus", _handleToLastFocusedElement, ShouldRestoreFocus);	
             }	
         }	
     }	

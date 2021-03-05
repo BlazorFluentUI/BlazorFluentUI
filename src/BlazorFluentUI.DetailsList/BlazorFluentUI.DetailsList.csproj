@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="tsconfig.json" />
     <Content Remove="wwwroot\detailsList.ts" />
   </ItemGroup>
 
@@ -20,6 +21,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.2.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 
@@ -28,6 +33,13 @@
     <ProjectReference Include="..\BlazorFluentUI.DetailsRow\BlazorFluentUI.DetailsRow.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.GroupedList\BlazorFluentUI.GroupedList.csproj" />
     <ProjectReference Include="..\BlazorFluentUI.List\BlazorFluentUI.List.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <TypeScriptCompile Include="tsconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </TypeScriptCompile>
   </ItemGroup>
 
 </Project>

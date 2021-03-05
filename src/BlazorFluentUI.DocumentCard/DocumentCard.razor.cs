@@ -229,7 +229,7 @@ namespace BlazorFluentUI
 
         public async Task Focus()
         {
-            await jSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.focusElement", RootElementReference).ConfigureAwait(false);
+            await jSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", RootElementReference).ConfigureAwait(false);
         }
     }
 }

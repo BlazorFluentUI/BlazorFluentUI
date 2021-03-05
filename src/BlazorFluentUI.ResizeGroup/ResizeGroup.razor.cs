@@ -103,7 +103,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 _jsAvailable = true;
-                _resizeEventTokenTask = jSRuntime.InvokeAsync<string>("BlazorFluentUiBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHappenedAsync");
+                _resizeEventTokenTask = jSRuntime.InvokeAsync<string>("FluentUIBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHappenedAsync");
             }
 
             if (_renderedData != null)
@@ -161,7 +161,7 @@ namespace BlazorFluentUI
         {
             // must get this via a funcion because we don't know yet if either of these elements will exist to be measured.
             var refToMeasure = !_hasRenderedContent ? initialHiddenDiv : updateHiddenDiv;
-            var elementBounds = await jSRuntime.InvokeAsync<ScrollDimensions>("BlazorFluentUiBaseComponent.measureScrollDimensions", cancellationToken, refToMeasure);
+            var elementBounds = await jSRuntime.InvokeAsync<ScrollDimensions>("FluentUIBaseComponent.measureScrollDimensions", cancellationToken, refToMeasure);
             var elementDimension = Vertical ? elementBounds.ScrollHeight : elementBounds.ScrollWidth;
             return elementDimension;
         }
@@ -309,7 +309,7 @@ namespace BlazorFluentUI
                     if (_resizeEventTokenTask != null && _resizeEventTokenTask.IsCompleted)
                     {
                         _resizeEventToken = await _resizeEventTokenTask;
-                        await jSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.deregisterResizeEvent", _resizeEventToken);
+                        await jSRuntime.InvokeVoidAsync("FluentUIBaseComponent.deregisterResizeEvent", _resizeEventToken);
                     }
                 }
             }

@@ -1,8 +1,8 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 /// <reference path="../../BlazorFluentUI.FocusTrapZone/wwwroot/focusTrapZone.ts" />
 /// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
-var BlazorFluentUiPanel;
-(function (BlazorFluentUiPanel) {
+var BlazorFluentUIPanel;
+(function (BlazorFluentUIPanel) {
     class Handler {
         static addListener(element, event, handler, capture) {
             element.addEventListener(event, handler, capture);
@@ -25,13 +25,13 @@ var BlazorFluentUiPanel;
         //var blurId = Handler.addListener(targetElement, "blur", (ev: Event) => { ev.preventDefault(); panel.invokeMethodAsync("OnBlur"); }, false);
         return resizeId;
     }
-    BlazorFluentUiPanel.registerSizeHandler = registerSizeHandler;
+    BlazorFluentUIPanel.registerSizeHandler = registerSizeHandler;
     function registerMouseDownHandler(panelElement, panelDotNet) {
         var mouseDownId = Handler.addListener(document.body, "mousedown", (ev) => {
             //first get whether click is inside panel
             if (!ev.defaultPrevented) {
-                var contains = BlazorFluentUiBaseComponent.elementContains(panelElement, ev.target);
-                //var contains = window["BlazorFluentUiFocusTrapZone"].elementContains(panelElement, ev.target);
+                var contains = FluentUIBaseComponent.elementContains(panelElement, ev.target);
+                //var contains = window["BlazorFluentUIFocusTrapZone"].elementContains(panelElement, ev.target);
                 if (!contains) {
                     ev.preventDefault();
                     panelDotNet.invokeMethodAsync("DismissOnOuterClick", contains);
@@ -40,11 +40,11 @@ var BlazorFluentUiPanel;
         }, true);
         return mouseDownId;
     }
-    BlazorFluentUiPanel.registerMouseDownHandler = registerMouseDownHandler;
+    BlazorFluentUIPanel.registerMouseDownHandler = registerMouseDownHandler;
     function unregisterHandler(id) {
         Handler.removeListener(id);
     }
-    BlazorFluentUiPanel.unregisterHandler = unregisterHandler;
+    BlazorFluentUIPanel.unregisterHandler = unregisterHandler;
     const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
     function makeElementScrollAllower(element) {
         let _previousClientY = 0;
@@ -88,7 +88,7 @@ var BlazorFluentUiPanel;
         var touchMoveId = Handler.addListener(element, "touchmove", _preventOverscrolling, false);
         return [touchStartId, touchMoveId];
     }
-    BlazorFluentUiPanel.makeElementScrollAllower = makeElementScrollAllower;
+    BlazorFluentUIPanel.makeElementScrollAllower = makeElementScrollAllower;
     function findScrollableParent(startingElement) {
         let el = startingElement;
         // First do a quick scan for the scrollable attribute.
@@ -117,6 +117,5 @@ var BlazorFluentUiPanel;
         }
         return el;
     }
-})(BlazorFluentUiPanel || (BlazorFluentUiPanel = {}));
-window['BlazorFluentUiPanel'] = BlazorFluentUiPanel || {};
-//# sourceMappingURL=panel.js.map
+})(BlazorFluentUIPanel || (BlazorFluentUIPanel = {}));
+window['BlazorFluentUIPanel'] = BlazorFluentUIPanel || {};

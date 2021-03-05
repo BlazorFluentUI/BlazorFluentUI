@@ -272,14 +272,14 @@ namespace BlazorFluentUI
                 _chosenReference = panelReference;
             else
                 _chosenReference = calloutReference;
-            _registrationToken = await jSRuntime.InvokeAsync<string>("BlazorFluentUiBaseComponent.registerKeyEventsForList", _chosenReference);
+            _registrationToken = await jSRuntime.InvokeAsync<string>("FluentUIBaseComponent.registerKeyEventsForList", _chosenReference);
         }
 
         private async Task DeregisterListFocusAsync()
         {
             if (_registrationToken != null)
             {
-                await jSRuntime.InvokeVoidAsync("BlazorFluentUiBaseComponent.deregisterKeyEventsForList", _registrationToken);
+                await jSRuntime.InvokeVoidAsync("FluentUIBaseComponent.deregisterKeyEventsForList", _registrationToken);
                 _registrationToken = null;
             }
         }

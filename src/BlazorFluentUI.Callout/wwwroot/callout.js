@@ -1,18 +1,18 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-var BlazorFluentUiCallout;
-(function (BlazorFluentUiCallout) {
+var BlazorFluentUICallout;
+(function (BlazorFluentUICallout) {
     function registerHandlers(targetElement, calloutRef) {
         var window = targetElement.ownerDocument.defaultView;
         var calloutDivId = Handler.addCallout(targetElement);
-        var scrollId = Handler.addListener(window, "scroll", function (ev) { if (checkTarget(ev, targetElement)) {
+        var scrollId = Handler.addListener(window, "scroll", (ev) => { if (checkTarget(ev, targetElement)) {
             calloutRef.invokeMethodAsync("ScrollHandler");
         } ; }, true);
-        var resizeId = Handler.addListener(window, "resize", function (ev) { if (checkTarget(ev, targetElement)) {
+        var resizeId = Handler.addListener(window, "resize", (ev) => { if (checkTarget(ev, targetElement)) {
             calloutRef.invokeMethodAsync("ResizeHandler");
         } ; }, true);
-        var focusId = Handler.addListener(document.documentElement, "focus", function (ev) {
+        var focusId = Handler.addListener(document.documentElement, "focus", (ev) => {
             var outsideCallout = true;
-            for (var prop in Handler.targetCombinedElements) {
+            for (let prop in Handler.targetCombinedElements) {
                 if (Object.prototype.hasOwnProperty.call(Handler.targetCombinedElements, prop)) {
                     outsideCallout = checkTarget(ev, Handler.targetCombinedElements[prop]);
                     if (outsideCallout == false)
@@ -22,9 +22,9 @@ var BlazorFluentUiCallout;
             if (outsideCallout)
                 calloutRef.invokeMethodAsync("FocusHandler");
         }, true);
-        var clickId = Handler.addListener(document.documentElement, "click", function (ev) {
+        var clickId = Handler.addListener(document.documentElement, "click", (ev) => {
             var outsideCallout = true;
-            for (var prop in Handler.targetCombinedElements) {
+            for (let prop in Handler.targetCombinedElements) {
                 if (Object.prototype.hasOwnProperty.call(Handler.targetCombinedElements, prop)) {
                     outsideCallout = checkTarget(ev, Handler.targetCombinedElements[prop]);
                     if (outsideCallout == false)
@@ -37,49 +37,45 @@ var BlazorFluentUiCallout;
         //set focus, too
         return [scrollId, resizeId, focusId, clickId, calloutDivId];
     }
-    BlazorFluentUiCallout.registerHandlers = registerHandlers;
+    BlazorFluentUICallout.registerHandlers = registerHandlers;
     function unregisterHandlers(ids) {
         Handler.removeCallout(ids[ids.length - 1]);
         var handlerIds = ids.slice(0, ids.length - 1);
-        for (var _i = 0, handlerIds_1 = handlerIds; _i < handlerIds_1.length; _i++) {
-            var id = handlerIds_1[_i];
+        for (let id of handlerIds) {
             Handler.removeListener(id);
         }
     }
-    BlazorFluentUiCallout.unregisterHandlers = unregisterHandlers;
-    var Handler = /** @class */ (function () {
-        function Handler() {
-        }
-        Handler.addCallout = function (element) {
+    BlazorFluentUICallout.unregisterHandlers = unregisterHandlers;
+    class Handler {
+        static addCallout(element) {
             this.targetCombinedElements[this.i] = element;
             return this.i++;
-        };
-        Handler.removeCallout = function (id) {
+        }
+        static removeCallout(id) {
             if (id in this.targetCombinedElements)
                 delete this.targetCombinedElements[id];
-        };
-        Handler.addListener = function (element, event, handler, capture) {
+        }
+        static addListener(element, event, handler, capture) {
             element.addEventListener(event, handler, capture);
             this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
             return this.i++;
-        };
-        Handler.removeListener = function (id) {
+        }
+        static removeListener(id) {
             if (id in this.listeners) {
                 var h = this.listeners[id];
                 h.element.removeEventListener(h.event, h.handler, h.capture);
                 delete this.listeners[id];
             }
-        };
-        Handler.i = 1;
-        Handler.listeners = {};
-        Handler.targetCombinedElements = {};
-        return Handler;
-    }());
+        }
+    }
+    Handler.i = 1;
+    Handler.listeners = {};
+    Handler.targetCombinedElements = {};
     function clickHandler(ev) {
     }
     function checkTarget(ev, targetElement) {
-        var target = ev.target;
-        var isEventTargetOutsideCallout = !elementContains(targetElement, target);
+        const target = ev.target;
+        const isEventTargetOutsideCallout = !elementContains(targetElement, target);
         return isEventTargetOutsideCallout;
         //// complicated mess that includes mouse events for right-click menus...
         //if (
@@ -93,14 +89,13 @@ var BlazorFluentUiCallout;
         //}
         //return false;
     }
-    function elementContains(parent, child, allowVirtualParents) {
-        if (allowVirtualParents === void 0) { allowVirtualParents = true; }
-        var isContained = false;
+    function elementContains(parent, child, allowVirtualParents = true) {
+        let isContained = false;
         if (parent && child) {
             if (allowVirtualParents) {
                 isContained = false;
                 while (child) {
-                    var nextParent = getParent(child);
+                    let nextParent = getParent(child);
                     // console.log("NextParent: " + nextParent);
                     if (nextParent === parent) {
                         isContained = true;
@@ -121,7 +116,7 @@ var BlazorFluentUiCallout;
     function getWindow(element) {
         return element.ownerDocument.defaultView;
     }
-    BlazorFluentUiCallout.getWindow = getWindow;
+    BlazorFluentUICallout.getWindow = getWindow;
     function getWindowRect() {
         var rect = {
             width: window.innerWidth,
@@ -131,8 +126,7 @@ var BlazorFluentUiCallout;
         };
         return rect;
     }
-    BlazorFluentUiCallout.getWindowRect = getWindowRect;
+    BlazorFluentUICallout.getWindowRect = getWindowRect;
     ;
-})(BlazorFluentUiCallout || (BlazorFluentUiCallout = {}));
-window['BlazorFluentUiCallout'] = BlazorFluentUiCallout || {};
-//# sourceMappingURL=callout.js.map
+})(BlazorFluentUICallout || (BlazorFluentUICallout = {}));
+window['BlazorFluentUICallout'] = BlazorFluentUICallout || {};

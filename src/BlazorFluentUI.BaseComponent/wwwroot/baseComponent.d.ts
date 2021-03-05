@@ -1,4 +1,4 @@
-declare namespace BlazorFluentUiBaseComponent {
+declare namespace FluentUIBaseComponent {
     interface DotNetReferenceType {
         invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
         invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
@@ -362,5 +362,5 @@ declare namespace BlazorFluentUiBaseComponent {
     export {};
 }
 interface Window {
-    BlazorFluentUiBaseComponent: typeof BlazorFluentUiBaseComponent;
+    FluentUIBaseComponent: typeof FluentUIBaseComponent;
 }

@@ -1,11 +1,11 @@
 ﻿/// <reference path="../../BlazorFluentUI.BaseComponent/wwwroot/baseComponent.ts" />
 
 
-namespace BlazorFluentUiSelectionZone {
+namespace BlazorFluentUISelectionZone {
 
-    type IRectangle = BlazorFluentUiBaseComponent.IRectangle;
-    type EventGroup = BlazorFluentUiBaseComponent.EventGroup;
-    type EventParams = BlazorFluentUiBaseComponent.EventParams;
+    type IRectangle = FluentUIBaseComponent.IRectangle;
+    type EventGroup = FluentUIBaseComponent.EventGroup;
+    type EventParams = FluentUIBaseComponent.EventParams;
 
     interface DotNetReferenceType {
         invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
@@ -65,7 +65,7 @@ namespace BlazorFluentUiSelectionZone {
    
         props: ISelectionZoneProps;
         private _events: EventGroup;
-        private _async: BlazorFluentUiBaseComponent.Async;
+        private _async: FluentUIBaseComponent.Async;
         private _isCtrlPressed: boolean;
         private _isShiftPressed: boolean;
         private _isMetaPressed: boolean;
@@ -80,10 +80,10 @@ namespace BlazorFluentUiSelectionZone {
             this.root = root;
             this.props = props;
 
-            const win = BlazorFluentUiBaseComponent.getWindow(this.root);
+            const win = FluentUIBaseComponent.getWindow(this.root);
 
-            this._events = new BlazorFluentUiBaseComponent.EventGroup(this);
-            this._async = new BlazorFluentUiBaseComponent.Async(this);
+            this._events = new FluentUIBaseComponent.EventGroup(this);
+            this._async = new FluentUIBaseComponent.Async(this);
 
             this._events.on(win, 'keydown', this._updateModifiers);
             //this._events.on(document, 'click', this._findScrollParentAndTryClearOnEmptyClick);
@@ -118,7 +118,7 @@ namespace BlazorFluentUiSelectionZone {
             this._isMetaPressed = ev.metaKey;
 
             const keyCode = (ev as KeyboardEvent).keyCode;
-            this._isTabPressed = keyCode ? keyCode === BlazorFluentUiBaseComponent.KeyCodes.tab : false;
+            this._isTabPressed = keyCode ? keyCode === FluentUIBaseComponent.KeyCodes.tab : false;
             //console.log('updatemodifiers');
         }
 
@@ -130,12 +130,12 @@ namespace BlazorFluentUiSelectionZone {
         private _onMouseDownCapture = (ev: MouseEvent): void => {
             let target = ev.target as HTMLElement;
 
-            if (document.activeElement !== target && !BlazorFluentUiBaseComponent.elementContains(document.activeElement as HTMLElement, target)) {
+            if (document.activeElement !== target && !FluentUIBaseComponent.elementContains(document.activeElement as HTMLElement, target)) {
                 this.ignoreNextFocus();
                 return;
             }
 
-            if (!BlazorFluentUiBaseComponent.elementContains(target, this.root)) {
+            if (!FluentUIBaseComponent.elementContains(target, this.root)) {
                 return;
             }
 
@@ -145,7 +145,7 @@ namespace BlazorFluentUiSelectionZone {
                     break;
                 }
 
-                target = BlazorFluentUiBaseComponent.getParent(target) as HTMLElement;
+                target = FluentUIBaseComponent.getParent(target) as HTMLElement;
             }
         };
 
@@ -184,7 +184,7 @@ namespace BlazorFluentUiSelectionZone {
                     }
                 }
 
-                target = BlazorFluentUiBaseComponent.getParent(target) as HTMLElement;
+                target = FluentUIBaseComponent.getParent(target) as HTMLElement;
             }
         };
 
@@ -282,7 +282,7 @@ namespace BlazorFluentUiSelectionZone {
                     }
                 }
 
-                target = BlazorFluentUiBaseComponent.getParent(target) as HTMLElement;
+                target = FluentUIBaseComponent.getParent(target) as HTMLElement;
             }
         };
 
@@ -307,7 +307,7 @@ namespace BlazorFluentUiSelectionZone {
 
             while (!isToggle && element !== this.root) {
                 isToggle = element.getAttribute(attributeName) === 'true';
-                element = BlazorFluentUiBaseComponent.getParent(element) as HTMLElement;
+                element = FluentUIBaseComponent.getParent(element) as HTMLElement;
             }
 
             return isToggle;
@@ -344,7 +344,7 @@ namespace BlazorFluentUiSelectionZone {
                     }
                 }
 
-                target = BlazorFluentUiBaseComponent.getParent(target) as HTMLElement;
+                target = FluentUIBaseComponent.getParent(target) as HTMLElement;
             }
 
             if (target === this.root) {
@@ -363,7 +363,7 @@ namespace BlazorFluentUiSelectionZone {
                 if (this._hasAttribute(target, SELECTION_DISABLED_ATTRIBUTE_NAME)) {
                     return true;
                 }
-                target = BlazorFluentUiBaseComponent.getParent(target) as HTMLElement;
+                target = FluentUIBaseComponent.getParent(target) as HTMLElement;
             }
 
             return false;
@@ -478,5 +478,5 @@ namespace BlazorFluentUiSelectionZone {
 
 }
 
-(<any>window)['BlazorFluentUiSelectionZone'] = BlazorFluentUiSelectionZone || {};
+(<any>window)['BlazorFluentUISelectionZone'] = BlazorFluentUISelectionZone || {};
 

@@ -2,7 +2,7 @@
 
 <h1>Callout</h1>
 
-<BFUDropdown
+<Dropdown
           Style="max-width:300px;"
           ItemsSource=@options
           @bind-SelectedOption=@selectedOption />
@@ -12,13 +12,13 @@
     <div style="height:200px;"></div>
     <div style="display:inline;overflow-x:auto;">
         <div style="width:300px"></div>
-        <BFUDefaultButton Text="Show Callout" OnClick=ClickHandler @ref="calloutTarget" />
+        <DefaultButton Text="Show Callout" OnClick=ClickHandler @ref="calloutTarget" />
         <div style="width:300px"></div>
     </div>
     <div style="height:400px;"></div>
     @if (!calloutHidden)
     {
-        <BFUCallout FabricComponentTarget=@calloutTarget
+        <Callout FabricComponentTarget=@calloutTarget
                     DirectionalHint=@((DirectionalHint)Enum.Parse(typeof(DirectionalHint),selectedOption.Key))
                     OnDismiss=@DismissHandler>
             <div Style="max-width:300px; padding:20px;">
@@ -26,9 +26,9 @@
                 <p style="min-width: 150px;">
                     There are a few things in here.
                 </p>
-                <BFUPrimaryButton Text="Ok" />
+                <PrimaryButton Text="Ok" />
             </div>
-        </BFUCallout>
+        </Callout>
     }
 
 </Demo>
@@ -38,15 +38,15 @@
         bool isInitialized = false;
         bool calloutHidden = true;
 
-        BFUComponentBase calloutTarget;
+        FluentUIComponentBase calloutTarget;
 
-        List<IBFUDropdownOption> options;
-        IBFUDropdownOption selectedOption;
+        List<IDropdownOption> options;
+        IDropdownOption selectedOption;
         //string SelectedDirection = DirectionalHint.BottomLeftEdge.ToString();
 
     protected override Task OnInitializedAsync()
     {
-        options = Enum.GetValues(typeof(DirectionalHint)).Cast<DirectionalHint>().Select(x => new BFUDropdownOption { Key = x.ToString(), Text = x.ToString() }).Cast<IBFUDropdownOption>().ToList();
+        options = Enum.GetValues(typeof(DirectionalHint)).Cast<DirectionalHint>().Select(x => new DropdownOption { Key = x.ToString(), Text = x.ToString() }).Cast<IDropdownOption>().ToList();
         selectedOption = options.FirstOrDefault(x => x.Key == "BottomLeftEdge");
 
         return base.OnInitializedAsync();

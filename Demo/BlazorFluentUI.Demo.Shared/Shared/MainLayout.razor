@@ -42,7 +42,7 @@
             <Panel Type=@PanelType.SmallFixedNear OnDismiss=@(() => isPanelOpen = false) IsOpen=@isPanelOpen IsLightDismiss="true">
                 <NavigationTemplate>
                     <IconButton IconName="GlobalNavButton" OnClick=@(() => isPanelOpen = false) />
-                    <Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">View GitHub repo of BlazorFluentUI...</Link>
+                    <BlazorFluentUI.Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">View GitHub repo of BlazorFluentUI...</BlazorFluentUI.Link>
                 </NavigationTemplate>
                 <ChildContent>
                     <NavMenu OnLinkClicked=@OnNavLinkClick />
@@ -158,8 +158,8 @@
             Selector = new CssStringSelector() { SelectorName = "div::-webkit-scrollbar-button:vertical:decrement::after" },
             Properties = new CssString()
             {
-                Css=$"border-width:0px 8px 8px 8px;"+
-                    $"border-color:transparent transparent {ThemeProvider.Theme.Palette.NeutralLighter} transparent;"+
+                Css = $"border-width:0px 8px 8px 8px;" +
+                    $"border-color:transparent transparent {ThemeProvider.Theme.Palette.NeutralLighter} transparent;" +
                     $"content:'**';"
             }
         });
@@ -235,7 +235,7 @@
         isPanelOpen = false;
     }
 
-    void OnNavLinkClick(NavLink linkBase)
+    void OnNavLinkClick(BlazorFluentUI.NavLink linkBase)
     {
         isPanelOpen = false;
     }

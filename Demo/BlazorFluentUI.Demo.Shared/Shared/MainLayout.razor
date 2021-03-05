@@ -1,58 +1,52 @@
 ﻿@using Microsoft.AspNetCore.Components
 @inherits LayoutComponentBase
 
-
-<Stack Horizontal="true" Style="width:100%;">
-    <ResponsiveLayout MinWidth="ResponsiveMode.Medium.ToMinCssValue()">
-        <StackItem Grow="0" DisableShrink="true" Style="height:100%;overflow:hidden;">
-            <NavMenu />
-        </StackItem>
-    </ResponsiveLayout>
-
-
-    <StackItem Grow="1" Style="overflow:hidden">
-        <Stack VerticalFill="true" Style="width:100%;">
-
-            <ResponsiveLayout MaxWidth="ResponsiveMode.Medium.ToMaxCssValue()">
-                <StackItem Grow="0" VerticalFill="false">
-                    <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu />
-                </StackItem>
-            </ResponsiveLayout>
-
-            <ResponsiveLayout MinWidth="ResponsiveMode.Medium.ToMinCssValue()">
-                <Stack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.Center" Style="width:100%">
-                    <StackItem Grow="0" VerticalFill="false">
-                        <div class="top-row">
-                            <Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">View GitHub repo of BlazorFluentUI...</Link>
-                        </div>
-                    </StackItem>
-                    <StackItem DisableShrink="true">
-                        @*<GlobalCS CreateGlobalCss=@(()=>CreateGlobalCss(ThemeProvider.Theme))/>*@
-                        <Toggle Checked=customTheme CheckedChanged="@SwitchTheme" OnText="Dark Theme" OffText="Default Theme" />
-                    </StackItem>
-                </Stack>
-            </ResponsiveLayout>
-
-            <StackItem Grow="1" Tokens="new StackItemTokens { Padding = ((int)CurrentMode <= (int)ResponsiveMode.Medium ? 10 : 0) }" Style="overflow-y:auto;">
-                @Body
+<div class="siteWrapper">
+    <Stack Horizontal="true" Style="width:100%;">
+        <ResponsiveLayout MinWidth="ResponsiveMode.Medium.ToMinCssValue()">
+            <StackItem Grow="0" DisableShrink="true" Style="height:100%;overflow:hidden;">
+                <NavMenu />
             </StackItem>
-        </Stack>
-
-        <ResponsiveLayout MaxWidth="ResponsiveMode.Medium.ToMaxCssValue()">
-            <Panel Type=@PanelType.SmallFixedNear OnDismiss=@(() => isPanelOpen = false) IsOpen=@isPanelOpen IsLightDismiss="true">
-                <NavigationTemplate>
-                    <IconButton IconName="GlobalNavButton" OnClick=@(() => isPanelOpen = false) />
-                    <BlazorFluentUI.Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">View GitHub repo of BlazorFluentUI...</BlazorFluentUI.Link>
-                </NavigationTemplate>
-                <ChildContent>
-                    <NavMenu OnLinkClicked=@OnNavLinkClick />
-                </ChildContent>
-            </Panel>
         </ResponsiveLayout>
-
-    </StackItem>
-
-</Stack>
+        <StackItem Grow="1" Style="overflow:hidden">
+            <Stack VerticalFill="true" Style="width:100%;">
+                <ResponsiveLayout MaxWidth="ResponsiveMode.Medium.ToMaxCssValue()">
+                    <StackItem Grow="0" VerticalFill="false">
+                        <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu />
+                    </StackItem>
+                </ResponsiveLayout>
+                <ResponsiveLayout MinWidth="ResponsiveMode.Medium.ToMinCssValue()">
+                    <Stack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.Center" Style="width:100%">
+                        <StackItem Grow="0" VerticalFill="false" Style="padding-left: 40px;">
+                            <div class="top-row">
+                                <Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">View BlazorFluentUI GitHub repo</Link>
+                            </div>
+                        </StackItem>
+                        <StackItem DisableShrink="true">
+                            <Toggle Checked=customTheme CheckedChanged="@SwitchTheme" OnText="Dark Theme" OffText="Default Theme" />
+                        </StackItem>
+                    </Stack>
+                </ResponsiveLayout>
+                <div class="siteContent">
+                    <div class="sectionWrapper">
+                        @Body
+                    </div>
+                </div>
+            </Stack>
+            <ResponsiveLayout MaxWidth="ResponsiveMode.Medium.ToMaxCssValue()">
+                <Panel Type=@PanelType.SmallFixedNear OnDismiss=@(() => isPanelOpen = false) IsOpen=@isPanelOpen IsLightDismiss="true">
+                    <NavigationTemplate>
+                        <IconButton IconName="GlobalNavButton" OnClick=@(() => isPanelOpen = false) />
+                        <Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">View BlazorFluentUI GitHub repo</Link>
+                    </NavigationTemplate>
+                    <ChildContent>
+                        <NavMenu OnLinkClicked=@OnNavLinkClick />
+                    </ChildContent>
+                </Panel>
+            </ResponsiveLayout>
+        </StackItem>
+    </Stack>
+</div>
 
 @code {
 

@@ -4,7 +4,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI.Demo.ClientSide
+namespace BlazorFluentUI.Demo.Client
 {
     public class Program
     {
@@ -12,7 +12,7 @@ namespace BlazorFluentUI.Demo.ClientSide
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            builder.RootComponents.Add<GlobalRules>("#staticcs");
+            //builder.RootComponents.Add<GlobalRules>("#staticcs");
 
             builder.RootComponents.Add<BlazorFluentUI.Demo.Shared.App>("#app");
 

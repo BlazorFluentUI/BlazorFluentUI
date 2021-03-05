@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using System.Net.Http;
 
-namespace BlazorFluentUI.Demo.ServerSide
+namespace BlazorFluentUI.Demo.Server
 {
     public class Startup
     {

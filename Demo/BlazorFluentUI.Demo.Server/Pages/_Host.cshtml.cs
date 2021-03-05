@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
 
-namespace BlazorFluentUI.Demo.ServerSide.Pages
+namespace BlazorFluentUI.Demo.Server.Pages
 {
     public class HostModel : PageModel
     {

@@ -1,6 +1,26 @@
 ﻿@page "/navPage"
 
-<h1>Nav</h1>
+<header class="root">
+    <h1 class="title">Nav</h1>
+</header>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading hiddenContent">Overview</h2>
+    </div>
+    <div class="content">
+        <div class="ms-Markdown">
+            <p>
+                A navigation pane (<code>Nav</code>) provides links to the main areas of an app or site.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading">Usage</h2>
+    </div>
+    <div>
+        <div class="subSection">
 
 <Nav>
 
@@ -27,6 +47,10 @@
     </NavLinkGroup>
 
 </Nav>
+
+        </div>
+    </div>
+</div>
 
 @code{
 

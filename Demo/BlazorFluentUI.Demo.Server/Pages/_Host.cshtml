@@ -1,6 +1,6 @@
 ﻿@page "/"
 @model HostModel
-@namespace BlazorFluentUI.Demo.ServerSide.Pages
+@namespace BlazorFluentUI.Demo.Server.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <!DOCTYPE html>
@@ -8,13 +8,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BlazorFluentUI.ServerSide</title>
+    <title>Blazor Fluent UI Server</title>
     <base href="~/" />
 
-    <link href="css/site.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
     <link rel="stylesheet" href="css/fabric-icons-inline.css" /> <!--These are icons for nav not automatically included in the above css.-->
     <link rel="stylesheet" href="BlazorFluentUI.Demo.Server.styles.css" />
+    <link href="css/site.css" rel="stylesheet" />
 
     @if (AppConstants.IS_DEBUG)
     {

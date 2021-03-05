@@ -1,37 +1,60 @@
 ﻿@page "/navBarPage"
-<h1>NavBar</h1>
+<header class="root">
+    <h1 class="title">NavBar</h1>
+</header>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading hiddenContent">Overview</h2>
+    </div>
+    <div class="content">
+        <div class="ms-Markdown">
+            <p>
 
-<ul>
-    <li>
-        Avoid adding a link to NavBarItems that contain MenuItems.  While the link will work in vertical mode, it will not work properly when in horizontal mode.
-    </li>
-    <li>
-        When horizontal menu gets too long for screen, NavBarItems will automatically be placed into the Overflow area.  You can place them into the Overflow area by default, too.
-    </li>
-</ul>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading">Usage</h2>
+    </div>
+    <div>
+        <ul>
+            <li>
+                Avoid adding a link to NavBarItems that contain MenuItems.  While the link will work in vertical mode, it will not work properly when in horizontal mode.
+            </li>
+            <li>
+                When horizontal menu gets too long for screen, NavBarItems will automatically be placed into the Overflow area.  You can place them into the Overflow area by default, too.
+            </li>
+        </ul>
 
-<Demo Header="Horizontal NavBar" Key="0" MetadataPath="NavBarPage">
-    <Stack Style="width:100%;">
-        @debugText
-        <NavBar Header="TestHeader" Direction="LayoutDirection.Horizontal" Items=@items >
-            <FooterTemplate>
-                <div>A footer area.</div>
-            </FooterTemplate>
-        </NavBar>
-    </Stack>
-</Demo>
+        <div class="subSection">
+            <Demo Header="Horizontal NavBar" Key="0" MetadataPath="NavBarPage">
+                <Stack Style="width:100%;">
+                    @debugText
+                    <NavBar Header="TestHeader" Direction="LayoutDirection.Horizontal" Items=@items>
+                        <FooterTemplate>
+                            <div>A footer area.</div>
+                        </FooterTemplate>
+                    </NavBar>
+                </Stack>
+            </Demo>
+        </div>
 
-<Demo Header="Vertical NavBar" Key="0" MetadataPath="NavBarPage">
-    <Stack Style="width:100%;">
-        @debugText
-        <NavBar Header="TestHeader" Direction="LayoutDirection.Vertical" Items=@items>
-            <FooterTemplate>
-                <div>A footer area.</div>
-            </FooterTemplate>
-        </NavBar>
-    </Stack>
-</Demo>
-
+        <div class="subSection">
+            <Demo Header="Vertical NavBar" Key="0" MetadataPath="NavBarPage">
+                <Stack Style="width:100%;">
+                    @debugText
+                    <NavBar Header="TestHeader" Direction="LayoutDirection.Vertical" Items=@items>
+                        <FooterTemplate>
+                            <div>A footer area.</div>
+                        </FooterTemplate>
+                    </NavBar>
+                </Stack>
+            </Demo>
+        </div>
+    </div>
+</div>
 
 @code{
     private List<NavBarItem> items;
@@ -41,12 +64,12 @@
     {
 
         items = new List<NavBarItem> {
-            new NavBarItem() { 
-                Text= "First", 
-                Url="navBarPage#test1", 
-                NavMatchType= NavMatchType.AnchorOnly, 
-                Id="test1", 
-                IconName="Home", 
+            new NavBarItem() {
+                Text= "First",
+                Url="navBarPage#test1",
+                NavMatchType= NavMatchType.AnchorOnly,
+                Id="test1",
+                IconName="Home",
                 Key="1"},
             new NavBarItem() {
                 Text= "Second",
@@ -62,7 +85,7 @@
                         IconName="Save",
                         Key="5",
                         Items = new List<NavBarItem>
-                        {
+                    {
                             new NavBarItem
                             {
                                 Text="SubSubFirst",

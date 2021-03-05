@@ -1,11 +1,30 @@
 ﻿@page "/calloutPage"
 
-<h1>Callout</h1>
+<header class="root">
+    <h1 class="title">Callout</h1>
+</header>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading hiddenContent">Overview</h2>
+    </div>
+    <div class="content">
+        <div class="ms-Markdown">
+            <p>
+                A callout is an anchored tip that can be used to teach people or guide them through the app without blocking them.
+            </p>
+        </div>
+    </div>
+</div>
 
-<Dropdown
-          Style="max-width:300px;"
-          ItemsSource=@options
-          @bind-SelectedOption=@selectedOption />
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading">Usage</h2>
+    </div>
+    <div>
+        <div class="subSection">
+            <Dropdown Style="max-width:300px;"
+                      ItemsSource=@options
+                      @bind-SelectedOption=@selectedOption />
 
 <Demo Header="Callout" Key="0" MetadataPath="CalloutPage">
 
@@ -31,8 +50,10 @@
         </Callout>
     }
 
-</Demo>
-
+            </Demo>
+        </div>
+    </div>
+</div>
 @code {
 
         bool isInitialized = false;

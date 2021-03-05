@@ -25,9 +25,9 @@ namespace System.Collections.ObjectModel
         //
         //------------------------------------------------------
 
-        #region Private Fields    
+        #region Private Fields
         [NonSerialized]
-        private DeferredEventsCollection? _deferredEvents;
+        private DeferredEventsCollection? deferredEvents;
         #endregion Private Fields
 
 
@@ -120,7 +120,7 @@ namespace System.Collections.ObjectModel
         /// </summary>
         /// <param name="index">The zero-based index at which the new elements should be inserted.</param>
         /// <param name="collection">The collection whose elements should be inserted into the List<T>.
-        /// The collection itself cannot be null, but it can contain elements that are null, if type T is a reference type.</param>                
+        /// The collection itself cannot be null, but it can contain elements that are null, if type T is a reference type.</param>
         /// <exception cref="ArgumentNullException"><paramref name="collection"/> is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is not in the collection range.</exception>
         public void InsertRange(int index, IEnumerable<T> collection)
@@ -162,10 +162,10 @@ namespace System.Collections.ObjectModel
         }
 
 
-        /// <summary> 
+        /// <summary>
         /// Removes the first occurence of each item in the specified collection from the <see cref="ObservableCollection{T}"/>.
         /// </summary>
-        /// <param name="collection">The items to remove.</param>        
+        /// <param name="collection">The items to remove.</param>
         /// <exception cref="ArgumentNullException"><paramref name="collection"/> is null.</exception>
         public void RemoveRange(IEnumerable<T> collection)
         {
@@ -341,10 +341,10 @@ namespace System.Collections.ObjectModel
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, removedItems, index));
         }
 
-        /// <summary> 
+        /// <summary>
         /// Clears the current collection and replaces it with the specified collection,
         /// using <see cref="Comparer"/>.
-        /// </summary>             
+        /// </summary>
         /// <param name="collection">The items to fill the collection with, after clearing it.</param>
         /// <exception cref="ArgumentNullException"><paramref name="collection"/> is null.</exception>
         public void ReplaceRange(IEnumerable<T> collection)
@@ -547,9 +547,9 @@ namespace System.Collections.ObjectModel
         /// </remarks>
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            if (_deferredEvents != null)
+            if (deferredEvents != null)
             {
-                _deferredEvents.Add(e);
+                deferredEvents.Add(e);
                 return;
             }
             base.OnCollectionChanged(e);
@@ -637,14 +637,14 @@ namespace System.Collections.ObjectModel
             public DeferredEventsCollection(RangeObservableCollection<T> collection)
             {
                 Debug.Assert(collection != null);
-                Debug.Assert(collection._deferredEvents == null);
+                Debug.Assert(collection.deferredEvents == null);
                 _collection = collection;
-                _collection._deferredEvents = this;
+                _collection.deferredEvents = this;
             }
 
             public void Dispose()
             {
-                _collection._deferredEvents = null;
+                _collection.deferredEvents = null;
                 foreach (var args in this)
                     _collection.OnCollectionChanged(args);
             }

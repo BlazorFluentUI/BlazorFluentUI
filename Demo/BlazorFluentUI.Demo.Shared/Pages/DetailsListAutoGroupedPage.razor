@@ -6,40 +6,63 @@
 @using System.Reactive.Linq
 @using System.Reactive.Subjects
 
-<Stack Style="height:100%;">
-    <h3>DetailsListAuto - Grouped Data</h3>
-    <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
-        <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
-        <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
-        <Dropdown ItemsSource=@selectionModeOptions
-                     @bind-SelectedOption=selectedModeOption
-                     Style="max-width:300px;">
-        </Dropdown>
-    </Stack>
-    <TextField Label="Filter Description"
-                  Value=@filter
-                  OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => (prop as string).Contains(filter); }) />
-    <div data-is-scrollable="true"
-         style="height:100%;overflow-y:auto;">
-        <DetailsListAuto ItemsSource="dataSource"
-                            @ref="detailsList"
-                            Columns="columnsSource"
-                            Compact="@isCompact.GetValueOrDefault()"
-                            GetKey=@(x=>x.Key)
-                            TItem="DataItem"
-                            IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
-                            GroupBy=@(new List<Func<DataItem,object>>
+<header class="root">
+    <h1 class="title">DetailsListAuto-Grouped</h1>
+</header>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading hiddenContent">Overview</h2>
+    </div>
+    <div class="content">
+        <div class="ms-Markdown">
+            <p>
+                A details list (<code>DetailsList</code>) is a robust way to display an information-rich collection of items, and allow people to sort, group, and filter the content. Use a details list when information density is critical.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading">Usage</h2>
+    </div>
+    <div>
+        <Stack Style="height:100%;">
+            <h3>DetailsListAuto - Grouped Data</h3>
+            <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
+                <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+                <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+                <Dropdown ItemsSource=@selectionModeOptions
+                          @bind-SelectedOption=selectedModeOption
+                          Style="max-width:300px;">
+                </Dropdown>
+            </Stack>
+            <TextField Label="Filter Description"
+                       Value=@filter
+                       OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => (prop as string).Contains(filter); }) />
+            <div data-is-scrollable="true" style="height:100%;overflow-y:auto;">
+                <DetailsListAuto ItemsSource="dataSource"
+                                 @ref="detailsList"
+                                 Columns="columnsSource"
+                                 Compact="@isCompact.GetValueOrDefault()"
+                                 GetKey=@(x=>x.Key)
+                                 TItem="DataItem"
+                                 IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
+                                 GroupBy=@(new List<Func<DataItem,object>>
                               {
                                   x=>x.GroupName,
                                   x=>x.KeyNumber % 2 == 0 ? "even" :"odd"
                               })
-                            LayoutMode="DetailsListLayoutMode.Justified"
-                            SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
-        </DetailsListAuto>
-    </div>
-</Stack>
+                                 LayoutMode="DetailsListLayoutMode.Justified"
+                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
+                </DetailsListAuto>
+            </div>
+        </Stack>
 
+    </div>
+</div>
 @code {
+    //ToDo: Add Demo sections
     bool? isVirtualizing = true;
     bool? isCompact = false;
     IDropdownOption selectedModeOption;

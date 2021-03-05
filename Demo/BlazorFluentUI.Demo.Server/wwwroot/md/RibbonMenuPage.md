@@ -1,6 +1,26 @@
 ﻿@page  "/ribbonMenuPage"
 @using System.Collections.ObjectModel;
-<h1>Ribbon Menu</h1>
+<header class="root">
+    <h1 class="title">Ribbon Menu</h1>
+</header>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading hiddenContent">Overview</h2>
+    </div>
+    <div class="content">
+        <div class="ms-Markdown">
+            <p>
+
+            </p>
+        </div>
+    </div>
+</div>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading">Usage</h2>
+    </div>
+    <div>
+        <div class="subSection">
 <RibbonMenu ItemsSource=@Items>
    <ItemTemplate Context="tab">
        <RibbonTab ItemsSource=@tab.Groups HeaderText=@tab.Header>
@@ -36,6 +56,8 @@
        </RibbonTab>
    </ItemTemplate>
 </RibbonMenu>
+        </div>
+        <div class="subSection">
 <h1>Ribbon Menu with backstage</h1>
 @*<Toggle @bind-Checked=@ShowBackstage OnText="On!" OffText="Off!" Label="Backstage state" />*@
 <RibbonMenu ItemsSource=@Items BackstageHeader="File" @bind-ShowBackstage=ShowBackstage>
@@ -56,9 +78,7 @@
                                                              IconSrc=@buttonViewModel.IconSrc
                                                              Command=@buttonViewModel.Command
                                                              CommandParameter=@buttonViewModel.CommandParameter
-                                                             Toggle=@buttonViewModel.Toggle 
-                                                             IsRadioButton=@buttonViewModel.IsRadioButton
-                                                             GroupName=@buttonViewModel.GroupName/>
+                                                             Toggle=@buttonViewModel.Toggle />
                                         break;
                                     case DropDownViewModel dropDownViewModel:
                                         <Dropdown ItemsSource=@dropDownViewModel.DropdownOptions
@@ -82,10 +102,12 @@
         </div>
     </Backstage>
 </RibbonMenu>
-
-
+        </div>
+    </div>
+</div>
 
 @code{
+    //ToDo: Add Demo sections
     System.Collections.Generic.List<TabItem<GroupItem>> Items { get; set; } = new System.Collections.Generic.List<TabItem<GroupItem>>();
 
     private List<NavBarItem> backstageItems;
@@ -138,10 +160,10 @@
         #region Paragraph group
 
         var paragraphGroup = new GroupItem();
-        paragraphGroup.ItemsSource.Add(new ButtonViewModel() { Text = "Align left", IconName = "AlignLeft", IsRadioButton = true, GroupName = "Align"});
-        paragraphGroup.ItemsSource.Add(new ButtonViewModel() { Text = "Center", IconName = "AlignCenter", IsRadioButton = true, GroupName = "Align" });
-        paragraphGroup.ItemsSource.Add(new ButtonViewModel() { Text = "Align right", IconName = "AlignRight", IsRadioButton = true, GroupName = "Align" });
-        paragraphGroup.ItemsSource.Add(new ButtonViewModel() { Text = "Justify", IconName = "AlignJustify", IsRadioButton = true, GroupName = "Align", Priority = 12 });
+        paragraphGroup.ItemsSource.Add(new ButtonViewModel() { Text = "Align left", IconName = "AlignLeft", Toggle = true });
+        paragraphGroup.ItemsSource.Add(new ButtonViewModel() { Text = "Center", IconName = "AlignCenter", Toggle = true });
+        paragraphGroup.ItemsSource.Add(new ButtonViewModel() { Text = "Align right", IconName = "AlignRight", Toggle = true });
+        paragraphGroup.ItemsSource.Add(new ButtonViewModel() { Text = "Justify", IconName = "AlignJustify", Toggle = true, Priority = 12 });
         paragraphGroup.ItemsSource.Add(new ButtonViewModel() { Text = "Sample image button", IconSrc = "sampleImage.jpg"}); //, IconName = "AlignJustify"
         #endregion
 

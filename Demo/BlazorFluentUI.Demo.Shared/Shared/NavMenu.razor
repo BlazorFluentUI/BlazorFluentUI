@@ -1,8 +1,8 @@
 ﻿
 <Stack Horizontal="false" VerticalFill="true" Style="overflow:hidden;">
-    <StackItem Grow="0" VerticalFill="false" Align="Alignment.Center">
+    <StackItem Grow="0" VerticalFill="false" Style="padding-left: 30px">
         <div class="top-row">
-            <Link Href="/">BlazorFluentUI V@(System.Reflection.Assembly.GetAssembly(typeof(ComponentBase))?.GetName()?.Version.ToString() ?? "NULL")</Link>
+            <Link Href="/">BlazorFluentUI V@(System.Reflection.Assembly.GetAssembly(typeof(FluentUIComponentBase))?.GetName()?.Version.ToString() ?? "NULL")</Link>
         </div>
     </StackItem>
 
@@ -17,31 +17,27 @@
                 <BlazorFluentUI.NavLink Name="Label" Url="labelPage" Id="labelPage" IconName="Label" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Link" Url="linkPage" Id="linkPage" IconName="Link" OnClick="@OnLinkClicked" />
                 <BlazorFluentUI.NavLink Name="Rating" Url="ratingPage" Id="ratingPage" IconName="FavoriteStar" OnClick=@OnLinkClicked />
+                <BlazorFluentUI.NavLink Name="SearchBox" Url="searchBoxPage" Id="searchBoxPage" IconName="Search" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Slider" Url="sliderPage" Id="sliderPage" IconName="Slider" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="TextField" Url="textFieldPage" Id="textFieldPage" IconName="TextField" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Toggle" Url="togglePage" Id="togglePage" IconName="ToggleLeft" OnClick=@OnLinkClicked />
-                <BlazorFluentUI.NavLink Name="SearchBox" Url="searchBoxPage" Id="searchBoxPage" IconName="Search" OnClick=@OnLinkClicked />
             </NavLinkGroup>
-            <NavLinkGroup Name="Galleries & Pickers" CollapseByDefault="false">
+            <NavLinkGroup Name="Galleries & Pickers" CollapseByDefault="true">
                 <BlazorFluentUI.NavLink Name="Calendar" Url="calendarPage" Id="calendarPage" IconName="Calendar" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="DatePicker" Url="datePickerPage" Id="datePickerPage" IconName="SearchCalendar" OnClick=@OnLinkClicked />
             </NavLinkGroup>
-            <NavLinkGroup Name="Items & Lists" CollapseByDefault="false">
+            <NavLinkGroup Name="Items & Lists" CollapseByDefault="true">
                 <BlazorFluentUI.NavLink Name="List" Url="listPage" Id="listPage" IconName="List" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="DetailsList" Url="detailsListPageBasic" Id="detailsListPageBasic" IconName="List" OnClick=@OnLinkClicked />
                 @*<BlazorFluentUI.NavLink Name="DetailsList" Url="detailsListPage" Id="detailsListPage" IconName="List" OnClick=@OnLinkClicked />*@
                 <BlazorFluentUI.NavLink Name="DetailsListAuto" Url="detailsListAutoPage" Id="detailsListAutoPage" IconName="List" OnClick=@OnLinkClicked />
-                <BlazorFluentUI.NavLink Name="DetailsList-Grouped"
-                            NestedDepth="1"
-                            Url="detailsListGroupedPage"
-                            Id="detailsListGroupedPage"
-                            NavMatchType="NavMatchType.AnchorIncluded" />
-                <BlazorFluentUI.NavLink Name="DetailsListAuto-Grouped" NestedDepth="1" Url="detailsListAutoGroupedPage" Id="detailsListAutoGroupedPage" IconName="List" OnClick=@OnLinkClicked />
+                <BlazorFluentUI.NavLink Name="DetailsList-Grouped" Url="detailsListGroupedPage" Id="detailsListGroupedPage" IconName="List" NestedDepth="1" NavMatchType="NavMatchType.AnchorIncluded" />
+                <BlazorFluentUI.NavLink Name="DetailsListAuto-Grouped" Url="detailsListAutoGroupedPage" Id="detailsListAutoGroupedPage" IconName="List" NestedDepth="1" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="DocumentCard" Url="documentcard" Id="documentcardPage" IconName="ContactCard" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="GroupedList" Url="groupedListPage" Id="groupedListPage" IconName="Group" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Persona" Url="personaPage" Id="personaPage" IconName="Contact" OnClick=@OnLinkClicked />
             </NavLinkGroup>
-            <NavLinkGroup Name="Commands, Menus & Navs" CollapseByDefault="false">
+            <NavLinkGroup Name="Commands, Menus & Navs" CollapseByDefault="true">
                 <BlazorFluentUI.NavLink Name="CommandBar" Url="commandBarPage" Id="commandBarPage" IconName="Bar" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="ContextualMenu" Url="contextualMenuPage" Id="contextualMenuPage" IconName="ContextMenu" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Nav" Url="navPage" Id="navPage" IconName="SecondaryNav" OnClick=@OnLinkClicked />
@@ -50,21 +46,21 @@
                 <BlazorFluentUI.NavLink Name="Pivot" Url="pivotPage" Id="pivotPage" IconName="TabCenter" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Ribbon Menu" Url="ribbonMenuPage" Id="ribbonMenuPage" IconName="TabCenter" OnClick=@OnLinkClicked />
             </NavLinkGroup>
-            <NavLinkGroup Name="Notification & Engagement" CollapseByDefault="false">
+            <NavLinkGroup Name="Notification & Engagement" CollapseByDefault="true">
                 <BlazorFluentUI.NavLink Name="MessageBar" Url="messageBarPage" Id="messageBarPage" IconName="Message" OnClick=@OnLinkClicked />
             </NavLinkGroup>
-            <NavLinkGroup Name="Progress" CollapseByDefault="false">
+            <NavLinkGroup Name="Progress" CollapseByDefault="true">
                 <BlazorFluentUI.NavLink Name="ProgressIndicator" Url="progressIndicatorPage" Id="progressIndicatorPage" IconName="ProgressLoopInner" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Spinner" Url="spinnerPage" Id="spinnerPage" IconName="ProgressRingDots" OnClick=@OnLinkClicked />
             </NavLinkGroup>
-            <NavLinkGroup Name="Surfaces" CollapseByDefault="false">
+            <NavLinkGroup Name="Surfaces" CollapseByDefault="true">
                 <BlazorFluentUI.NavLink Name="Callout" Url="calloutPage" Id="calloutPage" IconName="TextCallout" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Dialog" Url="dialogPage" Id="dialogPage" IconName="TextCallout" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Modal" Url="modalPage" Id="modalPage" IconName="TextCallout" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Panel" Url="panelPage" Id="panelPage" IconName="SidePanel" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Tooltip" Url="tooltipPage" Id="tooltipPage" IconName="DiagnosticDataBarTooltip" OnClick=@OnLinkClicked />
             </NavLinkGroup>
-            <NavLinkGroup Name="Utilities" CollapseByDefault="false">
+            <NavLinkGroup Name="Utilities" CollapseByDefault="true">
                 <BlazorFluentUI.NavLink Name="FocusTrapZone" Url="focusTrapZonePage" Id="focusTrapZonePage" IconName="Focus" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="FocusZone" Url="focusZonePage" Id="focusZonePage" IconName="Focus" OnClick=@OnLinkClicked />
                 <BlazorFluentUI.NavLink Name="Image" Url="imagePage" Id="imagePage" IconName="ImagePixel" OnClick=@OnLinkClicked />

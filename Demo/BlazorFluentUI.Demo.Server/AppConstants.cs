@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFluentUI.Demo.ServerSide
+namespace BlazorFluentUI.Demo.Server
 {
     public static class AppConstants
     {

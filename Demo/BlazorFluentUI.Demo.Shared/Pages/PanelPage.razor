@@ -1,7 +1,26 @@
 ﻿@page  "/panelPage"
 
-<h1>Panel</h1>
-
+<header class="root">
+    <h1 class="title">Panel</h1>
+</header>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading hiddenContent">Overview</h2>
+    </div>
+    <div class="content">
+        <div class="ms-Markdown">
+            <p>
+                Panels are overlays that contain supplementary content and are used for complex creation, edit, or management experiences.  For example, viewing details about an item in a list or editing settings.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading">Usage</h2>
+    </div>
+    <div>
+        <div class="subSection">
 <Dropdown ItemsSource=@panelTypes
              MultiSelect="false"
              @bind-SelectedOption=@panelTypeSelected
@@ -64,9 +83,12 @@
         </p>
     </ChildContent>
 </Panel>
+        </div>
+    </div>
+</div>
 
 @code {
-
+    //ToDo: Add Demo sections
     bool isOpen = false;
     bool lightDismissPanelOpen = false;
     bool customNavPanelOpen = false;

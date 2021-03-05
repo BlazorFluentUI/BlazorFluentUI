@@ -114,14 +114,14 @@ namespace BlazorFluentUI
             {
                 if (Disabled && dotNetObjectReference != null)
                 {
-                    _ = JSRuntime?.InvokeVoidAsync("BlazorFluentUiSlider.unregisterHandler", dotNetObjectReference);
+                    _ = JSRuntime?.InvokeVoidAsync("BlazorFluentUISlider.unregisterHandler", dotNetObjectReference);
                     dotNetObjectReference.Dispose();
                     dotNetObjectReference = null;
                 }
                 else if (!Disabled && dotNetObjectReference == null)
                 {
                     dotNetObjectReference = DotNetObjectReference.Create(this);
-                    await JSRuntime.InvokeVoidAsync("BlazorFluentUiSlider.registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
+                    await JSRuntime.InvokeVoidAsync("BlazorFluentUISlider.registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
                 }
             }
 
@@ -139,7 +139,7 @@ namespace BlazorFluentUI
                 if (JSRuntime != null && !Disabled)
                 {
                     dotNetObjectReference = DotNetObjectReference.Create(this);
-                    await JSRuntime.InvokeVoidAsync("BlazorFluentUiSlider.registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
+                    await JSRuntime.InvokeVoidAsync("BlazorFluentUISlider.registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
                 }
             }
 
@@ -297,7 +297,7 @@ namespace BlazorFluentUI
         {
             if (dotNetObjectReference != null && JSRuntime != null)
             {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUiSlider.unregisterHandlers", dotNetObjectReference);
+                await JSRuntime.InvokeVoidAsync("BlazorFluentUISlider.unregisterHandlers", dotNetObjectReference);
             }
             dotNetObjectReference?.Dispose();
         }

@@ -115,7 +115,7 @@ namespace BlazorFluentUI
             try
             {
                 var props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUiFocusZone.updateFocusZone", _registrationId, props);
+                await jsRuntime.InvokeVoidAsync("BlazorFluentUIFocusZone.updateFocusZone", _registrationId, props);
             }
             catch (TaskCanceledException ex)
             {
@@ -127,14 +127,14 @@ namespace BlazorFluentUI
         private async Task RegisterFocusZoneAsync()
         {
             var props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
-            _registrationId = await jsRuntime.InvokeAsync<int>("BlazorFluentUiFocusZone.register", props, DotNetObjectReference.Create(this));
+            _registrationId = await jsRuntime.InvokeAsync<int>("BlazorFluentUIFocusZone.register", props, DotNetObjectReference.Create(this));
         }
 
         private async Task UnregisterFocusZoneAsync()
         {
             try
             {
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUiFocusZone.unregister", _registrationId);
+                await jsRuntime.InvokeVoidAsync("BlazorFluentUIFocusZone.unregister", _registrationId);
                 _registrationId = -1;
             }
             catch (TaskCanceledException ex)

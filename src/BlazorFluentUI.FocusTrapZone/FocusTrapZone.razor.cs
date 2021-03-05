@@ -56,7 +56,7 @@ namespace BlazorFluentUI
         public async Task FocusAsync()
         {
             if (_id != -1)
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUiFocusTrapZone.focus", _id);
+                await jsRuntime.InvokeVoidAsync("BlazorFluentUIFocusTrapZone.focus", _id);
         }
     
         protected override async Task OnParametersSetAsync()
@@ -64,7 +64,7 @@ namespace BlazorFluentUI
             if (_id != -1)
             {
                 var props = new FocusTrapZoneProps(this, _firstBumper, _lastBumper);
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUiFocusTrapZone.updateProps", _id, props);
+                await jsRuntime.InvokeVoidAsync("BlazorFluentUIFocusTrapZone.updateProps", _id, props);
             }
 
             await base.OnParametersSetAsync();
@@ -83,14 +83,14 @@ namespace BlazorFluentUI
         private async void RegisterFocusTrapZone()
         {
             var props = new FocusTrapZoneProps(this, _firstBumper, _lastBumper);
-            _id = await jsRuntime.InvokeAsync<int>("BlazorFluentUiFocusTrapZone.register", props, DotNetObjectReference.Create(this));
+            _id = await jsRuntime.InvokeAsync<int>("BlazorFluentUIFocusTrapZone.register", props, DotNetObjectReference.Create(this));
         }
      
 
         public async void Dispose()
         {
             if (_id != -1)
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUiFocusTrapZone.unregister", _id);
+                await jsRuntime.InvokeVoidAsync("BlazorFluentUIFocusTrapZone.unregister", _id);
         }
     }
 

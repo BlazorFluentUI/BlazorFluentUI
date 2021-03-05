@@ -32,7 +32,7 @@
 
 
     //Store the element that the layer is started from so we can later match up the layer's children with the original parent.
-    const layerElements: MapSimple<HTMLElement> = {};  
+    const layerElements: MapSimple<HTMLElement> = {};
     //const virtualRelationships: Map<IVirtualRelationship> = {};
 
 
@@ -231,7 +231,7 @@
     export function getWindow(element: Element): Window {
         return element.ownerDocument.defaultView;
     }
-       
+
     export function getWindowRect(): IRectangle {
         var rect: IRectangle = {
             width: window.innerWidth,// - scrollbarwidth
@@ -661,7 +661,7 @@
     //    }
     //    return parent;
     //}
-   
+
 
 
     export function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {
@@ -2053,9 +2053,9 @@
 
         /** Trigger the given event in the context of this instance of EventGroup. */
         // tslint:disable-next-line:no-any
-        public raise(eventName: string, eventArgs?: any, bubbleEvent?: boolean): boolean | undefined {
-            return EventGroup.raise(this._parent, eventName, eventArgs, bubbleEvent);
-        }
+        //public raise(eventName: string, eventArgs?: any, bubbleEvent?: boolean): boolean | undefined {
+        //    return EventGroup.raise(this._parent, eventName, eventArgs, bubbleEvent);
+        //}
 
         /** Declare an event as being supported by this instance of EventGroup. */
         public declare(event: string | string[]): void {
@@ -2070,7 +2070,7 @@
             }
         }
     }
-  
+
 
 
 

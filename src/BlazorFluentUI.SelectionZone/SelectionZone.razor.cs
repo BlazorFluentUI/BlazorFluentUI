@@ -112,7 +112,7 @@ namespace BlazorFluentUI
                     || (OnItemInvoked!= null) != props.OnItemInvokeSet)
                 {
                     props = GenerateProps();
-                    await JSRuntime!.InvokeVoidAsync("BlazorFluentUiSelectionZone.updateProps", dotNetRef, props);
+                    await JSRuntime!.InvokeVoidAsync("BlazorFluentUISelectionZone.updateProps", dotNetRef, props);
                 }
             }
 
@@ -137,7 +137,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 dotNetRef = DotNetObjectReference.Create(this);
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUiSelectionZone.registerSelectionZone", dotNetRef, RootElementReference, new SelectionZoneProps { IsModal = isModal, SelectionMode = SelectionMode });
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUISelectionZone.registerSelectionZone", dotNetRef, RootElementReference, new SelectionZoneProps { IsModal = isModal, SelectionMode = SelectionMode });
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -146,7 +146,7 @@ namespace BlazorFluentUI
         {
             if (dotNetRef != null)
             {
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUiSelectionZone.unregisterSelectionZone", dotNetRef);
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUISelectionZone.unregisterSelectionZone", dotNetRef);
                 dotNetRef.Dispose();
             }
         }

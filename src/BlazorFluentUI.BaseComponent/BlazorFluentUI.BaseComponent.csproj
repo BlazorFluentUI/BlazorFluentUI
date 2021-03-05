@@ -34,13 +34,6 @@
       <PackagePath></PackagePath>
     </None>
     <None Include="bundleconfig.json" />
-    <None Include="wwwroot\baseComponent.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="wwwroot\baseComponent.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +43,12 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="tsconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </TypeScriptCompile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\baseComponent.ts">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </TypeScriptCompile>
   </ItemGroup>

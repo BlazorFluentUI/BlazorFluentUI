@@ -1527,9 +1527,9 @@ var FluentUIBaseComponent;
         }
         /** Trigger the given event in the context of this instance of EventGroup. */
         // tslint:disable-next-line:no-any
-        raise(eventName, eventArgs, bubbleEvent) {
-            return EventGroup.raise(this._parent, eventName, eventArgs, bubbleEvent);
-        }
+        //public raise(eventName: string, eventArgs?: any, bubbleEvent?: boolean): boolean | undefined {
+        //    return EventGroup.raise(this._parent, eventName, eventArgs, bubbleEvent);
+        //}
         /** Declare an event as being supported by this instance of EventGroup. */
         declare(event) {
             let declaredEvents = (this._parent.__declaredEvents = this._parent.__declaredEvents || {});

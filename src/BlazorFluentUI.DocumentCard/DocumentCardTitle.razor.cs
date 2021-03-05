@@ -72,7 +72,7 @@ namespace BlazorFluentUI
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
             _dotNetObjectReference = DotNetObjectReference.Create(this);
-            await jSRuntime.InvokeVoidAsync("BlazorFluentUiDocumentCard.initTitle", Id, RootElementReference, _dotNetObjectReference, ShouldTruncate, Title).ConfigureAwait(false);
+            await jSRuntime.InvokeVoidAsync("BlazorFluentUIDocumentCard.initTitle", Id, RootElementReference, _dotNetObjectReference, ShouldTruncate, Title).ConfigureAwait(false);
         }
 
         [JSInvokable]
@@ -116,7 +116,7 @@ namespace BlazorFluentUI
 
         public async ValueTask DisposeAsync()
         {
-            await jSRuntime.InvokeVoidAsync("BlazorFluentUiDocumentCard.removelement", Id).ConfigureAwait(false);
+            await jSRuntime.InvokeVoidAsync("BlazorFluentUIDocumentCard.removelement", Id).ConfigureAwait(false);
             _dotNetObjectReference?.Dispose();
         }
     }

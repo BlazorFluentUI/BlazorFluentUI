@@ -56,9 +56,9 @@ namespace BlazorFluentUI
                     if (item.CanCheck)
                     {
                         if (!item.Checked)
-                            await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant());
+                            await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant());
                         else
-                            await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant(), false);
+                            await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setFormat", quillId, p.ToString().ToLowerInvariant(), false);
                         item.Checked = !item.Checked;
                     }
                     else
@@ -67,7 +67,7 @@ namespace BlazorFluentUI
                         {
                             case "Image":
                                 isImageDialogOpen = true;
-                                //await jsRuntime.InvokeVoidAsync("window.BlazorFluentUiRichTextEditor.setFormat", quillId, "image", "";
+                                //await jsRuntime.InvokeVoidAsync("window.BlazorFluentUIRichTextEditor.setFormat", quillId, "image", "";
                                 break;
                         }
 
@@ -160,15 +160,15 @@ namespace BlazorFluentUI
             if (_renderedOnce)
             {               
                 if (RichText != internalRichText)
-                    await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.setHtmlContent", quillId, RichText);
+                    await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setHtmlContent", quillId, RichText);
                 if (ReadOnly && !_readonlySet)
                 {
-                    await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.setReadonly", quillId, true);
+                    await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setReadonly", quillId, true);
                     _readonlySet = true;
                 }
                 else if (!ReadOnly && _readonlySet)
                 {
-                    await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.setReadonly", quillId, false);
+                    await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setReadonly", quillId, false);
                     _readonlySet = false;
                 }
             }
@@ -179,11 +179,11 @@ namespace BlazorFluentUI
         {
             if (firstRender)
             {
-                quillId = await jsRuntime.InvokeAsync<int>("BlazorFluentUiRichTextEditor.register", RootElementReference, DotNetObjectReference.Create(this));
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.setHtmlContent", quillId, RichText);
+                quillId = await jsRuntime.InvokeAsync<int>("BlazorFluentUIRichTextEditor.register", RootElementReference, DotNetObjectReference.Create(this));
+                await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setHtmlContent", quillId, RichText);
                 if (ReadOnly)
                 {
-                    await jsRuntime.InvokeVoidAsync("window.BlazorFluentUiRichTextEditor.setReadonly", quillId, true);
+                    await jsRuntime.InvokeVoidAsync("window.BlazorFluentUIRichTextEditor.setReadonly", quillId, true);
                     _readonlySet = true;
                 }
                 _renderedOnce = true;
@@ -195,7 +195,7 @@ namespace BlazorFluentUI
         
         private async Task UpdateFormatStateAsync()
         {
-            var formatState = await jsRuntime.InvokeAsync<FormattingState>("BlazorFluentUiRichTextEditor.getFormat", quillId);
+            var formatState = await jsRuntime.InvokeAsync<FormattingState>("BlazorFluentUIRichTextEditor.getFormat", quillId);
             if (formatState != null)
             {
                 var stateNeedsChanging = false;
@@ -224,9 +224,9 @@ namespace BlazorFluentUI
                 if (item != null)
                 {
                     if (!item.Checked)
-                        await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.setFormat", quillId, "superscript");
+                        await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setFormat", quillId, "superscript");
                     else
-                        await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.setFormat", quillId, "superscript", false);
+                        await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setFormat", quillId, "superscript", false);
 
 
                     item.Checked = !item.Checked;
@@ -238,9 +238,9 @@ namespace BlazorFluentUI
                 if (item != null)
                 {
                     if (!item.Checked)
-                        await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.setFormat", quillId, "subscript");
+                        await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setFormat", quillId, "subscript");
                     else
-                        await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.setFormat", quillId, "subscript", false);
+                        await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setFormat", quillId, "subscript", false);
 
 
                     item.Checked = !item.Checked;
@@ -251,18 +251,18 @@ namespace BlazorFluentUI
 
         private async Task OnFocusAsync()
         {
-            await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.preventZoomEnable", true);
+            await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.preventZoomEnable", true);
         }
 
         private async Task OnBlurAsync()
         {
-            await jsRuntime.InvokeVoidAsync("BlazorFluentUiRichTextEditor.preventZoomEnable", false);
+            await jsRuntime.InvokeVoidAsync("BlazorFluentUIRichTextEditor.preventZoomEnable", false);
         }
 
         private async Task InsertImageAsync()
         {
             await jsRuntime.InvokeVoidAsync(
-                "BlazorFluentUiRichTextEditor.insertImage", 
+                "BlazorFluentUIRichTextEditor.insertImage", 
                 quillId, 
                 imageUrl, 
                 imageAlt, 

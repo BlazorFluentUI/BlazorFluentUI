@@ -94,7 +94,7 @@ namespace BlazorFluentUI
             {
                 isEventHandlersRegistered = true;
 
-                eventHandlerIds = await JSRuntime.InvokeAsync<List<int>>("BlazorFluentUiCallout.registerHandlers", RootElementReference, DotNetObjectReference.Create(this));
+                eventHandlerIds = await JSRuntime.InvokeAsync<List<int>>("BlazorFluentUICallout.registerHandlers", RootElementReference, DotNetObjectReference.Create(this));
 
                 
 
@@ -792,7 +792,7 @@ namespace BlazorFluentUI
         public async ValueTask DisposeAsync()
         {
             if (eventHandlerIds != null)
-                await JSRuntime.InvokeAsync<object>("BlazorFluentUiCallout.unregisterHandlers", eventHandlerIds);
+                await JSRuntime.InvokeAsync<object>("BlazorFluentUICallout.unregisterHandlers", eventHandlerIds);
         }
     }
 }

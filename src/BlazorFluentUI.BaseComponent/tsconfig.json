@@ -4,9 +4,10 @@
     "noImplicitAny": false,
     "noEmitOnError": true,
     "removeComments": false,
-    "sourceMap": true,
+    "sourceMap": false,
     "target": "ES2015",
     "outFile": "wwwroot/blazorFluentUI.js",
+    "outDir": "wwwroot",
     "allowJs": true
   },
   "files": [

@@ -82,13 +82,13 @@ namespace BlazorFluentUI.ContextualMenuInternal
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             //if (eventHandlerIds == null)
-            //    eventHandlerIds = await jsRuntime.InvokeAsync<List<int>>("BlazorFluentUiContextualMenu.registerHandlers", this.RootElementReference, DotNetObjectReference.Create(this));
+            //    eventHandlerIds = await jsRuntime.InvokeAsync<List<int>>("BlazorFluentUIContextualMenu.registerHandlers", this.RootElementReference, DotNetObjectReference.Create(this));
             await base.OnAfterRenderAsync(firstRender);
         }
 
         public void Dispose()
         {
-            //jsRuntime.InvokeAsync<object>("BlazorFluentUiContextualMenu.unregisterHandlers", eventHandlerIds);
+            //jsRuntime.InvokeAsync<object>("BlazorFluentUIContextualMenu.unregisterHandlers", eventHandlerIds);
         }
 
         public override Task SetParametersAsync(ParameterView parameters)

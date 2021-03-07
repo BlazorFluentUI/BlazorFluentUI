@@ -1,71 +1,123 @@
 ﻿@page "/commandBarPage"
 
-<h1>CommandBar</h1>
+<header class="root">
+    <h1 class="title">CommandBar</h1>
+</header>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading hiddenContent">Overview</h2>
+    </div>
+    <div class="content">
+        <div class="ms-Markdown">
+            <p>
+                CommandBar is a surface that houses commands that operate on the content of
+                the window, panel, or parent region it resides above. CommandBars are one of the most
+                visible and recognizable ways to surface commands, and can be an intuitive
+                method for interacting with content on the page; however, if overloaded or
+                poorly organized, they can be difficult to use and hide valuable commands from
+                your user. CommandBars can also display a search box for finding content, hold
+                simple commands as well as menus, or display the status of ongoing actions.
+            </p>
+            <p>
+                Commands should be sorted in order of importance, from left-to-right or right-to-left
+                depending on the culture. Secondarily, organize commands in logical
+                groupings for easier recall. CommandBars work best when they display no more
+                than 5-7 commands. This helps users quickly find your most valuable features.
+                If you need to show more commands, consider using the overflow menu. If you
+                need to render status or viewing controls, these go on the right side of the
+                CommandBar (or left side if in a left-to-right experience). Do not display
+                more than 2-3 items on the right side as it will make the overall CommandBar
+                difficult to parse.
+            </p>
+            <p>
+                All command items should have an icon and a label. Commands can render as
+                labels only as well. In smaller widths, commands can just use icon only, but
+                only for the most recognizable and frequently used commands. All other
+                commands should go into an overflow where text labels can be shown.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading">Usage</h2>
+    </div>
+    <div>
+        <em>@debugText</em>
+        <div class="subSection">
+            <Demo Header="Basic CommandBar" Key="0" MetadataPath="CommandBarPage">
+                <CommandBar Items=@items />
+            </Demo>
+        </div>
 
-<Demo Header="Basic CommandBar" Key="0" MetadataPath="CommandBarPage">
-    <CommandBar Items=@items />
-</Demo>
+        <div class="subSection">
+            <Demo Header="CommandBar with right items" Key="1" MetadataPath="CommandBarPage">
+                <CommandBar Items=@items FarItems=@farItems OverflowItems=@overflowItems />
+            </Demo>
+        </div>
 
-<Demo Header="CommandBar with right items" Key="1" MetadataPath="CommandBarPage">
-    <CommandBar Items=@items FarItems=@farItems OverflowItems=@overflowItems />
-</Demo>
+        <div class="subSection">
+            <Demo Header="CommandBar with custom item rendering" Key="2" MetadataPath="CommandBarPage">
+                <CommandBar Items=@customItems>
+                    <ItemTemplate>
+                        @if (context.ItemType == ContextualMenuItemType.Divider)
+                        {
+                            <CommandBarButton Disabled="true" IconName="GripperBarVertical" />
+                        }
+                        else
+                        {
+                            <CommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
+                                              MenuItems=@context.Items
+                                              Href=@context.Href
+                                              OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
+                                              Command=@context.Command CommandParameter=@context.CommandParameter
+                                              Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
+                                              Split=@context.Split Style=@context.Style />
+                        }
+                    </ItemTemplate>
+                </CommandBar>
+            </Demo>
+        </div>
 
-<Demo Header="CommandBar with custom item rendering" Key="2" MetadataPath="CommandBarPage">
-    <CommandBar Items=@customItems >
-        <ItemTemplate>
-            @if (context.ItemType == ContextualMenuItemType.Divider)
-            {
-                <CommandBarButton Disabled="true" IconName="GripperBarVertical" />
-            }
-            else
-            {
-                <CommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
-                                     MenuItems=@context.Items
-                                     Href=@context.Href
-                                     OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
-                                     Command=@context.Command CommandParameter=@context.CommandParameter
-                                     Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                     Split=@context.Split Style=@context.Style />
-            }
-        </ItemTemplate>
-    </CommandBar>
-</Demo>
+        <div class="subSection">
+            <Demo Header="Custom content in CommmandBarButton" Key="3" MetadataPath="CommandBarPage">
+                <CommandBar Items=@contentItems>
+                    <ItemTemplate>
+                        <CommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
+                                          MenuItems=@context.Items
+                                          Href=@context.Href
+                                          OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
+                                          Command=@context.Command CommandParameter=@context.CommandParameter
+                                          Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
+                                          Split=@context.Split Style=@context.Style>
+                            @switch (context.Key)
+                            {
+                                case "yellowCircle":
+                                    <svg height="14" width="40">
+                                        <ellipse cx="20" cy="8" rx="10" ry="5" style="fill:yellow;stroke:purple;stroke-width:2" />
+                                        Sorry, your browser does not support inline SVG.
+                                    </svg>
+                                    break;
+                                case "greenCircle":
+                                    <svg height="14" width="40">
+                                        <ellipse cx="20" cy="8" rx="10" ry="5" style="fill:green;stroke:purple;stroke-width:2" />
+                                        Sorry, your browser does not support inline SVG.
+                                    </svg>
+                                    break;
+                            }
+                        </CommandBarButton>
+                    </ItemTemplate>
+                </CommandBar>
+            </Demo>
+        </div>
 
-<Demo Header="Custom content in CommmandBarButton" Key="3" MetadataPath="CommandBarPage">
-    <CommandBar Items=@contentItems>
-        <ItemTemplate>
-            <CommandBarButton IconName=@context.IconName Text=@(!context.IconOnly ? context.Text : null)
-                                 MenuItems=@context.Items
-                                 Href=@context.Href
-                                 OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
-                                 Command=@context.Command CommandParameter=@context.CommandParameter
-                                 Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                 Split=@context.Split Style=@context.Style>
-                @switch (context.Key)
-                {
-                    case "yellowCircle":
-                        <svg height="14" width="40">
-                            <ellipse cx="20" cy="8" rx="10" ry="5" style="fill:yellow;stroke:purple;stroke-width:2" />
-                            Sorry, your browser does not support inline SVG.
-                        </svg>
-                        break;
-                    case "greenCircle":
-                        <svg height="14" width="40">
-                            <ellipse cx="20" cy="8" rx="10" ry="5" style="fill:green;stroke:purple;stroke-width:2" />
-                            Sorry, your browser does not support inline SVG.
-                        </svg>
-                        break;
-                }
-            </CommandBarButton>
-        </ItemTemplate>
-    </CommandBar>
-</Demo>
-
-<Demo Header="CommandBar with RadioButtons" Key="4" MetadataPath="CommandBarPage">
-    <CommandBar Items=@itemsWithRadioButtons />
-</Demo>
-
-<em>@debugText</em>
+        <div class="subSection">
+            <Demo Header="CommandBar with RadioButtons" Key="4" MetadataPath="CommandBarPage">
+                <CommandBar Items=@itemsWithRadioButtons />
+            </Demo>
+        </div>
+    </div>
+</div>
 
 @code {
     private System.Windows.Input.ICommand buttonCommand;
@@ -78,6 +130,7 @@
 
     private List<CommandBarItem> customItems;
     private List<CommandBarItem> contentItems;
+
     private List<CommandBarItem> itemsWithRadioButtons;
 
     private Action<ItemClickedArgs> OnClick => args =>
@@ -135,7 +188,7 @@
             new CommandBarItem() { Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
         };
         itemsWithRadioButtons = new List<CommandBarItem>
-        {
+{
             new CommandBarItem() { Text= "Non radio", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="Non radio", Toggle=true},
             new CommandBarItem() { Text= "RadioA1", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="RadioA1", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
             new CommandBarItem() { Text= "RadioA2", IconName="Add", Key="3", Command=buttonCommand, CommandParameter="RadioA2", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},

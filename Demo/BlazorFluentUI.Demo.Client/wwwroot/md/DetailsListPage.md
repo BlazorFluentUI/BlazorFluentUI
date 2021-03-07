@@ -1,54 +1,72 @@
 ﻿@page "/detailsListPage"
 
-@using DynamicData 
-@using DynamicData.Binding 
+@using DynamicData
+@using DynamicData.Binding
 @using System.Collections.ObjectModel
 @using System.Reactive.Linq
 @using System.Reactive.Subjects
-
-<Stack Style="height:100%;">
-    <h3>DetailsList</h3>
-    <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
-        <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
-        <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
-        <Dropdown ItemsSource=@selectionModeOptions
-                     @bind-SelectedOption=selectedModeOption
-                     Style="max-width:300px;">
-        </Dropdown>
-        <Toggle Label="Disable Selection"
-                   @bind-Checked="selectionDisabled"
-                   OnText="disabled"
-                   OffText="enabled"
-                    />
-    </Stack>
-    <TextField Label="Filter Description"
-                  @bind-Value=@dataContainer.Filter
-                  @bind-Value:event="OnInput" />
-        <div data-is-scrollable="true"
-             style="height:400px;overflow-y:auto;">
-            @if (ReadonlyList != null)
-            {
-                <DetailsList ItemsSource="null"
-                                IsVirtualizing=@isVirtualizing.GetValueOrDefault()
-                                Compact=@isCompact.GetValueOrDefault()
-                                Columns="ReadonlyColumns"
-                                GetKey=@(item => item.Key)
-                                LayoutMode="DetailsListLayoutMode.Justified"
-                                Selection="selection"
-                                SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
-                                DisableSelectionZone=@selectionDisabled.GetValueOrDefault()
-                                />
-            }
-            else
-            {
-                @("Loading...")
-            }
+<header class="root">
+    <h1 class="title">DetailsList</h1>
+</header>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading hiddenContent">Overview</h2>
+    </div>
+    <div class="content">
+        <div class="ms-Markdown">
+            <p>
+                A details list (<code>DetailsList</code>) is a robust way to display an information-rich collection of items, and allow people to sort, group, and filter the content. Use a details list when information density is critical.
+            </p>
         </div>
-</Stack>
+    </div>
+</div>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading">Usage</h2>
+    </div>
+    <div>
+        <div class="subSection">
 
+            <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
+                <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+                <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+                <Dropdown ItemsSource=@selectionModeOptions
+                          @bind-SelectedOption=selectedModeOption
+                          Style="max-width:300px;">
+                </Dropdown>
+                <Toggle Label="Disable Selection"
+                        @bind-Checked="selectionDisabled"
+                        OnText="disabled"
+                        OffText="enabled" />
+            </Stack>
+            <TextField Label="Filter Description"
+                       @bind-Value=@dataContainer.Filter
+                       @bind-Value:event="OnInput" />
+            <div data-is-scrollable="true"
+                 style="height:400px;overflow-y:auto;">
+                @if (ReadonlyList != null)
+                {
+                    <DetailsList ItemsSource="null"
+                                 IsVirtualizing=@isVirtualizing.GetValueOrDefault()
+                                 Compact=@isCompact.GetValueOrDefault()
+                                 Columns="ReadonlyColumns"
+                                 GetKey=@(item => item.Key)
+                                 LayoutMode="DetailsListLayoutMode.Justified"
+                                 Selection="selection"
+                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
+                                 DisableSelectionZone=@selectionDisabled.GetValueOrDefault() />
+                }
+                else
+                {
+                    @("Loading...")
+                }
+            </div>
+        </div>
+    </div>
+</div>
 @code {
-
-    // You DO NOT have to use DynamicData and Observables with DetailsList.  You can do it all manually.  See 
+    //ToDo: Add Demo sections
+    // You DO NOT have to use DynamicData and Observables with DetailsList.  You can do it all manually.  See
     // https://developer.microsoft.com/en-us/fluentui#/controls/web/detailslist for examples of how to use DetailsList
     // other ways.
 
@@ -61,7 +79,7 @@
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
-    // SourceCache is from DynamicData and is basically a container for your items that you can dynamically transform by filtering, sorting, etc. 
+    // SourceCache is from DynamicData and is basically a container for your items that you can dynamically transform by filtering, sorting, etc.
     SourceCache<DataItem, string> dataSource = new SourceCache<DataItem, string>(x => x.Key);
     public ReadOnlyObservableCollection<DataItem> ReadonlyList;
     int count = 0;
@@ -70,7 +88,7 @@
     SourceCache<DetailsRowColumn<DataItem>, string> columnsSource = new SourceCache<DetailsRowColumn<DataItem>, string>(x => x.Key);
     public ReadOnlyObservableCollection<DetailsRowColumn<DataItem>> ReadonlyColumns;
 
-    // This class just holds some properties that make it easier to sort and filter data. 
+    // This class just holds some properties that make it easier to sort and filter data.
     ObservableDataContainer dataContainer = new ObservableDataContainer();
 
     class ObservableDataContainer : AbstractNotifyPropertyChanged
@@ -82,7 +100,7 @@
         public bool Descending { get => descending; set => SetAndRaise(ref descending, value); }
 
         // When you click a column, we change this so DynamicData can know which property to sort by.
-        private Func<DataItem, object> sortSelector = x=>x.KeyNumber;
+        private Func<DataItem, object> sortSelector = x => x.KeyNumber;
         public Func<DataItem, object> SortSelector { get => sortSelector; set => SetAndRaise(ref sortSelector, value); }
 
         // This is an observable that is similar to the above callback, just in observable form.  This tells us when and how to change filtering.
@@ -95,15 +113,15 @@
         public ObservableDataContainer()
         {
             // This creates the observable that outputs a new filtering function.  Basically, return true if the string contains x.
-            // Throttle is an operator that limits how often the observable is fired.  This is useful when you type so the filter 
+            // Throttle is an operator that limits how often the observable is fired.  This is useful when you type so the filter
             // observable doesn't fire every time you hit a key.  This requires threading to work smoothly so doesn't work well
             // in client-side blazor yet.
             DynamicDescriptionFilter = this.WhenValueChanged(@this => @this.Filter).Throttle(TimeSpan.FromMilliseconds(250), System.Reactive.Concurrency.TaskPoolScheduler.Default)
                 //.Throttle(TimeSpan.FromMilliseconds(250))  //this freezes the ui in wasm since threads are not working well yet
                 .Select<string, Func<DataItem, bool>>(f => item => item.Description.Contains(f));
 
-            // DynamicData requires a specific expression for sorting.  This is where the expression is created.  The SortSelector 
-            // property is combined with the IsDescending property.  When either of them is changed, the DynamicSortExpression 
+            // DynamicData requires a specific expression for sorting.  This is where the expression is created.  The SortSelector
+            // property is combined with the IsDescending property.  When either of them is changed, the DynamicSortExpression
             // observable is fired with the newly created SortExpressionComparer.
             DynamicSortExpression = this.WhenValueChanged(@this => @this.SortSelector).CombineLatest(this.WhenValueChanged(@this => @this.Descending), (selector, isDescending) =>
             {
@@ -152,36 +170,36 @@
                 dataSource.AddOrUpdate(new DataItem(count));
             }
 
-            // We subscribe to the IsFiltered observable so that we know when to mark the description column with a Filter icon.  
+            // We subscribe to the IsFiltered observable so that we know when to mark the description column with a Filter icon.
             // All we have to do is change the column class and use the AddOrUpdate method on the SourceCache.  DynamicData will
             // automatically change the contents and notify anything that is watching that list.
             dataContainer.IsFiltered.Subscribe(isFiltered =>
-            {
-                descColumn.IsFiltered = isFiltered;
+                {
+                    descColumn.IsFiltered = isFiltered;
                 //InvokeAsync(StateHasChanged);
                 columnsSource.AddOrUpdate(descColumn);
-            });
+                });
 
 
 
-            // This is the meat of DynamicData.  We connect to the data SourceCache, apply the Filter (which is dynamic), 
+            // This is the meat of DynamicData.  We connect to the data SourceCache, apply the Filter (which is dynamic),
             // apply the Sort expression (which is also dynamic), and Bind it to a readonly list property.  This is what we're
-            // going to display in the DetailsList.  It will update automatically which any changes we make.  Since DynamicData is 
+            // going to display in the DetailsList.  It will update automatically which any changes we make.  Since DynamicData is
             // based on ReactiveExtensions, we have to Subscribe to it to make it "do stuff".
             dataSource.Connect()
-                    .Filter(dataContainer.DynamicDescriptionFilter)
-                    .Sort(dataContainer.DynamicSortExpression)
-                    .Bind(out ReadonlyList)
-                    .Subscribe();
+                        .Filter(dataContainer.DynamicDescriptionFilter)
+                        .Sort(dataContainer.DynamicSortExpression)
+                        .Bind(out ReadonlyList)
+                        .Subscribe();
 
-            // Likewise, we connect to the column SourceCache.  This lets us make a change in one column and everything gets updated 
+            // Likewise, we connect to the column SourceCache.  This lets us make a change in one column and everything gets updated
             // automatically.  We also have a Do operator in there that calls a StateHasChanged whenever the contents are changed or if
             // the Sort expression changes.
             columnsSource.Connect()
-                .Sort(SortExpressionComparer<DetailsRowColumn<DataItem>>.Ascending(x => x.Index))
-                .Bind(out ReadonlyColumns)
-                .Do(_ => InvokeAsync(StateHasChanged))  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
-                .Subscribe();
+                    .Sort(SortExpressionComparer<DetailsRowColumn<DataItem>>.Ascending(x => x.Index))
+                    .Bind(out ReadonlyColumns)
+                    .Do(_ => InvokeAsync(StateHasChanged))  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
+                    .Subscribe();
         });
 
 

@@ -1,9 +1,26 @@
 ﻿@page "/messageBarPage"
 
-<Stack>
-    <StackItem Align=Alignment.Start>
-        <h1>MessageBar</h1>
-    </StackItem>
+<header class="root">
+    <h1 class="title">MessageBar</h1>
+</header>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading hiddenContent">Overview</h2>
+    </div>
+    <div class="content">
+        <div class="ms-Markdown">
+            <p>
+                A banner (<code>MessageBar</code>) displays errors, warnings, or important information about an open app or file. For example, if a file failed to upload an error message bar should appear.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading">Usage</h2>
+    </div>
+    <div>
+        <div class="subSection">
     <Stack>
         <Stack Tokens=@(new StackTokens { ChildrenGap = new[] { 20.0 }, MaxWidth=650.0, Padding=8.0 })>
             <StackItem>
@@ -127,10 +144,12 @@
             }
         </Stack>
     </Stack>
-</Stack>
-
+        </div>
+    </div>
+</div>
 @code
 {
+    //ToDo: Add Demo sections
     private bool onDismissIsClicked = false;
     private void OnDismiss()
     {

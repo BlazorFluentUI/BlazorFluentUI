@@ -1,0 +1,16 @@
+[
+  {
+    "outputFileName": "wwwroot/blazorFluentUI.min.js",
+    "inputFiles": [
+      "wwwroot/blazorFluentUI.js"
+    ],
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/richTextEditor.min.js",
+    "inputFiles": [
+      "RichTextEditor/wwwroot/richTextEditor.js"
+    ],
+    "sourceMap": true
+  }
+]

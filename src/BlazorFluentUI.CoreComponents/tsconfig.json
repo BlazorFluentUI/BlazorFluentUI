@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": false,
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": false,
+    "target": "ES2018",
+    "outFile": "wwwroot/blazorFluentUI.js",
+    "module": "AMD",
+    "allowJs": true
+  },
+  "files": [
+    "BaseComponent/wwwroot/baseComponent.ts",
+    "Callout/wwwroot/callout.ts",
+    "ContextualMenu/wwwroot/contextualMenu.ts",
+    "DocumentCard/wwwroot/documentCard.ts",
+    "FocusTrapZone/wwwroot/focusTrapZone.ts",
+    "FocusZone/wwwroot/focusZone.ts",
+    "List/wwwroot/fluentUIList.ts",
+    "MarqueeSelection/wwwroot/marqueeSelection.ts",
+    "Panel/wwwroot/panel.ts",
+    "SelectionZone/wwwroot/selectionZone.ts",
+    "Slider/wwwroot/slider.ts",
+    "../BlazorFluentUI.ListComponents/DetailsList/wwwroot/detailsList.ts",
+    "BaseComponent/wwwroot/requestIdleCallbackPolyfill.js"
+  ],
+  "exclude": [
+    "node_modules"
+   ]
+}

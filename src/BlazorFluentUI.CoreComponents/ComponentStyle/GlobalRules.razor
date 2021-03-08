@@ -1,0 +1,19 @@
+﻿@namespace BlazorFluentUI
+@if (ComponentStyle.isClient)
+{
+    @string.Join("\r\n", ComponentStyle.GlobalCSRules)
+    @*@foreach (var rule in ComponentStyle.GlobalCSRules)
+    {
+        <CSS Value="@rule" />
+    }*@
+}
+else
+{
+    <style>
+        @string.Join("\r\n", ComponentStyle.GlobalCSRules)
+        @*@foreach (var rule in ComponentStyle.GlobalCSRules)
+        {
+            <CSS  Value="@rule" />
+        }*@
+    </style>
+}

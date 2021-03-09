@@ -1,6 +1,6 @@
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-// /// <reference path="../../BlazorFluentUI.FocusTrapZone/wwwroot/focusTrapZone.ts" />
-/// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
+// /// <reference path="focusTrapZone.ts" />
+/// <reference path="baseComponent.ts" />
 
 namespace BlazorFluentUiList {
 

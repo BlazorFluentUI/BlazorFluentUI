@@ -5,17 +5,17 @@ namespace BlazorFluentUI.ResizeGroupInternal
 {
     public class InteropHelper
     {
-        private Action<bool> _resizeHappenedTrigger;
+        private Action<bool> _onResizedTrigger;
 
         public InteropHelper(Action<bool> resizeHappenedTrigger)
         {
-            _resizeHappenedTrigger = resizeHappenedTrigger;
+            _onResizedTrigger = resizeHappenedTrigger;
         }
 
         [JSInvokable]
-        public void ResizeHappenedAsync()
+        public void OnResizedAsync()
         {
-            _resizeHappenedTrigger(true);
+            _onResizedTrigger(true);
         }
 
     }

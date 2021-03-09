@@ -1,14 +1,21 @@
-//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-/// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var FluentUIBaseComponent;
 (function (FluentUIBaseComponent) {
-    const test = 12333;
-    const DATA_IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
-    const DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
-    const DATA_IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
+    const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+    const IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
+    const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
     const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
     const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
+    FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE = 'data-is-hidden-from-acc-tree';
     const IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
     //interface IVirtualElement extends HTMLElement {
     //    _virtual: {
@@ -95,7 +102,7 @@ var FluentUIBaseComponent;
         let el = startingElement;
         // First do a quick scan for the scrollable attribute.
         while (el && el !== document.body) {
-            if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) === 'true') {
+            if (el.getAttribute(IS_SCROLLABLE_ATTRIBUTE) === 'true') {
                 return el;
             }
             el = el.parentElement;
@@ -103,7 +110,7 @@ var FluentUIBaseComponent;
         // If we haven't found it, then use the slower method: compute styles to evaluate if overflow is set.
         el = startingElement;
         while (el && el !== document.body) {
-            if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) !== 'false') {
+            if (el.getAttribute(IS_SCROLLABLE_ATTRIBUTE) !== 'false') {
                 const computedStyles = getComputedStyle(el);
                 let overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
                 if (overflowY && (overflowY === 'scroll' || overflowY === 'auto')) {
@@ -315,31 +322,33 @@ var FluentUIBaseComponent;
         disconnect() {
             this.viewportResizeObserver.disconnect();
         }
-        async _updateViewportAsync(withForceUpdate) {
-            //const { viewport } = this.state;
-            const viewportElement = this.rootElement;
-            const scrollElement = findScrollableParent(viewportElement);
-            const scrollRect = getRect(scrollElement);
-            const clientRect = getRect(viewportElement);
-            const updateComponentAsync = async () => {
-                if (withForceUpdate) {
-                    await this.component.invokeMethodAsync("ForceUpdate");
+        _updateViewportAsync(withForceUpdate) {
+            return __awaiter(this, void 0, void 0, function* () {
+                //const { viewport } = this.state;
+                const viewportElement = this.rootElement;
+                const scrollElement = findScrollableParent(viewportElement);
+                const scrollRect = getRect(scrollElement);
+                const clientRect = getRect(viewportElement);
+                const updateComponentAsync = () => __awaiter(this, void 0, void 0, function* () {
+                    if (withForceUpdate) {
+                        yield this.component.invokeMethodAsync("ForceUpdate");
+                    }
+                });
+                const isSizeChanged = (clientRect && clientRect.width) !== this.viewport.width || (scrollRect && scrollRect.height) !== this.viewport.height;
+                if (isSizeChanged && this._resizeAttempts < this.MAX_RESIZE_ATTEMPTS && clientRect && scrollRect) {
+                    this._resizeAttempts++;
+                    this.viewport = {
+                        width: clientRect.width,
+                        height: scrollRect.height
+                    };
+                    yield this.component.invokeMethodAsync("ViewportChanged", this.viewport);
+                    yield this._updateViewportAsync(withForceUpdate);
                 }
-            };
-            const isSizeChanged = (clientRect && clientRect.width) !== this.viewport.width || (scrollRect && scrollRect.height) !== this.viewport.height;
-            if (isSizeChanged && this._resizeAttempts < this.MAX_RESIZE_ATTEMPTS && clientRect && scrollRect) {
-                this._resizeAttempts++;
-                this.viewport = {
-                    width: clientRect.width,
-                    height: scrollRect.height
-                };
-                await this.component.invokeMethodAsync("ViewportChanged", this.viewport);
-                await this._updateViewportAsync(withForceUpdate);
-            }
-            else {
-                this._resizeAttempts = 0;
-                await updateComponentAsync();
-            }
+                else {
+                    this._resizeAttempts = 0;
+                    yield updateComponentAsync();
+                }
+            });
         }
         ;
     }
@@ -442,18 +451,43 @@ var FluentUIBaseComponent;
             }
             element = nextChild;
         }
-        element = isElementTabbable(element) && isElementVisible(element) ? element : getNextElement(parent, element, true) || getPreviousElement(parent, element);
-        return { element: element, isNull: !element };
+        element =
+            isElementTabbable(element) && isElementVisible(element)
+                ? element
+                : getNextElement(parent, element, true) || getPreviousElement(parent, element);
+        return element;
     }
     FluentUIBaseComponent.getFocusableByIndexPath = getFocusableByIndexPath;
+    function getElementIndexPath(fromElement, toElement) {
+        const path = [];
+        let currentElement = toElement;
+        while (currentElement && fromElement && currentElement !== fromElement) {
+            const parent = currentElement.parentNode;
+            if (parent === null) {
+                return [];
+            }
+            path.unshift(Array.prototype.indexOf.call(parent.children, currentElement));
+            currentElement = parent;
+        }
+        return path;
+    }
+    FluentUIBaseComponent.getElementIndexPath = getElementIndexPath;
     function getFirstFocusable(rootElement, currentElement, includeElementsInFocusZones) {
-        return getNextElement(rootElement, currentElement, true /*checkNode*/, false /*suppressParentTraversal*/, false /*suppressChildTraversal*/, includeElementsInFocusZones);
+        return getNextElement(rootElement, currentElement, true /* checkNode */, false /* suppressParentTraversal */, false /* suppressChildTraversal */, includeElementsInFocusZones);
     }
     FluentUIBaseComponent.getFirstFocusable = getFirstFocusable;
     function getLastFocusable(rootElement, currentElement, includeElementsInFocusZones) {
-        return getPreviousElement(rootElement, currentElement, true /*checkNode*/, false /*suppressParentTraversal*/, true /*suppressChildTraversal*/, includeElementsInFocusZones);
+        return getPreviousElement(rootElement, currentElement, true /* checkNode */, false /* suppressParentTraversal */, true /* traverseChildren */, includeElementsInFocusZones);
     }
     FluentUIBaseComponent.getLastFocusable = getLastFocusable;
+    function getFirstTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode) {
+        return getNextElement(rootElement, currentElement, checkNode, false /* suppressParentTraversal */, false /* suppressChildTraversal */, includeElementsInFocusZones, true /* tabbable */);
+    }
+    FluentUIBaseComponent.getFirstTabbable = getFirstTabbable;
+    function getLastTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode) {
+        return getPreviousElement(rootElement, currentElement, checkNode, false /* suppressParentTraversal */, true /* traverseChildren */, includeElementsInFocusZones, true /* tabbable */);
+    }
+    FluentUIBaseComponent.getLastTabbable = getLastTabbable;
     function isElementTabbable(element, checkTabIndex) {
         // If this element is null or is disabled, it is not considered tabbable.
         if (!element || element.disabled) {
@@ -467,8 +501,8 @@ var FluentUIBaseComponent;
                 tabIndex = parseInt(tabIndexAttributeValue, 10);
             }
         }
-        let isFocusableAttribute = element.getAttribute ? element.getAttribute(DATA_IS_FOCUSABLE_ATTRIBUTE) : null;
-        let isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
+        const isFocusableAttribute = element.getAttribute ? element.getAttribute(IS_FOCUSABLE_ATTRIBUTE) : null;
+        const isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
         const result = !!element &&
             isFocusableAttribute !== 'false' &&
             (element.tagName === 'A' ||
@@ -476,7 +510,8 @@ var FluentUIBaseComponent;
                 element.tagName === 'INPUT' ||
                 element.tagName === 'TEXTAREA' ||
                 isFocusableAttribute === 'true' ||
-                isTabIndexSet);
+                isTabIndexSet ||
+                (element.getAttribute && element.getAttribute('role') === 'button'));
         return checkTabIndex ? tabIndex !== -1 && result : result;
     }
     FluentUIBaseComponent.isElementTabbable = isElementTabbable;
@@ -485,7 +520,7 @@ var FluentUIBaseComponent;
         if (!element || !element.getAttribute) {
             return false;
         }
-        const visibilityAttribute = element.getAttribute(DATA_IS_VISIBLE_ATTRIBUTE);
+        const visibilityAttribute = element.getAttribute(IS_VISIBLE_ATTRIBUTE);
         // If the element is explicitly marked with the visibility attribute, return that value as boolean.
         if (visibilityAttribute !== null && visibilityAttribute !== undefined) {
             return visibilityAttribute === 'true';
@@ -493,10 +528,39 @@ var FluentUIBaseComponent;
         // Fallback to other methods of determining actual visibility.
         return (element.offsetHeight !== 0 ||
             element.offsetParent !== null ||
-            // tslint:disable-next-line:no-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             element.isVisible === true); // used as a workaround for testing.
     }
     FluentUIBaseComponent.isElementVisible = isElementVisible;
+    function isElementFocusZone(element) {
+        return !!(element && element.getAttribute && !!element.getAttribute(FOCUSZONE_ID_ATTRIBUTE));
+    }
+    FluentUIBaseComponent.isElementFocusZone = isElementFocusZone;
+    function isElementFocusSubZone(element) {
+        return !!(element && element.getAttribute && element.getAttribute(FOCUSZONE_SUB_ATTRIBUTE) === 'true');
+    }
+    FluentUIBaseComponent.isElementFocusSubZone = isElementFocusSubZone;
+    let targetToFocusOnNextRepaint = undefined;
+    function focusAsync(element) {
+        if (element) {
+            // An element was already queued to be focused, so replace that one with the new element
+            if (targetToFocusOnNextRepaint) {
+                targetToFocusOnNextRepaint = element;
+                return;
+            }
+            targetToFocusOnNextRepaint = element;
+            const win = window;
+            if (win) {
+                // element.focus() is a no-op if the element is no longer in the DOM, meaning this is always safe
+                win.requestAnimationFrame(() => {
+                    targetToFocusOnNextRepaint && targetToFocusOnNextRepaint.focus();
+                    // We are done focusing for this frame, so reset the queued focus element
+                    targetToFocusOnNextRepaint = undefined;
+                });
+            }
+        }
+    }
+    FluentUIBaseComponent.focusAsync = focusAsync;
     function focusFirstChild(rootElement) {
         return false;
     }
@@ -573,11 +637,11 @@ var FluentUIBaseComponent;
         return isContained;
     }
     FluentUIBaseComponent.elementContains = elementContains;
-    function getNextElement(rootElement, currentElement, checkNode, suppressParentTraversal, suppressChildTraversal, includeElementsInFocusZones, allowFocusRoot, tabbable) {
-        if (!currentElement || (currentElement === rootElement && suppressChildTraversal && !allowFocusRoot)) {
+    function getNextElement(rootElement, currentElement, checkNode, suppressParentTraversal, suppressChildTraversal, includeElementsInFocusZones, tabbable) {
+        if (!currentElement || (currentElement === rootElement && suppressChildTraversal)) {
             return null;
         }
-        let isCurrentElementVisible = isElementVisible(currentElement);
+        const isCurrentElementVisible = isElementVisible(currentElement);
         // Check the current node, if it's not the first traversal.
         if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
             return currentElement;
@@ -586,7 +650,7 @@ var FluentUIBaseComponent;
         if (!suppressChildTraversal &&
             isCurrentElementVisible &&
             (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
-            const childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            const childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, tabbable);
             if (childMatch) {
                 return childMatch;
             }
@@ -595,31 +659,31 @@ var FluentUIBaseComponent;
             return null;
         }
         // Check its sibling.
-        const siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        const siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, tabbable);
         if (siblingMatch) {
             return siblingMatch;
         }
         if (!suppressParentTraversal) {
-            return getNextElement(rootElement, currentElement.parentElement, false, false, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            return getNextElement(rootElement, currentElement.parentElement, false, false, true, includeElementsInFocusZones, tabbable);
         }
         return null;
     }
     FluentUIBaseComponent.getNextElement = getNextElement;
-    function getPreviousElement(rootElement, currentElement, checkNode, suppressParentTraversal, traverseChildren, includeElementsInFocusZones, allowFocusRoot, tabbable) {
-        if (!currentElement || (!allowFocusRoot && currentElement === rootElement)) {
+    function getPreviousElement(rootElement, currentElement, checkNode, suppressParentTraversal, traverseChildren, includeElementsInFocusZones, tabbable) {
+        if (!currentElement || currentElement === rootElement) {
             return null;
         }
-        let isCurrentElementVisible = isElementVisible(currentElement);
+        const isCurrentElementVisible = isElementVisible(currentElement);
         // Check its children.
         if (traverseChildren &&
             isCurrentElementVisible &&
             (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
-            const childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            const childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, tabbable);
             if (childMatch) {
                 if ((tabbable && isElementTabbable(childMatch, true)) || !tabbable) {
                     return childMatch;
                 }
-                const childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                const childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, tabbable);
                 if (childMatchSiblingMatch) {
                     return childMatchSiblingMatch;
                 }
@@ -629,7 +693,7 @@ var FluentUIBaseComponent;
                 // NOTE: We do not want to recurse here because doing so could
                 // cause elements to get skipped.
                 while (childMatchParent && childMatchParent !== currentElement) {
-                    const childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                    const childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, tabbable);
                     if (childMatchParentMatch) {
                         return childMatchParentMatch;
                     }
@@ -642,13 +706,13 @@ var FluentUIBaseComponent;
             return currentElement;
         }
         // Check its previous sibling.
-        const siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        const siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, tabbable);
         if (siblingMatch) {
             return siblingMatch;
         }
         // Check its parent.
         if (!suppressParentTraversal) {
-            return getPreviousElement(rootElement, currentElement.parentElement, true, false, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            return getPreviousElement(rootElement, currentElement.parentElement, true, false, false, includeElementsInFocusZones, tabbable);
         }
         return null;
     }
@@ -673,14 +737,6 @@ var FluentUIBaseComponent;
         }
         return event;
     }
-    function isElementFocusZone(element) {
-        return !!(element && element.getAttribute && !!element.getAttribute(FOCUSZONE_ID_ATTRIBUTE));
-    }
-    FluentUIBaseComponent.isElementFocusZone = isElementFocusZone;
-    function isElementFocusSubZone(element) {
-        return !!(element && element.getAttribute && element.getAttribute(FOCUSZONE_SUB_ATTRIBUTE) === 'true');
-    }
-    FluentUIBaseComponent.isElementFocusSubZone = isElementFocusSubZone;
     function on(element, eventName, callback, options) {
         element.addEventListener(eventName, callback, options);
         return () => element.removeEventListener(eventName, callback, options);
@@ -1741,68 +1797,58 @@ var BlazorFluentUICallout;
     ;
 })(BlazorFluentUICallout || (BlazorFluentUICallout = {}));
 window['BlazorFluentUICallout'] = BlazorFluentUICallout || {};
-///// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
-//namespace BlazorFluentUIContextualMenu {
-//    interface DotNetReferenceType {
-//        invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-//        invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-//    }
-//    interface IRectangle {
-//        left: number;
-//        top: number;
-//        width: number;
-//        height: number;
-//        right?: number;
-//        bottom?: number;
-//    }
-//    export function registerHandlers(targetElement: HTMLElement, contextualMenuItem: DotNetReferenceType): number[] {
-//        var window = targetElement.ownerDocument.defaultView;
-//        var mouseClickId = Handler.addListener(targetElement, "click", (ev: Event) => { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("ClickHandler"); }, false);
-//        //var keyDownId = Handler.addListener(targetElement, "keydown", (ev: KeyboardEvent) => {
-//        //    if (ev.keyCode === FluentUIBaseComponent.KeyCodes.right) {
-//        //        ev.preventDefault();
-//        //        contextualMenuItem.invokeMethodAsync("KeyDownHandler", true);
-//        //    } else if (ev.keyCode === FluentUIBaseComponent.KeyCodes.left) {
-//        //        ev.preventDefault();
-//        //        contextualMenuItem.invokeMethodAsync("KeyDownHandler", false);
-//        //    }
-//        //}, false);
-//        var mouseEnterId = Handler.addListener(targetElement, "mouseenter", (ev: Event) => { ev.preventDefault(); contextualMenuItem.invokeMethodAsync("MouseEnterHandler"); }, false);
-//        return [mouseClickId, mouseEnterId];
-//    }
-//    export function unregisterHandlers(ids: number[]): void {
-//        for (let id of ids) {
-//            Handler.removeListener(id);
-//        }
-//    }
-//    interface EventParams {
-//        element: HTMLElement | Window;
-//        event: string;
-//        handler: (ev: Event) => void;
-//        capture: boolean;
-//    }
-//    interface Map<T> {
-//        [K: number]: T;
-//    }
-//    class Handler {
-//        static i: number = 1;
-//        static listeners: Map<EventParams> = {};
-//        static addListener(element: HTMLElement | Window, event: string, handler: (ev: Event) => void, capture: boolean): number {
-//            element.addEventListener(event, handler, capture);
-//            this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
-//            return this.i++;
-//        }
-//        static removeListener(id: number): void {
-//            if (id in this.listeners) {
-//                var h = this.listeners[id];
-//                h.element.removeEventListener(h.event, h.handler, h.capture);
-//                delete this.listeners[id];
-//            }
-//        }
-//    }
-//}
-//(<any>window)['BlazorFluentUIContextualMenu'] = BlazorFluentUIContextualMenu || {};
-/// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="baseComponent.ts" />
+var BlazorFluentUIDetailsList;
+(function (BlazorFluentUIDetailsList) {
+    const MOUSEDOWN_PRIMARY_BUTTON = 0; // for mouse down event we are using ev.button property, 0 means left button
+    const MOUSEMOVE_PRIMARY_BUTTON = 1; // for mouse move event we are using ev.buttons property, 1 means left button
+    const detailHeaders = new Map();
+    function registerDetailsHeader(dotNet, root) {
+        let detailHeader = new DetailsHeader(dotNet, root);
+        detailHeaders.set(dotNet._id, detailHeader);
+    }
+    BlazorFluentUIDetailsList.registerDetailsHeader = registerDetailsHeader;
+    function unregisterDetailsHeader(dotNet) {
+        let detailHeader = detailHeaders.get(dotNet._id);
+        detailHeader.dispose();
+        detailHeaders.delete(dotNet._id);
+    }
+    BlazorFluentUIDetailsList.unregisterDetailsHeader = unregisterDetailsHeader;
+    class DetailsHeader {
+        constructor(dotNet, root) {
+            this._onRootMouseDown = (ev) => __awaiter(this, void 0, void 0, function* () {
+                const columnIndexAttr = ev.target.getAttribute('data-sizer-index');
+                const columnIndex = Number(columnIndexAttr);
+                if (columnIndexAttr === null || ev.button !== MOUSEDOWN_PRIMARY_BUTTON) {
+                    // Ignore anything except the primary button.
+                    return;
+                }
+                yield this.dotNet.invokeMethodAsync("OnSizerMouseDown", columnIndex, ev.clientX);
+                ev.preventDefault();
+                ev.stopPropagation();
+            });
+            this._onRootDblClick = (ev) => __awaiter(this, void 0, void 0, function* () {
+                const columnIndexAttr = ev.target.getAttribute('data-sizer-index');
+                const columnIndex = Number(columnIndexAttr);
+                if (columnIndexAttr === null || ev.button !== MOUSEDOWN_PRIMARY_BUTTON) {
+                    // Ignore anything except the primary button.
+                    return;
+                }
+                yield this.dotNet.invokeMethodAsync("OnDoubleClick", columnIndex);
+            });
+            this.dotNet = dotNet;
+            this.root = root;
+            this.events = new FluentUIBaseComponent.EventGroup(this);
+            this.events.on(root, 'mousedown', this._onRootMouseDown);
+            this.events.on(root, 'dblclick', this._onRootDblClick);
+        }
+        dispose() {
+            this.events.dispose();
+        }
+    }
+})(BlazorFluentUIDetailsList || (BlazorFluentUIDetailsList = {}));
+window['BlazorFluentUIDetailsList'] = BlazorFluentUIDetailsList || {};
+/// <reference path="baseComponent.ts" />
 var BlazorFluentUIDocumentCard;
 (function (BlazorFluentUIDocumentCard) {
     class CardTitleMap {
@@ -1903,19 +1949,181 @@ var BlazorFluentUIDocumentCard;
         }
     }
 })(BlazorFluentUIDocumentCard || (BlazorFluentUIDocumentCard = {}));
+//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
+// /// <reference path="focusTrapZone.ts" />
+/// <reference path="baseComponent.ts" />
+var BlazorFluentUiList;
+(function (BlazorFluentUiList) {
+    var _lastId = 0;
+    var cachedLists = new Map();
+    class BFUList {
+        constructor(component, spacerBefore, spacerAfter) {
+            this.cachedSizes = new Map();
+            this.averageHeight = 40;
+            this.id = _lastId++;
+            this.component = component;
+            //this.surfaceElement = rootElement.children.item(0) as HTMLElement;
+            this.scrollElement = FluentUIBaseComponent.findScrollableParent(spacerBefore);
+            // get initial width
+            this.component.invokeMethodAsync('ResizeHandler', this.scrollElement.clientWidth);
+            this.events = new FluentUIBaseComponent.EventGroup(this);
+            this.events.on(window, 'resize', this.resize);
+            this.rootElement = spacerBefore.parentElement;
+            //this.scrollElement = scrollElement;
+            this.spacerBefore = spacerBefore;
+            this.spacerAfter = spacerAfter;
+            const rootMargin = 50;
+            this.intersectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    var _a;
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+                    const spacerBeforeRect = this.spacerBefore.getBoundingClientRect();
+                    const spacerAfterRect = this.spacerAfter.getBoundingClientRect();
+                    const spacerSeparation = spacerAfterRect.top - spacerBeforeRect.bottom;
+                    const containerSize = (_a = entry.rootBounds) === null || _a === void 0 ? void 0 : _a.height;
+                    if (entry.target === this.spacerBefore) {
+                        component.invokeMethodAsync('OnBeforeSpacerVisible', entry.intersectionRect.top - entry.boundingClientRect.top, spacerSeparation, containerSize);
+                    }
+                    else if (entry.target === this.spacerAfter && this.spacerAfter.offsetHeight > 0) {
+                        // When we first start up, both the "before" and "after" spacers will be visible, but it's only relevant to raise a
+                        // single event to load the initial data. To avoid raising two events, skip the one for the "after" spacer if we know
+                        // it's meaningless to talk about any overlap into it.
+                        component.invokeMethodAsync('OnAfterSpacerVisible', entry.boundingClientRect.bottom - entry.intersectionRect.bottom, spacerSeparation, containerSize);
+                    }
+                });
+            }, {
+                root: this.scrollElement, rootMargin: `${rootMargin}px`
+            });
+            this.intersectionObserver.observe(this.spacerBefore);
+            this.intersectionObserver.observe(this.spacerAfter);
+            // After each render, refresh the info about intersections
+            this.mutationObserverBefore = new MutationObserver(() => {
+                this.intersectionObserver.unobserve(this.spacerBefore);
+                this.intersectionObserver.observe(this.spacerBefore);
+            });
+            this.mutationObserverBefore.observe(this.spacerBefore, { attributes: true });
+            this.mutationObserverAfter = new MutationObserver(() => {
+                this.intersectionObserver.unobserve(this.spacerAfter);
+                this.intersectionObserver.observe(this.spacerAfter);
+            });
+            this.mutationObserverAfter.observe(this.spacerAfter, { attributes: true });
+        }
+        resize(ev) {
+            this.component.invokeMethodAsync('ResizeHandler', this.scrollElement.clientWidth);
+        }
+        disconnect() {
+            this.events.off(window, 'resize', this.resize);
+            this.events.dispose();
+            this.mutationObserverBefore.disconnect();
+            this.mutationObserverAfter.disconnect();
+            this.intersectionObserver.unobserve(this.spacerBefore);
+            this.intersectionObserver.unobserve(this.spacerAfter);
+            this.intersectionObserver.disconnect();
+        }
+        getAverageHeight() {
+            let calculate = false;
+            let averageHeight = 0;
+            let newItems = {};
+            for (let i = 0; i < this.surfaceElement.children.length; i++) {
+                let item = this.surfaceElement.children.item(i);
+                let index = item.getAttribute("data-item-index");
+                if (index != null && !this.cachedSizes.has(index) && this.cachedSizes.get(index) != item.clientHeight) {
+                    this.cachedSizes.set(index, item.clientHeight);
+                    newItems[index] = item.clientHeight;
+                    calculate = true;
+                }
+            }
+            if (calculate) {
+                this.component.invokeMethodAsync("UpdateHeightCache", newItems);
+                averageHeight = [...this.cachedSizes.values()].reduce((p, c, i, a) => p + c) / this.cachedSizes.size;
+            }
+            return averageHeight;
+        }
+        updateItemHeights() {
+        }
+    }
+    function getInitialAverageHeight(id) {
+        let list = cachedLists.get(id);
+        if (list == null) {
+            return 0;
+        }
+        else {
+            return list.getAverageHeight();
+        }
+    }
+    BlazorFluentUiList.getInitialAverageHeight = getInitialAverageHeight;
+    function initialize(component, spacerBefore, spacerAfter, reset = false) {
+        let list = new BFUList(component, spacerBefore, spacerAfter);
+        cachedLists.set(list.id, list);
+        return list.id;
+    }
+    BlazorFluentUiList.initialize = initialize;
+    function removeList(id) {
+        let list = cachedLists.get(id);
+        list.disconnect();
+        cachedLists.delete(id);
+    }
+    BlazorFluentUiList.removeList = removeList;
+    function getViewport(scrollElement) {
+        const visibleRect = {
+            top: 0,
+            left: 0,
+            width: scrollElement.clientWidth,
+            height: scrollElement.clientHeight,
+            bottom: scrollElement.scrollHeight,
+            right: scrollElement.scrollWidth
+        };
+        return visibleRect;
+    }
+    BlazorFluentUiList.getViewport = getViewport;
+    function readClientRectWithoutTransform(elem) {
+        const rect = elem.getBoundingClientRect();
+        const translateY = parseFloat(elem.getAttribute('data-translateY'));
+        return {
+            top: rect.top - translateY, bottom: rect.bottom - translateY, left: rect.left, right: rect.right, height: rect.height, width: rect.width, x: 0, y: 0, toJSON: null
+        };
+    }
+    function _expandRect(rect, pagesBefore, pagesAfter) {
+        const top = rect.top - pagesBefore * rect.height;
+        const height = rect.height + (pagesBefore + pagesAfter) * rect.height;
+        return {
+            top: top,
+            bottom: top + height,
+            height: height,
+            left: rect.left,
+            right: rect.right,
+            width: rect.width
+        };
+    }
+    function _isContainedWithin(innerRect, outerRect) {
+        return (innerRect.top >= outerRect.top &&
+            innerRect.left >= outerRect.left &&
+            innerRect.bottom <= outerRect.bottom &&
+            innerRect.right <= outerRect.right);
+    }
+    function _mergeRect(targetRect, newRect) {
+        targetRect.top = newRect.top < targetRect.top || targetRect.top === -1 ? newRect.top : targetRect.top;
+        targetRect.left = newRect.left < targetRect.left || targetRect.left === -1 ? newRect.left : targetRect.left;
+        targetRect.bottom = newRect.bottom > targetRect.bottom || targetRect.bottom === -1 ? newRect.bottom : targetRect.bottom;
+        targetRect.right = newRect.right > targetRect.right || targetRect.right === -1 ? newRect.right : targetRect.right;
+        targetRect.width = targetRect.right - targetRect.left + 1;
+        targetRect.height = targetRect.bottom - targetRect.top + 1;
+        return targetRect;
+    }
+})(BlazorFluentUiList || (BlazorFluentUiList = {}));
+window['BlazorFluentUiList'] = BlazorFluentUiList || {};
+//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
+/// <reference path="baseComponent.ts" />
 var BlazorFluentUIFocusTrapZone;
 (function (BlazorFluentUIFocusTrapZone) {
-    const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
-    const d = 445;
-    const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
-    const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
-    const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
     class FocusTrapZoneInternal {
         constructor(focusTrapZoneProps, dotNetRef) {
             this._hasFocus = true;
             this._onRootFocus = (ev) => {
-                //if (this.props.onFocus) {
-                //    this.props.onFocus(ev);
+                //if (this._props.onFocus) {
+                //    this._props.onFocus(ev);
                 //}
                 this._hasFocus = true;
             };
@@ -1943,23 +2151,172 @@ var BlazorFluentUIFocusTrapZone;
                 this._onBumperFocus(false);
             };
             this._onBumperFocus = (isFirstBumper) => {
-                if (this._props.disabled) {
+                if (!this._props.rootElement) {
                     return;
                 }
                 const currentBumper = (isFirstBumper === this._hasFocus ? this._props.lastBumper : this._props.firstBumper);
                 if (this._props.rootElement) {
                     const nextFocusable = isFirstBumper === this._hasFocus
-                        ? getLastTabbable(this._props.rootElement, currentBumper, true, false)
-                        : getFirstTabbable(this._props.rootElement, currentBumper, true, false);
+                        ? window.FluentUIBaseComponent.getLastTabbable(this._props.rootElement, currentBumper, true, false)
+                        : window.FluentUIBaseComponent.getFirstTabbable(this._props.rootElement, currentBumper, true, false);
                     if (nextFocusable) {
                         if (this._isBumper(nextFocusable)) {
                             // This can happen when FTZ contains no tabbable elements. focus will take care of finding a focusable element in FTZ.
-                            this.focus();
+                            this._findElementAndFocusAsync();
                         }
                         else {
                             nextFocusable.focus();
                         }
                     }
+                }
+            };
+            this._enableFocusTrapZone = () => {
+                const { disabled = false } = this._props;
+                if (disabled) {
+                    return;
+                }
+                FocusTrapZoneInternal._focusStack.push(this);
+                this._bringFocusIntoZone();
+                this._hideContentFromAccessibilityTree();
+            };
+            this._releaseFocusTrapZone = () => {
+                const { ignoreExternalFocusing } = this._props;
+                FocusTrapZoneInternal._focusStack = FocusTrapZoneInternal._focusStack.filter((value) => {
+                    return this !== value;
+                });
+                // try to focus element which triggered FocusTrapZone - prviously focused element outside trap zone
+                //const doc = getDocument(this._props.rootElement);
+                // @ts-ignore
+                const activeElement = document.activeElement;
+                if (!ignoreExternalFocusing &&
+                    this._previouslyFocusedElementOutsideTrapZone &&
+                    // @ts-ignore
+                    (this._props.rootElement.contains(activeElement) || activeElement === doc.body)) {
+                    this._focusAsync(this._previouslyFocusedElementOutsideTrapZone);
+                }
+                // if last active focus trap zone is going to be released - show previously hidden content in accessibility tree
+                const lastActiveFocusTrap = FocusTrapZoneInternal._focusStack.length && FocusTrapZoneInternal._focusStack[FocusTrapZoneInternal._focusStack.length - 1];
+                if (!lastActiveFocusTrap) {
+                    this._showContentInAccessibilityTree();
+                }
+                else if (lastActiveFocusTrap._props.rootElement &&
+                    lastActiveFocusTrap._props.rootElement.hasAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE)) {
+                    lastActiveFocusTrap._props.rootElement.removeAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE);
+                    lastActiveFocusTrap._props.rootElement.removeAttribute('aria-hidden');
+                }
+            };
+            this._findElementAndFocusAsync = () => {
+                if (!this._props.rootElement) {
+                    return;
+                }
+                const { focusPreviouslyFocusedInnerElement, firstFocusableSelector } = this._props;
+                if (focusPreviouslyFocusedInnerElement &&
+                    this._previouslyFocusedElementInTrapZone &&
+                    this._props.rootElement.contains(this._previouslyFocusedElementInTrapZone)) {
+                    // focus on the last item that had focus in the zone before we left the zone
+                    this._focusAsync(this._previouslyFocusedElementInTrapZone);
+                    return;
+                }
+                const focusSelector = firstFocusableSelector &&
+                    (typeof firstFocusableSelector === 'string' ? firstFocusableSelector : firstFocusableSelector());
+                let firstFocusableChild = null;
+                if (focusSelector) {
+                    firstFocusableChild = this._props.rootElement.querySelector(focusSelector);
+                }
+                // Fall back to first element if query selector did not match any elements.
+                if (!firstFocusableChild) {
+                    firstFocusableChild = window.FluentUIBaseComponent.getNextElement(this._props.rootElement, this._props.rootElement.firstChild, false, false, false, true);
+                }
+                firstFocusableChild && this._focusAsync(firstFocusableChild);
+            };
+            this._onFocusCapture = (ev) => {
+                //this._props.onFocusCapture && this._props.onFocusCapture(ev);
+                if (ev.target !== ev.currentTarget && !this._isBumper(ev.target)) {
+                    // every time focus changes within the trap zone, remember the focused element so that
+                    // it can be restored if focus leaves the pane and returns via keystroke (i.e. via a call to this.focus(true))
+                    this._previouslyFocusedElementInTrapZone = ev.target;
+                }
+            };
+            this._forceFocusInTrap = (ev, triggeredElement) => {
+                if (FocusTrapZoneInternal._focusStack.length && this === FocusTrapZoneInternal._focusStack[FocusTrapZoneInternal._focusStack.length - 1]) {
+                    // @ts-ignore
+                    if (!this._props.rootElement.contains(triggeredElement)) {
+                        this._findElementAndFocusAsync();
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                    }
+                }
+            };
+            this._handleOutsideFocus = (ev) => {
+                // @ts-ignore
+                const focusedElement = document.activeElement;
+                focusedElement && this._forceFocusInTrap(ev, focusedElement);
+            };
+            this._handleOutsideClick = (ev) => {
+                const clickedElement = ev.target;
+                const { isClickableOutsideFocusTrap, focusTriggerOnOutsideClick } = this._props;
+                if (!isClickableOutsideFocusTrap) {
+                    clickedElement && this._forceFocusInTrap(ev, clickedElement);
+                }
+                else if (!focusTriggerOnOutsideClick) {
+                    const isOutsideFocusTrapZone = this._props.rootElement && !this._props.rootElement.contains(clickedElement);
+                    const isOutsideTriggerElement = this._previouslyFocusedElementOutsideTrapZone &&
+                        !this._previouslyFocusedElementOutsideTrapZone.contains(clickedElement);
+                    if (isOutsideFocusTrapZone && isOutsideTriggerElement) {
+                        // set it to NULL, so the trigger will not be focused on componentWillUnmount
+                        // @ts-ignore
+                        this._previouslyFocusedElementOutsideTrapZone = null;
+                    }
+                }
+            };
+            this._onKeyboardHandler = (ev) => {
+                //if (this._props.onKeyDown) {
+                //    this._props.onKeyDown(ev);
+                //}
+                // do not propogate keyboard events outside focus trap zone
+                // https://github.com/microsoft/fluent-ui-react/pull/1180
+                ev.stopPropagation();
+            };
+            this._getPreviouslyFocusedElementOutsideTrapZone = () => {
+                const { elementToFocusOnDismiss } = this._props;
+                let previouslyFocusedElement = this._previouslyFocusedElementOutsideTrapZone;
+                if (elementToFocusOnDismiss && previouslyFocusedElement !== elementToFocusOnDismiss) {
+                    previouslyFocusedElement = elementToFocusOnDismiss;
+                }
+                else if (!previouslyFocusedElement) {
+                    // @ts-ignore
+                    previouslyFocusedElement = document.activeElement;
+                }
+                return previouslyFocusedElement;
+            };
+            this._hideContentFromAccessibilityTree = () => {
+                const doc = document;
+                // @ts-ignore
+                const bodyChildren = (doc.body && doc.body.children) || [];
+                // @ts-ignore
+                if (bodyChildren.length && !doc.body.contains(this._props.rootElement)) {
+                    // In case popup render options will change
+                    /* eslint-disable-next-line no-console */
+                    console.warn('Body element does not contain trap zone element. Please, ensure the trap zone element is placed inside body, so it will work properly.');
+                }
+                for (let index = 0; index < bodyChildren.length; index++) {
+                    const currentChild = bodyChildren[index];
+                    const isOrHasFocusTrapZone = currentChild === this._props.rootElement || currentChild.contains(this._props.rootElement);
+                    const isAriaLiveRegion = currentChild.hasAttribute('aria-live');
+                    if (!isOrHasFocusTrapZone && !isAriaLiveRegion && currentChild.getAttribute('aria-hidden') !== 'true') {
+                        currentChild.setAttribute('aria-hidden', 'true');
+                        currentChild.setAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE, 'true');
+                    }
+                }
+            };
+            this._showContentInAccessibilityTree = () => {
+                const doc = document;
+                // @ts-ignore
+                const hiddenElements = doc.querySelectorAll(`[${window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE}="true"]`);
+                for (let index = 0; index < hiddenElements.length; index++) {
+                    const element = hiddenElements[index];
+                    element.removeAttribute('aria-hidden');
+                    element.removeAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE);
                 }
             };
             this._props = focusTrapZoneProps;
@@ -1990,17 +2347,23 @@ var BlazorFluentUIFocusTrapZone;
         setDisabled(disabled) {
             this._props.disabled = disabled;
         }
+        _isBumper(element) {
+            return element === this._props.firstBumper || element === this._props.lastBumper;
+        }
+        _focusAsync(element) {
+            if (!this._isBumper(element)) {
+                window.FluentUIBaseComponent.focusAsync(element);
+            }
+        }
         _bringFocusIntoZone() {
-            //const { elementToFocusOnDismiss, disabled = false, disableFirstFocus = false, rootElement } = this._props;
-            //if (disabled) {
-            //    return;
-            //}
-            ////FocusTrapZoneInternal._focusStack.push(this);
-            ////this._previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss && (<any>elementToFocusOnDismiss).__internalId != null
-            ////    ? elementToFocusOnDismiss
-            ////    : (document.activeElement as HTMLElement);
-            //if (!disableFirstFocus && !FluentUIBaseComponent.elementContains(rootElement, this._previouslyFocusedElementOutsideTrapZone)) {
-            //    this.focus();
+            //const { disableFirstFocus = false } = this._props;
+            //this._previouslyFocusedElementOutsideTrapZone = this._getPreviouslyFocusedElementOutsideTrapZone();
+            //if (
+            //    // @ts-ignore
+            //    window.FluentUIBaseComponent.elementContains(_props.rootElement, this._previouslyFocusedElementOutsideTrapZone) &&
+            //    !disableFirstFocus
+            //) {
+            //    this._findElementAndFocusAsync();
             //}
         }
         _returnFocusToInitiator() {
@@ -2014,38 +2377,6 @@ var BlazorFluentUIFocusTrapZone;
                 typeof this._previouslyFocusedElementOutsideTrapZone.focus === 'function' &&
                 (FluentUIBaseComponent.elementContains(rootElement, activeElement) || activeElement === document.body)) {
                 this._focusAsync(this._previouslyFocusedElementOutsideTrapZone);
-            }
-        }
-        _focusAsync(element) {
-            if (!this._isBumper(element)) {
-                focusAsync(element);
-            }
-        }
-        _isBumper(element) {
-            return element === this._props.firstBumper || element === this._props.lastBumper;
-        }
-        focus() {
-            const { focusPreviouslyFocusedInnerElement, firstFocusableSelector, rootElement } = this._props;
-            if (focusPreviouslyFocusedInnerElement &&
-                this._previouslyFocusedElementInTrapZone &&
-                FluentUIBaseComponent.elementContains(rootElement, this._previouslyFocusedElementInTrapZone)) {
-                // focus on the last item that had focus in the zone before we left the zone
-                this._focusAsync(this._previouslyFocusedElementInTrapZone);
-                return;
-            }
-            const focusSelector = firstFocusableSelector;
-            let _firstFocusableChild = null;
-            if (rootElement) {
-                if (focusSelector) {
-                    _firstFocusableChild = rootElement.querySelector('.' + focusSelector);
-                }
-                // Fall back to first element if query selector did not match any elements.
-                if (!_firstFocusableChild) {
-                    _firstFocusableChild = getNextElement(rootElement, rootElement.firstChild, false, false, false, true);
-                }
-            }
-            if (_firstFocusableChild) {
-                this._focusAsync(_firstFocusableChild);
             }
         }
     }
@@ -2073,203 +2404,10 @@ var BlazorFluentUIFocusTrapZone;
         }
     }
     BlazorFluentUIFocusTrapZone.updateProps = updateProps;
-    function focus(id) {
-        let focusTrapZone = focusTrapZones[id];
-        if (focusTrapZone) {
-            focusTrapZone.focus();
-        }
-    }
-    BlazorFluentUIFocusTrapZone.focus = focus;
-    //export function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {
-    //    let isContained = false;
-    //    if (parent && child) {
-    //        if (allowVirtualParents) {
-    //            isContained = false;
-    //            while (child) {
-    //                let nextParent: HTMLElement | null = getParent(child);
-    //                console.log("NextParent: " + nextParent);
-    //                if (nextParent === parent) {
-    //                    isContained = true;
-    //                    break;
-    //                }
-    //                child = nextParent;
-    //            }
-    //        } else if (parent.contains) {
-    //            isContained = parent.contains(child);
-    //        }
-    //    }
-    //    return isContained;
-    //}
-    //export function getParent(child: HTMLElement, allowVirtualParents: boolean = true): HTMLElement | null {
-    //    return child && (child.parentNode && (child.parentNode as HTMLElement));
-    //}
     let targetToFocusOnNextRepaint = undefined;
-    function focusAsync(element) {
-        if (element) {
-            // An element was already queued to be focused, so replace that one with the new element
-            if (targetToFocusOnNextRepaint) {
-                targetToFocusOnNextRepaint = element;
-                return;
-            }
-            targetToFocusOnNextRepaint = element;
-            // element.focus() is a no-op if the element is no longer in the DOM, meaning this is always safe
-            window.requestAnimationFrame(() => {
-                targetToFocusOnNextRepaint && targetToFocusOnNextRepaint.focus();
-                // We are done focusing for this frame, so reset the queued focus element
-                targetToFocusOnNextRepaint = undefined;
-            });
-        }
-    }
-    function getNextElement(rootElement, currentElement, checkNode, suppressParentTraversal, suppressChildTraversal, includeElementsInFocusZones, allowFocusRoot, tabbable) {
-        if (!currentElement || (currentElement === rootElement && suppressChildTraversal && !allowFocusRoot)) {
-            return null;
-        }
-        let isCurrentElementVisible = isElementVisible(currentElement);
-        // Check the current node, if it's not the first traversal.
-        if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
-            return currentElement;
-        }
-        // Check its children.
-        if (!suppressChildTraversal &&
-            isCurrentElementVisible &&
-            (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
-            const childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
-            if (childMatch) {
-                return childMatch;
-            }
-        }
-        if (currentElement === rootElement) {
-            return null;
-        }
-        // Check its sibling.
-        const siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
-        if (siblingMatch) {
-            return siblingMatch;
-        }
-        if (!suppressParentTraversal) {
-            return getNextElement(rootElement, currentElement.parentElement, false, false, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
-        }
-        return null;
-    }
-    function getPreviousElement(rootElement, currentElement, checkNode, suppressParentTraversal, traverseChildren, includeElementsInFocusZones, allowFocusRoot, tabbable) {
-        if (!currentElement || (!allowFocusRoot && currentElement === rootElement)) {
-            return null;
-        }
-        let isCurrentElementVisible = isElementVisible(currentElement);
-        // Check its children.
-        if (traverseChildren &&
-            isCurrentElementVisible &&
-            (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
-            const childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
-            if (childMatch) {
-                if ((tabbable && isElementTabbable(childMatch, true)) || !tabbable) {
-                    return childMatch;
-                }
-                const childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
-                if (childMatchSiblingMatch) {
-                    return childMatchSiblingMatch;
-                }
-                let childMatchParent = childMatch.parentElement;
-                // At this point if we have not found any potential matches
-                // start looking at the rest of the subtree under the currentParent.
-                // NOTE: We do not want to recurse here because doing so could
-                // cause elements to get skipped.
-                while (childMatchParent && childMatchParent !== currentElement) {
-                    const childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
-                    if (childMatchParentMatch) {
-                        return childMatchParentMatch;
-                    }
-                    childMatchParent = childMatchParent.parentElement;
-                }
-            }
-        }
-        // Check the current node, if it's not the first traversal.
-        if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
-            return currentElement;
-        }
-        // Check its previous sibling.
-        const siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
-        if (siblingMatch) {
-            return siblingMatch;
-        }
-        // Check its parent.
-        if (!suppressParentTraversal) {
-            return getPreviousElement(rootElement, currentElement.parentElement, true, false, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
-        }
-        return null;
-    }
-    function isElementVisible(element) {
-        // If the element is not valid, return false.
-        if (!element || !element.getAttribute) {
-            return false;
-        }
-        const visibilityAttribute = element.getAttribute(IS_VISIBLE_ATTRIBUTE);
-        // If the element is explicitly marked with the visibility attribute, return that value as boolean.
-        if (visibilityAttribute !== null && visibilityAttribute !== undefined) {
-            return visibilityAttribute === 'true';
-        }
-        // Fallback to other methods of determining actual visibility.
-        return (element.offsetHeight !== 0 ||
-            element.offsetParent !== null ||
-            // tslint:disable-next-line:no-any
-            element.isVisible === true); // used as a workaround for testing.
-    }
-    function isElementTabbable(element, checkTabIndex) {
-        // If this element is null or is disabled, it is not considered tabbable.
-        if (!element || element.disabled) {
-            return false;
-        }
-        let tabIndex = 0;
-        let tabIndexAttributeValue = null;
-        if (element && element.getAttribute) {
-            tabIndexAttributeValue = element.getAttribute('tabIndex');
-            if (tabIndexAttributeValue) {
-                tabIndex = parseInt(tabIndexAttributeValue, 10);
-            }
-        }
-        let isFocusableAttribute = element.getAttribute ? element.getAttribute(IS_FOCUSABLE_ATTRIBUTE) : null;
-        let isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
-        const result = !!element &&
-            isFocusableAttribute !== 'false' &&
-            (element.tagName === 'A' ||
-                element.tagName === 'BUTTON' ||
-                element.tagName === 'INPUT' ||
-                element.tagName === 'TEXTAREA' ||
-                isFocusableAttribute === 'true' ||
-                isTabIndexSet);
-        return checkTabIndex ? tabIndex !== -1 && result : result;
-    }
-    function isElementFocusZone(element) {
-        return !!(element && element.getAttribute && !!element.getAttribute(FOCUSZONE_ID_ATTRIBUTE));
-    }
-    function isElementFocusSubZone(element) {
-        return !!(element && element.getAttribute && element.getAttribute(FOCUSZONE_SUB_ATTRIBUTE) === 'true');
-    }
-    function getFirstTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode = true) {
-        return getNextElement(rootElement, currentElement, checkNode, false /*suppressParentTraversal*/, false /*suppressChildTraversal*/, includeElementsInFocusZones, false /*allowFocusRoot*/, true /*tabbable*/);
-    }
-    function getLastTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode = true) {
-        return getPreviousElement(rootElement, currentElement, checkNode, false /*suppressParentTraversal*/, true /*traverseChildren*/, includeElementsInFocusZones, false /*allowFocusRoot*/, true /*tabbable*/);
-    }
-    //class Handler {
-    //    static i: number = 1;
-    //    static listeners: Map<EventParams> = {};
-    //    static addListener(element: HTMLElement | Window, event: string, handler: (ev: Event) => void, capture: boolean): number {
-    //        element.addEventListener(event, handler, capture);
-    //        this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
-    //        return this.i++;
-    //    }
-    //    static removeListener(id: number): void {
-    //        if (id in this.listeners) {
-    //            var h = this.listeners[id];
-    //            h.element.removeEventListener(h.event, h.handler, h.capture);
-    //            delete this.listeners[id];
-    //        }
-    //    }
-    //}
 })(BlazorFluentUIFocusTrapZone || (BlazorFluentUIFocusTrapZone = {}));
 window['BlazorFluentUIFocusTrapZone'] = BlazorFluentUIFocusTrapZone || {};
-/// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="baseComponent.ts" />
 var BlazorFluentUIFocusZone;
 (function (BlazorFluentUIFocusZone) {
     let FocusZoneDirection;
@@ -3046,172 +3184,7 @@ var BlazorFluentUIFocusZone;
 //}
 //window.BlazorFluentUIFocusZone = BlazorFluentUIFocusZone;
 window['BlazorFluentUIFocusZone'] = BlazorFluentUIFocusZone || {};
-//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-// /// <reference path="../../BlazorFluentUI.FocusTrapZone/wwwroot/focusTrapZone.ts" />
-/// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
-var BlazorFluentUiList;
-(function (BlazorFluentUiList) {
-    var _lastId = 0;
-    var cachedLists = new Map();
-    class BFUList {
-        constructor(component, spacerBefore, spacerAfter) {
-            this.cachedSizes = new Map();
-            this.averageHeight = 40;
-            this.id = _lastId++;
-            this.component = component;
-            //this.surfaceElement = rootElement.children.item(0) as HTMLElement;
-            this.scrollElement = FluentUIBaseComponent.findScrollableParent(spacerBefore);
-            // get initial width
-            this.component.invokeMethodAsync('ResizeHandler', this.scrollElement.clientWidth);
-            this.events = new FluentUIBaseComponent.EventGroup(this);
-            this.events.on(window, 'resize', this.resize);
-            this.rootElement = spacerBefore.parentElement;
-            //this.scrollElement = scrollElement;
-            this.spacerBefore = spacerBefore;
-            this.spacerAfter = spacerAfter;
-            const rootMargin = 50;
-            this.intersectionObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach((entry) => {
-                    var _a;
-                    if (!entry.isIntersecting) {
-                        return;
-                    }
-                    const spacerBeforeRect = this.spacerBefore.getBoundingClientRect();
-                    const spacerAfterRect = this.spacerAfter.getBoundingClientRect();
-                    const spacerSeparation = spacerAfterRect.top - spacerBeforeRect.bottom;
-                    const containerSize = (_a = entry.rootBounds) === null || _a === void 0 ? void 0 : _a.height;
-                    if (entry.target === this.spacerBefore) {
-                        component.invokeMethodAsync('OnBeforeSpacerVisible', entry.intersectionRect.top - entry.boundingClientRect.top, spacerSeparation, containerSize);
-                    }
-                    else if (entry.target === this.spacerAfter && this.spacerAfter.offsetHeight > 0) {
-                        // When we first start up, both the "before" and "after" spacers will be visible, but it's only relevant to raise a
-                        // single event to load the initial data. To avoid raising two events, skip the one for the "after" spacer if we know
-                        // it's meaningless to talk about any overlap into it.
-                        component.invokeMethodAsync('OnAfterSpacerVisible', entry.boundingClientRect.bottom - entry.intersectionRect.bottom, spacerSeparation, containerSize);
-                    }
-                });
-            }, {
-                root: this.scrollElement, rootMargin: `${rootMargin}px`
-            });
-            this.intersectionObserver.observe(this.spacerBefore);
-            this.intersectionObserver.observe(this.spacerAfter);
-            // After each render, refresh the info about intersections
-            this.mutationObserverBefore = new MutationObserver(() => {
-                this.intersectionObserver.unobserve(this.spacerBefore);
-                this.intersectionObserver.observe(this.spacerBefore);
-            });
-            this.mutationObserverBefore.observe(this.spacerBefore, { attributes: true });
-            this.mutationObserverAfter = new MutationObserver(() => {
-                this.intersectionObserver.unobserve(this.spacerAfter);
-                this.intersectionObserver.observe(this.spacerAfter);
-            });
-            this.mutationObserverAfter.observe(this.spacerAfter, { attributes: true });
-        }
-        resize(ev) {
-            this.component.invokeMethodAsync('ResizeHandler', this.scrollElement.clientWidth);
-        }
-        disconnect() {
-            this.events.off(window, 'resize', this.resize);
-            this.events.dispose();
-            this.mutationObserverBefore.disconnect();
-            this.mutationObserverAfter.disconnect();
-            this.intersectionObserver.unobserve(this.spacerBefore);
-            this.intersectionObserver.unobserve(this.spacerAfter);
-            this.intersectionObserver.disconnect();
-        }
-        getAverageHeight() {
-            let calculate = false;
-            let averageHeight = 0;
-            let newItems = {};
-            for (let i = 0; i < this.surfaceElement.children.length; i++) {
-                let item = this.surfaceElement.children.item(i);
-                let index = item.getAttribute("data-item-index");
-                if (index != null && !this.cachedSizes.has(index) && this.cachedSizes.get(index) != item.clientHeight) {
-                    this.cachedSizes.set(index, item.clientHeight);
-                    newItems[index] = item.clientHeight;
-                    calculate = true;
-                }
-            }
-            if (calculate) {
-                this.component.invokeMethodAsync("UpdateHeightCache", newItems);
-                averageHeight = [...this.cachedSizes.values()].reduce((p, c, i, a) => p + c) / this.cachedSizes.size;
-            }
-            return averageHeight;
-        }
-        updateItemHeights() {
-        }
-    }
-    function getInitialAverageHeight(id) {
-        let list = cachedLists.get(id);
-        if (list == null) {
-            return 0;
-        }
-        else {
-            return list.getAverageHeight();
-        }
-    }
-    BlazorFluentUiList.getInitialAverageHeight = getInitialAverageHeight;
-    function initialize(component, spacerBefore, spacerAfter, reset = false) {
-        let list = new BFUList(component, spacerBefore, spacerAfter);
-        cachedLists.set(list.id, list);
-        return list.id;
-    }
-    BlazorFluentUiList.initialize = initialize;
-    function removeList(id) {
-        let list = cachedLists.get(id);
-        list.disconnect();
-        cachedLists.delete(id);
-    }
-    BlazorFluentUiList.removeList = removeList;
-    function getViewport(scrollElement) {
-        const visibleRect = {
-            top: 0,
-            left: 0,
-            width: scrollElement.clientWidth,
-            height: scrollElement.clientHeight,
-            bottom: scrollElement.scrollHeight,
-            right: scrollElement.scrollWidth
-        };
-        return visibleRect;
-    }
-    BlazorFluentUiList.getViewport = getViewport;
-    function readClientRectWithoutTransform(elem) {
-        const rect = elem.getBoundingClientRect();
-        const translateY = parseFloat(elem.getAttribute('data-translateY'));
-        return {
-            top: rect.top - translateY, bottom: rect.bottom - translateY, left: rect.left, right: rect.right, height: rect.height, width: rect.width, x: 0, y: 0, toJSON: null
-        };
-    }
-    function _expandRect(rect, pagesBefore, pagesAfter) {
-        const top = rect.top - pagesBefore * rect.height;
-        const height = rect.height + (pagesBefore + pagesAfter) * rect.height;
-        return {
-            top: top,
-            bottom: top + height,
-            height: height,
-            left: rect.left,
-            right: rect.right,
-            width: rect.width
-        };
-    }
-    function _isContainedWithin(innerRect, outerRect) {
-        return (innerRect.top >= outerRect.top &&
-            innerRect.left >= outerRect.left &&
-            innerRect.bottom <= outerRect.bottom &&
-            innerRect.right <= outerRect.right);
-    }
-    function _mergeRect(targetRect, newRect) {
-        targetRect.top = newRect.top < targetRect.top || targetRect.top === -1 ? newRect.top : targetRect.top;
-        targetRect.left = newRect.left < targetRect.left || targetRect.left === -1 ? newRect.left : targetRect.left;
-        targetRect.bottom = newRect.bottom > targetRect.bottom || targetRect.bottom === -1 ? newRect.bottom : targetRect.bottom;
-        targetRect.right = newRect.right > targetRect.right || targetRect.right === -1 ? newRect.right : targetRect.right;
-        targetRect.width = targetRect.right - targetRect.left + 1;
-        targetRect.height = targetRect.bottom - targetRect.top + 1;
-        return targetRect;
-    }
-})(BlazorFluentUiList || (BlazorFluentUiList = {}));
-window['BlazorFluentUiList'] = BlazorFluentUiList || {};
-/// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="baseComponent.ts" />
 var BlazorFluentUIMarqueeSelection;
 (function (BlazorFluentUIMarqueeSelection) {
     function getDistanceBetweenPoints(point1, point2) {
@@ -3396,7 +3369,7 @@ var BlazorFluentUIMarqueeSelection;
     const MIN_DRAG_DISTANCE = 5;
     class MarqueeSelection {
         constructor(dotNet, root, props) {
-            this.onMouseDown = async (ev) => {
+            this.onMouseDown = (ev) => __awaiter(this, void 0, void 0, function* () {
                 // Ensure the mousedown is within the boundaries of the target. If not, it may have been a click on a scrollbar.
                 if (this._isMouseEventOnScrollbar(ev)) {
                     return;
@@ -3407,7 +3380,7 @@ var BlazorFluentUIMarqueeSelection;
                 if (!this.isTouch &&
                     this.props.isEnabled &&
                     !this._isDragStartInSelection(ev)) {
-                    let shouldStart = await this.dotNet.invokeMethodAsync("OnShouldStartSelectionInternal");
+                    let shouldStart = yield this.dotNet.invokeMethodAsync("OnShouldStartSelectionInternal");
                     if (shouldStart) {
                         if (this.scrollableSurface && ev.button === 0 && this.root) {
                             this._selectedIndicies = {};
@@ -3419,11 +3392,11 @@ var BlazorFluentUIMarqueeSelection;
                             this._scrollTop = this.scrollableSurface.scrollTop;
                             this._scrollLeft = this.scrollableSurface.scrollLeft;
                             this._rootRect = this.root.getBoundingClientRect();
-                            await this._onMouseMove(ev);
+                            yield this._onMouseMove(ev);
                         }
                     }
                 }
-            };
+            });
             this.dotNet = dotNet;
             this.root = root;
             this.props = props;
@@ -3480,151 +3453,155 @@ var BlazorFluentUIMarqueeSelection;
             };
         }
         _onAsyncMouseMove(ev) {
-            this.animationFrameRequest = window.requestAnimationFrame(async () => {
-                await this._onMouseMove(ev);
-            });
+            this.animationFrameRequest = window.requestAnimationFrame(() => __awaiter(this, void 0, void 0, function* () {
+                yield this._onMouseMove(ev);
+            }));
             ev.stopPropagation();
             ev.preventDefault();
         }
-        async _onMouseMove(ev) {
-            if (!this.autoScroll) {
-                return;
-            }
-            if (ev.clientX !== undefined) {
-                this._lastMouseEvent = ev;
-            }
-            const rootRect = this._getRootRect();
-            const currentPoint = { left: ev.clientX - rootRect.left, top: ev.clientY - rootRect.top };
-            if (!this._dragOrigin) {
-                this._dragOrigin = currentPoint;
-            }
-            if (ev.buttons !== undefined && ev.buttons === 0) {
-                this.onMouseUp(ev);
-            }
-            else {
-                if (this._mirroredDragRect || getDistanceBetweenPoints(this._dragOrigin, currentPoint) > MIN_DRAG_DISTANCE) {
-                    if (!this._mirroredDragRect) {
-                        //const { selection } = this.props;
-                        if (!ev.shiftKey) {
-                            await this.dotNet.invokeMethodAsync("UnselectAll");
-                            //selection.setAllSelected(false);
-                        }
-                        this._preservedIndicies = await this.dotNet.invokeMethodAsync("GetSelectedIndicesAsync");
-                    }
-                    // We need to constrain the current point to the rootRect boundaries.
-                    const constrainedPoint = this.props.isDraggingConstrainedToRoot
-                        ? {
-                            left: Math.max(0, Math.min(rootRect.width, this._lastMouseEvent.clientX - rootRect.left)),
-                            top: Math.max(0, Math.min(rootRect.height, this._lastMouseEvent.clientY - rootRect.top)),
-                        }
-                        : {
-                            left: this._lastMouseEvent.clientX - rootRect.left,
-                            top: this._lastMouseEvent.clientY - rootRect.top,
-                        };
-                    this.dragRect = {
-                        left: Math.min(this._dragOrigin.left || 0, constrainedPoint.left),
-                        top: Math.min(this._dragOrigin.top || 0, constrainedPoint.top),
-                        width: Math.abs(constrainedPoint.left - (this._dragOrigin.left || 0)),
-                        height: Math.abs(constrainedPoint.top - (this._dragOrigin.top || 0)),
-                    };
-                    await this._evaluateSelectionAsync(this.dragRect, rootRect);
-                    this._mirroredDragRect = this.dragRect;
-                    await this.dotNet.invokeMethodAsync("SetDragRect", this.dragRect);
-                    //this.setState({ dragRect });
+        _onMouseMove(ev) {
+            return __awaiter(this, void 0, void 0, function* () {
+                if (!this.autoScroll) {
+                    return;
                 }
-            }
-            return false;
-        }
-        async _evaluateSelectionAsync(dragRect, rootRect) {
-            // Break early if we don't need to evaluate.
-            if (!dragRect || !this.root) {
-                return;
-            }
-            const allElements = this.root.querySelectorAll('[data-selection-index]');
-            if (!this._itemRectCache) {
-                this._itemRectCache = {};
-            }
-            for (let i = 0; i < allElements.length; i++) {
-                const element = allElements[i];
-                const index = element.getAttribute('data-selection-index');
-                // Pull the memoized rectangle for the item, or the get the rect and memoize.
-                let itemRect = this._itemRectCache[index];
-                if (!itemRect) {
-                    itemRect = element.getBoundingClientRect();
-                    // Normalize the item rect to the dragRect coordinates.
-                    itemRect = {
-                        left: itemRect.left - rootRect.left,
-                        top: itemRect.top - rootRect.top,
-                        width: itemRect.width,
-                        height: itemRect.height,
-                        right: itemRect.left - rootRect.left + itemRect.width,
-                        bottom: itemRect.top - rootRect.top + itemRect.height,
-                    };
-                    if (itemRect.width > 0 && itemRect.height > 0) {
-                        this._itemRectCache[index] = itemRect;
-                    }
+                if (ev.clientX !== undefined) {
+                    this._lastMouseEvent = ev;
                 }
-                if (itemRect.top < dragRect.top + dragRect.height &&
-                    itemRect.bottom > dragRect.top &&
-                    itemRect.left < dragRect.left + dragRect.width &&
-                    itemRect.right > dragRect.left) {
-                    this._selectedIndicies[index] = true;
+                const rootRect = this._getRootRect();
+                const currentPoint = { left: ev.clientX - rootRect.left, top: ev.clientY - rootRect.top };
+                if (!this._dragOrigin) {
+                    this._dragOrigin = currentPoint;
+                }
+                if (ev.buttons !== undefined && ev.buttons === 0) {
+                    this.onMouseUp(ev);
                 }
                 else {
-                    delete this._selectedIndicies[index];
+                    if (this._mirroredDragRect || getDistanceBetweenPoints(this._dragOrigin, currentPoint) > MIN_DRAG_DISTANCE) {
+                        if (!this._mirroredDragRect) {
+                            //const { selection } = this.props;
+                            if (!ev.shiftKey) {
+                                yield this.dotNet.invokeMethodAsync("UnselectAll");
+                                //selection.setAllSelected(false);
+                            }
+                            this._preservedIndicies = yield this.dotNet.invokeMethodAsync("GetSelectedIndicesAsync");
+                        }
+                        // We need to constrain the current point to the rootRect boundaries.
+                        const constrainedPoint = this.props.isDraggingConstrainedToRoot
+                            ? {
+                                left: Math.max(0, Math.min(rootRect.width, this._lastMouseEvent.clientX - rootRect.left)),
+                                top: Math.max(0, Math.min(rootRect.height, this._lastMouseEvent.clientY - rootRect.top)),
+                            }
+                            : {
+                                left: this._lastMouseEvent.clientX - rootRect.left,
+                                top: this._lastMouseEvent.clientY - rootRect.top,
+                            };
+                        this.dragRect = {
+                            left: Math.min(this._dragOrigin.left || 0, constrainedPoint.left),
+                            top: Math.min(this._dragOrigin.top || 0, constrainedPoint.top),
+                            width: Math.abs(constrainedPoint.left - (this._dragOrigin.left || 0)),
+                            height: Math.abs(constrainedPoint.top - (this._dragOrigin.top || 0)),
+                        };
+                        yield this._evaluateSelectionAsync(this.dragRect, rootRect);
+                        this._mirroredDragRect = this.dragRect;
+                        yield this.dotNet.invokeMethodAsync("SetDragRect", this.dragRect);
+                        //this.setState({ dragRect });
+                    }
                 }
-            }
-            // set previousSelectedIndices to be all of the selected indices from last time
-            const previousSelectedIndices = this._allSelectedIndices || {};
-            this._allSelectedIndices = {};
-            // set all indices that are supposed to be selected in _allSelectedIndices
-            for (const index in this._selectedIndicies) {
-                if (this._selectedIndicies.hasOwnProperty(index)) {
-                    this._allSelectedIndices[index] = true;
+                return false;
+            });
+        }
+        _evaluateSelectionAsync(dragRect, rootRect) {
+            return __awaiter(this, void 0, void 0, function* () {
+                // Break early if we don't need to evaluate.
+                if (!dragRect || !this.root) {
+                    return;
                 }
-            }
-            if (this._preservedIndicies) {
-                for (const index of this._preservedIndicies) {
-                    this._allSelectedIndices[index] = true;
+                const allElements = this.root.querySelectorAll('[data-selection-index]');
+                if (!this._itemRectCache) {
+                    this._itemRectCache = {};
                 }
-            }
-            // check if needs to update selection, only when current _allSelectedIndices
-            // is different than previousSelectedIndices
-            let needToUpdate = false;
-            for (const index in this._allSelectedIndices) {
-                if (this._allSelectedIndices[index] !== previousSelectedIndices[index]) {
-                    needToUpdate = true;
-                    break;
+                for (let i = 0; i < allElements.length; i++) {
+                    const element = allElements[i];
+                    const index = element.getAttribute('data-selection-index');
+                    // Pull the memoized rectangle for the item, or the get the rect and memoize.
+                    let itemRect = this._itemRectCache[index];
+                    if (!itemRect) {
+                        itemRect = element.getBoundingClientRect();
+                        // Normalize the item rect to the dragRect coordinates.
+                        itemRect = {
+                            left: itemRect.left - rootRect.left,
+                            top: itemRect.top - rootRect.top,
+                            width: itemRect.width,
+                            height: itemRect.height,
+                            right: itemRect.left - rootRect.left + itemRect.width,
+                            bottom: itemRect.top - rootRect.top + itemRect.height,
+                        };
+                        if (itemRect.width > 0 && itemRect.height > 0) {
+                            this._itemRectCache[index] = itemRect;
+                        }
+                    }
+                    if (itemRect.top < dragRect.top + dragRect.height &&
+                        itemRect.bottom > dragRect.top &&
+                        itemRect.left < dragRect.left + dragRect.width &&
+                        itemRect.right > dragRect.left) {
+                        this._selectedIndicies[index] = true;
+                    }
+                    else {
+                        delete this._selectedIndicies[index];
+                    }
                 }
-            }
-            if (!needToUpdate) {
-                for (const index in previousSelectedIndices) {
+                // set previousSelectedIndices to be all of the selected indices from last time
+                const previousSelectedIndices = this._allSelectedIndices || {};
+                this._allSelectedIndices = {};
+                // set all indices that are supposed to be selected in _allSelectedIndices
+                for (const index in this._selectedIndicies) {
+                    if (this._selectedIndicies.hasOwnProperty(index)) {
+                        this._allSelectedIndices[index] = true;
+                    }
+                }
+                if (this._preservedIndicies) {
+                    for (const index of this._preservedIndicies) {
+                        this._allSelectedIndices[index] = true;
+                    }
+                }
+                // check if needs to update selection, only when current _allSelectedIndices
+                // is different than previousSelectedIndices
+                let needToUpdate = false;
+                for (const index in this._allSelectedIndices) {
                     if (this._allSelectedIndices[index] !== previousSelectedIndices[index]) {
                         needToUpdate = true;
                         break;
                     }
                 }
-            }
-            // only update selection when needed
-            if (needToUpdate) {
-                // Stop change events, clear selection to re-populate.
-                //selection.setChangeEvents(false);
-                //selection.setAllSelected(false);
-                await this.dotNet.invokeMethodAsync("SetChangeEvents", false);
-                await this.dotNet.invokeMethodAsync("UnselectAll"); //.then(_ => {
-                const indices = [];
-                for (const index of Object.keys(this._allSelectedIndices)) {
-                    indices.push(Number(index));
-                    //selection.setIndexSelected(Number(index), true, false);
+                if (!needToUpdate) {
+                    for (const index in previousSelectedIndices) {
+                        if (this._allSelectedIndices[index] !== previousSelectedIndices[index]) {
+                            needToUpdate = true;
+                            break;
+                        }
+                    }
                 }
-                await this.dotNet.invokeMethodAsync("SetSelectedIndices", indices);
-                //});
-                //for (const index of Object.keys(this._allSelectedIndices!)) {
-                //    selection.setIndexSelected(Number(index), true, false);
-                //}
-                //selection.setChangeEvents(true);
-                await this.dotNet.invokeMethodAsync("SetChangeEvents", true);
-            }
+                // only update selection when needed
+                if (needToUpdate) {
+                    // Stop change events, clear selection to re-populate.
+                    //selection.setChangeEvents(false);
+                    //selection.setAllSelected(false);
+                    yield this.dotNet.invokeMethodAsync("SetChangeEvents", false);
+                    yield this.dotNet.invokeMethodAsync("UnselectAll"); //.then(_ => {
+                    const indices = [];
+                    for (const index of Object.keys(this._allSelectedIndices)) {
+                        indices.push(Number(index));
+                        //selection.setIndexSelected(Number(index), true, false);
+                    }
+                    yield this.dotNet.invokeMethodAsync("SetSelectedIndices", indices);
+                    //});
+                    //for (const index of Object.keys(this._allSelectedIndices!)) {
+                    //    selection.setIndexSelected(Number(index), true, false);
+                    //}
+                    //selection.setChangeEvents(true);
+                    yield this.dotNet.invokeMethodAsync("SetChangeEvents", true);
+                }
+            });
         }
         onMouseUp(ev) {
             this.events.off(window);
@@ -3681,8 +3658,8 @@ var BlazorFluentUIMarqueeSelection;
 })(BlazorFluentUIMarqueeSelection || (BlazorFluentUIMarqueeSelection = {}));
 window['BlazorFluentUIMarqueeSelection'] = BlazorFluentUIMarqueeSelection || {};
 //declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
-/// <reference path="../../FocusTrapZone/wwwroot/focusTrapZone.ts" />
-/// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="focusTrapZone.ts" />
+/// <reference path="baseComponent.ts" />
 var BlazorFluentUIPanel;
 (function (BlazorFluentUIPanel) {
     class Handler {
@@ -3801,7 +3778,7 @@ var BlazorFluentUIPanel;
     }
 })(BlazorFluentUIPanel || (BlazorFluentUIPanel = {}));
 window['BlazorFluentUIPanel'] = BlazorFluentUIPanel || {};
-/// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="baseComponent.ts" />
 var BlazorFluentUISelectionZone;
 (function (BlazorFluentUISelectionZone) {
     const SELECTION_DISABLED_ATTRIBUTE_NAME = 'data-selection-disabled';
@@ -3858,10 +3835,10 @@ var BlazorFluentUISelectionZone;
                     target = FluentUIBaseComponent.getParent(target);
                 }
             };
-            this._onMouseDown = async (ev) => {
+            this._onMouseDown = (ev) => __awaiter(this, void 0, void 0, function* () {
                 this._updateModifiers(ev);
                 let target = ev.target;
-                const itemRoot = await this._findItemRootAsync(target);
+                const itemRoot = yield this._findItemRootAsync(target);
                 // No-op if selection is disabled
                 if (this._isSelectionDisabled(target)) {
                     return;
@@ -3881,7 +3858,7 @@ var BlazorFluentUISelectionZone;
                             !this._isShiftPressed &&
                             !this._isCtrlPressed &&
                             !this._isMetaPressed) {
-                            await this._onInvokeMouseDownAsync(ev, this._getItemIndex(itemRoot));
+                            yield this._onInvokeMouseDownAsync(ev, this._getItemIndex(itemRoot));
                             break;
                         }
                         else if (this.props.disableAutoSelectOnInputElements &&
@@ -3891,17 +3868,17 @@ var BlazorFluentUISelectionZone;
                     }
                     target = FluentUIBaseComponent.getParent(target);
                 }
-            };
-            this._onClick = async (ev) => {
+            });
+            this._onClick = (ev) => __awaiter(this, void 0, void 0, function* () {
                 //const { enableTouchInvocationTarget = false } = this.props;
                 this._updateModifiers(ev);
                 let target = ev.target;
-                const itemRoot = await this._findItemRootAsync(target);
+                const itemRoot = yield this._findItemRootAsync(target);
                 const isSelectionDisabled = this._isSelectionDisabled(target);
                 while (target !== this.root) {
                     if (this._hasAttribute(target, SELECTALL_TOGGLE_ALL_ATTRIBUTE_NAME)) {
                         if (!isSelectionDisabled) {
-                            await this._onToggleAllClickAsync(ev);
+                            yield this._onToggleAllClickAsync(ev);
                         }
                         break;
                     }
@@ -3910,10 +3887,10 @@ var BlazorFluentUISelectionZone;
                         if (this._hasAttribute(target, SELECTION_TOGGLE_ATTRIBUTE_NAME)) {
                             if (!isSelectionDisabled) {
                                 if (this._isShiftPressed) {
-                                    await this._onItemSurfaceClickAsync(ev, index);
+                                    yield this._onItemSurfaceClickAsync(ev, index);
                                 }
                                 else {
-                                    await this._onToggleClickAsync(ev, index);
+                                    yield this._onToggleClickAsync(ev, index);
                                 }
                             }
                             break;
@@ -3923,16 +3900,16 @@ var BlazorFluentUISelectionZone;
                             this._hasAttribute(target, SELECTION_INVOKE_TOUCH_ATTRIBUTE_NAME)) ||
                             this._hasAttribute(target, SELECTION_INVOKE_ATTRIBUTE_NAME)) {
                             // Items should be invokable even if selection is disabled.
-                            await this._onInvokeClickAsync(ev, index);
+                            yield this._onInvokeClickAsync(ev, index);
                             break;
                         }
                         else if (target === itemRoot) {
                             if (!isSelectionDisabled) {
-                                await this._onItemSurfaceClickAsync(ev, index);
+                                yield this._onItemSurfaceClickAsync(ev, index);
                             }
                             else {
                                 // if selection is disabled, i.e. SelectionMode is none, then do a plain InvokeItem
-                                await this.dotNet.invokeMethodAsync("InvokeItem", index);
+                                yield this.dotNet.invokeMethodAsync("InvokeItem", index);
                             }
                             break;
                         }
@@ -3942,7 +3919,7 @@ var BlazorFluentUISelectionZone;
                     }
                     target = FluentUIBaseComponent.getParent(target);
                 }
-            };
+            });
             this.dotNet = dotNet;
             this.root = root;
             this.props = props;
@@ -3977,40 +3954,44 @@ var BlazorFluentUISelectionZone;
             this._isTabPressed = keyCode ? keyCode === 9 /* tab */ : false;
             //console.log('updatemodifiers');
         }
-        async _onInvokeMouseDownAsync(ev, index) {
-            // Only do work if item is not selected.
-            var selected = await this.dotNet.invokeMethodAsync("IsIndexSelected", index);
-            if (selected) {
-                return;
-            }
-            await this._clearAndSelectIndexAsync(index);
-        }
-        async _clearAndSelectIndexAsync(index) {
-            //const { selection } = this.props;
-            let isAlreadySingleSelected = false;
-            let selectedCount = await this.dotNet.invokeMethodAsync("GetSelectedCount");
-            if (selectedCount) {
-                var indexSelected = await this.dotNet.invokeMethodAsync("IsIndexSelected", index);
-                isAlreadySingleSelected = indexSelected;
-            }
-            if (!isAlreadySingleSelected) {
-                const isModal = this.props.isModal;
-                //await this.dotNet.invokeMethodAsync("ClearAndSelectIndex", index);
-                //selection.setChangeEvents(false);
-                await this.dotNet.invokeMethodAsync("SetChangeEvents", false);
-                //selection.setAllSelected(false);
-                await this.dotNet.invokeMethodAsync("SetAllSelected", false);
-                //selection.setIndexSelected(index, true, true);
-                await this.dotNet.invokeMethodAsync("SetIndexSelected", index, true, true);
-                if (isModal || (this.props.enterModalOnTouch && this._isTouch)) {
-                    await this.dotNet.invokeMethodAsync("SetModal", true);
-                    if (this._isTouch) {
-                        this._setIsTouch(false);
-                    }
+        _onInvokeMouseDownAsync(ev, index) {
+            return __awaiter(this, void 0, void 0, function* () {
+                // Only do work if item is not selected.
+                var selected = yield this.dotNet.invokeMethodAsync("IsIndexSelected", index);
+                if (selected) {
+                    return;
                 }
-                await this.dotNet.invokeMethodAsync("SetChangeEvents", true);
-                //selection.setChangeEvents(true);
-            }
+                yield this._clearAndSelectIndexAsync(index);
+            });
+        }
+        _clearAndSelectIndexAsync(index) {
+            return __awaiter(this, void 0, void 0, function* () {
+                //const { selection } = this.props;
+                let isAlreadySingleSelected = false;
+                let selectedCount = yield this.dotNet.invokeMethodAsync("GetSelectedCount");
+                if (selectedCount) {
+                    var indexSelected = yield this.dotNet.invokeMethodAsync("IsIndexSelected", index);
+                    isAlreadySingleSelected = indexSelected;
+                }
+                if (!isAlreadySingleSelected) {
+                    const isModal = this.props.isModal;
+                    //await this.dotNet.invokeMethodAsync("ClearAndSelectIndex", index);
+                    //selection.setChangeEvents(false);
+                    yield this.dotNet.invokeMethodAsync("SetChangeEvents", false);
+                    //selection.setAllSelected(false);
+                    yield this.dotNet.invokeMethodAsync("SetAllSelected", false);
+                    //selection.setIndexSelected(index, true, true);
+                    yield this.dotNet.invokeMethodAsync("SetIndexSelected", index, true, true);
+                    if (isModal || (this.props.enterModalOnTouch && this._isTouch)) {
+                        yield this.dotNet.invokeMethodAsync("SetModal", true);
+                        if (this._isTouch) {
+                            this._setIsTouch(false);
+                        }
+                    }
+                    yield this.dotNet.invokeMethodAsync("SetChangeEvents", true);
+                    //selection.setChangeEvents(true);
+                }
+            });
         }
         _setIsTouch(isTouch) {
             if (this._isTouchTimeoutId) {
@@ -4044,23 +4025,25 @@ var BlazorFluentUISelectionZone;
                 }, 100);
             }
         }
-        async _findItemRootAsync(target) {
-            //const { selection } = this.props;
-            while (target !== this.root) {
-                const indexValue = target.getAttribute(SELECTION_INDEX_ATTRIBUTE_NAME);
-                const index = Number(indexValue);
-                if (indexValue !== null && index >= 0) {
-                    let count = await this.dotNet.invokeMethodAsync("GetItemsLength");
-                    if (index < count) {
-                        break;
+        _findItemRootAsync(target) {
+            return __awaiter(this, void 0, void 0, function* () {
+                //const { selection } = this.props;
+                while (target !== this.root) {
+                    const indexValue = target.getAttribute(SELECTION_INDEX_ATTRIBUTE_NAME);
+                    const index = Number(indexValue);
+                    if (indexValue !== null && index >= 0) {
+                        let count = yield this.dotNet.invokeMethodAsync("GetItemsLength");
+                        if (index < count) {
+                            break;
+                        }
                     }
+                    target = FluentUIBaseComponent.getParent(target);
                 }
-                target = FluentUIBaseComponent.getParent(target);
-            }
-            if (target === this.root) {
-                return undefined;
-            }
-            return target;
+                if (target === this.root) {
+                    return undefined;
+                }
+                return target;
+            });
         }
         _isSelectionDisabled(target) {
             if (this.props.selectionMode === SelectionMode.none) {
@@ -4080,92 +4063,100 @@ var BlazorFluentUISelectionZone;
         _getItemIndex(itemRoot) {
             return Number(itemRoot.getAttribute(SELECTION_INDEX_ATTRIBUTE_NAME));
         }
-        async _onToggleAllClickAsync(ev) {
-            //const { selection } = this.props;
-            const selectionMode = this.props.selectionMode;
-            if (selectionMode === SelectionMode.multiple) {
-                //selection.toggleAllSelected();
-                await this.dotNet.invokeMethodAsync("ToggleAllSelected");
-                ev.stopPropagation();
-                ev.preventDefault();
-            }
+        _onToggleAllClickAsync(ev) {
+            return __awaiter(this, void 0, void 0, function* () {
+                //const { selection } = this.props;
+                const selectionMode = this.props.selectionMode;
+                if (selectionMode === SelectionMode.multiple) {
+                    //selection.toggleAllSelected();
+                    yield this.dotNet.invokeMethodAsync("ToggleAllSelected");
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                }
+            });
         }
-        async _onToggleClickAsync(ev, index) {
-            //const { selection } = this.props;
-            const selectionMode = this.props.selectionMode;
-            //selection.setChangeEvents(false);
-            await this.dotNet.invokeMethodAsync("SetChangeEvents", false);
-            if (this.props.enterModalOnTouch && this._isTouch) { // && !selection.isIndexSelected(index) && selection.setModal) {
-                let isSelected = await this.dotNet.invokeMethodAsync("IsIndexSelected", index);
-                if (!isSelected) {
-                    await this.dotNet.invokeMethodAsync("SetModal", true);
-                    this._setIsTouch(false);
+        _onToggleClickAsync(ev, index) {
+            return __awaiter(this, void 0, void 0, function* () {
+                //const { selection } = this.props;
+                const selectionMode = this.props.selectionMode;
+                //selection.setChangeEvents(false);
+                yield this.dotNet.invokeMethodAsync("SetChangeEvents", false);
+                if (this.props.enterModalOnTouch && this._isTouch) { // && !selection.isIndexSelected(index) && selection.setModal) {
+                    let isSelected = yield this.dotNet.invokeMethodAsync("IsIndexSelected", index);
+                    if (!isSelected) {
+                        yield this.dotNet.invokeMethodAsync("SetModal", true);
+                        this._setIsTouch(false);
+                    }
                 }
-            }
-            if (selectionMode === SelectionMode.multiple) {
-                //selection.toggleIndexSelected(index);
-                await this.dotNet.invokeMethodAsync("ToggleIndexSelected", index);
-            }
-            else if (selectionMode === SelectionMode.single) {
-                //const isSelected = selection.isIndexSelected(index);
-                let isSelected = await this.dotNet.invokeMethodAsync("IsIndexSelected", index);
-                const isModal = this.props.isModal; //selection.isModal && selection.isModal();
-                //selection.setAllSelected(false);
-                await this.dotNet.invokeMethodAsync("SetAllSelected", false);
-                //selection.setIndexSelected(index, !isSelected, true);
-                await this.dotNet.invokeMethodAsync("SetIndexSelected", index, !isSelected, true);
-                if (isModal) {
-                    // Since the above call to setAllSelected(false) clears modal state,
-                    // restore it. This occurs because the SelectionMode of the Selection
-                    // may differ from the SelectionZone.
-                    //selection.setModal(true);
-                    await this.dotNet.invokeMethodAsync("SetModal", true);
-                }
-            }
-            else {
-                //selection.setChangeEvents(true);
-                await this.dotNet.invokeMethodAsync("SetChangeEvents", true);
-                return;
-            }
-            //selection.setChangeEvents(true);
-            await this.dotNet.invokeMethodAsync("SetChangeEvents", true);
-            ev.stopPropagation();
-            // NOTE: ev.preventDefault is not called for toggle clicks, because this will kill the browser behavior
-            // for checkboxes if you use a checkbox for the toggle.
-        }
-        async _onItemSurfaceClickAsync(ev, index) {
-            const isToggleModifierPressed = this._isCtrlPressed || this._isMetaPressed;
-            const selectionMode = this.props.selectionMode;
-            if (selectionMode === SelectionMode.multiple) {
-                if (this._isShiftPressed && !this._isTabPressed) {
-                    //selection.selectToIndex(index, !isToggleModifierPressed);
-                    await this.dotNet.invokeMethodAsync("SelectToIndex", index, !isToggleModifierPressed);
-                }
-                else if (isToggleModifierPressed) {
+                if (selectionMode === SelectionMode.multiple) {
                     //selection.toggleIndexSelected(index);
-                    await this.dotNet.invokeMethodAsync("ToggleIndexSelected", index);
+                    yield this.dotNet.invokeMethodAsync("ToggleIndexSelected", index);
+                }
+                else if (selectionMode === SelectionMode.single) {
+                    //const isSelected = selection.isIndexSelected(index);
+                    let isSelected = yield this.dotNet.invokeMethodAsync("IsIndexSelected", index);
+                    const isModal = this.props.isModal; //selection.isModal && selection.isModal();
+                    //selection.setAllSelected(false);
+                    yield this.dotNet.invokeMethodAsync("SetAllSelected", false);
+                    //selection.setIndexSelected(index, !isSelected, true);
+                    yield this.dotNet.invokeMethodAsync("SetIndexSelected", index, !isSelected, true);
+                    if (isModal) {
+                        // Since the above call to setAllSelected(false) clears modal state,
+                        // restore it. This occurs because the SelectionMode of the Selection
+                        // may differ from the SelectionZone.
+                        //selection.setModal(true);
+                        yield this.dotNet.invokeMethodAsync("SetModal", true);
+                    }
                 }
                 else {
-                    await this._clearAndSelectIndexAsync(index);
+                    //selection.setChangeEvents(true);
+                    yield this.dotNet.invokeMethodAsync("SetChangeEvents", true);
+                    return;
                 }
-            }
-            else if (selectionMode === SelectionMode.single) {
-                await this._clearAndSelectIndexAsync(index);
-            }
-        }
-        async _onInvokeClickAsync(ev, index) {
-            //const { selection, onItemInvoked } = this.props;
-            if (this.props.onItemInvokeSet) {
-                await this.dotNet.invokeMethodAsync("InvokeItem", index);
-                //onItemInvoked(selection.getItems()[index], index, ev.nativeEvent);
-                ev.preventDefault();
+                //selection.setChangeEvents(true);
+                yield this.dotNet.invokeMethodAsync("SetChangeEvents", true);
                 ev.stopPropagation();
-            }
+                // NOTE: ev.preventDefault is not called for toggle clicks, because this will kill the browser behavior
+                // for checkboxes if you use a checkbox for the toggle.
+            });
+        }
+        _onItemSurfaceClickAsync(ev, index) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const isToggleModifierPressed = this._isCtrlPressed || this._isMetaPressed;
+                const selectionMode = this.props.selectionMode;
+                if (selectionMode === SelectionMode.multiple) {
+                    if (this._isShiftPressed && !this._isTabPressed) {
+                        //selection.selectToIndex(index, !isToggleModifierPressed);
+                        yield this.dotNet.invokeMethodAsync("SelectToIndex", index, !isToggleModifierPressed);
+                    }
+                    else if (isToggleModifierPressed) {
+                        //selection.toggleIndexSelected(index);
+                        yield this.dotNet.invokeMethodAsync("ToggleIndexSelected", index);
+                    }
+                    else {
+                        yield this._clearAndSelectIndexAsync(index);
+                    }
+                }
+                else if (selectionMode === SelectionMode.single) {
+                    yield this._clearAndSelectIndexAsync(index);
+                }
+            });
+        }
+        _onInvokeClickAsync(ev, index) {
+            return __awaiter(this, void 0, void 0, function* () {
+                //const { selection, onItemInvoked } = this.props;
+                if (this.props.onItemInvokeSet) {
+                    yield this.dotNet.invokeMethodAsync("InvokeItem", index);
+                    //onItemInvoked(selection.getItems()[index], index, ev.nativeEvent);
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                }
+            });
         }
     }
 })(BlazorFluentUISelectionZone || (BlazorFluentUISelectionZone = {}));
 window['BlazorFluentUISelectionZone'] = BlazorFluentUISelectionZone || {};
-/// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="baseComponent.ts" />
 var BlazorFluentUISlider;
 (function (BlazorFluentUISlider) {
     class Handler {
@@ -4236,16 +4227,18 @@ var BlazorFluentUISlider;
         }
         return currentPosition;
     }
-    async function onMouseUpOrTouchEnd(slider, sliderLine, event, suppressEventCancelation) {
-        await slider.invokeMethodAsync("MouseOrTouchEnd");
-        if (event.type === 'mouseup') {
-            Handler.removeListener(slider, "mousemove");
-            Handler.removeListener(slider, "mouseup");
-        }
-        else if (event.type === 'touchend') {
-            Handler.removeListener(slider, "touchmove");
-            Handler.removeListener(slider, "touchend");
-        }
+    function onMouseUpOrTouchEnd(slider, sliderLine, event, suppressEventCancelation) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield slider.invokeMethodAsync("MouseOrTouchEnd");
+            if (event.type === 'mouseup') {
+                Handler.removeListener(slider, "mousemove");
+                Handler.removeListener(slider, "mouseup");
+            }
+            else if (event.type === 'touchend') {
+                Handler.removeListener(slider, "touchmove");
+                Handler.removeListener(slider, "touchend");
+            }
+        });
     }
     function onKeyDown(slider, event) {
         let diff;
@@ -4279,253 +4272,3 @@ var BlazorFluentUISlider;
     BlazorFluentUISlider.unregisterHandlers = unregisterHandlers;
 })(BlazorFluentUISlider || (BlazorFluentUISlider = {}));
 window['BlazorFluentUISlider'] = BlazorFluentUISlider || {};
-/// <reference path="../../../BlazorFluentUI.CoreComponents/BaseComponent/wwwroot/baseComponent.ts" />
-var BlazorFluentUIDetailsList;
-(function (BlazorFluentUIDetailsList) {
-    const MOUSEDOWN_PRIMARY_BUTTON = 0; // for mouse down event we are using ev.button property, 0 means left button
-    const MOUSEMOVE_PRIMARY_BUTTON = 1; // for mouse move event we are using ev.buttons property, 1 means left button
-    const detailHeaders = new Map();
-    function registerDetailsHeader(dotNet, root) {
-        let detailHeader = new DetailsHeader(dotNet, root);
-        detailHeaders.set(dotNet._id, detailHeader);
-    }
-    BlazorFluentUIDetailsList.registerDetailsHeader = registerDetailsHeader;
-    function unregisterDetailsHeader(dotNet) {
-        let detailHeader = detailHeaders.get(dotNet._id);
-        detailHeader.dispose();
-        detailHeaders.delete(dotNet._id);
-    }
-    BlazorFluentUIDetailsList.unregisterDetailsHeader = unregisterDetailsHeader;
-    class DetailsHeader {
-        constructor(dotNet, root) {
-            this._onRootMouseDown = async (ev) => {
-                const columnIndexAttr = ev.target.getAttribute('data-sizer-index');
-                const columnIndex = Number(columnIndexAttr);
-                if (columnIndexAttr === null || ev.button !== MOUSEDOWN_PRIMARY_BUTTON) {
-                    // Ignore anything except the primary button.
-                    return;
-                }
-                await this.dotNet.invokeMethodAsync("OnSizerMouseDown", columnIndex, ev.clientX);
-                ev.preventDefault();
-                ev.stopPropagation();
-            };
-            this._onRootDblClick = async (ev) => {
-                const columnIndexAttr = ev.target.getAttribute('data-sizer-index');
-                const columnIndex = Number(columnIndexAttr);
-                if (columnIndexAttr === null || ev.button !== MOUSEDOWN_PRIMARY_BUTTON) {
-                    // Ignore anything except the primary button.
-                    return;
-                }
-                await this.dotNet.invokeMethodAsync("OnDoubleClick", columnIndex);
-            };
-            this.dotNet = dotNet;
-            this.root = root;
-            this.events = new FluentUIBaseComponent.EventGroup(this);
-            this.events.on(root, 'mousedown', this._onRootMouseDown);
-            this.events.on(root, 'dblclick', this._onRootDblClick);
-        }
-        dispose() {
-            this.events.dispose();
-        }
-    }
-})(BlazorFluentUIDetailsList || (BlazorFluentUIDetailsList = {}));
-window['BlazorFluentUIDetailsList'] = BlazorFluentUIDetailsList || {};
-// https://github.com/pladaria/requestidlecallback-polyfill
-(function (factory) {
-    if (typeof define === 'function' && define.amd) {
-        define([], factory);
-    }
-    else if (typeof module === 'object' && module.exports) {
-        module.exports = factory();
-    }
-    else {
-        window.idleCallbackShim = factory();
-    }
-}(function () {
-    'use strict';
-    var scheduleStart, throttleDelay, lazytimer, lazyraf;
-    var root = typeof window != 'undefined' ?
-        window :
-        typeof global != undefined ?
-            global :
-            this || {};
-    var requestAnimationFrame = root.cancelRequestAnimationFrame && root.requestAnimationFrame || setTimeout;
-    var cancelRequestAnimationFrame = root.cancelRequestAnimationFrame || clearTimeout;
-    var tasks = [];
-    var runAttempts = 0;
-    var isRunning = false;
-    var remainingTime = 7;
-    var minThrottle = 35;
-    var throttle = 125;
-    var index = 0;
-    var taskStart = 0;
-    var tasklength = 0;
-    var IdleDeadline = {
-        get didTimeout() {
-            return false;
-        },
-        timeRemaining: function () {
-            var timeRemaining = remainingTime - (Date.now() - taskStart);
-            return timeRemaining < 0 ? 0 : timeRemaining;
-        },
-    };
-    var setInactive = debounce(function () {
-        remainingTime = 22;
-        throttle = 66;
-        minThrottle = 0;
-    });
-    function debounce(fn) {
-        var id, timestamp;
-        var wait = 99;
-        var check = function () {
-            var last = (Date.now()) - timestamp;
-            if (last < wait) {
-                id = setTimeout(check, wait - last);
-            }
-            else {
-                id = null;
-                fn();
-            }
-        };
-        return function () {
-            timestamp = Date.now();
-            if (!id) {
-                id = setTimeout(check, wait);
-            }
-        };
-    }
-    function abortRunning() {
-        if (isRunning) {
-            if (lazyraf) {
-                cancelRequestAnimationFrame(lazyraf);
-            }
-            if (lazytimer) {
-                clearTimeout(lazytimer);
-            }
-            isRunning = false;
-        }
-    }
-    function onInputorMutation() {
-        if (throttle != 125) {
-            remainingTime = 7;
-            throttle = 125;
-            minThrottle = 35;
-            if (isRunning) {
-                abortRunning();
-                scheduleLazy();
-            }
-        }
-        setInactive();
-    }
-    function scheduleAfterRaf() {
-        lazyraf = null;
-        lazytimer = setTimeout(runTasks, 0);
-    }
-    function scheduleRaf() {
-        lazytimer = null;
-        requestAnimationFrame(scheduleAfterRaf);
-    }
-    function scheduleLazy() {
-        if (isRunning) {
-            return;
-        }
-        throttleDelay = throttle - (Date.now() - taskStart);
-        scheduleStart = Date.now();
-        isRunning = true;
-        if (minThrottle && throttleDelay < minThrottle) {
-            throttleDelay = minThrottle;
-        }
-        if (throttleDelay > 9) {
-            lazytimer = setTimeout(scheduleRaf, throttleDelay);
-        }
-        else {
-            throttleDelay = 0;
-            scheduleRaf();
-        }
-    }
-    function runTasks() {
-        var task, i, len;
-        var timeThreshold = remainingTime > 9 ?
-            9 :
-            1;
-        taskStart = Date.now();
-        isRunning = false;
-        lazytimer = null;
-        if (runAttempts > 2 || taskStart - throttleDelay - 50 < scheduleStart) {
-            for (i = 0, len = tasks.length; i < len && IdleDeadline.timeRemaining() > timeThreshold; i++) {
-                task = tasks.shift();
-                tasklength++;
-                if (task) {
-                    task(IdleDeadline);
-                }
-            }
-        }
-        if (tasks.length) {
-            scheduleLazy();
-        }
-        else {
-            runAttempts = 0;
-        }
-    }
-    function requestIdleCallbackShim(task) {
-        index++;
-        tasks.push(task);
-        scheduleLazy();
-        return index;
-    }
-    function cancelIdleCallbackShim(id) {
-        var index = id - 1 - tasklength;
-        if (tasks[index]) {
-            tasks[index] = null;
-        }
-    }
-    if (!root.requestIdleCallback || !root.cancelIdleCallback) {
-        root.requestIdleCallback = requestIdleCallbackShim;
-        root.cancelIdleCallback = cancelIdleCallbackShim;
-        if (root.document && document.addEventListener) {
-            root.addEventListener('scroll', onInputorMutation, true);
-            root.addEventListener('resize', onInputorMutation);
-            document.addEventListener('focus', onInputorMutation, true);
-            document.addEventListener('mouseover', onInputorMutation, true);
-            ['click', 'keypress', 'touchstart', 'mousedown'].forEach(function (name) {
-                document.addEventListener(name, onInputorMutation, { capture: true, passive: true });
-            });
-            if (root.MutationObserver) {
-                new MutationObserver(onInputorMutation).observe(document.documentElement, { childList: true, subtree: true, attributes: true });
-            }
-        }
-    }
-    else {
-        try {
-            root.requestIdleCallback(function () { }, { timeout: 0 });
-        }
-        catch (e) {
-            (function (rIC) {
-                var timeRemainingProto, timeRemaining;
-                root.requestIdleCallback = function (fn, timeout) {
-                    if (timeout && typeof timeout.timeout == 'number') {
-                        return rIC(fn, timeout.timeout);
-                    }
-                    return rIC(fn);
-                };
-                if (root.IdleCallbackDeadline && (timeRemainingProto = IdleCallbackDeadline.prototype)) {
-                    timeRemaining = Object.getOwnPropertyDescriptor(timeRemainingProto, 'timeRemaining');
-                    if (!timeRemaining || !timeRemaining.configurable || !timeRemaining.get) {
-                        return;
-                    }
-                    Object.defineProperty(timeRemainingProto, 'timeRemaining', {
-                        value: function () {
-                            return timeRemaining.get.call(this);
-                        },
-                        enumerable: true,
-                        configurable: true,
-                    });
-                }
-            })(root.requestIdleCallback);
-        }
-    }
-    return {
-        request: requestIdleCallbackShim,
-        cancel: cancelIdleCallbackShim,
-    };
-}));

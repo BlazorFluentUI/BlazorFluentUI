@@ -31,7 +31,7 @@ namespace BlazorFluentUI
                         break;
                     }
                 }
-                _resizeEventTokenTask = JSRuntime!.InvokeAsync<string>("FluentUIBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHappenedAsync");
+                _resizeEventTokenTask = JSRuntime!.InvokeAsync<string>("FluentUIBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
                 StateHasChanged();  // we will never have window size until after first render, so re-render after this to update the component with ResponsiveMode info.
             }
             await base.OnAfterRenderAsync(firstRender);

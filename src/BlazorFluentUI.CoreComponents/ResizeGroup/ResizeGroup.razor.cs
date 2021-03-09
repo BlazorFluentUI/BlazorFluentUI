@@ -85,7 +85,7 @@ namespace BlazorFluentUI
             return base.ShouldRender();
         }
 
-        //[JSInvokable] public void ResizeHappenedAsync()
+        //[JSInvokable] public void OnResizedAsync()
         //{
         //    _measureContainer = true;
         //    StateHasChanged();
@@ -94,7 +94,7 @@ namespace BlazorFluentUI
 
 
         [JSInvokable]
-        public void ResizeHappenedAsync()
+        public void OnResizedAsync()
         {
             _measureContainer = true;
             StateHasChanged();
@@ -105,7 +105,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 _jsAvailable = true;
-                _resizeEventTokenTask = JSRuntime.InvokeAsync<string>("FluentUIBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHappenedAsync");
+                _resizeEventTokenTask = JSRuntime!.InvokeAsync<string>("FluentUIBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
             }
 
             if (_renderedData != null)

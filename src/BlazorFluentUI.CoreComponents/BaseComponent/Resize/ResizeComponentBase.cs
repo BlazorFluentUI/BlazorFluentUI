@@ -53,7 +53,7 @@ namespace BlazorFluentUI.Resize
         }
 
         [JSInvokable]
-        public void ResizeHappenedAsync()
+        public void OnResizedAsync()
         {
             onceOversized = false;
             StateHasChanged();
@@ -88,7 +88,7 @@ namespace BlazorFluentUI.Resize
             if (firstRender)
             {
                 _jsAvailable = true;
-                _resizeEventTokenTask = JSRuntime.InvokeAsync<string>("FluentUIBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "ResizeHappenedAsync");
+                _resizeEventTokenTask = JSRuntime!.InvokeAsync<string>("FluentUIBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
             }
 
             double containerDimension = await GetContainerDimension();

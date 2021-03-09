@@ -1,4 +1,4 @@
-/// <reference path="../../BaseComponent/wwwroot/baseComponent.ts" />
+/// <reference path="baseComponent.ts" />
 
 namespace BlazorFluentUISlider {
 

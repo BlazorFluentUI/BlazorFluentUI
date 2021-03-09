@@ -1,4 +1,4 @@
-﻿/// <reference path="../../../BlazorFluentUI.CoreComponents/BaseComponent/wwwroot/baseComponent.ts" />
+﻿/// <reference path="baseComponent.ts" />
 
 namespace BlazorFluentUIDetailsList {
 

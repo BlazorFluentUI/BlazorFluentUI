@@ -1,5 +1,4 @@
-﻿using BlazorFluentUI.FocusTrapZoneInternal;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -9,13 +8,13 @@ namespace BlazorFluentUI
 {
     public partial class FocusTrapZone : FluentUIComponentBase, IDisposable
     {
-        protected static Stack<FocusTrapZone> _focusStack = new Stack<FocusTrapZone>();
+        //protected static Stack<FocusTrapZone> _focusStack = new();
 
         [Inject]
-        private IJSRuntime jsRuntime { get; set; }
+        private IJSRuntime? JSRuntime { get; set; }
 
         [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        public RenderFragment? ChildContent { get; set; }
 
         [Parameter]
         public bool Disabled { get; set; }
@@ -27,10 +26,13 @@ namespace BlazorFluentUI
         public ElementReference ElementToFocusOnDismiss { get; set; }
 
         [Parameter]
-        public string FirstFocusableSelector { get; set; }
+        public string? FirstFocusableSelector { get; set; }
 
         [Parameter]
         public bool FocusPreviouslyFocusedInnerElement { get; set; }
+
+        [Parameter]
+        public bool FocusTriggerOnOutsideClick { get; set; }
 
         [Parameter]
         public bool ForceFocusInsideTrap { get; set; }
@@ -45,26 +47,21 @@ namespace BlazorFluentUI
         protected ElementReference _firstBumper;
         protected ElementReference _lastBumper;
 
-        //private bool _prevDisabled = true;
-        //private bool _isElementToFocusOnDismissNotNull = false;
-        //private bool _hasFocus = false;
-        //private bool _isPreviouslyFocusedElementOutsideTrapZoneNotNull = false;
-        //private ElementReference _previouslyFocusedElementOutsideTrapZone;
         private int _id = -1;
 
 
         public async Task FocusAsync()
         {
             if (_id != -1)
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUIFocusTrapZone.focus", _id);
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIFocusTrapZone.focus", _id);
         }
-    
+
         protected override async Task OnParametersSetAsync()
         {
             if (_id != -1)
             {
-                FocusTrapZoneProps? props = new FocusTrapZoneProps(this, _firstBumper, _lastBumper);
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUIFocusTrapZone.updateProps", _id, props);
+                FocusTrapZoneProps? props = new(this, _firstBumper, _lastBumper);
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIFocusTrapZone.updateProps", _id, props);
             }
 
             await base.OnParametersSetAsync();
@@ -73,7 +70,7 @@ namespace BlazorFluentUI
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
-            {                
+            {
                 RegisterFocusTrapZone();
             }
 
@@ -82,16 +79,19 @@ namespace BlazorFluentUI
 
         private async void RegisterFocusTrapZone()
         {
-            FocusTrapZoneProps? props = new FocusTrapZoneProps(this, _firstBumper, _lastBumper);
-            _id = await jsRuntime.InvokeAsync<int>("BlazorFluentUIFocusTrapZone.register", props, DotNetObjectReference.Create(this));
+            FocusTrapZoneProps? props = new(this, _firstBumper, _lastBumper);
+            _id = await JSRuntime!.InvokeAsync<int>("BlazorFluentUIFocusTrapZone.register", props, DotNetObjectReference.Create(this));
         }
-     
+
 
         public async void Dispose()
         {
             if (_id != -1)
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUIFocusTrapZone.unregister", _id);
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIFocusTrapZone.unregister", _id);
+            
+            GC.SuppressFinalize(this);
         }
+
     }
 
 }

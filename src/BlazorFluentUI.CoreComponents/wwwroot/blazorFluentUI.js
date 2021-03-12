@@ -1949,14 +1949,13 @@ var BlazorFluentUIDocumentCard;
         }
     }
 })(BlazorFluentUIDocumentCard || (BlazorFluentUIDocumentCard = {}));
-//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 // /// <reference path="focusTrapZone.ts" />
 /// <reference path="baseComponent.ts" />
-var BlazorFluentUiList;
-(function (BlazorFluentUiList) {
+var BlazorFluentUIList;
+(function (BlazorFluentUIList) {
     var _lastId = 0;
     var cachedLists = new Map();
-    class BFUList {
+    class ListInternal {
         constructor(component, spacerBefore, spacerAfter) {
             this.cachedSizes = new Map();
             this.averageHeight = 40;
@@ -2053,19 +2052,19 @@ var BlazorFluentUiList;
             return list.getAverageHeight();
         }
     }
-    BlazorFluentUiList.getInitialAverageHeight = getInitialAverageHeight;
+    BlazorFluentUIList.getInitialAverageHeight = getInitialAverageHeight;
     function initialize(component, spacerBefore, spacerAfter, reset = false) {
-        let list = new BFUList(component, spacerBefore, spacerAfter);
+        let list = new ListInternal(component, spacerBefore, spacerAfter);
         cachedLists.set(list.id, list);
         return list.id;
     }
-    BlazorFluentUiList.initialize = initialize;
+    BlazorFluentUIList.initialize = initialize;
     function removeList(id) {
         let list = cachedLists.get(id);
         list.disconnect();
         cachedLists.delete(id);
     }
-    BlazorFluentUiList.removeList = removeList;
+    BlazorFluentUIList.removeList = removeList;
     function getViewport(scrollElement) {
         const visibleRect = {
             top: 0,
@@ -2077,14 +2076,7 @@ var BlazorFluentUiList;
         };
         return visibleRect;
     }
-    BlazorFluentUiList.getViewport = getViewport;
-    function readClientRectWithoutTransform(elem) {
-        const rect = elem.getBoundingClientRect();
-        const translateY = parseFloat(elem.getAttribute('data-translateY'));
-        return {
-            top: rect.top - translateY, bottom: rect.bottom - translateY, left: rect.left, right: rect.right, height: rect.height, width: rect.width, x: 0, y: 0, toJSON: null
-        };
-    }
+    BlazorFluentUIList.getViewport = getViewport;
     function _expandRect(rect, pagesBefore, pagesAfter) {
         const top = rect.top - pagesBefore * rect.height;
         const height = rect.height + (pagesBefore + pagesAfter) * rect.height;
@@ -2112,9 +2104,8 @@ var BlazorFluentUiList;
         targetRect.height = targetRect.bottom - targetRect.top + 1;
         return targetRect;
     }
-})(BlazorFluentUiList || (BlazorFluentUiList = {}));
-window['BlazorFluentUiList'] = BlazorFluentUiList || {};
-//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
+})(BlazorFluentUIList || (BlazorFluentUIList = {}));
+window['BlazorFluentUIList'] = BlazorFluentUIList || {};
 /// <reference path="baseComponent.ts" />
 var BlazorFluentUIFocusTrapZone;
 (function (BlazorFluentUIFocusTrapZone) {
@@ -2325,23 +2316,49 @@ var BlazorFluentUIFocusTrapZone;
             this._props.rootElement.addEventListener("blur", this._onRootBlur, false);
             this._props.firstBumper.addEventListener("focus", this._onFirstBumperFocus, false);
             this._props.lastBumper.addEventListener("focus", this._onLastBumperFocus, false);
-            this._bringFocusIntoZone();
+            //this._bringFocusIntoZone();
         }
         unRegister() {
+            const activeElement = document.activeElement;
             this._props.rootElement.removeEventListener("focus", this._onRootFocus, false);
             this._props.rootElement.removeEventListener("blur", this._onRootBlur, false);
             this._props.firstBumper.removeEventListener("focus", this._onFirstBumperFocus, false);
             this._props.lastBumper.removeEventListener("focus", this._onLastBumperFocus, false);
-        }
-        updateProps(props) {
-            this._prevProps = this._props;
-            this._props = props;
-            //bumpers and root should be the same...
-            if ((!this._prevProps.forceFocusInsideTrap && this._props.forceFocusInsideTrap) || (this._prevProps.disabled && !this._props.disabled)) {
-                this._bringFocusIntoZone();
+            if (!this._props.disabled ||
+                this._props.forceFocusInsideTrapOnOutsideFocus ||
+                // @ts-ignore
+                !FluentUIBaseComponent.elementContains(this._props.rootElement, activeElement)) {
+                this._releaseFocusTrapZone();
             }
-            else if ((this._prevProps.forceFocusInsideTrap && !this._props.forceFocusInsideTrap) || (!this._prevProps.disabled && this._props.disabled)) {
-                this._returnFocusToInitiator();
+            // Dispose of element references so the DOM Nodes can be garbage-collected
+            delete this._previouslyFocusedElementInTrapZone;
+            delete this._previouslyFocusedElementOutsideTrapZone;
+        }
+        updateProps(prevProps) {
+            const { forceFocusInsideTrapOnComponentUpdate, forceFocusInsideTrapOnOutsideFocus, disabled } = this._props;
+            // @ts-ignore
+            const activeElement = document.activeElement;
+            // if after componentDidUpdate focus is not inside the focus trap, bring it back
+            if (!disabled &&
+                // @ts-ignore
+                !FluentUIBaseComponent.elementContains(this._props.rootElement, activeElement) &&
+                forceFocusInsideTrapOnComponentUpdate) {
+                this._bringFocusIntoZone();
+                return;
+            }
+            const prevForceFocusInsideTrap = prevProps.forceFocusInsideTrapOnOutsideFocus !== undefined ? prevProps.forceFocusInsideTrapOnOutsideFocus : true;
+            const newForceFocusInsideTrap = forceFocusInsideTrapOnOutsideFocus !== undefined ? forceFocusInsideTrapOnOutsideFocus : true;
+            const prevDisabled = prevProps.disabled !== undefined ? prevProps.disabled : false;
+            const newDisabled = disabled !== undefined ? disabled : false;
+            if ((!prevForceFocusInsideTrap && newForceFocusInsideTrap) || (prevDisabled && !newDisabled)) {
+                // Transition from forceFocusInsideTrap / FTZ disabled to enabled.
+                // Emulate what happens when a FocusTrapZone gets mounted.
+                this._enableFocusTrapZone();
+            }
+            else if ((prevForceFocusInsideTrap && !newForceFocusInsideTrap) || (!prevDisabled && newDisabled)) {
+                // Transition from forceFocusInsideTrap / FTZ enabled to disabled.
+                // Emulate what happens when a FocusTrapZone gets unmounted.
+                this._releaseFocusTrapZone();
             }
         }
         setDisabled(disabled) {
@@ -2356,15 +2373,14 @@ var BlazorFluentUIFocusTrapZone;
             }
         }
         _bringFocusIntoZone() {
-            //const { disableFirstFocus = false } = this._props;
-            //this._previouslyFocusedElementOutsideTrapZone = this._getPreviouslyFocusedElementOutsideTrapZone();
-            //if (
-            //    // @ts-ignore
-            //    window.FluentUIBaseComponent.elementContains(_props.rootElement, this._previouslyFocusedElementOutsideTrapZone) &&
-            //    !disableFirstFocus
-            //) {
-            //    this._findElementAndFocusAsync();
-            //}
+            const { disableFirstFocus = false } = this._props;
+            this._previouslyFocusedElementOutsideTrapZone = this._getPreviouslyFocusedElementOutsideTrapZone();
+            if (
+            // @ts-ignore
+            window.FluentUIBaseComponent.elementContains(_props.rootElement, this._previouslyFocusedElementOutsideTrapZone) &&
+                !disableFirstFocus) {
+                this._findElementAndFocusAsync();
+            }
         }
         _returnFocusToInitiator() {
             const { ignoreExternalFocusing, rootElement } = this._props;

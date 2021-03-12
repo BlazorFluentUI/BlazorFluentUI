@@ -26,10 +26,10 @@
         <div class="subSection">
             <Checkbox @bind-Checked=@isFocusTrapped @bind-Checked:event="CheckedChanged" Label="Enable FocusTrapZone" />
             <div style="padding: 50px; background-color:yellow;">
-                <FocusTrapZone Disabled=@(!isFocusTrapped)>
+                <FocusTrapZone Disabled=@(!isFocusTrapped) FirstFocusableSelector="ftselected">
                     <DefaultButton Text="First Button" OnClick=@OnInnerClick />
                     <DefaultButton Text="Second Button" OnClick=@OnInnerClick />
-                    <DefaultButton Text="Third Button" OnClick=@OnInnerClick />
+                    <DefaultButton ClassName="ftselected" Text="Third Button" OnClick=@OnInnerClick />
                 </FocusTrapZone>
             </div>
 

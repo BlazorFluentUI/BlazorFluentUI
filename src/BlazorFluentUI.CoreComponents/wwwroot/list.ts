@@ -1,14 +1,13 @@
-//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 // /// <reference path="focusTrapZone.ts" />
 /// <reference path="baseComponent.ts" />
 
-namespace BlazorFluentUiList {
+namespace BlazorFluentUIList {
 
     type EventGroup = FluentUIBaseComponent.EventGroup;
     interface DotNetReferenceType {
 
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
+        invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
+        invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
     }
 
     interface SerializableDictionary<T> {
@@ -25,9 +24,9 @@ namespace BlazorFluentUiList {
     }
 
     var _lastId: number = 0;
-    var cachedLists: Map<number, BFUList> = new Map<number, BFUList>();
-    
-    class BFUList {
+    var cachedLists: Map<number, List> = new Map<number, List>();
+
+    class List {
         events: EventGroup;
         cachedSizes: Map<string, number> = new Map<string, number>();
         averageHeight: number = 40;
@@ -93,7 +92,7 @@ namespace BlazorFluentUiList {
 
             // After each render, refresh the info about intersections
             this.mutationObserverBefore = new MutationObserver((): void => {
-                this.intersectionObserver.unobserve(this.spacerBefore);                
+                this.intersectionObserver.unobserve(this.spacerBefore);
                 this.intersectionObserver.observe(this.spacerBefore);
             });
             this.mutationObserverBefore.observe(this.spacerBefore, { attributes: true });
@@ -104,7 +103,7 @@ namespace BlazorFluentUiList {
             });
             this.mutationObserverAfter.observe(this.spacerAfter, { attributes: true })
 
-            
+
 
         }
 
@@ -116,7 +115,7 @@ namespace BlazorFluentUiList {
 
             this.events.off(window, 'resize', this.resize);
             this.events.dispose();
-            
+
             this.mutationObserverBefore.disconnect();
             this.mutationObserverAfter.disconnect();
 
@@ -157,7 +156,7 @@ namespace BlazorFluentUiList {
 
     }
 
-    export function getInitialAverageHeight(id: number) : number {
+    export function getInitialAverageHeight(id: number): number {
         let list = cachedLists.get(id);
         if (list == null) {
             return 0;
@@ -165,10 +164,10 @@ namespace BlazorFluentUiList {
             return list.getAverageHeight();
         }
     }
-    
-    export function initialize(component: DotNetReferenceType, spacerBefore: HTMLElement, spacerAfter: HTMLElement, reset: boolean=false): any {
 
-        let list: BFUList = new BFUList(component, spacerBefore, spacerAfter);
+    export function initialize(component: DotNetReferenceType, spacerBefore: HTMLElement, spacerAfter: HTMLElement, reset: boolean = false): any {
+
+        let list: List = new List(component, spacerBefore, spacerAfter);
         cachedLists.set(list.id, list);
 
         return list.id;
@@ -180,7 +179,7 @@ namespace BlazorFluentUiList {
         cachedLists.delete(id);
     }
 
-    export function getViewport(scrollElement: HTMLElement) :any {
+    export function getViewport(scrollElement: HTMLElement): any {
         const visibleRect = {
             top: 0,
             left: 0,
@@ -192,55 +191,41 @@ namespace BlazorFluentUiList {
         return visibleRect;
     }
 
-    function readClientRectWithoutTransform(elem): DOMRect {
-        const rect = elem.getBoundingClientRect();
-        const translateY = parseFloat(elem.getAttribute('data-translateY'));
+    function _expandRect(rect: IRectangle, pagesBefore: number, pagesAfter: number): IRectangle {
+        const top = rect.top - pagesBefore * rect.height;
+        const height = rect.height + (pagesBefore + pagesAfter) * rect.height;
+
         return {
-            top: rect.top - translateY, bottom: rect.bottom - translateY, left: rect.left, right: rect.right, height: rect.height, width: rect.width, x: 0, y: 0, toJSON: null
+            top: top,
+            bottom: top + height,
+            height: height,
+            left: rect.left,
+            right: rect.right,
+            width: rect.width
         };
     }
 
-  
+    function _isContainedWithin(innerRect: IRectangle, outerRect: IRectangle): boolean {
+        return (
+            innerRect.top >= outerRect.top &&
+            innerRect.left >= outerRect.left &&
+            innerRect.bottom! <= outerRect.bottom! &&
+            innerRect.right! <= outerRect.right!
+        );
+    }
 
- 
-  
+    function _mergeRect(targetRect: IRectangle, newRect: IRectangle): IRectangle {
+        targetRect.top = newRect.top < targetRect.top || targetRect.top === -1 ? newRect.top : targetRect.top;
+        targetRect.left = newRect.left < targetRect.left || targetRect.left === -1 ? newRect.left : targetRect.left;
+        targetRect.bottom = newRect.bottom! > targetRect.bottom! || targetRect.bottom === -1 ? newRect.bottom : targetRect.bottom;
+        targetRect.right = newRect.right! > targetRect.right! || targetRect.right === -1 ? newRect.right : targetRect.right;
+        targetRect.width = targetRect.right! - targetRect.left + 1;
+        targetRect.height = targetRect.bottom! - targetRect.top + 1;
 
-  function _expandRect(rect: IRectangle, pagesBefore: number, pagesAfter: number): IRectangle {
-    const top = rect.top - pagesBefore * rect.height;
-    const height = rect.height + (pagesBefore + pagesAfter) * rect.height;
-
-    return {
-      top: top,
-      bottom: top + height,
-      height: height,
-      left: rect.left,
-      right: rect.right,
-      width: rect.width
-    };
-  }
-
-  function _isContainedWithin(innerRect: IRectangle, outerRect: IRectangle): boolean {
-    return (
-      innerRect.top >= outerRect.top &&
-      innerRect.left >= outerRect.left &&
-      innerRect.bottom! <= outerRect.bottom! &&
-      innerRect.right! <= outerRect.right!
-    );
-  }
-
-  function _mergeRect(targetRect: IRectangle, newRect: IRectangle): IRectangle {
-    targetRect.top = newRect.top < targetRect.top || targetRect.top === -1 ? newRect.top : targetRect.top;
-    targetRect.left = newRect.left < targetRect.left || targetRect.left === -1 ? newRect.left : targetRect.left;
-    targetRect.bottom = newRect.bottom! > targetRect.bottom! || targetRect.bottom === -1 ? newRect.bottom : targetRect.bottom;
-    targetRect.right = newRect.right! > targetRect.right! || targetRect.right === -1 ? newRect.right : targetRect.right;
-    targetRect.width = targetRect.right! - targetRect.left + 1;
-    targetRect.height = targetRect.bottom! - targetRect.top + 1;
-
-    return targetRect;
-  }
-
+        return targetRect;
+    }
 }
 
-(<any>window)['BlazorFluentUiList'] = BlazorFluentUiList || {};
+(<any>window)['BlazorFluentUIList'] = BlazorFluentUIList || {};
 
 

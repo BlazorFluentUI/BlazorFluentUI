@@ -1,4 +1,3 @@
-//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 /// <reference path="baseComponent.ts" />
 
 namespace BlazorFluentUIFocusTrapZone {
@@ -17,8 +16,10 @@ namespace BlazorFluentUIFocusTrapZone {
         elementToFocusOnDismiss?: HTMLElement;
         firstFocusableSelector?: string | (() => string);
         focusTriggerOnOutsideClick?: boolean;
+        forceFocusInsideTrapOnOutsideFocus?: boolean;
         focusPreviouslyFocusedInnerElement?: boolean;
-        forceFocusInsideTrap?: boolean;
+
+        forceFocusInsideTrapOnComponentUpdate?: boolean;
         ignoreExternalFocusing?: boolean;
         isClickableOutsideFocusTrap?: boolean;
     }
@@ -27,7 +28,6 @@ namespace BlazorFluentUIFocusTrapZone {
 
         private static _focusStack: FocusTrapZoneInternal[] = [];
 
-        private _prevProps: IFocusTrapZoneProps;
         private _props: IFocusTrapZoneProps;
         private _dotNetRef: DotNetReferenceType;
 
@@ -46,25 +46,64 @@ namespace BlazorFluentUIFocusTrapZone {
             this._props.firstBumper.addEventListener("focus", this._onFirstBumperFocus, false);
             this._props.lastBumper.addEventListener("focus", this._onLastBumperFocus, false);
 
-            this._bringFocusIntoZone();
+            //this._bringFocusIntoZone();
         }
 
         public unRegister(): void {
+            const activeElement = document.activeElement as HTMLElement;
+
             this._props.rootElement.removeEventListener("focus", this._onRootFocus, false);
             this._props.rootElement.removeEventListener("blur", this._onRootBlur, false);
 
             this._props.firstBumper.removeEventListener("focus", this._onFirstBumperFocus, false);
             this._props.lastBumper.removeEventListener("focus", this._onLastBumperFocus, false);
+
+            if (
+                !this._props.disabled ||
+                this._props.forceFocusInsideTrapOnOutsideFocus ||
+                // @ts-ignore
+                !FluentUIBaseComponent.elementContains(this._props.rootElement, activeElement)
+            ) {
+                this._releaseFocusTrapZone();
+            }
+
+            // Dispose of element references so the DOM Nodes can be garbage-collected
+            delete this._previouslyFocusedElementInTrapZone;
+            delete this._previouslyFocusedElementOutsideTrapZone;
         }
 
-        public updateProps(props: IFocusTrapZoneProps) {
-            this._prevProps = this._props;
-            this._props = props;
-            //bumpers and root should be the same...
-            if ((!this._prevProps.forceFocusInsideTrap && this._props.forceFocusInsideTrap) || (this._prevProps.disabled && !this._props.disabled)) {
+        public updateProps(prevProps: IFocusTrapZoneProps) {
+            const { forceFocusInsideTrapOnComponentUpdate, forceFocusInsideTrapOnOutsideFocus, disabled } = this._props;
+
+            // @ts-ignore
+            const activeElement = document.activeElement as HTMLElement;
+
+            // if after componentDidUpdate focus is not inside the focus trap, bring it back
+            if (
+                !disabled &&
+                // @ts-ignore
+                !FluentUIBaseComponent.elementContains(this._props.rootElement, activeElement) &&
+                forceFocusInsideTrapOnComponentUpdate
+            ) {
                 this._bringFocusIntoZone();
-            } else if ((this._prevProps.forceFocusInsideTrap && !this._props.forceFocusInsideTrap) || (!this._prevProps.disabled && this._props.disabled)) {
-                this._returnFocusToInitiator();
+                return;
+            }
+
+            const prevForceFocusInsideTrap =
+                prevProps.forceFocusInsideTrapOnOutsideFocus !== undefined ? prevProps.forceFocusInsideTrapOnOutsideFocus : true;
+            const newForceFocusInsideTrap =
+                forceFocusInsideTrapOnOutsideFocus !== undefined ? forceFocusInsideTrapOnOutsideFocus : true;
+            const prevDisabled = prevProps.disabled !== undefined ? prevProps.disabled : false;
+            const newDisabled = disabled !== undefined ? disabled : false;
+
+            if ((!prevForceFocusInsideTrap && newForceFocusInsideTrap) || (prevDisabled && !newDisabled)) {
+                // Transition from forceFocusInsideTrap / FTZ disabled to enabled.
+                // Emulate what happens when a FocusTrapZone gets mounted.
+                this._enableFocusTrapZone();
+            } else if ((prevForceFocusInsideTrap && !newForceFocusInsideTrap) || (!prevDisabled && newDisabled)) {
+                // Transition from forceFocusInsideTrap / FTZ enabled to disabled.
+                // Emulate what happens when a FocusTrapZone gets unmounted.
+                this._releaseFocusTrapZone();
             }
         }
 
@@ -155,17 +194,17 @@ namespace BlazorFluentUIFocusTrapZone {
 
 
         _bringFocusIntoZone(): void {
-            //const { disableFirstFocus = false } = this._props;
+            const { disableFirstFocus = false } = this._props;
 
-            //this._previouslyFocusedElementOutsideTrapZone = this._getPreviouslyFocusedElementOutsideTrapZone();
+            this._previouslyFocusedElementOutsideTrapZone = this._getPreviouslyFocusedElementOutsideTrapZone();
 
-            //if (
-            //    // @ts-ignore
-            //    window.FluentUIBaseComponent.elementContains(_props.rootElement, this._previouslyFocusedElementOutsideTrapZone) &&
-            //    !disableFirstFocus
-            //) {
-            //    this._findElementAndFocusAsync();
-            //}
+            if (
+                // @ts-ignore
+                window.FluentUIBaseComponent.elementContains(_props.rootElement, this._previouslyFocusedElementOutsideTrapZone) &&
+                !disableFirstFocus
+            ) {
+                this._findElementAndFocusAsync();
+            }
         }
 
         _releaseFocusTrapZone = () => {
@@ -307,7 +346,6 @@ namespace BlazorFluentUIFocusTrapZone {
             if (elementToFocusOnDismiss && previouslyFocusedElement !== elementToFocusOnDismiss) {
                 previouslyFocusedElement = elementToFocusOnDismiss;
             } else if (!previouslyFocusedElement) {
-
                 // @ts-ignore
                 previouslyFocusedElement = document.activeElement as HTMLElement;
             }
@@ -375,7 +413,7 @@ namespace BlazorFluentUIFocusTrapZone {
     var count = 0;
     var focusTrapZones: Map<FocusTrapZoneInternal> = {};
 
-    export function register(props: IFocusTrapZoneProps, focusTrapZone: DotNetReferenceType) { //rootElement: HTMLElement, firstBumper: HTMLElement, lastBumper: HTMLElement, disabled: boolean, focusTrapZone: DotNetReferenceType) : number {
+    export function register(props: IFocusTrapZoneProps, focusTrapZone: DotNetReferenceType): number { //rootElement: HTMLElement, firstBumper: HTMLElement, lastBumper: HTMLElement, disabled: boolean, focusTrapZone: DotNetReferenceType) : number {
         let currentId = count++;
 
         focusTrapZones[currentId] = new FocusTrapZoneInternal(props, focusTrapZone);

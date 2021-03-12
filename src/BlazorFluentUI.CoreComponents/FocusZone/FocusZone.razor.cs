@@ -11,14 +11,14 @@ namespace BlazorFluentUI
 
     public partial class FocusZone : FluentUIComponentBase, IAsyncDisposable
     {
-        [Inject] private IJSRuntime jsRuntime { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
 
         [Parameter] public bool AllowFocusRoot { get=>allowFocusRoot; set { if (value != allowFocusRoot) { updateFocusZone = true; allowFocusRoot = value; } } }
         //[Parameter] public ComponentBase As { get; set; }
         [Parameter] public bool CheckForNoWrap { get => checkForNoWrap; set { if (value != checkForNoWrap) { updateFocusZone = true; checkForNoWrap = value; } } }
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public string DefaultActiveElement { get => defaultActiveElement; set { if (value != defaultActiveElement) { updateFocusZone = true; defaultActiveElement = value; } } }
-        [Parameter] public FocusZoneDirection Direction { get => direction; set { if (value != direction) { updateFocusZone = true; direction = value; } } } 
+        [Parameter] public FocusZoneDirection Direction { get => direction; set { if (value != direction) { updateFocusZone = true; direction = value; } } }
         [Parameter] public bool Disabled { get => disabled; set { if (value != disabled) { updateFocusZone = true; disabled = value; } } }
         [Parameter] public bool DoNotAllowFocusEventToPropagate { get => doNotAllowFocusEventToPropagate; set { if (value != doNotAllowFocusEventToPropagate) { updateFocusZone = true; doNotAllowFocusEventToPropagate = value; } } }
         [Parameter] public FocusZoneTabbableElements HandleTabKey { get => handleTabKey; set { if (value != handleTabKey) { updateFocusZone = true; handleTabKey = value; } } }
@@ -53,23 +53,23 @@ namespace BlazorFluentUI
 
         public async void Focus()
         {
-            await jsRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", RootElementReference);
+            await JSRuntime!.InvokeVoidAsync("FluentUIBaseComponent.focusElement", RootElementReference);
         }
 
         public async void FocusFirstElement()
         {
-            await jsRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusFirstElementChild", RootElementReference);
+            await JSRuntime!.InvokeVoidAsync("FluentUIBaseComponent.focusFirstElementChild", RootElementReference);
         }
 
         protected string Id = Guid.NewGuid().ToString();
         //private int[] _lastIndexPath;
-        private bool _jsAvailable;
+        //private bool _jsAvailable;
         private int _registrationId = -1;
 
-        private Task<int> _registrationTask = null;
+        private readonly Task<int>? _registrationTask = null;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private bool parametersUpdated = false;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        //private bool parametersUpdated = false;
 
         protected override Task OnInitializedAsync()
         {
@@ -83,13 +83,13 @@ namespace BlazorFluentUI
             {
                 if (_registrationTask == null)
                 {
-                    RegisterFocusZoneAsync();
+                    _ = RegisterFocusZoneAsync();
                 }
                 else if (!_registrationTask.IsCompleted)
                 {
                     //await _registrationTask;
                 }
-                _jsAvailable = true;
+                //_jsAvailable = true;
                 updateFocusZone = false;
             }
             else
@@ -97,7 +97,7 @@ namespace BlazorFluentUI
                 if (_registrationId != -1 && updateFocusZone)
                 {
                     updateFocusZone = false;
-                    UpdateFocusZoneAsync();
+                    _ = UpdateFocusZoneAsync();
                 }
             }
             base.OnAfterRender(firstRender);
@@ -115,9 +115,9 @@ namespace BlazorFluentUI
             try
             {
                 FocusZoneProps? props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUIFocusZone.updateFocusZone", _registrationId, props);
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIFocusZone.updateFocusZone", _registrationId, props);
             }
-            catch (TaskCanceledException ex)
+            catch (TaskCanceledException)
             {
 
             }
@@ -127,19 +127,18 @@ namespace BlazorFluentUI
         private async Task RegisterFocusZoneAsync()
         {
             FocusZoneProps? props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
-            _registrationId = await jsRuntime.InvokeAsync<int>("BlazorFluentUIFocusZone.register", props, DotNetObjectReference.Create(this));
+            _registrationId = await JSRuntime!.InvokeAsync<int>("BlazorFluentUIFocusZone.register", props, DotNetObjectReference.Create(this));
         }
 
         private async Task UnregisterFocusZoneAsync()
         {
             try
             {
-                await jsRuntime.InvokeVoidAsync("BlazorFluentUIFocusZone.unregister", _registrationId);
+                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIFocusZone.unregister", _registrationId);
                 _registrationId = -1;
             }
-            catch (TaskCanceledException ex)
+            catch (TaskCanceledException)
             {
-                TaskCanceledException? i = ex;
             }
         }
 
@@ -171,10 +170,10 @@ namespace BlazorFluentUI
         //public async void Dispose()
         //{
         //    if (_registrationId != -1)
-        //    {                
+        //    {
         //        //Debug.WriteLine("Trying to unregister focuszone");
         //        UnregisterFocusZoneAsync();
-                
+
         //    }
         //}
 
@@ -186,6 +185,7 @@ namespace BlazorFluentUI
                 await UnregisterFocusZoneAsync();
 
             }
+            GC.SuppressFinalize(this);
         }
 
         //public ICollection<IRule> CreateGlobalCss(ITheme theme)

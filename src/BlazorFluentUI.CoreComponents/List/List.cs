@@ -13,8 +13,6 @@ namespace BlazorFluentUI
 {
     public class FluentUIList<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
-        private IJSRuntime? _jsInterop;
-
         private ElementReference _spacerBefore;
 
         private ElementReference _spacerAfter;
@@ -44,7 +42,7 @@ namespace BlazorFluentUI
         private RenderFragment<IndexedItem<TItem>>? _itemTemplate;
 
         private RenderFragment<PlaceholderContext>? _placeholder;
-        private DotNetObjectReference<FluentUIList<TItem>> _selfReference;
+        private DotNetObjectReference<FluentUIList<TItem>>? _selfReference;
         private int _listId = -1;
 
         private double _containerWidth;
@@ -305,9 +303,9 @@ namespace BlazorFluentUI
             }
             else
             {
-                if (_itemsBefore != 0 || _visibleItemCapacity != ItemsSource.Count())
+                if (_itemsBefore != 0 || _visibleItemCapacity != ItemsSource!.Count)
                 {
-                    UpdateItemDistribution(0, ItemsSource.Count());
+                    UpdateItemDistribution(0, ItemsSource!.Count);
                     InvokeAsync(StateHasChanged);
                     InvokeAsync(StateHasChanged);
                 }
@@ -334,9 +332,9 @@ namespace BlazorFluentUI
             }
             else
             {
-                if (_itemsBefore != 0 || _visibleItemCapacity != ItemsSource.Count())
+                if (_itemsBefore != 0 || _visibleItemCapacity != ItemsSource!.Count)
                 {
-                    UpdateItemDistribution(0, ItemsSource.Count());
+                    UpdateItemDistribution(0, ItemsSource!.Count);
                     InvokeAsync(StateHasChanged);
                 }
             }
@@ -367,7 +365,7 @@ namespace BlazorFluentUI
             if (UseGridFlexLayout)
             {
                 int numberPerRow = (int)Math.Floor(_containerWidth / ItemWidth);
-                visibleItemCapacity = visibleItemCapacity * numberPerRow;
+                visibleItemCapacity *= numberPerRow;
             }
         }
 
@@ -405,7 +403,7 @@ namespace BlazorFluentUI
                 cancellationToken = _refreshCts.Token;
             }
 
-            ItemsProviderRequest request = new ItemsProviderRequest(_itemsBefore, _visibleItemCapacity, cancellationToken);
+            ItemsProviderRequest request = new(_itemsBefore, _visibleItemCapacity, cancellationToken);
 
             try
             {
@@ -468,6 +466,7 @@ namespace BlazorFluentUI
                 }
                 _selfReference.Dispose();
             }
+            GC.SuppressFinalize(this);
         }
     }
 }

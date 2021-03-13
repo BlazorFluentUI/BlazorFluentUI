@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Themes.Default
 {
     public class DefaultSemanticTextColorsDark : SemanticTextColors
     {

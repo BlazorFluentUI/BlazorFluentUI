@@ -1,4 +1,4 @@
-﻿namespace BlazorFluentUI
+﻿namespace BlazorFluentUI.Themes.Default
 {
     public class DefaultPalette : IPalette
     {

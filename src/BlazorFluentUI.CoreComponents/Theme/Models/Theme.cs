@@ -1,6 +1,4 @@
-﻿using BlazorFluentUI.Interfaces;
-
-namespace BlazorFluentUI
+﻿namespace BlazorFluentUI
 {
     public partial class Theme : ITheme
     {

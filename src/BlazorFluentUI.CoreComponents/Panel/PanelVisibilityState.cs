@@ -1,4 +1,4 @@
-﻿namespace BlazorFluentUI.PanelInternal
+﻿namespace BlazorFluentUI
 {
     public enum PanelVisibilityState
     {

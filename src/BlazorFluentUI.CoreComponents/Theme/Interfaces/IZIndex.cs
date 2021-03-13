@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFluentUI.Interfaces
+namespace BlazorFluentUI
 {
     public interface IZIndex
     {

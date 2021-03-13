@@ -1,5 +1,4 @@
-﻿using BlazorFluentUI.PanelInternal;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
@@ -154,7 +153,7 @@ namespace BlazorFluentUI
             _dismiss = () =>
             {
                 OnDismiss.InvokeAsync(null);
-                //normally, would check react synth events to see if event was interrupted from the OnDismiss callback before calling the following... 
+                //normally, would check react synth events to see if event was interrupted from the OnDismiss callback before calling the following...
                 // To Do
                 Close();
             };
@@ -207,7 +206,7 @@ namespace BlazorFluentUI
 
         public void Open()
         {
-            //ignore these calls if we have isOpen set... isOpen need to be nullable in this case... 
+            //ignore these calls if we have isOpen set... isOpen need to be nullable in this case...
             // To Do
 
         }
@@ -215,7 +214,7 @@ namespace BlazorFluentUI
         public void Close()
         {
 
-            //ignore these calls if we have isOpen set... isOpen need to be nullable in this case... 
+            //ignore these calls if we have isOpen set... isOpen need to be nullable in this case...
             // To Do
         }
 

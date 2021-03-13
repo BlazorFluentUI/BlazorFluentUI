@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace BlazorFluentUI.Extensions
+namespace BlazorFluentUI
 {
     // https://trenki2.github.io/blog/2018/12/31/memoization-in-csharp/
 
@@ -21,7 +21,7 @@ namespace BlazorFluentUI.Extensions
                 return (R)cache;
             };
         }
-        
+
         public static Func<A, R> Memoize<A, R>(Func<A, R> func)
         {
             Dictionary<A, R>? cache = new Dictionary<A, R>();

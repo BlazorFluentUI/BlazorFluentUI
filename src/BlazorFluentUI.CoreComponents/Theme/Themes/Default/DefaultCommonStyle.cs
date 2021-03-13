@@ -1,6 +1,4 @@
-﻿using BlazorFluentUI.Interfaces;
-
-namespace BlazorFluentUI.Themes.Default
+﻿namespace BlazorFluentUI.Themes.Default
 {
     public class DefaultCommonStyle : ICommonStyle
     {

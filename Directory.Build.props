@@ -15,7 +15,7 @@
     <IsPackable>true</IsPackable>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 	  <PackageOutputPath>../../packages</PackageOutputPath>
-    <Version>4.0.2</Version>
+    <Version>4.0.3</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 
   </PropertyGroup>

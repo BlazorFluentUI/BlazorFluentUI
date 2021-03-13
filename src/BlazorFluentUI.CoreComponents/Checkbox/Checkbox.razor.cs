@@ -22,7 +22,7 @@ namespace BlazorFluentUI
         [Parameter]
         public BoxSide BoxSide { get; set; }
         /// <summary>
-        /// Checked state. Mutually exclusive to "defaultChecked". Use this if you control the checked state at a higher 
+        /// Checked state. Mutually exclusive to "defaultChecked". Use this if you control the checked state at a higher
         /// level and plan to pass in the correct value based on handling onChange events and re-rendering.
         /// </summary>
         [Parameter]
@@ -36,9 +36,9 @@ namespace BlazorFluentUI
         public bool DefaultChecked { get; set; }
 
         /// <summary>
-        /// Optional uncontrolled indeterminate visual state for checkbox. Setting indeterminate state takes visual 
-        /// precedence over checked or defaultChecked props given but does not affect checked state. 
-        /// This is not a toggleable state. On load the checkbox will receive indeterminate visual state and after 
+        /// Optional uncontrolled indeterminate visual state for checkbox. Setting indeterminate state takes visual
+        /// precedence over checked or defaultChecked props given but does not affect checked state.
+        /// This is not a toggleable state. On load the checkbox will receive indeterminate visual state and after
         /// the user's first click it will be removed exposing the true state of the checkbox.
         /// </summary>
         [Parameter]
@@ -50,11 +50,14 @@ namespace BlazorFluentUI
         [Parameter]
         public bool Disabled { get; set; }
 
+        [Parameter]
+        public bool ValidateOnInit { get; set; }
+
         /// <summary>
-        /// Optional controlled indeterminate visual state for checkbox. Setting indeterminate state takes visual 
-        /// precedence over checked or defaultChecked props given but does not affect checked state. 
-        /// This should not be a toggleable state. On load the checkbox will receive indeterminate visual state and after 
-        /// the first user click it should be removed by your supplied 
+        /// Optional controlled indeterminate visual state for checkbox. Setting indeterminate state takes visual
+        /// precedence over checked or defaultChecked props given but does not affect checked state.
+        /// This should not be a toggleable state. On load the checkbox will receive indeterminate visual state and after
+        /// the first user click it should be removed by your supplied
         /// onChange callback function exposing the true state of the checkbox.
         /// </summary>
         [Parameter]
@@ -64,8 +67,7 @@ namespace BlazorFluentUI
         /// Label to display next to the checkbox.
         /// </summary>
         [Parameter]
-        public string Label
-        { get; set; }
+        public string? Label { get; set; }
 
 
         [Parameter]
@@ -81,7 +83,7 @@ namespace BlazorFluentUI
 
         private FieldIdentifier FieldIdentifier;
 
-        private string Id = Guid.NewGuid().ToString();
+        private readonly string Id = Guid.NewGuid().ToString();
         private bool _isChecked;
         private bool _reversed;
         private bool _indeterminate;
@@ -106,11 +108,7 @@ namespace BlazorFluentUI
                 _indeterminate = Indeterminate.Value;
             }
             _reversed = BoxSide == BoxSide.End;
-            base.OnInitialized();
-        }
 
-        protected override Task OnParametersSetAsync()
-        {
             if (CascadedEditContext != null)
             {
                 if (CheckedExpression == null)
@@ -118,16 +116,24 @@ namespace BlazorFluentUI
                     throw new InvalidOperationException($"{GetType()} requires a value for the 'CheckedExpression' " +
                         $"parameter. Normally this is provided automatically when using 'bind-Checked'.");
                 }
-                FieldIdentifier = FieldIdentifier.Create<bool>(CheckedExpression);
+                FieldIdentifier = FieldIdentifier.Create(CheckedExpression);
 
-                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+                if (ValidateOnInit)
+                {
+                    CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
+                }
 
                 CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
             }
 
+            base.OnInitialized();
+        }
+
+        protected override Task OnParametersSetAsync()
+        {
             if (!_checkedUncontrolled)
             {
-                _isChecked = Checked.Value;
+                _isChecked = Checked.GetValueOrDefault();
             }
             return base.OnParametersSetAsync();
         }
@@ -169,22 +175,19 @@ namespace BlazorFluentUI
                 }
             }
 
+            bool? value = (bool?)args.Value;
             if (!_checkedUncontrolled)
             {
-                Checked = (bool)args.Value;
+                Checked = value;
             }
             else
-            { 
-                _isChecked = (bool)args.Value;
+            {
+                _isChecked = value.GetValueOrDefault();
             }
 
+            await CheckedChanged.InvokeAsync(value.GetValueOrDefault());
+
             CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
-
-
-            await CheckedChanged.InvokeAsync((bool)args.Value);
-
         }
-
-        
     }
 }

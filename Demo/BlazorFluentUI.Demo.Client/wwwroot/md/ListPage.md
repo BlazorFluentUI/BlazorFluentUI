@@ -59,7 +59,7 @@
                                             //selectionZone.HandleClick(context);
                                             DebugText = context.Item.Key + " clicked";
                                         })>
-                                            <img height="25" width="25" src=@context.Item.ImgUrl />
+                                            <img height="25" width="25" src=@DataItem.ImgUrl />
                                             <em>This is item #@context.Item.Key</em>
                                             <span style="margin-left:10px;">@context.Item.DisplayName</span>
                                         </div>
@@ -112,7 +112,7 @@
                                             //selectionZone.HandleClick(context);
                                             DebugText = context.Item.Key + " clicked";
                                         })>
-                                            <img height="25" width="25" src=@context.Item.ImgUrl />
+                                            <img height="25" width="25" src=@DataItem.ImgUrl />
                                             <em>This is item #@context.Item.Key</em>
                                             <span style="margin-left:10px;">@context.Item.DisplayName</span>
                                         </div>

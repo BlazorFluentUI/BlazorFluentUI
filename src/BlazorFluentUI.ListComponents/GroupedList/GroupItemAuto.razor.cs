@@ -354,7 +354,7 @@ namespace BlazorFluentUI
 
         public ValueTask DisposeAsync()
         {
-            foreach (var header in headerSubscriptions)
+            foreach (KeyValuePair<HeaderItem3<TItem, TKey>, IDisposable> header in headerSubscriptions)
             {
                 header.Value.Dispose();
             }

@@ -48,7 +48,7 @@ namespace BlazorFluentUI
                 throw new ArgumentNullException(nameof(selectorName));
 
             if (selectorName.StartsWith("."))
-                selectorName = selectorName.Substring(1);
+                selectorName = selectorName[1..];
 
             Rule? rule = new()
             {
@@ -65,7 +65,7 @@ namespace BlazorFluentUI
                 throw new ArgumentNullException(nameof(selectorName));
 
             if (selectorName.StartsWith("."))
-                selectorName = selectorName.Substring(1);
+                selectorName = selectorName[1..];
 
             Rule? rule = new()
             {

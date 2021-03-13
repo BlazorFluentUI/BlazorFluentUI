@@ -23,7 +23,7 @@ namespace BlazorFluentUI.Demo.Shared.Models
             {
                 Key = num.ToString();
                 KeyNumber = num;
-                var start = (int)Math.Round(random.NextDouble() * 40);
+                int start = (int)Math.Round(random.NextDouble() * 40);
                 DisplayName = LoremUtils.Lorem(start, 5); // = num.ToString();
                 Description = LoremUtils.Lorem(start, 5 + (int)Math.Round(random.NextDouble() * 50));
             }

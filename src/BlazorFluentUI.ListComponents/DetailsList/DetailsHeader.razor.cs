@@ -212,11 +212,11 @@ namespace BlazorFluentUI
             }
             if (OnColumnResized.HasDelegate)
             {
-                var movement = mouseEventArgs.ClientX - resizeColumnOriginX;
+                double movement = mouseEventArgs.ClientX - resizeColumnOriginX;
                 //skipping RTL check
-                var calculatedWidth = resizeColumnMinWidth + movement;
-                var currentColumnMinWidth = Columns.ElementAt(resizeColumnIndex).MinWidth;
-                var constrictedCalculatedWidth = Math.Max((currentColumnMinWidth < 0 || double.IsNaN(currentColumnMinWidth) ? MIN_COLUMN_WIDTH : currentColumnMinWidth), calculatedWidth);
+                double calculatedWidth = resizeColumnMinWidth + movement;
+                double currentColumnMinWidth = Columns.ElementAt(resizeColumnIndex).MinWidth;
+                double constrictedCalculatedWidth = Math.Max((currentColumnMinWidth < 0 || double.IsNaN(currentColumnMinWidth) ? MIN_COLUMN_WIDTH : currentColumnMinWidth), calculatedWidth);
                 OnColumnResized.InvokeAsync(new ColumnResizedArgs<TItem>(Columns.ElementAt(resizeColumnIndex), resizeColumnIndex, constrictedCalculatedWidth));
 
             }

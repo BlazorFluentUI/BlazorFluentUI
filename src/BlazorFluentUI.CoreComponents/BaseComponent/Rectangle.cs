@@ -40,14 +40,14 @@
 
     public class PartialRectangle
     {
-        public double? top { get; set; }
-        public double? left { get; set; }
-        public double? right { get; set; }
-        public double? bottom { get; set; }
+        public double? Top { get; set; }
+        public double? Left { get; set; }
+        public double? Right { get; set; }
+        public double? Bottom { get; set; }
 
         public string GetStyle()
         {
-            return (top.HasValue ? $"top:{top.Value.ToCssValue()}px;" : "") + (left.HasValue ? $"left:{left.Value.ToCssValue()}px;" : "") + (bottom.HasValue ? $"bottom:{bottom.Value.ToCssValue()}px;" : "") + (right.HasValue ? $"right:{right.Value.ToCssValue()}px;" : "");
+            return (Top.HasValue ? $"top:{Top.Value.ToCssValue()}px;" : "") + (Left.HasValue ? $"left:{Left.Value.ToCssValue()}px;" : "") + (Bottom.HasValue ? $"bottom:{Bottom.Value.ToCssValue()}px;" : "") + (Right.HasValue ? $"right:{Right.Value.ToCssValue()}px;" : "");
         }
     }
 }

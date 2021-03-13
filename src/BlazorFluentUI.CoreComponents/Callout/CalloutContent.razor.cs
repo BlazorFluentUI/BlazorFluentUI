@@ -296,31 +296,31 @@ namespace BlazorFluentUI
             switch (targetEdge)
             {
                 case RectangleEdge.Bottom:
-                    returnValue.bottom = GetEdgeValue(positionedBeak, targetEdge);
+                    returnValue.Bottom = GetEdgeValue(positionedBeak, targetEdge);
                     break;
                 case RectangleEdge.Left:
-                    returnValue.left = GetEdgeValue(positionedBeak, targetEdge);
+                    returnValue.Left = GetEdgeValue(positionedBeak, targetEdge);
                     break;
                 case RectangleEdge.Right:
-                    returnValue.right = GetEdgeValue(positionedBeak, targetEdge);
+                    returnValue.Right = GetEdgeValue(positionedBeak, targetEdge);
                     break;
                 case RectangleEdge.Top:
-                    returnValue.top = GetEdgeValue(positionedBeak, targetEdge);
+                    returnValue.Top = GetEdgeValue(positionedBeak, targetEdge);
                     break;
             }
             switch (returnEdge)
             {
                 case RectangleEdge.Bottom:
-                    returnValue.bottom = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
+                    returnValue.Bottom = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
                     break;
                 case RectangleEdge.Left:
-                    returnValue.left = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
+                    returnValue.Left = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
                     break;
                 case RectangleEdge.Right:
-                    returnValue.right = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
+                    returnValue.Right = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
                     break;
                 case RectangleEdge.Top:
-                    returnValue.top = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
+                    returnValue.Top = GetRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
                     break;
             }
             return new CalloutBeakPositionedInfo(
@@ -382,31 +382,31 @@ namespace BlazorFluentUI
             switch (elementEdge)
             {
                 case RectangleEdge.Bottom:
-                    returnValue.bottom = GetRelativeEdgeDifference(elementRectangle, hostRectangle, elementEdge);
+                    returnValue.Bottom = GetRelativeEdgeDifference(elementRectangle, hostRectangle, elementEdge);
                     break;
                 case RectangleEdge.Left:
-                    returnValue.left = GetRelativeEdgeDifference(elementRectangle, hostRectangle, elementEdge);
+                    returnValue.Left = GetRelativeEdgeDifference(elementRectangle, hostRectangle, elementEdge);
                     break;
                 case RectangleEdge.Right:
-                    returnValue.right = GetRelativeEdgeDifference(elementRectangle, hostRectangle, elementEdge);
+                    returnValue.Right = GetRelativeEdgeDifference(elementRectangle, hostRectangle, elementEdge);
                     break;
                 case RectangleEdge.Top:
-                    returnValue.top = GetRelativeEdgeDifference(elementRectangle, hostRectangle, elementEdge);
+                    returnValue.Top = GetRelativeEdgeDifference(elementRectangle, hostRectangle, elementEdge);
                     break;
             }
             switch (returnEdge)
             {
                 case RectangleEdge.Bottom:
-                    returnValue.bottom = GetRelativeEdgeDifference(elementRectangle, hostRectangle, returnEdge);
+                    returnValue.Bottom = GetRelativeEdgeDifference(elementRectangle, hostRectangle, returnEdge);
                     break;
                 case RectangleEdge.Left:
-                    returnValue.left = GetRelativeEdgeDifference(elementRectangle, hostRectangle, returnEdge);
+                    returnValue.Left = GetRelativeEdgeDifference(elementRectangle, hostRectangle, returnEdge);
                     break;
                 case RectangleEdge.Right:
-                    returnValue.right = GetRelativeEdgeDifference(elementRectangle, hostRectangle, returnEdge);
+                    returnValue.Right = GetRelativeEdgeDifference(elementRectangle, hostRectangle, returnEdge);
                     break;
                 case RectangleEdge.Top:
-                    returnValue.top = GetRelativeEdgeDifference(elementRectangle, hostRectangle, returnEdge);
+                    returnValue.Top = GetRelativeEdgeDifference(elementRectangle, hostRectangle, returnEdge);
                     break;
             }
             return returnValue;

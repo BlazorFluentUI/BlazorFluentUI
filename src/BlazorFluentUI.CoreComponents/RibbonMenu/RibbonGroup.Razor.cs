@@ -18,7 +18,7 @@ namespace BlazorFluentUI
         [Parameter] public RenderFragment<IEnumerable<object>>? OverflowTemplate { get; set; }
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public ResizeGroupData ItemsSource { get; set; }
-        [Parameter] public bool showDelimiter { get; set; }
+        [Parameter] public bool ShowDelimiter { get; set; }
 
 
 
@@ -32,7 +32,7 @@ namespace BlazorFluentUI
             //    var bounds = await boundsTask;
             //    double newContainerDimension = bounds.width; 
             }
-            catch (TaskCanceledException ex)
+            catch (TaskCanceledException)
             {
                 Debug.WriteLine("Task was cancelled in ResizeGroup");
             }
@@ -60,7 +60,7 @@ namespace BlazorFluentUI
         {
             
             ItemsSource.Changed += ItemsSource_Changed;
-            showDelimiter = ItemsSource.ShowDelimiter;
+            ShowDelimiter = ItemsSource.ShowDelimiter;
             return Task.CompletedTask;
         }
 
@@ -81,7 +81,7 @@ namespace BlazorFluentUI
         private void ItemsSource_Changed(object sender, EventArgs e)
         {
             SetItemsAndOverflowItems();
-            showDelimiter = ItemsSource.ShowDelimiter;
+            ShowDelimiter = ItemsSource.ShowDelimiter;
             StateHasChanged();
         }
     }

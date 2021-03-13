@@ -19,7 +19,7 @@ namespace BlazorFluentUI.Demo.Shared.Models
 
         public GroupedDataItem(IGroup<DataItem, string, int> group, IObservable<SortExpressionComparer<GroupedDataItem>> sortExpressionObservable)
         {
-            var disposable = group.Cache.Connect()
+            IDisposable disposable = group.Cache.Connect()
                 .Transform(x => new GroupedDataItem(x))
                 .Sort(sortExpressionObservable)
                 .Do(_=>Debug.WriteLine("groupDataItem has updated sort"))

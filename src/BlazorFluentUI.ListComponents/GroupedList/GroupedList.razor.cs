@@ -92,7 +92,7 @@ namespace BlazorFluentUI
         {
             if (Selection != null)
             {
-                var header = (headerItem.Item as HeaderItem3<TItem, TKey>);
+                HeaderItem3<TItem, TKey>? header = (headerItem.Item as HeaderItem3<TItem, TKey>);
 
                 Selection.ToggleRangeSelected(header.GroupIndex, header.Count);
             }
@@ -149,11 +149,11 @@ namespace BlazorFluentUI
                     {
                         dataItems = new ObservableCollection<IGroupedListItem3<TItem>>();
                         int cummulativeCount = 0;
-                        for (var i=0; i< _itemsSource.Count; i++)
+                        for (int i =0; i< _itemsSource.Count; i++)
                         {
-                            var group = new HeaderItem3<TItem, TKey>(_itemsSource[i], 0, cummulativeCount, SubGroupSelector, GroupTitleSelector);
+                            HeaderItem3<TItem, TKey>? group = new HeaderItem3<TItem, TKey>(_itemsSource[i], 0, cummulativeCount, SubGroupSelector, GroupTitleSelector);
                             dataItems.Add(group);
-                            var subItemCount = GroupedList<TItem, TKey>.GetPlainItemsCount(_itemsSource[i], SubGroupSelector);
+                            int subItemCount = GroupedList<TItem, TKey>.GetPlainItemsCount(_itemsSource[i], SubGroupSelector);
                             cummulativeCount += subItemCount;
                         }
 
@@ -169,14 +169,14 @@ namespace BlazorFluentUI
         {
             IList<TItem> flattenedItems = new List<TItem>();
 
-            foreach (var item in groupedItems)
+            foreach (TItem? item in groupedItems)
             {
-                var subItems = subGroupSelector(item);
+                IEnumerable<TItem>? subItems = subGroupSelector(item);
                 if (subItems == null || subItems.Count() == 0)
                     flattenedItems.Add(item);
                 else
                 {
-                    var moreItems = FlattenList(subItems, subGroupSelector);
+                    IList<TItem>? moreItems = FlattenList(subItems, subGroupSelector);
                     flattenedItems.AddRange(moreItems);
                 }
             }
@@ -186,15 +186,15 @@ namespace BlazorFluentUI
 
         public static int GetPlainItemsCount(TItem item, Func<TItem, IEnumerable<TItem>> subgroupSelector)
         {
-            var subItems = subgroupSelector(item);
+            IEnumerable<TItem>? subItems = subgroupSelector(item);
             if (subItems == null || subItems.Count() == 0)
                 return 1;
             else
             {
                 int count = 0;
-                foreach (var subItem in subItems)
+                foreach (TItem? subItem in subItems)
                 {
-                    var subcount = GroupedList<TItem,TKey>.GetPlainItemsCount(subItem, subgroupSelector);
+                    int subcount = GroupedList<TItem,TKey>.GetPlainItemsCount(subItem, subgroupSelector);
                     count += subcount;
                 }
                 return count;
@@ -204,7 +204,7 @@ namespace BlazorFluentUI
 
         public void Dispose()
         {
-            foreach (var header in headerSubscriptions)
+            foreach (KeyValuePair<HeaderItem3<TItem, TKey>, IDisposable> header in headerSubscriptions)
             {
                 header.Value.Dispose();
             }

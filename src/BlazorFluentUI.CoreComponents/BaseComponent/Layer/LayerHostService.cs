@@ -15,7 +15,7 @@ namespace BlazorFluentUI
 
         LayerHost? rootHost;
 
-        
+
 
         public void RegisterHost(LayerHost host)
         {
@@ -49,7 +49,7 @@ namespace BlazorFluentUI
 
         public IObservable<LayerHost> GetHostObs(string id)
         {
-            BehaviorSubject<LayerHost> subject = null;
+            BehaviorSubject<LayerHost> subject;
             if (hostSubjects.ContainsKey(id))
                 subject = hostSubjects[id];
             else
@@ -61,7 +61,7 @@ namespace BlazorFluentUI
                 hostSubjects.Add(id, subject);
             }
             return subject.AsObservable();
-            
+
         }
 
         public void RemoveHost(LayerHost host)

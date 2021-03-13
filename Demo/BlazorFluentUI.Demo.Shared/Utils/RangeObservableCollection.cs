@@ -150,7 +150,7 @@ namespace System.Collections.ObjectModel
             CheckReentrancy();
 
             //expand the following couple of lines when adding more constructors.
-            var target = (List<T>)Items;
+            List<T> target = (List<T>)Items;
             target.InsertRange(index, collection);
 
             OnEssentialPropertiesChanged();
@@ -191,12 +191,12 @@ namespace System.Collections.ObjectModel
 
             CheckReentrancy();
 
-            var clusters = new Dictionary<int, List<T>>();
-            var lastIndex = -1;
+            Dictionary<int, List<T>> clusters = new Dictionary<int, List<T>>();
+            int lastIndex = -1;
             List<T>? lastCluster = null;
             foreach (T item in collection)
             {
-                var index = IndexOf(item);
+                int index = IndexOf(item);
                 if (index < 0)
                     continue;
 
@@ -256,13 +256,13 @@ namespace System.Collections.ObjectModel
                 return 0;
 
             List<T>? cluster = null;
-            var clusterIndex = -1;
-            var removedCount = 0;
+            int clusterIndex = -1;
+            int removedCount = 0;
 
             using (BlockReentrancy())
             using (DeferEvents())
             {
-                for (var i = 0; i < count; i++, index++)
+                for (int i = 0; i < count; i++, index++)
                 {
                     T item = Items[index];
                     if (match(item))
@@ -326,7 +326,7 @@ namespace System.Collections.ObjectModel
             }
 
             //Items will always be List<T>, see constructors
-            var items = (List<T>)Items;
+            List<T> items = (List<T>)Items;
             List<T> removedItems = items.GetRange(index, count);
 
             CheckReentrancy();
@@ -406,10 +406,10 @@ namespace System.Collections.ObjectModel
             using (BlockReentrancy())
             using (DeferEvents())
             {
-                var rangeCount = index + count;
-                var addedCount = list.Count;
+                int rangeCount = index + count;
+                int addedCount = list.Count;
 
-                var changesMade = false;
+                bool changesMade = false;
                 List<T>?
                   newCluster = null,
                   oldCluster = null;
@@ -450,10 +450,10 @@ namespace System.Collections.ObjectModel
                 //exceeding position
                 if (count != addedCount)
                 {
-                    var items = (List<T>)Items;
+                    List<T> items = (List<T>)Items;
                     if (count > addedCount)
                     {
-                        var removedCount = rangeCount - addedCount;
+                        int removedCount = rangeCount - addedCount;
                         T[] removed = new T[removedCount];
                         items.CopyTo(i, removed, 0, removed.Length);
                         items.RemoveRange(i, removedCount);
@@ -461,7 +461,7 @@ namespace System.Collections.ObjectModel
                     }
                     else
                     {
-                        var k = i - index;
+                        int k = i - index;
                         T[] added = new T[addedCount - k];
                         for (int j = k; j < addedCount; j++)
                         {
@@ -645,7 +645,7 @@ namespace System.Collections.ObjectModel
             public void Dispose()
             {
                 _collection.deferredEvents = null;
-                foreach (var args in this)
+                foreach (NotifyCollectionChangedEventArgs args in this)
                     _collection.OnCollectionChanged(args);
             }
         }

@@ -200,7 +200,7 @@ namespace BlazorFluentUI
                 if (cache == null)
                     cache = new ChangeAwareCache<TDestination, TKey>(changes.Count);
 
-                foreach (var change in changes)
+                foreach (Change<TObject, TKey> change in changes)
                 {
                     switch (change.Reason)
                     {
@@ -211,7 +211,7 @@ namespace BlazorFluentUI
                                 {
                                     if (updateAction == null) continue;
 
-                                    var previous = cache.Lookup(change.Key)
+                                TDestination? previous = cache.Lookup(change.Key)
                                         .ValueOrThrow(() => new MissingKeyException($"{change.Key} is not found."));
 
                                     updateAction(previous, change.Current);
@@ -238,7 +238,7 @@ namespace BlazorFluentUI
 
         public static IObservable<IChangeSet<TItem, object>> Filter<TItem>(this IObservable<IChangeSet<TItem, object>> source, IEnumerable<IObservable<Func<TItem, bool>>> filterPredicates)
         {
-            foreach (var filter in filterPredicates)
+            foreach (IObservable<Func<TItem, bool>>? filter in filterPredicates)
             {
                 source = source.Filter(filter);
             }
@@ -247,7 +247,7 @@ namespace BlazorFluentUI
 
         public static IObservable<IChangeSet<TItem, object>> Filter<TItem>(this IObservable<IChangeSet<TItem, object>> source, IEnumerable<Func<TItem, bool>> filterPredicates)
         {
-            foreach (var filter in filterPredicates)
+            foreach (Func<TItem, bool>? filter in filterPredicates)
             {
                 source = source.Filter(filter);
             }
@@ -269,8 +269,8 @@ namespace BlazorFluentUI
             Contract.Requires(func != null);
             Contract.Requires(resultType != null);
 
-            var param = Expression.Parameter(argType);
-            var convertedParam = new Expression[] { Expression.Convert(param, typeof(TItem)) };
+            ParameterExpression? param = Expression.Parameter(argType);
+            Expression[]? convertedParam = new Expression[] { Expression.Convert(param, typeof(TItem)) };
 
             // This is gnarly... If a func contains a closure, then even though its static, its first
             // param is used to carry the closure, so its as if it is not a static method, so we need
@@ -281,7 +281,7 @@ namespace BlazorFluentUI
                 ? Expression.Call(func.Method, convertedParam)
                 : Expression.Call(Expression.Constant(func.Target), func.Method, convertedParam), resultType);
 
-            var delegateType = typeof(Func<,>).MakeGenericType(argType, resultType);
+            Type? delegateType = typeof(Func<,>).MakeGenericType(argType, resultType);
             return Expression.Lambda(delegateType, call, param).Compile();
         }
 

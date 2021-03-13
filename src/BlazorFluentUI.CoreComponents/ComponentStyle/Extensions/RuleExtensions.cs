@@ -7,8 +7,7 @@ namespace BlazorFluentUI
     {
         public static IRule AppendCssStyles(this IRule rule, params string[] cssStyles)
         {
-            CssString? cssString = rule.Properties as CssString;
-            if (cssString != null)
+            if (rule.Properties is CssString cssString)
                 cssString.AppendCssStyles(cssStyles);
 
             return rule;
@@ -19,7 +18,7 @@ namespace BlazorFluentUI
             if (!cssStyles.Any())
                 return cssString;
 
-            int totalCharLength = cssStyles.Select(x => x.Length).Sum() + cssStyles.Count();
+            int totalCharLength = cssStyles.Select(x => x.Length).Sum() + cssStyles.Length;
 
             // Use string.Create and Spans to highly optimize the string concatenation (no allocations)
             string? combinedString = string.Create(totalCharLength, cssStyles, (chars, state) =>
@@ -27,7 +26,7 @@ namespace BlazorFluentUI
                 int position = 0;
                 foreach(string? cssString in state)
                 {
-                    cssString.AsSpan().CopyTo(chars.Slice(position));
+                    cssString.AsSpan().CopyTo(chars[position..]);
                     position += cssString.Length;
                     chars[position++] = ';'; // Append a semi-colon after each fragment
                 }
@@ -39,8 +38,7 @@ namespace BlazorFluentUI
 
         public static IRule SetCssStyles(this IRule rule, params string[] cssStyles)
         {
-            CssString? cssString = rule.Properties as CssString;
-            if (cssString != null)
+            if (rule.Properties is CssString cssString)
                 cssString.SetCssStyles(cssStyles);
 
             return rule;
@@ -51,7 +49,7 @@ namespace BlazorFluentUI
             if (!cssStyles.Any())
                 return cssString;
 
-            int totalCharLength = cssStyles.Select(x => x.Length).Sum() + cssStyles.Count();
+            int totalCharLength = cssStyles.Select(x => x.Length).Sum() + cssStyles.Length;
 
             // Use string.Create and Spans to highly optimize the string concatenation (no allocations)
             string? combinedString = string.Create(totalCharLength, cssStyles, (chars, state) =>
@@ -59,7 +57,7 @@ namespace BlazorFluentUI
                 int position = 0;
                 foreach (string? cssString in state)
                 {
-                    cssString.AsSpan().CopyTo(chars.Slice(position));
+                    cssString.AsSpan().CopyTo(chars[position..]);
                     position += cssString.Length;
                     chars[position++] = ';'; // Append a semi-colon after each fragment
                 }

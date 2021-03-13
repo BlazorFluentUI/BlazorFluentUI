@@ -410,7 +410,7 @@ namespace BlazorFluentUI
         protected string GetAutoCompleteString()
         {
             string? value = AutoComplete.ToString();
-            value = Char.ToLowerInvariant(value[0]) + value.Substring(1);
+            value = Char.ToLowerInvariant(value[0]) + value[1..];
             string result = "";
             foreach (char c in value.ToCharArray())
             {
@@ -474,9 +474,9 @@ namespace BlazorFluentUI
                 {
                     await Task.Delay(deferredValidationTime);
                 }));
-                int TaskCount = DeferredValidationTasks.Count();
+                int TaskCount = DeferredValidationTasks.Count;
                 await Task.WhenAll(DeferredValidationTasks.ToArray());
-                if (TaskCount == DeferredValidationTasks.Count())
+                if (TaskCount == DeferredValidationTasks.Count)
                 {
                     _ = Task.Run(() =>
                     {

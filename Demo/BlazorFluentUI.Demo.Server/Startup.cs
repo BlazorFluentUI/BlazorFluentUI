@@ -29,7 +29,7 @@ namespace BlazorFluentUI.Demo.Server
                 services.AddScoped<HttpClient>(s =>
                 {
                     // Creating the URI helper needs to wait until the JS Runtime is initialized, so defer it.
-                    var uriHelper = s.GetRequiredService<NavigationManager>();
+                    NavigationManager uriHelper = s.GetRequiredService<NavigationManager>();
                     return new HttpClient
                     {
                         BaseAddress = new Uri(uriHelper.BaseUri)

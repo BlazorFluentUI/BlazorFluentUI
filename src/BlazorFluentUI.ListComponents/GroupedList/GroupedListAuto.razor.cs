@@ -187,7 +187,7 @@ namespace BlazorFluentUI
         {
             if (Selection != null)
             {
-                var header = (indexedItem.Item as HeaderItem3<TItem, TKey>);
+                HeaderItem3<TItem, TKey>? header = (indexedItem.Item as HeaderItem3<TItem, TKey>);
 
                 Selection.ToggleRangeSelected(header.GroupIndex, header.Count);
             }
@@ -227,7 +227,7 @@ namespace BlazorFluentUI
                 IComparer<IGroupedListItem3<TItem>> subGroupListSortExpression = null;
                 if (GroupBy != null)
                 {
-                    for (var i = 0; i < GroupBy.Count(); i++)
+                    for (int i = 0; i < GroupBy.Count(); i++)
                     {
                         if (sortExpression == null)
                         {
@@ -248,10 +248,10 @@ namespace BlazorFluentUI
 
                 if (SortBy != null)
                 {
-                    var sortBy = SortBy.ToList();  //making a local copy
-                    for (var i = 0; i < sortBy.Count(); i++)
+                    List<Func<TItem, object>>? sortBy = SortBy.ToList();  //making a local copy
+                    for (int i = 0; i < sortBy.Count(); i++)
                     {
-                        var j = i;  //local copy.
+                        int j = i;  //local copy.
                         if (sortExpression == null)
                         {
                             if (SortDescending[j])
@@ -267,9 +267,9 @@ namespace BlazorFluentUI
                                 sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByAscending(sortBy[j].ConvertToIComparable());
                         }
                     }
-                    for (var i = 0; i < sortBy.Count(); i++)
+                    for (int i = 0; i < sortBy.Count(); i++)
                     {
-                        var j = i;  //local copy, necessary for the callback... not really for the above part.
+                        int j = i;  //local copy, necessary for the callback... not really for the above part.
                         if (subGroupListSortExpression == null)
                         {
                             if (SortDescending[j])
@@ -314,7 +314,7 @@ namespace BlazorFluentUI
                     sortExpression = new OriginalSortComparer<TItem>(ItemsSource);
                 //    sortExpression = (sortExpression as SortExpressionComparer<TItem>).Add(ThenByAscending(new OriginalSortComparer<TItem>(ItemsSource));
 
-                var subGroupListSortExpression = new OriginalGroupSortComparer<TItem>(ItemsSource); //new SortExpression<IGroupedListItem3<TItem>>((x,y)=> x.Item);
+                OriginalGroupSortComparer<TItem>? subGroupListSortExpression = new OriginalGroupSortComparer<TItem>(ItemsSource); //new SortExpression<IGroupedListItem3<TItem>>((x,y)=> x.Item);
 
                 if (sortExpressionComparer == null)
                     sortExpressionComparer = new BehaviorSubject<IComparer<TItem>>(sortExpression);
@@ -426,17 +426,17 @@ namespace BlazorFluentUI
 
             sourceCache = new SourceCache<TItem,TKey>(GetKey);
 
-            var firstGrouping = GroupBy.FirstOrDefault();
-            var remainingGrouping = GroupBy.Skip(1);
+            Func<TItem, object>? firstGrouping = GroupBy.FirstOrDefault();
+            IEnumerable<Func<TItem, object>>? remainingGrouping = GroupBy.Skip(1);
 
-            var published = sourceCache.Connect()                
+            IConnectableObservable<IChangeSet<TItem, TKey>>? published = sourceCache.Connect()                
                 .Publish();
 
             Subject<Unit> reindexTrigger = new();
 
             ReplaySubject<IConnectableObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>>> futureGroups = new();
 
-            var groupsPublished = published.Group(firstGrouping)
+            IConnectableObservable<ISortedChangeSet<IGroup<TItem, TKey, object>, object>>? groupsPublished = published.Group(firstGrouping)
                 .Sort(SortExpressionComparer<IGroup<TItem, TKey, object>>.Ascending(x => x.Key as IComparable))
                 .Replay();
 
@@ -459,7 +459,7 @@ namespace BlazorFluentUI
 
             published
                 .Sort(sortExpressionComparer)
-                .Bind(out var selectionItems)
+                .Bind(out ReadOnlyObservableCollection<TItem>? selectionItems)
                 .Subscribe(x => { }, error =>
                 {
                     Debug.WriteLine(error.Message);
@@ -482,7 +482,7 @@ namespace BlazorFluentUI
             _transformedDisposable?.Dispose();
             _selectionSubscription?.Dispose();
 
-            foreach (var header in headerSubscriptions)
+            foreach (KeyValuePair<HeaderItem3<TItem, TKey>, IDisposable> header in headerSubscriptions)
             {
                 header.Value.Dispose();
             }

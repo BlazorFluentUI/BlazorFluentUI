@@ -220,29 +220,19 @@ namespace BlazorFluentUI
 
         private string GetTypeCss()
         {
-            switch (Type)
+            return Type switch
             {
-                case PanelType.SmallFixedNear:
-                    return " ms-Panel--smLeft";
-                case PanelType.SmallFixedFar:
-                    return " ms-Panel--sm";
-                case PanelType.SmallFluid:
-                    return " ms-Panel--smFluid";
-                case PanelType.Medium:
-                    return " ms-Panel--md";
-                case PanelType.Large:
-                    return " ms-Panel--lg";
-                case PanelType.LargeFixed:
-                    return " ms-Panel--fixed";
-                case PanelType.ExtraLarge:
-                    return " ms-Panel--xl";
-                case PanelType.Custom:
-                    return " ms-Panel--custom";
-                case PanelType.CustomNear:
-                    return " ms-Panel--customLeft";
-                default:
-                    return "";
-            }
+                PanelType.SmallFixedNear => " ms-Panel--smLeft",
+                PanelType.SmallFixedFar => " ms-Panel--sm",
+                PanelType.SmallFluid => " ms-Panel--smFluid",
+                PanelType.Medium => " ms-Panel--md",
+                PanelType.Large => " ms-Panel--lg",
+                PanelType.LargeFixed => " ms-Panel--fixed",
+                PanelType.ExtraLarge => " ms-Panel--xl",
+                PanelType.Custom => " ms-Panel--custom",
+                PanelType.CustomNear => " ms-Panel--customLeft",
+                _ => "",
+            };
         }
 
         protected string GetMainAnimation()
@@ -467,6 +457,7 @@ namespace BlazorFluentUI
             {
                 await JSRuntime.InvokeVoidAsync("BlazorFluentUIPanel.unregisterHandler", _mouseDownId);
             }
+            GC.SuppressFinalize(this);
         }
     }
 

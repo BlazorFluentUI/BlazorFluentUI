@@ -76,9 +76,11 @@ namespace BlazorFluentUI
                 StateHasChanged();
             });
 
-            _debounceTextTimer = new System.Timers.Timer();
-            _debounceTextTimer.Interval = 150;
-            _debounceTextTimer.AutoReset = false;
+            _debounceTextTimer = new System.Timers.Timer
+            {
+                Interval = 150,
+                AutoReset = false
+            };
             _debounceTextTimer.Elapsed += async (s, e) => 
             {
                 await InvokeAsync(async () =>
@@ -87,9 +89,11 @@ namespace BlazorFluentUI
                 });
             };
 
-            _debounceSelectionTimer = new System.Timers.Timer();
-            _debounceSelectionTimer.Interval = 150;
-            _debounceSelectionTimer.AutoReset = false;
+            _debounceSelectionTimer = new System.Timers.Timer
+            {
+                Interval = 150,
+                AutoReset = false
+            };
             _debounceSelectionTimer.Elapsed += async (s, e) =>
             {
                 await InvokeAsync(() =>

@@ -14,49 +14,36 @@ namespace BlazorFluentUI
 
         private string GetAriaLive()
         {
-            switch (AriaLive)
+            return AriaLive switch
             {
-                case AriaLive.Polite:
-                    return "polite";
-                case AriaLive.Assertive:
-                    return "assertive";
-                case AriaLive.Off:
-                    return "off";
-                default:
-                    return "polite";
-            }
+                AriaLive.Polite => "polite",
+                AriaLive.Assertive => "assertive",
+                AriaLive.Off => "off",
+                _ => "polite",
+            };
         }
 
         private string GetPositionStyle()
         {
-            switch (LabelPosition)
+            return LabelPosition switch
             {
-                case SpinnerLabelPosition.Left:
-                    return " ms-Spinner--left";
-                case SpinnerLabelPosition.Right:
-                    return " ms-Spinner--right";
-                case SpinnerLabelPosition.Top:
-                    return " ms-Spinner--top";
-                default:
-                    return "";
-            }
+                SpinnerLabelPosition.Left => " ms-Spinner--left",
+                SpinnerLabelPosition.Right => " ms-Spinner--right",
+                SpinnerLabelPosition.Top => " ms-Spinner--top",
+                _ => "",
+            };
         }
 
         private string GetSpinnerSizeStyle()
         {
-            switch (Size)
+            return Size switch
             {
-                case SpinnerSize.Large:
-                    return " ms-Spinner--large";
-                case SpinnerSize.Medium:
-                    return " ms-Spinner--medium";
-                case SpinnerSize.Small:
-                    return " ms-Spinner--small";
-                case SpinnerSize.XSmall:
-                    return " ms-Spinner--xSmall";
-                default:
-                    return " ms-Spinner--medium";
-            }
+                SpinnerSize.Large => " ms-Spinner--large",
+                SpinnerSize.Medium => " ms-Spinner--medium",
+                SpinnerSize.Small => " ms-Spinner--small",
+                SpinnerSize.XSmall => " ms-Spinner--xSmall",
+                _ => " ms-Spinner--medium",
+            };
         }
         public static ICollection<IRule> CreateGlobalCss(ITheme theme)
         {

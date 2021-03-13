@@ -111,8 +111,8 @@ namespace BlazorFluentUI
             
             if (source.Equals(other))
             {
-                var result = true;
-                for (var i= 0; i<source.Count(); i++)
+                bool result = true;
+                for (int i = 0; i<source.Count(); i++)
                 {
                     if (childSelector(source.ElementAt(i)) != null && childSelector(other.ElementAt(i)) != null)
                     {

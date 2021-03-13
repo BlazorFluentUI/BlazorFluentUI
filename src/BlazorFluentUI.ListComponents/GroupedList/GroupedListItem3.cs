@@ -56,10 +56,10 @@ namespace BlazorFluentUI
 
         public ICollection<IGroupedListItem3<TItem>> Items { get; private set; }
 
-        private HeaderItem3<TItem, TKey> _parent;
+        //private HeaderItem3<TItem, TKey> _parent;
         private IGroup<TItem, TKey, object> _group;
 
-        private IObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>> _mainGroupingChangeSet;
+        //private IObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>> _mainGroupingChangeSet;
 
         public int GroupIndex { get; set; }
 
@@ -100,12 +100,12 @@ namespace BlazorFluentUI
             isOpenSubject = new BehaviorSubject<bool>(true);
             countSubject = new BehaviorSubject<int>(0);
 
-            var subItems = subGroupSelector(Item);
-            var cummulativeCount = GroupIndex;
-            foreach (var subItem in subItems)
+            IEnumerable<TItem>? subItems = subGroupSelector(Item);
+            int cummulativeCount = GroupIndex;
+            foreach (TItem? subItem in subItems)
             {
                 //check if is plain or header 
-                if (subGroupSelector(subItem) == null || subGroupSelector(subItem).Count() == 0)
+                if (subGroupSelector(subItem) == null || !subGroupSelector(subItem).Any())
                 {
                     Items.Add(new PlainItem3<TItem,TKey>(subItem, depth + 1));
                     cummulativeCount++;
@@ -113,7 +113,7 @@ namespace BlazorFluentUI
                 else
                 {
                     Items.Add(new HeaderItem3<TItem, TKey>(subItem, depth + 1, cummulativeCount, subGroupSelector, groupTitleSelector));
-                    var subItemCount = GroupedList<TItem, TKey>.GetPlainItemsCount(subItem, subGroupSelector);
+                    int subItemCount = GroupedList<TItem, TKey>.GetPlainItemsCount(subItem, subGroupSelector);
                     cummulativeCount += subItemCount;
                 }
             }
@@ -133,7 +133,7 @@ namespace BlazorFluentUI
         /// <param name="reindexTrigger"></param>
         public HeaderItem3(IGroup<TItem,TKey,object> group, IEnumerable<Func<TItem,object>> groupBy, int depth, IConnectableObservable<ISortedChangeSet<IGroup<TItem,TKey,object>, object>> groupsChangeSet, HeaderItem3<TItem,TKey> parent, IObservable<IComparer<IGroupedListItem3<TItem>>> sortComparer, Func<Task> stateChangeCallback, Subject<Unit> reindexTrigger )
         {
-            _parent = parent;  //needed to get the parent groupindex
+            //_parent = parent;  //needed to get the parent groupindex
             _group = group;
             Depth = depth;
             isOpenSubject = new BehaviorSubject<bool>(true);
@@ -146,7 +146,7 @@ namespace BlazorFluentUI
             groupsChangeSet.CombineLatest(CountChanged, (groups, count) => (groups, count)).Subscribe(x =>
             {
                 sortedItems = x.groups.SortedItems;
-                var groupIndex = x.groups.SortedItems.TakeWhile(x => x.Key != _group.Key).Aggregate(0, (v, x) =>
+                int groupIndex = x.groups.SortedItems.TakeWhile(x => x.Key != _group.Key).Aggregate(0, (v, x) =>
                 {
                     v += x.Value.Cache.Count;
                     return v;
@@ -166,7 +166,7 @@ namespace BlazorFluentUI
             {
                 if (sortedItems != null)
                 {
-                    var groupIndex = sortedItems.TakeWhile(x => x.Key != _group.Key).Aggregate(0, (v, x) =>
+                    int groupIndex = sortedItems.TakeWhile(x => x.Key != _group.Key).Aggregate(0, (v, x) =>
                     {
                         v += x.Value.Cache.Count;
                         return v;
@@ -183,13 +183,13 @@ namespace BlazorFluentUI
                 }
             });
 
-            if (groupBy != null && groupBy.Count() > 0)
+            if (groupBy != null && groupBy.Any())
             {
-                var firstGroup = groupBy.First();
-                var rest = groupBy.Skip(1);
+                Func<TItem, object>? firstGroup = groupBy.First();
+                IEnumerable<Func<TItem, object>>? rest = groupBy.Skip(1);
 
 
-                var published = _group.Cache.Connect()
+                IConnectableObservable<ISortedChangeSet<IGroup<TItem, TKey, object>, object>>? published = _group.Cache.Connect()
                     .Group(firstGroup)
                     .Sort(SortExpressionComparer<IGroup<TItem, TKey, object>>.Ascending(x => x.Key as IComparable))
                     .Replay();
@@ -199,7 +199,7 @@ namespace BlazorFluentUI
 
                 published.ToCollection().Subscribe(collection => 
                 {
-                    var count = collection.Aggregate(0, (v, x) =>
+                    int count = collection.Aggregate(0, (v, x) =>
                     {
                         v += x.Cache.Count;
                         return v;
@@ -215,7 +215,7 @@ namespace BlazorFluentUI
 
                 published
                     .Transform(group => new HeaderItem3<TItem, TKey>(group, rest, depth + 1, published, this, sortComparer, stateChangeCallback, reindexTrigger) as IGroupedListItem3<TItem>)
-                    .Bind(out var items)
+                    .Bind(out System.Collections.ObjectModel.ReadOnlyObservableCollection<IGroupedListItem3<TItem>>? items)
                     .Subscribe();
 
                 published.Connect();
@@ -228,7 +228,7 @@ namespace BlazorFluentUI
                 _group.Cache.Connect()
                     .Transform(x => new PlainItem3<TItem, TKey>(x, depth+1) as IGroupedListItem3<TItem>)
                     .Sort(sortComparer)
-                    .Bind(out var items)
+                    .Bind(out System.Collections.ObjectModel.ReadOnlyObservableCollection<IGroupedListItem3<TItem>>? items)
                     .Do(x=>
                     {
                         stateChangeCallback.Invoke();

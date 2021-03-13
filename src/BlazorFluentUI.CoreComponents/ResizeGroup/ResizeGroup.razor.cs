@@ -150,7 +150,7 @@ namespace BlazorFluentUI
                     StateHasChanged();
                 }
             }
-            catch (TaskCanceledException ex)
+            catch (TaskCanceledException)
             {
                 Debug.WriteLine("Task was cancelled in ResizeGroup");
             }

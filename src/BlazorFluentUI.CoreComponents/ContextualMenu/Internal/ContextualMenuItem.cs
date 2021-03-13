@@ -89,6 +89,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
         public void Dispose()
         {
             //jsRuntime.InvokeAsync<object>("BlazorFluentUIContextualMenu.unregisterHandlers", eventHandlerIds);
+            GC.SuppressFinalize(this);
         }
 
         public override Task SetParametersAsync(ParameterView parameters)

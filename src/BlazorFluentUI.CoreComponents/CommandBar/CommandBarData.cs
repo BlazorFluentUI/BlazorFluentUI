@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlazorFluentUI.CommandBarInternal
+namespace BlazorFluentUI
 {
     public class CommandBarData
     {

@@ -1,5 +1,4 @@
-﻿using BlazorFluentUI.CommandBarInternal;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +30,7 @@ namespace BlazorFluentUI
             {
                 if (data.PrimaryItems.Count > 0)
                 {
-                    ICommandBarItem movedItem = data.PrimaryItems[ShiftOnReduce ? 0 : data.PrimaryItems.Count() - 1];
+                    ICommandBarItem movedItem = data.PrimaryItems[ShiftOnReduce ? 0 : data.PrimaryItems.Count - 1];
                     movedItem.RenderedInOverflow = true;
 
                     data.OverflowItems.Insert(0, movedItem);

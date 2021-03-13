@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI.DropdownInternal
+namespace BlazorFluentUI
 {
     public class DropdownItem: FluentUIComponentBase
     {
@@ -24,7 +24,7 @@ namespace BlazorFluentUI.DropdownInternal
         protected override Task OnParametersSetAsync()
         {
             if (Dropdown!= null && 
-                (Dropdown.SelectedOptions.Count() > 0|| Dropdown.SelectedOption != null))
+                (Dropdown.SelectedOptions.Any() || Dropdown.SelectedOption != null))
             {
                 if (Dropdown.SelectedOptions.FirstOrDefault(x => x.Key == Key) != null)
                     isSelected = true;

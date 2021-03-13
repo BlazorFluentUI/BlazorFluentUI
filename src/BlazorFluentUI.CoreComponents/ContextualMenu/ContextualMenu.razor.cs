@@ -78,7 +78,7 @@ namespace BlazorFluentUI
 
         private void OnCalloutPositioned()
         {
-            if (Items != null && Items.Count() > 0)
+            if (Items != null && Items.Any())
             {
                 _focusZoneReference.FocusFirstElement();
             }
@@ -127,10 +127,10 @@ namespace BlazorFluentUI
             await base.OnParametersSetAsync();
             if (Items != null)
             {
-                if (Items.Count(x =>
-                x is IContextualMenuItem ? ((IContextualMenuItem)x).IconName != null | ((IContextualMenuItem)x).IconSrc != null : false) > 0)
+                if (Items.Any(x =>
+                x is IContextualMenuItem item && item.IconName != null | item.IconSrc != null) )
                     HasIcons = true;
-                if (Items.Count(x => x is IContextualMenuItem ? ((IContextualMenuItem)x).CanCheck == true : false) > 0)
+                if (Items.Any(x => x is IContextualMenuItem item && item.CanCheck == true) )
                     HasCheckables = true;
             }
         }

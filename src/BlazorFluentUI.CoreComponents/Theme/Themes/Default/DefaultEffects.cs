@@ -14,7 +14,7 @@ namespace BlazorFluentUI.Themes.Default
 
         public DefaultEffects()
         {
-            DefaultDepths? depths = new DefaultDepths();
+            DefaultDepths? depths = new();
             Elevation4 = depths.Depth4;
             Elevation8 = depths.Depth8;
             Elevation16 = depths.Depth16;

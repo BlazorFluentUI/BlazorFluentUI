@@ -24,10 +24,10 @@ namespace BlazorFluentUI
         private const int presenceFontMaxSize = 20;
 
         private ICollection<IRule> PersonaPresenceLocalRules { get; set; } = new List<IRule>();
-        private Rule PresenceRule = new Rule();
-        private Rule PresenceAfterRule = new Rule();
-        private Rule PresenceBeforeRule = new Rule();
-        private Rule IconRule = new Rule();
+        private Rule PresenceRule = new();
+        private Rule PresenceAfterRule = new();
+        private Rule PresenceBeforeRule = new();
+        private Rule IconRule = new();
 
         private const string LocalSpecificityClass = "localPersonaPresenceRule";
 

@@ -62,7 +62,7 @@ namespace BlazorFluentUI
         /// </value>
         public bool Actionable { get; set; }
 
-        public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
+        public static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "ms-DocumentCard"},
             {"rootActionable", "ms-DocumentCard--actionable"},
@@ -131,7 +131,7 @@ namespace BlazorFluentUI
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            HashSet<IRule>? documentCardRules = new HashSet<IRule>();
+            HashSet<IRule>? documentCardRules = new();
 
             documentCardRules.Add(new Rule()
             {

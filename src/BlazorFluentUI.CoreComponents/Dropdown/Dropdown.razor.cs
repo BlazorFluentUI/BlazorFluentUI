@@ -52,7 +52,7 @@ namespace BlazorFluentUI
 
         protected string id = Guid.NewGuid().ToString();
         protected bool isSmall = false;
-        protected Rectangle dropDownBounds = new Rectangle();
+        protected Rectangle dropDownBounds = new();
 
         private ElementReference calloutReference;
         private ElementReference panelReference;
@@ -67,9 +67,9 @@ namespace BlazorFluentUI
         #region Style
         private ICollection<IRule> DropdownLocalRules { get; set; } = new List<IRule>();
 
-        private Rule DropdownTitleOpenRule = new Rule();
-        private Rule DropdownCalloutRule = new Rule();
-        private Rule DropdownCalloutMainRule = new Rule();
+        private Rule DropdownTitleOpenRule = new();
+        private Rule DropdownCalloutRule = new();
+        private Rule DropdownCalloutMainRule = new();
         #endregion
 
         protected override Task OnInitializedAsync()

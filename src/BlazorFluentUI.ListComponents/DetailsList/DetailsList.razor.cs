@@ -93,9 +93,9 @@ namespace BlazorFluentUI
         const double MIN_COLUMN_WIDTH = 100;
 
 
-        Dictionary<string, double> _columnOverrides = new Dictionary<string, double>();
+        Dictionary<string, double> _columnOverrides = new();
 
-        private Selection<TItem> _selection = new Selection<TItem>();
+        private Selection<TItem> _selection = new();
 
         GroupedList<TItem,object> groupedList;
         List<TItem> list;
@@ -333,7 +333,7 @@ namespace BlazorFluentUI
             var availableWidth = viewportWidth - (rowCheckWidth + groupExpandedWidth);
             int count = 0;
 
-            System.Collections.Generic.List<DetailsRowColumn<TItem>> adjustedColumns = new System.Collections.Generic.List<DetailsRowColumn<TItem>>();
+            System.Collections.Generic.List<DetailsRowColumn<TItem>> adjustedColumns = new();
             foreach (var col in newColumns)
             {
                 adjustedColumns.Add(col);

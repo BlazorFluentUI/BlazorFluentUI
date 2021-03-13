@@ -43,7 +43,7 @@ namespace BlazorFluentUI
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            HashSet<IRule>? detailsRowRules = new HashSet<IRule>();
+            HashSet<IRule>? detailsRowRules = new();
             //var focusProps = new FocusStyleProps(theme);
             //var focusStyles = FocusStyle.GetFocusStyle(focusProps, ".ms-DetailsRow-check");
 

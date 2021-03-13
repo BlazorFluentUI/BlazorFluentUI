@@ -34,7 +34,7 @@ namespace BlazorFluentUI
         protected string[] ShortMonthNames = DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames;
         protected string[] MonthNames = DateTimeFormatInfo.CurrentInfo.MonthNames;
 
-        protected List<Action> SelectMonthCallbacks = new List<Action>();
+        protected List<Action> SelectMonthCallbacks = new();
 
         protected bool focusOnUpdate;
 
@@ -51,7 +51,7 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            DateTime firstDayOfYear = new DateTime(NavigatedDate.Year, 1, 1);
+            DateTime firstDayOfYear = new(NavigatedDate.Year, 1, 1);
             IsPrevYearInBounds = DateTime.Compare(MinDate, firstDayOfYear) < 0;
             IsNextYearInBounds = DateTime.Compare(firstDayOfYear.AddYears(1).AddDays(-1), MaxDate) < 0;
 
@@ -93,7 +93,7 @@ namespace BlazorFluentUI
             int navYear = NavigatedDate.Year;
             if (navYear != selectedYear)
             {
-                DateTime newNavDate = new DateTime(NavigatedDate.Year, NavigatedDate.Month, NavigatedDate.Day);
+                DateTime newNavDate = new(NavigatedDate.Year, NavigatedDate.Month, NavigatedDate.Day);
                 newNavDate = newNavDate.AddYears(selectedYear - newNavDate.Year);
                 if (newNavDate > MaxDate)
                 {

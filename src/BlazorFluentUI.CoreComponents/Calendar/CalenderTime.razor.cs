@@ -14,7 +14,7 @@ namespace BlazorFluentUI
         [Parameter] public DateTime NavigatedDate { get; set; }
         [Parameter] public EventCallback<NavigatedDateResult> OnNavigateDate { get; set; }
 
-        protected List<Action> SelectMonthCallbacks = new List<Action>();
+        protected List<Action> SelectMonthCallbacks = new();
 
         protected override Task OnInitializedAsync()
         {

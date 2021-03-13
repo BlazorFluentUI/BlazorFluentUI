@@ -10,10 +10,10 @@ namespace BlazorFluentUI
     {
         private ICollection<IRule> DocumentCardImageRules { get; set; } = new List<IRule>();
 
-        private Rule RootRule = new Rule();
-        private Rule CenteredIconRule = new Rule();
-        private Rule CenteredIconWrapperRule = new Rule();
-        private Rule CornerIconRule = new Rule();
+        private Rule RootRule = new();
+        private Rule CenteredIconRule = new();
+        private Rule CenteredIconWrapperRule = new();
+        private Rule CornerIconRule = new();
         private const string CenteredIconSize = "42px";
         private const string CornerIconSize = "32px";
         private bool ImageLoaded = false;
@@ -35,7 +35,7 @@ namespace BlazorFluentUI
         [Parameter]
         public ImageFit ImageFit { get; set; } = ImageFit.Unset;
 
-        public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
+        public static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "root"},
             {"centeredIcon", "centeredIcon"},

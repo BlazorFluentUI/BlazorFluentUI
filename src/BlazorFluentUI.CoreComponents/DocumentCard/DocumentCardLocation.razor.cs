@@ -29,8 +29,8 @@ namespace BlazorFluentUI
 
         private ICollection<IRule> DocumentCardLocationRules { get; set; } = new List<IRule>();
 
-        private Rule RootRule = new Rule();
-        private Rule RootHoverRule = new Rule();
+        private Rule RootRule = new();
+        private Rule RootHoverRule = new();
 
         protected override void OnParametersSet()
         {

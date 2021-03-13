@@ -70,9 +70,9 @@ namespace BlazorFluentUI
         #region Style
         private ICollection<IRule> CalloutLocalRules { get; set; } = new List<IRule>();
 
-        private Rule CalloutRule = new Rule();
-        private Rule CalloutMainRule = new Rule();
-        private Rule CalloutBeakRule = new Rule();
+        private Rule CalloutRule = new();
+        private Rule CalloutMainRule = new();
+        private Rule CalloutBeakRule = new();
         #endregion
         protected override Task OnInitializedAsync()
         {
@@ -287,8 +287,8 @@ namespace BlazorFluentUI
         private CalloutBeakPositionedInfo FinalizeBeakPosition(ElementPosition elementPosition, Rectangle positionedBeak, Rectangle bounds)
         {
             RectangleEdge targetEdge = (RectangleEdge)((int)elementPosition.TargetEdge * -1);
-            Rectangle? actualElement = new Rectangle(0, elementPosition.ElementRectangle.width, 0, elementPosition.ElementRectangle.height);
-            PartialRectangle returnValue = new PartialRectangle();
+            Rectangle? actualElement = new(0, elementPosition.ElementRectangle.width, 0, elementPosition.ElementRectangle.height);
+            PartialRectangle returnValue = new();
             RectangleEdge returnEdge = FinalizeReturnEdge(
                 elementPosition.ElementRectangle,
                 elementPosition.AlignmentEdge != RectangleEdge.None ? elementPosition.AlignmentEdge : GetFlankingEdges(targetEdge).positiveEdge,
@@ -334,13 +334,13 @@ namespace BlazorFluentUI
             Rectangle? target = elementPosition.TargetRectangle;
             (RectangleEdge positiveEdge, RectangleEdge negativeEdge) edges = GetFlankingEdges(elementPosition.TargetEdge);
             double beakTargetPoint = GetCenterValue(target, elementPosition.TargetEdge);
-            Rectangle? elementBounds = new Rectangle(
+            Rectangle? elementBounds = new(
                 beakWidth / 2,
                 elementPosition.ElementRectangle.width - beakWidth / 2,
                 beakWidth / 2,
                 elementPosition.ElementRectangle.height - beakWidth / 2
                 );
-            Rectangle? beakPosition = new Rectangle(0, beakWidth, 0, beakWidth);
+            Rectangle? beakPosition = new(0, beakWidth, 0, beakWidth);
             beakPosition = MoveEdge(beakPosition, (RectangleEdge)((int)elementPosition.TargetEdge * -1), -beakWidth / 2);
             beakPosition = CenterEdgeToPoint(
                 beakPosition,
@@ -378,7 +378,7 @@ namespace BlazorFluentUI
             RectangleEdge returnEdge = FinalizeReturnEdge(elementRectangle, alignmentEdge != RectangleEdge.None ? alignmentEdge : GetFlankingEdges(targetEdge).positiveEdge, bounds);
 
             //HOW TO DO THE PARTIAL STUFF?  Might need to set other sides to -1
-            PartialRectangle? returnValue = new PartialRectangle();
+            PartialRectangle? returnValue = new();
             switch (elementEdge)
             {
                 case RectangleEdge.Bottom:
@@ -475,7 +475,7 @@ namespace BlazorFluentUI
         {
             RectangleEdge alignmentEdge = positionData.AlignmentEdge;
             bool alignTargetEdge = positionData.AlignTargetEdge;
-            ElementPosition elementEstimate = new ElementPosition(element, positionData.TargetEdge, alignmentEdge);
+            ElementPosition elementEstimate = new(element, positionData.TargetEdge, alignmentEdge);
             if (!DirectionalHintFixed && !CoverTarget)
             {
                 elementEstimate = FlipToFit(element, target, bounding, positionData, gap);
@@ -528,7 +528,7 @@ namespace BlazorFluentUI
             Rectangle? currentEstimate = rect;
             RectangleEdge currentEdge = positionData.TargetEdge;
             RectangleEdge currentAlignment = positionData.AlignmentEdge;
-            List<RectangleEdge> directions = new List<RectangleEdge> { RectangleEdge.Left, RectangleEdge.Right, RectangleEdge.Bottom, RectangleEdge.Top };
+            List<RectangleEdge> directions = new() { RectangleEdge.Left, RectangleEdge.Right, RectangleEdge.Bottom, RectangleEdge.Top };
 
             //RTL not implemented
 
@@ -572,7 +572,7 @@ namespace BlazorFluentUI
 
         private List<RectangleEdge> GetOutOfBoundsEdges(Rectangle rect, Rectangle boundingRect)
         {
-            List<RectangleEdge>? outOfBounds = new List<RectangleEdge>();
+            List<RectangleEdge>? outOfBounds = new();
             if (rect.top < boundingRect.top)
             {
                 outOfBounds.Add(RectangleEdge.Top);
@@ -728,7 +728,7 @@ namespace BlazorFluentUI
             }
         }
 
-        Dictionary<DirectionalHint, PositionDirectionalHintData> DirectionalDictionary = new Dictionary<DirectionalHint, PositionDirectionalHintData>() {
+        Dictionary<DirectionalHint, PositionDirectionalHintData> DirectionalDictionary = new() {
             {DirectionalHint.TopLeftEdge, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.Left) },
             {DirectionalHint.TopCenter, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.None) },
             {DirectionalHint.TopRightEdge, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.Right) },

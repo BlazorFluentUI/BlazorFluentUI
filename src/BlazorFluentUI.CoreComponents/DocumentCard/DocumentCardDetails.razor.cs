@@ -13,9 +13,9 @@ namespace BlazorFluentUI
 
         private ICollection<IRule> DocumentCardDetailsLocalRules { get; set; } = new List<IRule>();
 
-        private Rule MainRule = new Rule();
+        private Rule MainRule = new();
 
-        public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
+        public static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "ms-DocumentCardDetails"}
         };

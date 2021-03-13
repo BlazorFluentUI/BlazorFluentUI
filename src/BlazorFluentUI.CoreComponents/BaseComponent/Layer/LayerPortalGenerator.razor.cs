@@ -13,9 +13,9 @@ namespace BlazorFluentUI
         [Parameter] public RenderFragment? ChildContent { get; set; }
 
         //private int sequenceCount = 0;
-        private Dictionary<string, int> portalSequenceStarts = new Dictionary<string, int>();
-        private List<PortalDetails> portalFragments = new List<PortalDetails>();
-        private Dictionary<string, LayerPortal> portals = new Dictionary<string, LayerPortal>();
+        private Dictionary<string, int> portalSequenceStarts = new();
+        private List<PortalDetails> portalFragments = new();
+        private Dictionary<string, LayerPortal> portals = new();
 
 
         private void Portals_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

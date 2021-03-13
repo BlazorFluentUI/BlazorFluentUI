@@ -4,7 +4,7 @@ namespace BlazorFluentUI
 {
     public static partial class PseudoMapper
     {
-        public static Dictionary<PseudoElements, string> PseudoElementsMappper = new Dictionary<PseudoElements, string>
+        public static Dictionary<PseudoElements, string> PseudoElementsMappper = new()
         {
             [PseudoElements.None] = "",
             [PseudoElements.After] = "::after",
@@ -16,7 +16,7 @@ namespace BlazorFluentUI
             [PseudoElements.Selection] = "::selection"
         };
 
-        public static Dictionary<PseudoClasses, string> PseudoClassesMappper = new Dictionary<PseudoClasses, string>
+        public static Dictionary<PseudoClasses, string> PseudoClassesMappper = new()
         {
             [PseudoClasses.None] = "",
             [PseudoClasses.Active] = ":active",

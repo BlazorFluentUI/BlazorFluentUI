@@ -4,7 +4,7 @@ namespace BlazorFluentUI.Demo.Shared.Models
 {
     public class DataItem
     {
-        public static Random random = new Random();
+        public static Random random = new();
 
         public DataItem()
         {

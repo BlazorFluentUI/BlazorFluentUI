@@ -4,7 +4,7 @@ namespace BlazorFluentUI
 {
     public static class MappedFontIcons
     {
-        public static Dictionary<string, string> Icons = new Dictionary<string, string>
+        public static Dictionary<string, string> Icons = new()
         {
             ["GlobalNavButton"] = "\uE700",
             ["ChevronDown"] = "\uE70D",

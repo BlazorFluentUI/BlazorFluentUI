@@ -11,7 +11,7 @@
 
         public static ManualRectangle EmptyRect()
         {
-            ManualRectangle? rect = new ManualRectangle { left = -1, right = -1, top = -1, bottom = -1, height = 0, width = 0 };
+            ManualRectangle? rect = new() { left = -1, right = -1, top = -1, bottom = -1, height = 0, width = 0 };
             return rect;
         }
     }

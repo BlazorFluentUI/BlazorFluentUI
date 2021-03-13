@@ -53,10 +53,10 @@ namespace BlazorFluentUI
         [Parameter] public RenderFragment<T> SearchItemTemplate { get; set; }
         [Parameter] public RenderFragment<T> SelectedItemTemplate { get; set; }
 
-        List<object> suggestions = new List<object>();
+        List<object> suggestions = new();
         protected bool IsOpen { get; set; }
         TextField textFieldRef;
-        List<SelectedItem<T>> selectedItemsVisuals = new List<SelectedItem<T>>();
+        List<SelectedItem<T>> selectedItemsVisuals = new();
 
         private ICollection<IRule> DropdownLocalRules { get; set; } = new List<IRule>();
 

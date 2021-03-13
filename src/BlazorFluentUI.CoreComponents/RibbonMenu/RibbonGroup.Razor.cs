@@ -23,7 +23,7 @@ namespace BlazorFluentUI
 
 
         private Task<Rectangle>? boundsTask;
-        private CancellationTokenSource boundsCTS = new CancellationTokenSource();
+        private CancellationTokenSource boundsCTS = new();
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             try
@@ -39,8 +39,8 @@ namespace BlazorFluentUI
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        List<IRibbonItem> items = new List<IRibbonItem>();
-        List<IRibbonItem> overflowItems = new List<IRibbonItem>();
+        List<IRibbonItem> items = new();
+        List<IRibbonItem> overflowItems = new();
 
         Func<ResizeGroupData, ResizeGroupData> onGrowData;
         Func<ResizeGroupData, ResizeGroupData> onReduceData;

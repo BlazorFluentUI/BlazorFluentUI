@@ -14,7 +14,7 @@ namespace BlazorFluentUI
 
     public static class MessageBarIcon
     {
-        public static Dictionary<MessageBarType, string> IconMap = new Dictionary<MessageBarType, string>
+        public static Dictionary<MessageBarType, string> IconMap = new()
         {
             [MessageBarType.Info] = "Info",
             [MessageBarType.Warning] = "Info",

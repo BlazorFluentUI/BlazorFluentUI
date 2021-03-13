@@ -33,12 +33,12 @@ namespace BlazorFluentUI
         [Parameter] public string Text { get; set; }
 
         private ICollection<IRule> PersonaLocalRules { get; set; } = new List<IRule>();
-        private Rule PersonaRootRule = new Rule();
-        private Rule DetailsRule = new Rule();
-        private Rule PrimaryTextRule = new Rule();
-        private Rule SecondaryTextRule = new Rule();
-        private Rule TertiaryTextRule = new Rule();
-        private Rule OptionalTextRule = new Rule();
+        private Rule PersonaRootRule = new();
+        private Rule DetailsRule = new();
+        private Rule PrimaryTextRule = new();
+        private Rule SecondaryTextRule = new();
+        private Rule TertiaryTextRule = new();
+        private Rule OptionalTextRule = new();
 
         private const string LocalSpecificityClass = "localPersonaRule";
 

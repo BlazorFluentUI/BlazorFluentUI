@@ -46,11 +46,11 @@ namespace BlazorFluentUI
         private double value;
         private bool jsAvailable;
         private DotNetObjectReference<Slider>? dotNetObjectReference;
-        private Timer timer = new Timer();
+        private Timer timer = new();
 
         private string lengthString => (Vertical ? "height" : "width");
 
-        public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
+        public static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "ms-Slider"},
             {"enabled", "ms-Slider-enabled"},

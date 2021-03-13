@@ -18,8 +18,8 @@ namespace BlazorFluentUI
 
         private ICollection<IRule> TooltipLocalRules { get; set; } = new List<IRule>();
 
-        private Rule TooltipRule = new Rule();
-        private Rule TooltipAfterRule = new Rule();
+        private Rule TooltipRule = new();
+        private Rule TooltipAfterRule = new();
         private double TooltipGabSpace;
 
         protected override void OnInitialized()

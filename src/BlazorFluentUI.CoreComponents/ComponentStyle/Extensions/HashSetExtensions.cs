@@ -18,7 +18,7 @@ namespace BlazorFluentUI
             if (string.IsNullOrWhiteSpace(selectorName))
                 throw new ArgumentNullException(nameof(selectorName));
 
-            Rule? rule = new Rule
+            Rule? rule = new()
             {
                 Selector = new CssStringSelector { SelectorName = selectorName },
                 Properties = new CssString(),
@@ -32,7 +32,7 @@ namespace BlazorFluentUI
             if (string.IsNullOrWhiteSpace(selectorName))
                 throw new ArgumentNullException(nameof(selectorName));
 
-            Rule? rule = new Rule
+            Rule? rule = new()
             {
                 Selector = new CssStringSelector { SelectorName = selectorName },
                 Properties = new CssString(),
@@ -50,7 +50,7 @@ namespace BlazorFluentUI
             if (selectorName.StartsWith("."))
                 selectorName = selectorName.Substring(1);
 
-            Rule? rule = new Rule
+            Rule? rule = new()
             {
                 Selector = new ClassSelector { SelectorName = selectorName },
                 Properties = new CssString(),
@@ -67,7 +67,7 @@ namespace BlazorFluentUI
             if (selectorName.StartsWith("."))
                 selectorName = selectorName.Substring(1);
 
-            Rule? rule = new Rule
+            Rule? rule = new()
             {
                 Selector = new ClassSelector { SelectorName = selectorName },
                 Properties = new CssString(),

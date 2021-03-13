@@ -30,9 +30,9 @@ namespace BlazorFluentUI
         private const int marginBetweenText = 8;
         private const int textHeight = 18;
         private bool isRTL = false;
-        private Rule ProgressIndicatorItemProgressRule = new Rule();
-        private Rule ProgressIndicatorProgressTrackRule = new Rule();
-        private Rule ProgressIndicatorProgressBarRule = new Rule();
+        private Rule ProgressIndicatorItemProgressRule = new();
+        private Rule ProgressIndicatorProgressTrackRule = new();
+        private Rule ProgressIndicatorProgressBarRule = new();
 
         private ICollection<IRule> ProgressIndicatorLocalRules { get; set; } = new List<IRule>();
 

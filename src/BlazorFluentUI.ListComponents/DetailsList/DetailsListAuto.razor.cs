@@ -100,7 +100,7 @@ namespace BlazorFluentUI
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
 
-        private Selection<TItem> _selection = new Selection<TItem>();
+        private Selection<TItem> _selection = new();
 
         //State
         int focusedItemIndex;
@@ -111,7 +111,7 @@ namespace BlazorFluentUI
         private IEnumerable<DetailsRowColumn<TItem>> _adjustedColumns = Enumerable.Empty<DetailsRowColumn<TItem>>();
         const double MIN_COLUMN_WIDTH = 100;
 
-        Dictionary<string, double> _columnOverrides = new Dictionary<string, double>();
+        Dictionary<string, double> _columnOverrides = new();
 
         GroupedListAuto<TItem,object>? groupedList;
         List<TItem>? list;
@@ -131,7 +131,7 @@ namespace BlazorFluentUI
         private IObservable<Func<TItem, bool>>? DynamicDescriptionFilter;
         private IEnumerable<TItem>? itemsSource;
         private IDisposable? sourceCacheSubscription;
-        private Subject<Unit> applyFilter = new Subject<Unit>();
+        private Subject<Unit> applyFilter = new();
 
         private Func<TItem, object> getKeyInternal;
 
@@ -140,7 +140,7 @@ namespace BlazorFluentUI
         private DotNetObjectReference<DetailsListAuto<TItem>> selfReference;
         private int _viewportRegistration;
 
-        private Dictionary<object, DetailsRow<TItem>> _activeRows = new Dictionary<object, DetailsRow<TItem>>();
+        private Dictionary<object, DetailsRow<TItem>> _activeRows = new();
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -607,7 +607,7 @@ namespace BlazorFluentUI
             var availableWidth = viewportWidth - (rowCheckWidth + groupExpandedWidth);
             int count = 0;
 
-            System.Collections.Generic.List<DetailsRowColumn<TItem>> adjustedColumns = new System.Collections.Generic.List<DetailsRowColumn<TItem>>();
+            System.Collections.Generic.List<DetailsRowColumn<TItem>> adjustedColumns = new();
             foreach (var col in newColumns)
             {
                 adjustedColumns.Add(col);

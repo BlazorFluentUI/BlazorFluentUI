@@ -44,24 +44,24 @@ namespace BlazorFluentUI
 
         public int? Count { get; set; }
 
-        private Subject<Unit> selectionChanged = new Subject<Unit>();
+        private Subject<Unit> selectionChanged = new();
         public IObservable<Unit> SelectionChanged => selectionChanged.AsObservable();
         public event EventHandler OnSelectionChanged;
 
         private int _unselectableCount;
         private bool _isAllSelected;
         private int _exemptedCount;
-        private Dictionary<object, int> _keyToIndexMap = new Dictionary<object, int>();
-        private Dictionary<int, object> _exemptedIndices = new Dictionary<int, object>();
-        private Dictionary<int, TItem> _unselectableIndices = new Dictionary<int, TItem>();
-        private List<int> _selectedIndices = new List<int>();
+        private Dictionary<object, int> _keyToIndexMap = new();
+        private Dictionary<int, object> _exemptedIndices = new();
+        private Dictionary<int, TItem> _unselectableIndices = new();
+        private List<int> _selectedIndices = new();
 
-        private HashSet<object> _exemptedKeys = new HashSet<object>();
-        private HashSet<object> _unselectableKeys = new HashSet<object>();
-        private List<object> _selectedKeys = new List<object>();
+        private HashSet<object> _exemptedKeys = new();
+        private HashSet<object> _unselectableKeys = new();
+        private List<object> _selectedKeys = new();
 
         private int _changeEventSuppressionCount;
-        private List<TItem> _selectedItems = new List<TItem>();
+        private List<TItem> _selectedItems = new();
 
 
         private bool _hasChanged;
@@ -105,9 +105,9 @@ namespace BlazorFluentUI
 
         public void SetItems(IList<TItem> items, bool shouldClear = true)
         {
-            Dictionary<object, int> newKeyToIndexMap = new Dictionary<object, int>();
-            Dictionary<int, TItem> newUnselectableIndices = new Dictionary<int, TItem>();
-            HashSet<object> newUnselectableKeys = new HashSet<object>();
+            Dictionary<object, int> newKeyToIndexMap = new();
+            Dictionary<int, TItem> newUnselectableIndices = new();
+            HashSet<object> newUnselectableKeys = new();
 
             bool hasSelectionChanged = false;
 
@@ -149,8 +149,8 @@ namespace BlazorFluentUI
                 SetAllSelected(false, true);
             }
 
-            Dictionary<int, object>? newExemptedIndices = new Dictionary<int, object>();
-            HashSet<object>? newExemptedKeys = new HashSet<object>();
+            Dictionary<int, object>? newExemptedIndices = new();
+            HashSet<object>? newExemptedKeys = new();
             int newExemptedCount = 0;
 
             foreach (KeyValuePair<int, object> i in _exemptedIndices)
@@ -211,9 +211,9 @@ namespace BlazorFluentUI
 
                 case NotifyCollectionChangedAction.Move:
                     //check all, match by key instead of index as index might have changed from a sort or filter operation 
-                    Dictionary<object, int> newKeyToIndexMap = new Dictionary<object, int>();
-                    Dictionary<int, TItem> newUnselectableIndices = new Dictionary<int, TItem>();
-                    Dictionary<int, object> newExemptedIndices = new Dictionary<int, object>();
+                    Dictionary<object, int> newKeyToIndexMap = new();
+                    Dictionary<int, TItem> newUnselectableIndices = new();
+                    Dictionary<int, object> newExemptedIndices = new();
 
                     _unselectableCount = 0;
                     int index = 0;

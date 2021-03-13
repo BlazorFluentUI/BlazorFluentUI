@@ -24,14 +24,14 @@ namespace BlazorFluentUI
 
         private ICollection<IRule> DocumentCardActivityLocalRules { get; set; } = new List<IRule>();
 
-        private Rule DetailsRule = new Rule();
+        private Rule DetailsRule = new();
 
         private const int VERTICAL_PADDING = 8;
         private const int HORIZONTAL_PADDING = 16;
         private const int IMAGE_SIZE = 32;
         private const int PERSONA_TEXT_GUTTER = 8;
 
-        public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
+        public static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "ms-DocumentCardActivity"},
             {"multiplePeople", "ms-DocumentCardActivity--multiplePeople"},
@@ -96,7 +96,7 @@ namespace BlazorFluentUI
 
         public ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
-            HashSet<IRule>? documentCardActivityRules = new HashSet<IRule>();
+            HashSet<IRule>? documentCardActivityRules = new();
 
             documentCardActivityRules.Add(new Rule()
             {

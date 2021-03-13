@@ -57,7 +57,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
 
         //private ElementReference linkElementReference;
         //private List<int> eventHandlerIds;
-        private Timer enterTimer = new Timer();
+        private Timer enterTimer = new();
 
 
         //[JSInvokable] public void MouseEnterHandler()

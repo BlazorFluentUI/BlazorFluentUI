@@ -262,7 +262,7 @@ namespace BlazorFluentUI
             {
                 throw new ArgumentException($"The index is outside the bounds of the dictionary: {index}");
             }
-            KeyValuePair<TKey, TValue> kvp = new KeyValuePair<TKey, TValue>(_keyedCollection[index].Key, value);
+            KeyValuePair<TKey, TValue> kvp = new(_keyedCollection[index].Key, value);
             _keyedCollection[index] = kvp;
         }
 
@@ -318,7 +318,7 @@ namespace BlazorFluentUI
         /// <param name="value">The the value to set.</param>
         public void SetValue(TKey key, TValue value)
         {
-            KeyValuePair<TKey, TValue> kvp = new KeyValuePair<TKey, TValue>(key, value);
+            KeyValuePair<TKey, TValue> kvp = new(key, value);
             int idx = IndexOf(key);
             if (idx > -1)
             {

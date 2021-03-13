@@ -37,13 +37,13 @@ namespace BlazorFluentUI
 
         public void SortByKeys(IComparer<TKey> keyComparer)
         {
-            Comparer2<TItem>? comparer = new Comparer2<TItem>((x, y) => keyComparer.Compare(GetKeyForItem(x), GetKeyForItem(y)));
+            Comparer2<TItem>? comparer = new((x, y) => keyComparer.Compare(GetKeyForItem(x), GetKeyForItem(y)));
             Sort(comparer);
         }
 
         public void SortByKeys(Comparison<TKey> keyComparison)
         {
-            Comparer2<TItem>? comparer = new Comparer2<TItem>((x, y) => keyComparison(GetKeyForItem(x), GetKeyForItem(y)));
+            Comparer2<TItem>? comparer = new((x, y) => keyComparison(GetKeyForItem(x), GetKeyForItem(y)));
             Sort(comparer);
         }
 
@@ -55,7 +55,7 @@ namespace BlazorFluentUI
 
         public void Sort(Comparison<TItem> comparison)
         {
-            Comparer2<TItem>? newComparer = new Comparer2<TItem>((x, y) => comparison(x, y));
+            Comparer2<TItem>? newComparer = new((x, y) => comparison(x, y));
             Sort(newComparer);
         }
 

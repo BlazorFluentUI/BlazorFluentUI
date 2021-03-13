@@ -18,7 +18,7 @@ namespace BlazorFluentUI
 
     public static partial class CssUtils
     {
-        public static Dictionary<Alignment, string> AlignMap = new Dictionary<Alignment, string>
+        public static Dictionary<Alignment, string> AlignMap = new()
         {
             [Alignment.Auto] = "auto",
             [Alignment.Stretch] = "stretch",

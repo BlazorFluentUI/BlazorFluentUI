@@ -26,7 +26,7 @@ namespace BlazorFluentUI
         private DotNetObjectReference<MarqueeSelection<TItem>>? dotNetRef;
         private MarqueeSelectionProps props;
 
-        public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
+        public static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "ms-MarqueeSelection"},
             {"dragMask", "ms-MarqueeSelection-dragMask"},

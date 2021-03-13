@@ -74,7 +74,7 @@ namespace BlazorFluentUI
         public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
 
 
-        Dictionary<HeaderItem3<TItem, TKey>, IDisposable> headerSubscriptions = new Dictionary<HeaderItem3<TItem, TKey>, IDisposable>();
+        Dictionary<HeaderItem3<TItem, TKey>, IDisposable> headerSubscriptions = new();
 
 
         protected override Task OnInitializedAsync()

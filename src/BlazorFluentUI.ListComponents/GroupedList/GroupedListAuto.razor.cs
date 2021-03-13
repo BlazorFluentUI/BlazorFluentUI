@@ -119,9 +119,9 @@ namespace BlazorFluentUI
         private BehaviorSubject<IComparer<IGroupedListItem3<TItem>>> subGroupSortExpressionComparer;// = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(new SortExpressionComparer<IGroupedListItem3<TItem>>());
         private bool _groupSortDescending;
 
-        private Subject<Unit> resorter = new Subject<Unit>();
+        private Subject<Unit> resorter = new();
 
-        Dictionary<HeaderItem3<TItem,TKey>, IDisposable> headerSubscriptions = new Dictionary<HeaderItem3<TItem, TKey>, IDisposable>();
+        Dictionary<HeaderItem3<TItem,TKey>, IDisposable> headerSubscriptions = new();
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -432,9 +432,9 @@ namespace BlazorFluentUI
             var published = sourceCache.Connect()                
                 .Publish();
 
-            Subject<Unit> reindexTrigger = new Subject<Unit>();
+            Subject<Unit> reindexTrigger = new();
 
-            ReplaySubject<IConnectableObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>>> futureGroups = new ReplaySubject<IConnectableObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>>>();
+            ReplaySubject<IConnectableObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>>> futureGroups = new();
 
             var groupsPublished = published.Group(firstGrouping)
                 .Sort(SortExpressionComparer<IGroup<TItem, TKey, object>>.Ascending(x => x.Key as IComparable))

@@ -27,7 +27,7 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<ImageLoadState> OnLoadingStateChange { get; set; }
 
         protected const string KEY_PREFIX = "fabricImage";
-        private static Regex _svgRegex = new Regex(@"\.svg$");
+        private static Regex _svgRegex = new(@"\.svg$");
 
         protected ElementReference imageRef;
 

@@ -22,7 +22,7 @@ namespace BlazorFluentUI
 
         private ICollection<IRule> DocumentCardLogoRules { get; set; } = new List<IRule>();
 
-        private Rule RootRule = new Rule();
+        private Rule RootRule = new();
 
         protected override void OnParametersSet()
         {

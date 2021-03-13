@@ -28,7 +28,7 @@ namespace BlazorFluentUI.Resize
         protected ElementReference updateHiddenDiv;
 
         private bool _hasRenderedContent = false;
-        private Dictionary<string, double> _measurementCache = new Dictionary<string, double>();
+        private Dictionary<string, double> _measurementCache = new();
 
         //STATE
         private bool _jsAvailable;
@@ -37,7 +37,7 @@ namespace BlazorFluentUI.Resize
         private ValueTask<string> _resizeEventTokenTask;  // WARNING - can only await this ONCE
 
         private Task<Rectangle> boundsTask;
-        private CancellationTokenSource boundsCTS = new CancellationTokenSource();
+        private CancellationTokenSource boundsCTS = new();
 
         protected override Task OnInitializedAsync()
         {

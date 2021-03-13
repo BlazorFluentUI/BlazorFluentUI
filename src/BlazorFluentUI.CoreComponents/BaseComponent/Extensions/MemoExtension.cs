@@ -24,7 +24,7 @@ namespace BlazorFluentUI
 
         public static Func<A, R> Memoize<A, R>(Func<A, R> func)
         {
-            Dictionary<A, R>? cache = new Dictionary<A, R>();
+            Dictionary<A, R>? cache = new();
             return a =>
             {
                 if (cache.TryGetValue(a, out R value))
@@ -38,7 +38,7 @@ namespace BlazorFluentUI
         public static Func<A,B,R> Memoize<A,B,R>(Func<A,B,R> func)
         {
 
-            Dictionary<(A, B), R>? cache = new Dictionary<(A, B), R>();
+            Dictionary<(A, B), R>? cache = new();
             return (a,b) =>
             {
                 if (cache.TryGetValue((a,b), out R value))
@@ -52,13 +52,13 @@ namespace BlazorFluentUI
 
         public static Func<A, R> ThreadSafeMemoize<A, R>(Func<A, R> func)
         {
-            ConcurrentDictionary<A, R>? cache = new ConcurrentDictionary<A, R>();
+            ConcurrentDictionary<A, R>? cache = new();
             return argument => cache.GetOrAdd(argument, func(argument));
         }
 
         public static Func<A,B, R> ThreadSafeMemoize<A,B, R>(Func<A,B, R> func)
         {
-            ConcurrentDictionary<(A, B), R>? cache = new ConcurrentDictionary<(A,B), R>();
+            ConcurrentDictionary<(A, B), R>? cache = new();
             return (a, b) =>
             {
                 if (cache.TryGetValue((a, b), out R value))

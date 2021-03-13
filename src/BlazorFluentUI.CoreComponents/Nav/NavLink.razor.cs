@@ -44,8 +44,8 @@ namespace BlazorFluentUI
         protected bool isSelected { get; set; }
         protected string depthClass = "";
 
-        private Rule NavLinkLeftPaddingRule = new Rule();
-        private Rule ChevronButtonLeftRule = new Rule();
+        private Rule NavLinkLeftPaddingRule = new();
+        private Rule ChevronButtonLeftRule = new();
         private ICollection<IRule> NavLinkLocalRules { get; set; } = new List<IRule>();
 
 

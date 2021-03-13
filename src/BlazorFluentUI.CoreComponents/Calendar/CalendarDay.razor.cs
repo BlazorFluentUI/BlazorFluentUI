@@ -73,7 +73,7 @@ namespace BlazorFluentUI
 
             // determine if previous/next months are in bounds
 
-            DateTime firstDayOfMonth = new DateTime(NavigatedDate.Year, NavigatedDate.Month, 1);
+            DateTime firstDayOfMonth = new(NavigatedDate.Year, NavigatedDate.Month, 1);
             PrevMonthInBounds = DateTime.Compare(MinDate, firstDayOfMonth) < 0;
             NextMonthInBounds = DateTime.Compare(firstDayOfMonth.AddMonths(1).AddDays(-1), MaxDate) < 0;
 
@@ -193,7 +193,7 @@ namespace BlazorFluentUI
 
         private Dictionary<string,string> CreateWeekCornerStyles()
         {
-            Dictionary<string, string>? weekCornersStyled = new Dictionary<string, string>();
+            Dictionary<string, string>? weekCornersStyled = new();
 
             switch (DateRangeType)
             {
@@ -295,7 +295,7 @@ namespace BlazorFluentUI
 
         private void GenerateWeeks()
         {
-            DateTime date = new DateTime(NavigatedDate.Year, NavigatedDate.Month, 1);
+            DateTime date = new(NavigatedDate.Year, NavigatedDate.Month, 1);
             DateTime todaysDate = DateTime.Now;
             Weeks = new List<List<DayInfo>>();
 
@@ -317,13 +317,13 @@ namespace BlazorFluentUI
             bool shouldGetWeeks = true;
             for (int weekIndex = 0; shouldGetWeeks; weekIndex++)
             {
-                List<DayInfo> week = new List<DayInfo>();
+                List<DayInfo> week = new();
                 isAllDaysOfWeekOutOfMonth = true;
 
                 for (int dayIndex = 0; dayIndex < 7; dayIndex++)
                 {
-                    DateTime originalDate = new DateTime(date.Year, date.Month, date.Day);
-                    DayInfo? dayInfo = new DayInfo()
+                    DateTime originalDate = new(date.Year, date.Month, date.Day);
+                    DayInfo? dayInfo = new()
                     {
                         Key = date.ToString(),
                         Date = date.Date.ToString("D"),

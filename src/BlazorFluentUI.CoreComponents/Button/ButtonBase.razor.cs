@@ -63,7 +63,7 @@ namespace BlazorFluentUI
         private object _registrationToken;
 
         private bool _menuShouldFocusOnMount = true;
-        static List<ButtonBase> radioButtons = new List<ButtonBase>();
+        static List<ButtonBase> radioButtons = new();
 
         protected override Task OnParametersSetAsync()
         {

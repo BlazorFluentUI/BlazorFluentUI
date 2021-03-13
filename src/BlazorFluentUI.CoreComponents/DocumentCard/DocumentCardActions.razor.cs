@@ -22,19 +22,19 @@ namespace BlazorFluentUI
 
         private ICollection<IRule> DocumentCardActionsRules { get; set; } = new List<IRule>();
 
-        private Rule RootRule = new Rule();
-        private Rule ActionRule = new Rule();
-        private Rule ActionButtonRule = new Rule();
-        private Rule ActionButtonHoverRule = new Rule();
-        private Rule ViewsRule = new Rule();
-        private Rule ViewsIconRule = new Rule();
+        private Rule RootRule = new();
+        private Rule ActionRule = new();
+        private Rule ActionButtonRule = new();
+        private Rule ActionButtonHoverRule = new();
+        private Rule ViewsRule = new();
+        private Rule ViewsIconRule = new();
 
         private const int ACTION_SIZE = 34;
         private const int HORIZONTAL_PADDING = 12;
         private const int VERTICAL_PADDING = 4;
 
 
-        public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
+        public static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "ms-DocumentCardActions"},
             {"action", "ms-DocumentCardActions-action"},

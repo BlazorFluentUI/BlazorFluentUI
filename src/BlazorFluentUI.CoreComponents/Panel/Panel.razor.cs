@@ -105,7 +105,7 @@ namespace BlazorFluentUI
 
         private Action onPanelClick;
         private Action _dismiss;
-        private List<int> _scrollerEventId = new List<int>();
+        private List<int> _scrollerEventId = new();
         private int _resizeId = -1;
         private int _mouseDownId = -1;
 

@@ -45,7 +45,7 @@ namespace BlazorFluentUI
 
         private bool _needMeasurement = true;
 
-        public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
+        public static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "ms-DocumentCardTitle"}
         };

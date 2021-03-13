@@ -26,7 +26,7 @@ namespace BlazorFluentUI
 
         public bool IsFileList => PreviewImages != null && PreviewImages.Length > 1;
 
-        public static Dictionary<string, string> GlobalClassNames = new Dictionary<string, string>()
+        public static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "ms-DocumentCardPreview"},
             {"icon", "ms-DocumentCardPreview-icon"},
@@ -34,15 +34,15 @@ namespace BlazorFluentUI
         };
         private ICollection<IRule> DocumentCardDetailsLocalRules { get; set; } = new List<IRule>();
 
-        private Rule RootRule = new Rule();
-        private Rule PreviewIconRule = new Rule();
-        private Rule IconRule = new Rule();
-        private Rule FileListRule = new Rule();
-        private Rule FileListLiRule = new Rule();
-        private Rule FileListIconRule = new Rule();
-        private Rule FileListLinkRule = new Rule();
-        private Rule FileListLinkHoverRule = new Rule();
-        private Rule FileListOverflowTextRule = new Rule();
+        private Rule RootRule = new();
+        private Rule PreviewIconRule = new();
+        private Rule IconRule = new();
+        private Rule FileListRule = new();
+        private Rule FileListLiRule = new();
+        private Rule FileListIconRule = new();
+        private Rule FileListLinkRule = new();
+        private Rule FileListLinkHoverRule = new();
+        private Rule FileListOverflowTextRule = new();
 
         private void CreateLocalCss()
         {

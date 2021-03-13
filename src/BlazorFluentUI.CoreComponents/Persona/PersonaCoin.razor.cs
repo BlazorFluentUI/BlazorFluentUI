@@ -32,17 +32,17 @@ namespace BlazorFluentUI
         private bool _isImageError;
         private bool _hideImage;
 
-        Regex UNWANTED_CHARS_REGEX = new Regex(@"\([^)]*\)|[\0-\u001F\!-/:-@\[-`\{-\u00BF\u0250-\u036F\uD800-\uFFFF]");
-        Regex PHONENUMBER_REGEX = new Regex(@"^\d+[\d\s]*(:?ext|x|)\s*\d+$");
-        Regex MULTIPLE_WHITESPACES_REGEX = new Regex(@"\s+");
-        Regex UNSUPPORTED_TEXT_REGEX = new Regex(@"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]|[\uD840-\uD869][\uDC00-\uDED6]");
+        Regex UNWANTED_CHARS_REGEX = new(@"\([^)]*\)|[\0-\u001F\!-/:-@\[-`\{-\u00BF\u0250-\u036F\uD800-\uFFFF]");
+        Regex PHONENUMBER_REGEX = new(@"^\d+[\d\s]*(:?ext|x|)\s*\d+$");
+        Regex MULTIPLE_WHITESPACES_REGEX = new(@"\s+");
+        Regex UNSUPPORTED_TEXT_REGEX = new(@"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]|[\uD840-\uD869][\uDC00-\uDED6]");
 
         private const string LocalSpecificityClass = "localPersonaCoinRule";
 
         private ICollection<IRule> PersonaCoinLocalRules { get; set; } = new List<IRule>();
-        private Rule InitialsRule = new Rule();
-        private Rule ImageAreaRule = new Rule();
-        private Rule ImageRule = new Rule();
+        private Rule InitialsRule = new();
+        private Rule ImageAreaRule = new();
+        private Rule ImageRule = new();
         
 
         protected override Task OnInitializedAsync()

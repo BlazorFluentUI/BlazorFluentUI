@@ -93,7 +93,7 @@ namespace BlazorFluentUI
         private string currentValue;
         private bool hasIcon;
         private bool hasLabel;
-        private Rule TextField_Field_HasIcon = new Rule();
+        private Rule TextField_Field_HasIcon = new();
 
         private ICollection<IRule> TextFieldLocalRules { get; set; } = new List<IRule>();
         private ICollection<Task> DeferredValidationTasks = new List<Task>();

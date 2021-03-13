@@ -26,7 +26,7 @@ namespace BlazorFluentUI
             return RESPONSIVE_MAX_CONSTRAINT[(int)responsiveMode] + 1;
         }
 
-        public readonly static List<int> RESPONSIVE_MAX_CONSTRAINT = new List<int> { 479, 639, 1023, 1365, 1919, 99999999 };
+        public readonly static List<int> RESPONSIVE_MAX_CONSTRAINT = new() { 479, 639, 1023, 1365, 1919, 99999999 };
 
         public static async Task<ResponsiveMode> GetResponsiveModeAsync(IJSRuntime jSRuntime)
         {

@@ -6,7 +6,7 @@ namespace BlazorFluentUI.Style
     {
         public static FocusStyleMergeRules GetFocusStyle(FocusStyleProps focusStyleProps, string selectorName)
         {
-            FocusStyleMergeRules? focusStyles = new FocusStyleMergeRules();
+            FocusStyleMergeRules? focusStyles = new();
 
             focusStyles.MergeRules = $"outline:transparent;" +
                           $"position:{focusStyleProps.Position};";
@@ -57,7 +57,7 @@ namespace BlazorFluentUI.Style
 
         public static ICollection<Rule> FocusClear(string selectorName)
         {
-            HashSet<Rule>? focusStyles = new HashSet<Rule>();
+            HashSet<Rule>? focusStyles = new();
 
             focusStyles.Add(new Rule()
             {
@@ -80,7 +80,7 @@ namespace BlazorFluentUI.Style
 
         public static FocusStyleMergeRules GetFocusOutlineStyle(FocusStyleProps focusStyleProps, string selectorName)
         {
-            FocusStyleMergeRules? focusStyles = new FocusStyleMergeRules();
+            FocusStyleMergeRules? focusStyles = new();
 
             focusStyles.AddRules.Add(new Rule()
             {
@@ -96,7 +96,7 @@ namespace BlazorFluentUI.Style
 
         public static FocusStyleMergeRules GetInputFocusStyle(FocusStyleProps focusStyleProps, string selectorName, bool isBorderBottom = false, double borderPosition = -1)
         {
-            FocusStyleMergeRules? focusStyles = new FocusStyleMergeRules();
+            FocusStyleMergeRules? focusStyles = new();
 
             focusStyles.MergeRules = $"border-color:{focusStyleProps.BorderColor};";
 

@@ -109,7 +109,7 @@ namespace BlazorFluentUI
         private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> groupedUIListItems;
 
 
-        Dictionary<HeaderItem3<TItem, TKey>, IDisposable> headerSubscriptions = new Dictionary<HeaderItem3<TItem, TKey>, IDisposable>();
+        Dictionary<HeaderItem3<TItem, TKey>, IDisposable> headerSubscriptions = new();
 
         //private IList<bool>? _sortDescending;
         //private IList<Func<TItem, object>>? _sortBy;

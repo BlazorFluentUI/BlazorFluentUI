@@ -70,7 +70,7 @@ namespace BlazorFluentUI
 
         private ITheme CreateTheme(IPalette palette = null)
         {
-            Theme? theme = new Theme();
+            Theme? theme = new();
             theme.Palette = palette ?? new DefaultPalette();
             theme.SemanticColors = MakeSemanticColorsFromPalette(theme.Palette, false);
             theme.SemanticTextColors = MakeSemanticTextColorsFromPalette(theme.Palette, false);

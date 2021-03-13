@@ -48,8 +48,8 @@ namespace BlazorFluentUI
         private string _defaultMinWidth;
         private string _defaultMaxWidth;
         private ICollection<IRule> DialogLocalRules { get; set; } = new List<IRule>();
-        private Rule DialogMainRule = new Rule();
-        private Rule DialogMainMediaRule = new Rule();
+        private Rule DialogMainRule = new();
+        private Rule DialogMainMediaRule = new();
 
 
         public Dialog()

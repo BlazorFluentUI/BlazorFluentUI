@@ -7,7 +7,7 @@ namespace BlazorFluentUI
     {
         public static List<DateTime> GetDateRangeArray(DateTime date, DateRangeType dateRangeType, DayOfWeek firstDayOfWeek, List<DayOfWeek> workWeekDays, int daysToSelectInDayView = 1)
         {
-            List<DateTime>? datesArray = new List<DateTime>();
+            List<DateTime>? datesArray = new();
             DateTime startDate;
             DateTime endDate;
 
@@ -77,11 +77,11 @@ namespace BlazorFluentUI
             int selectedYear = navigatedDate.Year;
             int selectedMonth = navigatedDate.Month;
             int dayOfMonth = 1;
-            DateTime fistDayOfMonth = new DateTime(selectedYear, selectedMonth, dayOfMonth);
+            DateTime fistDayOfMonth = new(selectedYear, selectedMonth, dayOfMonth);
             DayOfWeek endOfFirstWeek = dayOfMonth + (firstDayOfWeek + 7 - 1) - AdjustWeekDay(firstDayOfWeek, fistDayOfMonth.DayOfWeek);
-            DateTime endOfWeekRange = new DateTime(selectedYear, selectedMonth, (int)endOfFirstWeek);
+            DateTime endOfWeekRange = new(selectedYear, selectedMonth, (int)endOfFirstWeek);
             dayOfMonth = endOfWeekRange.Day;
-            List<int>? weeksArray = new List<int>();
+            List<int>? weeksArray = new();
             for (int i = 0; i < weeksInMonth; i++)
             {
                 // Get week number for end of week
@@ -129,7 +129,7 @@ namespace BlazorFluentUI
             int dayOfYear = date.DayOfYear - 1;
             DayOfWeek num = date.DayOfWeek - (dayOfYear % 7);
 
-            DateTime lastDayOfPrevYear = new DateTime(date.Year, 12, 31);
+            DateTime lastDayOfPrevYear = new(date.Year, 12, 31);
             int daysInYear = lastDayOfPrevYear.DayOfYear - 1;
 
             int num2 = (firstDayOfWeek - num + 2 * 7) % 7;

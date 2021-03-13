@@ -10,8 +10,8 @@ namespace BlazorFluentUI
 {
     public class LayerHostService
     {
-        Dictionary<string, LayerHost> hosts = new Dictionary<string, LayerHost>();
-        Dictionary<string, BehaviorSubject<LayerHost>> hostSubjects = new Dictionary<string, BehaviorSubject<LayerHost>>();
+        Dictionary<string, LayerHost> hosts = new();
+        Dictionary<string, BehaviorSubject<LayerHost>> hostSubjects = new();
 
         LayerHost? rootHost;
 

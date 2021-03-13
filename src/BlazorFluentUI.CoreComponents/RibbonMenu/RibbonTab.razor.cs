@@ -22,7 +22,7 @@ namespace BlazorFluentUI
         [Parameter] public IEnumerable<IGroup>? ItemsSource { get; set; }
         [Parameter] public RenderFragment<ResizeGroupData>? ItemTemplate { get; set; }
 
-        Collection<ResizeGroupData> ResizableGroups = new Collection<ResizeGroupData>();
+        Collection<ResizeGroupData> ResizableGroups = new();
 
 
         public RibbonTab()

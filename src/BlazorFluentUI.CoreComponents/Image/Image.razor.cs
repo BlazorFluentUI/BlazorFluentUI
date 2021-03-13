@@ -193,10 +193,10 @@ namespace BlazorFluentUI
                 }
                 else
                 {
-                    desiredRatio = rootBounds.width / rootBounds.height;
+                    desiredRatio = rootBounds.Width / rootBounds.Height;
                 }
 
-                double naturalRatio = imageNaturalBounds.width / imageNaturalBounds.height;
+                double naturalRatio = imageNaturalBounds.Width / imageNaturalBounds.Height;
 
                 if (naturalRatio> desiredRatio)
                 {

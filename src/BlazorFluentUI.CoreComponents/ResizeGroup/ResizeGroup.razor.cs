@@ -125,7 +125,7 @@ namespace BlazorFluentUI
                     //}
                     boundsTask = GetBoundsAsync(boundsCTS.Token);
                     Rectangle? bounds = await boundsTask;
-                    newContainerDimension = (Vertical ? bounds.height : bounds.width);
+                    newContainerDimension = (Vertical ? bounds.Height : bounds.Width);
                 }
                 //Debug.WriteLine($"Container dimension: {_containerDimension}");
 

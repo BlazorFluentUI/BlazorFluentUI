@@ -66,7 +66,7 @@ namespace BlazorFluentUI.Resize
             {
                 boundsTask = GetBoundsAsync(elementReference, boundsCTS.Token);
                 Rectangle? bounds = await boundsTask;
-                newContainerDimension = (Vertical ? bounds.height : bounds.width);
+                newContainerDimension = (Vertical ? bounds.Height : bounds.Width);
             }
             return newContainerDimension;
         }

@@ -25,7 +25,7 @@ namespace BlazorFluentUI
                 Rectangle? windowRect = await JSRuntime!.InvokeAsync<Rectangle>("FluentUIBaseComponent.getWindowRect");
                 foreach (object? item in Enum.GetValues(typeof(ResponsiveMode)))
                 {
-                    if (windowRect.width <= ResponsiveModeUtils.RESPONSIVE_MAX_CONSTRAINT[(int)item])
+                    if (windowRect.Width <= ResponsiveModeUtils.RESPONSIVE_MAX_CONSTRAINT[(int)item])
                     {
                         CurrentMode = (ResponsiveMode)item;
                         break;

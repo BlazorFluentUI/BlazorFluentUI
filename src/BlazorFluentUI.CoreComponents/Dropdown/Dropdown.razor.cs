@@ -189,7 +189,7 @@ namespace BlazorFluentUI
         {
             Rectangle? oldBounds = dropDownBounds;
             dropDownBounds = await GetBoundsAsync();
-            if (oldBounds.width != dropDownBounds.width)
+            if (oldBounds.Width != dropDownBounds.Width)
             {
                 StateHasChanged();
             }

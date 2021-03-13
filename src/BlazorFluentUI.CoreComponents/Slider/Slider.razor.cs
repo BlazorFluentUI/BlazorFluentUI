@@ -206,7 +206,7 @@ namespace BlazorFluentUI
             //Debug.WriteLine($"rect:{rect.left} {rect.right}  horiz: {horizontalPosition}");
             double steps = (Max - Min) / Step;
             //Debug.WriteLine($"steps: {steps}");
-            double sliderLength = Vertical ? rect.height : rect.width;
+            double sliderLength = Vertical ? rect.Height : rect.Width;
             //Debug.WriteLine($"sliderLength: {sliderLength}");
             double stepLength = sliderLength / steps;
             //Debug.WriteLine($"stepLength: {stepLength}");
@@ -216,11 +216,11 @@ namespace BlazorFluentUI
 
             if (!Vertical)
             {
-                distance = horizontalPosition - rect.left;
+                distance = horizontalPosition - rect.Left;
             }
             else
             {
-                distance = rect.bottom - verticalPosition;
+                distance = rect.Bottom - verticalPosition;
             }
             //Debug.WriteLine($"distance: {distance}");
             currentSteps = distance / stepLength;

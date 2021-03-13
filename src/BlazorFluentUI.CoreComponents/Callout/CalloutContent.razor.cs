@@ -202,12 +202,12 @@ namespace BlazorFluentUI
             {
                 //javascript to get screen bounds
                 maxBounds = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.getWindowRect");
-                maxBounds.top += MinPagePadding;
-                maxBounds.left += MinPagePadding;
-                maxBounds.bottom -= MinPagePadding;
-                maxBounds.right -= MinPagePadding;
-                maxBounds.width -= (2 * MinPagePadding);
-                maxBounds.height -= (2 * MinPagePadding);
+                maxBounds.Top += MinPagePadding;
+                maxBounds.Left += MinPagePadding;
+                maxBounds.Bottom -= MinPagePadding;
+                maxBounds.Right -= MinPagePadding;
+                maxBounds.Width -= (2 * MinPagePadding);
+                maxBounds.Height -= (2 * MinPagePadding);
             }
             Rectangle? targetRect = await FabricComponentTarget.GetBoundsAsync();
             //Debug.WriteLine($"TargetRect: {targetRect.left}, {targetRect.top}, {targetRect.right}, {targetRect.bottom}");
@@ -240,7 +240,7 @@ namespace BlazorFluentUI
             }
             else
             {
-                return maxBounds.height;
+                return maxBounds.Height;
             }
         }
 
@@ -253,17 +253,17 @@ namespace BlazorFluentUI
 
             if (target == RectangleEdge.Top)
             {
-                maxHeight = GetEdgeValue(targetRect, directionalHint.TargetEdge) - bounds.top - gapSpace;
+                maxHeight = GetEdgeValue(targetRect, directionalHint.TargetEdge) - bounds.Top - gapSpace;
             }
             else if (target == RectangleEdge.Bottom)
             {
-                maxHeight = bounds.bottom - GetEdgeValue(targetRect, directionalHint.TargetEdge) - gapSpace;
+                maxHeight = bounds.Bottom - GetEdgeValue(targetRect, directionalHint.TargetEdge) - gapSpace;
             }
             else
             {
-                maxHeight = bounds.bottom - targetRect.top - gapSpace;
+                maxHeight = bounds.Bottom - targetRect.Top - gapSpace;
             }
-            return maxHeight > 0 ? maxHeight : bounds.height;
+            return maxHeight > 0 ? maxHeight : bounds.Height;
         }
 
         private async Task<CalloutPositionedInfo> PositionCalloutAsync(Rectangle targetRect, Rectangle maxBounds)
@@ -287,7 +287,7 @@ namespace BlazorFluentUI
         private CalloutBeakPositionedInfo FinalizeBeakPosition(ElementPosition elementPosition, Rectangle positionedBeak, Rectangle bounds)
         {
             RectangleEdge targetEdge = (RectangleEdge)((int)elementPosition.TargetEdge * -1);
-            Rectangle? actualElement = new(0, elementPosition.ElementRectangle.width, 0, elementPosition.ElementRectangle.height);
+            Rectangle? actualElement = new(0, elementPosition.ElementRectangle.Width, 0, elementPosition.ElementRectangle.Height);
             PartialRectangle returnValue = new();
             RectangleEdge returnEdge = FinalizeReturnEdge(
                 elementPosition.ElementRectangle,
@@ -336,9 +336,9 @@ namespace BlazorFluentUI
             double beakTargetPoint = GetCenterValue(target, elementPosition.TargetEdge);
             Rectangle? elementBounds = new(
                 beakWidth / 2,
-                elementPosition.ElementRectangle.width - beakWidth / 2,
+                elementPosition.ElementRectangle.Width - beakWidth / 2,
                 beakWidth / 2,
-                elementPosition.ElementRectangle.height - beakWidth / 2
+                elementPosition.ElementRectangle.Height - beakWidth / 2
                 );
             Rectangle? beakPosition = new(0, beakWidth, 0, beakWidth);
             beakPosition = MoveEdge(beakPosition, (RectangleEdge)((int)elementPosition.TargetEdge * -1), -beakWidth / 2);
@@ -573,19 +573,19 @@ namespace BlazorFluentUI
         private List<RectangleEdge> GetOutOfBoundsEdges(Rectangle rect, Rectangle boundingRect)
         {
             List<RectangleEdge>? outOfBounds = new();
-            if (rect.top < boundingRect.top)
+            if (rect.Top < boundingRect.Top)
             {
                 outOfBounds.Add(RectangleEdge.Top);
             }
-            if (rect.bottom > boundingRect.bottom)
+            if (rect.Bottom > boundingRect.Bottom)
             {
                 outOfBounds.Add(RectangleEdge.Bottom);
             }
-            if (rect.left < boundingRect.left)
+            if (rect.Left < boundingRect.Left)
             {
                 outOfBounds.Add(RectangleEdge.Left);
             }
-            if (rect.right > boundingRect.right)
+            if (rect.Right > boundingRect.Right)
             {
                 outOfBounds.Add(RectangleEdge.Right);
             }
@@ -600,13 +600,13 @@ namespace BlazorFluentUI
 
         private bool IsRectangleWithinBounds(Rectangle rect, Rectangle boundingRect)
         {
-            if (rect.top < boundingRect.top)
+            if (rect.Top < boundingRect.Top)
                 return false;
-            if (rect.bottom > boundingRect.bottom)
+            if (rect.Bottom > boundingRect.Bottom)
                 return false;
-            if (rect.left < boundingRect.left)
+            if (rect.Left < boundingRect.Left)
                 return false;
-            if (rect.right > boundingRect.right)
+            if (rect.Right > boundingRect.Right)
                 return false;
 
             return true;
@@ -679,13 +679,13 @@ namespace BlazorFluentUI
             switch (edge)
             {
                 case RectangleEdge.Left:
-                    return rect.left;
+                    return rect.Left;
                 case RectangleEdge.Right:
-                    return rect.right;
+                    return rect.Right;
                 case RectangleEdge.Top:
-                    return rect.top;
+                    return rect.Top;
                 case RectangleEdge.Bottom:
-                    return rect.bottom;
+                    return rect.Bottom;
                 default:
                     return 0;
             }
@@ -695,16 +695,16 @@ namespace BlazorFluentUI
             switch (edge)
             {
                 case RectangleEdge.Left:
-                    rect.left = value;
+                    rect.Left = value;
                     break;
                 case RectangleEdge.Right:
-                    rect.right = value;
+                    rect.Right = value;
                     break;
                 case RectangleEdge.Top:
-                    rect.top = value;
+                    rect.Top = value;
                     break;
                 case RectangleEdge.Bottom:
-                    rect.bottom = value;
+                    rect.Bottom = value;
                     break;
             }
             return rect;

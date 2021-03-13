@@ -50,6 +50,9 @@ namespace BlazorFluentUI
         [Parameter]
         public bool Disabled { get; set; }
 
+        [Parameter]
+        public bool ValidateOnInit { get; set; }
+
         /// <summary>
         /// Optional controlled indeterminate visual state for checkbox. Setting indeterminate state takes visual 
         /// precedence over checked or defaultChecked props given but does not affect checked state. 
@@ -106,11 +109,7 @@ namespace BlazorFluentUI
                 _indeterminate = Indeterminate.Value;
             }
             _reversed = BoxSide == BoxSide.End;
-            base.OnInitialized();
-        }
 
-        protected override Task OnParametersSetAsync()
-        {
             if (CascadedEditContext != null)
             {
                 if (CheckedExpression == null)
@@ -118,13 +117,21 @@ namespace BlazorFluentUI
                     throw new InvalidOperationException($"{GetType()} requires a value for the 'CheckedExpression' " +
                         $"parameter. Normally this is provided automatically when using 'bind-Checked'.");
                 }
-                FieldIdentifier = FieldIdentifier.Create<bool>(CheckedExpression);
+                FieldIdentifier = FieldIdentifier.Create(CheckedExpression);
 
-                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+                if (ValidateOnInit)
+                {
+                    CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
+                }
 
                 CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
             }
 
+            base.OnInitialized();
+        }
+
+        protected override Task OnParametersSetAsync()
+        {
             if (!_checkedUncontrolled)
             {
                 _isChecked = Checked.Value;
@@ -174,17 +181,13 @@ namespace BlazorFluentUI
                 Checked = (bool)args.Value;
             }
             else
-            { 
+            {
                 _isChecked = (bool)args.Value;
             }
 
-            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
-
-
             await CheckedChanged.InvokeAsync((bool)args.Value);
 
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
         }
-
-        
     }
 }

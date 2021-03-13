@@ -83,7 +83,7 @@ namespace BlazorFluentUI
             return theme;
         }
 
-        private ISemanticColors MakeSemanticColorsFromPalette(IPalette palette, bool isInverted)
+        private static ISemanticColors MakeSemanticColorsFromPalette(IPalette palette, bool isInverted)
         {
             return new SemanticColors()
             {
@@ -158,7 +158,7 @@ namespace BlazorFluentUI
             };
         }
 
-        private ISemanticTextColors MakeSemanticTextColorsFromPalette(IPalette palette, bool isInverted)
+        private static ISemanticTextColors MakeSemanticTextColorsFromPalette(IPalette palette, bool isInverted)
         {
             return new SemanticTextColors()
             {

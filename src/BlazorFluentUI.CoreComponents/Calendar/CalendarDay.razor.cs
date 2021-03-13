@@ -121,11 +121,11 @@ namespace BlazorFluentUI
         }
 
 
-        protected void OnTableMouseLeave(System.EventArgs eventArgs)
+        protected static void OnTableMouseLeave(System.EventArgs eventArgs)
         {
 
         }
-        protected void OnTableMouseUp(MouseEventArgs mouseEventArgs)
+        protected static void OnTableMouseUp(MouseEventArgs mouseEventArgs)
         {   
             
         }
@@ -365,7 +365,7 @@ namespace BlazorFluentUI
             return false;
         }
 
-        private bool IsInDateRangeArray(DateTime date, List<DateTime> dateRange)
+        private static bool IsInDateRangeArray(DateTime date, List<DateTime> dateRange)
         {
             foreach (DateTime dateInRange in dateRange) {
                 if (DateTime.Compare(date, dateInRange) == 0) {
@@ -375,7 +375,7 @@ namespace BlazorFluentUI
             return false;
         }
 
-        private List<DateTime> GetBoundedDateRange(List<DateTime> dateRange, DateTime? minDate = null, DateTime? maxDate = null)
+        private static List<DateTime> GetBoundedDateRange(List<DateTime> dateRange, DateTime? minDate = null, DateTime? maxDate = null)
         {
             List<DateTime>? boundedDateRange = dateRange;
             if (minDate.HasValue) {

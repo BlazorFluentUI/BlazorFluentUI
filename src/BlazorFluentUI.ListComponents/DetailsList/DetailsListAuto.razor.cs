@@ -402,7 +402,7 @@ namespace BlazorFluentUI
             Observable.Return(new PropertyChangedEventArgs("IsSorted")).Merge(columnsObservable).Where(colProp => colProp.PropertyName == "IsSorted" || colProp.PropertyName == "IsSortedDescending").Select(x =>
             {
                 var sort = Columns.Where(x => x.IsSorted);
-                if (sort.Count() > 0)
+                if (sort.Any())
                 {
                     return sort.Select(x => x.FieldSelector).ToList();
                 }
@@ -418,7 +418,7 @@ namespace BlazorFluentUI
             Observable.Return(new PropertyChangedEventArgs("IsSorted")).Merge(columnsObservable).Where(colProp => colProp.PropertyName == "IsSorted" || colProp.PropertyName == "IsSortedDescending").Select(x =>
             {
                 var sort = Columns.Where(x => x.IsSorted);
-                if (sort.Count() > 0)
+                if (sort.Any())
                 {
                     return sort.Select(x => x.IsSortedDescending).ToList();
                 }
@@ -470,19 +470,19 @@ namespace BlazorFluentUI
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        private void OnHeaderKeyDown(KeyboardEventArgs keyboardEventArgs)
+        private static void OnHeaderKeyDown(KeyboardEventArgs keyboardEventArgs)
         {
             // this was attached in the ms-DetailsList-headerWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI. 
         }
 
-        private void OnContentKeyDown(KeyboardEventArgs keyboardEventArgs)
+        private static void OnContentKeyDown(KeyboardEventArgs keyboardEventArgs)
         {
             // this was attached in the ms-DetailsList-contentWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI. 
         }
 
         
 
-        private void OnAllSelected()
+        private static void OnAllSelected()
         {
             //if (GroupBy == null)
             //{
@@ -541,7 +541,7 @@ namespace BlazorFluentUI
 
             if (LayoutMode == DetailsListLayoutMode.FixedColumns)
             {
-                adjustedColumns = GetFixedColumns(newColumns);
+                adjustedColumns = DetailsListAuto<TItem>.GetFixedColumns(newColumns);
 
                 foreach (var col in adjustedColumns)
                     _columnOverrides[col.Key] = col.CalculatedWidth;
@@ -568,7 +568,7 @@ namespace BlazorFluentUI
             return adjustedColumns;
         }
 
-        private IEnumerable<DetailsRowColumn<TItem>> GetFixedColumns(IEnumerable<DetailsRowColumn<TItem>> newColumns)
+        private static IEnumerable<DetailsRowColumn<TItem>> GetFixedColumns(IEnumerable<DetailsRowColumn<TItem>> newColumns)
         {
             foreach (var col in newColumns)
             {
@@ -589,7 +589,7 @@ namespace BlazorFluentUI
             }
 
             int count = 0;
-            var fixedWidth = fixedColumns.Aggregate<DetailsRowColumn<TItem>, double, double>(0, (total, column) => total + GetPaddedWidth(column, ++count == 0), x => x);
+            var fixedWidth = fixedColumns.Aggregate<DetailsRowColumn<TItem>, double, double>(0, (total, column) => total + DetailsListAuto<TItem>.GetPaddedWidth(column, ++count == 0), x => x);
 
             var remainingColumns = newColumns.Skip(resizingColumnIndex).Take(newColumns.Count() - resizingColumnIndex);
             var remainingWidth = viewportWidth - fixedWidth;
@@ -616,7 +616,7 @@ namespace BlazorFluentUI
                     col.CalculatedWidth = overridenWidth;
 
                 var isFirst = count + resizingColumnIndex == 0;
-                totalWidth += GetPaddedWidth(col, isFirst);
+                totalWidth += DetailsListAuto<TItem>.GetPaddedWidth(col, isFirst);
             }
 
             var lastIndex = adjustedColumns.Count() - 1;
@@ -636,7 +636,7 @@ namespace BlazorFluentUI
                 }
                 else
                 {
-                    totalWidth -= GetPaddedWidth(col, false);
+                    totalWidth -= DetailsListAuto<TItem>.GetPaddedWidth(col, false);
                     adjustedColumns.RemoveRange(lastIndex, 1);
                 }
                 lastIndex--;
@@ -669,7 +669,7 @@ namespace BlazorFluentUI
             return adjustedColumns;
         }
 
-        private double GetPaddedWidth(DetailsRowColumn<TItem> column, bool isFirst)
+        private static double GetPaddedWidth(DetailsRowColumn<TItem> column, bool isFirst)
         {
             return column.CalculatedWidth +
                     DetailsRow<TItem>.CELL_LEFT_PADDING +
@@ -747,6 +747,7 @@ namespace BlazorFluentUI
                 await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.removeViewport", _viewportRegistration);
             }
             selfReference?.Dispose();
+            GC.SuppressFinalize(this);        
         }
     }
 }

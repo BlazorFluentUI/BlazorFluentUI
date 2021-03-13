@@ -58,7 +58,7 @@ namespace BlazorFluentUI
                     return " ms-Spinner--medium";
             }
         }
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
+        public static ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             HashSet<IRule>? spinnerRules = new();
             spinnerRules.Add(new Rule()

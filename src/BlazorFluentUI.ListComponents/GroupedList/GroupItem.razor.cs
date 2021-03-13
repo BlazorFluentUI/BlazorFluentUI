@@ -149,7 +149,7 @@ namespace BlazorFluentUI
         //    return string.Join(',', header.Children.Select(x => getKeyInternal(x.Item)).ToArray());
         //}
 
-        private void OnHeaderClicked(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
+        private static void OnHeaderClicked(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
         {
             //if (SelectionZone != null)
             //{
@@ -201,7 +201,7 @@ namespace BlazorFluentUI
             //}
         }
 
-        private void OnHeaderToggled(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
+        private static void OnHeaderToggled(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
         {
             //if (SelectionZone != null)
             //{

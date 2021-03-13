@@ -94,7 +94,7 @@ namespace BlazorFluentUI
             return name;
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
+        public static ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             HashSet<IRule>? documentCardActivityRules = new();
 

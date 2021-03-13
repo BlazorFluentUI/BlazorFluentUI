@@ -129,7 +129,7 @@ namespace BlazorFluentUI
             await OnClickHandler().ConfigureAwait(false);
         }
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
+        public static ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             HashSet<IRule>? documentCardRules = new();
 

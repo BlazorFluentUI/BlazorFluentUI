@@ -791,6 +791,7 @@ namespace BlazorFluentUI
             {
                 radioButtons.Remove(this);
             }
+            GC.SuppressFinalize(this);
         }
     }
 }

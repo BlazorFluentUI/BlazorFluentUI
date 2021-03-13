@@ -319,7 +319,7 @@ namespace BlazorFluentUI
                 isOpen = !isOpen;  //There is a problem here.  Clicking when open causes automatic dismissal (light dismiss) so this just opens it again.
             return Task.CompletedTask;
         }
-        protected Task FocusHandler(FocusEventArgs args)
+        protected static Task FocusHandler(FocusEventArgs args)
         {
             // Could write logic to open on focus automatically...
             //isOpen = true;

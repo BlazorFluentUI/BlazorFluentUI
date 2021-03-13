@@ -84,7 +84,7 @@ namespace BlazorFluentUI
             }
         }
 
-        protected Action OnNotifyCalloutDismiss => () =>
+        protected static Action OnNotifyCalloutDismiss => () =>
         {
 
         };
@@ -106,7 +106,7 @@ namespace BlazorFluentUI
             //}
         };
 
-        protected Action OnOpenSubmenu => () =>
+        protected static Action OnOpenSubmenu => () =>
         {
 
         };

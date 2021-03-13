@@ -87,7 +87,7 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
-        private string ComputeCacheKey(CommandBarData data)
+        private static string ComputeCacheKey(CommandBarData data)
         {
             string? primaryKey = data.PrimaryItems.Aggregate("", (acc, item) => acc + item.CacheKey);
             string? farKey = data.FarItems.Aggregate("", (acc, item) => acc + item.CacheKey);

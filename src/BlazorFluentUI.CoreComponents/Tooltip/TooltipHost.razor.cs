@@ -173,7 +173,7 @@ namespace BlazorFluentUI
                 TargetElement = this;
         }
 
-        private double GetDelayTime(TooltipDelay delay)
+        private static double GetDelayTime(TooltipDelay delay)
         {
             switch (delay)
             {

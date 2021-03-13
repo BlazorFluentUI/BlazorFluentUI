@@ -93,7 +93,7 @@ namespace BlazorFluentUI
             return displayName;
         }
 
-        private string GetInitialsLatin(string displayName, bool isRtl)
+        private static string GetInitialsLatin(string displayName, bool isRtl)
         {
             string? initials = "";
 

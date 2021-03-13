@@ -204,14 +204,14 @@ namespace BlazorFluentUI
             }
         }
 
-        public void Open()
+        public static void Open()
         {
             //ignore these calls if we have isOpen set... isOpen need to be nullable in this case...
             // To Do
 
         }
 
-        public void Close()
+        public static void Close()
         {
 
             //ignore these calls if we have isOpen set... isOpen need to be nullable in this case...

@@ -101,7 +101,7 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
-        private string ComputeCacheKey(NavBarData data)
+        private static string ComputeCacheKey(NavBarData data)
         {
             string? primaryKey = data.PrimaryItems.Aggregate("", (acc, item) => acc + item.CacheKey);
             //var farKey = data.FarItems.Aggregate("", (acc, item) => acc + item.CacheKey);

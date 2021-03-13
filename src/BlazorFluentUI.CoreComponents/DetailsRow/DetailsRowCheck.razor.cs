@@ -41,7 +41,7 @@ namespace BlazorFluentUI
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
-        public ICollection<IRule> CreateGlobalCss(ITheme theme)
+        public static ICollection<IRule> CreateGlobalCss(ITheme theme)
         {
             HashSet<IRule>? detailsRowRules = new();
             //var focusProps = new FocusStyleProps(theme);

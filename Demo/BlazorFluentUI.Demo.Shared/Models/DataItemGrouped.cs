@@ -44,7 +44,7 @@ namespace BlazorFluentUI.Demo.Shared.Models
             public string DisplayName { get; set; }
             public string LongName { get; set; }
             public string Description { get; set; }
-            public string ImgUrl => "redArrow.jpg";
+            public static string ImgUrl => "redArrow.jpg";
 
             public SelectableOptionMenuItemType Type { get; set; }
         }

@@ -570,7 +570,7 @@ namespace BlazorFluentUI
             return new ElementPosition(newEstimate, targetEdge, oppositeEdge);
         }
 
-        private List<RectangleEdge> GetOutOfBoundsEdges(Rectangle rect, Rectangle boundingRect)
+        private static List<RectangleEdge> GetOutOfBoundsEdges(Rectangle rect, Rectangle boundingRect)
         {
             List<RectangleEdge>? outOfBounds = new();
             if (rect.Top < boundingRect.Top)
@@ -598,7 +598,7 @@ namespace BlazorFluentUI
             return adjustedRectValue > GetRelativeRectEdgeValue(edge, bounds);
         }
 
-        private bool IsRectangleWithinBounds(Rectangle rect, Rectangle boundingRect)
+        private static bool IsRectangleWithinBounds(Rectangle rect, Rectangle boundingRect)
         {
             if (rect.Top < boundingRect.Top)
                 return false;
@@ -645,7 +645,7 @@ namespace BlazorFluentUI
             return GetRelativeEdgeValue(edge, GetEdgeValue(rect, edge));
         }
 
-        private double GetRelativeEdgeValue(RectangleEdge edge, double value)
+        private static double GetRelativeEdgeValue(RectangleEdge edge, double value)
         {
             if (edge > 0)
             {
@@ -674,7 +674,7 @@ namespace BlazorFluentUI
             return (GetEdgeValue(rect, edges.positiveEdge) + GetEdgeValue(rect, edges.negativeEdge)) / 2;
         }
 
-        private double GetEdgeValue(Rectangle rect, RectangleEdge edge)
+        private static double GetEdgeValue(Rectangle rect, RectangleEdge edge)
         {
             switch (edge)
             {
@@ -690,7 +690,7 @@ namespace BlazorFluentUI
                     return 0;
             }
         }
-        private Rectangle SetEdgeValue(Rectangle rect, RectangleEdge edge, double value)
+        private static Rectangle SetEdgeValue(Rectangle rect, RectangleEdge edge, double value)
         {
             switch (edge)
             {
@@ -710,7 +710,7 @@ namespace BlazorFluentUI
             return rect;
         }
 
-        private (RectangleEdge positiveEdge, RectangleEdge negativeEdge) GetFlankingEdges(RectangleEdge edge)
+        private static (RectangleEdge positiveEdge, RectangleEdge negativeEdge) GetFlankingEdges(RectangleEdge edge)
         {
             if (edge == RectangleEdge.Top || edge == RectangleEdge.Bottom)
             {

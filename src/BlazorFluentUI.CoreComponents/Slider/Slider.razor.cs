@@ -287,7 +287,7 @@ namespace BlazorFluentUI
             }
         }
 
-        private string GetStyleUsingOffsetPercent(bool vertical, double thumbOffsetPercent)
+        private static string GetStyleUsingOffsetPercent(bool vertical, double thumbOffsetPercent)
         {
             string? direction = vertical ? "bottom" : "left";  // skipping RTL
             return $"{direction}:{thumbOffsetPercent}%;";

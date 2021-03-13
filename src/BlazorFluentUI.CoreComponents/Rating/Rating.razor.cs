@@ -86,7 +86,7 @@ namespace BlazorFluentUI
 
         }
 
-        protected Task OnFocus(ChangeEventArgs args)
+        protected static Task OnFocus(ChangeEventArgs args)
         {
             Console.WriteLine("Focused");
             return Task.CompletedTask;

@@ -5,17 +5,17 @@ namespace BlazorFluentUI
 {
     public interface IComponentStyle
     {
-        bool isClient { get; }
+        bool IsClient { get; }
 
-        GlobalRules GlobalRules { get; set; }
+        //GlobalRules GlobalRules { get; set; }
 
         ICollection<ILocalCSSheet> LocalCSSheets { get; set; }
 
-        ObservableCollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
+        //ObservableCollection<IGlobalCSSheet> GlobalCSSheets { get; set; }
 
-        ICollection<string> GlobalCSRules { get; set; }
+        //ICollection<string> GlobalCSRules { get; set; }
 
-        void RulesChanged(IGlobalCSSheet globalCSSheet);
+        //void RulesChanged(IGlobalCSSheet globalCSSheet);
 
         string PrintRule(IRule rule);
 

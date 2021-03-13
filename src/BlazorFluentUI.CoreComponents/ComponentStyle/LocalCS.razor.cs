@@ -10,16 +10,16 @@ namespace BlazorFluentUI
 {
     public partial class LocalCS : ComponentBase, ILocalCSSheet, IDisposable
     {
-        private string css;
-        private ICollection<IRule> rules;
+        private string? css;
+        private ICollection<IRule>? rules;
 
         [Inject]
-        public IComponentStyle ComponentStyle { get; set; }
+        public IComponentStyle? ComponentStyle { get; set; }
 
         [Parameter]
         public ICollection<IRule> Rules
         {
-            get => rules;
+            get => rules!;
             set
             {
                 if (value == rules)
@@ -35,7 +35,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnInitializedAsync()
         {
-            ComponentStyle.LocalCSSheets.Add(this);
+            ComponentStyle!.LocalCSSheets.Add(this);
             SetSelectorNames();
             await base.OnInitializedAsync();
         }
@@ -43,7 +43,7 @@ namespace BlazorFluentUI
         protected override void OnParametersSet()
         {
             css = "";
-            css = string.Join(string.Empty, Rules.Select(x=>ComponentStyle.PrintRule(x)));
+            css = string.Join(string.Empty, Rules.Select(x=>ComponentStyle!.PrintRule(x)));
             //foreach(var rule in rules)
             //{
             //    css += ComponentStyle.PrintRule(rule);
@@ -59,11 +59,11 @@ namespace BlazorFluentUI
             foreach (IRule? rule in rules)
             {
                 Rule? innerRule = rule as Rule;
-                if (innerRule.Selector.GetType() == typeof(IdSelector) || innerRule.Selector.GetType() == typeof(MediaSelector))
+                if (innerRule!.Selector.GetType() == typeof(IdSelector) || innerRule.Selector.GetType() == typeof(MediaSelector))
                     continue;
                 if (string.IsNullOrWhiteSpace(innerRule.Selector.SelectorName))
                 {
-                    innerRule.Selector.SelectorName = $"css-{ComponentStyle.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(innerRule)}";
+                    innerRule.Selector.SelectorName = $"css-{ComponentStyle!.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(innerRule)}";
                 }
                 else
                 {
@@ -75,7 +75,7 @@ namespace BlazorFluentUI
 
         public void Dispose()
         {
-            ComponentStyle.LocalCSSheets.Remove(this);
+            ComponentStyle!.LocalCSSheets.Remove(this);
         }
     }
 }

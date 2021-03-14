@@ -1,6 +1,5 @@
 ﻿@namespace BlazorFluentUI
 @inherits FluentUIComponentBase
-@using BlazorFluentUI.NavBarInternal
 @using System.Linq
 
 @if (Direction == LayoutDirection.Horizontal)
@@ -31,7 +30,7 @@
                                                          AriaLabel=@context.AriaLabel
                                                          Checked=@context.Checked
                                                          ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault             (x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
-                                                         Split=@context.Split Style=@context.Style 
+                                                         Split=@context.Split Style=@context.Style
                                                          Command=@context.Command
                                                          CommandParameter=@context.CommandParameter/>
                                 </ChildContent>
@@ -79,13 +78,13 @@ else
                     @foreach (var item in Items)
                     {
                         <RecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) IconName=@item.IconName IconSrc=@item.IconSrc
-                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" 
+                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged"
                                              Command=@item.Command CommandParameter=@item.CommandParameter/>
                     }
                     @foreach (var item in OverflowItems)
                     {
                         <RecursiveNavLink Name=@item.Text Url=@item.Url NavMatchType=@item.NavMatchType Id=@item.Id Items=@(item.Items) IconName=@item.IconName IconSrc=@item.IconSrc
-                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged" 
+                                             @bind-IsExpanded=@item.IsExpanded @bind-IsExpanded:event="IsExpandedChanged"
                                              Command=@item.Command CommandParameter=@item.CommandParameter/>
                     }
                 </ChildContent>

@@ -1,13 +1,9 @@
-﻿using BlazorFluentUI.CommandBarInternal;
-using BlazorFluentUI.NavBarInternal;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorFluentUI
 {
@@ -40,7 +36,7 @@ namespace BlazorFluentUI
             {
                 if (data.PrimaryItems.Count > 0)
                 {
-                    INavBarItem movedItem = data.PrimaryItems[ShiftOnReduce ? 0 : data.PrimaryItems.Count() - 1];
+                    INavBarItem movedItem = data.PrimaryItems[ShiftOnReduce ? 0 : data.PrimaryItems.Count - 1];
                     movedItem.RenderedInOverflow = true;
 
                     data.OverflowItems.Insert(0, movedItem);
@@ -89,8 +85,8 @@ namespace BlazorFluentUI
         {
             _currentData = new NavBarData()
             {
-                PrimaryItems = new List<INavBarItem>(Items != null ? Items : new List<INavBarItem>()),
-                OverflowItems = new List<INavBarItem>(OverflowItems != null ? OverflowItems : new List<INavBarItem>()),
+                PrimaryItems = new List<INavBarItem>(Items ?? new List<INavBarItem>()),
+                OverflowItems = new List<INavBarItem>(OverflowItems ?? new List<INavBarItem>()),
                 //FarItems = new List<ICommandBarItem>(FarItems != null ? FarItems : new List<ICommandBarItem>()),
                 MinimumOverflowItems = OverflowItems != null ? OverflowItems.Count() : 0,
                 CacheKey = ""
@@ -117,7 +113,7 @@ namespace BlazorFluentUI
         private void ProcessUri(string uri)
         {
             if (uri.StartsWith(NavigationManager.BaseUri))
-                uri = uri.Substring(NavigationManager.BaseUri.Length, uri.Length - NavigationManager.BaseUri.Length);
+                uri = uri[NavigationManager.BaseUri.Length..];
 
             string processedUriRelative = null;
             string processedUriAnchorIncluded = null;

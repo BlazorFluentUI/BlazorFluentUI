@@ -16,6 +16,7 @@
       "wwwroot/richTextEditor.js",
       "wwwroot/requestIdleCallbackPolyfill.js"
     ],
+    "minify" : {"enabled": false},
     "sourceMap": false
   }
 ]

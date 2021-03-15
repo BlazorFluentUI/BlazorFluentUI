@@ -118,9 +118,9 @@ app {
     outline: 1px solid red;
 }
 
-.validation-message {
+/*.validation-message {
     color: red;
-}
+}*/
 
 .textFieldDiv {
     margin: 5px 0px;

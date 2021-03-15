@@ -2,8 +2,6 @@
 @inherits FluentUIComponentBase
 @typeparam TItem
 
-@*<GlobalCS Component="this" CreateGlobalCss=@(()=> this.CreateGlobalCss(Theme)) />*@
-
 @if (this.IsVisible)
 {
     <div @ref=@RootElementReference class=@($"ms-ChoiceField{(this._isSelected ? " is-checked": "")}{(this.IsDisabled ? " is-disabled": "")}{(this.Focused ? " focused": "")}{(this.OptionTemplate != null ? " custom-content": "")}") style=@Style id="@this.Id">

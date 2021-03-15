@@ -187,14 +187,5 @@ namespace BlazorFluentUI
             }
             GC.SuppressFinalize(this);
         }
-
-        //public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        //{
-        //    var rules = new HashSet<IRule>();
-
-        //    rules.AddCssClassSelector(".ms-FocusZone:focus").AppendCssStyles("outline:none;");
-
-        //    return rules;
-        //}
     }
 }

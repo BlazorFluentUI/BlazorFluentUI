@@ -131,24 +131,5 @@ namespace BlazorFluentUI
         {
             //reloadStyle = true;
         }
-
-        //private ICollection<IRule> CreateGlobalCss()
-        //{
-        //    var overallRules = new HashSet<IRule>();
-        //    overallRules.Add(new Rule()
-        //    {
-        //        Selector = new CssStringSelector() { SelectorName = "body" },
-        //        Properties = new CssString()
-        //        {
-        //            Css = $"-moz-osx-font-smoothing:grayscale;" +
-        //                    $"-webkit-font-smoothing:antialiased;" +
-        //                    $"color:{Theme?.SemanticTextColors?.BodyText ?? "#323130"};" +
-        //                    $"background-color:{Theme?.SemanticColors?.BodyBackground ?? "#ffffff"};" +
-        //                    $"font-family:'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;" +
-        //                    $"font-size:14px;"
-        //        }
-        //    });
-        //    return overallRules;
-        //}
     }
 }

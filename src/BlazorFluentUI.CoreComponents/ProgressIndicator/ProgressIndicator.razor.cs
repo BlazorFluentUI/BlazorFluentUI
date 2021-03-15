@@ -115,59 +115,5 @@ namespace BlazorFluentUI
                         // ToDo Implement RTL-Support
             };
         }
-
-        //private ICollection<IRule> CreateGlobalCss()
-        //{
-        //    var progressIndicatorGlobalRules = new HashSet<IRule>();
-        //    progressIndicatorGlobalRules.Add(new Rule()
-        //    {
-        //        Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgress" },
-        //        Properties = new CssString()
-        //        {
-        //            Css = "0%{left:-30%;} 100%{left:100%;}"
-        //        }
-        //    });
-        //    progressIndicatorGlobalRules.Add(new Rule()
-        //    {
-        //        Selector = new CssStringSelector() { SelectorName = "@keyframes IndeterminateProgressRTL" },
-        //        Properties = new CssString()
-        //        {
-        //            Css = "100%{right:-30%;} 0%{right:100%;}"
-        //        }
-        //    });
-        //    progressIndicatorGlobalRules.Add(new Rule()
-        //    {
-        //        Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemName" },
-        //        Properties = new CssString()
-        //        {
-        //            Css = $"overflow:hidden;" +
-        //                    $"text-overflow:ellipsis;" +
-        //                    $"white-space:nowrap;" +
-        //                    $"color:var(--semanticTextColors.BodyText};" +
-        //                    $"padding-top:{marginBetweenText / 2}px;" +
-        //                    $"line-height:{textHeight + 2}px;"
-        //}
-        //    });
-        //    progressIndicatorGlobalRules.Add(new Rule()
-        //    {
-        //        Selector = new CssStringSelector() { SelectorName = ".ms-ProgressIndicator-itemDescription" },
-        //        Properties = new CssString()
-        //        {
-        //            Css = $"color:var(--semanticTextColors.BodySubtext};" +
-        //                    $"font-size:{Theme.FontStyle.FontSize.Small};" +
-        //                    $"line-height:{textHeight}px;"
-        //        }
-        //    });
-        //    progressIndicatorGlobalRules.Add(new Rule()
-        //    {
-        //        Selector = new CssStringSelector() { SelectorName = "@media screen and (-ms-high-contrast: active)" },
-        //        Properties = new CssString()
-        //        {
-        //            Css = ".ms-ProgressIndicator-progressTrack{border-bottom:1px solid WindowText;} .ms-ProgressIndicator-progressBar{background-color:WindowText;}"
-        //        }
-        //    });
-        //    return progressIndicatorGlobalRules;
-        //}
-
     }
 }

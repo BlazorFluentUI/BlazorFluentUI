@@ -5,8 +5,6 @@
 
 @inherits FluentUIComponentBase
 
-@*<GlobalCS Component="this" CreateGlobalCss=@(()=>CreateGlobalCss(Theme)) />*@
-
 <div class=@($"{GlobalClassNames["root"]} {ClassName}")
      @ref="RootElementReference">
     @ChildContent

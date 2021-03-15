@@ -93,27 +93,6 @@ namespace BlazorFluentUI
             StateHasChanged();
         }
 
-        //public ICollection<IRule> CreateGlobalCss(ITheme theme)
-        //{
-        //    var documentCardTitleRules = new HashSet<IRule>();
-
-        //    documentCardTitleRules.Add(new Rule()
-        //    {
-        //        Selector = new CssStringSelector() { SelectorName = $".{GlobalClassNames["root"]}" },
-        //        Properties = new CssString()
-        //        {
-        //            Css = $"font-size:{(ShowAsSecondaryTitle ? theme.FontStyle.FontSize.Medium : theme.FontStyle.FontSize.Large)};" +
-        //                  $"padding: 8px 16px;" +
-        //                  $"overflow: hidden;" +
-        //                  "word-wrap: break-word;" +
-        //                  $"height:{(ShowAsSecondaryTitle ? "45px" : "38px")};" +
-        //                  $"line-height:{(ShowAsSecondaryTitle ? "18px" : "21px")};" +
-        //                  $"color:{(ShowAsSecondaryTitle ? theme.Palette.NeutralSecondary : theme.Palette.NeutralPrimary)};"
-        //        }
-        //    });
-        //    return documentCardTitleRules;
-        //}
-
         public async ValueTask DisposeAsync()
         {
             await jSRuntime.InvokeVoidAsync("BlazorFluentUIDocumentCard.removelement", Id).ConfigureAwait(false);

@@ -9,7 +9,7 @@
     <div style="width:100%;">
         @ChildContent
     </div>
-    <div style="display:@(showCode ? "block" : "none");">
+    <div style="display:@(showCode ? "block" : "none"); width:100%">
         <pre style="padding: 20px; white-space:pre-wrap; word-wrap:break-word;background-color:@ThemeProvider.Theme.Palette.Black;color:@ThemeProvider.Theme.Palette.White;">
            @codeLiteral
             <br />
@@ -75,6 +75,7 @@
                 var codeBegin = demoMetaData.IndexOf(Environment.NewLine, indexOfDemoBegin) + 1;
                 var codeEnd = demoMetaData.IndexOf("</Demo>", indexOfDemoBegin);
                 codeLiteral = demoMetaData.Substring(codeBegin, codeEnd - codeBegin);
+                codeLiteral = codeLiteral.Replace("                ", "");
             }
 
             start = indexOfDemoBegin;

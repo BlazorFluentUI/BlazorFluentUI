@@ -207,7 +207,7 @@ app {
 }
 
 .section {
-    background: #fff;
+    background: var(--semanticColors-BodyBackground);
     padding: 28px;
     margin-bottom: 28px;
     border-radius: 2px;
@@ -384,7 +384,7 @@ app {
 }
 
 .smallSubHeading, .subHeading {
-    color: #323130;
+    color: var(--semanticTextColors-BodyText);
     font-weight: 600;
     line-height: 1;
     margin-top: 0;
@@ -787,7 +787,7 @@ code {
 
 .title {
     align-items: baseline;
-    color: rgb(50, 49, 48);
+    color: var(--semanticTextColors-BodyText);
     display: flex;
     font-size: 32px;
     font-weight: 600;

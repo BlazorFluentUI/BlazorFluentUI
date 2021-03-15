@@ -1,4 +1,5 @@
 ﻿@page  "/focusZonePage"
+@using BlazorFluentUI.Lists
 
 <header class="root">
     <h1 class="title">FocusZone</h1>
@@ -41,14 +42,14 @@
             <h4>FocusZone with vertical &amp; circular movement</h4>
             <div data-is-scrollable="true">
                 <FocusZone Direction="FocusZoneDirection.Vertical" IsCircularNavigation="true">
-                    <FluentUIList ItemsSource=@items>
+                    <List ItemsSource=@items>
                         <ItemTemplate>
                             <div style="display:flex;flex-direction:row;width:100%;" data-is-focusable="true">
                                 <Image Src="redArrow.jpg" Height="50" Width="50" />
                                 <Label>This is an item #@context</Label>
                             </div>
                         </ItemTemplate>
-                    </FluentUIList>
+                    </List>
                 </FocusZone>
             </div>
         </div>

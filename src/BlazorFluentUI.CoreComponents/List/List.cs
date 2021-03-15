@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Lists
 {
-    public class FluentUIList<TItem> : FluentUIComponentBase, IAsyncDisposable
+    public class List<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
         private ElementReference _spacerBefore;
 
@@ -42,7 +42,7 @@ namespace BlazorFluentUI
         private RenderFragment<IndexedItem<TItem>>? _itemTemplate;
 
         private RenderFragment<PlaceholderContext>? _placeholder;
-        private DotNetObjectReference<FluentUIList<TItem>>? _selfReference;
+        private DotNetObjectReference<List<TItem>>? _selfReference;
         private int _listId = -1;
 
         private double _containerWidth;

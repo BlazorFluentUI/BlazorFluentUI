@@ -15,13 +15,13 @@ using System.Diagnostics;
 using System.Reactive.Subjects;
 using System.Reactive;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Lists
 {
     public partial class GroupItemAuto<TItem, TKey> : FluentUIComponentBase, IAsyncDisposable
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private FluentUIList<IGroupedListItem3<TItem>> listReference;
+        private List<IGroupedListItem3<TItem>> listReference;
 
         //private ReadOnlyObservableCollection<IGroupedListItem3> dataItems;
 

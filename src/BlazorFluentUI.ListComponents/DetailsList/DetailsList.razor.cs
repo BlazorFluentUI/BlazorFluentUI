@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Lists
 {
     public partial class DetailsList<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
@@ -47,9 +47,9 @@ namespace BlazorFluentUI
 
         // Selection.SetItems will crash if a null source is passed in... but we need to clear it if the source is null, so pass in an empty list.
         // Also, the internal List<TItem> will also crash if a null itemssource is passed to it.
-        private IList<TItem> _itemsSource = new List<TItem>();
+        private IList<TItem> _itemsSource = new System.Collections.Generic.List<TItem>();
         [Parameter]
-        public IList<TItem> ItemsSource { get => _itemsSource; set { if (value == null) { _itemsSource = new List<TItem>(); } else { _itemsSource = value; } } }
+        public IList<TItem> ItemsSource { get => _itemsSource; set { if (value == null) { _itemsSource = new System.Collections.Generic.List<TItem>(); } else { _itemsSource = value; } } }
 
         [Parameter]
         public DetailsListLayoutMode LayoutMode { get; set; }
@@ -313,8 +313,7 @@ namespace BlazorFluentUI
                     col.CalculatedWidth = double.NaN;
             }
 
-            int count = 0;
-            double fixedWidth = fixedColumns.Aggregate<DetailsRowColumn<TItem>, double, double>(0, (total, column) => total + DetailsList<TItem>.GetPaddedWidth(column, ++count == 0), x => x);
+            double fixedWidth = fixedColumns.Aggregate<DetailsRowColumn<TItem>, double, double>(0, (total, column) => total + DetailsList<TItem>.GetPaddedWidth(column), x => x);
 
             IEnumerable<DetailsRowColumn<TItem>>? remainingColumns = newColumns.Skip(resizingColumnIndex).Take(newColumns.Count() - resizingColumnIndex);
             double remainingWidth = viewportWidth - fixedWidth;
@@ -330,7 +329,6 @@ namespace BlazorFluentUI
             int groupExpandedWidth = 0; //skipping this for now.
             double totalWidth = 0;
             double availableWidth = viewportWidth - (rowCheckWidth + groupExpandedWidth);
-            int count = 0;
 
             System.Collections.Generic.List<DetailsRowColumn<TItem>> adjustedColumns = new();
             foreach (DetailsRowColumn<TItem>? col in newColumns)
@@ -340,8 +338,7 @@ namespace BlazorFluentUI
                 if (_columnOverrides.TryGetValue(col.Key, out double overridenWidth))
                     col.CalculatedWidth = overridenWidth;
 
-                bool isFirst = count + resizingColumnIndex == 0;
-                totalWidth += DetailsList<TItem>.GetPaddedWidth(col, isFirst);
+                totalWidth += DetailsList<TItem>.GetPaddedWidth(col);
             }
 
             int lastIndex = adjustedColumns.Count - 1;
@@ -361,7 +358,7 @@ namespace BlazorFluentUI
                 }
                 else
                 {
-                    totalWidth -= DetailsList<TItem>.GetPaddedWidth(col, false);
+                    totalWidth -= DetailsList<TItem>.GetPaddedWidth(col);
                     adjustedColumns.RemoveRange(lastIndex, 1);
                 }
                 lastIndex--;
@@ -394,7 +391,7 @@ namespace BlazorFluentUI
             return adjustedColumns;
         }
 
-        private static double GetPaddedWidth(DetailsRowColumn<TItem> column, bool isFirst)
+        private static double GetPaddedWidth(DetailsRowColumn<TItem> column)
         {
             return column.CalculatedWidth +
                     DetailsRow<TItem>.CELL_LEFT_PADDING +

@@ -1,4 +1,4 @@
-﻿namespace BlazorFluentUI
+﻿namespace BlazorFluentUI.Lists
 {
     public enum SelectAllVisibility
     {

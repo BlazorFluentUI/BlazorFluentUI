@@ -1,4 +1,5 @@
 ﻿@page "/groupedListPage"
+@using BlazorFluentUI.Lists
 @using DynamicData
 
 <header class="root">
@@ -67,21 +68,21 @@
     bool? isVirtualizing = true;
     int count = 0;
     //GroupedDataItem rootGroup;
-    List<DataItem> data;
-    List<GroupedDataItem> groupedData;
+    System.Collections.Generic.List<DataItem> data;
+    System.Collections.Generic.List<GroupedDataItem> groupedData;
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
-    List<DetailsRowColumn<GroupedDataItem>> columns;
+    System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>> columns;
 
     protected override Task OnInitializedAsync()
     {
 
-        columns = new List<DetailsRowColumn<GroupedDataItem>>();
+        columns = new System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>>();
         columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Key, Name = "Key", MinWidth = 60 });
         columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.DisplayName, Name = "Name" });
         columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Description, Name = "Description" });
 
-        data = new List<DataItem>();
+        data = new System.Collections.Generic.List<DataItem>();
 
         for (var i = 0; i < 100; i++)
         {

@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Lists
 {
     /// <summary>
     /// Represents a request to an <see cref="ItemsProviderDelegate{TItem}"/>.

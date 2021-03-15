@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Lists
 {
     //https://github.com/dotnet/aspnetcore/blob/release/5.0-rc2/src/Components/Web/src/Virtualization/PlaceholderContext.cs
 

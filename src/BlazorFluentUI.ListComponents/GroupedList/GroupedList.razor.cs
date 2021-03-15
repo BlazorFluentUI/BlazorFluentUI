@@ -1,21 +1,24 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+
 using DynamicData;
 using DynamicData.Aggregation;
-using System.Reactive.Linq;
-using System.Collections.ObjectModel;
 
-namespace BlazorFluentUI
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+
+
+namespace BlazorFluentUI.Lists
 {
     public partial class GroupedList<TItem,TKey> : FluentUIComponentBase, IDisposable
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private FluentUIList<IGroupedListItem3<TItem>> listReference;
+        private List<IGroupedListItem3<TItem>> listReference;
 
         private ObservableCollection<IGroupedListItem3<TItem>> dataItems;
 
@@ -167,7 +170,7 @@ namespace BlazorFluentUI
 
         IList<TItem> FlattenList(IEnumerable<TItem> groupedItems, Func<TItem,IEnumerable<TItem>> subGroupSelector)
         {
-            IList<TItem> flattenedItems = new List<TItem>();
+            IList<TItem> flattenedItems = new System.Collections.Generic.List<TItem>();
 
             foreach (TItem? item in groupedItems)
             {

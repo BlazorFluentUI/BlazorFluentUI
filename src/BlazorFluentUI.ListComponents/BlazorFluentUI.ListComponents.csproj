@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>BlazorFluentUI.ListComponents</AssemblyName>
-    <RootNamespace>BlazorFluentUI</RootNamespace>
+    <RootNamespace>BlazorFluentUI.Lists</RootNamespace>
     <Nullable>enable</Nullable>
     <Product>BlazorFluentUI.ListComponents</Product>
     <Description>DynamicData dependant packages from the BlazorFluentUI component library, a Blazor clone of the Fluent UI React library</Description>

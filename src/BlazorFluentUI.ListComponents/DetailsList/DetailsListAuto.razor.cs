@@ -1,9 +1,4 @@
-﻿using DynamicData;
-using DynamicData.Binding;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,10 +7,16 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI
+using DynamicData;
+using DynamicData.Binding;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
+
+namespace BlazorFluentUI.Lists
 {
     public partial class DetailsListAuto<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
@@ -332,7 +333,7 @@ namespace BlazorFluentUI
                     col.IsFiltered = false;
 
                 //get only columns with actual filter expressions (even if they don't succeed in filtering anything) and set isFiltered to true to show the icon
-                List<DetailsRowColumn<TItem>>? columnsWithFilters = Columns
+                System.Collections.Generic.List<DetailsRowColumn<TItem>>? columnsWithFilters = Columns
                   .Where(row => row.FilterPredicate != null).Select(x =>
                   {
                       x.IsFiltered = true;
@@ -578,8 +579,7 @@ namespace BlazorFluentUI
                     col.CalculatedWidth = double.NaN;
             }
 
-            int count = 0;
-            double fixedWidth = fixedColumns.Aggregate<DetailsRowColumn<TItem>, double, double>(0, (total, column) => total + DetailsListAuto<TItem>.GetPaddedWidth(column, ++count == 0), x => x);
+            double fixedWidth = fixedColumns.Aggregate<DetailsRowColumn<TItem>, double, double>(0, (total, column) => total + DetailsListAuto<TItem>.GetPaddedWidth(column), x => x);
 
             IEnumerable<DetailsRowColumn<TItem>>? remainingColumns = newColumns.Skip(resizingColumnIndex).Take(newColumns.Count() - resizingColumnIndex);
             double remainingWidth = viewportWidth - fixedWidth;
@@ -595,7 +595,6 @@ namespace BlazorFluentUI
             int groupExpandedWidth = 0; //skipping this for now.
             double totalWidth = 0;
             double availableWidth = viewportWidth - (rowCheckWidth + groupExpandedWidth);
-            int count = 0;
 
             System.Collections.Generic.List<DetailsRowColumn<TItem>> adjustedColumns = new();
             foreach (DetailsRowColumn<TItem>? col in newColumns)
@@ -605,8 +604,7 @@ namespace BlazorFluentUI
                 if (_columnOverrides.TryGetValue(col.Key, out double overridenWidth))
                     col.CalculatedWidth = overridenWidth;
 
-                bool isFirst = count + resizingColumnIndex == 0;
-                totalWidth += DetailsListAuto<TItem>.GetPaddedWidth(col, isFirst);
+                totalWidth += DetailsListAuto<TItem>.GetPaddedWidth(col);
             }
 
             int lastIndex = adjustedColumns.Count - 1;
@@ -626,7 +624,7 @@ namespace BlazorFluentUI
                 }
                 else
                 {
-                    totalWidth -= DetailsListAuto<TItem>.GetPaddedWidth(col, false);
+                    totalWidth -= DetailsListAuto<TItem>.GetPaddedWidth(col);
                     adjustedColumns.RemoveRange(lastIndex, 1);
                 }
                 lastIndex--;
@@ -659,7 +657,7 @@ namespace BlazorFluentUI
             return adjustedColumns;
         }
 
-        private static double GetPaddedWidth(DetailsRowColumn<TItem> column, bool isFirst)
+        private static double GetPaddedWidth(DetailsRowColumn<TItem> column)
         {
             return column.CalculatedWidth +
                     DetailsRow<TItem>.CELL_LEFT_PADDING +

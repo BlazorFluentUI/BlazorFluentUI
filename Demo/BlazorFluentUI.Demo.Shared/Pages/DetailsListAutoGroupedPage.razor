@@ -1,10 +1,12 @@
 ﻿@page "/detailsListAutoGroupedPage"
-
-@using DynamicData
-@using DynamicData.Binding
 @using System.Collections.ObjectModel
 @using System.Reactive.Linq
 @using System.Reactive.Subjects
+
+@using DynamicData
+@using DynamicData.Binding
+
+@using BlazorFluentUI.Lists
 
 <header class="root">
     <h1 class="title">DetailsListAuto-Grouped</h1>
@@ -48,7 +50,7 @@
                                  GetKey=@(x=>x.Key)
                                  TItem="DataItem"
                                  IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
-                                 GroupBy=@(new List<Func<DataItem,object>>
+                                 GroupBy=@(new System.Collections.Generic.List<Func<DataItem,object>>
                               {
                                   x=>x.GroupName,
                                   x=>x.KeyNumber % 2 == 0 ? "even" :"odd"
@@ -66,14 +68,14 @@
     bool? isVirtualizing = true;
     bool? isCompact = false;
     IDropdownOption selectedModeOption;
-    List<IDropdownOption> selectionModeOptions;
+    System.Collections.Generic.List<IDropdownOption> selectionModeOptions;
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
-    List<DataItem> dataSource = new List<DataItem>();
+    System.Collections.Generic.List<DataItem> dataSource = new ();
     int count = 0;
 
-    List<DetailsRowColumn<DataItem>> columnsSource = new List<DetailsRowColumn<DataItem>>();
+    System.Collections.Generic.List<DetailsRowColumn<DataItem>> columnsSource = new ();
 
     DetailsListAuto<DataItem> detailsList;
 

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Lists
 {
     public partial class DetailsHeader<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
@@ -239,6 +239,7 @@ namespace BlazorFluentUI
                 await JSRuntime!.InvokeVoidAsync("BlazorFluentUIDetailsList.unregisterDetailsHeader", dotNetRef);
                 dotNetRef?.Dispose();
             }
+            GC.SuppressFinalize(this);
         }
     }
 }

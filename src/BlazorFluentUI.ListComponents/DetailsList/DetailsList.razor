@@ -1,4 +1,4 @@
-﻿@namespace BlazorFluentUI
+﻿@namespace BlazorFluentUI.Lists
 @inherits FluentUIComponentBase
 @typeparam TItem
 
@@ -57,7 +57,7 @@
                                    OnItemInvoked=@((item,index) => this.OnItemInvoked.InvokeAsync(item)) >
                         @if (SubGroupSelector == null)
                         {
-                            <FluentUIList ItemsSource=@ItemsSource
+                            <List ItemsSource=@ItemsSource
                                      IsVirtualizing=@IsVirtualizing
                                      >
                                 <ItemTemplate>
@@ -76,7 +76,7 @@
                                                     CheckboxVisibility=@CheckboxVisibility />
                                     }
                                 </ItemTemplate>
-                            </FluentUIList>
+                            </List>
                         }
                         else
                         {
@@ -110,7 +110,7 @@
                 {
                     @if (SubGroupSelector == null)
                     {
-                        <FluentUIList ItemsSource=@ItemsSource >
+                        <List ItemsSource=@ItemsSource >
                             <ItemTemplate>
                                 @if (RowTemplate != null)
                                 {
@@ -127,7 +127,7 @@
                                                 CheckboxVisibility=@CheckboxVisibility />
                                 }
                             </ItemTemplate>
-                        </FluentUIList>
+                        </List>
                     }
                     else
                     {

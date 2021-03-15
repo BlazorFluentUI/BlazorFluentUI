@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System.Collections.Generic;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Lists
 {
     public partial class DetailsColumn<TItem> : FluentUIComponentBase
     {

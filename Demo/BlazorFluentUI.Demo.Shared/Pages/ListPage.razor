@@ -1,5 +1,6 @@
 ﻿@page "/listPage"
 @using System.Linq
+@using BlazorFluentUI.Lists
 
 <header class="root">
     <h1 class="title">List</h1>
@@ -46,7 +47,7 @@
                                        TItem="DataItem"
                                        @ref="selectionZone">
                             <FocusZone>
-                                <FluentUIList ItemsSource=@data
+                                <List ItemsSource=@data
                                       TItem="DataItem">
                                     <ItemTemplate>
 
@@ -64,7 +65,7 @@
                                             <span style="margin-left:10px;">@context.Item.DisplayName</span>
                                         </div>
                                     </ItemTemplate>
-                                </FluentUIList>
+                                </List>
 
                             </FocusZone>
                         </SelectionZone>
@@ -97,7 +98,7 @@
                                        TItem="DataItem"
                                        @ref="selectionZone">
                             <FocusZone>
-                                <FluentUIList ItemsSource=@data
+                                <List ItemsSource=@data
                                       UseGridFlexLayout="true"
                                       ItemWidth="120"
                                       TItem="DataItem">
@@ -117,7 +118,7 @@
                                             <span style="margin-left:10px;">@context.Item.DisplayName</span>
                                         </div>
                                     </ItemTemplate>
-                                </FluentUIList>
+                                </List>
 
                             </FocusZone>
                         </SelectionZone>
@@ -135,7 +136,7 @@
     private IDropdownOption selectedModeOption;
     IDropdownOption SelectedModeOption { get => selectedModeOption; set { selectedModeOption = value; this.selection.SelectionMode = (SelectionMode)Enum.Parse(typeof(SelectionMode), value.Key); } }
 
-    List<IDropdownOption> selectionModeOptions;
+    System.Collections.Generic.List<IDropdownOption> selectionModeOptions;
 
     Selection<DataItem> selection = new Selection<DataItem>();
     SelectionZone<DataItem> selectionZone;

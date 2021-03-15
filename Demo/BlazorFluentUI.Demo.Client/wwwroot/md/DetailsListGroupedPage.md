@@ -1,10 +1,11 @@
 ﻿@page "/detailsListGroupedPage"
-
 @using DynamicData
 @using DynamicData.Binding
 @using System.Collections.ObjectModel
 @using System.Reactive.Linq
-@using System.Reactive.Subjects
+
+
+@using BlazorFluentUI.Lists
 <header class="root">
     <h1 class="title">DetailsList - Grouped Data</h1>
 </header>
@@ -60,7 +61,7 @@
     bool? isVirtualizing = true;
     bool? isCompact = false;
     IDropdownOption selectedModeOption;
-    List<IDropdownOption> selectionModeOptions;
+    System.Collections.Generic.List<IDropdownOption> selectionModeOptions;
 
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 

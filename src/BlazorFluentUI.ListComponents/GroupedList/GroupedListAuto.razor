@@ -1,12 +1,12 @@
-﻿@namespace BlazorFluentUI
+﻿@namespace BlazorFluentUI.Lists
 @inherits FluentUIComponentBase
 @typeparam TItem
 @typeparam TKey
-@using System.Reactive.Linq 
+@using System.Reactive.Linq
 
 @if (groupedUIListItems != null)
 {
-    <FluentUIList TItem="IGroupedListItem3<TItem>"
+    <List TItem="IGroupedListItem3<TItem>"
              @ref="listReference"
              ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
              IsVirtualizing=@IsVirtualizing
@@ -53,7 +53,7 @@
                                 CurrentlySelected=@isSelected
                                 IsSelectionCheckVisible=@(Selection != null)
                                 OnClick=@(()=>OnHeaderClicked(context))
-                                OnToggle=@(()=>OnHeaderToggled(context)) 
+                                OnToggle=@(()=>OnHeaderToggled(context))
                                 />
                 @if (header.IsOpen)
                 {
@@ -81,6 +81,6 @@
                 }
             }
         </ItemTemplate>
-    </FluentUIList>
+    </List>
 
 }

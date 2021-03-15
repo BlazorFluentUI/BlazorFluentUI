@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components.Web
 @using DynamicData
 @using System.Reactive.Linq
+@using BlazorFluentUI.Lists
 
 <header class="root">
     <h1 class="title">DetailsListAuto</h1>
@@ -32,13 +33,13 @@
                               @bind-SelectedOption=selectedModeOption
                               Style="max-width:300px;">
                     </Dropdown>
-                    <DefaultButton OnClick=@(arg => selection1.SelectedItems = (new List<DataItem> { dataSource[2], dataSource[3] }) ) Text="Set #3 & #4 selected" />
+                    <DefaultButton OnClick=@(arg => selection1.SelectedItems = (new System.Collections.Generic.List<DataItem> { dataSource[2], dataSource[3] }) ) Text="Set #3 & #4 selected" />
                 </Stack>
                 <TextField Label="Filter Description"
                            Value=@filter
                            OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => prop.Contains(filter); }) />
                 <div data-is-scrollable="true" style="height:400px;overflow-y:auto;">
-                    <DetailsListAuto ItemsSource="dataSource"
+                    <DetailsListAuto  ItemsSource="dataSource"
                                      IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
                                      TItem="DataItem"
                                      Compact="@isCompact.GetValueOrDefault()"
@@ -87,19 +88,19 @@
     bool? isVirtualizing = true;
     bool? isCompact = false;
     IDropdownOption selectedModeOption;
-    List<IDropdownOption> selectionModeOptions;
+    System.Collections.Generic.List<IDropdownOption> selectionModeOptions;
 
     Selection<DataItem> selection1 = new Selection<DataItem>();
     Selection<DataItem> selection2 = new Selection<DataItem>();
     Selection<DataItem> selection3 = new Selection<DataItem>();
 
-    List<DataItem> dataSource = new List<DataItem>();
+    System.Collections.Generic.List<DataItem> dataSource = new ();
 
     int count = 0;
 
     // We're creating another container for the column array that needs to be defined to show columns in DetailsList.
-    List<DetailsRowColumn<DataItem>> columnsSource = new List<DetailsRowColumn<DataItem>>();
-    List<DetailsRowColumn<DataItem>> fixedColumnsSource = new List<DetailsRowColumn<DataItem>>();
+    System.Collections.Generic.List<DetailsRowColumn<DataItem>> columnsSource = new ();
+    System.Collections.Generic.List<DetailsRowColumn<DataItem>> fixedColumnsSource = new ();
 
     string filter = "";
     DetailsRowColumn<DataItem, string> descriptionColumn;

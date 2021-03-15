@@ -1,4 +1,5 @@
 ﻿@page "/detailsListPageBasic"
+@using BlazorFluentUI.Lists
 <header class="root">
     <h1 class="title">DetailsList Basic</h1>
 </header>
@@ -39,11 +40,11 @@
 </div>
 @code {
 
-    List<DataItem> InputList = new List<DataItem>();
+    System.Collections.Generic.List<DataItem> InputList = new ();
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
-    public List<DetailsRowColumn<DataItem>> Columns = new List<DetailsRowColumn<DataItem>>();
+    public System.Collections.Generic.List<DetailsRowColumn<DataItem>> Columns = new ();
 
     protected override void OnInitialized()
     {
@@ -69,7 +70,7 @@
         var selected = selection.GetSelection();
 
         //create new sorted list
-        InputList = new List<DataItem>(column.IsSorted ? InputList.OrderBy(x => x.DisplayName) : InputList.OrderByDescending(x => x.DisplayName));
+        InputList = new System.Collections.Generic.List<DataItem>(column.IsSorted ? InputList.OrderBy(x => x.DisplayName) : InputList.OrderByDescending(x => x.DisplayName));
 
         //clear old selection and create new selection
         //selection.SetKeySelected(selected, true);

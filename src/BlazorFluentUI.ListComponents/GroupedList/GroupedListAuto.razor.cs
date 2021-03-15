@@ -17,13 +17,13 @@ using System.Reactive;
 using System.Runtime.CompilerServices;
 using System.Collections.Specialized;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Lists
 {
     public partial class GroupedListAuto<TItem,TKey> : FluentUIComponentBase, IDisposable
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private FluentUIList<IGroupedListItem3<TItem>> listReference;
+        private List<IGroupedListItem3<TItem>> listReference;
 
         private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> dataItems;
 
@@ -248,7 +248,7 @@ namespace BlazorFluentUI
 
                 if (SortBy != null)
                 {
-                    List<Func<TItem, object>>? sortBy = SortBy.ToList();  //making a local copy
+                    System.Collections.Generic.List<Func<TItem, object>>? sortBy = SortBy.ToList();  //making a local copy
                     for (int i = 0; i < sortBy.Count(); i++)
                     {
                         int j = i;  //local copy.

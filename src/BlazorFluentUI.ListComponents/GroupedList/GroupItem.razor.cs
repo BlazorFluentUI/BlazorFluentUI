@@ -1,27 +1,17 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using DynamicData;
-using DynamicData.Binding;
-using DynamicData.Cache;
-using DynamicData.Aggregation;
-using System.Reactive.Linq;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Reactive.Subjects;
-using System.Reactive;
 
-namespace BlazorFluentUI
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+
+namespace BlazorFluentUI.Lists
 {
     public partial class GroupItem<TItem, TKey> : FluentUIComponentBase, IAsyncDisposable
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private FluentUIList<IGroupedListItem3<TItem>> listReference;
+        private List<IGroupedListItem3<TItem>> listReference;
 
         //private ReadOnlyObservableCollection<IGroupedListItem3> dataItems;
 

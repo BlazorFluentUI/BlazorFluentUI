@@ -1,11 +1,11 @@
-﻿@namespace BlazorFluentUI
+﻿@namespace BlazorFluentUI.Lists
 @inherits FluentUIComponentBase
 @typeparam TItem
 @typeparam TKey
 
 <FocusZone Direction="FocusZoneDirection.Vertical"
               ClassName="ms-GroupedList">
-    <FluentUIList TItem="IGroupedListItem3<TItem>"
+    <List TItem="IGroupedListItem3<TItem>"
              @ref="listReference"
              ClassName=@($"ms-GroupedList{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
              IsVirtualizing=@IsVirtualizing
@@ -78,6 +78,6 @@
                 }
             }
         </ItemTemplate>
-    </FluentUIList>
+    </List>
 
 </FocusZone>

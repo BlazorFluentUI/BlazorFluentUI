@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Lists
 {
     /// <summary>
     /// A function that provides items to a virtualized source.

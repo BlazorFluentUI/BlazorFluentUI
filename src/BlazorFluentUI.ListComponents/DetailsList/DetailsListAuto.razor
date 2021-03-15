@@ -1,4 +1,4 @@
-﻿@namespace BlazorFluentUI
+﻿@namespace BlazorFluentUI.Lists
 @inherits FluentUIComponentBase
 @typeparam TItem
 @using System.Linq
@@ -26,7 +26,7 @@
                                       TItem="TItem"
                                       Selection=@Selection
                                       LayoutMode=@LayoutMode
-                                                                            
+
                                       AriaLabel="ariaLabelForListHeader"
                                       AriaLabelForSelectAllCheckbox="ariaLabelForSelectAllCheckbox"
                                       AriaLabelForToggleAllGroup="ariaLabelForSelectionColumn"
@@ -50,7 +50,7 @@
                 {
                     <SelectionZone Selection=@Selection
                                       @ref="selectionZone"
-                                      DisableRenderOnSelectionChanged="true"                                      
+                                      DisableRenderOnSelectionChanged="true"
                                       SelectionPreservedOnEmptyClick=@SelectionPreservedOnEmptyClick
                                       SelectionMode=@SelectionMode
                                       EnterModalOnTouch=@EnterModalSelectionOnTouch
@@ -58,7 +58,7 @@
                                       >
                         @if (GroupBy == null)
                         {
-                            <FluentUIList ItemsSource=@items
+                            <List ItemsSource=@items
                                      TItem="TItem"
                                      IsVirtualizing=@IsVirtualizing
                                      >
@@ -82,7 +82,7 @@
                                                        CheckboxVisibility=@CheckboxVisibility />
                                     }
                                 </ItemTemplate>
-                            </FluentUIList>
+                            </List>
                         }
                         else
                         {
@@ -119,7 +119,7 @@
                 {
                     @if (GroupBy == null)
                     {
-                        <FluentUIList ItemsSource=@items
+                        <List ItemsSource=@items
                                  TItem="TItem"
                                  >
                             <ItemTemplate>
@@ -139,7 +139,7 @@
                                                    CheckboxVisibility=@CheckboxVisibility />
                                 }
                             </ItemTemplate>
-                        </FluentUIList>
+                        </List>
                     }
                     else
                     {

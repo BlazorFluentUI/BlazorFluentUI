@@ -1,29 +1,19 @@
-﻿using DynamicData;
-using DynamicData.Aggregation;
-using DynamicData.Binding;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 
+using DynamicData;
+using DynamicData.Aggregation;
+using DynamicData.Binding;
 
-namespace BlazorFluentUI
+
+namespace BlazorFluentUI.Lists
 {
-    public interface IGroupedListItem3<TItem> 
-    {
-        bool IsVisible { get;}
-        string Name { get; }
-        int Count { get; }
-        int Depth { get; }
-        TItem Item { get; }
-        //ICollection<IGroupedListItem3<TItem>> Items { get; }
-    }
 
     public class HeaderItem3<TItem,TKey> : IGroupedListItem3<TItem>
     {
@@ -93,7 +83,7 @@ namespace BlazorFluentUI
             Item = item;
             Depth = depth;
             GroupIndex = index;
-            Items = new List<IGroupedListItem3<TItem>>();
+            Items = new System.Collections.Generic.List<IGroupedListItem3<TItem>>();
 
             Name = groupTitleSelector(item);
 

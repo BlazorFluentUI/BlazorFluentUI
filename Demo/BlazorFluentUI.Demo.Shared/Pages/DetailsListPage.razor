@@ -5,6 +5,7 @@
 @using System.Collections.ObjectModel
 @using System.Reactive.Linq
 @using System.Reactive.Subjects
+@using BlazorFluentUI.Lists
 <header class="root">
     <h1 class="title">DetailsList</h1>
 </header>
@@ -74,7 +75,7 @@
     bool? isCompact = false;
     bool? selectionDisabled = false;
     IDropdownOption selectedModeOption;
-    List<IDropdownOption> selectionModeOptions;
+    System.Collections.Generic.List<IDropdownOption> selectionModeOptions;
 
 
     Selection<DataItem> selection = new Selection<DataItem>();
@@ -174,11 +175,11 @@
             // All we have to do is change the column class and use the AddOrUpdate method on the SourceCache.  DynamicData will
             // automatically change the contents and notify anything that is watching that list.
             dataContainer.IsFiltered.Subscribe(isFiltered =>
-                {
-                    descColumn.IsFiltered = isFiltered;
+            {
+                descColumn.IsFiltered = isFiltered;
                 //InvokeAsync(StateHasChanged);
                 columnsSource.AddOrUpdate(descColumn);
-                });
+            });
 
 
 

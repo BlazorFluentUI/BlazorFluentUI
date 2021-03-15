@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Lists
 {
     /// <summary>
     /// Represents the result of a <see cref="ItemsProviderDelegate{TItem}"/>.

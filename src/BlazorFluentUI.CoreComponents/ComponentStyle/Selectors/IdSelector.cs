@@ -26,7 +26,7 @@ namespace BlazorFluentUI
 
         public string GetSelectorAsString()
         {
-            return $"#{(SelectorName != null ? SelectorName : "")}{(PseudoElement != PseudoElements.None ? PseudoMapper.PseudoElementsMappper[PseudoElement] : "")}{ToPseudoClass()}";
+            return $"#{(SelectorName ?? "")}{(PseudoElement != PseudoElements.None ? PseudoMapper.PseudoElementsMappper[PseudoElement] : "")}{ToPseudoClass()}";
         }
 
     }

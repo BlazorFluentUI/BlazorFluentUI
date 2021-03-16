@@ -122,19 +122,23 @@ namespace BlazorFluentUI
 
         private bool _jsAvailable = false;
 
+        private static string _headerId = "";
+
         public Panel()
         {
             HeaderTemplate = builder =>
             {
                 if (HeaderText != null)
                 {
+                    if (string.IsNullOrEmpty(_headerId))
+                        _headerId = "".GetRandomHashCodeString();
                     builder.OpenElement(0, "div");
                     {
                         builder.AddAttribute(1, "class", "ms-Panel-header");
                         builder.OpenElement(2, "p");
                         {
                             builder.AddAttribute(3, "class", "xlargeFont ms-Panel-headerText");
-                            //builder.AddAttribute(4, "id", )
+                            builder.AddAttribute(4, "id", _headerId);
                             builder.AddAttribute(5, "role", "heading");
                             builder.AddAttribute(6, "aria-level", "2");
                             builder.AddContent(7, HeaderText);

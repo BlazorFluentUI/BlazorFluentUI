@@ -4,7 +4,6 @@
     const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
     const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
     const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
-    export const HIDDEN_FROM_ACC_TREE = 'data-is-hidden-from-acc-tree';
     const IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
 
 
@@ -526,11 +525,7 @@
             element = nextChild;
         }
 
-        element =
-            isElementTabbable(element) && isElementVisible(element)
-                ? element
-                : getNextElement(parent, element, true) || getPreviousElement(parent, element)!;
-
+        element = isElementTabbable(element) && isElementVisible(element) ? element : getNextElement(parent, element, true) || getPreviousElement(parent, element)!;
         return element as HTMLElement;
     }
 

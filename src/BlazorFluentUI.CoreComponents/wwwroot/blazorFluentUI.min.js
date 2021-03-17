@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -15,7 +14,6 @@ var FluentUIBaseComponent;
     const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
     const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
     const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
-    FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE = 'data-is-hidden-from-acc-tree';
     const IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
     //interface IVirtualElement extends HTMLElement {
     //    _virtual: {
@@ -451,10 +449,7 @@ var FluentUIBaseComponent;
             }
             element = nextChild;
         }
-        element =
-            isElementTabbable(element) && isElementVisible(element)
-                ? element
-                : getNextElement(parent, element, true) || getPreviousElement(parent, element);
+        element = isElementTabbable(element) && isElementVisible(element) ? element : getNextElement(parent, element, true) || getPreviousElement(parent, element);
         return element;
     }
     FluentUIBaseComponent.getFocusableByIndexPath = getFocusableByIndexPath;
@@ -1952,6 +1947,7 @@ var BlazorFluentUIDocumentCard;
 /// <reference path="baseComponent.ts" />
 var BlazorFluentUIFocusTrapZone;
 (function (BlazorFluentUIFocusTrapZone) {
+    const HIDDEN_FROM_ACC_TREE = 'data-is-hidden-from-acc-tree';
     class FocusTrapZoneInternal {
         constructor(focusTrapZoneProps, dotNetRef) {
             this._hasFocus = true;
@@ -2034,8 +2030,8 @@ var BlazorFluentUIFocusTrapZone;
                     this._showContentInAccessibilityTree();
                 }
                 else if (lastActiveFocusTrap._props.rootElement &&
-                    lastActiveFocusTrap._props.rootElement.hasAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE)) {
-                    lastActiveFocusTrap._props.rootElement.removeAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE);
+                    lastActiveFocusTrap._props.rootElement.hasAttribute(HIDDEN_FROM_ACC_TREE)) {
+                    lastActiveFocusTrap._props.rootElement.removeAttribute(HIDDEN_FROM_ACC_TREE);
                     lastActiveFocusTrap._props.rootElement.removeAttribute('aria-hidden');
                 }
             };
@@ -2139,18 +2135,18 @@ var BlazorFluentUIFocusTrapZone;
                     const isAriaLiveRegion = currentChild.hasAttribute('aria-live');
                     if (!isOrHasFocusTrapZone && !isAriaLiveRegion && currentChild.getAttribute('aria-hidden') !== 'true') {
                         currentChild.setAttribute('aria-hidden', 'true');
-                        currentChild.setAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE, 'true');
+                        currentChild.setAttribute(HIDDEN_FROM_ACC_TREE, 'true');
                     }
                 }
             };
             this._showContentInAccessibilityTree = () => {
                 const doc = document;
                 // @ts-ignore
-                const hiddenElements = doc.querySelectorAll(`[${window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE}="true"]`);
+                const hiddenElements = doc.querySelectorAll(`[${HIDDEN_FROM_ACC_TREE}="true"]`);
                 for (let index = 0; index < hiddenElements.length; index++) {
                     const element = hiddenElements[index];
                     element.removeAttribute('aria-hidden');
-                    element.removeAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE);
+                    element.removeAttribute(HIDDEN_FROM_ACC_TREE);
                 }
             };
             this._props = focusTrapZoneProps;

@@ -1,6 +1,7 @@
 /// <reference path="baseComponent.ts" />
 
 namespace BlazorFluentUIFocusTrapZone {
+    const HIDDEN_FROM_ACC_TREE = 'data-is-hidden-from-acc-tree';
 
     interface DotNetReferenceType {
         invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
@@ -235,9 +236,9 @@ namespace BlazorFluentUIFocusTrapZone {
                 this._showContentInAccessibilityTree();
             } else if (
                 lastActiveFocusTrap._props.rootElement &&
-                lastActiveFocusTrap._props.rootElement.hasAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE)
+                lastActiveFocusTrap._props.rootElement.hasAttribute(HIDDEN_FROM_ACC_TREE)
             ) {
-                lastActiveFocusTrap._props.rootElement.removeAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE);
+                lastActiveFocusTrap._props.rootElement.removeAttribute(HIDDEN_FROM_ACC_TREE);
                 lastActiveFocusTrap._props.rootElement.removeAttribute('aria-hidden');
             }
         };
@@ -374,7 +375,7 @@ namespace BlazorFluentUIFocusTrapZone {
 
                 if (!isOrHasFocusTrapZone && !isAriaLiveRegion && currentChild.getAttribute('aria-hidden') !== 'true') {
                     currentChild.setAttribute('aria-hidden', 'true');
-                    currentChild.setAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE, 'true');
+                    currentChild.setAttribute(HIDDEN_FROM_ACC_TREE, 'true');
                 }
             }
         };
@@ -382,11 +383,11 @@ namespace BlazorFluentUIFocusTrapZone {
         _showContentInAccessibilityTree = () => {
             const doc = document;
             // @ts-ignore
-            const hiddenElements = doc.querySelectorAll(`[${window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE}="true"]`);
+            const hiddenElements = doc.querySelectorAll(`[${HIDDEN_FROM_ACC_TREE}="true"]`);
             for (let index = 0; index < hiddenElements.length; index++) {
                 const element = hiddenElements[index];
                 element.removeAttribute('aria-hidden');
-                element.removeAttribute(window.FluentUIBaseComponent.HIDDEN_FROM_ACC_TREE);
+                element.removeAttribute(HIDDEN_FROM_ACC_TREE);
             }
         };
 

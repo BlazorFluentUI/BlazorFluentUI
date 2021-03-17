@@ -1,4 +1,4 @@
-﻿.root .ms-Check {
+﻿.root-Check .ms-Check {
     line-height: 1;
     width: 18px;
     height: 18px;
@@ -7,7 +7,7 @@
     user-select: none;
 }
 
-    .root ::deep .ms-Check::before {
+    .root-Check ::deep .ms-Check::before {
         content: '';
         position: absolute;
         top: 1px;
@@ -23,7 +23,7 @@
         opacity: 1;
     }
 
-    .root ::deep .ms-Check.is-checked::before {
+    .root-Check ::deep .ms-Check.is-checked::before {
         content: '';
         opacity: 1;
         background: var(--palette-ThemePrimary);

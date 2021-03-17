@@ -5,14 +5,12 @@
 <div class=@($"ms-DetailsList {ClassName}")
      style=@($"{Style}")
      aria-label=@AriaLabel
-     @ref=@RootElementReference
-     >
+     @ref=@RootElementReference>
     <div role="grid"
          aria-label=@AriaLabel
          aria-readonly=true
          style="display:flex;flex-direction:column;">
-        <div
-             role="presentation"
+        <div role="presentation"
              class="ms-DetailsList-headerWrapper">
             @if (IsHeaderVisible)
             {
@@ -23,29 +21,25 @@
                 else
                 {
                     <DetailsHeader Columns=@_adjustedColumns
-                                      TItem="TItem"
-                                      Selection=@Selection
-                                      LayoutMode=@LayoutMode
-
-                                      AriaLabel="ariaLabelForListHeader"
-                                      AriaLabelForSelectAllCheckbox="ariaLabelForSelectAllCheckbox"
-                                      AriaLabelForToggleAllGroup="ariaLabelForSelectionColumn"
-
-                                      OnColumnAutoResized=@OnColumnAutoResized
-                                      OnColumnResized=@OnColumnResizedInternal
-                                      CheckboxVisibility=@CheckboxVisibility
-                                      SelectAllVisibility=@selectAllVisibility />
+                                   TItem="TItem"
+                                   Selection=@Selection
+                                   LayoutMode=@LayoutMode
+                                   AriaLabel="ariaLabelForListHeader"
+                                   AriaLabelForSelectAllCheckbox="ariaLabelForSelectAllCheckbox"
+                                   AriaLabelForToggleAllGroup="ariaLabelForSelectionColumn"
+                                   OnColumnAutoResized=@OnColumnAutoResized
+                                   OnColumnResized=@OnColumnResizedInternal
+                                   CheckboxVisibility=@CheckboxVisibility
+                                   SelectAllVisibility=@selectAllVisibility />
                 }
             }
         </div>
-        <div
-             role="presentation"
+        <div role="presentation"
              class="ms-DetailsList-contentWrapper"
              style="overflow-y:hidden;height:100%;">
             <FocusZone ClassName="ms-DetailsList-focusZone"
                        Direction="FocusZoneDirection.Vertical"
-                       InnerZoneKeystrokeTriggers="new System.Collections.Generic.List<ConsoleKey> { ConsoleKey.RightArrow }"
-                       >
+                       InnerZoneKeystrokeTriggers="new System.Collections.Generic.List<ConsoleKey> { ConsoleKey.RightArrow }">
                 @if (!DisableSelectionZone)
                 {
                     <SelectionZone Selection=@Selection
@@ -54,12 +48,11 @@
                                    SelectionPreservedOnEmptyClick=@SelectionPreservedOnEmptyClick
                                    SelectionMode=@SelectionMode
                                    EnterModalOnTouch=@EnterModalSelectionOnTouch
-                                   OnItemInvoked=@((item,index) => this.OnItemInvoked.InvokeAsync(item)) >
+                                   OnItemInvoked=@((item,index) => this.OnItemInvoked.InvokeAsync(item))>
                         @if (SubGroupSelector == null)
                         {
                             <List ItemsSource=@ItemsSource
-                                     IsVirtualizing=@IsVirtualizing
-                                     >
+                                  IsVirtualizing=@IsVirtualizing>
                                 <ItemTemplate>
                                     @if (RowTemplate != null)
                                     {
@@ -68,10 +61,10 @@
                                     else
                                     {
                                         <DetailsRow Item=@context.Item
-                                                       ItemIndex=@context.Index
+                                                    ItemIndex=@context.Index
                                                     Columns=@_adjustedColumns
                                                     SelectionMode=@SelectionMode
-                                                       Selection=@Selection
+                                                    Selection=@Selection
                                                     Compact=@Compact
                                                     CheckboxVisibility=@CheckboxVisibility />
                                     }
@@ -81,25 +74,24 @@
                         else
                         {
                             <GroupedList ItemsSource=@ItemsSource
-                                            TItem="TItem"
-                                            TKey="object"
+                                         TItem="TItem"
+                                         TKey="object"
                                          @ref=@groupedList
-                                            GetKey=@GetKey
-                                            Selection=@Selection
+                                         GetKey=@GetKey
+                                         Selection=@Selection
                                          SubGroupSelector=@SubGroupSelector
                                          GroupTitleSelector=@GroupTitleSelector
                                          IsVirtualizing=@IsVirtualizing
                                          SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                                 <ItemTemplate>
                                     <DetailsRow Item=@context.Item.Item
-                                                   TItem="TItem"
-                                                   ItemIndex=@context.Index
-                                                    Selection=@Selection
-                                                   Columns=@_adjustedColumns
-                                                   SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
-
-                                                   CheckboxVisibility=@CheckboxVisibility
-                                                   Compact=@Compact />
+                                                TItem="TItem"
+                                                ItemIndex=@context.Index
+                                                Selection=@Selection
+                                                Columns=@_adjustedColumns
+                                                SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
+                                                CheckboxVisibility=@CheckboxVisibility
+                                                Compact=@Compact />
                                 </ItemTemplate>
                             </GroupedList>
                         }
@@ -110,7 +102,7 @@
                 {
                     @if (SubGroupSelector == null)
                     {
-                        <List ItemsSource=@ItemsSource >
+                        <List ItemsSource=@ItemsSource>
                             <ItemTemplate>
                                 @if (RowTemplate != null)
                                 {
@@ -119,7 +111,7 @@
                                 else
                                 {
                                     <DetailsRow Item=@context.Item
-                                                   TItem="TItem"
+                                                TItem="TItem"
                                                 Columns=@_adjustedColumns
                                                 SelectionMode=@SelectionMode
                                                 Selection=@Selection
@@ -132,21 +124,21 @@
                     else
                     {
                         <GroupedList ItemsSource=@ItemsSource
-                                        TItem="TItem"
-                                        TKey="object"
-                                        GetKey=@GetKey
-                                        @ref=@groupedList
-                                        Selection=@Selection
-                                        SubGroupSelector=@SubGroupSelector
-                                        GroupTitleSelector=@GroupTitleSelector
-                                        SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
+                                     TItem="TItem"
+                                     TKey="object"
+                                     GetKey=@GetKey
+                                     @ref=@groupedList
+                                     Selection=@Selection
+                                     SubGroupSelector=@SubGroupSelector
+                                     GroupTitleSelector=@GroupTitleSelector
+                                     SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                             <ItemTemplate>
                                 <DetailsRow Item=@context.Item.Item
                                             ItemIndex=@context.Index
-                                               TItem="TItem"
+                                            TItem="TItem"
                                             Columns=@_adjustedColumns
                                             SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)
-                                               Selection=@Selection
+                                            Selection=@Selection
                                             CheckboxVisibility=@CheckboxVisibility
                                             Compact=@Compact />
                             </ItemTemplate>

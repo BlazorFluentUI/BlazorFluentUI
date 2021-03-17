@@ -21,18 +21,17 @@
     </div>
     <div>
         <div class="subSection">
-            <Demo MetadataPath="DetailsListPageBasic" Key="0" Header="Basic DetailsList">
+            <Demo Header="Basic Details List" Key="0" MetadataPath="DetailsListPageBasic">
                 <div data-is-scrollable="true" style="height:400px;overflow-y:auto;">
-                        <h3>DetailsList</h3>
-                        <DetailsList ItemsSource="InputList"
-                                     Columns="Columns"
-                                     GetKey=@(item=>item.Key)
-                                     LayoutMode="DetailsListLayoutMode.Justified"
-                                     TItem="DataItem"
-                                     OnItemInvoked="OnClick"
-                                     Selection="selection"
-                                     SelectionMode="SelectionMode.Multiple">
-                        </DetailsList>
+                    <DetailsList ItemsSource="InputList"
+                                 Columns="Columns"
+                                 GetKey=@(item=>item.Key)
+                                 LayoutMode="DetailsListLayoutMode.Justified"
+                                 TItem="DataItem"
+                                 OnItemInvoked="OnClick"
+                                 Selection="selection"
+                                 SelectionMode="SelectionMode.Multiple">
+                    </DetailsList>
                 </div>
             </Demo>
         </div>
@@ -40,11 +39,11 @@
 </div>
 @code {
 
-    System.Collections.Generic.List<DataItem> InputList = new ();
+    System.Collections.Generic.List<DataItem> InputList = new();
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
-    public System.Collections.Generic.List<DetailsRowColumn<DataItem>> Columns = new ();
+    public System.Collections.Generic.List<DetailsRowColumn<DataItem>> Columns = new();
 
     protected override void OnInitialized()
     {

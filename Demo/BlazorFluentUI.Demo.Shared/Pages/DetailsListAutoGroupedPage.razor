@@ -29,42 +29,41 @@
         <h2 class="subHeading">Usage</h2>
     </div>
     <div>
-        <Stack Style="height:100%;">
-            <h3>DetailsListAuto - Grouped Data</h3>
-            <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
-                <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
-                <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
-                <Dropdown ItemsSource=@selectionModeOptions
-                          @bind-SelectedOption=selectedModeOption
-                          Style="max-width:300px;">
-                </Dropdown>
-            </Stack>
-            <TextField Label="Filter Description"
-                       Value=@filter
-                       OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => (prop as string).Contains(filter); }) />
-            <div data-is-scrollable="true" style="height:100%;overflow-y:auto;">
-                <DetailsListAuto ItemsSource="dataSource"
-                                 @ref="detailsList"
-                                 Columns="columnsSource"
-                                 Compact="@isCompact.GetValueOrDefault()"
-                                 GetKey=@(x=>x.Key)
-                                 TItem="DataItem"
-                                 IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
-                                 GroupBy=@(new System.Collections.Generic.List<Func<DataItem,object>>
+        <Demo Header="Details List Auto - Grouped Data" Key="0" MetadataPath="DetailsListAutoGroupedPage">
+            <Stack Style="height:100%;">
+                <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
+                    <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+                    <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+                    <Dropdown ItemsSource=@selectionModeOptions
+                              @bind-SelectedOption=selectedModeOption
+                              Style="max-width:300px;">
+                    </Dropdown>
+                </Stack>
+                <TextField Label="Filter Description"
+                           Value=@filter
+                           OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => (prop as string).Contains(filter); }) />
+                <div data-is-scrollable="true" style="height:100%;overflow-y:auto;">
+                    <DetailsListAuto ItemsSource="dataSource"
+                                     @ref="detailsList"
+                                     Columns="columnsSource"
+                                     Compact="@isCompact.GetValueOrDefault()"
+                                     GetKey=@(x=>x.Key)
+                                     TItem="DataItem"
+                                     IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
+                                     GroupBy=@(new System.Collections.Generic.List<Func<DataItem,object>>
                               {
                                   x=>x.GroupName,
                                   x=>x.KeyNumber % 2 == 0 ? "even" :"odd"
                               })
-                                 LayoutMode="DetailsListLayoutMode.Justified"
-                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
-                </DetailsListAuto>
-            </div>
-        </Stack>
-
+                                     LayoutMode="DetailsListLayoutMode.Justified"
+                                     SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
+                    </DetailsListAuto>
+                </div>
+            </Stack>
+        </Demo>
     </div>
 </div>
 @code {
-    //ToDo: Add Demo sections
     bool? isVirtualizing = true;
     bool? isCompact = false;
     IDropdownOption selectedModeOption;

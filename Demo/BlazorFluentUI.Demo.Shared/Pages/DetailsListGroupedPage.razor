@@ -27,37 +27,35 @@
     </div>
     <div>
         <div class="subSection">
-
-            <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
-                <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
-                <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
-                <Dropdown ItemsSource=@selectionModeOptions
-                          @bind-SelectedOption=selectedModeOption
-                          Style="max-width:300px;">
-                </Dropdown>
-            </Stack>
-            <div data-is-scrollable="true" style="height:400px; overflow-y:auto;">
-                <DetailsList ItemsSource="ReadonlyList"
-                             @ref="detailsList"
-                             Columns="ReadonlyColumns"
-                             GetKey="(item)=>item.Key"
-                             TItem="GroupedDataItem"
-                             Compact="@isCompact.GetValueOrDefault()"
-                             IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
-                             SubGroupSelector=@(item=> item.ObservableData)
-                             GroupTitleSelector=@(item=>item.DisplayName)
-                             LayoutMode="DetailsListLayoutMode.Justified"
-                             Selection="selection"
-                             SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
-                </DetailsList>
-            </div>
-
-
+            <Demo Header="Details List Grouped" Key="0" MetadataPath="DetailsListGroupedPage">
+                <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
+                    <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+                    <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+                    <Dropdown ItemsSource=@selectionModeOptions
+                              @bind-SelectedOption=selectedModeOption
+                              Style="max-width:300px;">
+                    </Dropdown>
+                </Stack>
+                <div data-is-scrollable="true" style="height:400px; overflow-y:auto;">
+                    <DetailsList ItemsSource="ReadonlyList"
+                                 @ref="detailsList"
+                                 Columns="ReadonlyColumns"
+                                 GetKey="(item)=>item.Key"
+                                 TItem="GroupedDataItem"
+                                 Compact="@isCompact.GetValueOrDefault()"
+                                 IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
+                                 SubGroupSelector=@(item=> item.ObservableData)
+                                 GroupTitleSelector=@(item=>item.DisplayName)
+                                 LayoutMode="DetailsListLayoutMode.Justified"
+                                 Selection="selection"
+                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
+                    </DetailsList>
+                </div>
+            </Demo>
         </div>
     </div>
 </div>
 @code {
-    //ToDo: Add Demo sections
     bool? isVirtualizing = true;
     bool? isCompact = false;
     IDropdownOption selectedModeOption;

@@ -27,46 +27,45 @@
     </div>
     <div>
         <div class="subSection">
-
-            <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
-                <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
-                <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
-                <Dropdown ItemsSource=@selectionModeOptions
-                          @bind-SelectedOption=selectedModeOption
-                          Style="max-width:300px;">
-                </Dropdown>
-                <Toggle Label="Disable Selection"
-                        @bind-Checked="selectionDisabled"
-                        OnText="disabled"
-                        OffText="enabled" />
-            </Stack>
-            <TextField Label="Filter Description"
-                       @bind-Value=@dataContainer.Filter
-                       @bind-Value:event="OnInput" />
-            <div data-is-scrollable="true"
-                 style="height:400px;overflow-y:auto;">
-                @if (ReadonlyList != null)
-                {
-                    <DetailsList ItemsSource="null"
-                                 IsVirtualizing=@isVirtualizing.GetValueOrDefault()
-                                 Compact=@isCompact.GetValueOrDefault()
-                                 Columns="ReadonlyColumns"
-                                 GetKey=@(item => item.Key)
-                                 LayoutMode="DetailsListLayoutMode.Justified"
-                                 Selection="selection"
-                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
-                                 DisableSelectionZone=@selectionDisabled.GetValueOrDefault() />
-                }
-                else
-                {
-                    @("Loading...")
-                }
-            </div>
+            <Demo Header="Details List" Key="0" MetadataPath="DetailsListPage">
+                <Stack Horizontal="true" Tokens="new StackTokens { ChildrenGap = new double[] { 10.0 } }">
+                    <Toggle Label="IsVirtualizing" OnText="true" OffText="false" @bind-Checked="isVirtualizing" />
+                    <Toggle Label="IsCompact" OnText="true" OffText="false" @bind-Checked="isCompact" />
+                    <Dropdown ItemsSource=@selectionModeOptions
+                              @bind-SelectedOption=selectedModeOption
+                              Style="max-width:300px;">
+                    </Dropdown>
+                    <Toggle Label="Disable Selection"
+                            @bind-Checked="selectionDisabled"
+                            OnText="disabled"
+                            OffText="enabled" />
+                </Stack>
+                <TextField Label="Filter Description"
+                           @bind-Value=@dataContainer.Filter
+                           @bind-Value:event="OnInput" />
+                <div data-is-scrollable="true" style="height:400px;overflow-y:auto;">
+                    @if (ReadonlyList != null)
+                    {
+                        <DetailsList ItemsSource="null"
+                                     IsVirtualizing=@isVirtualizing.GetValueOrDefault()
+                                     Compact=@isCompact.GetValueOrDefault()
+                                     Columns="ReadonlyColumns"
+                                     GetKey=@(item => item.Key)
+                                     LayoutMode="DetailsListLayoutMode.Justified"
+                                     Selection="selection"
+                                     SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
+                                     DisableSelectionZone=@selectionDisabled.GetValueOrDefault() />
+                    }
+                    else
+                    {
+                        @("Loading...")
+                    }
+                </div>
+            </Demo>
         </div>
     </div>
 </div>
 @code {
-    //ToDo: Add Demo sections
     // You DO NOT have to use DynamicData and Observables with DetailsList.  You can do it all manually.  See
     // https://developer.microsoft.com/en-us/fluentui#/controls/web/detailslist for examples of how to use DetailsList
     // other ways.

@@ -25,33 +25,32 @@
     </div>
     <div>
         <div class="subSection">
-
-            <h4>FocusZone with horizontal movement</h4>
-
-            <div style="padding: 50px; background-color:yellow;">
-                <FocusZone Direction="FocusZoneDirection.Horizontal">
-                    <DefaultButton Text="First Button" OnClick=@OnInnerClick />
-                    <DefaultButton Text="Second Button" OnClick=@OnInnerClick />
-                    <DefaultButton Text="Third Button" OnClick=@OnInnerClick />
-                </FocusZone>
-            </div>
+            <Demo Header="FocusZone with horizontal movement" Key="0" MetadataPath="FocusZonePage">
+                <div style="padding: 50px; background-color:yellow;">
+                    <FocusZone Direction="FocusZoneDirection.Horizontal">
+                        <DefaultButton Text="First Button" OnClick=@OnInnerClick />
+                        <DefaultButton Text="Second Button" OnClick=@OnInnerClick />
+                        <DefaultButton Text="Third Button" OnClick=@OnInnerClick />
+                    </FocusZone>
+                </div>
+                <DefaultButton Text="Outside Button" OnClick=@OnOuterClick />
+            </Demo>
         </div>
         <div class="subSection">
-            <DefaultButton Text="Outside Button" OnClick=@OnOuterClick />
-
-            <h4>FocusZone with vertical &amp; circular movement</h4>
-            <div data-is-scrollable="true">
-                <FocusZone Direction="FocusZoneDirection.Vertical" IsCircularNavigation="true">
-                    <List ItemsSource=@items>
-                        <ItemTemplate>
-                            <div style="display:flex;flex-direction:row;width:100%;" data-is-focusable="true">
-                                <Image Src="redArrow.jpg" Height="50" Width="50" />
-                                <Label>This is an item #@context</Label>
-                            </div>
-                        </ItemTemplate>
-                    </List>
-                </FocusZone>
-            </div>
+            <Demo Header="FocusZone with vertical &amp; circular movement" Key="1" MetadataPath="FocusZonePage">
+                <div data-is-scrollable="true">
+                    <FocusZone Direction="FocusZoneDirection.Vertical" IsCircularNavigation="true">
+                        <List ItemsSource=@items>
+                            <ItemTemplate>
+                                <div style="display:flex;flex-direction:row;width:100%;" data-is-focusable="true">
+                                    <Image Src="redArrow.jpg" Height="50" Width="50" />
+                                    <Label>This is an item #@context</Label>
+                                </div>
+                            </ItemTemplate>
+                        </List>
+                    </FocusZone>
+                </div>
+            </Demo>
         </div>
         <div class="subSection">
             <style>
@@ -77,26 +76,26 @@
                 outline: 2px solid @(Theme.Palette.ThemePrimary);
             }
             </style>
-
-            <h4>FocusZone with bidirectional movement</h4>
-            <FocusZone Direction="FocusZoneDirection.Bidirectional"
-                       Style="display:inline-block;border:1px solid var(--palette-NeutralTertiary);padding:10px;line-height:0;overflow:hidden;">
-                @for (var i = 0; i < photos.Count; i++)
-                {
-                    <li @key=@i
-                        data-is-focusable="true"
-                        class="photoCell">
-                        <Image Src=@photos[i].Url
-                               Width=@photos[i].Width
-                               Height=@photos[i].Height />
-                    </li>
-                }
-            </FocusZone>
+            <Demo Header="FocusZone with bidirectional movement" Key="2" MetadataPath="FocusZonePage">
+                <FocusZone Direction="FocusZoneDirection.Bidirectional"
+                           Style="display:inline-block;border:1px solid var(--palette-NeutralTertiary);padding:10px;line-height:0;overflow:hidden;">
+                    @for (var i = 0; i < photos.Count; i++)
+                    {
+                        <li @key=@i
+                            data-is-focusable="true"
+                            class="photoCell">
+                            <Image Src=@photos[i].Url
+                                   Width=@photos[i].Width
+                                   Height=@photos[i].Height />
+                        </li>
+                    }
+                </FocusZone>
+            </Demo>
         </div>
     </div>
 </div>
 @code {
-    //ToDo: Add Demo sections
+
     bool isFocusTrapped = false;
     string debugText = "";
 

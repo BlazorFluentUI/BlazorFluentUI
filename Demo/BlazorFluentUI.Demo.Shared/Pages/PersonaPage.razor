@@ -739,6 +739,5 @@
 </div>
 
 @code {
-    //ToDo: Add Demo sections
     bool ShowDetails = true;
 }

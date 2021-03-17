@@ -21,18 +21,17 @@
     </div>
     <div>
         <div class="subSection">
-            <Toggle Label="Readonly" @bind-Checked=@isReadonly />
-            <RichTextEditor @bind-RichText=@htmlContents
-                            ReadOnly=@isReadonly.GetValueOrDefault() />
+            <Demo Header="RichText Editor" Key="0" MetadataPath="RichTextEditorPage">
+                <Toggle Label="Readonly" @bind-Checked=@isReadonly />
+                <RichTextEditor @bind-RichText=@htmlContents
+                                ReadOnly=@isReadonly.GetValueOrDefault() />
 
-            @htmlContents
-
+                @htmlContents
+            </Demo>
         </div>
     </div>
 </div>
-
 @code {
-    //ToDo: Add Demo sections
     bool? isReadonly = false;
     string htmlContents = "";
 }

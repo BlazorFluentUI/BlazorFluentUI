@@ -21,16 +21,15 @@
     </div>
     <div>
         <div class="subSection">
-            <p>
-                When a link has an href, <Link Href="http://dev.office.com/fabric/components/link">it renders as an anchor tag.</Link> Without an
-                href, <Link>the link is rendered as a button</Link>. You can also use the disabled attribute to create a
-                <Link Disabled=true Href="http://dev.office.com/fabric/components/link">disabled link.</Link>
-            </p>
+            <Demo Header="Links" Key="0" MetadataPath="LinkPage">
+                <p>
+                    When a link has an href, <Link Href="http://dev.office.com/fabric/components/link">it renders as an anchor tag.</Link> Without an
+                    href, <Link>the link is rendered as a button</Link>. You can also use the disabled attribute to create a
+                    <Link Disabled=true Href="http://dev.office.com/fabric/components/link">disabled link.</Link>
+                </p>
+            </Demo>
         </div>
     </div>
 </div>
-@code{
-    //ToDo: Add Demo sections
 
-}
 

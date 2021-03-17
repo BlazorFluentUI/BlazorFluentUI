@@ -3043,6 +3043,7 @@ var BlazorFluentUIFocusZone;
 //}
 //window.BlazorFluentUIFocusZone = BlazorFluentUIFocusZone;
 window['BlazorFluentUIFocusZone'] = BlazorFluentUIFocusZone || {};
+//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 // /// <reference path="focusTrapZone.ts" />
 /// <reference path="baseComponent.ts" />
 var BlazorFluentUIList;

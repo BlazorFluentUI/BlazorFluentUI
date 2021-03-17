@@ -21,23 +21,20 @@
     </div>
     <div>
         <div class="subSection">
-
-            <h4>Normal</h4>
-            <Spinner Size=@SpinnerSize.Large></Spinner>
-            <Spinner Size=@SpinnerSize.Medium></Spinner>
-            <Spinner Size=@SpinnerSize.Small></Spinner>
-            <Spinner Size=@SpinnerSize.XSmall></Spinner>
+            <Demo Header="Normal Spinner" Key="0" MetadataPath="SpinnerPage">
+                <Spinner Size=@SpinnerSize.Large></Spinner>
+                <Spinner Size=@SpinnerSize.Medium></Spinner>
+                <Spinner Size=@SpinnerSize.Small></Spinner>
+                <Spinner Size=@SpinnerSize.XSmall></Spinner>
+            </Demo>
         </div>
         <div class="subSection">
-            <h4>With Label</h4>
-            <Spinner Size=@SpinnerSize.Medium Label="SpinnerLabel" LabelPosition=@SpinnerLabelPosition.Top></Spinner>
-            <Spinner Size=@SpinnerSize.Medium Label="SpinnerLabel" LabelPosition=@SpinnerLabelPosition.Left></Spinner>
-            <Spinner Size=@SpinnerSize.Medium Label="SpinnerLabel" LabelPosition=@SpinnerLabelPosition.Bottom></Spinner>
-            <Spinner Size=@SpinnerSize.Medium Label="SpinnerLabel" LabelPosition=@SpinnerLabelPosition.Right></Spinner>
+            <Demo Header="Spinner with label" Key="1" MetadataPath="SpinnerPage">
+                <Spinner Size=@SpinnerSize.Medium Label="SpinnerLabel" LabelPosition=@SpinnerLabelPosition.Top></Spinner>
+                <Spinner Size=@SpinnerSize.Medium Label="SpinnerLabel" LabelPosition=@SpinnerLabelPosition.Left></Spinner>
+                <Spinner Size=@SpinnerSize.Medium Label="SpinnerLabel" LabelPosition=@SpinnerLabelPosition.Bottom></Spinner>
+                <Spinner Size=@SpinnerSize.Medium Label="SpinnerLabel" LabelPosition=@SpinnerLabelPosition.Right></Spinner>
+            </Demo>
         </div>
     </div>
 </div>
-
-@code {
-    //ToDo: Add Demo sections
-}

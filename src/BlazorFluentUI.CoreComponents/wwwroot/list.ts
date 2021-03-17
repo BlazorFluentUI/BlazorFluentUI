@@ -1,3 +1,4 @@
+//declare interface Window { debounce(func: Function, wait: number, immediate: boolean): Function }
 // /// <reference path="focusTrapZone.ts" />
 /// <reference path="baseComponent.ts" />
 

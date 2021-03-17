@@ -6,6 +6,7 @@
     "removeComments": false,
     "sourceMap": false,
     "target": "ES6",
+    "module": "AMD",
     "outFile": "wwwroot/blazorFluentUI.js",
     "allowJs": true
   },

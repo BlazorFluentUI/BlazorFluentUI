@@ -28,18 +28,16 @@
     </div>
     <div>
         <div class="subSection">
-            <TooltipHost>
-                <TooltipContent>
-                    Hey, look here!
-                </TooltipContent>
-                <ChildContent>
-                    <DefaultButton>Hover to see a tooltip</DefaultButton>
-                </ChildContent>
-            </TooltipHost>
+            <Demo Header="Tooltip" Key="0" MetadataPath="TooltipPage">
+               <TooltipHost>
+                    <TooltipContent>
+                        Hey, look here!
+                    </TooltipContent>
+                    <ChildContent>
+                        <DefaultButton>Hover to see a tooltip</DefaultButton>
+                    </ChildContent>
+                </TooltipHost>
+            </Demo>
         </div>
     </div>
 </div>
-
-@code {
-    //ToDo: Add Demo sections
-}

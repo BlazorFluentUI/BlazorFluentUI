@@ -31,29 +31,30 @@
     <div>
 
         <div class="subSection">
-            <ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
-                         Data=@(new ResizeGroupData<OverflowItem>(items, overflowItems, ComputeCacheKey(items)))
-                         GetCacheKey=@getCacheKey>
-                <DataTemplate Context="data">
-                    <OverflowSet Items=@data.Items OverflowItems=@data.OverflowItems GetKey=@(x=> x.Key)>
-                        <ItemTemplate>
-                            <CommandBarButton IconName="Add" Text=@context.Name />
-                        </ItemTemplate>
-                        <OverflowTemplate>
-                            <CommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@(itemTransform(context)) />
-                        </OverflowTemplate>
-                        @*<OverflowItemTemplate>
-                                <ContextualMenuItem Text=@context.Name Key=@context.Key />
-                            </OverflowItemTemplate>*@
-                    </OverflowSet>
-                </DataTemplate>
-            </ResizeGroup>
+            <Demo Header="Resize group" Key="0" MetadataPath="ResizeGroupPage">
+                <ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
+                             Data=@(new ResizeGroupData<OverflowItem>(items, overflowItems, ComputeCacheKey(items)))
+                             GetCacheKey=@getCacheKey>
+                    <DataTemplate Context="data">
+                        <OverflowSet Items=@data.Items OverflowItems=@data.OverflowItems GetKey=@(x=> x.Key)>
+                            <ItemTemplate>
+                                <CommandBarButton IconName="Add" Text=@context.Name />
+                            </ItemTemplate>
+                            <OverflowTemplate>
+                                <CommandBarButton HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@(itemTransform(context)) />
+                            </OverflowTemplate>
+                            @*<OverflowItemTemplate>
+                                    <ContextualMenuItem Text=@context.Name Key=@context.Key />
+                                </OverflowItemTemplate>*@
+                        </OverflowSet>
+                    </DataTemplate>
+                </ResizeGroup>
+            </Demo>
         </div>
     </div>
 </div>
 
 @code {
-    //ToDo: Add Demo sections
     List<OverflowItem> items = new List<OverflowItem>();
     List<OverflowItem> overflowItems = new List<OverflowItem>();
 

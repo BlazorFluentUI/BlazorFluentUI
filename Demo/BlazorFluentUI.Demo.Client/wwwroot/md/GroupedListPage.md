@@ -23,46 +23,44 @@
     </div>
     <div>
         <div class="subSection">
-            <Stack Style="height:calc(100% - 0px);">
-                <Toggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
-                <Toggle OffText="Normal" OnText="Compact" Label="Enable compact mode" @bind-Checked="isCompact" />
-                <Label>Grouped List</Label>
-
-                <div data-is-scrollable="true"
-                     style="height:100%;overflow-y:auto;">
-                    <SelectionZone Selection=@selection
-                                   DisableRenderOnSelectionChanged="true"
-                                   SelectionMode=@SelectionMode.Multiple>
-                        <FocusZone Direction="FocusZoneDirection.Vertical">
-                            <GroupedList ItemsSource=@groupedData
-                                         TKey="object"
-                                         GetKey="item => item.Key"
-                                         Compact=@isCompact.GetValueOrDefault()
-                                         IsVirtualizing=@isVirtualizing.GetValueOrDefault()
-                                         TItem="GroupedDataItem"
-                                         GroupTitleSelector=@(x=>x.DisplayName)
-                                         Selection=@selection
-                                         SubGroupSelector=@(x=>x.Data)
-                                         SelectionMode=@SelectionMode.Multiple>
-                                <ItemTemplate>
-                                    <DetailsRow Item=@context.Item.Item
-                                                Columns=@columns
-                                                Compact=@isCompact.GetValueOrDefault()
-                                                ItemIndex=@context.Index
-                                                Selection=@selection
-                                                GroupNestingDepth=@context.Item.Depth
-                                                SelectionMode=@SelectionMode.Multiple />
-                                </ItemTemplate>
-                            </GroupedList>
-                        </FocusZone>
-                    </SelectionZone>
-                </div>
-            </Stack>
+            <Demo Header="Grouped List" Key="0" MetadataPath="GroupedListPage">
+                <Stack Style="height:calc(100% - 0px);">
+                    <Toggle Label="IsVirtualizing" @bind-Checked="isVirtualizing" />
+                    <Toggle OffText="Normal" OnText="Compact" Label="Enable compact mode" @bind-Checked="isCompact" />
+                    <div data-is-scrollable="true" style="height:100%;overflow-y:auto;">
+                        <SelectionZone Selection=@selection
+                                       DisableRenderOnSelectionChanged="true"
+                                       SelectionMode=@SelectionMode.Multiple>
+                            <FocusZone Direction="FocusZoneDirection.Vertical">
+                                <GroupedList ItemsSource=@groupedData
+                                             TKey="object"
+                                             GetKey="item => item.Key"
+                                             Compact=@isCompact.GetValueOrDefault()
+                                             IsVirtualizing=@isVirtualizing.GetValueOrDefault()
+                                             TItem="GroupedDataItem"
+                                             GroupTitleSelector=@(x=>x.DisplayName)
+                                             Selection=@selection
+                                             SubGroupSelector=@(x=>x.Data)
+                                             SelectionMode=@SelectionMode.Multiple>
+                                    <ItemTemplate>
+                                        <DetailsRow Item=@context.Item.Item
+                                                    Columns=@columns
+                                                    Compact=@isCompact.GetValueOrDefault()
+                                                    ItemIndex=@context.Index
+                                                    Selection=@selection
+                                                    GroupNestingDepth=@context.Item.Depth
+                                                    SelectionMode=@SelectionMode.Multiple />
+                                    </ItemTemplate>
+                                </GroupedList>
+                            </FocusZone>
+                        </SelectionZone>
+                    </div>
+                </Stack>
+            </Demo>
         </div>
     </div>
 </div>
 @code {
-    //ToDo: Add Demo sections
     string DebugText = "";
     bool? isCompact;
     bool? isVirtualizing = true;

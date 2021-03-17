@@ -21,11 +21,11 @@
     </div>
     <div>
         <div class="subSection">
-
-
-            <Label>I'm a Label</Label>
-            <Label Disabled=true>I'm a disabled Label</Label>
-            <Label Required=true>I'm a required Label</Label>
+            <Demo Header="Labels" Key="0" MetadataPath="LabelPage">
+                <Label>I'm a Label</Label>
+                <Label Disabled=true>I'm a disabled Label</Label>
+                <Label Required=true>I'm a required Label</Label>
+            </Demo>
         </div>
     </div>
 </div>

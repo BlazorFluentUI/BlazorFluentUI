@@ -35,23 +35,22 @@
     </div>
     <div>
         <div class="subSection">
+            <Demo Header="Progress indicators" Key="0" MetadataPath="ProgressIndicatorPage">
+                <ProgressIndicator PercentComplete=@progressValue
+                                   Style="margin:15px;"
+                                   Description="Sample Description"
+                                   Label="Progress Indicator with PercentComplete" />
 
-            <ProgressIndicator PercentComplete=@progressValue
-                               Style="margin:15px;"
-                               Description="Sample Description"
-                               Label="Progress Indicator with PercentComplete" />
-
-            <ProgressIndicator Description="Sample Description"
-                               Indeterminate="true"
-                               Style="margin:15px;"
-                               Label="Indeterminate Progress Indicator" />
-
+                <ProgressIndicator Description="Sample Description"
+                                   Indeterminate="true"
+                                   Style="margin:15px;"
+                                   Label="Indeterminate Progress Indicator" />
+            </Demo>
         </div>
     </div>
 </div>
 
 @code {
-    //ToDo: Add Demo sections
     decimal progressValue = 0;
     const decimal INTERVAL_INCREMENT = 0.01M;
     System.Timers.Timer timer;

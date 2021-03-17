@@ -24,16 +24,18 @@
     </div>
     <div>
         <div class="subSection">
-            <Checkbox @bind-Checked=@isFocusTrapped @bind-Checked:event="CheckedChanged" Label="Enable FocusTrapZone" />
-            <div style="padding: 50px; background-color:yellow;">
-                <FocusTrapZone Disabled=@(!isFocusTrapped) FirstFocusableSelector="ftselected">
-                    <DefaultButton Text="First Button" OnClick=@OnInnerClick />
-                    <DefaultButton Text="Second Button" OnClick=@OnInnerClick />
-                    <DefaultButton ClassName="ftselected" Text="Third Button" OnClick=@OnInnerClick />
-                </FocusTrapZone>
-            </div>
+            <Demo Header="FocusTrapZone Example" Key="0" MetadataPath="FocusTrapZonePage">
+                <Checkbox @bind-Checked=@isFocusTrapped @bind-Checked:event="CheckedChanged" Label="Enable FocusTrapZone" />
+                <div style="padding: 50px; background-color:yellow;">
+                    <FocusTrapZone Disabled=@(!isFocusTrapped) FirstFocusableSelector="ftselected">
+                        <DefaultButton Text="First Button" OnClick=@OnInnerClick />
+                        <DefaultButton Text="Second Button" OnClick=@OnInnerClick />
+                        <DefaultButton ClassName="ftselected" Text="Third Button" OnClick=@OnInnerClick />
+                    </FocusTrapZone>
+                </div>
 
-            <DefaultButton Text="Outside Button" OnClick=@OnOuterClick />
+                <DefaultButton Text="Outside Button" OnClick=@OnOuterClick />
+            </Demo>
 
             <em>@debugText</em>
             @isFocusTrapped
@@ -42,7 +44,6 @@
 </div>
 
 @code {
-    // ToDo: Add Demo sections
     bool isFocusTrapped = false;
     string debugText = "";
 

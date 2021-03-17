@@ -23,7 +23,7 @@
     </div>
     <div>
         <div class="subSection">
-            <Demo Key="0" Header="Basic Vertical List with selection" MetadataPath="listPage">
+            <Demo Key="0" Header="Basic Vertical List with selection" MetadataPath="ListPage">
                 <Stack Style="height:500px;">
                     <div style="height:20px;">
                         @DebugText
@@ -74,7 +74,7 @@
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Key="1" Header="Basic Grid List with selection" MetadataPath="listPage">
+            <Demo Key="1" Header="Basic Grid List with selection" MetadataPath="ListPage">
                 <Stack Style="height:500px;">
                     <div style="height:20px;">
                         @DebugText

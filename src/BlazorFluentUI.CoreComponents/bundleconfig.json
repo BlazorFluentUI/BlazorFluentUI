@@ -3,19 +3,9 @@
     "outputFileName": "wwwroot/blazorFluentUI.min.js",
     "inputFiles": [
       "wwwroot/blazorFluentUI.js",
-      //"wwwroot/baseComponent.js",
-      //"wwwroot/callout.js",
-      //"wwwroot/detailsList.js",
-      //"wwwroot/fluentUIList.js",
-      //"wwwroot/focusTrapZone.js",
-      //"wwwroot/focusZone.js",
-      //"wwwroot/marqueeSelection.js",
-      //"wwwroot/panel.js",
-      //"wwwroot/selectionZone.js",
-      //"wwwroot/slider.js",
       "wwwroot/richTextEditor.js",
       "wwwroot/requestIdleCallbackPolyfill.js"
     ],
-    "sourceMap": false
+    "sourceMap": true
   }
 ]

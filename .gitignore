@@ -337,12 +337,8 @@ ASALocalRun/
 .localhistory/
 
 # BeatPulse healthcheck temp database
-healthchecksdb
-/NugetKey.txt
-/nugetInfo.txt
-/src/BlazorFluentUI.BFURichTextEditor/src/quill-1.3.7
-/BlazorFluentUI.BFUDetailsRow
 /Demo/BlazorFluentUI.Demo.Client/wwwroot/md
 /Demo/BlazorFluentUI.Demo.Server/wwwroot/md
 /published
-/src/wwwroot/blzorFluentUI.*
+
+

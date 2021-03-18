@@ -12,18 +12,18 @@ namespace BlazorFluentUI
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool Hidden { get; set; }
         [Parameter] public SelectableOptionMenuItemType ItemType { get; set; } = SelectableOptionMenuItemType.Normal;
-        [Parameter] public string Key { get; set; }
+        [Parameter] public string? Key { get; set; }
         //[Parameter] protected string Selected { get; set; }
-        [Parameter] public string Text { get; set; }
-        
+        [Parameter] public string? Text { get; set; }
 
-        [CascadingParameter] protected Dropdown Dropdown { get; set; }
+
+        [CascadingParameter] protected Dropdown? Dropdown { get; set; }
 
         private bool isSelected = false;
 
         protected override Task OnParametersSetAsync()
         {
-            if (Dropdown!= null && 
+            if (Dropdown!= null &&
                 (Dropdown.SelectedOptions.Any() || Dropdown.SelectedOption != null))
             {
                 if (Dropdown.SelectedOptions.FirstOrDefault(x => x.Key == Key) != null)
@@ -63,26 +63,26 @@ namespace BlazorFluentUI
 
         private void ApplyChange()
         {
-            if (Dropdown.MultiSelect)
+            if (Dropdown!.MultiSelect)
             {
-                if (isSelected) 
-                { 
-                    Dropdown.RemoveSelection(Key); 
-                } 
-                else { 
-                    Dropdown.AddSelection(Key); 
+                if (isSelected)
+                {
+                    Dropdown.RemoveSelection(Key!);
+                }
+                else {
+                    Dropdown.AddSelection(Key!);
                 }
             }
             else
             {
-                Dropdown.ResetSelection(); 
-                Dropdown.AddSelection(Key);
+                Dropdown.ResetSelection();
+                Dropdown.AddSelection(Key!);
             }
         }
 
         private void BuildOption(RenderTreeBuilder builder, int i=0)
         {
-            if (Dropdown.MultiSelect)
+            if (Dropdown!.MultiSelect)
             {
                 builder.OpenComponent<Checkbox>(i);
                     //builder.AddAttribute(i + 2, "Key", this.Key);
@@ -106,7 +106,7 @@ namespace BlazorFluentUI
                     builder2.AddAttribute(i + 7, "class", "ms-Dropdown-optionText");
                     builder2.AddContent(i + 8, Text);
                     builder2.CloseElement();
-                }));                
+                }));
                 builder.CloseComponent();
             }
         }

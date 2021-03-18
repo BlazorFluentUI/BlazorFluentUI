@@ -36,7 +36,7 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<IEnumerable<IDropdownOption>> SelectedOptionsChanged { get; set; }
 
         [Inject]
-        private IJSRuntime? jSRuntime { get; set; }
+        private IJSRuntime? JSRuntime { get; set; }
 
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
 
@@ -47,7 +47,7 @@ namespace BlazorFluentUI
         [Parameter]
         public Expression<Func<IEnumerable<IDropdownOption>>>? SelectedOptionsExpression { get; set; }
 
-        protected bool isOpen { get; set; }
+        protected bool IsOpen { get; set; }
 
         protected string id = Guid.NewGuid().ToString();
         protected bool isSmall = false;
@@ -89,8 +89,8 @@ namespace BlazorFluentUI
             //SelectedKeys.Clear();
             SelectedOptions = Enumerable.Empty<IDropdownOption>();
             //SelectedKey = null;
-
-            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+            if (FieldIdentifier.FieldName != null)
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {
@@ -108,11 +108,12 @@ namespace BlazorFluentUI
 
         public void AddSelection(string key)
         {
-            IDropdownOption? option = ItemsSource.FirstOrDefault(x => x.Key == key);
+            IDropdownOption? option = ItemsSource!.FirstOrDefault(x => x.Key == key);
             if (option == null)
                 return;
 
-            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+            if (FieldIdentifier.FieldName != null)
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {
@@ -138,18 +139,19 @@ namespace BlazorFluentUI
                     if (SelectedOptionChanged.HasDelegate)
                         SelectedOptionChanged.InvokeAsync(SelectedOption);
                 }
-                isOpen = false;
+                IsOpen = false;
             }
             StateHasChanged();
         }
 
         public void RemoveSelection(string key)
         {
-            IDropdownOption? option = ItemsSource.FirstOrDefault(x => x.Key == key);
+            IDropdownOption? option = ItemsSource!.FirstOrDefault(x => x.Key == key);
             if (option == null)
                 return;
 
-            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+            if (FieldIdentifier.FieldName != null)
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {
@@ -202,10 +204,10 @@ namespace BlazorFluentUI
                 GetDropdownBounds();
 
             }
-            if (isOpen && _registrationToken == null)
+            if (IsOpen && _registrationToken == null)
                 _ = RegisterListFocusAsync();
 
-            if (!isOpen && _registrationToken != null)
+            if (!IsOpen && _registrationToken != null)
                 _ = DeregisterListFocusAsync();
 
             await base.OnAfterRenderAsync(firstRender);
@@ -248,11 +250,11 @@ namespace BlazorFluentUI
                 if (SelectedOptionExpression != null)
                     FieldIdentifier = FieldIdentifier.Create<IDropdownOption>(SelectedOptionExpression);
                 else
-                    FieldIdentifier = FieldIdentifier.Create<IEnumerable<IDropdownOption>>(SelectedOptionsExpression);
+                    FieldIdentifier = FieldIdentifier.Create<IEnumerable<IDropdownOption>>(SelectedOptionsExpression!);
 
                 CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
-                CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
+                CascadedEditContext!.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
             }
         }
 
@@ -271,14 +273,14 @@ namespace BlazorFluentUI
                 _chosenReference = panelReference;
             else
                 _chosenReference = calloutReference;
-            _registrationToken = await jSRuntime.InvokeAsync<string>("FluentUIBaseComponent.registerKeyEventsForList", _chosenReference);
+            _registrationToken = await JSRuntime!.InvokeAsync<string>("FluentUIBaseComponent.registerKeyEventsForList", _chosenReference);
         }
 
         private async Task DeregisterListFocusAsync()
         {
             if (_registrationToken != null)
             {
-                await jSRuntime.InvokeVoidAsync("FluentUIBaseComponent.deregisterKeyEventsForList", _registrationToken);
+                await JSRuntime!.InvokeVoidAsync("FluentUIBaseComponent.deregisterKeyEventsForList", _registrationToken);
                 _registrationToken = null;
             }
         }
@@ -287,7 +289,7 @@ namespace BlazorFluentUI
         {
             _calloutPositionedInfo = calloutPositionedInfo;
             SetStyle();
-            calloutFocusZone.FocusFirstElement();
+            calloutFocusZone!.FocusFirstElement();
         }
 
         private Task KeydownHandler(KeyboardEventArgs args)
@@ -297,15 +299,15 @@ namespace BlazorFluentUI
             {
                 case "Enter":
                 case " ":
-                    isOpen = !isOpen;
+                    IsOpen = !IsOpen;
                     break;
                 case "Escape":
-                    isOpen = false;
+                    IsOpen = false;
                     break;
                 case "ArrowDown":
                     if (containsExpandCollapseModifier)
                     {
-                        isOpen = true;
+                        IsOpen = true;
                     }
                     break;
             }
@@ -315,7 +317,7 @@ namespace BlazorFluentUI
         protected Task ClickHandler(MouseEventArgs args)
         {
             if (!Disabled)
-                isOpen = !isOpen;  //There is a problem here.  Clicking when open causes automatic dismissal (light dismiss) so this just opens it again.
+                IsOpen = !IsOpen;  //There is a problem here.  Clicking when open causes automatic dismissal (light dismiss) so this just opens it again.
             return Task.CompletedTask;
         }
         protected static Task FocusHandler(FocusEventArgs args)
@@ -327,7 +329,7 @@ namespace BlazorFluentUI
 
         protected void DismissHandler()
         {
-            isOpen = false;
+            IsOpen = false;
         }
 
         private void CreateLocalCss()

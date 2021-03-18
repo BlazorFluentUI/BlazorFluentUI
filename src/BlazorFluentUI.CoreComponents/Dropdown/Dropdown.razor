@@ -17,18 +17,18 @@
              tabindex=@(Disabled ? -1 : 0)
              id=@id
              data-is-focusable="true"
-             aria-expanded=@(isOpen ? "true" : "false")
+             aria-expanded=@(IsOpen ? "true" : "false")
              aria-label=@AriaLabel
              aria-labelledby=@(Label != null ? id+"-label" : null)
              aria-describedby="?"
              aria-activedescendant="?"
              aria-required=@Required
              aria-disabled=@Disabled
-             aria-owns=@(isOpen ? id + "-list" : null)
+             aria-owns=@(IsOpen ? id + "-list" : null)
              @onclick=@ClickHandler
              @onkeydown=@KeydownHandler
              @onfocus=@FocusHandler
-             class=@($"ms-Dropdown mediumFont {(isOpen?"is-open":"")} {(this.Label!=null ? "has-label" : "")} {(Disabled?"is-disabled":"")} {(Required?"is-required":"")} {(SelectedOptions.Count() == 0 && SelectedOption == null ?"has-placeholder":"")} {(ErrorMessage != null ?"has-error":"")}")>
+             class=@($"ms-Dropdown mediumFont {(IsOpen?"is-open":"")} {(this.Label!=null ? "has-label" : "")} {(Disabled?"is-disabled":"")} {(Required?"is-required":"")} {(SelectedOptions.Count() == 0 && SelectedOption == null ?"has-placeholder":"")} {(ErrorMessage != null ?"has-error":"")}")>
             <span id=@($"{id}-option")
                   class="ms-Dropdown-title"
                   aria-atomic="true"
@@ -55,7 +55,7 @@
         </div>
     </KeytipData>
 
-    <Panel IsOpen=@((int)CurrentMode <= (int)ResponsiveMode.Medium && isOpen) IsLightDismiss="true" OnDismiss=@DismissHandler HasCloseButton="false">
+    <Panel IsOpen=@((int)CurrentMode <= (int)ResponsiveMode.Medium && IsOpen) IsLightDismiss="true" OnDismiss=@DismissHandler HasCloseButton="false">
         <div class="ms-Dropdown-itemsWrapper"
              @ref="panelReference"
              tabindex="0">
@@ -81,7 +81,7 @@
             </FocusZone>
         </div>
     </Panel>
-    @if (isOpen)
+    @if (IsOpen)
     {
         //render container
         @if ((int)CurrentMode <= (int)ResponsiveMode.Medium)

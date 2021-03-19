@@ -90,8 +90,9 @@ namespace BlazorFluentUI
             //SelectedKeys.Clear();
             SelectedOptions = Enumerable.Empty<IBFUDropdownOption>();
             //SelectedKey = null;
-
-            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+            
+            if (FieldIdentifier.FieldName != null)
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {
@@ -112,8 +113,9 @@ namespace BlazorFluentUI
             var option = ItemsSource.FirstOrDefault(x => x.Key == key);
             if (option == null)
                 return;
-
-            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+            
+            if (FieldIdentifier.FieldName != null)
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {
@@ -149,8 +151,9 @@ namespace BlazorFluentUI
             var option = ItemsSource.FirstOrDefault(x => x.Key == key);
             if (option == null)
                 return;
-
-            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+            
+            if (FieldIdentifier.FieldName != null)
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {

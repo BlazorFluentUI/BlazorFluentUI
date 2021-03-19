@@ -1364,7 +1364,7 @@ var FluentUIBaseComponent;
          */
         static raise(
         // tslint:disable-next-line:no-any
-        target, eventName, 
+        target, eventName,
         // tslint:disable-next-line:no-any
         eventArgs, bubbleEvent) {
             let retVal;

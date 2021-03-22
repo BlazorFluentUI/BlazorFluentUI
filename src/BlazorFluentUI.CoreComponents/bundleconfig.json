@@ -6,6 +6,6 @@
       "wwwroot/richTextEditor.js",
       //"wwwroot/requestIdleCallbackPolyfill.js"
     ],
-    "sourceMap": false
+    "sourceMap": true
   }
 ]

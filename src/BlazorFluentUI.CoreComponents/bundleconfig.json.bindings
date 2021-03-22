@@ -1,1 +1,1 @@
-﻿///<binding AfterBuild='wwwroot/blazorFluentUI.min.js' />
+﻿///<binding BeforeBuild='wwwroot/blazorFluentUI.min.js' />

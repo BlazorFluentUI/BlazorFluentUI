@@ -1,0 +1,39 @@
+﻿@namespace BlazorFluentUI
+@inherits FluentUIComponentBase
+@typeparam TItem
+
+@if(@Backstage != null)
+{
+    <RibbonMenuIntern BackstageHeader=@BackstageHeader Backstage=@Backstage @bind-ShowBackstage="ShowBackstage">
+        @ChildContent
+        @if (Backstage != null)
+        {
+            <PivotItem HeaderText=@BackstageHeader />
+        }
+        @if (ItemTemplate != null && ItemsSource != null)
+        {
+            foreach (var item in ItemsSource)
+            {
+                @ItemTemplate(item)
+            }
+        }
+    </RibbonMenuIntern>
+}
+else
+{
+    <RibbonMenuIntern>
+        @ChildContent
+        @if (Backstage != null)
+        {
+            <PivotItem HeaderText=@BackstageHeader />
+        }
+        @if (ItemTemplate != null && ItemsSource != null)
+        {
+            foreach (var item in ItemsSource)
+            {
+                @ItemTemplate(item)
+            }
+        }
+    </RibbonMenuIntern>
+}
+

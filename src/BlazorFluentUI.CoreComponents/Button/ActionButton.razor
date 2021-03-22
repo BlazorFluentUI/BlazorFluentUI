@@ -1,0 +1,69 @@
+﻿@inherits ButtonParameters
+@namespace BlazorFluentUI
+@using Microsoft.AspNetCore.Components.Web
+
+@if (ChildContent == null)
+{
+    <ButtonBase Href=@Href
+                   ClassName=@(ClassName + " ms-Button--action ms-Button--command")
+                   Style=@Style
+                   Primary=@Primary
+                   Disabled=@Disabled
+                   AllowDisabledFocus=@AllowDisabledFocus
+                   PrimaryDisabled=@PrimaryDisabled
+                   Checked=@Checked
+                   AriaDescripton=@AriaDescripton
+                   Text=@Text
+                   SecondaryText=@SecondaryText
+                   Toggle=@Toggle
+                   Split=@Split
+                   IconName=@IconName
+                   IconSrc=@IconSrc
+                   HideChevron=@HideChevron
+                   MenuItems=@MenuItems
+                   CheckedChanged=@CheckedChanged
+                   OnClick=@OnClick
+                   OnKeyDown=@OnKeyDown
+                   Command=@Command
+                   CommandParameter=@CommandParameter
+                   UnknownProperties=@UnknownProperties
+                   @ref="baseReference" />
+}
+else
+{
+    <ButtonBase Href=@Href
+                   ContentTemplate=@ChildContent
+                   ClassName=@(ClassName + " ms-Button--action ms-Button--command")
+                   Style=@Style
+                   Primary=@Primary
+                   Disabled=@Disabled
+                   AllowDisabledFocus=@AllowDisabledFocus
+                   PrimaryDisabled=@PrimaryDisabled
+                   Checked=@Checked
+                   AriaDescripton=@AriaDescripton
+                   Text=@Text
+                   SecondaryText=@SecondaryText
+                   Toggle=@Toggle
+                   Split=@Split
+                   IconName=@IconName
+                   IconSrc=@IconSrc
+                   HideChevron=@HideChevron
+                   MenuItems=@MenuItems
+                   CheckedChanged=@CheckedChanged
+                   OnClick=@OnClick
+                   OnKeyDown=@OnKeyDown
+                   Command=@Command
+                   CommandParameter=@CommandParameter
+                   UnknownProperties=@UnknownProperties
+                   @ref="baseReference" />
+}
+
+
+@code{
+    private ButtonBase baseReference;
+    protected override void OnAfterRender(bool firstRender)
+    {
+        RootElementReference = baseReference.RootElementReference;
+        base.OnAfterRender(firstRender);
+    }
+}

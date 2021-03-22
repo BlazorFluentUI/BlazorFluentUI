@@ -1,0 +1,9 @@
+﻿@namespace BlazorFluentUI
+@inherits FluentUIComponentBase
+
+@if(ChildContent != null)
+{
+    <div class=@($"mediumFont ms-StackItem {ClassName}") style=@($"{GetStyles()}{Style}")>
+        @ChildContent
+    </div>
+}

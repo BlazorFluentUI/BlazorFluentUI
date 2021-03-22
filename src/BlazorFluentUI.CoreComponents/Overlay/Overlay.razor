@@ -1,0 +1,34 @@
+﻿@namespace BlazorFluentUI
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@inherits FluentUIComponentBase
+@implements IAsyncDisposable
+
+<div class=@("mediumFont ms-Overlay " + (IsDarkThemed ? "ms-Overlay--dark" : "ms-Overlay--light") + " " + ClassName)
+     style=@Style
+     @onclick="OnClick" />
+
+@code{
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; }
+
+    [Parameter]
+    public bool IsDarkThemed { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.disableBodyScroll");
+        }
+
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.enableBodyScroll");
+    }
+}

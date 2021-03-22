@@ -1,0 +1,10 @@
+﻿@namespace BlazorFluentUI
+@inherits FluentUIComponentBase
+
+<label class="@($"ms-Label {(Disabled ? "ms-Label--disabled" : "")} {(Required ? "ms-Label--required" : "")} {ClassName}")"
+          style=@Style
+          for=@HtmlFor
+          id="@Id"
+          @ref="RootElementReference">
+    @ChildContent
+</label>

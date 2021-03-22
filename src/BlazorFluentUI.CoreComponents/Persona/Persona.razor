@@ -1,0 +1,58 @@
+﻿@namespace BlazorFluentUI
+@inherits FluentUIComponentBase
+
+<LocalCS @bind-Rules=@PersonaLocalRules />
+
+<div @ref="RootElementReference" class=@($"{ClassName} mediumFont ms-Persona {LocalSpecificityClass} {PersonaRootRule.Selector.SelectorName}") style=@Style>
+
+    <PersonaCoin AllowPhoneInitials=@AllowPhoneInitials CoinSize=@CoinSize ImageAlt=@ImageAlt ImageShouldFadeIn=@ImageShouldFadeIn ImageShouldStartVisible=@ImageShouldStartVisible
+                    ImageUrl=@ImageUrl IsOutOfOffice=@IsOutOfOffice Presence=@Presence PresenceTitle=@PresenceTitle  InitialsColor=@InitialsColor ShowInitialsUntilImageLoads=@ShowInitialsUntilImageLoads
+                    ShowUnknownPersonaCoin=@ShowUnknownPersonaCoin Size=@Size Text=@Text />
+
+    @if (!HidePersonaDetails || Size == PersonaSize.Size8)
+    {
+        <div class=@($"ms-Persona-details {LocalSpecificityClass} {DetailsRule.Selector.SelectorName}")>
+            <div dir="auto" class=@($"ms-Persona-primaryText {LocalSpecificityClass} {PrimaryTextRule.Selector.SelectorName}")>
+                <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @Text
+                    </ChildContent>
+                    <TooltipContent>
+                        @Text
+                    </TooltipContent>
+                </TooltipHost>
+            </div>
+            <div dir="auto" class=@($"ms-Persona-secondaryText {LocalSpecificityClass} {SecondaryTextRule.Selector.SelectorName}")>
+                <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @SecondaryText
+                    </ChildContent>
+                    <TooltipContent>
+                        @SecondaryText
+                    </TooltipContent>
+                </TooltipHost>
+            </div>
+            <div dir="auto" class=@($"ms-Persona-tertiaryText {LocalSpecificityClass} {TertiaryTextRule.Selector.SelectorName}")>
+                <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @TertiaryText
+                    </ChildContent>
+                    <TooltipContent>
+                        @TertiaryText
+                    </TooltipContent>
+                </TooltipHost>
+            </div>
+            <div dir="auto" class=@($"ms-Persona-optionalText {LocalSpecificityClass} {OptionalTextRule.Selector.SelectorName}")>
+                <TooltipHost DirectionalHint=@DirectionalHint.TopLeftEdge OverflowMode=@TooltipOverflowMode.Parent>
+                    <ChildContent>
+                        @OptionalText
+                    </ChildContent>
+                    <TooltipContent>
+                        @OptionalText
+                    </TooltipContent>
+                </TooltipHost>
+            </div>
+            @ChildContent
+        </div>
+    }
+</div>

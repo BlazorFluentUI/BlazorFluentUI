@@ -1,26 +1,29 @@
-﻿<BFUStack HorizontalAlign="Alignment.Start" Style="width:100%;">
-    <BFUStack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.End"
+﻿<Stack HorizontalAlign="Alignment.Start" Style="width:100%;">
+    <Stack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.End"
               Style=@($"border-bottom: 1px solid {ThemeProvider.Theme.SemanticColors.BodyDivider}; margin-bottom:18.620px;width:100%;")>
         <div style="font-size:@ThemeProvider.Theme.FontStyle.FontSize.MediumPlus; font-weight:@ThemeProvider.Theme.FontStyle.FontWeight.SemiBold;">@Header</div>
         <div>
-            <BFUCommandBarButton Text=@codeLabel IconName="ChevronDown" OnClick=@(arg=> { showCode = !showCode; showCCode = false; codeLabel = showCode ? "Hide Code" : "Show Code"; }) />
+            <CommandBarButton Text=@codeLabel IconName=@(showCode ? "ChevronUp" : "ChevronDown") OnClick=@(arg=> { showCode = !showCode; showCCode = false; codeLabel = showCode ? "Hide Code" : "Show Code"; }) />
         </div>
-    </BFUStack>
+    </Stack>
     <div style="width:100%;">
         @ChildContent
     </div>
-    <div style="display:@(showCode ? "block" : "none");">
+    <div style="display:@(showCode ? "block" : "none"); width:100%">
         <pre style="padding: 20px; white-space:pre-wrap; word-wrap:break-word;background-color:@ThemeProvider.Theme.Palette.Black;color:@ThemeProvider.Theme.Palette.White;">
            @codeLiteral
+            <br />
            @if (!showCCode)
            {
-        <BFULink OnClick="(args)=>showCCode=true">Show additional C# code...</BFULink>}
+            <BlazorFluentUI.Link OnClick="(args)=>showCCode=true">Show additional C# code...</BlazorFluentUI.Link>
+           }
            else
            {
-            @ccodeLiteral
-           }</pre>
+                @ccodeLiteral
+           }
+        </pre>
     </div>
-</BFUStack>
+</Stack>
 
 
 @code {
@@ -46,16 +49,14 @@
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-
-
     protected override async Task OnParametersSetAsync()
     {
         if (Key == -1)
             throw new Exception("Must set Key with an integer 0 or greater and must be unique within page.");
 
         // Source inspired by AntDesign (https://github.com/Append-IT/ant-design-blazor/blob/master/docs/Append.AntDesign.Documentation/Infrastructure/DocumentationService.cs)
-        var demoMetaData = await HttpClient.GetStringAsync($"md/{MetadataPath}.md");
 
+        string demoMetaData = await HttpClient.GetStringAsync($"md/{MetadataPath}.md");
         var start = 0;
         var end = demoMetaData.Length;
         bool found = false;
@@ -74,6 +75,7 @@
                 var codeBegin = demoMetaData.IndexOf(Environment.NewLine, indexOfDemoBegin) + 1;
                 var codeEnd = demoMetaData.IndexOf("</Demo>", indexOfDemoBegin);
                 codeLiteral = demoMetaData.Substring(codeBegin, codeEnd - codeBegin);
+                codeLiteral = codeLiteral.Replace("                ", "");
             }
 
             start = indexOfDemoBegin;

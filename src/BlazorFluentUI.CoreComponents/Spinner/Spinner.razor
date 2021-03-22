@@ -1,0 +1,18 @@
+﻿@namespace BlazorFluentUI
+@inherits FluentUIComponentBase
+
+<div class=@($"{ClassName} ms-Spinner{GetPositionStyle()}") style=@Style>
+    <div class=@($"ms-Spinner-circle{GetSpinnerSizeStyle()}") />
+    @if (Label != null)
+    {
+        <div class=@($"ms-Spinner-label")>@Label</div>
+    }
+    @if (StatusMessage != null)
+    {
+        <div role="status" aria-live=@GetAriaLive()>
+            <DelayedRender>
+                <div class="ms-Spinner-screenReaderText">@AriaLabel</div>
+            </DelayedRender>
+        </div>
+    }
+</div>

@@ -1,0 +1,13 @@
+﻿@namespace BlazorFluentUI
+@inherits FluentUIComponentBase
+@typeparam TItem
+
+<div class=@($"ms-SelectionZone {(isModal ? "ms-SelectionZone--modal": "")} {ClassName}") 
+     style=@($"{Style}")
+     data-selection-is-modal=@isModal
+     @ref="RootElementReference"
+     >
+    <CascadingValue Value=@this>
+        @ChildContent
+    </CascadingValue>
+</div>

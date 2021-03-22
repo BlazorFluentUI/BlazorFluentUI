@@ -10,9 +10,9 @@ namespace BlazorFluentUI.Demo.Shared.Models
 
         public ResizeGroupData(IEnumerable<TObject> items, IEnumerable<TObject> overflowItems, string cacheKey)
         {
-            this.Items = items;
-            this.OverflowItems = overflowItems;
-            this.CacheKey = cacheKey;
+            Items = items;
+            OverflowItems = overflowItems;
+            CacheKey = cacheKey;
         }
     }
 }

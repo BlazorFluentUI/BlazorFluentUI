@@ -1,0 +1,9 @@
+[
+  {
+    "outputFileName": "wwwroot/blazorFluentUI.min.js",
+    "inputFiles": [
+      "wwwroot/blazorFluentUI.js"
+    ],
+    "sourceMap": false
+  }
+]

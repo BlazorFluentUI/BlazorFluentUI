@@ -1,0 +1,33 @@
+﻿@namespace BlazorFluentUI
+@inherits FluentUIComponentBase
+
+<div class="ms-Calendar-monthPicker" style="margin-left: 12px">
+    <div class="ms-Calendar-header">
+      
+    </div>
+    <FocusZone>
+        <div class="ms-Calendar-optionGrid" role="grid" aria-readonly="true">
+
+            @for(int row = 0; row < 6;row++)
+            {
+    
+                <div role="row">
+                    @for (var column = 0; column < 4; column++)
+                    {
+                        var timeIndex = column + row * 4;
+                        var isNavigatedTime =  NavigatedDate.Hour == timeIndex && NavigatedDate.Minute == 0 && NavigatedDate.Second == 0;// NavigatedDate.Month == (monthIndex + 1);
+                        <button class=@(isNavigatedTime ? "ms-Calendar-timeOption ms-Calendar-day--highlighted ms-Calendar-monthIsHighlighted" : "ms-Calendar-timeOption") 
+                                @key=@timeIndex
+                                @onclick=@(args=> { SelectMonthCallbacks[timeIndex](); })
+                                aria-label="time2"
+                                aria-selected=@isNavigatedTime
+                                data-is-focusable=@true>
+                
+                            @timeIndex.ToString("00"):00
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+    </FocusZone>
+</div>

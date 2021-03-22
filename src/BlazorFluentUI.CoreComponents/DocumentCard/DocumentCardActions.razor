@@ -1,0 +1,25 @@
+﻿@namespace BlazorFluentUI
+@inherits FluentUIComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<LocalCS @bind-Rules="@DocumentCardActionsRules" />
+
+<div class=@($"{RootRule.Selector.SelectorName} {ClassName}")>
+    @if (Actions != null && Actions.Length > 0)
+    {
+        @foreach (var action in Actions)
+        {
+            <div class=@($"{ActionRule.Selector.SelectorName} {ActionButtonRule.Selector.SelectorName} {ActionButtonHoverRule.Selector.SelectorName}")>
+                <IconButton OnClick=@action.OnClickHandler IconName="@action.IconName" IconSrc=@action.IconSrc AriaLabel="@action.IconAriaLabel" Disabled=@action.Disabled Checked=@action.Checked />
+            </div>
+        }
+    }
+    @if (Views > 0)
+    {
+        <div class=@($"{ViewsRule.Selector.SelectorName}")>
+            <Icon IconName="View" ClassName="@ViewsIconRule.Selector.SelectorName"></Icon>
+
+            @Views
+        </div>
+    }
+</div>

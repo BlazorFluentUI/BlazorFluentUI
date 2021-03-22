@@ -337,32 +337,8 @@ ASALocalRun/
 .localhistory/
 
 # BeatPulse healthcheck temp database
-healthchecksdb
-/src/BlazorFluentUI.BFULayer/assetPrefs.xml
-/src/BlazorFluentUI.BFULabel/assetPrefs.xml
-/src/BlazorFluentUI.BFUIcon/assetPrefs.xml
-/src/BlazorFluentUI.BFUFocusTrapZone/assetPrefs.xml
-/src/BlazorFluentUI.BFUDropdown/assetPrefs.xml
-/src/BlazorFluentUI.BFUContextualMenu/assetPrefs.xml
-/src/BlazorFluentUI.BFUCommandBar/assetPrefs.xml
-/src/BlazorFluentUI.BFUCheckbox/assetPrefs.xml
-/src/BlazorFluentUI.BFUCallout/assetPrefs.xml
-/src/BlazorFluentUI.BFUButton/assetPrefs.xml
-/src/BlazorFluentUI.BFUList/assetPrefs.xml
-/src/BlazorFluentUI.BFUTextField/assetPrefs.xml
-/src/BlazorFluentUI.BFUResizeGroup/assetPrefs.xml
-/src/BlazorFluentUI.BFUPopup/assetPrefs.xml
-/src/BlazorFluentUI.BFUPanel/assetPrefs.xml
-/src/BlazorFluentUI.BFUOverlay/assetPrefs.xml
-/src/BlazorFluentUI.BFUOverflowSet/assetPrefs.xml
-/src/BlazorFluentUI.BFUNav/assetPrefs.xml
-/src/BlazorFluentUI.BFUModal/assetPrefs.xml
-/NugetKey.txt
-/nugetInfo.txt
-/src/BlazorFluentUI.BFURichTextEditor/src/quill-1.3.7
-/BlazorFluentUI.BFUDetailsRow
-/src/BlazorFabric.Viewport
-/Demo/BlazorFabric.Demo.ClientSide/wwwroot/examples
-/Demo/BlazorFluentUI.Demo.ClientSide/wwwroot/md
-/Demo/BlazorFluentUI.Demo.ServerSide/wwwroot/md
+/Demo/BlazorFluentUI.Demo.Client/wwwroot/md
+/Demo/BlazorFluentUI.Demo.Server/wwwroot/md
 /published
+
+

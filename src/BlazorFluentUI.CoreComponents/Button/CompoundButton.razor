@@ -1,0 +1,72 @@
+﻿@inherits ButtonParameters
+@namespace BlazorFluentUI
+@using Microsoft.AspNetCore.Components.Web
+
+
+@if (Primary)
+{
+    <PrimaryButton Href=@Href
+                      ClassName=@(ClassName + " ms-Button--compound")
+                      Style=@Style
+                      Primary=@Primary
+                      Disabled=@Disabled
+                      AllowDisabledFocus=@AllowDisabledFocus
+                      PrimaryDisabled=@PrimaryDisabled
+                      Checked=@Checked
+                      AriaDescripton=@AriaDescripton
+                      Text=@Text
+                      SecondaryText=@SecondaryText
+                      Toggle=@Toggle
+                      Split=@Split
+                      IconName=@IconName
+                      IconSrc=@IconSrc
+                      HideChevron=@HideChevron
+                      MenuItems=@MenuItems
+                      CheckedChanged=@CheckedChanged
+                      OnClick=@OnClick
+                      OnKeyDown=@OnKeyDown
+                      Command=@Command
+                      CommandParameter=@CommandParameter
+                      UnknownProperties=@UnknownProperties
+                      @ref="primaryButtonReference" />
+}
+else
+{
+    <DefaultButton Href=@Href
+                      ClassName=@(ClassName + " ms-Button--compound")
+                      Style=@Style
+                      Primary=@Primary
+                      Disabled=@Disabled
+                      AllowDisabledFocus=@AllowDisabledFocus
+                      PrimaryDisabled=@PrimaryDisabled
+                      Checked=@Checked
+                      AriaDescripton=@AriaDescripton
+                      Text=@Text
+                      SecondaryText=@SecondaryText
+                      Toggle=@Toggle
+                      Split=@Split
+                      IconName=@IconName
+                      IconSrc=@IconSrc
+                      HideChevron=@HideChevron
+                      MenuItems=@MenuItems
+                      CheckedChanged=@CheckedChanged
+                      OnClick=@OnClick
+                      OnKeyDown=@OnKeyDown
+                      Command=@Command
+                      CommandParameter=@CommandParameter
+                      UnknownProperties=@UnknownProperties
+                      @ref="defaultButtonReference" />
+}
+
+@code{
+    private DefaultButton defaultButtonReference;
+    private PrimaryButton primaryButtonReference;
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (Primary)
+            RootElementReference = primaryButtonReference.RootElementReference;
+        else
+            RootElementReference = defaultButtonReference.RootElementReference;
+        base.OnAfterRender(firstRender);
+    }
+}

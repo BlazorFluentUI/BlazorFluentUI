@@ -12,14 +12,14 @@ namespace BlazorFluentUI.Demo.Shared.Models
 {
     public class GroupedDataItem : DataItem
     {
-        private System.Reactive.Disposables.CompositeDisposable disposables = new System.Reactive.Disposables.CompositeDisposable();
+        private System.Reactive.Disposables.CompositeDisposable disposables = new();
         public System.Collections.Generic.List<GroupedDataItem> Data { get; set; }
         public IObservableCollection<GroupedDataItem> ObservableData { get; set; } = new ObservableCollectionExtended<GroupedDataItem>();
 
 
         public GroupedDataItem(IGroup<DataItem, string, int> group, IObservable<SortExpressionComparer<GroupedDataItem>> sortExpressionObservable)
         {
-            var disposable = group.Cache.Connect()
+            IDisposable disposable = group.Cache.Connect()
                 .Transform(x => new GroupedDataItem(x))
                 .Sort(sortExpressionObservable)
                 .Do(_=>Debug.WriteLine("groupDataItem has updated sort"))

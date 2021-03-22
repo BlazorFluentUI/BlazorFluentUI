@@ -1,3 +1,14 @@
+# New for V5
+Temporary demo: https://white-dune-0ef5c1e03.azurestaticapps.net/
+
+## Renaming all the stuff
+We renamed the root namespace to `BlazorFluentUI`.
+
+We dropped the `BFU` prefix from all the component-and project names. In the cases where this would lead to collisions with already existing Blazor components or .NET classes, we prefixed with `FluentUI`
+
+Both changes were made to align the library closer to the Fluent UI React environment. Also the codebase is not so cluttered with 'BFU' anymore.
+
+
 # New for v4
 Temporary demo: https://calm-rock-0f708be1e.azurestaticapps.net/
 

@@ -1,1 +1,1 @@
-﻿///<binding BeforeBuild='wwwroot/blazorFluentUI.min.js' />
+produceoutput=true

@@ -2,9 +2,7 @@
   {
     "outputFileName": "wwwroot/blazorFluentUI.min.js",
     "inputFiles": [
-      "wwwroot/blazorFluentUI.js",
-      "wwwroot/richTextEditor.js",
-      //"wwwroot/requestIdleCallbackPolyfill.js"
+      "wwwroot/blazorFluentUI.js"
     ],
     "sourceMap": false
   }

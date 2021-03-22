@@ -36,7 +36,7 @@ function preventZoom(event) {
     }
 }
 
-var BlazorFluentUiRichTextEditor = {
+var BlazorFluentUIRichTextEditor = {
 
     //interface Map<T> {
     //    [K: number]: T;

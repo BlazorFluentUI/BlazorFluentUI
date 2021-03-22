@@ -16,6 +16,10 @@
     <Content Remove="tsconfig.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
@@ -26,10 +30,6 @@
     </PackageReference>
     <PackageReference Include="System.Reactive" Version="5.0.0" />
     <PackageReference Include="Sigil" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>

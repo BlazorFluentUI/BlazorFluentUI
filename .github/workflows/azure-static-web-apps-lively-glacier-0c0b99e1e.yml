@@ -23,7 +23,7 @@ jobs:
         dotnet-version: 5.0.100
     
     - name: Build App
-      run: dotnet publish -c Release -o published Demo/BlazorFluentUI.Demo.ClientSide/
+      run: dotnet publish -c Release -o published Demo/BlazorFluentUI.Demo.Client/
     
     - name: Build And Deploy
       id: builddeploy

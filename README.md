@@ -1,10 +1,10 @@
 # BlazorFluentUI
 Simple port of Fluent UI (formerly Office Fabric) React components and style to Blazor
 
-## ClientSide Demo (web assembly)
-https://white-dune-0ef5c1e03.azurestaticapps.net/
+## Client side Demo (Web Assembly)
+https://www.blazorfluentui.net/
 
-## ServerSide Demo (SignalR)
+## Server side Demo (SignalR)
 https://blazorfluentui.azurewebsites.net/
 
 ## Telegram dev channel
@@ -19,7 +19,7 @@ https://pkgs.dev.azure.com/blazor-fluentui/5355f597-190a-4424-83da-cd89cd362a24/
 For a more detailed tutorial, head over to our [Public Feed](https://dev.azure.com/blazor-fluentui/Blazor%20FluentUI/_packaging?_a=feed&feed=DevChannel), click on "Connect To Feed" and select the platform. 
 
 ## Breaking Changes for v5.0
-#### Renaming stuff and demo revamp
+#### Renaming and demo revamp
 All components have dropped the `BFU` prefix and names are now on par with their Fluent UI React counterparts (or will be soon). Change was made to not litter the codebase with the term `BFU` everywhere.
 
 The demo sites have been given some attention and look a lot better now (more in line with Fluent UI Rect docs).

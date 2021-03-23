@@ -201,7 +201,7 @@ namespace BlazorFluentUIFocusTrapZone {
 
             if (
                 // @ts-ignore
-                window.FluentUIBaseComponent.elementContains(_props.rootElement, this._previouslyFocusedElementOutsideTrapZone) &&
+                window.FluentUIBaseComponent.elementContains(this._props.rootElement, this._previouslyFocusedElementOutsideTrapZone) &&
                 !disableFirstFocus
             ) {
                 this._findElementAndFocusAsync();

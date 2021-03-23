@@ -50,7 +50,7 @@ steps:
     command: 'pack'
     packagesToPack: '**/*.csproj;!**/BlazorFluentUI.Demo.*.csproj'
     versioningScheme: 'byPrereleaseNumber'
-    majorVersion: '4'
+    majorVersion: '5'
     minorVersion: '0'
     patchVersion: '0'
 

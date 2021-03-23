@@ -40,8 +40,8 @@
                         </p>
                     </ChildContent>
                     <FooterTemplate>
-                        <DefaultButton Text="Cancel" OnClick=@(args=> dialogOpen=false) />
                         <PrimaryButton Text="OK" OnClick=@(args=> dialogOpen=false) />
+                        <DefaultButton Text="Cancel" OnClick=@(args=> dialogOpen=false) />
                     </FooterTemplate>
                 </Dialog>
 
@@ -63,8 +63,8 @@
                         </p>
                     </ChildContent>
                     <FooterTemplate>
-                        <DefaultButton Text="Cancel" OnClick=@(args=> largeDialogOpen=false) />
                         <PrimaryButton Text="OK" OnClick=@(args=> largeDialogOpen=false) />
+                        <DefaultButton Text="Cancel" OnClick=@(args=> largeDialogOpen=false) />
                     </FooterTemplate>
                 </Dialog>
             </Demo>

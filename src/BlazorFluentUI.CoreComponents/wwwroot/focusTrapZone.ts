@@ -223,7 +223,7 @@ namespace BlazorFluentUIFocusTrapZone {
                 !ignoreExternalFocusing &&
                 this._previouslyFocusedElementOutsideTrapZone &&
                 // @ts-ignore
-                (this._props.rootElement.contains(activeElement) || activeElement === doc.body)
+                (this._props.rootElement.contains(activeElement) || activeElement === document.body)
             ) {
                 this._focusAsync(this._previouslyFocusedElementOutsideTrapZone);
             }

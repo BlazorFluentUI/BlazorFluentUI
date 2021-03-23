@@ -88,7 +88,7 @@ namespace BlazorFluentUI
         {
             if (_id != -1)
                 await JSRuntime!.InvokeVoidAsync("BlazorFluentUIFocusTrapZone.unregister", _id);
-            
+
             GC.SuppressFinalize(this);
         }
 

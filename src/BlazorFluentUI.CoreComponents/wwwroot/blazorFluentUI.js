@@ -1364,7 +1364,7 @@ var FluentUIBaseComponent;
          */
         static raise(
         // tslint:disable-next-line:no-any
-        target, eventName, 
+        target, eventName,
         // tslint:disable-next-line:no-any
         eventArgs, bubbleEvent) {
             let retVal;
@@ -2021,7 +2021,7 @@ var BlazorFluentUIFocusTrapZone;
                 if (!ignoreExternalFocusing &&
                     this._previouslyFocusedElementOutsideTrapZone &&
                     // @ts-ignore
-                    (this._props.rootElement.contains(activeElement) || activeElement === doc.body)) {
+                    (this._props.rootElement.contains(activeElement) || activeElement === document.body)) {
                     this._focusAsync(this._previouslyFocusedElementOutsideTrapZone);
                 }
                 // if last active focus trap zone is going to be released - show previously hidden content in accessibility tree
@@ -2216,7 +2216,7 @@ var BlazorFluentUIFocusTrapZone;
             this._previouslyFocusedElementOutsideTrapZone = this._getPreviouslyFocusedElementOutsideTrapZone();
             if (
             // @ts-ignore
-            window.FluentUIBaseComponent.elementContains(_props.rootElement, this._previouslyFocusedElementOutsideTrapZone) &&
+            window.FluentUIBaseComponent.elementContains(this._props.rootElement, this._previouslyFocusedElementOutsideTrapZone) &&
                 !disableFirstFocus) {
                 this._findElementAndFocusAsync();
             }

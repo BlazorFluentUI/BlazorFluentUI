@@ -14,9 +14,9 @@ https://t.me/joinchat/TuHGR8AZmYe1SKlH
 On each commit new dev nuget builds will be created automatically. To access those, add a new Package Source to Visual Studio or your project with the following URL:
 
 ```
-https://pkgs.dev.azure.com/blazor-fluentui/5355f597-190a-4424-83da-cd89cd362a24/_packaging/DevChannel/nuget/v3/index.json
+https://pkgs.dev.azure.com/blazor-fluentui/5355f597-190a-4424-83da-cd89cd362a24/_packaging/DevChannelV5/nuget/v3/index.json
 ```
-For a more detailed tutorial, head over to our [Public Feed](https://dev.azure.com/blazor-fluentui/Blazor%20FluentUI/_packaging?_a=feed&feed=DevChannel), click on "Connect To Feed" and select the platform. 
+For a more detailed tutorial, head over to our [Public Feed](https://dev.azure.com/blazor-fluentui/Blazor%20FluentUI/_packaging?_a=feed&feed=DevChannelV5), click on "Connect To Feed" and select the platform. 
 
 ## Breaking Changes for v5.0
 #### Renaming and demo revamp

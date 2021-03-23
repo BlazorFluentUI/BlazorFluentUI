@@ -53,12 +53,9 @@ steps:
     majorVersion: '5'
     minorVersion: '0'
     patchVersion: '0'
-
 - task: DotNetCoreCLI@2
-  displayName: 'Push NuGet Packages'
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
     nuGetFeedType: 'internal'
-    publishVstsFeed: '5355f597-190a-4424-83da-cd89cd362a24/62e4a3d2-c255-43ac-a465-30d8f5f041e1'
-
+    publishVstsFeed: '5355f597-190a-4424-83da-cd89cd362a24/1316580f-26b7-421d-8fa0-1d95c0fe3afc'

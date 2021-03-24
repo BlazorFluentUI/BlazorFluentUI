@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Routing
 {
     public enum NavMatchType
     {

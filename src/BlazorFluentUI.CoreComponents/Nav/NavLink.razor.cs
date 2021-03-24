@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Routing
 {
     public partial class NavLink : FluentUIComponentBase
     {

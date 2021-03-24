@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Routing
 {
     public class NavBarData
     {

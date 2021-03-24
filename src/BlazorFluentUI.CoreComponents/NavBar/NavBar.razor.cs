@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Routing
 {
     public partial class NavBar : FluentUIComponentBase
     {

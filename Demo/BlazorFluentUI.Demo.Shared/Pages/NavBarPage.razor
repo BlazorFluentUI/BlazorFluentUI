@@ -1,4 +1,5 @@
 ﻿@page "/navBarPage"
+@using BlazorFluentUI.Routing
 <header class="root">
     <h1 class="title">NavBar</h1>
 </header>

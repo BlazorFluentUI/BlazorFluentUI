@@ -1,5 +1,6 @@
 ﻿@page  "/ribbonMenuPage"
 @using System.Collections.ObjectModel;
+@using BlazorFluentUI.Routing 
 <header class="root">
     <h1 class="title">Ribbon Menu</h1>
 </header>

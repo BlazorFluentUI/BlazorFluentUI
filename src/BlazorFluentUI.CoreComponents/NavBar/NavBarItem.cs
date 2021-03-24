@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 
-namespace BlazorFluentUI
+namespace BlazorFluentUI.Routing
 {
     public class NavBarItem : INavBarItem
     {

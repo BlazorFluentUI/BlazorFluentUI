@@ -185,7 +185,7 @@
         }
         if (suggestedItems == null)
         {
-            Utils.RelayCommand buttonCommand = new Utils.RelayCommand((p) =>
+            RelayCommand buttonCommand = new RelayCommand((p) =>
             {
                 modalText = (string)p;
                 modalIsOpen = true;

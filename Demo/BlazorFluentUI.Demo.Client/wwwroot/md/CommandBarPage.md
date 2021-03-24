@@ -144,7 +144,7 @@
 
     protected override Task OnInitializedAsync()
     {
-        buttonCommand = new Utils.RelayCommand((p) =>
+        buttonCommand = new RelayCommand((p) =>
         {
             debugText = $"{p.ToString()} button was clicked. {commandCount++}";
             StateHasChanged();

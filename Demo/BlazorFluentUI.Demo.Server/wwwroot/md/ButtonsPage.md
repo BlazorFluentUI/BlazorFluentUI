@@ -139,7 +139,7 @@
 
 @code {
 
-    Utils.RelayCommand buttonCommand;
+    RelayCommand buttonCommand;
     bool commandEnabled = false;
     bool CommandEnabled
     {
@@ -179,7 +179,7 @@
             new ContextualMenuItem() { Key = "emailMessage", Text = "Email message", IconName="Mail"},
             new ContextualMenuItem() { Key = "calendarEvent", Text = "Calendar event", IconName="Calendar"}
         };
-        buttonCommand = new Utils.RelayCommand((p) =>
+        buttonCommand = new RelayCommand((p) =>
         {
             buttonDebug = $"Button with command was clicked. {commandCount++}";
             StateHasChanged();

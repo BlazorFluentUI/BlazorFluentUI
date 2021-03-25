@@ -20,6 +20,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE">

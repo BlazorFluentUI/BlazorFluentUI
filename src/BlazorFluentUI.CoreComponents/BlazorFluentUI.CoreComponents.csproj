@@ -17,9 +17,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bundleconfig.json" />
+    <None Include="bundleconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\blazorFluentUI.js" />
+    <None Include="wwwroot\blazorFluentUI.min.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.4" />

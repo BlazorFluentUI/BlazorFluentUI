@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <Project>
-
 	<PropertyGroup>
 		<Authors>Lee McPherson, Vincent Baaij, Lukas Frensel, Steven Rasmussen, Frank Strieder</Authors>
 		<Owners>BlazorFluentUI</Owners>
@@ -15,15 +13,15 @@
 		<IsPackable>true</IsPackable>
 		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 		<PackageOutputPath>../../packages</PackageOutputPath>
-		<Version>5.0.1</Version>
+		<Version>5.0.2</Version>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-
 	</PropertyGroup>
 
-	<ItemGroup Condition="$(ProjectName.Contains('Test')) == false">
+	<ItemGroup>
 		<None Include="..\..\LICENSE">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
+
 </Project>

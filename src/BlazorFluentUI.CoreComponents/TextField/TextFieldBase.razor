@@ -1,5 +1,6 @@
 ﻿@namespace BlazorFluentUI
 @inherits FluentUIComponentBase
+@typeparam TValue
 
 <LocalCS @bind-Rules="@TextFieldLocalRules" />
 
@@ -10,7 +11,7 @@
     <div class="ms-TextField-wrapper">
         @if (hasLabel)
         {
-            <BlazorFluentUI.Label ClassName="ms-TextField-label" Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</BlazorFluentUI.Label>
+            <Label ClassName="ms-TextField-label" Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</Label>
         }
         <div class="ms-TextField-fieldGroup">
             @if (this.Prefix != null)
@@ -89,18 +90,18 @@
     </div>
     @if (!string.IsNullOrWhiteSpace(this.Description) || !string.IsNullOrWhiteSpace(this.ErrorMessage))
     {
-        <span id="descriptionId">
+        <div id="descriptionId">
             <span class="ms-TextField-description">@this.Description</span>
             @if (!string.IsNullOrWhiteSpace(this.ErrorMessage))
             {
                 <div role="alert">
-                    <BlazorFluentUI.DelayedRender Delay="100">
+                    <DelayedRender Delay="100">
                         <p class="slideDownIn20 ms-TextField--errorMessage">
                             <span data-automation-id="error-message">@this.ErrorMessage</span>
                         </p>
-                    </BlazorFluentUI.DelayedRender>
+                    </DelayedRender>
                 </div>
             }
-        </span>
+        </div>
     }
 </div>

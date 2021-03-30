@@ -6,6 +6,8 @@ using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -13,9 +15,11 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class TextField : FluentUIComponentBase
+    public class TextField : TextFieldBase<string> { }
+
+    public partial class TextFieldBase<TValue> : FluentUIComponentBase
     {
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
         [Parameter] public bool Required { get; set; }
         [Parameter] public bool Multiline { get; set; }
         [Parameter] public InputType InputType { get; set; } = InputType.Text;
@@ -23,26 +27,26 @@ namespace BlazorFluentUI
         [Parameter] public bool AutoAdjustHeight { get; set; }
         [Parameter] public bool Underlined { get; set; }
         [Parameter] public bool Borderless { get; set; }
-        [Parameter] public string Label { get; set; }
-        [Parameter] public RenderFragment RenderLabel { get; set; }
-        [Parameter] public string Description { get; set; }
-        [Parameter] public string Prefix { get; set; }
-        [Parameter] public RenderFragment PrefixContent { get; set; }
-        [Parameter] public string Suffix { get; set; }
-        [Parameter] public RenderFragment SuffixContent { get; set; }
-        [Parameter] public string DefaultValue { get; set; }
-        [Parameter] public string Value { get; set; }
+        [Parameter] public string? Label { get; set; }
+        [Parameter] public RenderFragment? RenderLabel { get; set; }
+        [Parameter] public string? Description { get; set; }
+        [Parameter] public string? Prefix { get; set; }
+        [Parameter] public RenderFragment? PrefixContent { get; set; }
+        [Parameter] public string? Suffix { get; set; }
+        [Parameter] public RenderFragment? SuffixContent { get; set; }
+        [Parameter] public TValue? DefaultValue { get; set; }
+        [Parameter] public TValue? Value { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool ReadOnly { get; set; }
-        [Parameter] public string ErrorMessage { get; set; }
+        [Parameter] public string? ErrorMessage { get; set; }
         [Parameter] public bool ValidateOnFocusIn { get; set; }
         [Parameter] public bool ValidateOnFocusOut { get; set; }
         [Parameter] public bool ValidateOnLoad { get; set; } = true;
         [Parameter] public int DeferredValidationTime { get; set; } = 0;
         [Parameter] public AutoComplete AutoComplete { get; set; } = AutoComplete.On;
-        [Parameter] public string Placeholder { get; set; }
-        [Parameter] public string IconName { get; set; }
-        [Parameter] public string IconSrc { get; set; }
+        [Parameter] public string? Placeholder { get; set; }
+        [Parameter] public string? IconName { get; set; }
+        [Parameter] public string? IconSrc { get; set; }
 
         [Parameter]
         public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
@@ -51,9 +55,9 @@ namespace BlazorFluentUI
         [Parameter]
         public EventCallback<KeyboardEventArgs> OnKeyPress { get; set; }
         [Parameter]
-        public Func<string, string> OnGetErrorMessage { get; set; }
+        public Func<TValue, string>? OnGetErrorMessage { get; set; }
         [Parameter]
-        public Action<string, string> OnNotifyValidationResult { get; set; }
+        public Action<TValue, string>? OnNotifyValidationResult { get; set; }
 
         [Parameter]
         public EventCallback<MouseEventArgs> OnClick { get; set; }  // expose click event for Combobox and pickers
@@ -62,57 +66,58 @@ namespace BlazorFluentUI
         [Parameter]
         public EventCallback<FocusEventArgs> OnFocus { get; set; }
 
-        //[Parameter]
-        //protected Func<UIChangeEventArgs, Task> OnChange { get; set; }
-        //[Parameter]
-        //protected Func<UIChangeEventArgs, Task> OnInput { get; set; }
-        [Parameter]
-        public EventCallback<string> OnChange { get; set; }
-        [Parameter]
-        public EventCallback<string> OnInput { get; set; }
+        [Parameter] public EventCallback<TValue> OnChange { get; set; }
+        [Parameter] public EventCallback<TValue> OnInput { get; set; }
 
         /// <summary>
         /// Gets or sets an expression that identifies the bound value.
         /// </summary>
-        [Parameter] public Expression<Func<string>>? ValueExpression { get; set; }
-        [Parameter]
-        public EventCallback<string> ValueChanged { get; set; }
+        [Parameter] public Expression<Func<TValue>>? ValueExpression { get; set; }
+        [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
 
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
-
-
-        private bool shouldRender = true;
 
         protected string id = Guid.NewGuid().ToString();
         protected string descriptionId = Guid.NewGuid().ToString();
 
+        private bool shouldRender = true;
         private bool firstRendered = false;
         private int deferredValidationTime;
         private bool defaultErrorMessageIsSet;
-        private string latestValidatedValue = "";
-        private string currentValue;
+        private TValue? latestValidatedValue = default;
+        private TValue? currentValue;
         private bool hasIcon;
         private bool hasLabel;
-        private Rule TextField_Field_HasIcon = new();
+
+        private readonly Rule TextField_Field_HasIcon = new();
 
         private ICollection<IRule> TextFieldLocalRules { get; set; } = new List<IRule>();
-        private ICollection<Task> DeferredValidationTasks = new List<Task>();
+        private readonly ICollection<Task> DeferredValidationTasks = new List<Task>();
 
         private FieldIdentifier FieldIdentifier;
 
-        protected string CurrentValue
+
+        private ValidationMessageStore? _parsingValidationMessages;
+        private Type? _nullableUnderlyingType;
+        private bool _previousParsingAttemptFailed;
+
+        protected TValue? CurrentValue
         {
             get => currentValue;
             set
             {
-                if (value == currentValue)
-                    return;
-                currentValue = value;
+                bool hasChanged = !EqualityComparer<TValue>.Default.Equals(value, currentValue);
+                if (hasChanged)
+                {
 
-                InputHandler(new ChangeEventArgs { Value = currentValue });
-                ChangeHandler(new ChangeEventArgs() { Value = value }).ConfigureAwait(true);
+                    currentValue = value;
+
+                    InputHandler(new ChangeEventArgs { Value = currentValue }).ConfigureAwait(true);
+                    //ChangeHandler(new ChangeEventArgs() { Value = value }).ConfigureAwait(true);
+                }
             }
         }
+
 
         protected ElementReference textAreaRef;
         protected ElementReference inputRef;
@@ -139,7 +144,7 @@ namespace BlazorFluentUI
             return base.OnInitializedAsync();
         }
 
-        private IReadOnlyDictionary<string, object> lastParameters;
+        private IReadOnlyDictionary<string, object>? lastParameters;
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
@@ -180,8 +185,8 @@ namespace BlazorFluentUI
                     {
                         //is this enough?
                         System.Reflection.PropertyInfo? prop = t.GetProperty("HasDelegate");
-                        bool aHasDelegate = (bool)prop.GetValue(curr.Value);
-                        bool bHasDelegate = (bool)prop.GetValue(lastValue);
+                        bool aHasDelegate = (bool?)prop!.GetValue(curr.Value) ?? false;
+                        bool bHasDelegate = (bool?)prop!.GetValue(lastValue) ?? false;
 
                         if ((aHasDelegate && !bHasDelegate) || (!aHasDelegate && bHasDelegate))
                         {
@@ -215,9 +220,9 @@ namespace BlazorFluentUI
                                     shouldRender = true;
                                     break;
                                 }
-                                byte[]? a = (curr.Value as System.Delegate).Method.GetMethodBody().GetILAsByteArray();
-                                byte[]? b = (lastValue as System.Delegate).Method.GetMethodBody().GetILAsByteArray();
-                                if (a.Length != b.Length)
+                                byte[]? a = ((Delegate)curr.Value!).Method.GetMethodBody()!.GetILAsByteArray();
+                                byte[]? b = ((Delegate)lastValue!).Method.GetMethodBody()!.GetILAsByteArray();
+                                if (a!.Length != b!.Length)
                                 {
                                     shouldRender = true;
                                     break;
@@ -255,7 +260,9 @@ namespace BlazorFluentUI
             if (CascadedEditContext != null && ValueExpression != null)
             {
                 CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
-                FieldIdentifier = FieldIdentifier.Create<string>(ValueExpression);
+                FieldIdentifier = FieldIdentifier.Create<TValue>(ValueExpression);
+
+                _nullableUnderlyingType = Nullable.GetUnderlyingType(typeof(TValue));
             }
 
 
@@ -276,10 +283,12 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            if (DefaultValue != null)
+            string? localValue = FormatValueAsString(DefaultValue);
+            if (localValue != null && localValue != "0")
                 CurrentValue = DefaultValue;
 
-            if (Value != null)
+            localValue = FormatValueAsString(Value);
+            if (localValue != null && localValue != "0")
                 CurrentValue = Value;
 
             if (ValidateOnLoad && ValidateAllChanges())
@@ -319,30 +328,36 @@ namespace BlazorFluentUI
         }
 
 
-        protected void InputHandler(ChangeEventArgs args)
+        protected async Task InputHandler(ChangeEventArgs args)
         {
             if (!defaultErrorMessageIsSet && OnGetErrorMessage != null && !string.IsNullOrWhiteSpace(ErrorMessage))
             {
                 ErrorMessage = "";
                 //StateHasChanged();
             }
-
-            if (ValidateAllChanges())
+            if (TryParseValueFromString((string?)args.Value!.ToString(), out TValue? result, out _))
             {
-                _ = DeferredValidation((string)args.Value).ConfigureAwait(false);
+
+                if (ValidateAllChanges())
+                {
+                    await DeferredValidation(result).ConfigureAwait(false);
+                }
+
+                await AdjustInputHeightAsync();
+
+                await OnInput.InvokeAsync(result);
+                shouldRender = true;
             }
-
-            _ = AdjustInputHeightAsync();
-
-            _ = OnInput.InvokeAsync((string)args.Value);
-            shouldRender = true;
         }
 
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
-            await OnChange.InvokeAsync((string)args.Value);
-            await ValueChanged.InvokeAsync((string)args.Value);
-            shouldRender = true;
+            if (TryParseValueFromString((string?)args.Value, out TValue? result, out _))
+            {
+                await OnChange.InvokeAsync(result);
+                await ValueChanged.InvokeAsync(result);
+                shouldRender = true;
+            }
         }
 
         protected async Task OnFocusInternal(FocusEventArgs args)
@@ -389,7 +404,7 @@ namespace BlazorFluentUI
         {
             if (AutoAdjustHeight == true && Multiline)
             {
-                double scrollHeight = await JSRuntime.InvokeAsync<double>("FluentUIBaseComponent.getScrollHeight", textAreaRef);
+                double scrollHeight = await JSRuntime!.InvokeAsync<double>("FluentUIBaseComponent.getScrollHeight", textAreaRef);
                 //inlineTextAreaStyle = $"height: {scrollHeight}px";
                 if (autoAdjustedHeight != scrollHeight)
                 {
@@ -410,11 +425,11 @@ namespace BlazorFluentUI
         protected string GetAutoCompleteString()
         {
             string? value = AutoComplete.ToString();
-            value = Char.ToLowerInvariant(value[0]) + value[1..];
+            value = char.ToLowerInvariant(value[0]) + value[1..];
             string result = "";
             foreach (char c in value.ToCharArray())
             {
-                if (Char.IsUpper(c))
+                if (char.IsUpper(c))
                 {
                     result += "-";
                     result += Char.ToLowerInvariant(c);
@@ -425,7 +440,7 @@ namespace BlazorFluentUI
             return result;
         }
 
-        private void Validate(string value)
+        private void Validate(TValue? value)
         {
             if (CascadedEditContext != null && ValueExpression != null)
             {
@@ -441,28 +456,29 @@ namespace BlazorFluentUI
             }
             else
             {
-                if (value == null || latestValidatedValue == value)
+                if (value == null || (latestValidatedValue != null && latestValidatedValue.Equals(value)))
                     return;
 
                 latestValidatedValue = value;
-                string errorMessage = OnGetErrorMessage?.Invoke(value);
+                string? errorMessage = OnGetErrorMessage?.Invoke(value);
                 if (errorMessage != null)
                 {
                     ErrorMessage = errorMessage;
                 }
-                OnNotifyValidationResult?.Invoke(errorMessage, value);
+                //ToDo Why is this sent twice?
+                OnNotifyValidationResult?.Invoke(value, errorMessage!);
 
-                OnNotifyValidationResult?.Invoke(ErrorMessage, value);
+               // OnNotifyValidationResult?.Invoke(ErrorMessage!, value);
             }
 
         }
 
         private bool ValidateAllChanges()
         {
-            return (OnGetErrorMessage != null && !defaultErrorMessageIsSet && !ValidateOnFocusIn && !ValidateOnFocusOut && (firstRendered && !ValidateOnLoad)) || CascadedEditContext != null;
+            return (OnGetErrorMessage != null && !defaultErrorMessageIsSet && !ValidateOnFocusIn && !ValidateOnFocusOut && firstRendered && !ValidateOnLoad) || CascadedEditContext != null;
         }
 
-        private async Task DeferredValidation(string value)
+        private async Task DeferredValidation(TValue? value)
         {
             if (deferredValidationTime == 0)
             {
@@ -507,14 +523,103 @@ namespace BlazorFluentUI
         {
             if (textAreaRef.Id != null)
             {
-                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", textAreaRef).ConfigureAwait(false);
+                await JSRuntime!.InvokeVoidAsync("FluentUIBaseComponent.focusElement", textAreaRef).ConfigureAwait(false);
             }
             if (inputRef.Id != null)
             {
-                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", inputRef).ConfigureAwait(false);
+                await JSRuntime!.InvokeVoidAsync("FluentUIBaseComponent.focusElement", inputRef).ConfigureAwait(false);
             }
-           
+
         }
+
+        /// <summary>
+        /// Gets or sets the current value of the input, represented as a string.
+        /// </summary>
+        protected string? CurrentValueAsString
+        {
+            get => FormatValueAsString(CurrentValue);
+            set
+            {
+                _parsingValidationMessages?.Clear();
+
+                bool parsingFailed;
+
+                if (_nullableUnderlyingType != null && string.IsNullOrEmpty(value))
+                {
+                    // Assume if it's a nullable type, null/empty inputs should correspond to default(T)
+                    // Then all subclasses get nullable support almost automatically (they just have to
+                    // not reject Nullable<T> based on the type itself).
+                    parsingFailed = false;
+                    CurrentValue = default!;
+                }
+                else if (TryParseValueFromString(value, out TValue? parsedValue, out string? validationErrorMessage))
+                {
+                    parsingFailed = false;
+                    CurrentValue = parsedValue!;
+                }
+                else
+                {
+                    parsingFailed = true;
+
+                    if (_parsingValidationMessages == null)
+                    {
+                        _parsingValidationMessages = new ValidationMessageStore(CascadedEditContext);
+                    }
+
+                    _parsingValidationMessages.Add(FieldIdentifier, validationErrorMessage);
+
+                    // Since we're not writing to CurrentValue, we'll need to notify about modification from here
+                    CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
+                }
+
+                // We can skip the validation notification if we were previously valid and still are
+                if (parsingFailed || _previousParsingAttemptFailed)
+                {
+                    CascadedEditContext.NotifyValidationStateChanged();
+                    _previousParsingAttemptFailed = parsingFailed;
+                }
+            }
+        }
+
+        protected bool TryParseValueFromString(string? value, [MaybeNullWhen(false)] out TValue result, [NotNullWhen(false)] out string? validationErrorMessage)
+        {
+            if (BindConverter.TryConvertTo<TValue>(value, CultureInfo.InvariantCulture, out result))
+            {
+                validationErrorMessage = null;
+                return true;
+            }
+            else
+            {
+                validationErrorMessage = string.Format(CultureInfo.InvariantCulture, ParsingErrorMessage, /*DisplayName ??*/ FieldIdentifier.FieldName);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Formats the value as a string. Derived classes can override this to determine the formatting used for <c>CurrentValueAsString</c>.
+        /// </summary>
+        /// <param name="value">The value to format.</param>
+        /// <returns>A string representation of the value.</returns>
+        protected string? FormatValueAsString(TValue? value)
+        {
+            // Avoiding a cast to IFormattable to avoid boxing.
+            return value switch
+            {
+                null => null,
+                int @int => BindConverter.FormatValue(@int, CultureInfo.InvariantCulture),
+                long @long => BindConverter.FormatValue(@long, CultureInfo.InvariantCulture),
+                short @short => BindConverter.FormatValue(@short, CultureInfo.InvariantCulture),
+                float @float => BindConverter.FormatValue(@float, CultureInfo.InvariantCulture),
+                double @double => BindConverter.FormatValue(@double, CultureInfo.InvariantCulture),
+                decimal @decimal => BindConverter.FormatValue(@decimal, CultureInfo.InvariantCulture),
+                string @string => @string,
+                _ => throw new InvalidOperationException($"Unsupported type {value.GetType()}"),
+            };
+        }
+        /// <summary>
+        /// Gets or sets the error message used when displaying an a parsing error.
+        /// </summary>
+        [Parameter] public string ParsingErrorMessage { get; set; } = "The {0} field must be a number.";
 
 
     }

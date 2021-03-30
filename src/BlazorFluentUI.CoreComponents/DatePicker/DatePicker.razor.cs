@@ -115,9 +115,9 @@ namespace BlazorFluentUI
             SetErrorMessage(true, nextIsRequired, nextValue, nextMinDate, nextMaxDate, nextInitialPickerDate);
 
             DateTime? oldValue = SelectedDate;
-            if (DateTimeCompareNullable(oldValue, nextValue) != 0 
-                || (FormatDate != null 
-                && nextFormatDate != null 
+            if (DateTimeCompareNullable(oldValue, nextValue) != 0
+                || (FormatDate != null
+                && nextFormatDate != null
                 && ((nextValue != null? FormatDate((DateTime)nextValue): null) != (nextValue != null? nextFormatDate((DateTime)nextValue): null))))
             {
                 SelectedDate = nextValue;
@@ -150,7 +150,7 @@ namespace BlazorFluentUI
 
             if (CascadedEditContext != null && ValueExpression != null)
             {
-                
+
                 FieldIdentifier = FieldIdentifier.Create<DateTime?>(ValueExpression);
 
                 CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
@@ -221,7 +221,7 @@ namespace BlazorFluentUI
         protected void OnSelectedDate(SelectedDateResult selectedDateResult)
         {
             //skip calendar props OnSelectedDate callback, not implemented through DatePicker
-    
+
                 SelectedDate = selectedDateResult.Date;
                 FormattedDate = FormatDateInternal(selectedDateResult.Date);
                 ErrorMessage = "";
@@ -233,7 +233,7 @@ namespace BlazorFluentUI
                 {
                     CalendarDismissed();
                 }
-            
+
         }
 
         protected void OnTextFieldFocus()
@@ -360,7 +360,7 @@ namespace BlazorFluentUI
                 CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
                 OnSelectDate.InvokeAsync(date);
                 ValueChanged.InvokeAsync(date);
-                
+
             }
             else if (IsRequired && string.IsNullOrWhiteSpace(inputValue))
             {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 
@@ -42,18 +43,24 @@ namespace BlazorFluentUI
     {
         public DetailsRowColumn()
         { }
-        public DetailsRowColumn(string fieldName, Func<TItem, IComparable> fieldSelector)
+        public DetailsRowColumn(string fieldName, Expression<Func<TItem, object>> fieldSelectorExpression)
         {
             Name = fieldName;
             Key = fieldName;
             AriaLabel = fieldName;
-            FieldSelector = fieldSelector;
+            FieldSelectorExpression = fieldSelectorExpression;
+            FieldSelector = fieldSelectorExpression.Compile();
+
+            var propInfo = DetailsRowUtils.GetPropertyInfo(fieldSelectorExpression);
+            var setter = DetailsRowUtils.GetSetter(fieldSelectorExpression);
         }
+        public Expression<Func<TItem, object>> FieldSelectorExpression {get;set;}
 
         public string AriaLabel { get; set; }
         public double CalculatedWidth { get; set; } = double.NaN;
         public ColumnActionsMode ColumnActionsMode { get; set; } = ColumnActionsMode.Clickable;
-        public RenderFragment<object> ColumnItemTemplate { get; set; }
+        public RenderFragment<DynamicAccessor<TItem>> ColumnItemTemplate { get; set; }
+
         public Func<TItem, object> FieldSelector { get; set; }
         public string FilterAriaLabel { get; set; }
 

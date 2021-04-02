@@ -108,7 +108,7 @@ namespace BlazorFluentUI.Lists
 
         protected SelectAllVisibility selectAllVisibility = SelectAllVisibility.None;
         private DotNetObjectReference<DetailsList<TItem>> selfReference;
-        private int _viewportRegistration;
+        private int _viewportRegistration = -1;
 
         public DetailsList()
         {
@@ -417,6 +417,7 @@ namespace BlazorFluentUI.Lists
             if (_viewportRegistration != -1)
             {
                 await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.removeViewport", _viewportRegistration);
+                _viewportRegistration = -1;
             }
             selfReference?.Dispose();
             GC.SuppressFinalize(this);

@@ -169,7 +169,7 @@
                     <TextField Label="String-based validation" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="String-based validation on render" DefaultValue="Shows an error message on render" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="String-based validation on render" Value="Bla die blabla" DefaultValue="Shows an error message on render" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
                     <TextField Label="String-based validation only on change" DefaultValue="Validates only on input change, not on first render" OnGetErrorMessage="GetErrorMessage" ValidateOnLoad="false" />
@@ -196,7 +196,7 @@
         </div>
 
         <div class="subSection">
-            <Demo Header="Validation using Blazor's InputBase<string> and EditForm" Key="7" MetadataPath="TextFieldPage">
+            <Demo Header="Validation using Blazor's EditForm and DataAnnotations" Key="7" MetadataPath="TextFieldPage">
                 <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
                     <DataAnnotationsValidator />
                     <FluentUIValidationSummary />
@@ -211,11 +211,29 @@
                 </EditForm>
             </Demo>
         </div>
+
+        <div class="subSection">
+            <Demo Header="TextField tests" Key="8" MetadataPath="TextFieldPage">
+                <h4>Numbers playground</h4>
+                <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
+                    <div class="textFieldDiv">
+                        <TextFieldBase TValue="int" InputType="InputType.Number" Label="Number test" @bind-Value="exampleModel.Age" />
+                        <InputNumber @bind-Value="exampleModel.Age1" />
+                    </div>
+                    Age: @exampleModel.Age
+                    @*<div class="textFieldDiv">
+                        <TextFieldBase TValue="long" InputType="InputType.Number" Label="Number test" @bind-Value="exampleModel.Ticks" />
+                    </div>
+                    Ticks: @exampleModel.Ticks*@
+                </EditForm>
+            </Demo>
+        </div>
     </div>
 </div>
 @code {
     string onInputContent = "";
     string onChangeContent = "";
+    string text = "";
 
     ExampleModel exampleModel = new ExampleModel();
 
@@ -227,7 +245,12 @@
         [Required]
         [StringLength(5, ErrorMessage = "NameOnInput is too long.")]
         public string NameOnInput { get; set; }
+
+        public int Age { get; set; }
+        public int Age1 { get; set; }
+        public long Ticks { get; set; } = 123456789; // DateTime.Now.Ticks;
     }
+
 
     public void HandleValidSubmit()
     {

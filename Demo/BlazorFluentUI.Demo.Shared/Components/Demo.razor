@@ -49,18 +49,19 @@
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
+
         if (Key == -1)
             throw new Exception("Must set Key with an integer 0 or greater and must be unique within page.");
 
         // Source inspired by AntDesign (https://github.com/Append-IT/ant-design-blazor/blob/master/docs/Append.AntDesign.Documentation/Infrastructure/DocumentationService.cs)
-
         string demoMetaData = await HttpClient.GetStringAsync($"md/{MetadataPath}.md");
+
         var start = 0;
         var end = demoMetaData.Length;
         bool found = false;
-        while ((start <= end) && (!found))
+        while ((start < end) && (!found))
         {
             int indexOfDemoBegin = demoMetaData.IndexOf("<Demo", start) + 6;
             int keyValueBegin = demoMetaData.IndexOf("Key=\"", indexOfDemoBegin) + 5;
@@ -98,11 +99,9 @@
         }
         var lastIndex = demoMetaData.LastIndexOf("}");
 
-        ccodeLiteral = "@code {\n" + demoMetaData.Substring(ccodeIndex, lastIndex - ccodeIndex) +"\n}";
+        ccodeLiteral = "@code {\n" + demoMetaData.Substring(ccodeIndex, lastIndex - ccodeIndex) + "\n}";
 
 
-
-        await base.OnParametersSetAsync();
+        await base.OnInitializedAsync();
     }
-
 }

@@ -1,5 +1,9 @@
 # New for V5
-Temporary demo: https://white-dune-0ef5c1e03.azurestaticapps.net/
+
+## V5.1
+- Add editable column for `DetailsList`
+- Add number support to `TextField`
+
 
 ## Renaming all the stuff
 We renamed the root namespace to `BlazorFluentUI`.

@@ -169,7 +169,7 @@
                     <TextField Label="String-based validation" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="String-based validation on render" DefaultValue="Shows an error message on render" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="String-based validation on render" Value="Bla die blabla" DefaultValue="Shows an error message on render" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
                     <TextField Label="String-based validation only on change" DefaultValue="Validates only on input change, not on first render" OnGetErrorMessage="GetErrorMessage" ValidateOnLoad="false" />
@@ -178,7 +178,7 @@
                     <TextField Label="both description and error message" DefaultValue="shows description and error message on render" Description="field description" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="deferred string-based validation" Placeholder="validates after user stops typing for 2 seconds" DeferredValidationTime="2000" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="deferred string-based validation" Placeholder="validates after user stops typing for 2 seconds" DeferredValidationTime="2000" ValidateOnLoad="false" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
                     <TextField Label="validates only on focus and blur" Placeholder="validates only on input focus and blur" ValidateOnFocusIn="true" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
@@ -196,7 +196,7 @@
         </div>
 
         <div class="subSection">
-            <Demo Header="Validation using Blazor's InputBase<string> and EditForm" Key="7" MetadataPath="TextFieldPage">
+            <Demo Header="Validation using Blazor's EditForm and DataAnnotations" Key="7" MetadataPath="TextFieldPage">
                 <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
                     <DataAnnotationsValidator />
                     <FluentUIValidationSummary />
@@ -208,7 +208,40 @@
                         <TextField Label="OnInput - Input can't be longer than 5 characters" @bind-Value=@exampleModel.NameOnInput @bind-Value:event="OnInput" />
                     </div>
                     <SubmitButton Text="Submit" />
+                    <br />Name on change: @(exampleModel.NameOnChange ?? "-"),
+                    <br />Name on input: @(exampleModel.NameOnInput ?? "-")
                 </EditForm>
+            </Demo>
+        </div>
+
+        <div class="subSection">
+            <Demo Header="TextField tests" Key="8" MetadataPath="TextFieldPage">
+                <h4>Numbers playground</h4>
+                <p>These TextFieldBase components can be used both within and without <code>&lt;EditForm&gt;</code> block</p>
+                @*<EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>*@
+                <div class="textFieldDiv">
+                    <TextFieldBase TValue="int" InputType="InputType.Number" Label="Number test (int)" @bind-Value="exampleModel.Age" OnGetErrorMessage="ExpectedTypeError" />
+                </div>
+                Age: @exampleModel.Age
+                <div class="textFieldDiv">
+                    <TextFieldBase TValue="long" InputType="InputType.Number" Label="Number test (long)" @bind-Value="exampleModel.Ticks" />
+                </div>
+                Ticks: @exampleModel.Ticks
+                <div class="textFieldDiv">
+                    <TextFieldBase TValue="short" InputType="InputType.Number" Label="Number test (short)" DefaultValue="Int16.MinValue" />
+                </div>
+                <div class="textFieldDiv">
+                    <TextFieldBase TValue="float" InputType="InputType.Number" Label="Number test (float)" @bind-Value="@exampleModel.sampleFloat" />
+                    @*<InputNumber TValue="float" @bind-Value="@exampleModel.sampleFloat" />*@
+                    Sample float: @exampleModel.sampleFloat
+                </div>
+                <div class="textFieldDiv">
+                    <TextFieldBase TValue="double" InputType="InputType.Number" Label="Number test (double)" DefaultValue="Double.MaxValue" />
+                </div>
+                <div class="textFieldDiv">
+                    <TextFieldBase TValue="decimal" InputType="InputType.Number" Label="Number test (decimal)" DefaultValue="Decimal.One / 3" />
+                </div>
+                @*</EditForm>*@
             </Demo>
         </div>
     </div>
@@ -216,6 +249,7 @@
 @code {
     string onInputContent = "";
     string onChangeContent = "";
+    string text = "";
 
     ExampleModel exampleModel = new ExampleModel();
 
@@ -227,7 +261,13 @@
         [Required]
         [StringLength(5, ErrorMessage = "NameOnInput is too long.")]
         public string NameOnInput { get; set; }
+
+        public int Age { get; set; }
+        public int Age1 { get; set; }
+        public long Ticks { get; set; } = DateTime.Now.Ticks;
+        public float sampleFloat { get; set; } = Single.MaxValue;
     }
+
 
     public void HandleValidSubmit()
     {
@@ -237,5 +277,10 @@
     public string GetErrorMessage(string value)
     {
         return value.Length < 3 ? "" : $"Input value length must be less than 3. Actual length is {value.Length}.";
+    }
+
+    public string ExpectedTypeError(int value)
+    {
+        return $"Input must be of type {value.GetType()}.";
     }
 }

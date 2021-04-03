@@ -2,25 +2,22 @@
 @using Microsoft.AspNetCore.Components.Forms
 @inherits ValidationSummary
 
-@{ var validationMessages = Model is null ?
-                                     FluentUIEditContext.GetValidationMessages() :
-                                     FluentUIEditContext.GetValidationMessages(new FieldIdentifier(Model, string.Empty));
+@{ var validationMessages = Model is null ? FluentUIEditContext.GetValidationMessages() : FluentUIEditContext.GetValidationMessages(new FieldIdentifier(Model, string.Empty));
 
     @if (validationMessages.Count() > 0)
     {
-    <div @attributes="AdditionalAttributes"
-         class="validation-errors">
+        <div @attributes="AdditionalAttributes"
+             class="validation-errors">
 
-        @foreach (var error in validationMessages)
-        {
-            <MessageBar MessageBarType="MessageBarType.Error" IsMultiline="false">
-                <span class="validation-message">@error</span>
+            @foreach (var error in validationMessages)
+            {
+                <MessageBar MessageBarType="MessageBarType.Error" IsMultiline="false">
+                    <span class="validation-message">@error</span>
 
-            </MessageBar>
-        }
-    </div>
+                </MessageBar>
+            }
+        </div>
     }
-
 }
 
 @code {

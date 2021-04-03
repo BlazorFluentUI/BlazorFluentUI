@@ -22,94 +22,48 @@
     </div>
     <div>
         <div class="subSection">
-            <Demo Header="Basic TextField" Key="0" MetadataPath="TextFieldPage">
+            <Demo Header="Basic TextFields" Key="0" MetadataPath="TextFieldPage">
                 <div class="textFieldDiv">
-                    <TextField Label="TextField" />
+                    <TextField Label="Standard" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="TextField with PostalCode autocomplete" AutoComplete="AutoComplete.PostalCode" />
+                    <TextField Label="Postal Code autocomplete" AutoComplete="AutoComplete.PostalCode" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="TextField Password" InputType="InputType.Password" />
+                    <TextField Label="Password" InputType="InputType.Password" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="TextField Disabled" Disabled="true" />
+                    <TextField Label="Disabled" Disabled="true" Value="I am disabled" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="TextField Readonly" ReadOnly="true" />
+                    <TextField Label="Read-only" ReadOnly="true" Value="I am read-only" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="TextField Required" Required="true" />
-                </div>
-                <div class="textFieldDiv">
-                    <TextField Label="TextField w/ Icon" IconName="Home" />
+                    <TextField Label="Required" Required="true" />
                 </div>
                 <div class="textFieldDiv">
                     <TextField Required="true" />
+                    <span><i>Required but without a label, indicator is shown next to the TextField</i></span>
+                </div>
+                <div class="textFieldDiv">
+                    <TextField Label="With an icon" IconName="Home" />
                 </div>
                 <div class="textFieldDiv">
                     <TextField Label="With Error" ErrorMessage="there is an error" />
                 </div>
                 @*<div class="textFieldDiv">
-                        <TextField Label="With Input Mask" MaskChar="+" />
-                    </div>*@
+                       <TextField Label="With Input Mask" MaskChar="+" />
+                </div>*@
                 <div class="textFieldDiv">
-                    <TextField Label="With Placeholder" Placeholder="placeholder text" />
+                    <TextField Label="With Placeholder" Placeholder="Please enter text here" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="Disabled Placeholder" Placeholder="placeholder text" Disabled="true" />
-                </div>
-                <div class="textFieldDiv">
-                    <TextField Label="Disabled Placeholder" Placeholder="placeholder text" Disabled="true" />
+                    <TextField Label="Disabled with placeholder" Placeholder="I am disabled" Disabled="true" />
                 </div>
             </Demo>
         </div>
-
         <div class="subSection">
-            <Demo Header="TextField with prefix and/or suffix" Key="1" MetadataPath="TextFieldPage">
-                <div class="textFieldDiv">
-                    <TextField Label="With Prefix (text only)" Prefix="https://" />
-                </div>
-                <div class="textFieldDiv">
-                    <TextField Label="With PrefixContent (custom content)">
-                        <PrefixContent>
-                            <Icon IconName="Add" />
-                        </PrefixContent>
-                    </TextField>
-                </div>
-                <div class="textFieldDiv">
-                    <TextField Label="With Suffix (text only)" Suffix="bananas" />
-                </div>
-                <div class="textFieldDiv">
-                    <TextField Label="With SuffixContent (custom content)">
-                        <SuffixContent>
-                            <Icon IconName="Home" />
-                        </SuffixContent>
-                    </TextField>
-                </div>
-                <div class="textFieldDiv">
-                    <TextField Label="With Prefix & Suffix" Prefix="Dr." Suffix="Esquire" />
-                </div>
-            </Demo>
-        </div>
-
-        <div class="subSection">
-            <Demo Header="TextField with no labels" Key="2" MetadataPath="TextFieldPage">
-                <div class="textFieldDiv">
-                    <TextField Required="true" />
-                </div>
-                <div class="textFieldDiv">
-                    <TextField Underlined="true" />
-                </div>
-                <div class="textFieldDiv">
-                    <TextField Disabled="true" />
-                </div>
-            </Demo>
-        </div>
-
-
-        <div class="subSection">
-            <Demo Header="Multiline TextField" Key="3" MetadataPath="TextFieldPage">
+            <Demo Header="Multiline TextFields" Key="1" MetadataPath="TextFieldPage">
                 <div class="textFieldDiv">
                     <TextField Label="TextField Multiline" Multiline="true" />
                 </div>
@@ -123,125 +77,120 @@
                     <TextField Label="Not resizable" Multiline="true" Resizable="false" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="Auto-adjusting height" Multiline="true" AutoAdjustHeight="true" />
+                    <TextField Label="Auto-adjusting height" Multiline="true" AutoAdjustHeight="true" @bind-Value="model.exampleText" />
+                    <p>@((MarkupString) model.exampleText.Replace("\n", "<br />"))</p>
                 </div>
             </Demo>
         </div>
-
         <div class="subSection">
-            <Demo Header="Underline &amp; Borderless TextField" Key="4" MetadataPath="TextFieldPage">
-                <h2>Underline &amp; Borderless</h2>
+            <Demo Header="Underlined and borderless TextFields" Key="2" MetadataPath="TextFieldPage">
                 <div class="textFieldDiv">
-                    <TextField Label="TextField Underlined" Underlined="true" />
+                    <TextField Label="Standard:" Underlined="true" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="TextField Underlined Disabled" Underlined="true" Disabled="true" />
+                    <TextField Label="Disabled:" Underlined="true" Disabled="true" Value="I am disabled" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="TextField Underlined Required" Underlined="true" Required="true" />
+                    <TextField Label="Required:" Underlined="true" Required="true" Placeholder="Enter text here" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="TextField Borderless" Borderless="true" />
+                    <TextField Label="Borderless single-line TextField" Borderless="true" Placeholder="No borders here, folks." />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="TextField Multiline Borderless" Multiline="true" Borderless="true" />
+                    <TextField Label="Borderless multi-line TextField" Multiline="true" Borderless="true" Placeholder="No borders here, folks." />
                 </div>
             </Demo>
         </div>
-
         <div class="subSection">
-            <Demo Header="Binding Modes" Key="5" MetadataPath="TextFieldPage">
+            <Demo Header="TextField with prefix and/or suffix" Key="3" MetadataPath="TextFieldPage">
+                <div class="textFieldDiv">
+                    <TextField Label="With text only Prefix" Prefix="https://" />
+                </div>
+                <div class="textFieldDiv">
+                    <TextField Label="With custom content Prefix">
+                        <PrefixContent>
+                            <Icon IconName="Add" />
+                        </PrefixContent>
+                    </TextField>
+                </div>
+                <div class="textFieldDiv">
+                    <TextField Label="With text only Suffix" Suffix="bananas" />
+                </div>
+                <div class="textFieldDiv">
+                    <TextField Label="With custom content Suffix">
+                        <SuffixContent>
+                            <Icon IconName="Home" />
+                        </SuffixContent>
+                    </TextField>
+                </div>
+                <div class="textFieldDiv">
+                    <TextField Label="With Prefix & Suffix" Prefix="Dr." Suffix="Esquire" />
+                </div>
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Binding Modes" Key="4" MetadataPath="TextFieldPage">
                 <div class="textFieldDiv" style="display:flex; flex-direction: row">
-                    <TextField Label="TextField OnInput 1" @bind-Value=@onInputContent @bind-Value:event="OnInput" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="TextField OnInput 1" @bind-Value=@onInputContent @bind-Value:event="OnInput" />
                     <TextField Label="TextField OnInput 2" Value=@onInputContent />
                 </div>
                 <div class="textFieldDiv" style="display:flex; flex-direction: row">
-                    <TextField Label="TextField OnChange 1" @bind-Value=@onChangeContent @bind-Value:event="OnChange" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="TextField OnChange 1" @bind-Value=@onChangeContent @bind-Value:event="OnChange" />
                     <TextField Label="TextField OnChange 2" Value=@onChangeContent />
                 </div>
             </Demo>
         </div>
 
         <div class="subSection">
-            <Demo Header="TextField Error Message Variations" Key="6" MetadataPath="TextFieldPage">
-                <h4>Hint: the input length must be less than 3.</h4>
+            <Demo Header="TextField Error Message Variations" Key="5" MetadataPath="TextFieldPage">
+                <strong>Hint: the input length must be less than 3.</strong>
                 <div class="textFieldDiv">
                     <TextField Label="String-based validation" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="String-based validation on render" Value="Bla die blabla" DefaultValue="Shows an error message on render" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="String-based validation on render" DefaultValue="Shows an error message on render" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
                     <TextField Label="String-based validation only on change" DefaultValue="Validates only on input change, not on first render" OnGetErrorMessage="GetErrorMessage" ValidateOnLoad="false" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="both description and error message" DefaultValue="shows description and error message on render" Description="field description" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="Both description and error message" DefaultValue="Shows description and error message on render" Description="field description" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="deferred string-based validation" Placeholder="validates after user stops typing for 2 seconds" DeferredValidationTime="2000" ValidateOnLoad="false" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="Deferred string-based validation" Placeholder="Validates after user stops typing for 2 seconds" DeferredValidationTime="2000" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="validates only on focus and blur" Placeholder="validates only on input focus and blur" ValidateOnFocusIn="true" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="Validates only on focus and blur" Placeholder="Validates only on input focus and blur" ValidateOnFocusIn="true" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="validates only on blur" Placeholder="validates only on blur" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="Validates only on blur" Placeholder="Validates only on blur" ValidateOnFocusOut="true" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="underlined field " DefaultValue="this value is too long" Underlined="true" OnGetErrorMessage="GetErrorMessage" />
+                    <TextField Label="Underlined field " DefaultValue="This value is too long" Underlined="true" OnGetErrorMessage="GetErrorMessage" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="uses the errormessage property to set an error state" Placeholder="this field always has an error" ErrorMessage="this is a statically set error message" />
+                    <TextField Label="Uses the errormessage property to set an error state" Placeholder="This field always has an error" ErrorMessage="This is a statically set error message" />
+                </div>
+                <div class="textFieldDiv">
+                    <TextField Label="Both DefaultValue and Value set" DefaultValue="This is a default value" Value="This is a regular value" OnGetErrorMessage="GetErrorMessage" />
                 </div>
             </Demo>
         </div>
-
         <div class="subSection">
-            <Demo Header="Validation using Blazor's EditForm and DataAnnotations" Key="7" MetadataPath="TextFieldPage">
-                <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
+            <Demo Header="Validation using Blazor's EditForm and DataAnnotations" Key="6" MetadataPath="TextFieldPage">
+                <EditForm Model=@model OnValidSubmit=@HandleValidSubmit>
                     <DataAnnotationsValidator />
                     <FluentUIValidationSummary />
-
                     <div class="textFieldDiv">
-                        <TextField Label="OnChange - Input can't be longer than 5 characters" @bind-Value=@exampleModel.NameOnChange />
+                        <TextField Label="OnChange - Input can't be longer than 5 characters" @bind-Value=@model.NameOnChange @bind-Value:event="OnChange" />
                     </div>
                     <div class="textFieldDiv">
-                        <TextField Label="OnInput - Input can't be longer than 5 characters" @bind-Value=@exampleModel.NameOnInput @bind-Value:event="OnInput" />
+                        <TextField Label="OnInput - Input can't be longer than 5 characters" @bind-Value=@model.NameOnInput @bind-Value:event="OnInput" />
                     </div>
                     <SubmitButton Text="Submit" />
-                    <br />Name on change: @(exampleModel.NameOnChange ?? "-"),
-                    <br />Name on input: @(exampleModel.NameOnInput ?? "-")
+                    <br />Name on change: @(model.NameOnChange ?? "")
+                    <br />Name on input: @(model.NameOnInput ?? "")
                 </EditForm>
-            </Demo>
-        </div>
-
-        <div class="subSection">
-            <Demo Header="TextField tests" Key="8" MetadataPath="TextFieldPage">
-                <h4>Numbers playground</h4>
-                <p>These TextFieldBase components can be used both within and without <code>&lt;EditForm&gt;</code> block</p>
-                @*<EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>*@
-                <div class="textFieldDiv">
-                    <TextFieldBase TValue="int" InputType="InputType.Number" Label="Number test (int)" @bind-Value="exampleModel.Age" OnGetErrorMessage="ExpectedTypeError" />
-                </div>
-                Age: @exampleModel.Age
-                <div class="textFieldDiv">
-                    <TextFieldBase TValue="long" InputType="InputType.Number" Label="Number test (long)" @bind-Value="exampleModel.Ticks" />
-                </div>
-                Ticks: @exampleModel.Ticks
-                <div class="textFieldDiv">
-                    <TextFieldBase TValue="short" InputType="InputType.Number" Label="Number test (short)" DefaultValue="Int16.MinValue" />
-                </div>
-                <div class="textFieldDiv">
-                    <TextFieldBase TValue="float" InputType="InputType.Number" Label="Number test (float)" @bind-Value="@exampleModel.sampleFloat" />
-                    @*<InputNumber TValue="float" @bind-Value="@exampleModel.sampleFloat" />*@
-                    Sample float: @exampleModel.sampleFloat
-                </div>
-                <div class="textFieldDiv">
-                    <TextFieldBase TValue="double" InputType="InputType.Number" Label="Number test (double)" DefaultValue="Double.MaxValue" />
-                </div>
-                <div class="textFieldDiv">
-                    <TextFieldBase TValue="decimal" InputType="InputType.Number" Label="Number test (decimal)" DefaultValue="Decimal.One / 3" />
-                </div>
-                @*</EditForm>*@
             </Demo>
         </div>
     </div>
@@ -249,9 +198,8 @@
 @code {
     string onInputContent = "";
     string onChangeContent = "";
-    string text = "";
 
-    ExampleModel exampleModel = new ExampleModel();
+    ExampleModel model = new ExampleModel();
 
     class ExampleModel
     {
@@ -262,10 +210,7 @@
         [StringLength(5, ErrorMessage = "NameOnInput is too long.")]
         public string NameOnInput { get; set; }
 
-        public int Age { get; set; }
-        public int Age1 { get; set; }
-        public long Ticks { get; set; } = DateTime.Now.Ticks;
-        public float sampleFloat { get; set; } = Single.MaxValue;
+        public string exampleText { get; set; } = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut volutpat lacus vitae ex aliquam fermentum. Aenean viverra sollicitudin felis, nec malesuada sem cursus vitae. Maecenas lacus risus, scelerisque ac risus nec, hendrerit tristique risus. Cras sollicitudin suscipit pretium. Nunc dapibus gravida ligula, nec lacinia lorem aliquet id. Curabitur mauris turpis, consequat non magna nec, scelerisque accumsan est. Maecenas volutpat mauris vel mattis bibendum. Donec ornare elit quis dui euismod, vel cursus nibh viverra. Ut consectetur.";
     }
 
 
@@ -277,10 +222,5 @@
     public string GetErrorMessage(string value)
     {
         return value.Length < 3 ? "" : $"Input value length must be less than 3. Actual length is {value.Length}.";
-    }
-
-    public string ExpectedTypeError(int value)
-    {
-        return $"Input must be of type {value.GetType()}.";
     }
 }

@@ -4,43 +4,44 @@
 
 <LocalCS @bind-Rules="@TextFieldLocalRules" />
 
-<div class=@($"ms-TextField mediumFont {(this.Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? "has-error" : "")} {(this.Disabled ? "is-disabled" : "")} {(this.Multiline ? "ms-TextField--multiline" : "")} {(this.Borderless ? "ms-TextField--borderless" : "")} {(!this.Resizable ? "ms-TextField--unresizable" : "")}  {(this.isFocused ? "is-focused" : "")} {(this.Required ? "is-required" : "")} {(hasLabel ? "no-label" : "")} {(this.AutoAdjustHeight ? "auto-adjust-height" : "" )} {ClassName}")
+<div class=@($"ms-TextField mediumFont {(Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(ErrorMessage) ? "has-error" : "")} {(Disabled ? "is-disabled" : "")} {(Multiline ? "ms-TextField--multiline" : "")} {(Borderless ? "ms-TextField--borderless" : "")} {(!Resizable ? "ms-TextField--unresizable" : "")}  {(isFocused ? "is-focused" : "")} {(Required ? "is-required" : "")} {(!hasLabel ? "no-label" : "")} {(AutoAdjustHeight ? "auto-adjust-height" : "" )} {ClassName}")
      style=@Style
      @ref="RootElementReference"
      @onclick="OnClick">
     <div class="ms-TextField-wrapper">
         @if (hasLabel)
         {
-            <Label ClassName="ms-TextField-label" Required=@this.Required HtmlFor=@this.id Disabled=@this.Disabled>@(this.Label + (this.Underlined ? ":" : ""))</Label>
+            <Label ClassName="ms-TextField-label" Required=@Required HtmlFor=@id Disabled=@Disabled>@(Label + (Underlined ? ":" : ""))</Label>
         }
         <div class="ms-TextField-fieldGroup">
-            @if (this.Prefix != null)
+            @if (Prefix != null)
             {
                 <div class="ms-TextField-prefix">
-                    <span style="padding-bottom: 1px;">@this.Prefix</span>
+                    <span style="padding-bottom: 1px;">@Prefix</span>
                 </div>
             }
-            else if (this.PrefixContent != null)
+            else if (PrefixContent != null)
             {
                 <div class="ms-TextField-prefix">
                     @PrefixContent
                 </div>
             }
-            @if (this.Multiline)
+            @if (Multiline)
             {
-                <textarea id=@this.id
-                          @ref="textAreaRef"
+                <textarea id=@id
+                          @ref="Element"
                           style=@(autoAdjustedHeight != -1 ? $"height:{autoAdjustedHeight}px;" : "")
                           @bind-value=@CurrentValue
                           @bind-value:event="oninput"
                           @onchange=@ChangeHandler
+                          @attributes="@AdditionalAttributes"
                           class="mediumFont ms-TextField-field"
-                          aria-label=@this.AriaLabel
-                          aria-describedby=@this.descriptionId
-                          aria-invalid=@(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? true : false)
-                          readOnly=@this.ReadOnly
-                          placeholder=@this.Placeholder
-                          disabled=@this.Disabled
+                          aria-label=@AriaLabel
+                          aria-describedby=@descriptionId
+                          aria-invalid=@(!string.IsNullOrWhiteSpace(ErrorMessage) ? true : false)
+                          readOnly=@ReadOnly
+                          placeholder=@Placeholder
+                          disabled=@Disabled
                           resizable=false
                           @onkeydown=@OnKeyDown
                           @onkeyup=@OnKeyUp
@@ -50,37 +51,41 @@
             }
             else
             {
-                <input type="@TypeUtils.InputMap[this.InputType]"
-                       @ref="inputRef"
-                       id=@this.id
-                       @bind-value=@CurrentValue
-                       @bind-value:event="oninput"
+                <input type=@TypeUtils.InputMap[this.InputType]
+                       @ref="Element"
+                       id=@id
+                       value=@(BindConverter.FormatValue(CurrentValueAsString))
+                       @oninput=@(EventCallback.Factory.CreateBinder<string?>(this, __value => CurrentValueAsString = __value, CurrentValueAsString))
                        @onchange=@ChangeHandler
+                       @attributes=@AdditionalAttributes
                        autocomplete=@GetAutoCompleteString()
+                       step="@_stepAttributeValue"
+                       inputmode=@GetInputMode()
                        class="mediumFont ms-TextField-field"
-                       aria-label=@this.AriaLabel
-                       aria-describedby=@this.descriptionId
-                       aria-invalid=@(!string.IsNullOrWhiteSpace(this.ErrorMessage) ? true : false)
-                       readOnly=@this.ReadOnly
-                       placeholder=@this.Placeholder
-                       disabled=@this.Disabled
+                       aria-label=@AriaLabel
+                       aria-describedby=@descriptionId
+                       aria-invalid=@(!string.IsNullOrWhiteSpace(ErrorMessage) ? true : false)
+                       readOnly=@ReadOnly
+                       placeholder=@Placeholder
+                       disabled=@Disabled
                        @onkeydown=@OnKeyDown
                        @onkeyup=@OnKeyUp
                        @onkeypress=@OnKeyPress
                        @onfocus=@OnFocusInternal
                        @onblur=@OnBlurInternal />
+
             }
             @if (hasIcon)
             {
                 <Icon ClassName="ms-TextField-icon" IconName=@IconName IconSrc=@IconSrc />
             }
-            @if (this.Suffix != null)
+            @if (Suffix != null)
             {
                 <div class="ms-TextField-suffix">
-                    <span style="padding-bottom: 1px;">@this.Suffix</span>
+                    <span style="padding-bottom: 1px;">@Suffix</span>
                 </div>
             }
-            else if (this.SuffixContent != null)
+            else if (SuffixContent != null)
             {
                 <div class="ms-TextField-suffix">
                     @SuffixContent
@@ -88,16 +93,16 @@
             }
         </div>
     </div>
-    @if (!string.IsNullOrWhiteSpace(this.Description) || !string.IsNullOrWhiteSpace(this.ErrorMessage))
+    @if (!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(ErrorMessage))
     {
         <div id="descriptionId">
-            <span class="ms-TextField-description">@this.Description</span>
-            @if (!string.IsNullOrWhiteSpace(this.ErrorMessage))
+            <span class="ms-TextField-description">@Description</span>
+            @if (!string.IsNullOrWhiteSpace(ErrorMessage))
             {
                 <div role="alert">
                     <DelayedRender Delay="100">
                         <p class="slideDownIn20 ms-TextField--errorMessage">
-                            <span data-automation-id="error-message">@this.ErrorMessage</span>
+                            <span data-automation-id="error-message">@ErrorMessage</span>
                         </p>
                     </DelayedRender>
                 </div>

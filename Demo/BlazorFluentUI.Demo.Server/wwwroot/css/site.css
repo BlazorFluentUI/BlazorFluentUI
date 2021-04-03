@@ -170,7 +170,7 @@ app {
 
 .textFieldDiv {
     margin: 5px 0px;
-    width: 400px;
+    width: 350px;
 }
 
 .iconExample {
@@ -180,22 +180,6 @@ app {
     .iconExample.red {
         color: red;
     }
-
-.textFieldDiv {
-    margin: 5px 0px;
-    width: 400px;
-}
-
-.iconExample {
-    font-size: 50px;
-}
-
-    .iconExample.red {
-        color: red;
-    }
-
-
-
 
 
 .Page {

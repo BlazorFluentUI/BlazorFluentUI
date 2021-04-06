@@ -77,7 +77,8 @@
                     <TextField Label="Not resizable" Multiline="true" Resizable="false" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextField Label="Auto-adjusting height" Multiline="true" AutoAdjustHeight="true" />
+                    <TextField Label="Auto-adjusting height" Multiline="true" AutoAdjustHeight="true" @bind-Value="model.exampleText" />
+                    <p>@((MarkupString) model.exampleText.Replace("\n", "<br />"))</p>
                 </div>
             </Demo>
         </div>
@@ -177,53 +178,18 @@
         </div>
         <div class="subSection">
             <Demo Header="Validation using Blazor's EditForm and DataAnnotations" Key="6" MetadataPath="TextFieldPage">
-                <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
+                <EditForm Model=@model OnValidSubmit=@HandleValidSubmit>
                     <DataAnnotationsValidator />
                     <FluentUIValidationSummary />
-
                     <div class="textFieldDiv">
-                        <TextField Label="OnChange - Input can't be longer than 5 characters" @bind-Value=@exampleModel.NameOnChange />
+                        <TextField Label="OnChange - Input can't be longer than 5 characters" @bind-Value=@model.NameOnChange @bind-Value:event="OnChange" />
                     </div>
                     <div class="textFieldDiv">
-                        <TextField Label="OnInput - Input can't be longer than 5 characters" @bind-Value=@exampleModel.NameOnInput @bind-Value:event="OnInput" />
+                        <TextField Label="OnInput - Input can't be longer than 5 characters" @bind-Value=@model.NameOnInput @bind-Value:event="OnInput" />
                     </div>
                     <SubmitButton Text="Submit" />
-                    <br />Name on change: @(exampleModel.NameOnChange ?? "-"),
-                    <br />Name on input: @(exampleModel.NameOnInput ?? "-")
-                </EditForm>
-            </Demo>
-        </div>
-        <div class="subSection">
-            <Demo Header="TextField Number tests" Key="7" MetadataPath="TextFieldPage">
-                <h4>Numbers playground</h4>
-                <p>These TextField components can be used both within and without <code>&lt;EditForm&gt;</code> block</p>
-                <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
-                <FluentUIValidationSummary />
-                <div class="textFieldDiv">
-                    <NumericTextField InputType="InputType.Number" Label="Int test" @bind-Value="exampleModel.Age" OnGetErrorMessage="ExpectedTypeError" />
-                    <InputNumber @bind-Value="exampleModel.Age" ParsingErrorMessage="Number is out of range" />
-                </div>
-                Age: @exampleModel.Age
-                <div class="textFieldDiv">
-                    <NumericTextField InputType="InputType.Number" Label="Long test" @bind-Value="exampleModel.Ticks" />
-                </div>
-                Ticks: @exampleModel.Ticks
-                <div class="textFieldDiv">
-                    <NumericTextField InputType="InputType.Number" Label="Short test (unbound)" Value="Int16.MinValue" />
-                </div>
-                <div class="textFieldDiv">
-                    <NumericTextField InputType="InputType.Number" Label="Float test (OnChange)" @bind-Value="@exampleModel.sampleFloat" @bind-Value:event="OnChange" />
-                    @*<InputNumber TValue="float" @bind-Value="@exampleModel.sampleFloat" />*@
-                    Sample float: @exampleModel.sampleFloat
-                </div>
-                <div class="textFieldDiv">
-                    <NumericTextField InputType="InputType.Number" Label="Double test" @bind-Value="@exampleModel.sampleDouble" />
-                    Sample double: @exampleModel.sampleDouble
-                </div>
-                <div class="textFieldDiv">
-                    <NumericTextField InputType="InputType.Number" Label="Decimal test" @bind-Value="@exampleModel.sampleDecimal" />
-                    Sample decimal: @exampleModel.sampleDecimal
-                </div>
+                    <br />Name on change: @(model.NameOnChange ?? "")
+                    <br />Name on input: @(model.NameOnInput ?? "")
                 </EditForm>
             </Demo>
         </div>
@@ -232,9 +198,8 @@
 @code {
     string onInputContent = "";
     string onChangeContent = "";
-    string text = "";
 
-    ExampleModel exampleModel = new ExampleModel();
+    ExampleModel model = new ExampleModel();
 
     class ExampleModel
     {
@@ -245,12 +210,7 @@
         [StringLength(5, ErrorMessage = "NameOnInput is too long.")]
         public string NameOnInput { get; set; }
 
-        public int Age { get; set; } = int.MaxValue;
-        public int Age1 { get; set; }
-        public long Ticks { get; set; } = DateTime.Now.Ticks;
-        public float sampleFloat { get; set; } = Single.MaxValue;
-        public double sampleDouble { get; set; } = Double.MaxValue;
-        public decimal sampleDecimal { get; set; } = Decimal.One / 3;
+        public string exampleText { get; set; } = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut volutpat lacus vitae ex aliquam fermentum. Aenean viverra sollicitudin felis, nec malesuada sem cursus vitae. Maecenas lacus risus, scelerisque ac risus nec, hendrerit tristique risus. Cras sollicitudin suscipit pretium. Nunc dapibus gravida ligula, nec lacinia lorem aliquet id. Curabitur mauris turpis, consequat non magna nec, scelerisque accumsan est. Maecenas volutpat mauris vel mattis bibendum. Donec ornare elit quis dui euismod, vel cursus nibh viverra. Ut consectetur.";
     }
 
 
@@ -262,10 +222,5 @@
     public string GetErrorMessage(string value)
     {
         return value.Length < 3 ? "" : $"Input value length must be less than 3. Actual length is {value.Length}.";
-    }
-
-    public string ExpectedTypeError(int value)
-    {
-        return "" ;
     }
 }

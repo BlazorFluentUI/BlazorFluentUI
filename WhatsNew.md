@@ -1,8 +1,9 @@
 # New for V5
 
 ## V5.1
-- Add editable column for `DetailsList`
-- Add number support to `TextField`
+- Add editable column for `DetailsList, DetailsListAuto` 
+- Add new component `TextFieldNumber`, based on `TextField`. Supports `int, long, short, float, double and decimal`. 
+  See https://www.blazorfluentui.net/TextFieldNumberPage for examples
 
 
 ## Renaming all the stuff
@@ -14,8 +15,6 @@ Both changes were made to align the library closer to the Fluent UI React enviro
 
 
 # New for v4
-Temporary demo: https://calm-rock-0f708be1e.azurestaticapps.net/
-
 
 ## Css Isolation and Speed
 All components have been refactored to use css isolation for their global styles.  Styles should load as soon as the css file loads.  In version 3, styles would only load after the components had been created causing a slight delay while the styles loaded and the UI repainted itself.  If you are going to modify the styles of any of these components with your own isolated css, make sure you use the `::deep` selector.

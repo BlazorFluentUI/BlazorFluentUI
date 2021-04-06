@@ -47,7 +47,10 @@ namespace BlazorFluentUI
         [Parameter] public string? OnClickTarget { get; set; }
 
         [Inject]
-        internal IJSRuntime? jSRuntime { get; set; }
+        internal IJSRuntime? JSRuntime { get; set; }
+
+        private const string scriptPath = "./_content/BlazorFluentUI.CoreComponents/documentCard.js";
+        private IJSObjectReference? scriptModule;
 
         [Inject]
         internal NavigationManager? NavigationManager { get; set; }
@@ -104,6 +107,10 @@ namespace BlazorFluentUI
                 await OnClickHandler().ConfigureAwait(false);
             }
         }
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", scriptPath);
+        }
 
         private async Task OnClickHandler()
         {
@@ -115,11 +122,11 @@ namespace BlazorFluentUI
             {
                 if (!string.IsNullOrWhiteSpace(OnClickTarget))
                 {
-                    await jSRuntime.InvokeVoidAsync("open", OnClickHref, OnClickTarget, "noreferrer noopener nofollow").ConfigureAwait(false);
+                    await scriptModule!.InvokeVoidAsync("open", OnClickHref, OnClickTarget, "noreferrer noopener nofollow").ConfigureAwait(false);
                 }
                 else
                 {
-                    await jSRuntime.InvokeVoidAsync("open", OnClickHref, "_blank", "noreferrer nofollow").ConfigureAwait(false);
+                    await scriptModule!.InvokeVoidAsync("open", OnClickHref, "_blank", "noreferrer nofollow").ConfigureAwait(false);
                 }
             }
         }
@@ -131,7 +138,8 @@ namespace BlazorFluentUI
 
         public async Task Focus()
         {
-            await jSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", RootElementReference).ConfigureAwait(false);
+            await RootElementReference.FocusAsync();
+            //await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", RootElementReference).ConfigureAwait(false);
         }
     }
 }

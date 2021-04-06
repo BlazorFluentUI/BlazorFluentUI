@@ -49,6 +49,9 @@ namespace BlazorFluentUI
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
+
         protected bool showMenu = false;
 
         private ICommand command;
@@ -99,6 +102,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
             if (firstRender)
             {
             }
@@ -180,14 +184,14 @@ namespace BlazorFluentUI
             {
                 await DeregisterListFocusAsync();
             }
-            _registrationToken = await JSRuntime.InvokeAsync<string>("FluentUIBaseComponent.registerKeyEventsForList", RootElementReference);
+            _registrationToken = await baseModule!.InvokeAsync<string>("registerKeyEventsForList", RootElementReference);
         }
 
         private async Task DeregisterListFocusAsync()
         {
             if (_registrationToken != null)
             {
-                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.deregisterKeyEventsForList", _registrationToken);
+                await baseModule!.InvokeVoidAsync("deregisterKeyEventsForList", _registrationToken);
                 _registrationToken = null;
             }
         }

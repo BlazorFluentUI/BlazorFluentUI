@@ -39,6 +39,9 @@ namespace BlazorFluentUI.Resize
         private Task<Rectangle> boundsTask;
         private CancellationTokenSource boundsCTS = new();
 
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
+
         protected override Task OnInitializedAsync()
         {
             return Task.CompletedTask;
@@ -85,10 +88,12 @@ namespace BlazorFluentUI.Resize
         bool onceOversized;
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+
             if (firstRender)
             {
                 _jsAvailable = true;
-                _resizeEventTokenTask = JSRuntime!.InvokeAsync<string>("FluentUIBaseComponent.registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
+                _resizeEventTokenTask = baseModule!.InvokeAsync<string>("registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
             }
 
             double containerDimension = await GetContainerDimension();
@@ -126,7 +131,7 @@ namespace BlazorFluentUI.Resize
         {
             // must get this via a funcion because we don't know yet if either of these elements will exist to be measured.
             ElementReference refToMeasure = !_hasRenderedContent ? initialHiddenDiv : updateHiddenDiv;
-            ScrollDimensions? elementBounds = await JSRuntime.InvokeAsync<ScrollDimensions>("FluentUIBaseComponent.measureScrollDimensions", cancellationToken, refToMeasure);
+            ScrollDimensions? elementBounds = await baseModule.InvokeAsync<ScrollDimensions>("measureScrollDimensions", cancellationToken, refToMeasure);
             double elementDimension = Vertical ? elementBounds.ScrollHeight : elementBounds.ScrollWidth;
             return elementDimension;
         }
@@ -136,7 +141,7 @@ namespace BlazorFluentUI.Resize
             if (_jsAvailable && _resizeEventTokenTask.IsCompleted)
             {
                 _resizeEventToken = await _resizeEventTokenTask;
-                await JSRuntime!.InvokeVoidAsync("FluentUIBaseComponent.deregisterResizeEvent", _resizeEventToken);
+                await baseModule!.InvokeVoidAsync("deregisterResizeEvent", _resizeEventToken);
             }
             GC.SuppressFinalize(this);
         }

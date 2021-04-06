@@ -12,6 +12,11 @@ namespace BlazorFluentUI
     public partial class FocusZone : FluentUIComponentBase, IAsyncDisposable
     {
         [Inject] private IJSRuntime? JSRuntime { get; set; }
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        //private IJSObjectReference? baseModule;
+
+        private const string FocusPath = "./_content/BlazorFluentUI.CoreComponents/focusZone.js";
+        private IJSObjectReference? focusModule;
 
         [Parameter] public bool AllowFocusRoot { get=>allowFocusRoot; set { if (value != allowFocusRoot) { updateFocusZone = true; allowFocusRoot = value; } } }
         //[Parameter] public ComponentBase As { get; set; }
@@ -53,12 +58,12 @@ namespace BlazorFluentUI
 
         public async void Focus()
         {
-            await JSRuntime!.InvokeVoidAsync("FluentUIBaseComponent.focusElement", RootElementReference);
+            await focusModule!.InvokeVoidAsync("focusElement", RootElementReference);
         }
 
         public async void FocusFirstElement()
         {
-            await JSRuntime!.InvokeVoidAsync("FluentUIBaseComponent.focusFirstElementChild", RootElementReference);
+            await focusModule!.InvokeVoidAsync("focusFirstElementChild", RootElementReference);
         }
 
         protected string Id = Guid.NewGuid().ToString();
@@ -77,8 +82,11 @@ namespace BlazorFluentUI
             return base.OnInitializedAsync();
         }
 
-        protected override void OnAfterRender(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            //baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            focusModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath, FocusPath);
+
             if (firstRender)
             {
                 if (_registrationTask == null)
@@ -100,7 +108,7 @@ namespace BlazorFluentUI
                     _ = UpdateFocusZoneAsync();
                 }
             }
-            base.OnAfterRender(firstRender);
+            await base.OnAfterRenderAsync(firstRender);
         }
 
 
@@ -115,7 +123,7 @@ namespace BlazorFluentUI
             try
             {
                 FocusZoneProps? props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIFocusZone.updateFocusZone", _registrationId, props);
+                await focusModule!.InvokeVoidAsync("updateFocusZone", _registrationId, props);
             }
             catch (TaskCanceledException)
             {
@@ -127,14 +135,14 @@ namespace BlazorFluentUI
         private async Task RegisterFocusZoneAsync()
         {
             FocusZoneProps? props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
-            _registrationId = await JSRuntime!.InvokeAsync<int>("BlazorFluentUIFocusZone.register", props, DotNetObjectReference.Create(this));
+            _registrationId = await focusModule!.InvokeAsync<int>("register", props, DotNetObjectReference.Create(this));
         }
 
         private async Task UnregisterFocusZoneAsync()
         {
             try
             {
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIFocusZone.unregister", _registrationId);
+                await focusModule!.InvokeVoidAsync("unregister", _registrationId);
                 _registrationId = -1;
             }
             catch (TaskCanceledException)

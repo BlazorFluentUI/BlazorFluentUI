@@ -50,19 +50,24 @@ namespace BlazorFluentUI
 
         [Inject] ScopedStatics ScopedStatics { get; set; }
 
-        protected override void OnInitialized()
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
+
+        protected override async Task OnInitializedAsync()
         {
             ThemeProvider.ThemeChanged += OnThemeChangedPrivate;
             ThemeProvider.ThemeChanged += OnThemeChangedProtected;
-            base.OnInitialized();
+            await base.OnInitializedAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+
             if (!ScopedStatics.FocusRectsInitialized)
             {
                 ScopedStatics.FocusRectsInitialized = true;
-                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.initializeFocusRects");
+                await baseModule!.InvokeVoidAsync("initializeFocusRects");
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -71,7 +76,10 @@ namespace BlazorFluentUI
         {
             try
             {
-                Rectangle? rectangle = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", RootElementReference);
+                if (baseModule == null)
+                    baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+                
+                Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", RootElementReference);
                 return rectangle;
             }
             catch (JSException)
@@ -84,10 +92,13 @@ namespace BlazorFluentUI
         {
             try
             {
-                Rectangle? rectangle = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", cancellationToken, RootElementReference);
+                if (baseModule == null)
+                    baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+
+                Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", cancellationToken, RootElementReference);
                 return rectangle;
             }
-            catch (JSException) 
+            catch (JSException)
             {
                 return new Rectangle();
             }
@@ -97,7 +108,9 @@ namespace BlazorFluentUI
         {
             try
             {
-                Rectangle? rectangle = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", cancellationToken, elementReference);
+                if (baseModule == null)
+                    baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+                Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", cancellationToken, elementReference);
                 return rectangle;
             }
             catch (JSException)
@@ -110,7 +123,9 @@ namespace BlazorFluentUI
         {
             try
             {
-                Rectangle? rectangle = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", elementReference);
+                if (baseModule == null)
+                    baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+                Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", elementReference);
                 return rectangle;
             }
             catch (JSException)

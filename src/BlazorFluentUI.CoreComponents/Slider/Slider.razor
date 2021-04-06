@@ -40,18 +40,18 @@
                 @if (OriginFromZero)
                 {
                     <span class=@($"{GlobalClassNames["lineContainer"]} {TitleLabelClassName} {GlobalClassNames["inactiveSection"]}")
-                          style=@($"{lengthString}:{Math.Min(thumbOffsetPercent, zeroOffsetPercent)}%;") />
+                          style=@($"{LengthString}:{Math.Min(thumbOffsetPercent, zeroOffsetPercent)}%;") />
                     <span class=@($"{GlobalClassNames["lineContainer"]} {GlobalClassNames["activeSection"]}")
-                          style=@($"{lengthString}:{Math.Abs(thumbOffsetPercent - zeroOffsetPercent)}%;") />
+                          style=@($"{LengthString}:{Math.Abs(thumbOffsetPercent - zeroOffsetPercent)}%;") />
                     <span class=@($"{GlobalClassNames["lineContainer"]} {GlobalClassNames["inactiveSection"]}")
-                          style=@($"{lengthString}:{Math.Min(100 - thumbOffsetPercent, 100 - zeroOffsetPercent)}%;") />
+                          style=@($"{LengthString}:{Math.Min(100 - thumbOffsetPercent, 100 - zeroOffsetPercent)}%;") />
                 }
                 else
                 {
                     <span class=@($"{GlobalClassNames["lineContainer"]} {GlobalClassNames["activeSection"]}")
-                          style=@($"{lengthString}:{thumbOffsetPercent}%;") />
+                          style=@($"{LengthString}:{thumbOffsetPercent}%;") />
                     <span class=@($"{GlobalClassNames["lineContainer"]} {GlobalClassNames["inactiveSection"]}")
-                          style=@($"{lengthString}:{100 - thumbOffsetPercent}%;") />
+                          style=@($"{LengthString}:{100 - thumbOffsetPercent}%;") />
                 }
             </div>
         </div>

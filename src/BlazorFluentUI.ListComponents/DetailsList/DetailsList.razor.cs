@@ -80,8 +80,9 @@ namespace BlazorFluentUI.Lists
         public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
 
         [Inject]
-        public IJSRuntime JSRuntime { get; set; }
-
+        public IJSRuntime? JSRuntime { get; set; }
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
 
         //State
         int focusedItemIndex;
@@ -212,10 +213,12 @@ namespace BlazorFluentUI.Lists
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            
             if (firstRender)
             {
                 selfReference = DotNetObjectReference.Create(this);
-                _viewportRegistration = await JSRuntime.InvokeAsync<int>("FluentUIBaseComponent.addViewport", selfReference, RootElementReference, true);
+                _viewportRegistration = await baseModule!.InvokeAsync<int>("addViewport", selfReference, RootElementReference, true);
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -416,7 +419,7 @@ namespace BlazorFluentUI.Lists
         {
             if (_viewportRegistration != -1)
             {
-                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.removeViewport", _viewportRegistration);
+                await baseModule!.InvokeVoidAsync("removeViewport", _viewportRegistration);
                 _viewportRegistration = -1;
             }
             selfReference?.Dispose();

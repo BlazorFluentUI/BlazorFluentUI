@@ -8,15 +8,22 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    // Blazor doesn't have a React equivalent to "createPortal" so to use a Layer, you need to place 
-    // a LayerHost manually near the root of the app.  This will allow you to use a CascadeParameter 
+    // Blazor doesn't have a React equivalent to "createPortal" so to use a Layer, you need to place
+    // a LayerHost manually near the root of the app.  This will allow you to use a CascadeParameter
     // to send the LayerHost to anywhere in the app and render items to it.
 
     public class Layer : FluentUIComponentBase, IAsyncDisposable
-    {        
+    {
         [Inject] private IJSRuntime? JSRuntime { get; set; }
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
+
+        //private const string PanelPath = "./_content/BlazorFluentUI.CoreComponents/panel.js";
+        //private IJSObjectReference? panelModule;
+
+
         [Inject] private LayerHostService LayerHostService { get; set; }
-        
+
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public string? HostId { get; set; }
 
@@ -54,7 +61,7 @@ namespace BlazorFluentUI
 
         protected override bool ShouldRender()
         {
-            if (LayerHost != null) 
+            if (LayerHost != null)
             {
                 LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent);
                 addedToHost = true;
@@ -74,6 +81,8 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+
             if (firstRender)
             {
                 isFirstRendered = true;
@@ -96,7 +105,7 @@ namespace BlazorFluentUI
                     }
                 }
 
-                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.addOrUpdateVirtualParent", _element);
+                await baseModule!.InvokeVoidAsync("addOrUpdateVirtualParent", _element);
             }
             await base.OnAfterRenderAsync(firstRender);
         }

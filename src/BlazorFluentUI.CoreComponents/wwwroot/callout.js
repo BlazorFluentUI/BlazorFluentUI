@@ -1,26 +1,13 @@
-interface DotNetReferenceType {
-
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-}
-
-interface IRectangle {
-    left: number;
-    top: number;
-    width: number;
-    height: number;
-    right?: number;
-    bottom?: number;
-}
-
-export function registerHandlers(targetElement: HTMLElement, calloutRef: DotNetReferenceType): number[] {
+export function registerHandlers(targetElement, calloutRef) {
     var window = targetElement.ownerDocument.defaultView;
-
     var calloutDivId = Handler.addCallout(targetElement);
-
-    var scrollId = Handler.addListener(window, "scroll", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ScrollHandler"); }; }, true);
-    var resizeId = Handler.addListener(window, "resize", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ResizeHandler"); }; }, true);
-    var focusId = Handler.addListener(document.documentElement, "focus", (ev: Event) => {
+    var scrollId = Handler.addListener(window, "scroll", (ev) => { if (checkTarget(ev, targetElement)) {
+        calloutRef.invokeMethodAsync("ScrollHandler");
+    } ; }, true);
+    var resizeId = Handler.addListener(window, "resize", (ev) => { if (checkTarget(ev, targetElement)) {
+        calloutRef.invokeMethodAsync("ResizeHandler");
+    } ; }, true);
+    var focusId = Handler.addListener(document.documentElement, "focus", (ev) => {
         var outsideCallout = true;
         for (let prop in Handler.targetCombinedElements) {
             if (Object.prototype.hasOwnProperty.call(Handler.targetCombinedElements, prop)) {
@@ -32,7 +19,7 @@ export function registerHandlers(targetElement: HTMLElement, calloutRef: DotNetR
         if (outsideCallout)
             calloutRef.invokeMethodAsync("FocusHandler");
     }, true);
-    var clickId = Handler.addListener(document.documentElement, "click", (ev: Event) => {
+    var clickId = Handler.addListener(document.documentElement, "click", (ev) => {
         var outsideCallout = true;
         for (let prop in Handler.targetCombinedElements) {
             if (Object.prototype.hasOwnProperty.call(Handler.targetCombinedElements, prop)) {
@@ -44,54 +31,31 @@ export function registerHandlers(targetElement: HTMLElement, calloutRef: DotNetR
         if (outsideCallout)
             calloutRef.invokeMethodAsync("ClickHandler");
     }, true);
-
     //set focus, too
-
     return [scrollId, resizeId, focusId, clickId, calloutDivId];
 }
-
-export function unregisterHandlers(ids: number[]): void {
-
+export function unregisterHandlers(ids) {
     Handler.removeCallout(ids[ids.length - 1]);
-
     var handlerIds = ids.slice(0, ids.length - 1);
-
     for (let id of handlerIds) {
         Handler.removeListener(id);
     }
 }
-
-interface EventParams {
-    element: HTMLElement | Window;
-    event: string;
-    handler: (ev: Event) => void;
-    capture: boolean;
-}
-interface Map<T> {
-    [K: number]: T;
-}
-
 class Handler {
-
-    static i: number = 1;
-    static listeners: Map<EventParams> = {};
-    static targetCombinedElements: Map<HTMLElement> = {};
-
-    static addCallout(element: HTMLElement): number {
+    static addCallout(element) {
         this.targetCombinedElements[this.i] = element;
         return this.i++;
     }
-    static removeCallout(id: number): void {
+    static removeCallout(id) {
         if (id in this.targetCombinedElements)
             delete this.targetCombinedElements[id];
     }
-
-    static addListener(element: HTMLElement | Window, event: string, handler: (ev: Event) => void, capture: boolean): number {
+    static addListener(element, event, handler, capture) {
         element.addEventListener(event, handler, capture);
         this.listeners[this.i] = { capture: capture, event: event, handler: handler, element: element };
         return this.i++;
     }
-    static removeListener(id: number): void {
+    static removeListener(id) {
         if (id in this.listeners) {
             var h = this.listeners[id];
             h.element.removeEventListener(h.event, h.handler, h.capture);
@@ -99,17 +63,15 @@ class Handler {
         }
     }
 }
-
-function clickHandler(ev: Event) {
-
+Handler.i = 1;
+Handler.listeners = {};
+Handler.targetCombinedElements = {};
+function clickHandler(ev) {
 }
-
-
-function checkTarget(ev: Event, targetElement: HTMLElement): boolean {
-    const target = ev.target as HTMLElement;
+function checkTarget(ev, targetElement) {
+    const target = ev.target;
     const isEventTargetOutsideCallout = !elementContains(targetElement, target);
     return isEventTargetOutsideCallout;
-
     //// complicated mess that includes mouse events for right-click menus...
     //if (
     //    (!this._target && isEventTargetOutsideCallout) ||
@@ -122,14 +84,13 @@ function checkTarget(ev: Event, targetElement: HTMLElement): boolean {
     //}
     //return false;
 }
-
-function elementContains(parent: HTMLElement | null, child: HTMLElement | null, allowVirtualParents: boolean = true): boolean {
+function elementContains(parent, child, allowVirtualParents = true) {
     let isContained = false;
     if (parent && child) {
         if (allowVirtualParents) {
             isContained = false;
             while (child) {
-                let nextParent: HTMLElement | null = getParent(child);
+                let nextParent = getParent(child);
                 // console.log("NextParent: " + nextParent);
                 if (nextParent === parent) {
                     isContained = true;
@@ -137,29 +98,26 @@ function elementContains(parent: HTMLElement | null, child: HTMLElement | null, 
                 }
                 child = nextParent;
             }
-        } else if (parent.contains) {
+        }
+        else if (parent.contains) {
             isContained = parent.contains(child);
         }
     }
     return isContained;
 }
-
-function getParent(child: HTMLElement): HTMLElement | null {
-    return child && (child.parentNode && (child.parentNode as HTMLElement));
+function getParent(child) {
+    return child && (child.parentNode && child.parentNode);
 }
-
-
-
-export function getWindow(element: HTMLElement): Window {
+export function getWindow(element) {
     return element.ownerDocument.defaultView;
 }
-
-export function getWindowRect(): IRectangle {
-    var rect: IRectangle = {
-        width: window.innerWidth,// - scrollbarwidth
+export function getWindowRect() {
+    var rect = {
+        width: window.innerWidth,
         height: window.innerHeight,
         top: 0,
         left: 0
-    }
+    };
     return rect;
-};
+}
+;

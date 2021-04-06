@@ -28,10 +28,15 @@ namespace BlazorFluentUI
 
         public readonly static List<int> RESPONSIVE_MAX_CONSTRAINT = new() { 479, 639, 1023, 1365, 1919, 99999999 };
 
-        public static async Task<ResponsiveMode> GetResponsiveModeAsync(IJSRuntime jSRuntime)
+        public static async Task<ResponsiveMode> GetResponsiveModeAsync(IJSRuntime JSRuntime)
         {
+            string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+            IJSObjectReference? baseModule;
+
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+
             ResponsiveMode responsiveMode = ResponsiveMode.Small;
-            Rectangle? windowRect = await jSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.getWindowRect");
+            Rectangle? windowRect = await baseModule.InvokeAsync<Rectangle>("getWindowRect");
             try
             {
                 while (windowRect.Width > RESPONSIVE_MAX_CONSTRAINT[(int)responsiveMode])

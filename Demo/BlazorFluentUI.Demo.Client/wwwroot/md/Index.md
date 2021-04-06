@@ -32,6 +32,7 @@
             <li class="uThird"><Link Href="SliderPage">Slider</Link></li>
             @*<li class="uThird"><Link href="spinbutton">SpinButton</a></li>*@
             <li class="uThird"><Link Href="TextFieldPage">TextField</Link></li>
+            <li class="uThird"><Link Href="TextFieldNumberPage">TextFieldNumber</Link></li>
             <li class="uThird"><Link Href="TogglePage">Toggle</Link></li>
         </ul>
     </div>

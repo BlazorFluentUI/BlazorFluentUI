@@ -11,7 +11,7 @@ namespace BlazorFluentUI
 {
     public partial class Image : FluentUIComponentBase
     {
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
 
         [Parameter] public string Alt { get; set; }
         [Parameter] public ImageCoverStyle CoverStyle { get; set; } = ImageCoverStyle.None;
@@ -25,6 +25,9 @@ namespace BlazorFluentUI
         [Parameter] public double Width { get; set; } = double.NaN;
 
         [Parameter] public EventCallback<ImageLoadState> OnLoadingStateChange { get; set; }
+
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
 
         protected const string KEY_PREFIX = "fabricImage";
         private static Regex _svgRegex = new(@"\.svg$");
@@ -58,9 +61,10 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
             if (!SupportsObjectFit.HasValue)
             {
-                SupportsObjectFit = await JSRuntime.InvokeAsync<bool>("FluentUIBaseComponent.supportsObjectFit");
+                SupportsObjectFit = await baseModule.InvokeAsync<bool>("supportsObjectFit");
             }
             if (firstRender)
                 hasRenderedOnce = firstRender;
@@ -179,7 +183,7 @@ namespace BlazorFluentUI
             if (CoverStyle == ImageCoverStyle.None)
             {
                 Rectangle? rootBounds = await GetBoundsAsync();
-                Rectangle? imageNaturalBounds = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.getNaturalBounds", imageRef);
+                Rectangle? imageNaturalBounds = await baseModule!.InvokeAsync<Rectangle>("getNaturalBounds", imageRef);
 
                 if (imageNaturalBounds== null)
                 {

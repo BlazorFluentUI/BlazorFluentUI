@@ -12,7 +12,7 @@ namespace BlazorFluentUI
     public partial class SelectionZone<TItem> : FluentUIComponentBase, IAsyncDisposable
     {
         [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        public RenderFragment? ChildContent { get; set; }
 
         [Parameter]
         public bool DisableAutoSelectOnInputElements { get; set; }
@@ -30,17 +30,17 @@ namespace BlazorFluentUI
         public bool IsSelectedOnFocus { get; set; } = true;
 
         [Parameter]
-        public Action<TItem, int> OnItemContextMenu { get; set; }
+        public Action<TItem, int>? OnItemContextMenu { get; set; }
 
         [Parameter]
-        public Action<TItem, int> OnItemInvoked { get; set; }
+        public Action<TItem, int>? OnItemInvoked { get; set; }
 
-        private Selection<TItem> _selection;
+        private Selection<TItem>? _selection;
         [Parameter]
-        public Selection<TItem> Selection 
-        { 
-            get => _selection; 
-            set 
+        public Selection<TItem> Selection
+        {
+            get => _selection!;
+            set
             {
                 if (_selection != value)
                 {
@@ -54,10 +54,10 @@ namespace BlazorFluentUI
                         _selectionSubscription = _selection.SelectionChanged.Subscribe(_ => { });//InvokeAsync(StateHasChanged));
                     }
                 }
-            } 
+            }
         }
 
-        IDisposable _selectionSubscription;
+        IDisposable? _selectionSubscription;
         //[Parameter]
         //public EventCallback<Selection<TItem>> SelectionChanged { get; set; }
 
@@ -69,13 +69,15 @@ namespace BlazorFluentUI
 
         [Inject]
         private IJSRuntime? JSRuntime { get; set; }
+        private static IJSObjectReference? baseModule;
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/selectionZone.js";
 
         private bool isModal = false;
 
         private bool doNotRenderOnce = false;
 
         private DotNetObjectReference<SelectionZone<TItem>>? dotNetRef;
-        private SelectionZoneProps props;
+        private SelectionZoneProps? props;
 
         protected override bool ShouldRender()
         {
@@ -112,7 +114,7 @@ namespace BlazorFluentUI
                     || (OnItemInvoked!= null) != props.OnItemInvokeSet)
                 {
                     props = GenerateProps();
-                    await JSRuntime!.InvokeVoidAsync("BlazorFluentUISelectionZone.updateProps", dotNetRef, props);
+                    await baseModule!.InvokeVoidAsync("updateProps", dotNetRef, props);
                 }
             }
 
@@ -136,8 +138,11 @@ namespace BlazorFluentUI
         {
             if (firstRender)
             {
+                if (baseModule == null)
+                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+
                 dotNetRef = DotNetObjectReference.Create(this);
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUISelectionZone.registerSelectionZone", dotNetRef, RootElementReference, new SelectionZoneProps { IsModal = isModal, SelectionMode = SelectionMode });
+                await baseModule!.InvokeVoidAsync("registerSelectionZone", dotNetRef, RootElementReference, new SelectionZoneProps { IsModal = isModal, SelectionMode = SelectionMode });
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -146,7 +151,7 @@ namespace BlazorFluentUI
         {
             if (dotNetRef != null)
             {
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUISelectionZone.unregisterSelectionZone", dotNetRef);
+                await baseModule!.InvokeVoidAsync("unregisterSelectionZone", dotNetRef);
                 dotNetRef.Dispose();
             }
         }

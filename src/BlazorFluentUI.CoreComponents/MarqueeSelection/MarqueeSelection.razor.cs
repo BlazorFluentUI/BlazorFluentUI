@@ -18,6 +18,9 @@ namespace BlazorFluentUI
         [Parameter] public Selection<TItem>? Selection { get; set; }
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
+        private const string scriptPath = "./_content/BlazorFluentUI.CoreComponents/marqueeSelection.js";
+        private IJSObjectReference? scriptModule;
+
 
         [CascadingParameter] public SelectionZone<TItem>? SelectionZone { get; set; }
 
@@ -47,7 +50,7 @@ namespace BlazorFluentUI
                     || IsDraggingConstrainedToRoot != props.IsDraggingConstrainedToRoot)
                 {
                     props = GenerateProps();
-                    await JSRuntime!.InvokeVoidAsync("BlazorFluentUIMarqueeSelection.updateProps", dotNetRef, props);
+                    await scriptModule!.InvokeVoidAsync("updateProps", dotNetRef, props);
                 }
             }
             await base.OnParametersSetAsync();
@@ -55,10 +58,12 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", scriptPath);
+
             if (firstRender)
             {
                 dotNetRef = DotNetObjectReference.Create(this);
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIMarqueeSelection.registerMarqueeSelection", dotNetRef, RootElementReference, props);
+                await scriptModule!.InvokeVoidAsync("registerMarqueeSelection", dotNetRef, RootElementReference, props);
             }
 
             await base.OnAfterRenderAsync(firstRender);
@@ -127,7 +132,7 @@ namespace BlazorFluentUI
         {
             if (dotNetRef != null)
             {
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIMarqueeSelection.unregisterMarqueeSelection", dotNetRef);
+                await scriptModule!.InvokeVoidAsync("unregisterMarqueeSelection", dotNetRef);
                 dotNetRef?.Dispose();
             }
         }

@@ -9,7 +9,13 @@ namespace BlazorFluentUI
     public partial class CalloutContent : FluentUIComponentBase, IAsyncDisposable
     {
 
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
+
+        private const string CalloutPath = "./_content/BlazorFluentUI.CoreComponents/callout.js";
+        private IJSObjectReference? calloutModule;
+
 
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public ElementReference ElementTarget { get; set; }  // not working yet
@@ -52,8 +58,6 @@ namespace BlazorFluentUI
 
         [CascadingParameter(Name = "PortalId")] private string PortalId { get; set; }
 
-        [Inject] private IJSRuntime jSRuntime { get; set; }
-
         protected double contentMaxHeight = -1;
         protected bool overflowYHidden = false;
 
@@ -89,12 +93,14 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            calloutModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import",  CalloutPath);
+            
             if (!isEventHandlersRegistered) 
             {
                 isEventHandlersRegistered = true;
 
-                eventHandlerIds = await JSRuntime.InvokeAsync<List<int>>("BlazorFluentUICallout.registerHandlers", RootElementReference, DotNetObjectReference.Create(this));
+                eventHandlerIds = await calloutModule!.InvokeAsync<List<int>>("registerHandlers", RootElementReference, DotNetObjectReference.Create(this));
 
                 
 
@@ -201,7 +207,7 @@ namespace BlazorFluentUI
             else
             {
                 //javascript to get screen bounds
-                maxBounds = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.getWindowRect");
+                maxBounds = await baseModule!.InvokeAsync<Rectangle>("getWindowRect");
                 maxBounds.Top += MinPagePadding;
                 maxBounds.Left += MinPagePadding;
                 maxBounds.Bottom -= MinPagePadding;
@@ -369,7 +375,7 @@ namespace BlazorFluentUI
 
         private async Task<PartialRectangle> FinalizeElementPositionAsync(Rectangle elementRectangle, /* hostElement, */ RectangleEdge targetEdge, Rectangle bounds, RectangleEdge alignmentEdge)
         {
-            Rectangle? hostRectangle = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", RootElementReference);
+            Rectangle? hostRectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", RootElementReference);
             //Debug.WriteLine($"HostRect: {hostRectangle.left}, {hostRectangle.top}, {hostRectangle.right}, {hostRectangle.bottom}");
 
 
@@ -448,7 +454,7 @@ namespace BlazorFluentUI
 
             //Now calculate positionedElement
             //GetRectangleFromElement()
-            Rectangle? calloutRectangle = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", calloutReference);
+            Rectangle? calloutRectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", calloutReference);
             //Debug.WriteLine($"Callout: {calloutRectangle.left}, {calloutRectangle.top}, {calloutRectangle.right}, {calloutRectangle.bottom}");
 
             ElementPosition? positionedElement = PositionElementWithinBounds(calloutRectangle, targetRect, boundingRect, positionData, gap);
@@ -792,7 +798,7 @@ namespace BlazorFluentUI
         public async ValueTask DisposeAsync()
         {
             if (eventHandlerIds != null)
-                await JSRuntime.InvokeAsync<object>("BlazorFluentUICallout.unregisterHandlers", eventHandlerIds);
+                await calloutModule!.InvokeAsync<object>("unregisterHandlers", eventHandlerIds);
         }
     }
 }

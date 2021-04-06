@@ -139,7 +139,7 @@ namespace BlazorFluentUI.Lists
         private IList<Func<TItem, object>>? groupSortSelectors;
         private IList<bool>? groupSortDescendingList;
         private DotNetObjectReference<DetailsListAuto<TItem>> selfReference;
-        private int _viewportRegistration;
+        private int _viewportRegistration = -1;
 
         private Dictionary<object, DetailsRow<TItem>> _activeRows = new();
 
@@ -733,6 +733,7 @@ namespace BlazorFluentUI.Lists
             if (_viewportRegistration != -1)
             {
                 await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.removeViewport", _viewportRegistration);
+                _viewportRegistration = -1;
             }
             selfReference?.Dispose();
             GC.SuppressFinalize(this);        

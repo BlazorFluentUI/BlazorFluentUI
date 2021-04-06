@@ -51,7 +51,9 @@ namespace BlazorFluentUI
 
         public async Task RemoveHostedContentAsync(string layerId)
         {
-            portalFragments.Remove(portalFragments.First(x => x.Id == layerId));
+            var fragment = portalFragments.FirstOrDefault(x => x.Id == layerId);
+            if (fragment != null)
+                portalFragments.Remove(fragment);
             if (portals.ContainsKey(layerId))
                 portals.Remove(layerId);
             portalSequenceStarts.Remove(layerId);

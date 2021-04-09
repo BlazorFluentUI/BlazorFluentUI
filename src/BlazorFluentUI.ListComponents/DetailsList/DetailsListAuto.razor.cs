@@ -41,7 +41,7 @@ namespace BlazorFluentUI.Lists
         public RenderFragment FooterTemplate { get; set; }
 
         /// <summary>
-        /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.  
+        /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.
         /// </summary>
         [Parameter]
         public Func<TItem, object> GetKey { get; set; }
@@ -99,7 +99,9 @@ namespace BlazorFluentUI.Lists
         public bool SelectionPreservedOnEmptyClick { get; set; }
 
         [Inject]
-        private IJSRuntime JSRuntime { get; set; }
+        private IJSRuntime? JSRuntime { get; set; }
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
 
         private Selection<TItem> _selection = new();
 
@@ -319,7 +321,7 @@ namespace BlazorFluentUI.Lists
                 .Where(x => x.PropertyName == "Columns")
                 .SelectMany(prop =>
                 {
-                    // now watch for changes to the Columns object properties and return an initial value so that any following logic can be setup 
+                    // now watch for changes to the Columns object properties and return an initial value so that any following logic can be setup
                     return Columns.Aggregate(Observable.Empty<PropertyChangedEventArgs>(), (x, y) => x.Merge(y.WhenPropertyChanged));
                 });
 
@@ -432,7 +434,7 @@ namespace BlazorFluentUI.Lists
 
 
             sourceCacheSubscription = preBindExpression.Bind(out items)
-                
+
                 //.Throttle(TimeSpan.FromMilliseconds(100))
                 .Do(x =>
                 {
@@ -455,26 +457,28 @@ namespace BlazorFluentUI.Lists
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+
             if (firstRender)
             {
                 selfReference = DotNetObjectReference.Create(this);
-                _viewportRegistration = await JSRuntime.InvokeAsync<int>("FluentUIBaseComponent.addViewport", selfReference, RootElementReference);
-                
+                _viewportRegistration = await baseModule!.InvokeAsync<int>(".addViewport", selfReference, RootElementReference);
+
             }
             await base.OnAfterRenderAsync(firstRender);
         }
 
         private static void OnHeaderKeyDown(KeyboardEventArgs keyboardEventArgs)
         {
-            // this was attached in the ms-DetailsList-headerWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI. 
+            // this was attached in the ms-DetailsList-headerWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI.
         }
 
         private static void OnContentKeyDown(KeyboardEventArgs keyboardEventArgs)
         {
-            // this was attached in the ms-DetailsList-contentWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI. 
+            // this was attached in the ms-DetailsList-contentWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI.
         }
 
-        
+
 
         private static void OnAllSelected()
         {
@@ -683,7 +687,7 @@ namespace BlazorFluentUI.Lists
             int count = 0;
             int totalCount = _activeRows.Count;
 
-            foreach (KeyValuePair<object, DetailsRow<TItem>> pair in _activeRows) 
+            foreach (KeyValuePair<object, DetailsRow<TItem>> pair in _activeRows)
             {
                 pair.Value.MeasureCell(itemContainer.Index, width =>
                 {
@@ -732,11 +736,11 @@ namespace BlazorFluentUI.Lists
         {
             if (_viewportRegistration != -1)
             {
-                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.removeViewport", _viewportRegistration);
+                await baseModule!.InvokeVoidAsync("removeViewport", _viewportRegistration);
                 _viewportRegistration = -1;
             }
             selfReference?.Dispose();
-            GC.SuppressFinalize(this);        
+            GC.SuppressFinalize(this);
         }
     }
 }

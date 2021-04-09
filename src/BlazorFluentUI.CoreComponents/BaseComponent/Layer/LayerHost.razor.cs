@@ -19,7 +19,6 @@ namespace BlazorFluentUI
 
         [Parameter] public bool IsFixed { get; set; } = true;
 
-        [Inject] private IJSRuntime JSRuntime { get; set; }
         [Inject] private LayerHostService LayerHostService { get; set; }
 
         protected LayerPortalGenerator? portalGeneratorReference;

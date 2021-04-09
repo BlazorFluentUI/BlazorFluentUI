@@ -54,6 +54,9 @@ namespace BlazorFluentUI.Lists
 
         [Inject]
         private IJSRuntime JSRuntime { get; set; } = default!;
+        private const string scriptPath = "./_content/BlazorFluentUI.CoreComponents/list.js";
+        private IJSObjectReference? scriptModule;
+
 
         /// <summary>
         /// Gets or sets the item template for the list.
@@ -184,10 +187,11 @@ namespace BlazorFluentUI.Lists
         /// <inheritdoc />
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", scriptPath);
             if (firstRender)
             {
                 _selfReference = DotNetObjectReference.Create(this);
-                _listId = await JSRuntime.InvokeAsync<int>($"BlazorFluentUIList.initialize", _selfReference, _spacerBefore, _spacerAfter);
+                _listId = await scriptModule.InvokeAsync<int>("initialize", _selfReference, _spacerBefore, _spacerAfter);
             }
         }
 
@@ -462,7 +466,7 @@ namespace BlazorFluentUI.Lists
             {
                 if (_listId != -1)
                 {
-                    await JSRuntime.InvokeVoidAsync("BlazorFluentUIList.removeList", _listId);
+                    await scriptModule!.InvokeVoidAsync("removeList", _listId);
                 }
                 _selfReference.Dispose();
             }

@@ -16,7 +16,6 @@ namespace BlazorFluentUI
 {
     public partial class RibbonTab : ResizeComponentBase
     {
-        [Inject] IJSRuntime jSRuntime { get; set; }
         [Parameter] public string? HeaderText { get; set; }
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public IEnumerable<IGroup>? ItemsSource { get; set; }

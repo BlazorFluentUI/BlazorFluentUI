@@ -68,7 +68,10 @@ namespace BlazorFluentUI
         public bool UseFastIcons { get; set; } = true;
 
         [Inject]
-        private IJSRuntime JSRuntime { get; set; } = null!;
+        private IJSRuntime JSRuntime { get; set; } = default!;
+
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
 
         private bool canSelect;
         private bool showCheckbox;
@@ -91,7 +94,7 @@ namespace BlazorFluentUI
         private async Task OnClick(MouseEventArgs args)
         {
             //SelectionZone.SelectToIndex(ItemIndex, true);  // No need to make the selection, SelectionZone does this via javascript methods already
-            
+
             // This is a good hack to make SelectionZone say an item was invoked without selecting it.  The internal javascript methods only fire this function when an item is selected and focused and the user hits the spacebar.  This is a departure from the react version, but we've had this functionality in the Blazor version for a while.
             SelectionZone.OnItemInvoked.Invoke(Item, ItemIndex);
 
@@ -179,6 +182,8 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+
             if (firstRender)
             {
                 await OnRowDidMount.InvokeAsync(this);
@@ -187,7 +192,7 @@ namespace BlazorFluentUI
             if (columnMeasureInfo != null && columnMeasureInfo.Index >= 0 && cellMeasurer.Id != null)
             {
                 Action<double>? method = columnMeasureInfo.OnMeasureDone;
-                Rectangle? size = await JSRuntime.InvokeAsync<Rectangle>("FluentUIBaseComponent.measureElementRect", cellMeasurer);
+                Rectangle? size = await baseModule.InvokeAsync<Rectangle>("measureElementRect", cellMeasurer);
                 method(size.Width);
                 columnMeasureInfo = null;
                 await InvokeAsync(StateHasChanged);

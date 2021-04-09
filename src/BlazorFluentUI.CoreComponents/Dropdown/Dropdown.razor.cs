@@ -37,6 +37,9 @@ namespace BlazorFluentUI
 
         [Inject]
         private IJSRuntime? JSRuntime { get; set; }
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
+
 
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
 
@@ -199,6 +202,8 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+
             if (firstRender)
             {
                 GetDropdownBounds();
@@ -273,14 +278,14 @@ namespace BlazorFluentUI
                 _chosenReference = panelReference;
             else
                 _chosenReference = calloutReference;
-            _registrationToken = await JSRuntime!.InvokeAsync<string>("FluentUIBaseComponent.registerKeyEventsForList", _chosenReference);
+            _registrationToken = await baseModule!.InvokeAsync<string>("registerKeyEventsForList", _chosenReference);
         }
 
         private async Task DeregisterListFocusAsync()
         {
             if (_registrationToken != null)
             {
-                await JSRuntime!.InvokeVoidAsync("FluentUIBaseComponent.deregisterKeyEventsForList", _registrationToken);
+                await baseModule!.InvokeVoidAsync("deregisterKeyEventsForList", _registrationToken);
                 _registrationToken = null;
             }
         }

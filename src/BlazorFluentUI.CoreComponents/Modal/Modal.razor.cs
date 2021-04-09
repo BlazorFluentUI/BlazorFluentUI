@@ -63,8 +63,11 @@ namespace BlazorFluentUI
 
         private ElementReference allowScrollOnModal;
 
-        [Inject]
-        private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
+
 
         private bool isAnimating = false;
         private bool animationRenderStart = false;
@@ -160,11 +163,12 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
             if (firstRender)
             {
                 _jsAvailable = true;
                 // 27 is Escape code
-                _keydownRegistration = await JSRuntime.InvokeAsync<string>("FluentUIBaseComponent.registerWindowKeyDownEvent", DotNetObjectReference.Create(this), "27", "ProcessKeyDown");
+                _keydownRegistration = await baseModule!.InvokeAsync<string>("registerWindowKeyDownEvent", DotNetObjectReference.Create(this), "27", "ProcessKeyDown");
             }
             
             await base.OnAfterRenderAsync(firstRender);
@@ -205,7 +209,7 @@ namespace BlazorFluentUI
             _clearExistingAnimationTimer();
             if (_keydownRegistration != null)
             {
-                await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.deregisterWindowKeyDownEvent", _keydownRegistration);
+                await baseModule!.InvokeVoidAsync("deregisterWindowKeyDownEvent", _keydownRegistration);
                 _keydownRegistration = null;
             }
         }

@@ -25,6 +25,9 @@ namespace BlazorFluentUI
 
     public partial class TextFieldBase<TValue> : FluentUIComponentBase, IDisposable
     {
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
+
         protected string id = Guid.NewGuid().ToString();
         protected string descriptionId = Guid.NewGuid().ToString();
         private bool hasIcon;
@@ -353,7 +356,7 @@ namespace BlazorFluentUI
 
         protected async Task ChangeHandler(ChangeEventArgs args)
         {
-            if (TryParseValueFromString((string?)args.Value, out TValue? result, out string? validationErrorMessage))
+            if (TryParseValueFromString((string?)args.Value, out TValue? result, out _))
             {
                 await OnChange.InvokeAsync(result);
                 await ValueChanged.InvokeAsync(result);
@@ -388,6 +391,8 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+
             if (!firstRendered)
             {
                 firstRendered = true;
@@ -401,7 +406,7 @@ namespace BlazorFluentUI
         {
             if (AutoAdjustHeight == true && Multiline)
             {
-                double scrollHeight = await JSRuntime!.InvokeAsync<double>("FluentUIBaseComponent.getScrollHeight", Element);
+                double scrollHeight = await baseModule!.InvokeAsync<double>("getScrollHeight", Element);
                 if (autoAdjustedHeight != scrollHeight)
                 {
                     autoAdjustedHeight = scrollHeight;

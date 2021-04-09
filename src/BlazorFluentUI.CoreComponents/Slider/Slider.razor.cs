@@ -1,14 +1,10 @@
-﻿using BlazorFluentUI.Style;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -32,9 +28,10 @@ namespace BlazorFluentUI
         [Parameter] public bool Vertical { get; set; }
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
+        private static IJSObjectReference? baseModule;
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/slider.js";
 
-
-        private string id = Guid.NewGuid().ToString();
+        private readonly string id = Guid.NewGuid().ToString();
         private ElementReference slideBox;
         private ElementReference sliderLine;
         private ElementReference thumb;
@@ -48,30 +45,30 @@ namespace BlazorFluentUI
         private DotNetObjectReference<Slider>? dotNetObjectReference;
         private Timer timer = new();
 
-        private string lengthString => (Vertical ? "height" : "width");
+        private string LengthString => (Vertical ? "height" : "width");
 
-        public static Dictionary<string, string> GlobalClassNames = new()
+        private static readonly Dictionary<string, string> GlobalClassNames = new()
         {
-            {"root", "ms-Slider"},
-            {"enabled", "ms-Slider-enabled"},
-            {"disabled", "ms-Slider-disabled"},
-            {"row", "ms-Slider-row"},
-            {"column", "ms-Slider-column"},
-            {"container", "ms-Slider-container"},
-            {"slideBox", "ms-Slider-slideBox"},
-            {"line", "ms-Slider-line"},
-            {"thumb", "ms-Slider-thumb"},
-            {"activeSection", "ms-Slider-active"},
-            {"inactiveSection", "ms-Slider-inactive"},
-            {"valueLabel", "ms-Slider-value"},
-            {"showValue", "ms-Slider-showValue"},
-            {"showTransitions", "ms-Slider-showTransitions"},
-            {"zeroTick", "ms-Slider-zeroTick"},
-            {"titleLabel", "ms-Slider-titleLabel" },
-            {"lineContainer", "ms-Slider-lineContainer" }
+            { "root", "ms-Slider" },
+            { "enabled", "ms-Slider-enabled" },
+            { "disabled", "ms-Slider-disabled" },
+            { "row", "ms-Slider-row" },
+            { "column", "ms-Slider-column" },
+            { "container", "ms-Slider-container" },
+            { "slideBox", "ms-Slider-slideBox" },
+            { "line", "ms-Slider-line" },
+            { "thumb", "ms-Slider-thumb" },
+            { "activeSection", "ms-Slider-active" },
+            { "inactiveSection", "ms-Slider-inactive" },
+            { "valueLabel", "ms-Slider-value" },
+            { "showValue", "ms-Slider-showValue" },
+            { "showTransitions", "ms-Slider-showTransitions" },
+            { "zeroTick", "ms-Slider-zeroTick" },
+            { "titleLabel", "ms-Slider-titleLabel" },
+            { "lineContainer", "ms-Slider-lineContainer" }
         };
         private bool shouldFocus;
-        
+
 
         private void UpdateState()
         {
@@ -83,12 +80,12 @@ namespace BlazorFluentUI
             StateHasChanged();
         }
 
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             timer.Interval = 1000;
             timer.AutoReset = false;
             timer.Elapsed += Timer_Elapsed;
-            return base.OnInitializedAsync();
+            await base.OnInitializedAsync();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -114,14 +111,14 @@ namespace BlazorFluentUI
             {
                 if (Disabled && dotNetObjectReference != null)
                 {
-                    _ = JSRuntime?.InvokeVoidAsync("BlazorFluentUISlider.unregisterHandler", dotNetObjectReference);
+                    await baseModule!.InvokeVoidAsync("unregisterHandler", dotNetObjectReference);
                     dotNetObjectReference.Dispose();
                     dotNetObjectReference = null;
                 }
                 else if (!Disabled && dotNetObjectReference == null)
                 {
                     dotNetObjectReference = DotNetObjectReference.Create(this);
-                    await JSRuntime.InvokeVoidAsync("BlazorFluentUISlider.registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
+                    await baseModule!.InvokeVoidAsync("registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
                 }
             }
 
@@ -135,11 +132,14 @@ namespace BlazorFluentUI
 
             if (firstRender)
             {
+                if (baseModule == null)
+                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+
                 jsAvailable = true;
                 if (JSRuntime != null && !Disabled)
                 {
                     dotNetObjectReference = DotNetObjectReference.Create(this);
-                    await JSRuntime.InvokeVoidAsync("BlazorFluentUISlider.registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
+                    await baseModule!.InvokeVoidAsync("registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
                 }
             }
 
@@ -179,7 +179,10 @@ namespace BlazorFluentUI
 
         public async Task Focus()
         {
-            await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", slideBox).ConfigureAwait(false);
+            ElementReference reference = slideBox;
+            if (reference.Id != null)
+                await reference.FocusAsync();
+            //await baseModule!.InvokeVoidAsync("focusElement", slideBox).ConfigureAwait(false);
         }
 
         private void ClearOnKeyDownTimer()
@@ -297,7 +300,7 @@ namespace BlazorFluentUI
         {
             if (dotNetObjectReference != null && JSRuntime != null)
             {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUISlider.unregisterHandlers", dotNetObjectReference);
+                await baseModule!.InvokeVoidAsync("unregisterHandlers", dotNetObjectReference);
             }
             dotNetObjectReference?.Dispose();
         }

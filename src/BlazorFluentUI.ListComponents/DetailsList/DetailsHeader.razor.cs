@@ -41,7 +41,7 @@ namespace BlazorFluentUI.Lists
 
         [Parameter]
         public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
-               
+
         [Parameter]
         public RenderFragment DetailsCheckboxTemplate { get; set; }
 
@@ -77,7 +77,7 @@ namespace BlazorFluentUI.Lists
         public EventCallback<object> OnColumnIsSizingChanged { get; set; }
 
         [Parameter]
-        public EventCallback<ColumnResizedArgs<TItem>> OnColumnResized { get; set; }        
+        public EventCallback<ColumnResizedArgs<TItem>> OnColumnResized { get; set; }
 
         [Parameter]
         public EventCallback<bool> OnToggleCollapsedAll { get; set; }
@@ -98,6 +98,8 @@ namespace BlazorFluentUI.Lists
         public bool UseFastIcons { get; set; } = true;
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
+        private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/detailsList.js";
+        private IJSObjectReference? scriptModule;
 
         private bool showCheckbox;
         private bool isCheckboxHidden;
@@ -158,10 +160,12 @@ namespace BlazorFluentUI.Lists
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", ScriptPath);
+
             if (firstRender)
             {
                 dotNetRef = DotNetObjectReference.Create(this);
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIDetailsList.registerDetailsHeader", dotNetRef, RootElementReference);
+                await scriptModule!.InvokeVoidAsync("registerDetailsHeader", dotNetRef, RootElementReference);
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -193,7 +197,7 @@ namespace BlazorFluentUI.Lists
 
         private static void OnToggleCollapseAll(MouseEventArgs mouseEventArgs)
         {
-            
+
         }
 
         //private void OnSizerMouseDown(MouseEventArgs args, int colIndex)
@@ -208,7 +212,7 @@ namespace BlazorFluentUI.Lists
         {
             if (mouseEventArgs.ClientX != resizeColumnOriginX)
             {
-                //OnColumnIsSizingChanged.InvokeAsync();                
+                //OnColumnIsSizingChanged.InvokeAsync();
             }
             if (OnColumnResized.HasDelegate)
             {
@@ -220,7 +224,7 @@ namespace BlazorFluentUI.Lists
                 OnColumnResized.InvokeAsync(new ColumnResizedArgs<TItem>(Columns.ElementAt(resizeColumnIndex), resizeColumnIndex, constrictedCalculatedWidth));
 
             }
-            
+
         }
         private void OnSizerMouseUp(MouseEventArgs mouseEventArgs)
         {
@@ -236,7 +240,7 @@ namespace BlazorFluentUI.Lists
         {
             if (dotNetRef != null)
             {
-                await JSRuntime!.InvokeVoidAsync("BlazorFluentUIDetailsList.unregisterDetailsHeader", dotNetRef);
+                await scriptModule!.InvokeVoidAsync("unregisterDetailsHeader", dotNetRef);
                 dotNetRef?.Dispose();
             }
             GC.SuppressFinalize(this);

@@ -38,7 +38,11 @@ namespace BlazorFluentUI
         [Parameter] public bool ShowAsSecondaryTitle { get; set; }
 
         [Inject]
-        internal IJSRuntime? jSRuntime { get; set; }
+        internal IJSRuntime? JSRuntime { get; set; }
+
+        private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/documentCard.js";
+        private IJSObjectReference? scriptModule;
+
 
         private string? TruncatedTitleFirstPiece { get; set; }
         private string? TruncatedTitleSecondPiece { get; set; }
@@ -70,9 +74,13 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
+            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", ScriptPath);
+
+
             _dotNetObjectReference = DotNetObjectReference.Create(this);
-            await jSRuntime.InvokeVoidAsync("BlazorFluentUIDocumentCard.initTitle", Id, RootElementReference, _dotNetObjectReference, ShouldTruncate, Title).ConfigureAwait(false);
+            await scriptModule!.InvokeVoidAsync("initTitle", Id, RootElementReference, _dotNetObjectReference, ShouldTruncate, Title).ConfigureAwait(false);
+
+            await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
         }
 
         [JSInvokable]
@@ -95,7 +103,7 @@ namespace BlazorFluentUI
 
         public async ValueTask DisposeAsync()
         {
-            await jSRuntime.InvokeVoidAsync("BlazorFluentUIDocumentCard.removelement", Id).ConfigureAwait(false);
+            await scriptModule!.InvokeVoidAsync("removeElement", Id).ConfigureAwait(false);
             _dotNetObjectReference?.Dispose();
         }
     }

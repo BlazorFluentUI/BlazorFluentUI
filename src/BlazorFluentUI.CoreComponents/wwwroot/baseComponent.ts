@@ -1,5 +1,4 @@
-﻿namespace FluentUIBaseComponent {
-    const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+﻿    const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
     const IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
     const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
     const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
@@ -86,12 +85,12 @@
 
     var _bodyScrollDisabledCount: number = 0;
 
-    export function enableBodyScroll() : void {
+    export function enableBodyScroll(): void {
         if (_bodyScrollDisabledCount > 0) {
 
             if (_bodyScrollDisabledCount === 1) {
                 document.body.classList.remove("disabledBodyScroll");
-                document.body .removeEventListener('touchmove', _disableIosBodyScroll);
+                document.body.removeEventListener('touchmove', _disableIosBodyScroll);
             }
 
             _bodyScrollDisabledCount--;
@@ -189,7 +188,7 @@
         return window !== undefined && window.navigator.msMaxTouchPoints === undefined;
     }
 
-    export function hasOverflow(element:HTMLElement): boolean {
+    export function hasOverflow(element: HTMLElement): boolean {
         return false;
     }
 
@@ -301,7 +300,7 @@
     }
 
 
-    export function registerWindowKeyDownEvent(dotnetRef: DotNetReferenceType, keyCode:string, functionName: string): string {
+    export function registerWindowKeyDownEvent(dotnetRef: DotNetReferenceType, keyCode: string, functionName: string): string {
         var guid = Guid.newGuid();
         eventRegister[guid] = (ev: KeyboardEvent) => {
             if (ev.code == keyCode) {
@@ -320,7 +319,7 @@
         eventRegister[guid] = null;
     }
 
-    export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string) : string {
+    export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string): string {
         var guid = Guid.newGuid();
         eventRegister[guid] = debounce((ev: UIEvent) => {
             dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
@@ -362,7 +361,7 @@
         viewport: { width: number, height: number } = { width: 0, height: 0 };
         _resizeAttempts: number;
 
-        constructor(component: DotNetReferenceType, rootElement:HTMLElement, fireInitialViewport:boolean=false) {
+        constructor(component: DotNetReferenceType, rootElement: HTMLElement, fireInitialViewport: boolean = false) {
             this.id = _lastId++;
             this.component = component;
             this.rootElement = rootElement;
@@ -465,7 +464,7 @@
     }
 
 
-/* Focus stuff */
+    /* Focus stuff */
 
     /* Since elements can be stored in Blazor and we don't want to create more js files, this will hold last focused elements for restoring focus later. */
     var _lastFocus: MapSimple<HTMLElement> = {};
@@ -500,8 +499,8 @@
         element.focus();
     }
 
-    export function focusFirstElementChild(element: HTMLElement, ){
-        let child = this.getFirstFocusable(element,element, true );
+    export function focusFirstElementChild(element: HTMLElement,) {
+        let child = this.getFirstFocusable(element, element, true);
         if (child) {
             child.focus();
         } else {
@@ -547,7 +546,7 @@
         return path;
     }
 
-    export function getFirstFocusable(rootElement: HTMLElement, currentElement: HTMLElement, includeElementsInFocusZones?: boolean) : HTMLElement | null {
+    export function getFirstFocusable(rootElement: HTMLElement, currentElement: HTMLElement, includeElementsInFocusZones?: boolean): HTMLElement | null {
         return getNextElement(
             rootElement,
             currentElement,
@@ -2157,85 +2156,72 @@
 
 
 
-
-}
-
-//declare global {
-    interface Window {
-        FluentUIBaseComponent: typeof FluentUIBaseComponent
-    }
-//}
-
-window.FluentUIBaseComponent = FluentUIBaseComponent;
-
-
-// Workaround to prevent default on keypress until we can do it in Blazor conditionally without javascript
-// https://stackoverflow.com/questions/24386354/execute-js-code-after-pressing-the-spacebar
-window.addEventListener("load", function () {
-    //This will be called when a key is pressed
-    var preventDefaultOnSpaceCallback = function (e) {
-        if (e.keyCode === 32 || e.key === " ") {
-            // console.log("Prevented default.")
-            e.preventDefault();
-            return false;
-        }
-    };
-    //This will add key event listener on all nodes with the class preventSpace.
-    function setupPreventDefaultOnSpaceOnNode(node, add) {
-        if (node instanceof HTMLElement) {
-            var el = node;
-            //Check if main element contains class
-            if (el.classList.contains("prevent-default-on-space") && add) {
-                // console.log("Adding preventer: " + el.id);
-                el.addEventListener('keydown', preventDefaultOnSpaceCallback, false);
+    // Workaround to prevent default on keypress until we can do it in Blazor conditionally without javascript
+    // https://stackoverflow.com/questions/24386354/execute-js-code-after-pressing-the-spacebar
+    window.addEventListener("load", function () {
+        //This will be called when a key is pressed
+        var preventDefaultOnSpaceCallback = function (e) {
+            if (e.keyCode === 32 || e.key === " ") {
+                // console.log("Prevented default.")
+                e.preventDefault();
+                return false;
             }
-            else {
-                // console.log("Removing preventer: " + el.id);
-                el.removeEventListener('keydown', preventDefaultOnSpaceCallback, false);
-            }
-        }
-    }
-    //This will add key event listener on all nodes with the class preventSpace.
-    function setupPreventDefaultOnEnterOnElements(nodelist, add) {
-        for (var i = 0; i < nodelist.length; i++) {
-            var node = nodelist[i];
+        };
+        //This will add key event listener on all nodes with the class preventSpace.
+        function setupPreventDefaultOnSpaceOnNode(node, add) {
             if (node instanceof HTMLElement) {
                 var el = node;
                 //Check if main element contains class
-                setupPreventDefaultOnSpaceOnNode(node, add);
-                //Check if any child nodes contains class
-                var elements = el.getElementsByClassName("prevent-default-on-space");
-                for (var i_1 = 0; i_1 < elements.length; i_1++) {
-                    setupPreventDefaultOnSpaceOnNode(elements[i_1], add);
+                if (el.classList.contains("prevent-default-on-space") && add) {
+                    // console.log("Adding preventer: " + el.id);
+                    el.addEventListener('keydown', preventDefaultOnSpaceCallback, false);
+                }
+                else {
+                    // console.log("Removing preventer: " + el.id);
+                    el.removeEventListener('keydown', preventDefaultOnSpaceCallback, false);
                 }
             }
         }
-    }
-    // Create an observer instance linked to the callback function
-    // Read more: https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
-    var preventDefaultOnEnterObserver = new MutationObserver(function (mutations) {
-        for (var _i = 0, mutations_1 = mutations; _i < mutations_1.length; _i++) {
-            var mutation = mutations_1[_i];
-            if (mutation.type === 'childList') {
-                // A child node has been added or removed.
-                setupPreventDefaultOnEnterOnElements(mutation.addedNodes, true);
-            }
-            else if (mutation.type === 'attributes') {
-                if (mutation.attributeName === "class") {
-                    //console.log('The ' + mutation.attributeName + ' attribute was modified on' + (mutation.target as any).id);
-                    //class was modified on this node. Remove previous event handler (if any).
-                    setupPreventDefaultOnSpaceOnNode(mutation.target, false);
-                    //And add event handler if class i specified.
-                    setupPreventDefaultOnSpaceOnNode(mutation.target, true);
+        //This will add key event listener on all nodes with the class preventSpace.
+        function setupPreventDefaultOnEnterOnElements(nodelist, add) {
+            for (var i = 0; i < nodelist.length; i++) {
+                var node = nodelist[i];
+                if (node instanceof HTMLElement) {
+                    var el = node;
+                    //Check if main element contains class
+                    setupPreventDefaultOnSpaceOnNode(node, add);
+                    //Check if any child nodes contains class
+                    var elements = el.getElementsByClassName("prevent-default-on-space");
+                    for (var i_1 = 0; i_1 < elements.length; i_1++) {
+                        setupPreventDefaultOnSpaceOnNode(elements[i_1], add);
+                    }
                 }
             }
         }
+        // Create an observer instance linked to the callback function
+        // Read more: https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+        var preventDefaultOnEnterObserver = new MutationObserver(function (mutations) {
+            for (var _i = 0, mutations_1 = mutations; _i < mutations_1.length; _i++) {
+                var mutation = mutations_1[_i];
+                if (mutation.type === 'childList') {
+                    // A child node has been added or removed.
+                    setupPreventDefaultOnEnterOnElements(mutation.addedNodes, true);
+                }
+                else if (mutation.type === 'attributes') {
+                    if (mutation.attributeName === "class") {
+                        //console.log('The ' + mutation.attributeName + ' attribute was modified on' + (mutation.target as any).id);
+                        //class was modified on this node. Remove previous event handler (if any).
+                        setupPreventDefaultOnSpaceOnNode(mutation.target, false);
+                        //And add event handler if class i specified.
+                        setupPreventDefaultOnSpaceOnNode(mutation.target, true);
+                    }
+                }
+            }
+        });
+        // Only observe changes in nodes in the whole tree, but do not observe attributes.
+        var preventDefaultOnEnterObserverConfig = { subtree: true, childList: true, attributes: true };
+        // Start observing the target node for configured mutations
+        preventDefaultOnEnterObserver.observe(document, preventDefaultOnEnterObserverConfig);
+        //Also check all elements when loaded.
+        setupPreventDefaultOnEnterOnElements(document.getElementsByClassName("prevent-default-on-space"), true);
     });
-    // Only observe changes in nodes in the whole tree, but do not observe attributes.
-    var preventDefaultOnEnterObserverConfig = { subtree: true, childList: true, attributes: true };
-    // Start observing the target node for configured mutations
-    preventDefaultOnEnterObserver.observe(document, preventDefaultOnEnterObserverConfig);
-    //Also check all elements when loaded.
-    setupPreventDefaultOnEnterOnElements(document.getElementsByClassName("prevent-default-on-space"), true);
-});
-

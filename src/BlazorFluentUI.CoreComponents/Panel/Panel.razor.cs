@@ -14,7 +14,13 @@ namespace BlazorFluentUI
     public partial class Panel : FluentUIComponentBase, IAsyncDisposable
     {
         [Inject]
-        private IJSRuntime JSRuntime { get; set; }
+        private IJSRuntime? JSRuntime { get; set; }
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
+
+        private const string PanelPath = "./_content/BlazorFluentUI.CoreComponents/panel.js";
+        private IJSObjectReference? panelModule;
+
 
         [Parameter]
         public RenderFragment ChildContent { get; set; }
@@ -176,8 +182,8 @@ namespace BlazorFluentUI
         public async Task UpdateFooterPositionAsync()
         {
             //Debug.WriteLine("Calling UpdateFooterPositionAsync");
-            double clientHeight = await JSRuntime.InvokeAsync<double>("FluentUIBaseComponent.getClientHeight", scrollableContent);
-            double scrollHeight = await JSRuntime.InvokeAsync<double>("FluentUIBaseComponent.getScrollHeight", scrollableContent);
+            double clientHeight = await baseModule!.InvokeAsync<double>("getClientHeight", scrollableContent);
+            double scrollHeight = await baseModule!.InvokeAsync<double>("getScrollHeight", scrollableContent);
 
             if (clientHeight < scrollHeight)
                 isFooterSticky = true;
@@ -265,34 +271,34 @@ namespace BlazorFluentUI
         {
             //if (ShouldListenForOuterClick())
             //{
-            //    _mouseDownId = await JSRuntime.InvokeAsync<int>("BlazorFluentUIPanel.registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
+            //    _mouseDownId = await baseModule!.InvokeAsync<int>("registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
             //}
 
             if (ShouldListenForOuterClick() && _mouseDownId == -1)
             {
                 _mouseDownId = -2;
-                _mouseDownId = await JSRuntime.InvokeAsync<int>("BlazorFluentUIPanel.registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
+                _mouseDownId = await panelModule!.InvokeAsync<int>("registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
             }
             else if (!ShouldListenForOuterClick() && _mouseDownId > -1)
             {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUIPanel.unregisterHandler", _mouseDownId);
+                await panelModule!.InvokeVoidAsync("unregisterHandler", _mouseDownId);
             }
 
             if (IsOpen && _resizeId == -1)
             {
                 _resizeId = -2;
-                _resizeId = await JSRuntime.InvokeAsync<int>("BlazorFluentUIPanel.registerSizeHandler", DotNetObjectReference.Create(this));
+                _resizeId = await panelModule!.InvokeAsync<int>("registerSizeHandler", DotNetObjectReference.Create(this));
                 //listen for lightdismiss
             }
             else if (!IsOpen && _resizeId > -1)
             {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUIPanel.unregisterHandler", _resizeId);
+                await panelModule!.InvokeVoidAsync("unregisterHandler", _resizeId);
             }
 
             //if (IsOpen && !_scrollerRegistered)
             //{
             //    _scrollerRegistered = true;
-            //    _scrollerEventId = await JSRuntime.InvokeAsync<List<int>>("BlazorFluentUIPanel.makeElementScrollAllower", scrollableContent);
+            //    _scrollerEventId = await baseModule!.InvokeAsync<List<int>>("makeElementScrollAllower", scrollableContent);
             //}
 
             if (!IsOpen && _scrollerRegistered)
@@ -303,13 +309,16 @@ namespace BlazorFluentUI
 
                 foreach (int id in copied)
                 {
-                    await JSRuntime.InvokeVoidAsync("BlazorFluentUIPanel.unregisterHandler", id);
+                    await panelModule!.InvokeVoidAsync("unregisterHandler", id);
                 }
             }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            panelModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import",  PanelPath);
+
             if (firstRender)
             {
                 _jsAvailable = true;
@@ -448,18 +457,18 @@ namespace BlazorFluentUI
             {
                 foreach (int id in _scrollerEventId)
                 {
-                    await JSRuntime.InvokeVoidAsync("BlazorFluentUIPanel.unregisterHandler", id);
+                    await panelModule!.InvokeVoidAsync("unregisterHandler", id);
                 }
                 _scrollerEventId.Clear();
             }
 
             if (_resizeId != -1)
             {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUIPanel.unregisterHandler", _resizeId);
+                await panelModule!.InvokeVoidAsync("unregisterHandler", _resizeId);
             }
             if (_mouseDownId != -1)
             {
-                await JSRuntime.InvokeVoidAsync("BlazorFluentUIPanel.unregisterHandler", _mouseDownId);
+                await panelModule!.InvokeVoidAsync("unregisterHandler", _mouseDownId);
             }
             GC.SuppressFinalize(this);
         }

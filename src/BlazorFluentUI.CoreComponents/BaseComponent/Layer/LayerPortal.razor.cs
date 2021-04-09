@@ -12,11 +12,6 @@ namespace BlazorFluentUI
         [Parameter] public ElementReference? VirtualParent { get; set; }
         [Parameter] public bool IsFixed { get; set; } = true;
 
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-
-        //protected Dictionary<string, (RenderFragment fragment, bool isFixed)> fragments = new Dictionary<string, (RenderFragment fragment, bool isFixed)>();
-
-
         protected bool shouldRender = false;
 
         protected override bool ShouldRender()

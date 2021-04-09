@@ -47,8 +47,7 @@ namespace BlazorFluentUI
         [Parameter] public Func<string, IEnumerable<T>> ProvideSuggestions { get; set; }
         [Parameter] public Func<object, string> ProvideString { get; set; }
         [Parameter] public int DropdownWidth { get; set; } = 0;
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-
+  
         [Parameter] public EventCallback<bool> ContextMenuShownChanged { get; set; }
         [Parameter] public RenderFragment<T> SearchItemTemplate { get; set; }
         [Parameter] public RenderFragment<T> SelectedItemTemplate { get; set; }

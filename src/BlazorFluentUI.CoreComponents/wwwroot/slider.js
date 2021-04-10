@@ -92,17 +92,17 @@ function onKeyDown(slider, event) {
     let value;
     switch (event.which) {
         case 39 /* right */: //right arrow
-        case 38 /* up */: //up arrow
+        case 38 /* up */:
             slider.invokeMethodAsync("OnKeyDown", { step: +1 });
             break;
         case 37 /* left */: //left arrow
-        case 40 /* down */: //down arrow
+        case 40 /* down */:
             slider.invokeMethodAsync("OnKeyDown", { step: -1 });
             break;
-        case 36 /* home */: //home
+        case 36 /* home */:
             slider.invokeMethodAsync("OnKeyDown", { min: true });
             break;
-        case 35 /* end */: //end
+        case 35 /* end */:
             slider.invokeMethodAsync("OnKeyDown", { max: true });
             break;
         default:

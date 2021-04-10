@@ -58,14 +58,14 @@
     pointer-events: none;
 }
 
- .ms-Button:hover, 
+ .ms-Button:hover,
  .ms-Button:focus {
     text-decoration: none;
     outline: 0;
 }
 
- .ms-Button:link, 
- .ms-Button:visited, 
+ .ms-Button:link,
+ .ms-Button:visited,
  .ms-Button:active {
     text-decoration: none;
 }
@@ -314,7 +314,7 @@
  .ms-Button--default {
     color: var(--semanticTextColors-ButtonText);
     background-color: var(--palette-White);
-    border: 1px solid var(--palette-NeutralSecondaryAlt);
+    border: 5px solid var(--palette-NeutralSecondaryAlt);
 }
     /*
  .ms-Fabric--isFocusVisible .ms-Button--default:focus:after {

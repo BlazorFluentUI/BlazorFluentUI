@@ -56,9 +56,9 @@ namespace BlazorFluentUI
 
         bool updateFocusZone = false;
 
-        public async void Focus()
+        public async Task Focus()
         {
-            await focusModule!.InvokeVoidAsync("focusElement", RootElementReference);
+            await RootElementReference.FocusAsync();
         }
 
         public async void FocusFirstElement()

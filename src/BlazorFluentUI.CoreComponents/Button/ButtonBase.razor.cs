@@ -196,9 +196,9 @@ namespace BlazorFluentUI
             }
         }
 
-        public static void Focus()
+        public async Task Focus()
         {
-
+            await ButtonRef.FocusAsync();
         }
 
         public static void DismissMenu(bool isDismissed)

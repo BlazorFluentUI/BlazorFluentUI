@@ -13,7 +13,6 @@ namespace BlazorFluentUI.ContextualMenuInternal
 {
     public class ContextualMenuItem : FluentUIComponentBase, IDisposable
     {
-        //[Inject] private IJSRuntime jsRuntime { get; set; }
 
         [Parameter] public string Href { get; set; }
         [Parameter] public string Key { get; set; }
@@ -81,14 +80,11 @@ namespace BlazorFluentUI.ContextualMenuInternal
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            //if (eventHandlerIds == null)
-            //    eventHandlerIds = await jsRuntime.InvokeAsync<List<int>>("BlazorFluentUIContextualMenu.registerHandlers", this.RootElementReference, DotNetObjectReference.Create(this));
             await base.OnAfterRenderAsync(firstRender);
         }
 
         public void Dispose()
         {
-            //jsRuntime.InvokeAsync<object>("BlazorFluentUIContextualMenu.unregisterHandlers", eventHandlerIds);
             GC.SuppressFinalize(this);
         }
 

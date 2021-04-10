@@ -197,7 +197,6 @@ namespace BlazorFluentUI
             if (IsActive())
             {
                 //Debug.WriteLine("Calling DismissOnOuterClick");
-                //var contains = await JSRuntime.InvokeAsync<bool>("BlazorFluentUIFocusTrapZone.elementContains", panelElement, targetElement);
                 if (!contains)
                 {
                     //Debug.WriteLine("Contains is false!");

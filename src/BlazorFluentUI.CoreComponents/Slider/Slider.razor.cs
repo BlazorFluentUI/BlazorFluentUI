@@ -182,7 +182,6 @@ namespace BlazorFluentUI
             ElementReference reference = slideBox;
             if (reference.Id != null)
                 await reference.FocusAsync();
-            //await baseModule!.InvokeVoidAsync("focusElement", slideBox).ConfigureAwait(false);
         }
 
         private void ClearOnKeyDownTimer()

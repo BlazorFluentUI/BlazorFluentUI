@@ -4,7 +4,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PublishTrimmed>true</PublishTrimmed>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

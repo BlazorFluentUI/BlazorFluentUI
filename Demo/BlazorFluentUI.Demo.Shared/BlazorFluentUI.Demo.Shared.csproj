@@ -8,19 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicData" Version="7.1.17" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0-preview.5.*" />
+    <PackageReference Include="DynamicData" Version="7.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0-preview.3.*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\BlazorFluentUI.CoreComponents\BlazorFluentUI.CoreComponents.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.ListComponents\BlazorFluentUI.ListComponents.csproj" />
-    <ProjectReference Include="..\BlazorFluentUI.Demo.Generators\BlazorFluentUI.Demo.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="$(ProjectDir)\Pages\*.razor" />
-  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <DemoSource Include="$(ProjectDir)\Pages\**\*.*" />
+    </ItemGroup>
 
-
+    <Message Text="Copying the demo source files to the wwwroot/md folders." Importance="High" />
+    <Copy SourceFiles="@(DemoSource)" DestinationFiles="..\BlazorFluentUI.Demo.Server\wwwroot\md\%(RecursiveDir)%(Filename).md" />
+    <Copy SourceFiles="@(DemoSource)" DestinationFiles="..\BlazorFluentUI.Demo.Client\wwwroot\md\%(RecursiveDir)%(Filename).md" />
+  </Target>
 </Project>

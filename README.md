@@ -1,30 +1,42 @@
 # BlazorFluentUI
 Simple port of Fluent UI (formerly Office Fabric) React components and style to Blazor
 
-## Client side Demo (Web Assembly)
+## Blazor Webassembly Demo
 https://www.blazorfluentui.net/
 
-## Server side Demo (SignalR)
-https://blazorfluentui.azurewebsites.net/
+## Blazor Server Demo
+https://blazorfluentui.azurewebsites.net/ (Older version!)
 
-## Telegram dev channel
-https://t.me/joinchat/TuHGR8AZmYe1SKlH
+## How to use the library
+[Installation](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/Installation) \
+How To Use: [Blazor Webassembly](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/How-To-Use:-Blazor-WebAssembly) \
+How To Use: [Blazor Server](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/How-To-Use:-Blazor-Server) \
+[Theming](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/Theming---defaults-and-custom) 
 
-## Dev Nuget Packages
-On each commit new dev nuget builds will be created automatically. To access those, add a new Package Source to Visual Studio or your project with the following URL:
+## Revision history
 
-```
-https://pkgs.dev.azure.com/blazor-fluentui/5355f597-190a-4424-83da-cd89cd362a24/_packaging/DevChannelV5/nuget/v3/index.json
-```
-For a more detailed tutorial, head over to our [Public Feed](https://dev.azure.com/blazor-fluentui/Blazor%20FluentUI/_packaging?_a=feed&feed=DevChannelV5), click on "Connect To Feed" and select the platform. 
+### V5.2
+- Library is now using JavaScript isolation (see https://docs.microsoft.com/en-us/aspnet/core/blazor/call-javascript-from-dotnet?view=aspnetcore-5.0#blazor-javascript-isolation-and-object-references). No longer needed to reference the scripts in your `_Host.cshtml` / `index.html`! (with exception of the still experimental RichTextEditor script and acompanying Quill library). Blazor Server demo no longer supports IE11/Legacy edge because of this change
 
-## Breaking Changes for v5.0
-#### Renaming and demo revamp
-All components have dropped the `BFU` prefix and names are now on par with their Fluent UI React counterparts (or will be soon). Change was made to not litter the codebase with the term `BFU` everywhere.
+### V5.1
+- Add editable column for `DetailsList, DetailsListAuto` 
+- Add new component `TextFieldNumber`, based on `TextField`. Supports `int, long, short, float, double and decimal`. 
+  See https://www.blazorfluentui.net/TextFieldNumberPage for examples
 
-The demo sites have been given some attention and look a lot better now (more in line with Fluent UI Rect docs).
 
-## Breaking Changes for v4.0 (net5)
+## Breaking Changes for major releases
+### V5.0: Renaming and demo revamp
+We dropped the `BFU` prefix from all the component- and project names. Also, all components are now bundled in only two packages (to make a distinction between components dependant on DynamicData package an those who are not).
+
+In cases where renaming would lead to collisions with already existing Blazor components or .NET classes, we placed those components in seperate namespace (which you need to include explicitly) and/or you need to use the full name of the component (so including the namespace) in your .razor files.
+
+Both changes were made to align the library closer to the Fluent UI React environment. Also the codebase is not so cluttered with 'BFU' anymore.
+
+The demo sites have been given a lot of attention and look a lot better now (more in line with Fluent UI Rect docs).
+
+
+### Breaking Changes for v4.0 
+Library is now running on .NET 5  
 
 #### List, DetailsList, GroupedList
 You will now have to define your list's container separately from the list component.  Pick a `<div>` or other container element and apply the `data-is-scrollable` to it.  You'll also have to style it appropriately for your page.  (For example, add `overflow-y:auto;height:100%;` or something similar.)  You do **not** have to place your list component as a *direct* descendant of this container.  If you fail to place the `data-is-scrollable` tag, then the component will traverse the nodetree to find the first container element that has `overflow-y:auto;` set.
@@ -38,114 +50,18 @@ These components and interfaces must be removed as they no longer function withi
 
 If you need to reference the theme from a css file, you can reference the global css variable instead.  For example, where before you would get a white color in C# as `Theme.Palette.White`, now you will write in css, `var(--palette-White)`.  Css global variables always start with two dashes and a lowercase name.  Instead of a dot, use a dash followed by capitalized names.
 
-## See the wiki for all usage notes
-[Home](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki) \
-[Installation](https://github.com/limefrogyank/BlazorFabric/wiki/Installation) \
-How To Use: [ClientSide Blazor](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/How-To-Use:-ClientSide-Blazor) \
-How To Use: [ServerSide Blazor](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/How-To-Use:-ServerSide-Blazor) \
-[Theming](https://github.com/limefrogyank/BlazorFabric/wiki/Theming---defaults-and-custom) \
 
 ## Info
 There are no MergeStyles in this port.  It's just each control packaged into its own project so you can limit what gets added to your Blazor project. 
 
-## Status of Controls
+## Dev Nuget Packages
+On each commit new dev NuGet packages will be created automatically. To access those, add a new Package Source to Visual Studio or your project with the following URL:
 
-### Basic Inputs
-| Control     | State | Information      |
-| :---------- | :---: | :--------------- |
-| Button      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
-| Checkbox    | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | except for icons |
-| ChoiceGroup | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
-| ComboBox    | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
-| Dropdown    | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
-| Label       | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
-| Link        | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
-| Rating      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
-| SearchBox   | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
-| Slider      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
-| SpinButton  | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                  |
-| TextField   | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | except masking   |
-| Toggle      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                  |
+```
+https://pkgs.dev.azure.com/blazor-fluentui/5355f597-190a-4424-83da-cd89cd362a24/_packaging/DevChannelV5/nuget/v3/index.json
+```
+For a more detailed tutorial, head over to our [Public Feed](https://dev.azure.com/blazor-fluentui/Blazor%20FluentUI/_packaging?_a=feed&feed=DevChannelV5), click on "Connect To Feed" and select the platform. 
 
-### Galleries & Pickers
-| Control           | State | Information |
-| :---------------- | :---: | :---------- |
-| Calendar          | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
-| ColorPicker       | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
-| DatePicker        | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
-| PeoplePicker      | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
-| Pickers           | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
-| SwatchColorPicker | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
+## Telegram dev channel
+https://t.me/joinchat/TuHGR8AZmYe1SKlH
 
-### Items & Lists
-| Control      | State | Information                         |
-| :----------- | :---: | :---------------------------------- |
-| ActivityItem | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
-| DetailsList  | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
-| DocumentCard | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress  | Missing focus styles and ShouldTruncate doesn't work yet.                                    |
-| Facepile     | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
-| GroupedList  | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
-| HoverCard    | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |                                     |
-| List         | ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done  | supports `INotifyCollectionChanged` |
-| Persona      | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |                                     |
-
-### Commands, Menus & Navs
-| Control        | State | Information |
-| :------------- | :---: | :---------- |
-| Breadcrumb     | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
-| CommandBar     | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
-| ContextualMenu | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
-| Nav            | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
-| OverflowSet    | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
-| Pivot          | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
-
-### Notification & Engagement
-| Control        | State | Information |
-| :------------- | :---: | :---------- |
-| Coachmark      | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
-| MessageBar     | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
-| TeachingBubble | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
-
-### Progress
-| Control           | State | Information |
-| :---------------- | :---: | :---------- |
-| ProgressIndicator | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
-| Shimmer           | ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo  |             |
-| Spinner           | ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done  |             |
-
-### Surfaces
-| Control        |    State    | Information                                                                                         |
-| :------------- | :---------: | :-------------------------------------------------------------------------------------------------- |
-| Callout        |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                                                                                     |
-| Dialog         |    ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done     | can't drag                                                                                          |
-| Modal          |    ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done     | no modeless version                                                                                 |
-| Panel          |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                                                                                     |
-| ScrollablePane |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                                                                                     |
-| Tooltip        | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress | limited functionality.  will show, but can't interact with it yet, doesn't respond to overflow yet. |
-
-### Utilities
-| Control          |    State    | Information                           |
-| :--------------- | :---------: | :------------------------------------ |
-| Announced        |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
-| FocusTrapZone    |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
-| FocusZone        |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
-| Icon             |    ![#dff6dd](https://via.placeholder.com/15/dff6dd/000000?text=+) Done     | only MS icons                         |
-| Image            |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
-| Keytips          |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
-| Layer            | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress | only layers at root window right now. |
-| MarqueeSelection |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
-| Overlay          |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
-| ResizeGroup      |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
-| Selection        |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
-| Separator        |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
-| Stack            |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
-| Text             |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
-| Themes           |    ![#a80000](https://via.placeholder.com/15/a80000/000000?text=+) ToDo     |                                       |
-
-### Non-Fabric-Component
-| Control          |    State    | Information                           |
-| :--------------- | :---------: | :------------------------------------ |
-| ResponsiveLayout |    ![#107c10](https://via.placeholder.com/15/107c10/000000?text=+) Done     |                                       |
-| RichTextEditor   | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress | Works with limited styles available   |
-| GlobalCS		   | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress |                                       |
-| LocalCS		   | ![#fff4ce](https://via.placeholder.com/15/fff4ce/000000?text=+) In Progress |                                       |

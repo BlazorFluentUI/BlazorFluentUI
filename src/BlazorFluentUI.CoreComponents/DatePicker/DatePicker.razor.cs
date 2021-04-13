@@ -153,7 +153,7 @@ namespace BlazorFluentUI
 
                 FieldIdentifier = FieldIdentifier.Create<DateTime?>(ValueExpression);
 
-                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+                //CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
 
                 CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
             }

@@ -349,7 +349,7 @@
     var cachedViewports: Map<number, Viewport> = new Map<number, Viewport>();
 
     class Viewport {
-        RESIZE_DELAY = 500;
+        RESIZE_DELAY = 100;
         MAX_RESIZE_ATTEMPTS = 3;
 
         id: number;
@@ -1028,7 +1028,7 @@
             trailing?: boolean;
         }
     ): ICancelable<T> & (() => void) {
-        if (this._isDisposed) {
+        if (this?._isDisposed) {
             let noOpFunction: ICancelable<T> & (() => T) = (() => {
                 /** Do nothing */
             }) as ICancelable<T> & (() => T);
@@ -1069,7 +1069,7 @@
 
         let markExecuted = (time: number) => {
             if (timeoutId) {
-                this.clearTimeout(timeoutId);
+                this?.clearTimeout(timeoutId);
                 timeoutId = null;
             }
             lastExecuteTime = time;
@@ -1077,7 +1077,8 @@
 
         let invokeFunction = (time: number) => {
             markExecuted(time);
-            lastResult = func.apply(this._parent, lastArgs);
+            lastResult = func.apply(this?._parent, lastArgs);
+            
         };
 
         let callback = (userCall?: boolean) => {
@@ -1106,7 +1107,7 @@
             if (delta >= waitMS || maxWaitExpired || executeImmediately) {
                 invokeFunction(now);
             } else if ((timeoutId === null || !userCall) && trailing) {
-                timeoutId = this.setTimeout(callback, waitLength);
+                timeoutId = this?.setTimeout(callback, waitLength);
             }
 
             return lastResult;

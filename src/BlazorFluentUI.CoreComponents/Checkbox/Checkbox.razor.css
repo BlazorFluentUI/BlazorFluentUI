@@ -122,11 +122,13 @@
 
 .ms-Checkbox-label {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     cursor: pointer;
     position: relative;
+    align-self:stretch;
+    padding: 0px 8px;
+    width: 100%;
     user-select: none;
-    /*text-align: left;*/
 }
 
 .ms-Checkbox.reversed .ms-Checkbox-label {
@@ -182,7 +184,7 @@
         box-sizing: border-box;
         border-width: 5px;
         border-style: solid;
-        border-color: var(--semanticColors-InputBackgroundChecked);        
+        border-color: var(--semanticColors-InputBackgroundChecked);
         transition-property: border-width, border, border-color;
         transition-duration: 200ms;
         transition-timing-function: cubic-bezier(.4, 0, .23, 1);
@@ -238,7 +240,7 @@
     .ms-Checkbox.is-disabled.is-checked .ms-Checkbox-checkbox {
         background: Window;
     }
-}    
+}
 
     /* CHECKMARK */
 .ms-Checkbox-checkmark {

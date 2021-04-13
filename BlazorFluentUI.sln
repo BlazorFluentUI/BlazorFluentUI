@@ -34,6 +34,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.CoreComponen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.ListComponents", "src\BlazorFluentUI.ListComponents\BlazorFluentUI.ListComponents.csproj", "{8625EE1F-2059-43D2-A922-D5DC66CAFB2B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{C791ACEB-4E1B-4C2B-9A20-105145ECACCA}"
+	ProjectSection(SolutionItems) = preProject
+		pipelines\pack-nightly-pipeline.yml = pipelines\pack-nightly-pipeline.yml
+		pipelines\pack-nuget-org.yml = pipelines\pack-nuget-org.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +79,7 @@ Global
 		{E416FEFD-F403-4F62-BB65-A1A010C13AE8} = {450B75BB-8CBF-475C-842A-4BEC08D42293}
 		{D4FB1B42-6E99-426F-9EB1-D3111FD4BF23} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{8625EE1F-2059-43D2-A922-D5DC66CAFB2B} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
+		{C791ACEB-4E1B-4C2B-9A20-105145ECACCA} = {EB2D25EA-CCF8-4754-9CA8-46ED8134D0D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

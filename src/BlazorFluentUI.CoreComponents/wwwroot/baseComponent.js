@@ -1,12 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
 const IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
 const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
@@ -277,7 +268,7 @@ var _lastId = 0;
 var cachedViewports = new Map();
 class Viewport {
     constructor(component, rootElement, fireInitialViewport = false) {
-        this.RESIZE_DELAY = 500;
+        this.RESIZE_DELAY = 100;
         this.MAX_RESIZE_ATTEMPTS = 3;
         this.viewport = { width: 0, height: 0 };
         this._onAsyncResizeAsync = () => {
@@ -296,33 +287,31 @@ class Viewport {
     disconnect() {
         this.viewportResizeObserver.disconnect();
     }
-    _updateViewportAsync(withForceUpdate) {
-        return __awaiter(this, void 0, void 0, function* () {
-            //const { viewport } = this.state;
-            const viewportElement = this.rootElement;
-            const scrollElement = findScrollableParent(viewportElement);
-            const scrollRect = getRect(scrollElement);
-            const clientRect = getRect(viewportElement);
-            const updateComponentAsync = () => __awaiter(this, void 0, void 0, function* () {
-                if (withForceUpdate) {
-                    yield this.component.invokeMethodAsync("ForceUpdate");
-                }
-            });
-            const isSizeChanged = (clientRect && clientRect.width) !== this.viewport.width || (scrollRect && scrollRect.height) !== this.viewport.height;
-            if (isSizeChanged && this._resizeAttempts < this.MAX_RESIZE_ATTEMPTS && clientRect && scrollRect) {
-                this._resizeAttempts++;
-                this.viewport = {
-                    width: clientRect.width,
-                    height: scrollRect.height
-                };
-                yield this.component.invokeMethodAsync("ViewportChanged", this.viewport);
-                yield this._updateViewportAsync(withForceUpdate);
+    async _updateViewportAsync(withForceUpdate) {
+        //const { viewport } = this.state;
+        const viewportElement = this.rootElement;
+        const scrollElement = findScrollableParent(viewportElement);
+        const scrollRect = getRect(scrollElement);
+        const clientRect = getRect(viewportElement);
+        const updateComponentAsync = async () => {
+            if (withForceUpdate) {
+                await this.component.invokeMethodAsync("ForceUpdate");
             }
-            else {
-                this._resizeAttempts = 0;
-                yield updateComponentAsync();
-            }
-        });
+        };
+        const isSizeChanged = (clientRect && clientRect.width) !== this.viewport.width || (scrollRect && scrollRect.height) !== this.viewport.height;
+        if (isSizeChanged && this._resizeAttempts < this.MAX_RESIZE_ATTEMPTS && clientRect && scrollRect) {
+            this._resizeAttempts++;
+            this.viewport = {
+                width: clientRect.width,
+                height: scrollRect.height
+            };
+            await this.component.invokeMethodAsync("ViewportChanged", this.viewport);
+            await this._updateViewportAsync(withForceUpdate);
+        }
+        else {
+            this._resizeAttempts = 0;
+            await updateComponentAsync();
+        }
     }
     ;
 }
@@ -710,7 +699,7 @@ function _mergeRect(targetRect, newRect) {
     return targetRect;
 }
 export function debounce(func, wait, options) {
-    if (this._isDisposed) {
+    if (this?._isDisposed) {
         let noOpFunction = (() => {
             /** Do nothing */
         });
@@ -744,14 +733,14 @@ export function debounce(func, wait, options) {
     }
     let markExecuted = (time) => {
         if (timeoutId) {
-            this.clearTimeout(timeoutId);
+            this?.clearTimeout(timeoutId);
             timeoutId = null;
         }
         lastExecuteTime = time;
     };
     let invokeFunction = (time) => {
         markExecuted(time);
-        lastResult = func.apply(this._parent, lastArgs);
+        lastResult = func.apply(this?._parent, lastArgs);
     };
     let callback = (userCall) => {
         let now = new Date().getTime();
@@ -779,7 +768,7 @@ export function debounce(func, wait, options) {
             invokeFunction(now);
         }
         else if ((timeoutId === null || !userCall) && trailing) {
-            timeoutId = this.setTimeout(callback, waitLength);
+            timeoutId = this?.setTimeout(callback, waitLength);
         }
         return lastResult;
     };

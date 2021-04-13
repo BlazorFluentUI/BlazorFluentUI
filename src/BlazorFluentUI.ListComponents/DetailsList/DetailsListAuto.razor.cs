@@ -462,7 +462,7 @@ namespace BlazorFluentUI.Lists
             if (firstRender)
             {
                 selfReference = DotNetObjectReference.Create(this);
-                _viewportRegistration = await baseModule!.InvokeAsync<int>(".addViewport", selfReference, RootElementReference);
+                _viewportRegistration = await baseModule!.InvokeAsync<int>("addViewport", selfReference, RootElementReference);
 
             }
             await base.OnAfterRenderAsync(firstRender);

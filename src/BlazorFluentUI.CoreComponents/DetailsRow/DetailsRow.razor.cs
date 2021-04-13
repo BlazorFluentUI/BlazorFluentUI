@@ -96,7 +96,10 @@ namespace BlazorFluentUI
             //SelectionZone.SelectToIndex(ItemIndex, true);  // No need to make the selection, SelectionZone does this via javascript methods already
 
             // This is a good hack to make SelectionZone say an item was invoked without selecting it.  The internal javascript methods only fire this function when an item is selected and focused and the user hits the spacebar.  This is a departure from the react version, but we've had this functionality in the Blazor version for a while.
-            SelectionZone.OnItemInvoked.Invoke(Item, ItemIndex);
+            if (SelectionZone != null && SelectionZone.OnItemInvoked != null)
+            {
+                SelectionZone.OnItemInvoked.Invoke(Item, ItemIndex);
+            }
 
         }
 

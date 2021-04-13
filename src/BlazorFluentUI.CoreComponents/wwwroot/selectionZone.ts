@@ -1,6 +1,5 @@
 ﻿import * as FluentUIBaseComponent from './baseComponent.js'
 
-
 type IRectangle = FluentUIBaseComponent.IRectangle;
 type EventGroup = FluentUIBaseComponent.EventGroup;
 type EventParams = FluentUIBaseComponent.EventParams;

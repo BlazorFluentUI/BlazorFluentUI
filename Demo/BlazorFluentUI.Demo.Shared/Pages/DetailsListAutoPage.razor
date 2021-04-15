@@ -1,7 +1,6 @@
 ﻿@page "/detailsListAutoPage"
 @using Microsoft.AspNetCore.Components.Web
 @using DynamicData
-@using System.Reactive.Linq
 @using BlazorFluentUI.Lists
 
 <header class="root">

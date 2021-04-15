@@ -162,19 +162,14 @@ namespace BlazorFluentUI
 
         protected string GetAnimationStyle()
         {
-            switch (CalloutPosition.TargetEdge)
+            return CalloutPosition.TargetEdge switch
             {
-                case RectangleEdge.Bottom:
-                    return "slideDownIn10";
-                case RectangleEdge.Left:
-                    return "slideLeftIn10";
-                case RectangleEdge.Right:
-                    return "slideRightIn10";
-                case RectangleEdge.Top:
-                    return "slideUpIn10";
-                default:
-                    return "";
-            }
+                RectangleEdge.Bottom => "slideDownIn10",
+                RectangleEdge.Left => "slideLeftIn10",
+                RectangleEdge.Right => "slideRightIn10",
+                RectangleEdge.Top => "slideUpIn10",
+                _ => "",
+            };
         }
 
         protected override async Task OnParametersSetAsync()
@@ -201,7 +196,7 @@ namespace BlazorFluentUI
 
         private async Task CalculateCalloutPositionAsync()
         {
-            Rectangle maxBounds = null;
+            Rectangle maxBounds;
             if (Bounds != null)
                 maxBounds = Bounds;
             else
@@ -252,11 +247,11 @@ namespace BlazorFluentUI
 
         private double GetMaxHeightFromTargetRectangle(Rectangle targetRect, DirectionalHint targetEdge, double gapSpace, Rectangle bounds)
         {
-            double maxHeight = 0;
             PositionDirectionalHintData? directionalHint = DirectionalDictionary[targetEdge];
 
             RectangleEdge target = CoverTarget ? (RectangleEdge)((int)directionalHint.TargetEdge * -1) : directionalHint.TargetEdge;
 
+            double maxHeight;
             if (target == RectangleEdge.Top)
             {
                 maxHeight = GetEdgeValue(targetRect, directionalHint.TargetEdge) - bounds.Top - gapSpace;
@@ -284,13 +279,13 @@ namespace BlazorFluentUI
 
             CalloutBeakPositionedInfo? finalizedBeakPosition = FinalizeBeakPosition(positionedElement, beakPositioned, maxBounds);
 
-            (PartialRectangle element, RectangleEdge targetEdge, RectangleEdge alignmentEdge) finalizedElemenentPosition = await FinalizePositionDataAsync(positionedElement, maxBounds);
+            (PartialRectangle element, RectangleEdge targetEdge, RectangleEdge alignmentEdge) = await FinalizePositionDataAsync(positionedElement, maxBounds);
 
-            return new CalloutPositionedInfo(finalizedElemenentPosition.element, finalizedElemenentPosition.targetEdge, finalizedElemenentPosition.alignmentEdge, finalizedBeakPosition);
+            return new CalloutPositionedInfo(element, targetEdge, alignmentEdge, finalizedBeakPosition);
 
         }
 
-        private CalloutBeakPositionedInfo FinalizeBeakPosition(ElementPosition elementPosition, Rectangle positionedBeak, Rectangle bounds)
+        private static CalloutBeakPositionedInfo FinalizeBeakPosition(ElementPosition elementPosition, Rectangle positionedBeak, Rectangle bounds)
         {
             RectangleEdge targetEdge = (RectangleEdge)((int)elementPosition.TargetEdge * -1);
             Rectangle? actualElement = new(0, elementPosition.ElementRectangle.Width, 0, elementPosition.ElementRectangle.Height);
@@ -335,10 +330,10 @@ namespace BlazorFluentUI
                 targetEdge);
         }
 
-        private Rectangle PositionBeak(double beakWidth, ElementPositionInfo elementPosition)
+        private static Rectangle PositionBeak(double beakWidth, ElementPositionInfo elementPosition)
         {
             Rectangle? target = elementPosition.TargetRectangle;
-            (RectangleEdge positiveEdge, RectangleEdge negativeEdge) edges = GetFlankingEdges(elementPosition.TargetEdge);
+            (RectangleEdge positiveEdge, RectangleEdge negativeEdge) = GetFlankingEdges(elementPosition.TargetEdge);
             double beakTargetPoint = GetCenterValue(target, elementPosition.TargetEdge);
             Rectangle? elementBounds = new(
                 beakWidth / 2,
@@ -351,16 +346,16 @@ namespace BlazorFluentUI
             beakPosition = CenterEdgeToPoint(
                 beakPosition,
                 (RectangleEdge)((int)elementPosition.TargetEdge * -1),
-                beakTargetPoint - GetRelativeRectEdgeValue(edges.positiveEdge, elementPosition.ElementRectangle)
+                beakTargetPoint - GetRelativeRectEdgeValue(positiveEdge, elementPosition.ElementRectangle)
                 );
 
-            if (!IsEdgeInBounds(beakPosition, elementBounds, edges.positiveEdge))
+            if (!IsEdgeInBounds(beakPosition, elementBounds, positiveEdge))
             {
-                beakPosition = AlignEdges(beakPosition, elementBounds, edges.positiveEdge);
+                beakPosition = AlignEdges(beakPosition, elementBounds, positiveEdge);
             }
-            else if (!IsEdgeInBounds(beakPosition, elementBounds, edges.negativeEdge))
+            else if (!IsEdgeInBounds(beakPosition, elementBounds, negativeEdge))
             {
-                beakPosition = AlignEdges(beakPosition, elementBounds, edges.negativeEdge);
+                beakPosition = AlignEdges(beakPosition, elementBounds, negativeEdge);
             }
 
             return beakPosition;
@@ -418,7 +413,7 @@ namespace BlazorFluentUI
             return returnValue;
         }
 
-        private RectangleEdge FinalizeReturnEdge(Rectangle elementRectangle, RectangleEdge returnEdge, Rectangle bounds)
+        private static RectangleEdge FinalizeReturnEdge(Rectangle elementRectangle, RectangleEdge returnEdge, Rectangle bounds)
         {
             if (bounds != null &&
                 Math.Abs(GetRelativeEdgeDifference(elementRectangle, bounds, returnEdge)) > (Math.Abs(GetRelativeEdgeDifference(elementRectangle, bounds, (RectangleEdge)((int)returnEdge * -1)))))
@@ -429,7 +424,7 @@ namespace BlazorFluentUI
             return returnEdge;
         }
 
-        private double GetRelativeEdgeDifference(Rectangle rect, Rectangle hostRect, RectangleEdge edge)
+        private static double GetRelativeEdgeDifference(Rectangle rect, Rectangle hostRect, RectangleEdge edge)
         {
             double edgeDifference = GetEdgeValue(rect, edge) - GetEdgeValue(hostRect, edge);
             return GetRelativeEdgeValue(edge, edgeDifference);
@@ -513,10 +508,9 @@ namespace BlazorFluentUI
         private Rectangle EstimatePosition(Rectangle elementToPosition, Rectangle target, PositionDirectionalHintData positionData, double gap = 0)
         {
             RectangleEdge elementEdge = CoverTarget ? positionData.TargetEdge : (RectangleEdge)((int)positionData.TargetEdge * -1);
-            Rectangle estimatedElementPosition = null;
-            estimatedElementPosition = CoverTarget
-                ? AlignEdges(elementToPosition, target, positionData.TargetEdge, gap)
-                : AlignOppositeEdges(elementToPosition, target, positionData.TargetEdge, gap);
+            Rectangle estimatedElementPosition = CoverTarget
+    ? AlignEdges(elementToPosition, target, positionData.TargetEdge, gap)
+    : AlignOppositeEdges(elementToPosition, target, positionData.TargetEdge, gap);
             if (positionData.AlignmentEdge == RectangleEdge.None)
             {
                 double targetMiddlePoint = GetCenterValue(target, positionData.TargetEdge);
@@ -598,7 +592,7 @@ namespace BlazorFluentUI
             return outOfBounds;
         }
 
-        private bool IsEdgeInBounds(Rectangle rect, Rectangle bounds, RectangleEdge edge)
+        private static bool IsEdgeInBounds(Rectangle rect, Rectangle bounds, RectangleEdge edge)
         {
             double adjustedRectValue = GetRelativeRectEdgeValue(edge, rect);
             return adjustedRectValue > GetRelativeRectEdgeValue(edge, bounds);
@@ -618,7 +612,7 @@ namespace BlazorFluentUI
             return true;
         }
 
-        private Rectangle CenterEdgeToPoint(Rectangle rect, RectangleEdge edge, double point)
+        private static Rectangle CenterEdgeToPoint(Rectangle rect, RectangleEdge edge, double point)
         {
             RectangleEdge positiveEdge = GetFlankingEdges(edge).positiveEdge;
             double elementMiddle = GetCenterValue(rect, edge);
@@ -626,19 +620,19 @@ namespace BlazorFluentUI
             return MoveEdge(rect, positiveEdge, point - distanceToMiddle);
         }
 
-        private Rectangle AlignEdges(Rectangle rect, Rectangle target, RectangleEdge edge, double gap = 0)
+        private static Rectangle AlignEdges(Rectangle rect, Rectangle target, RectangleEdge edge, double gap = 0)
         {
             return MoveEdge(rect, edge, GetEdgeValue(target, edge) + GetRelativeEdgeValue(edge, gap));
         }
 
-        private Rectangle AlignOppositeEdges(Rectangle rect, Rectangle target, RectangleEdge targetEdge, double gap = 0)
+        private static Rectangle AlignOppositeEdges(Rectangle rect, Rectangle target, RectangleEdge targetEdge, double gap = 0)
         {
             int oppositeEdge = (int)targetEdge * -1;
             double adjustedGap = GetRelativeEdgeValue((RectangleEdge)oppositeEdge, gap);
             return MoveEdge(rect, (RectangleEdge)((int)targetEdge * -1), GetEdgeValue(target, targetEdge) + adjustedGap);
         }
 
-        private Rectangle MoveEdge(Rectangle rect, RectangleEdge edge, double newValue)
+        private static Rectangle MoveEdge(Rectangle rect, RectangleEdge edge, double newValue)
         {
             double difference = GetEdgeValue(rect, edge) - newValue;
             rect = SetEdgeValue(rect, edge, newValue);
@@ -646,7 +640,7 @@ namespace BlazorFluentUI
             return rect;
         }
 
-        private double GetRelativeRectEdgeValue(RectangleEdge edge, Rectangle rect)
+        private static double GetRelativeRectEdgeValue(RectangleEdge edge, Rectangle rect)
         {
             return GetRelativeEdgeValue(edge, GetEdgeValue(rect, edge));
         }
@@ -663,38 +657,33 @@ namespace BlazorFluentUI
             }
         }
 
-        private RectangleEdge GetClosestEdge(RectangleEdge targetEdge, Rectangle targetRect, Rectangle boundingRect)
+        private static RectangleEdge GetClosestEdge(RectangleEdge targetEdge, Rectangle targetRect, Rectangle boundingRect)
         {
             double targetCenter = GetCenterValue(targetRect, targetEdge);
             double boundingCenter = GetCenterValue(boundingRect, targetEdge);
-            (RectangleEdge positiveEdge, RectangleEdge negativeEdge) flankingEdges = GetFlankingEdges(targetEdge);
+            (RectangleEdge positiveEdge, RectangleEdge negativeEdge) = GetFlankingEdges(targetEdge);
             if (targetCenter <= boundingCenter)
-                return flankingEdges.positiveEdge;
+                return positiveEdge;
             else
-                return flankingEdges.negativeEdge;
+                return negativeEdge;
         }
 
-        private double GetCenterValue(Rectangle rect, RectangleEdge edge)
+        private static double GetCenterValue(Rectangle rect, RectangleEdge edge)
         {
-            (RectangleEdge positiveEdge, RectangleEdge negativeEdge) edges = GetFlankingEdges(edge);
-            return (GetEdgeValue(rect, edges.positiveEdge) + GetEdgeValue(rect, edges.negativeEdge)) / 2;
+            (RectangleEdge positiveEdge, RectangleEdge negativeEdge) = GetFlankingEdges(edge);
+            return (GetEdgeValue(rect, positiveEdge) + GetEdgeValue(rect, negativeEdge)) / 2;
         }
 
         private static double GetEdgeValue(Rectangle rect, RectangleEdge edge)
         {
-            switch (edge)
+            return edge switch
             {
-                case RectangleEdge.Left:
-                    return rect.Left;
-                case RectangleEdge.Right:
-                    return rect.Right;
-                case RectangleEdge.Top:
-                    return rect.Top;
-                case RectangleEdge.Bottom:
-                    return rect.Bottom;
-                default:
-                    return 0;
-            }
+                RectangleEdge.Left => rect.Left,
+                RectangleEdge.Right => rect.Right,
+                RectangleEdge.Top => rect.Top,
+                RectangleEdge.Bottom => rect.Bottom,
+                _ => 0,
+            };
         }
         private static Rectangle SetEdgeValue(Rectangle rect, RectangleEdge edge, double value)
         {
@@ -776,7 +765,7 @@ namespace BlazorFluentUI
             };
             CalloutMainRule.Properties = new CssString()
             {
-                Css = $"background-color:{(BackgroundColor != null ? BackgroundColor : Theme?.SemanticColors.MenuBackground)};" +
+                Css = $"background-color:{(BackgroundColor ?? (Theme?.SemanticColors.MenuBackground))};" +
                         $"overflow-x:hidden;" +
                         $"overflow-y:{(overflowYHidden ? "hidden" : "auto")};" +
                         $"position:relative;" +
@@ -785,7 +774,7 @@ namespace BlazorFluentUI
             CalloutBeakRule.Properties = new CssString()
             {
                 Css = $"position:absolute;" +
-                        $"background-color:{(BackgroundColor != null ? BackgroundColor : Theme?.SemanticColors.MenuBackground)};" +
+                        $"background-color:{(BackgroundColor ?? (Theme?.SemanticColors.MenuBackground))};" +
                         $"box-shadow:inherit;" +
                         $"border:inherit;" +
                         $"box-sizing:border-box;" +

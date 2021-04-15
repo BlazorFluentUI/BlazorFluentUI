@@ -40,7 +40,7 @@ namespace BlazorFluentUI
 
         public Func<TItem, object> GetKey { get; set; }
 
-        public Func<TItem, int?, bool> CanSelectItem { get; set; } = (item, index) => (index.HasValue && index.Value < 0) ? false : true;
+        public Func<TItem, int?, bool> CanSelectItem { get; set; } = (item, index) => !index.HasValue || index.Value >= 0;
 
         public int? Count { get; set; }
 
@@ -100,7 +100,7 @@ namespace BlazorFluentUI
         public IList<TItem> GetItems()
         {
 
-            return _items != null ? _items : new List<TItem>();
+            return _items ?? new List<TItem>();
         }
 
         public void SetItems(IList<TItem> items, bool shouldClear = true)
@@ -144,7 +144,7 @@ namespace BlazorFluentUI
                 index++;
             }
 
-            if (shouldClear || items.Count() == 0)
+            if (shouldClear || items.Count == 0)
             {
                 SetAllSelected(false, true);
             }
@@ -268,7 +268,7 @@ namespace BlazorFluentUI
             if (isAllSelected && SelectionMode != SelectionMode.Multiple)
                 return;
 
-            int selectableCount = _items != null ? _items.Count() - _unselectableCount : 0;
+            int selectableCount = _items != null ? _items.Count - _unselectableCount : 0;
 
             SetChangeEvents(false);
 
@@ -360,7 +360,7 @@ namespace BlazorFluentUI
                 throw new Exception("_items was null");
 
             return _isAllSelected
-                ? _items.Count() - _exemptedCount - _unselectableCount
+                ? _items.Count - _exemptedCount - _unselectableCount
                 : _exemptedCount;
         }
 

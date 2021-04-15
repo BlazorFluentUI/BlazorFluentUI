@@ -126,8 +126,8 @@ namespace BlazorFluentUI
 
         }
         protected static void OnTableMouseUp(MouseEventArgs mouseEventArgs)
-        {   
-            
+        {
+
         }
 
 
@@ -301,7 +301,7 @@ namespace BlazorFluentUI
 
             // cycle backwards to get first day of week
             while (date.DayOfWeek != FirstDayOfWeek)
-                date = date - TimeSpan.FromDays(1);
+                date -= TimeSpan.FromDays(1);
 
             // a flag to indicate whether all days of the week are in the month
             bool isAllDaysOfWeekOutOfMonth = false;
@@ -355,9 +355,9 @@ namespace BlazorFluentUI
 
         private bool GetIsRestrictedDate(DateTime date)
         {
-            if (RestrictedDates == null) 
+            if (RestrictedDates == null)
                 return false;
-            
+
             if (RestrictedDates.Select(x=>x.Date).Contains(date))
             {
                 return true;
@@ -387,6 +387,6 @@ namespace BlazorFluentUI
             return boundedDateRange;
         }
 
-        
+
 }
 }

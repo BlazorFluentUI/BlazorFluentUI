@@ -116,7 +116,7 @@ namespace BlazorFluentUI.Lists
 
         Dictionary<string, double> _columnOverrides = new();
 
-        GroupedListAuto<TItem,object>? groupedList;
+        GroupedListAuto<TItem, object>? groupedList;
         List<TItem>? list;
         SelectionZone<TItem>? selectionZone;
 
@@ -700,13 +700,13 @@ namespace BlazorFluentUI.Lists
 
                 });
                 //currentRow.measureCell(columnIndex, (width: number) => {
-                    //    max = Math.max(max, width);
-                    //    count++;
-                    //    if (count === totalCount)
-                    //    {
-                    //        this._onColumnResized(column, max, columnIndex);
-                    //    }
-                    //});
+                //    max = Math.max(max, width);
+                //    count++;
+                //    if (count === totalCount)
+                //    {
+                //        this._onColumnResized(column, max, columnIndex);
+                //    }
+                //});
             }
         }
 

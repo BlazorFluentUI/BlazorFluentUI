@@ -15,9 +15,9 @@ namespace BlazorFluentUI
         // https://stackoverflow.com/questions/12420466/unable-to-cast-object-of-type-system-linq-expressions-unaryexpression-to-type/12420603#12420603
         public static PropertyInfo? GetPropertyInfo<T>(Expression<Func<T, Object>> expression)
         {
-            if (expression.Body is MemberExpression)
+            if (expression.Body is MemberExpression expression1)
             {
-                var memberAcessExpression =  ((MemberExpression)expression.Body).Member;
+                var memberAcessExpression =  expression1.Member;
                 var propertyInfo = memberAcessExpression as PropertyInfo;
                 return propertyInfo;
             }
@@ -33,8 +33,7 @@ namespace BlazorFluentUI
         {
             /*** SIMPLE PROPERTIES AND FIELDS ***/
             // check if the getter expression refers directly to a PROPERTY or FIELD
-            var memberAcessExpression = getterExpression.Body as MemberExpression;
-            if (memberAcessExpression == null  )
+            if (getterExpression.Body is not MemberExpression memberAcessExpression)
             {
                 var op = ((UnaryExpression)getterExpression.Body).Operand;
                 memberAcessExpression = (MemberExpression)op;
@@ -65,14 +64,14 @@ namespace BlazorFluentUI
                 // This is the expression to get declaring object instance.
                 // Example: for expression "o=>o.Property1.Property2.CollectionProperty[3].TargetProperty" it gives us the "o.Property1.Property2.CollectionProperty[3]" part
                 var memberAcessExpressionCompiledLambda = Expression.Lambda(memberAcessExpression.Expression, getterExpression.Parameters.Single()).Compile();
-                Action<TObject, TPropertyOnObject> setter = (expressionParameter, value) =>
+                void setter(TObject expressionParameter, TPropertyOnObject value)
                 {
                     // get the object instance on which is the property we want to set
                     var declaringObjectInstance = memberAcessExpressionCompiledLambda.DynamicInvoke(expressionParameter);
                     Debug.Assert(propertyOrFieldSetValue != null, "propertyOrFieldSetValue != null");
                     // set the value of the property
                     propertyOrFieldSetValue(declaringObjectInstance, value);
-                };
+                }
 
                 return setter;
             }
@@ -94,9 +93,8 @@ namespace BlazorFluentUI
              *      If INDEX >= 0 and the index exists in the collection it behaves the same like inserting to a collection.
              *      IF INDEX <  0 (is negative) it adds the value at the end of the collection.
              */
-            var methodCallExpression = getterExpression.Body as MethodCallExpression;
             if (
-                methodCallExpression != null && methodCallExpression.Object != null &&
+                getterExpression.Body is MethodCallExpression methodCallExpression && methodCallExpression.Object != null &&
                 methodCallExpression.Object.Type.IsGenericType)
             {
                 var collectionGetterExpression = methodCallExpression.Object as MemberExpression;
@@ -114,7 +112,7 @@ namespace BlazorFluentUI
                 {
                     // Create an action which accepts the instance of the object which the "dictionary getter" expression is for and a value
                     // to be added to the dictionary.
-                    Action<TObject, TPropertyOnObject> dictionaryAdder = (expressionParameter, value) =>
+                    void dictionaryAdder(TObject expressionParameter, TPropertyOnObject value)
                     {
                         try
                         {
@@ -130,7 +128,7 @@ namespace BlazorFluentUI
                                     value,
                                     getterExpression.ToString()), exception);
                         }
-                    };
+                    }
 
                     return dictionaryAdder;
                 }
@@ -140,7 +138,7 @@ namespace BlazorFluentUI
                 {
                     // Create an action which accepts the instance of the object which the "collection getter" expression is for and a value
                     // to be inserted
-                    Action<TObject, TPropertyOnObject> collectionInserter = (expressionParameter, value) =>
+                    void collectionInserter(TObject expressionParameter, TPropertyOnObject value)
                     {
                         try
                         {
@@ -167,7 +165,7 @@ namespace BlazorFluentUI
                                     value,
                                     getterExpression.ToString()), invocationException);
                         }
-                    };
+                    }
 
                     return collectionInserter;
                 }

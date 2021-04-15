@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
-using System;
-using System.Diagnostics;
-using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {

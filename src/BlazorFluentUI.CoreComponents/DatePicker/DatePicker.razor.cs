@@ -62,7 +62,7 @@ namespace BlazorFluentUI
 
         protected string calloutId;
         protected ElementReference datePickerDiv;
-        protected TextField textFieldComponent;
+        protected TextField? textFieldComponent;
         //protected string id = Guid.NewGuid().ToString();
 
         private bool _preventFocusOpeningPicker = false;
@@ -210,6 +210,11 @@ namespace BlazorFluentUI
                 IsDatePickerShown = false;
                 ValidateTextInput();
             }
+            if (AllowTextInput)
+            {
+                _preventFocusOpeningPicker = true;
+                DisableAutoFocus = !DisableAutoFocus;
+            }
         }
 
         protected void CalendarDismissed()
@@ -309,9 +314,10 @@ namespace BlazorFluentUI
 
             if (AllowTextInput)
             {
-                DateTime? date = DateTime.MinValue;
+               
                 if (!string.IsNullOrWhiteSpace(inputValue))
                 {
+                    DateTime? date = DateTime.MinValue;
                     if (SelectedDate != DateTime.MinValue && FormatDate != null && FormatDateInternal(SelectedDate) == inputValue)
                     {
                         return;
@@ -351,6 +357,8 @@ namespace BlazorFluentUI
                             }
                         }
                     }
+                    OnSelectDate.InvokeAsync(date);
+                    ValueChanged.InvokeAsync(date);
                 }
                 else
                 {
@@ -358,8 +366,7 @@ namespace BlazorFluentUI
                 }
 
                 CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
-                OnSelectDate.InvokeAsync(date);
-                ValueChanged.InvokeAsync(date);
+                
 
             }
             else if (IsRequired && string.IsNullOrWhiteSpace(inputValue))

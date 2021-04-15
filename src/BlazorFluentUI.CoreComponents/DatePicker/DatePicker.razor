@@ -23,16 +23,17 @@
                       OnKeyDown=@OnTextFieldKeyDown
                       OnChange=@OnTextFieldChange
                       OnClick=@(args => {
-                                 if (!DisableAutoFocus && !IsDatePickerShown && !Disabled)
-                                 {
-                                     ShowDatePickerPopup();
-                                     return;
-                                 }
-                                 if (AllowTextInput)
-                                 {
-                                     DismissDatePickerPopup();
-                                 }
-                             })
+                                    if (!DisableAutoFocus && !IsDatePickerShown && !Disabled)
+                                    {
+                                        ShowDatePickerPopup();
+                                        return;
+                                    }
+                                    if (AllowTextInput && !IsDatePickerShown)
+                                    {
+                                        DisableAutoFocus = !DisableAutoFocus;
+                                        //DismissDatePickerPopup();
+                                    }
+                                })
                       OnBlur=@OnTextFieldBlur
                       OnFocus=@OnTextFieldFocus />
     </div>

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -14,12 +16,12 @@ namespace BlazorFluentUI
         private IJSObjectReference? baseModule;
 
         private const string CalloutPath = "./_content/BlazorFluentUI.CoreComponents/callout.js";
-        private IJSObjectReference? calloutModule;
+        private static IJSObjectReference? calloutModule;
 
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public ElementReference ElementTarget { get; set; }  // not working yet
-        [Parameter] public FluentUIComponentBase FabricComponentTarget { get; set; }
+        [Parameter] public FluentUIComponentBase? FabricComponentTarget { get; set; }
 
         [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.BottomAutoEdge;
         [Parameter] public bool DirectionalHintFixed { get; set; }
@@ -30,15 +32,15 @@ namespace BlazorFluentUI
         [Parameter] public int CalloutWidth { get; set; } = 0;
         [Parameter] public int CalloutMaxHeight { get; set; } = 0;
         [Parameter] public int CalloutMaxWidth { get; set; } = 0;
-        [Parameter] public string BackgroundColor { get; set; } = null;
-        [Parameter] public Rectangle Bounds { get; set; }
+        [Parameter] public string? BackgroundColor { get; set; }
+        [Parameter] public Rectangle? Bounds { get; set; }
         [Parameter] public int MinPagePadding { get; set; } = 8;
         [Parameter] public bool PreventDismissOnScroll { get; set; } = false;
         [Parameter] public bool PreventDismissOnResize { get; set; } = false;
         [Parameter] public bool PreventDismissOnLostFocus { get; set; } = false;
         [Parameter] public bool CoverTarget { get; set; } = false;
         [Parameter] public bool AlignTargetEdge { get; set; } = false;
-        [Parameter] public string Role { get; set; }
+        [Parameter] public string? Role { get; set; }
         [Parameter] public bool HideOverflow { get; set; } = false;
 
         [Parameter] public bool SetInitialFocus { get; set; }
@@ -56,7 +58,7 @@ namespace BlazorFluentUI
 
         protected CalloutPositionedInfo CalloutPosition { get; set; } = new CalloutPositionedInfo();
 
-        [CascadingParameter(Name = "PortalId")] private string PortalId { get; set; }
+        [CascadingParameter(Name = "PortalId")] private string? PortalId { get; set; }
 
         protected double contentMaxHeight = -1;
         protected bool overflowYHidden = false;
@@ -64,12 +66,13 @@ namespace BlazorFluentUI
         protected bool isRenderedOnce = false;
         protected bool isMeasured = false;
         protected bool isEventHandlersRegistered = false;
+        private DotNetObjectReference<CalloutContent>? selfReference;
 
         //protected Layer layerReference;
 
         protected ElementReference calloutReference;
 
-        private List<int> eventHandlerIds;
+        private List<int>? eventHandlerIds;
 
         #region Style
         private ICollection<IRule> CalloutLocalRules { get; set; } = new List<IRule>();
@@ -78,9 +81,10 @@ namespace BlazorFluentUI
         private Rule CalloutMainRule = new();
         private Rule CalloutBeakRule = new();
         #endregion
+
         protected override Task OnInitializedAsync()
         {
-            System.Diagnostics.Debug.WriteLine("Creating Callout");
+            Debug.WriteLine("Creating Callout");
             CreateLocalCss();
             SetStyle();
             return base.OnInitializedAsync();
@@ -94,15 +98,15 @@ namespace BlazorFluentUI
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-            calloutModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import",  CalloutPath);
-            
-            if (!isEventHandlersRegistered) 
+            calloutModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", CalloutPath);
+
+            if (!isEventHandlersRegistered)
             {
                 isEventHandlersRegistered = true;
+                selfReference = DotNetObjectReference.Create(this);
+                eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", RootElementReference, selfReference);
 
-                eventHandlerIds = await calloutModule!.InvokeAsync<List<int>>("registerHandlers", RootElementReference, DotNetObjectReference.Create(this));
 
-                
 
                 if (!isMeasured && FabricComponentTarget != null && firstRender)
                 {
@@ -114,7 +118,7 @@ namespace BlazorFluentUI
             if (!firstRender && isMeasured && !_finalPositionAnnounced)
             {
                 _finalPositionAnnounced = true;
-                // May have to limit this... 
+                // May have to limit this...
                 await OnPositioned.InvokeAsync(CalloutPosition);
             }
 
@@ -131,21 +135,21 @@ namespace BlazorFluentUI
         //}
 
         [JSInvokable]
-        public async void ScrollHandler()
+        public async Task ScrollHandler()
         {
             await OnDismiss.InvokeAsync(null);
             //await HiddenChanged.InvokeAsync(true);
         }
 
         [JSInvokable]
-        public async void ResizeHandler()
+        public async Task ResizeHandler()
         {
             await OnDismiss.InvokeAsync(null);
             //await HiddenChanged.InvokeAsync(true);
         }
 
         [JSInvokable]
-        public async void FocusHandler()
+        public  void FocusHandler()
         {
             //Need way to tie focus handler between all the callouts (linked contextualmenus)  ... only dimiss when ALL of them lost focus.
             System.Diagnostics.Debug.WriteLine($"Callout {PortalId} called dismiss from FocusHandler from {DirectionalHint}");
@@ -154,7 +158,7 @@ namespace BlazorFluentUI
         }
 
         [JSInvokable]
-        public async void ClickHandler()
+        public async Task ClickHandler()
         {
             await OnDismiss.InvokeAsync(null);
             //await HiddenChanged.InvokeAsync(true);
@@ -177,7 +181,7 @@ namespace BlazorFluentUI
             if (FabricComponentTarget != null && !isMeasured && isRenderedOnce)
             {
                 _finalPositionAnnounced = false;
-                //this will never get called initially because the target won't be rendered yet.  Shouldn't be called after due to isMeasured  
+                //this will never get called initially because the target won't be rendered yet.  Shouldn't be called after due to isMeasured
                 await CalculateCalloutPositionAsync();
 
             }
@@ -210,7 +214,7 @@ namespace BlazorFluentUI
                 maxBounds.Width -= (2 * MinPagePadding);
                 maxBounds.Height -= (2 * MinPagePadding);
             }
-            Rectangle? targetRect = await FabricComponentTarget.GetBoundsAsync();
+            Rectangle? targetRect = await FabricComponentTarget!.GetBoundsAsync();
             //Debug.WriteLine($"TargetRect: {targetRect.left}, {targetRect.top}, {targetRect.right}, {targetRect.bottom}");
 
             contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
@@ -508,9 +512,8 @@ namespace BlazorFluentUI
         private Rectangle EstimatePosition(Rectangle elementToPosition, Rectangle target, PositionDirectionalHintData positionData, double gap = 0)
         {
             RectangleEdge elementEdge = CoverTarget ? positionData.TargetEdge : (RectangleEdge)((int)positionData.TargetEdge * -1);
-            Rectangle estimatedElementPosition = CoverTarget
-    ? AlignEdges(elementToPosition, target, positionData.TargetEdge, gap)
-    : AlignOppositeEdges(elementToPosition, target, positionData.TargetEdge, gap);
+            Rectangle estimatedElementPosition = CoverTarget ? AlignEdges(elementToPosition, target, positionData.TargetEdge, gap)
+                                                             : AlignOppositeEdges(elementToPosition, target, positionData.TargetEdge, gap);
             if (positionData.AlignmentEdge == RectangleEdge.None)
             {
                 double targetMiddlePoint = GetCenterValue(target, positionData.TargetEdge);
@@ -723,21 +726,22 @@ namespace BlazorFluentUI
             }
         }
 
-        Dictionary<DirectionalHint, PositionDirectionalHintData> DirectionalDictionary = new() {
-            {DirectionalHint.TopLeftEdge, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.Left) },
-            {DirectionalHint.TopCenter, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.None) },
-            {DirectionalHint.TopRightEdge, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.Right) },
-            {DirectionalHint.TopAutoEdge, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.None, true) },
-            {DirectionalHint.BottomLeftEdge, new PositionDirectionalHintData(RectangleEdge.Bottom, RectangleEdge.Left) },
-            {DirectionalHint.BottomCenter, new PositionDirectionalHintData(RectangleEdge.Bottom, RectangleEdge.None) },
-            {DirectionalHint.BottomRightEdge, new PositionDirectionalHintData(RectangleEdge.Bottom, RectangleEdge.Right) },
-            {DirectionalHint.BottomAutoEdge, new PositionDirectionalHintData(RectangleEdge.Bottom, RectangleEdge.None, true) },
-            {DirectionalHint.LeftTopEdge, new PositionDirectionalHintData(RectangleEdge.Left, RectangleEdge.Top) },
-            {DirectionalHint.LeftCenter, new PositionDirectionalHintData(RectangleEdge.Left, RectangleEdge.None) },
-            {DirectionalHint.LeftBottomEdge, new PositionDirectionalHintData(RectangleEdge.Left, RectangleEdge.Bottom) },
-            {DirectionalHint.RightTopEdge, new PositionDirectionalHintData(RectangleEdge.Right, RectangleEdge.Top) },
-            {DirectionalHint.RightCenter, new PositionDirectionalHintData(RectangleEdge.Right, RectangleEdge.None) },
-            {DirectionalHint.RightBottomEdge, new PositionDirectionalHintData(RectangleEdge.Right, RectangleEdge.Bottom) },
+        Dictionary<DirectionalHint, PositionDirectionalHintData> DirectionalDictionary = new()
+        {
+            { DirectionalHint.TopLeftEdge, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.Left) },
+            { DirectionalHint.TopCenter, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.None) },
+            { DirectionalHint.TopRightEdge, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.Right) },
+            { DirectionalHint.TopAutoEdge, new PositionDirectionalHintData(RectangleEdge.Top, RectangleEdge.None, true) },
+            { DirectionalHint.BottomLeftEdge, new PositionDirectionalHintData(RectangleEdge.Bottom, RectangleEdge.Left) },
+            { DirectionalHint.BottomCenter, new PositionDirectionalHintData(RectangleEdge.Bottom, RectangleEdge.None) },
+            { DirectionalHint.BottomRightEdge, new PositionDirectionalHintData(RectangleEdge.Bottom, RectangleEdge.Right) },
+            { DirectionalHint.BottomAutoEdge, new PositionDirectionalHintData(RectangleEdge.Bottom, RectangleEdge.None, true) },
+            { DirectionalHint.LeftTopEdge, new PositionDirectionalHintData(RectangleEdge.Left, RectangleEdge.Top) },
+            { DirectionalHint.LeftCenter, new PositionDirectionalHintData(RectangleEdge.Left, RectangleEdge.None) },
+            { DirectionalHint.LeftBottomEdge, new PositionDirectionalHintData(RectangleEdge.Left, RectangleEdge.Bottom) },
+            { DirectionalHint.RightTopEdge, new PositionDirectionalHintData(RectangleEdge.Right, RectangleEdge.Top) },
+            { DirectionalHint.RightCenter, new PositionDirectionalHintData(RectangleEdge.Right, RectangleEdge.None) },
+            { DirectionalHint.RightBottomEdge, new PositionDirectionalHintData(RectangleEdge.Right, RectangleEdge.Bottom) },
         };
         private bool _finalPositionAnnounced;
 
@@ -769,7 +773,7 @@ namespace BlazorFluentUI
                         $"overflow-x:hidden;" +
                         $"overflow-y:{(overflowYHidden ? "hidden" : "auto")};" +
                         $"position:relative;" +
-                        $"border-radius: {Theme.Effects.RoundedCorner2};"
+                        $"border-radius: {Theme?.Effects.RoundedCorner2};"
             };
             CalloutBeakRule.Properties = new CssString()
             {
@@ -786,8 +790,15 @@ namespace BlazorFluentUI
 
         public async ValueTask DisposeAsync()
         {
-            if (eventHandlerIds != null)
-                await calloutModule!.InvokeAsync<object>("unregisterHandlers", eventHandlerIds);
+            if (calloutModule != null && eventHandlerIds != null)
+            {
+                isEventHandlersRegistered = false;
+                await calloutModule.InvokeAsync<object>("unregisterHandlers", eventHandlerIds);
+                await calloutModule.DisposeAsync();
+            }
+            if (baseModule != null)
+                await baseModule.DisposeAsync();
+            selfReference?.Dispose();
         }
     }
 }

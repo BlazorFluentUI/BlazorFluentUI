@@ -69,14 +69,14 @@ namespace BlazorFluentUI
 
         [Inject]
         private IJSRuntime? JSRuntime { get; set; }
-        private static IJSObjectReference? baseModule;
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/selectionZone.js";
+        private IJSObjectReference? scriptModule;
+        private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/selectionZone.js";
 
         private bool isModal = false;
 
         private bool doNotRenderOnce = false;
 
-        private DotNetObjectReference<SelectionZone<TItem>>? dotNetRef;
+        private DotNetObjectReference<SelectionZone<TItem>>? selfReference;
         private SelectionZoneProps? props;
 
         protected override bool ShouldRender()
@@ -104,7 +104,7 @@ namespace BlazorFluentUI
                 props = GenerateProps();
             }
 
-            if (dotNetRef != null)
+            if (selfReference != null && scriptModule != null)
             {
                 if (isModal != props!.IsModal
                     || SelectionMode != props.SelectionMode
@@ -114,7 +114,8 @@ namespace BlazorFluentUI
                     || (OnItemInvoked!= null) != props.OnItemInvokeSet)
                 {
                     props = GenerateProps();
-                    await baseModule!.InvokeVoidAsync("updateProps", dotNetRef, props);
+                    
+                    await scriptModule.InvokeVoidAsync("updateProps", selfReference, props);
                 }
             }
 
@@ -136,24 +137,25 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            selfReference = DotNetObjectReference.Create(this);
+            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", ScriptPath);
+
             if (firstRender)
             {
-                if (baseModule == null)
-                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-
-                dotNetRef = DotNetObjectReference.Create(this);
-                await baseModule!.InvokeVoidAsync("registerSelectionZone", dotNetRef, RootElementReference, new SelectionZoneProps { IsModal = isModal, SelectionMode = SelectionMode });
+                await scriptModule!.InvokeVoidAsync("registerSelectionZone", selfReference, RootElementReference, new SelectionZoneProps { IsModal = isModal, SelectionMode = SelectionMode });
             }
             await base.OnAfterRenderAsync(firstRender);
         }
 
         public async ValueTask DisposeAsync()
         {
-            if (dotNetRef != null)
+            if (scriptModule != null)
             {
-                await baseModule!.InvokeVoidAsync("unregisterSelectionZone", dotNetRef);
-                dotNetRef.Dispose();
+                await scriptModule!.InvokeVoidAsync("unregisterSelectionZone", selfReference);
+                await scriptModule.DisposeAsync();
             }
+            if (selfReference != null)
+                selfReference.Dispose();
         }
 
         [JSInvokable]
@@ -225,5 +227,6 @@ namespace BlazorFluentUI
         {
             OnItemInvoked?.Invoke(Selection.GetItems()[index], index);
         }
+        
     }
 }

@@ -28,7 +28,7 @@ namespace BlazorFluentUI
         [Parameter] public bool Vertical { get; set; }
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
-        private static IJSObjectReference? baseModule;
+        private IJSObjectReference? baseModule;
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/slider.js";
 
         private readonly string id = Guid.NewGuid().ToString();
@@ -41,8 +41,8 @@ namespace BlazorFluentUI
         private bool showTransitions;
         private bool initialValueSet = false;
         private double value;
-        private bool jsAvailable;
-        private DotNetObjectReference<Slider>? dotNetObjectReference;
+        
+        private DotNetObjectReference<Slider>? selfReference;
         private Timer timer = new();
 
         private string LengthString => (Vertical ? "height" : "width");
@@ -106,21 +106,13 @@ namespace BlazorFluentUI
                 value = DefaultValue.Value;
                 _renderedValue = value;
             }
-
-            if (jsAvailable)
-            {
-                if (Disabled && dotNetObjectReference != null)
-                {
-                    await baseModule!.InvokeVoidAsync("unregisterHandler", dotNetObjectReference);
-                    dotNetObjectReference.Dispose();
-                    dotNetObjectReference = null;
-                }
-                else if (!Disabled && dotNetObjectReference == null)
-                {
-                    dotNetObjectReference = DotNetObjectReference.Create(this);
-                    await baseModule!.InvokeVoidAsync("registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
-                }
-            }
+            
+            //if  (selfReference == null)
+            //    selfReference = DotNetObjectReference.Create(this);
+            //if (Disabled)
+            //    await baseModule!.InvokeVoidAsync("unregisterHandler", selfReference);
+            //else 
+            //    await baseModule!.InvokeVoidAsync("registerMouseOrTouchStart", selfReference, slideBox, sliderLine);
 
             UpdateState();
 
@@ -129,18 +121,17 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            selfReference = DotNetObjectReference.Create(this);
 
             if (firstRender)
             {
-                if (baseModule == null)
-                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-
-                jsAvailable = true;
-                if (JSRuntime != null && !Disabled)
+                if (!Disabled)
                 {
-                    dotNetObjectReference = DotNetObjectReference.Create(this);
-                    await baseModule!.InvokeVoidAsync("registerMouseOrTouchStart", dotNetObjectReference, slideBox, sliderLine);
+                    await baseModule.InvokeVoidAsync("registerMouseOrTouchStart", selfReference, slideBox, sliderLine);
                 }
+                else
+                    await baseModule!.InvokeVoidAsync("unregisterHandlers", selfReference);
             }
 
             if (shouldFocus)
@@ -297,12 +288,12 @@ namespace BlazorFluentUI
 
         public async ValueTask DisposeAsync()
         {
-            if (dotNetObjectReference != null && JSRuntime != null)
+            if (baseModule != null)
             {
-                await baseModule!.InvokeVoidAsync("unregisterHandlers", dotNetObjectReference);
+                await baseModule.InvokeVoidAsync("unregisterHandlers", selfReference);
+                await baseModule.DisposeAsync();
             }
-            dotNetObjectReference?.Dispose();
+            selfReference?.Dispose();
         }
-
     }
 }

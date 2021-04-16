@@ -3,8 +3,6 @@
 @using DynamicData.Binding
 @using System.Collections.ObjectModel
 @using System.Reactive.Linq
-
-
 @using BlazorFluentUI.Lists
 <header class="root">
     <h1 class="title">DetailsList - Grouped Data</h1>

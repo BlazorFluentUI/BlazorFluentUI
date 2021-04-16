@@ -214,7 +214,7 @@ export function measureElementRect(element: HTMLElement): IRectangle {
 }
 
 export function getWindow(element: Element): Window {
-    return element.ownerDocument.defaultView;
+    return element?.ownerDocument.defaultView;
 }
 
 export function getWindowRect(): IRectangle {
@@ -305,14 +305,12 @@ export function deregisterWindowKeyDownEvent(guid: number) {
     eventRegister[guid] = null;
 }
 
-export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string): string {
-    var guid = Guid.newGuid();
+export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string, guid: string) {
     var async = new Async(this);
     eventRegister[guid] = async.debounce((ev: UIEvent) => {
         dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
     }, 100, { leading: true });
     window.addEventListener("resize", eventRegister[guid]);
-    return guid;
 }
 
 export function deregisterResizeEvent(guid: number) {
@@ -967,9 +965,9 @@ function createNewEvent(eventName: string): Event {
 }
 
 export function on(element: Element | Window, eventName: string, callback: (ev: Event) => void, options?: boolean): () => void {
-    element.addEventListener(eventName, callback, options);
+    element?.addEventListener(eventName, callback, options);
 
-    return () => element.removeEventListener(eventName, callback, options);
+    return () => element?.removeEventListener(eventName, callback, options);
 }
 
 function _expandRect(rect: IRectangle, pagesBefore: number, pagesAfter: number): IRectangle {

@@ -20,7 +20,7 @@ namespace BlazorFluentUI
         Compact = 1
     }
 
-    public partial class DocumentCard : FluentUIComponentBase
+    public partial class DocumentCard : FluentUIComponentBase, IAsyncDisposable
     {
         [Parameter]
         public RenderFragment? ChildContent { get; set; }
@@ -49,7 +49,7 @@ namespace BlazorFluentUI
         [Inject]
         internal IJSRuntime? JSRuntime { get; set; }
 
-        private const string scriptPath = "./_content/BlazorFluentUI.CoreComponents/documentCard.js";
+        private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/documentCard.js";
         private IJSObjectReference? scriptModule;
 
         [Inject]
@@ -109,7 +109,7 @@ namespace BlazorFluentUI
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", scriptPath);
+            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", ScriptPath);
         }
 
         private async Task OnClickHandler()
@@ -140,6 +140,12 @@ namespace BlazorFluentUI
         {
             await RootElementReference.FocusAsync();
             //await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", RootElementReference).ConfigureAwait(false);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (scriptModule != null)
+                await scriptModule.DisposeAsync();
         }
     }
 }

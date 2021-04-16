@@ -152,7 +152,7 @@ export function measureElementRect(element) {
         return { height: 0, width: 0, left: 0, right: 0, top: 0, bottom: 0 };
 }
 export function getWindow(element) {
-    return element.ownerDocument.defaultView;
+    return element?.ownerDocument.defaultView;
 }
 export function getWindowRect() {
     var rect = {
@@ -232,14 +232,12 @@ export function deregisterWindowKeyDownEvent(guid) {
     window.removeEventListener("keydown", func);
     eventRegister[guid] = null;
 }
-export function registerResizeEvent(dotnetRef, functionName) {
-    var guid = Guid.newGuid();
+export function registerResizeEvent(dotnetRef, functionName, guid) {
     var async = new Async(this);
     eventRegister[guid] = async.debounce((ev) => {
         dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
     }, 100, { leading: true });
     window.addEventListener("resize", eventRegister[guid]);
-    return guid;
 }
 export function deregisterResizeEvent(guid) {
     var func = eventRegister[guid];
@@ -659,8 +657,8 @@ function createNewEvent(eventName) {
     return event;
 }
 export function on(element, eventName, callback, options) {
-    element.addEventListener(eventName, callback, options);
-    return () => element.removeEventListener(eventName, callback, options);
+    element?.addEventListener(eventName, callback, options);
+    return () => element?.removeEventListener(eventName, callback, options);
 }
 function _expandRect(rect, pagesBefore, pagesAfter) {
     const top = rect.top - pagesBefore * rect.height;

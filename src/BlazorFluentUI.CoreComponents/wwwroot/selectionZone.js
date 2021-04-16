@@ -13,14 +13,16 @@ export function registerSelectionZone(dotNet, root, props) {
 }
 export function updateProps(dotNet, props) {
     let selectionZone = selectionZones.get(dotNet._id);
-    if (selectionZone !== null) {
+    if (typeof selectionZone !== 'undefined' && selectionZone !== null) {
         selectionZone.props = props;
     }
 }
 export function unregisterSelectionZone(dotNet) {
     let selectionZone = selectionZones.get(dotNet._id);
-    selectionZone.dispose();
-    selectionZones.delete(dotNet._id);
+    if (typeof selectionZone !== 'undefined' && selectionZone !== null) {
+        selectionZone.dispose();
+        selectionZones.delete(dotNet._id);
+    }
 }
 export var SelectionMode;
 (function (SelectionMode) {

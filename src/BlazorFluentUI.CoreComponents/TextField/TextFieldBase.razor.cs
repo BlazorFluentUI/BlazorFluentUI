@@ -23,7 +23,7 @@ namespace BlazorFluentUI
         }
     }
 
-    public partial class TextFieldBase<TValue> : FluentUIComponentBase, IDisposable
+    public partial class TextFieldBase<TValue> : FluentUIComponentBase, IAsyncDisposable
     {
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
         private IJSObjectReference? baseModule;
@@ -391,7 +391,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
 
             if (!firstRendered)
             {
@@ -675,13 +675,10 @@ namespace BlazorFluentUI
             return newDictionaryCreated;
         }
 
-        protected virtual void Dispose(bool disposing)
+        public async ValueTask DisposeAsync()
         {
-        }
-
-        void IDisposable.Dispose()
-        {
-            Dispose(disposing: true);
+            if (baseModule != null)
+                await baseModule.DisposeAsync();
         }
     }
 }

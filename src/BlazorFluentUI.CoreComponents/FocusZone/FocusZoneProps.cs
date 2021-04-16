@@ -40,13 +40,13 @@ namespace BlazorFluentUI
         [JsonPropertyName("onBeforeFocusExists")]
         public bool OnBeforeFocusExists { get; set; }
 
-        [JsonPropertyName("root")]
-        public ElementReference Root { get; set; }
+        //[JsonPropertyName("root")]
+        //public ElementReference Root { get; set; }
 
         [JsonPropertyName("shouldInputLoseFocusOnArrowKeyExists")]
         public bool ShouldInputLoseFocusOnArrowKeyExists { get; set; }
 
-        public static FocusZoneProps GenerateProps(FocusZone focusZone, string id, ElementReference root)
+        public static FocusZoneProps GenerateProps(FocusZone focusZone, string id) //, ElementReference root)
         {
             FocusZoneProps? props = new()
             {
@@ -61,7 +61,7 @@ namespace BlazorFluentUI
                 InnerZoneKeystrokeTriggers = focusZone.InnerZoneKeystrokeTriggers,
                 IsCircularNavigation =focusZone.IsCircularNavigation,
                 OnBeforeFocusExists = focusZone.OnBeforeFocus != null,
-                Root = root,
+                //Root = root,
                 ShouldInputLoseFocusOnArrowKeyExists = focusZone.ShouldInputLoseFocusOnArrowKey != null
             };
 

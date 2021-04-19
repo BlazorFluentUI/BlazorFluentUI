@@ -37,10 +37,10 @@
     </div>
 </div>
 @code {
-    List<IContextualMenuItem> contextualMenuItems;
+    List<IContextualMenuItem>? contextualMenuItems;
 
-    private System.Windows.Input.ICommand buttonCommand;
-    private string debugText;
+    private System.Windows.Input.ICommand? buttonCommand;
+    private string? debugText;
     private int commandCount = 0;
 
     private Action<ItemClickedArgs> OnClick => args =>
@@ -48,7 +48,7 @@
         InvokeAsync(() =>
         {
             System.Diagnostics.Debug.WriteLine($"ItemClick handler: key={args.Key}");
-            var item = contextualMenuItems.Where(x => x.Items != null).SelectMany(x => x.Items).Concat(contextualMenuItems.Where(x => x.Items == null)).FirstOrDefault(x => x.Key == args.Key);
+            var item = contextualMenuItems?.Where(x => x.Items != null).SelectMany(x => x.Items!).Concat(contextualMenuItems.Where(x => x.Items == null)).FirstOrDefault(x => x.Key == args.Key);
             if (item != null)
             {
                 item.Checked = !item.Checked;
@@ -60,7 +60,7 @@
     {
         buttonCommand = new RelayCommand((p) =>
         {
-            debugText = $"{p.ToString()} button was clicked. {commandCount++}";
+            debugText = $"{p?.ToString()} button was clicked. {commandCount++}";
             StateHasChanged();
         });
 

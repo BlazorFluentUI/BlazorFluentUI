@@ -6,20 +6,20 @@ namespace BlazorFluentUI
 {
     public partial class Dialog : FluentUIComponentBase
     {
-        [Parameter] public RenderFragment ChildContent { get; set; }
-        [Parameter] public string ContainerClass { get; set; }
-        [Parameter] public string ContentClass { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
+        [Parameter] public string? ContainerClass { get; set; }
+        [Parameter] public string? ContentClass { get; set; }
         [Parameter] public DialogType DialogType { get; set; } = DialogType.Normal;
-        [Parameter] public string DraggableHeaderClassName { get; set; }
-        [Parameter] public RenderFragment FooterTemplate { get; set; }
+        [Parameter] public string? DraggableHeaderClassName { get; set; }
+        [Parameter] public RenderFragment? FooterTemplate { get; set; }
         [Parameter] public bool IsBlocking { get; set; }
         [Parameter] public bool IsDarkOverlay { get; set; } = false;
         [Parameter] public bool IsMultiline { get; set; }
         [Parameter] public bool IsOpen { get; set; }
         [Parameter] public bool IsModeless { get; set; }
         [Parameter] public EventCallback<EventArgs> OnDismiss { get; set; }
-        [Parameter] public string SubText { get; set; }
-        [Parameter] public string Title { get; set; }
+        [Parameter] public string? SubText { get; set; }
+        [Parameter] public string? Title { get; set; }
         [Parameter] public decimal MaxWidth { get; set; } = 340;
         [Parameter] public decimal MinWidth { get; set; } = 288;
 
@@ -34,19 +34,19 @@ namespace BlazorFluentUI
         public bool ForceFocusInsideTrap { get; set; }
 
         [Parameter]
-        public string FirstFocusableSelector { get; set; }
+        public string? FirstFocusableSelector { get; set; }
 
         [Parameter]
-        public string CloseButtonAriaLabel { get; set; }
+        public string? CloseButtonAriaLabel { get; set; }
 
         [Parameter]
         public bool IsClickableOutsideFocusTrap { get; set; }
 
-        protected string Id;
-        protected string DefaultTitleTextId;
-        protected string DefaultSubTextId;
-        private string _defaultMinWidth;
-        private string _defaultMaxWidth;
+        protected string? Id;
+        protected string? DefaultTitleTextId;
+        protected string? DefaultSubTextId;
+        private string? _defaultMinWidth;
+        private string? _defaultMaxWidth;
         private ICollection<IRule> DialogLocalRules { get; set; } = new List<IRule>();
         private Rule DialogMainRule = new();
         private Rule DialogMainMediaRule = new();
@@ -82,7 +82,7 @@ namespace BlazorFluentUI
         private void CreateLocalCss()
         {
             DialogMainRule.Selector = new ClassSelector() { SelectorName = "ms-Dialog-main" };
-            DialogMainMediaRule.Selector = new MediaSelector() { SelectorName = $"@media (min-width:{Theme.CommonStyle.ScreenWidthMinMedium}px)" };
+            DialogMainMediaRule.Selector = new MediaSelector() { SelectorName = $"@media (min-width:{Theme?.CommonStyle.ScreenWidthMinMedium}px)" };
             DialogLocalRules.Add(DialogMainRule);
             DialogLocalRules.Add(DialogMainMediaRule);
         }
@@ -96,10 +96,10 @@ namespace BlazorFluentUI
                             $"display:flex;"
             };
 
-            DialogMainMediaRule.Selector = new MediaSelector() { SelectorName = $"@media (min-width:{Theme.CommonStyle.ScreenWidthMinMedium}px)" };
+            DialogMainMediaRule.Selector = new MediaSelector() { SelectorName = $"@media (min-width:{Theme?.CommonStyle.ScreenWidthMinMedium}px)" };
             DialogMainMediaRule.Properties = new CssString()
             {
-                Css = $".{DialogMainRule.Selector.SelectorName}{{width:auto;max-width:{_defaultMaxWidth};min-width:{_defaultMinWidth};}}"
+                Css = $".{DialogMainRule.Selector?.SelectorName}{{width:auto;max-width:{_defaultMaxWidth};min-width:{_defaultMinWidth};}}"
             };
         }
     }

@@ -42,8 +42,7 @@ namespace BlazorFluentUI
 
         public override async Task SetParametersAsync(ParameterView parameters)
         {
-            string src;
-            parameters.TryGetValue("Src", out src);
+            parameters.TryGetValue("Src", out string? src);
             if (Src != src)
                 imageLoadState = ImageLoadState.NotLoaded;
 
@@ -190,7 +189,7 @@ namespace BlazorFluentUI
                     return;
                 }
 
-                double desiredRatio = 0;
+                double desiredRatio;
                 if (!double.IsNaN(Width) && !double.IsNaN(Height))
                 {
                     desiredRatio = Width / Height;

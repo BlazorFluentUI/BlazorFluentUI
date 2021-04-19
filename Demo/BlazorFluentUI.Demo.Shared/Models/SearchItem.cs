@@ -8,7 +8,7 @@ namespace BlazorFluentUI.Demo.Shared.Models
 {
     class SearchItem
     {
-        public string Name { get; set; }
-        public string JobDescription { get; set; }
+        public string? Name { get; set; }
+        public string? JobDescription { get; set; }
     }
 }

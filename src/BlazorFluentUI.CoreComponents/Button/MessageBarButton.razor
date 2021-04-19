@@ -28,7 +28,7 @@
                   @ref="baseReference" />
 
 @code{
-    private DefaultButton baseReference;
+    private DefaultButton baseReference = new DefaultButton();
     protected override void OnAfterRender(bool firstRender)
     {
         RootElementReference = baseReference.RootElementReference;

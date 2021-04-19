@@ -1,7 +1,7 @@
 ﻿<Stack HorizontalAlign="Alignment.Start" Style="width:100%;">
     <Stack Horizontal="true" HorizontalAlign="Alignment.SpaceBetween" VerticalAlign="Alignment.End"
-              Style=@($"border-bottom: 1px solid {ThemeProvider.Theme.SemanticColors.BodyDivider}; margin-bottom:18.620px;width:100%;")>
-        <div style="font-size:@ThemeProvider.Theme.FontStyle.FontSize.MediumPlus; font-weight:@ThemeProvider.Theme.FontStyle.FontWeight.SemiBold;">@Header</div>
+              Style=@($"border-bottom: 1px solid {ThemeProvider!.Theme.SemanticColors.BodyDivider}; margin-bottom:18.620px;width:100%;")>
+        <div style="font-size:@ThemeProvider!.Theme.FontStyle.FontSize.MediumPlus; font-weight:@ThemeProvider!.Theme.FontStyle.FontWeight.SemiBold;">@Header</div>
         <div>
             <CommandBarButton Text=@codeLabel IconName=@(showCode ? "ChevronUp" : "ChevronDown") OnClick=@(arg=> { showCode = !showCode; showCCode = false; codeLabel = showCode ? "Hide Code" : "Show Code"; }) />
         </div>
@@ -10,7 +10,7 @@
         @ChildContent
     </div>
     <div style="display:@(showCode ? "block" : "none"); width:100%">
-        <pre style="padding: 20px; white-space:pre-wrap; word-wrap:break-word;background-color:@ThemeProvider.Theme.Palette.Black;color:@ThemeProvider.Theme.Palette.White;">
+        <pre style="padding: 20px; white-space:pre-wrap; word-wrap:break-word;background-color:@ThemeProvider!.Theme.Palette.Black;color:@ThemeProvider!.Theme.Palette.White;">
            @codeLiteral
             <br />
            @if (!showCCode)
@@ -28,10 +28,10 @@
 
 @code {
 
-    [Inject] ThemeProvider ThemeProvider { get; set; }
-    [Inject] HttpClient HttpClient { get; set; }
+    [Inject] ThemeProvider? ThemeProvider { get; set; }
+    [Inject] HttpClient? HttpClient { get; set; }
 
-    ITheme Theme => ThemeProvider?.Theme;
+    ITheme Theme => ThemeProvider!.Theme;
 
     string codeLabel = "Show Code";
     bool showCode = false;
@@ -41,13 +41,13 @@
     string codeLiteral = "";
     string ccodeLiteral = "";
 
-    [Parameter] public string Header { get; set; }
+    [Parameter] public string? Header { get; set; }
 
-    [Parameter] public string MetadataPath { get; set; }
+    [Parameter] public string? MetadataPath { get; set; }
 
     [Parameter] public int Key { get; set; } = -1;//This is required and must be unique.
 
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,7 +56,7 @@
             throw new Exception("Must set Key with an integer 0 or greater and must be unique within page.");
 
         // Source inspired by AntDesign (https://github.com/Append-IT/ant-design-blazor/blob/master/docs/Append.AntDesign.Documentation/Infrastructure/DocumentationService.cs)
-        string demoMetaData = await HttpClient.GetStringAsync($"md/{MetadataPath}.md");
+        string demoMetaData = await HttpClient!.GetStringAsync($"md/{MetadataPath}.md");
 
         var start = 0;
         var end = demoMetaData.Length;

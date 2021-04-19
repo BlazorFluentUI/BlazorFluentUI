@@ -52,7 +52,7 @@
                                      GetKey=@(item => item.Key)
                                      LayoutMode="DetailsListLayoutMode.Justified"
                                      Selection="selection"
-                                     SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))
+                                     SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption?.Key!))
                                      DisableSelectionZone=@selectionDisabled.GetValueOrDefault() />
                     }
                     else
@@ -72,20 +72,20 @@
     bool? isVirtualizing = true;
     bool? isCompact = false;
     bool? selectionDisabled = false;
-    IDropdownOption selectedModeOption;
-    System.Collections.Generic.List<IDropdownOption> selectionModeOptions;
+    IDropdownOption? selectedModeOption;
+    System.Collections.Generic.List<IDropdownOption>? selectionModeOptions;
 
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
     // SourceCache is from DynamicData and is basically a container for your items that you can dynamically transform by filtering, sorting, etc.
-    SourceCache<DataItem, string> dataSource = new SourceCache<DataItem, string>(x => x.Key);
-    public ReadOnlyObservableCollection<DataItem> ReadonlyList;
+    SourceCache<DataItem, string> dataSource = new SourceCache<DataItem, string>(x => x.Key!);
+    public ReadOnlyObservableCollection<DataItem>? ReadonlyList;
     int count = 0;
 
     // We're creating another container for the column array that needs to be defined to show columns in DetailsList.
-    SourceCache<DetailsRowColumn<DataItem>, string> columnsSource = new SourceCache<DetailsRowColumn<DataItem>, string>(x => x.Key);
-    public ReadOnlyObservableCollection<DetailsRowColumn<DataItem>> ReadonlyColumns;
+    SourceCache<DetailsRowColumn<DataItem>, string> columnsSource = new SourceCache<DetailsRowColumn<DataItem>, string>(x => x.Key!);
+    public ReadOnlyObservableCollection<DetailsRowColumn<DataItem>>? ReadonlyColumns;
 
     // This class just holds some properties that make it easier to sort and filter data.
     ObservableDataContainer dataContainer = new ObservableDataContainer();
@@ -107,7 +107,7 @@
 
         public IObservable<SortExpressionComparer<DataItem>> DynamicSortExpression { get; private set; }
 
-        public IObservable<bool> IsFiltered { get; private set; }
+        public IObservable<bool>? IsFiltered { get; private set; }
 
         public ObservableDataContainer()
         {
@@ -115,9 +115,9 @@
             // Throttle is an operator that limits how often the observable is fired.  This is useful when you type so the filter
             // observable doesn't fire every time you hit a key.  This requires threading to work smoothly so doesn't work well
             // in client-side blazor yet.
-            DynamicDescriptionFilter = this.WhenValueChanged(@this => @this.Filter).Throttle(TimeSpan.FromMilliseconds(250), System.Reactive.Concurrency.TaskPoolScheduler.Default)
+            DynamicDescriptionFilter = this.WhenValueChanged(@this => @this.Filter)!.Throttle(TimeSpan.FromMilliseconds(250), System.Reactive.Concurrency.TaskPoolScheduler.Default)!
                 //.Throttle(TimeSpan.FromMilliseconds(250))  //this freezes the ui in wasm since threads are not working well yet
-                .Select<string, Func<DataItem, bool>>(f => item => item.Description.Contains(f));
+                .Select<string, Func<DataItem, bool>>(f => item => item.Description!.Contains(f));
 
             // DynamicData requires a specific expression for sorting.  This is where the expression is created.  The SortSelector
             // property is combined with the IsDescending property.  When either of them is changed, the DynamicSortExpression
@@ -127,11 +127,11 @@
 
                 if (isDescending)
                 {
-                    return SortExpressionComparer<DataItem>.Descending(selector.ConvertToIComparable());
+                    return SortExpressionComparer<DataItem>.Descending(selector!.ConvertToIComparable());
                 }
                 else
                 {
-                    return SortExpressionComparer<DataItem>.Ascending(selector.ConvertToIComparable());
+                    return SortExpressionComparer<DataItem>.Ascending(selector!.ConvertToIComparable());
                 }
             });
 
@@ -157,8 +157,8 @@
         {
             // We load the column data into the columnsSource SourceCache.
             columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick, IsResizable = true });
-            columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-            var descColumn = new DetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
+            columnsSource.AddOrUpdate(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName!) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+            var descColumn = new DetailsRowColumn<DataItem>("Description", x => x.Description!) { Index = 2, OnColumnClick = this.OnColumnClick };
             columnsSource.AddOrUpdate(descColumn);
 
             // We're loading our sample data into the dataSource SourceCache.
@@ -172,7 +172,7 @@
             // We subscribe to the IsFiltered observable so that we know when to mark the description column with a Filter icon.
             // All we have to do is change the column class and use the AddOrUpdate method on the SourceCache.  DynamicData will
             // automatically change the contents and notify anything that is watching that list.
-            dataContainer.IsFiltered.Subscribe(isFiltered =>
+            dataContainer.IsFiltered!.Subscribe(isFiltered =>
             {
                 descColumn.IsFiltered = isFiltered;
                 //InvokeAsync(StateHasChanged);
@@ -214,7 +214,7 @@
         {
             column.IsSortedDescending = !column.IsSortedDescending;
             dataContainer.Descending = column.IsSortedDescending;
-            dataContainer.SortSelector = column.FieldSelector;
+            dataContainer.SortSelector = column.FieldSelector!;
             columnsSource.AddOrUpdate(column);
         }
         else
@@ -232,7 +232,7 @@
             columnsSource.AddOrUpdate(copyList);
         }
         dataContainer.Descending = column.IsSortedDescending;
-        dataContainer.SortSelector = column.FieldSelector;
+        dataContainer.SortSelector = column.FieldSelector!;
 
     }
 

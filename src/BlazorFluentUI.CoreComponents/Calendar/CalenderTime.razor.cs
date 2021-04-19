@@ -9,7 +9,7 @@ namespace BlazorFluentUI
 {
     public partial class CalenderTime : FluentUIComponentBase
     {
-        [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; }
+        [Parameter] public DateTimeFormatter? DateTimeFormatter { get; set; }
         [Parameter] public DateTime SelectedDate { get; set; }
         [Parameter] public DateTime NavigatedDate { get; set; }
         [Parameter] public EventCallback<NavigatedDateResult> OnNavigateDate { get; set; }

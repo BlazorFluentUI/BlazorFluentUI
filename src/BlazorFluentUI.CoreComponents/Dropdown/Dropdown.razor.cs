@@ -234,7 +234,7 @@ namespace BlazorFluentUI
             if (DefaultSelectedOptions != null)
             {
                 foreach (IDropdownOption? option in DefaultSelectedOptions)
-                    AddSelection(option.Key);
+                    AddSelection(option.Key!);
             }
             if (ItemTemplate == null)
             {
@@ -351,15 +351,15 @@ namespace BlazorFluentUI
         {
             DropdownTitleOpenRule.Properties = new CssString()
             {
-                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"{Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2} 0 0" : $"0 0 {Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2}")};"
+                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"{Theme?.Effects.RoundedCorner2} {Theme?.Effects.RoundedCorner2} 0 0" : $"0 0 {Theme?.Effects.RoundedCorner2} {Theme?.Effects.RoundedCorner2}")};"
             };
             DropdownCalloutRule.Properties = new CssString()
             {
-                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"0 0 {Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2}" : $"{Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2} 0 0")};"
+                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"0 0 {Theme?.Effects.RoundedCorner2} {Theme?.Effects.RoundedCorner2}" : $"{Theme?.Effects.RoundedCorner2} {Theme?.Effects.RoundedCorner2} 0 0")};"
             };
             DropdownCalloutMainRule.Properties = new CssString()
             {
-                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"0 0 {Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2}" : $"{Theme.Effects.RoundedCorner2} {Theme.Effects.RoundedCorner2} 0 0")};"
+                Css = $"border-radius:{(_calloutPositionedInfo?.TargetEdge == RectangleEdge.Bottom ? $"0 0 {Theme?.Effects.RoundedCorner2} {Theme?.Effects.RoundedCorner2}" : $"{Theme?.Effects.RoundedCorner2} {Theme?.Effects.RoundedCorner2} 0 0")};"
             };
 
 

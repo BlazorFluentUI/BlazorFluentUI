@@ -41,28 +41,28 @@
 
                     <div data-is-scrollable="true" style="overflow-y:auto;height:400px;">
 
-                        <SelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key))
+                        <SelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key!))
                                        DisableRenderOnSelectionChanged="true"
                                        Selection=@selection
                                        TItem="DataItem"
                                        @ref="selectionZone">
                             <FocusZone>
                                 <BlazorFluentUI.Lists.List ItemsSource=@data
-                                      TItem="DataItem">
+                                                           TItem="DataItem">
                                     <ItemTemplate>
 
                                         <div style="display:flex; flex-direction:row;"
                                              data-selection-index=@context.Index
-                                             class=@($"ms-List-cell-default{(selection.IsKeySelected(context.Item.Key) ? " is-selected":"")}")
+                                             class=@($"ms-List-cell-default{(selection.IsKeySelected(context.Item?.Key!) ? " is-selected":"")}")
                                              data-is-focusable="true"
                                              @onclick=@(()=> {
 
                                             //selectionZone.HandleClick(context);
-                                            DebugText = context.Item.Key + " clicked";
+                                            DebugText = context.Item?.Key + " clicked";
                                         })>
                                             <img height="25" width="25" src=@DataItem.ImgUrl />
-                                            <em>This is item #@context.Item.Key</em>
-                                            <span style="margin-left:10px;">@context.Item.DisplayName</span>
+                                            <em>This is item #@context.Item?.Key</em>
+                                            <span style="margin-left:10px;">@context.Item?.DisplayName</span>
                                         </div>
                                     </ItemTemplate>
                                 </BlazorFluentUI.Lists.List>
@@ -92,21 +92,21 @@
 
                     <div data-is-scrollable="true" style="overflow-y:auto;height:400px;">
 
-                        <SelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key))
+                        <SelectionZone SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), SelectedModeOption.Key!))
                                        DisableRenderOnSelectionChanged="true"
                                        Selection=@selection
                                        TItem="DataItem"
                                        @ref="selectionZone">
                             <FocusZone>
                                 <BlazorFluentUI.Lists.List ItemsSource=@data
-                                      UseGridFlexLayout="true"
-                                      ItemWidth="120"
-                                      TItem="DataItem">
+                                                           UseGridFlexLayout="true"
+                                                           ItemWidth="120"
+                                                           TItem="DataItem">
                                     <ItemTemplate>
 
                                         <div style="display:flex; flex-direction:column; height:114px;width:114px;margin:3px;background-color:lightblue;overflow:hidden;"
                                              data-selection-index=@context.Index
-                                             class=@($"{(selection.IsKeySelected(context.Item.Key) ? " is-selected":"")}")
+                                             class=@($"{(selection.IsKeySelected(context.Item.Key!) ? " is-selected":"")}")
                                              data-is-focusable="true"
                                              @onclick=@(()=> {
 
@@ -114,7 +114,7 @@
                                             DebugText = context.Item.Key + " clicked";
                                         })>
                                             <img height="25" width="25" src=@DataItem.ImgUrl />
-                                            <em>This is item #@context.Item.Key</em>
+                                            <em>This is item #@context.Item!.Key</em>
                                             <span style="margin-left:10px;">@context.Item.DisplayName</span>
                                         </div>
                                     </ItemTemplate>
@@ -130,16 +130,16 @@
 </div>
 @code {
     int count = 0;
-    System.Collections.ObjectModel.RangeObservableCollection<DataItem> data;
+    System.Collections.ObjectModel.RangeObservableCollection<DataItem>? data;
     string DebugText = "";
 
-    private IDropdownOption selectedModeOption;
-    IDropdownOption SelectedModeOption { get => selectedModeOption; set { selectedModeOption = value; this.selection.SelectionMode = (SelectionMode)Enum.Parse(typeof(SelectionMode), value.Key); } }
+    private IDropdownOption? selectedModeOption;
+    IDropdownOption SelectedModeOption { get => selectedModeOption!; set { selectedModeOption = value; this.selection.SelectionMode = (SelectionMode)Enum.Parse(typeof(SelectionMode), value.Key!); } }
 
-    System.Collections.Generic.List<IDropdownOption> selectionModeOptions;
+    System.Collections.Generic.List<IDropdownOption>? selectionModeOptions;
 
     Selection<DataItem> selection = new Selection<DataItem>();
-    SelectionZone<DataItem> selectionZone;
+    SelectionZone<DataItem>? selectionZone;
 
     protected override Task OnInitializedAsync()
     {
@@ -162,13 +162,15 @@
     {
 
         System.Diagnostics.Debug.WriteLine("Clicked!");
+
         for (var i = 0; i < 10; i++)
         {
             count++;
-            data.Add(new DataItem(count));
+            data?.Add(new DataItem(count));
         }
-        selection.SetItems(data);
-        System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
+        selection.SetItems(data!);
+        System.Diagnostics.Debug.WriteLine($"List has {data?.Count} items.");
+
         return Task.CompletedTask;
     }
 
@@ -182,11 +184,12 @@
 
             tempData.Add(new DataItem(count));
         }
-        data.AddRange(tempData);
-        selection.SetItems(data);
+
+        data?.AddRange(tempData);
+        selection.SetItems(data!);
         //data = new System.Collections.ObjectModel.ObservableCollection<DataItem>(tempData);
 
-        System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
+        System.Diagnostics.Debug.WriteLine($"List has {data?.Count} items.");
         return Task.CompletedTask;
     }
 
@@ -196,10 +199,10 @@
         for (var i = 0; i < 2; i++)
         {
             count++;
-            data.Add(new DataItem(count));
+            data?.Add(new DataItem(count));
         }
-        selection.SetItems(data);
-        System.Diagnostics.Debug.WriteLine($"List has {data.Count} items.");
+        selection.SetItems(data!);
+        System.Diagnostics.Debug.WriteLine($"List has {data?.Count} items.");
         return Task.CompletedTask;
     }
 

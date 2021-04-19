@@ -7,10 +7,10 @@ namespace BlazorFluentUI
 {
     public partial class Spinner : FluentUIComponentBase
     {
-        [Parameter] public string Label { get; set; }
+        [Parameter] public string? Label { get; set; }
         [Parameter] public SpinnerLabelPosition LabelPosition { get; set; } = SpinnerLabelPosition.Bottom;
         [Parameter] public SpinnerSize Size { get; set; } = SpinnerSize.Medium;
-        [Parameter] public string StatusMessage { get; set; }
+        [Parameter] public string? StatusMessage { get; set; }
 
         private string GetAriaLive()
         {

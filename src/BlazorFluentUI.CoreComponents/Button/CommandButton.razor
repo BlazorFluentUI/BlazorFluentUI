@@ -61,7 +61,7 @@ else
 }
 
 @code{
-    private ButtonBase baseReference;
+    private ButtonBase baseReference = new ButtonBase();
     protected override void OnAfterRender(bool firstRender)
     {
         RootElementReference = baseReference.RootElementReference;

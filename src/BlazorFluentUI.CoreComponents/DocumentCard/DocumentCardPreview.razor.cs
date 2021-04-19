@@ -26,7 +26,7 @@ namespace BlazorFluentUI
 
         public bool IsFileList => PreviewImages != null && PreviewImages.Length > 1;
 
-        public static Dictionary<string, string> GlobalClassNames = new()
+        private static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "ms-DocumentCardPreview"},
             {"icon", "ms-DocumentCardPreview-icon"},
@@ -90,9 +90,9 @@ namespace BlazorFluentUI
         {
             RootRule.Properties = new CssString()
             {
-                Css = $"font-size:{Theme.FontStyle.FontSize.Small};" +
-                      $"background-color: {(IsFileList ? Theme.Palette.White : Theme.Palette.NeutralLighterAlt)};" +
-                      $"border-bottom:1px solid {Theme.Palette.NeutralLight};" +
+                Css = $"font-size:{Theme?.FontStyle.FontSize.Small};" +
+                      $"background-color: {(IsFileList ? Theme?.Palette.White : Theme?.Palette.NeutralLighterAlt)};" +
+                      $"border-bottom:1px solid {Theme?.Palette.NeutralLight};" +
                       $"overflow: hidden;" +
                       $"position:relative;"
             };
@@ -136,7 +136,7 @@ namespace BlazorFluentUI
             FileListLinkRule.Properties = new CssString()
             {
                 Css = $"box-sizing:border-box;" +
-                      $"color: {Theme.Palette.NeutralDark};" +
+                      $"color: {Theme?.Palette.NeutralDark};" +
                       $"overflow:hidden;" +
                       $"display:inline-block;" +
                       $"text-decoration:none;" +
@@ -147,7 +147,7 @@ namespace BlazorFluentUI
 
             FileListLinkHoverRule.Properties = new CssString()
             {
-                Css = $"color:{Theme.Palette.ThemePrimary};"
+                Css = $"color:{Theme?.Palette.ThemePrimary};"
             };
 
             FileListOverflowTextRule.Properties = new CssString()

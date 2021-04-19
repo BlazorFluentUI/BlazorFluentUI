@@ -8,6 +8,6 @@ namespace BlazorFluentUI
     public partial class ResponsiveCascader : ResponsiveComponentBase
     {
         [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        public RenderFragment? ChildContent { get; set; }
     }
 }

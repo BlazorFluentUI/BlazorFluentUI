@@ -96,18 +96,17 @@
 </div>
 @code {
 
-    bool isFocusTrapped = false;
-    string debugText = "";
+    //bool isFocusTrapped = false;
 
-    [Inject] public ThemeProvider ThemeProvider { get; set; }
+    [Inject] public ThemeProvider? ThemeProvider { get; set; }
 
-    public ITheme Theme => ThemeProvider.Theme;
+    public ITheme Theme => ThemeProvider!.Theme;
 
     System.Collections.Generic.List<string> items = new System.Collections.Generic.List<string>();
 
     class Photo
     {
-        public string Url { get; set; }
+        public string? Url { get; set; }
         public double Height { get; set; }
         public double Width { get; set; }
     }

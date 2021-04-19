@@ -12,6 +12,15 @@ namespace BlazorFluentUI.Demo.Shared.Models
     {
         public class DataItemGrouped
         {
+            public string? Key { get; set; }
+            public int KeyNumber { get; set; }
+            public string? DisplayName { get; set; }
+            public string? LongName { get; set; }
+            public string? Description { get; set; }
+            public static string ImgUrl => "redArrow.jpg";
+
+            public SelectableOptionMenuItemType Type { get; set; }
+
             public static Random random = new();
 
             public DataItemGrouped()
@@ -39,14 +48,7 @@ namespace BlazorFluentUI.Demo.Shared.Models
                 DisplayName = text;
                 Type = selectableOptionMenuItemType;
             }
-            public string Key { get; set; }
-            public int KeyNumber { get; set; }
-            public string DisplayName { get; set; }
-            public string LongName { get; set; }
-            public string Description { get; set; }
-            public static string ImgUrl => "redArrow.jpg";
-
-            public SelectableOptionMenuItemType Type { get; set; }
+           
         }
     }
 }

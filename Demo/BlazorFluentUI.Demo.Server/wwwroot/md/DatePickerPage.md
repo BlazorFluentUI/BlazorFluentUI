@@ -33,7 +33,7 @@
                             Style="max-width:300px; margin:0 0 15px 0;"
                             @bind-Value="selectedDate1"
                             Placeholder="Select a date..."
-                            FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeekOption?.Key)) />
+                            FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeekOption?.Key!)) />
                 Selected date: @selectedDate1
 
             </Demo>
@@ -124,7 +124,7 @@
             ErrorMessage = "Only Mondays are allowed.";
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (value is DateTime)
             {
@@ -146,10 +146,7 @@
 
     public void HandleValidSubmit()
     {
-        var i = 3;
+        //var i = 3;
     }
-
-
-
 }
 

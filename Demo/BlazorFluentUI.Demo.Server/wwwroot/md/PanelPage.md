@@ -39,7 +39,7 @@
 
                 <Panel IsOpen=@isOpen
                        OnDismiss=@PanelDismiss
-                       Type=@((PanelType)Enum.Parse(typeof(PanelType),panelTypeSelected.Key))
+                       Type=@((PanelType)Enum.Parse(typeof(PanelType),panelTypeSelected?.Key!))
                        IsLightDismiss="false"
                        CustomWidth=@customWidth
                        HeaderText="Panel Example">
@@ -47,7 +47,7 @@
                         Hey, there's some content in here.
                         <TextField Description="Can I type here?" />
 
-                        <BlazorFluentUI.Label>Selected: @string.Join(", ", controlledMultiSelectionResult.Select(x => x.Text))</BlazorFluentUI.Label>
+                        <BlazorFluentUI.Label>Selected: @string.Join(", ", controlledMultiSelectionResult!.Select(x => x.Text))</BlazorFluentUI.Label>
                         <Dropdown ItemsSource=@items
                                   MultiSelect="true"
                                   Placeholder="Select options..."
@@ -58,7 +58,7 @@
 
                 <Panel IsOpen=@lightDismissPanelOpen
                        OnDismiss=@(() => lightDismissPanelOpen = !lightDismissPanelOpen)
-                       Type=@((PanelType)Enum.Parse(typeof(PanelType),panelTypeSelected.Key))
+                       Type=@((PanelType)Enum.Parse(typeof(PanelType),panelTypeSelected?.Key!))
                        CustomWidth=@customWidth
                        IsLightDismiss="true"
                        HeaderText="Light Dismiss Panel">
@@ -69,7 +69,7 @@
 
                 <Panel IsOpen=@customNavPanelOpen
                        OnDismiss=@(() => customNavPanelOpen = !customNavPanelOpen)
-                       Type=@((PanelType)Enum.Parse(typeof(PanelType),panelTypeSelected.Key))
+                       Type=@((PanelType)Enum.Parse(typeof(PanelType),panelTypeSelected?.Key!))
                        CustomWidth=@customWidth
                        IsLightDismiss="false"
                        HeaderText="Custom Nav Panel">
@@ -93,13 +93,13 @@
     bool lightDismissPanelOpen = false;
     bool customNavPanelOpen = false;
 
-    IDropdownOption panelTypeSelected;
-    List<IDropdownOption> panelTypes;
+    IDropdownOption? panelTypeSelected;
+    List<IDropdownOption>? panelTypes;
     string customWidth = "500";
 
 
-    IEnumerable<IDropdownOption> controlledMultiSelectionResult;
-    List<IDropdownOption> items;
+    IEnumerable<IDropdownOption>? controlledMultiSelectionResult;
+    List<IDropdownOption>? items;
 
     Task Click(MouseEventArgs args)
     {
@@ -121,18 +121,18 @@
         panelTypeSelected = panelTypes.First(x => x.Key == "Medium");
 
         items = new List<DataItem>
-{
-        new DataItem("Fruits", SelectableOptionMenuItemType.Header),
-        new DataItem("Apple"),
-        new DataItem("Banana"),
-        new DataItem("Orange"),
-        new DataItem("Grape"),
-        new DataItem("divider1", SelectableOptionMenuItemType.Divider),
-        new DataItem("Vegetables", SelectableOptionMenuItemType.Header),
-        new DataItem("Broccoli"),
-        new DataItem("Carrot"),
-        new DataItem("Lettuce")
-    }.Select(x => new DropdownOption { Key = x.Key, Text = x.DisplayName, ItemType = x.Type }).Cast<IDropdownOption>().ToList();
+        {
+            new DataItem("Fruits", SelectableOptionMenuItemType.Header),
+            new DataItem("Apple"),
+            new DataItem("Banana"),
+            new DataItem("Orange"),
+            new DataItem("Grape"),
+            new DataItem("divider1", SelectableOptionMenuItemType.Divider),
+            new DataItem("Vegetables", SelectableOptionMenuItemType.Header),
+            new DataItem("Broccoli"),
+            new DataItem("Carrot"),
+            new DataItem("Lettuce")
+        }.Select(x => new DropdownOption { Key = x.Key!, Text = x.DisplayName, ItemType = x.Type }).Cast<IDropdownOption>().ToList();
 
         controlledMultiSelectionResult = items.Where(x => x.Key == "Banana" || x.Key == "Orange");
 

@@ -9,11 +9,11 @@ namespace BlazorFluentUI
         private string? icon;
 
         [Parameter]
-        public string IconName { get; set; }
+        public string? IconName { get; set; }
         [Parameter] public string? IconSrc { get; set; }
 
         [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object> ExtraParameters { get; set; }
+        public Dictionary<string, object>? ExtraParameters { get; set; }
 
         protected override Task OnParametersSetAsync()
         {

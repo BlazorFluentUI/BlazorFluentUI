@@ -106,9 +106,9 @@ namespace BlazorFluentUI.Lists
         private Selection<TItem> _selection = new();
 
         //State
-        int focusedItemIndex;
-        double _lastWidth = -1;
-        SelectionMode _lastSelectionMode;
+        //int focusedItemIndex;
+        //double _lastWidth = -1;
+        //SelectionMode _lastSelectionMode;
         Viewport? _lastViewport;
         Viewport? _viewport;
         private IEnumerable<DetailsRowColumn<TItem>> _adjustedColumns = Enumerable.Empty<DetailsRowColumn<TItem>>();
@@ -117,13 +117,13 @@ namespace BlazorFluentUI.Lists
         Dictionary<string, double> _columnOverrides = new();
 
         GroupedListAuto<TItem, object>? groupedList;
-        List<TItem>? list;
+        //List<TItem>? list;
         SelectionZone<TItem>? selectionZone;
 
         protected bool isAllSelected;
-        private bool shouldRender = true;
+        //private bool shouldRender = true;
 
-        private IReadOnlyDictionary<string, object>? lastParameters = null;
+        //private IReadOnlyDictionary<string, object>? lastParameters = null;
 
         protected SelectAllVisibility selectAllVisibility = SelectAllVisibility.None;
 
@@ -131,7 +131,7 @@ namespace BlazorFluentUI.Lists
         private ReadOnlyObservableCollection<TItem>? items;
         //private ReadOnlyObservableCollection<GroupedListItem2<TItem>> groupedUIItems;
 
-        private IObservable<Func<TItem, bool>>? DynamicDescriptionFilter;
+        //private IObservable<Func<TItem, bool>>? DynamicDescriptionFilter;
         private IEnumerable<TItem>? itemsSource;
         private IDisposable? sourceCacheSubscription;
         private Subject<Unit> applyFilter = new();
@@ -153,7 +153,7 @@ namespace BlazorFluentUI.Lists
 
         private void OnColumnClick(DetailsRowColumn<TItem> column)
         {
-            if (column.PropType.GetInterface("IComparable") != null)
+            if (column.PropType!.GetInterface("IComparable") != null)
             {
                 if (column.IsSorted && column.IsSortedDescending)
                 {
@@ -315,7 +315,7 @@ namespace BlazorFluentUI.Lists
                 .SelectMany(prop =>
                 {
                     // now watch for changes to the Columns object properties and return an initial value so that any following logic can be setup
-                    return Columns.Aggregate(Observable.Empty<PropertyChangedEventArgs>(), (x, y) => x.Merge(y.WhenPropertyChanged));
+                    return Columns.Aggregate(Observable.Empty<PropertyChangedEventArgs>(), (x, y) => x.Merge(y.WhenPropertyChanged!));
                 });
 
 
@@ -340,7 +340,7 @@ namespace BlazorFluentUI.Lists
                 {
                     foreach (DetailsRowColumn<TItem>? col in columnsWithFilters)
                     {
-                        if (!col.FilterPredicate!(col.FieldSelector(item)))
+                        if (!col.FilterPredicate!(col.FieldSelector!(item)))
                         {
                             //col.IsFiltered = true;
                             return false;
@@ -364,18 +364,18 @@ namespace BlazorFluentUI.Lists
 
                     IEnumerable<DetailsRowColumn<TItem>>? rest = sort.Skip(1);
                     sortChain = rest.Aggregate(first.IsSortedDescending ?
-                        SortExpressionComparer<TItem>.Descending(first.FieldSelector.ConvertToIComparable()) :
-                        SortExpressionComparer<TItem>.Ascending(first.FieldSelector.ConvertToIComparable()),
+                        SortExpressionComparer<TItem>.Descending(first.FieldSelector!.ConvertToIComparable()) :
+                        SortExpressionComparer<TItem>.Ascending(first.FieldSelector!.ConvertToIComparable()),
                         (x, y) => y.IsSortedDescending ?
-                        x.ThenByDescending(y.FieldSelector.ConvertToIComparable()) :
-                        x.ThenByAscending(y.FieldSelector.ConvertToIComparable()));
+                        x.ThenByDescending(y.FieldSelector!.ConvertToIComparable()) :
+                        x.ThenByAscending(y.FieldSelector!.ConvertToIComparable()));
                 }
                 else if (sort.Count() == 1)
                 {
                     DetailsRowColumn<TItem>? first = sort.Take(1).First();
                     sortChain = first.IsSortedDescending ?
-                        SortExpressionComparer<TItem>.Descending(first.FieldSelector.ConvertToIComparable()) :
-                        SortExpressionComparer<TItem>.Ascending(first.FieldSelector.ConvertToIComparable());
+                        SortExpressionComparer<TItem>.Descending(first.FieldSelector!.ConvertToIComparable()) :
+                        SortExpressionComparer<TItem>.Ascending(first.FieldSelector!.ConvertToIComparable());
                 }
                 else
                 {
@@ -401,7 +401,7 @@ namespace BlazorFluentUI.Lists
                 }
             }).Subscribe(x =>
             {
-                groupSortSelectors = x;
+                groupSortSelectors = x!;
             });
 
             Observable.Return(new PropertyChangedEventArgs("IsSorted")).Merge(columnsObservable).Where(colProp => colProp.PropertyName == "IsSorted" || colProp.PropertyName == "IsSortedDescending").Select(x =>
@@ -512,12 +512,12 @@ namespace BlazorFluentUI.Lists
             }
         }
 
-        private void AdjustColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<DetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex = -1)
+        private void AdjustColumns(IEnumerable<TItem>? newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<DetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex = -1)
         {
             _adjustedColumns = GetAdjustedColumns(newItems, newLayoutMode, newSelectionMode, newCheckboxVisibility, newColumns, forceUpdate, resizingColumnIndex);
         }
 
-        private IEnumerable<DetailsRowColumn<TItem>> GetAdjustedColumns(IEnumerable<TItem> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<DetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex)
+        private IEnumerable<DetailsRowColumn<TItem>> GetAdjustedColumns(IEnumerable<TItem>? newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<DetailsRowColumn<TItem>> newColumns, bool forceUpdate, int resizingColumnIndex)
         {
             //IEnumerable<DetailsRowColumn<TItem>>? columns;
             if (!forceUpdate && _lastViewport?.Width == _viewport?.Width && SelectionMode == newSelectionMode && (Columns == null || newColumns == Columns))
@@ -532,7 +532,7 @@ namespace BlazorFluentUI.Lists
                 adjustedColumns = DetailsListAuto<TItem>.GetFixedColumns(newColumns);
 
                 foreach (DetailsRowColumn<TItem>? col in adjustedColumns)
-                    _columnOverrides[col.Key] = col.CalculatedWidth;
+                    _columnOverrides[col.Key!] = col.CalculatedWidth;
             }
             else
             {
@@ -547,7 +547,7 @@ namespace BlazorFluentUI.Lists
 
                 foreach (DetailsRowColumn<TItem>? col in adjustedColumns)
                 {
-                    _columnOverrides[col.Key] = col.CalculatedWidth;
+                    _columnOverrides[col.Key!] = col.CalculatedWidth;
                 }
             }
 
@@ -570,7 +570,7 @@ namespace BlazorFluentUI.Lists
             IEnumerable<DetailsRowColumn<TItem>>? fixedColumns = newColumns.Take(resizingColumnIndex);
             foreach (DetailsRowColumn<TItem>? col in fixedColumns)
             {
-                if (_columnOverrides.TryGetValue(col.Key, out double overridenWidth))
+                if (_columnOverrides.TryGetValue(col.Key!, out double overridenWidth))
                     col.CalculatedWidth = overridenWidth;
                 else
                     col.CalculatedWidth = double.NaN;
@@ -598,7 +598,7 @@ namespace BlazorFluentUI.Lists
             {
                 adjustedColumns.Add(col);
                 col.CalculatedWidth = !double.IsNaN(col.MinWidth) ? col.MinWidth : 100;
-                if (_columnOverrides.TryGetValue(col.Key, out double overridenWidth))
+                if (_columnOverrides.TryGetValue(col.Key!, out double overridenWidth))
                     col.CalculatedWidth = overridenWidth;
 
                 totalWidth += DetailsListAuto<TItem>.GetPaddedWidth(col);
@@ -632,7 +632,7 @@ namespace BlazorFluentUI.Lists
             {
                 DetailsRowColumn<TItem>? col = adjustedColumns[i];
                 bool isLast = i == adjustedColumns.Count - 1;
-                bool hasOverrides = _columnOverrides.TryGetValue(col.Key, out _);
+                bool hasOverrides = _columnOverrides.TryGetValue(col.Key!, out _);
                 if (hasOverrides && !isLast)
                     continue;
 
@@ -669,7 +669,7 @@ namespace BlazorFluentUI.Lists
 
             OnColumnResized.InvokeAsync(columnResizedArgs);
 
-            _columnOverrides[columnResizedArgs.Column.Key] = columnResizedArgs.NewWidth;
+            _columnOverrides[columnResizedArgs.Column.Key!] = columnResizedArgs.NewWidth;
             AdjustColumns(items!, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true, columnResizedArgs.ColumnIndex);
         }
 
@@ -688,7 +688,7 @@ namespace BlazorFluentUI.Lists
                     count++;
                     if (count == totalCount)
                     {
-                        OnColumnResizedInternal(new ColumnResizedArgs<TItem>(itemContainer.Item, itemContainer.Index, max));
+                        OnColumnResizedInternal(new ColumnResizedArgs<TItem>(itemContainer.Item!, itemContainer.Index, max));
                     }
 
                 });
@@ -705,7 +705,7 @@ namespace BlazorFluentUI.Lists
 
         private void OnRowDidMountInternal(DetailsRow<TItem> row)
         {
-            object? key = GetKey!(row.Item);
+            object? key = GetKey!(row.Item!);
             if (_activeRows.ContainsKey(key))
             {
                 _activeRows[key] = row;
@@ -719,7 +719,7 @@ namespace BlazorFluentUI.Lists
 
         private void OnRowWillUnmountInternal(DetailsRow<TItem> row)
         {
-            object? key = GetKey!(row.Item);
+            object? key = GetKey!(row.Item!);
             _activeRows.Remove(key);
 
             OnRowWillUnmount.InvokeAsync(new RowMountArgs<TItem> { Row = row, Item = row.Item, Index = row.ItemIndex });

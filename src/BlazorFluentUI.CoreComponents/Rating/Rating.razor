@@ -5,7 +5,7 @@
      @ref=@RootElementReference>
     <FocusZone ClassName=@($"ms-Rating-focuszone {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
                   Direction="FocusZoneDirection.Horizontal"
-                  DefaultActiveElement=@(RatingValue != -1 && starReferences.Length == Max ? (starReferences[(int)Math.Max(0, Math.Ceiling(RatingValue)-1)]).Id : "")
+                  DefaultActiveElement=@(RatingValue != -1 && StarReferences?.Length == Max ? (StarReferences[(int)Math.Max(0, Math.Ceiling(RatingValue)-1)]).Id : "")
                   AriaLabel=@(ReadOnly ? (GetAriaLabel != null ? GetAriaLabel(RatingValue != -1 ? RatingValue : 0, Max) : null) : null)
                   AriaReadonly=@ReadOnly
                   IsFocusable=@ReadOnly
@@ -21,7 +21,7 @@
                     class=@($"{(Disabled || ReadOnly ? "ms-Rating-button--disabled" : "ms-Rating-button")} {(this.Size == RatingSize.Large ? "ms-Rating--large": "ms-Rating--small")}")
                     data-is-current=@(i == GetFullRating() ? "true" : "false" )
                     role="presentation"
-                    @ref=@starReferences[value-1]
+                    @ref=@StarReferences![value-1]
                     type="button"
                     @onclick="(() =>OnClick(value))">
                 <span class="ms-Rating-labelText">Select @value of 5 stars</span>

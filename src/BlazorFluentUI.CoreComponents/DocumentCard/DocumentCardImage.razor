@@ -4,19 +4,19 @@
 
 <LocalCS @bind-Rules="@DocumentCardImageRules" />
 
-<div class=@($"{RootRule.Selector.SelectorName} {ClassName}") style="@Style" @ref="RootElementReference">
+<div class=@($"{RootRule.Selector?.SelectorName} {ClassName}") style="@Style" @ref="RootElementReference">
     @if (!string.IsNullOrWhiteSpace(ImageSource))
     {
         <Image Height="@Height" Width="@Width" ImageFit="@ImageFit" Src="@ImageSource" Role="presentation" Alt="" OnLoadingStateChange="LoadStateChanged"></Image>
         @if (ImageLoaded)
         {
-            <div class="@CenteredIconWrapperRule.Selector.SelectorName">
-                <Icon ClassName="@CenteredIconRule.Selector.SelectorName" IconName="@IconName" IconSrc=@IconSrc></Icon>
+            <div class="@CenteredIconWrapperRule.Selector?.SelectorName">
+                <Icon ClassName="@CenteredIconRule.Selector?.SelectorName" IconName="@IconName" IconSrc=@IconSrc></Icon>
             </div>
         }
         else
         {
-            <Icon ClassName="@CornerIconRule.Selector.SelectorName" IconName="@IconName" IconSrc=@IconSrc></Icon>
+            <Icon ClassName="@CornerIconRule.Selector?.SelectorName" IconName="@IconName" IconSrc=@IconSrc></Icon>
         }
     }
 </div>

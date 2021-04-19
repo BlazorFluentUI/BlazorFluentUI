@@ -22,37 +22,37 @@ namespace BlazorFluentUI
         //[Parameter] public ComponentBase As { get; set; }
         [Parameter] public bool CheckForNoWrap { get => checkForNoWrap; set { if (value != checkForNoWrap) { updateFocusZone = true; checkForNoWrap = value; } } }
         [Parameter] public RenderFragment? ChildContent { get; set; }
-        [Parameter] public string DefaultActiveElement { get => defaultActiveElement; set { if (value != defaultActiveElement) { updateFocusZone = true; defaultActiveElement = value; } } }
+        [Parameter] public string? DefaultActiveElement { get => defaultActiveElement; set { if (value != defaultActiveElement) { updateFocusZone = true; defaultActiveElement = value; } } }
         [Parameter] public FocusZoneDirection Direction { get => direction; set { if (value != direction) { updateFocusZone = true; direction = value; } } }
         [Parameter] public bool Disabled { get => disabled; set { if (value != disabled) { updateFocusZone = true; disabled = value; } } }
         [Parameter] public bool DoNotAllowFocusEventToPropagate { get => doNotAllowFocusEventToPropagate; set { if (value != doNotAllowFocusEventToPropagate) { updateFocusZone = true; doNotAllowFocusEventToPropagate = value; } } }
         [Parameter] public FocusZoneTabbableElements HandleTabKey { get => handleTabKey; set { if (value != handleTabKey) { updateFocusZone = true; handleTabKey = value; } } }
         [Parameter] public bool IsCircularNavigation { get => isCircularNavigation; set { if (value != isCircularNavigation) { updateFocusZone = true; isCircularNavigation = value; } } }
-        [Parameter] public List<ConsoleKey> InnerZoneKeystrokeTriggers { get => innerZoneKeystrokeTriggers; set { if (value != innerZoneKeystrokeTriggers) { updateFocusZone = true; innerZoneKeystrokeTriggers = value; } } }
+        [Parameter] public List<ConsoleKey>? InnerZoneKeystrokeTriggers { get => innerZoneKeystrokeTriggers; set { if (value != innerZoneKeystrokeTriggers) { updateFocusZone = true; innerZoneKeystrokeTriggers = value; } } }
         [Parameter] public EventCallback OnActiveElementChanged { get; set; }
-        [Parameter] public Func<bool> OnBeforeFocus { get => onBeforeFocus; set { if (value != onBeforeFocus) { updateFocusZone = true; onBeforeFocus = value; } } }   // This is likely not having an effect because of asynchronous code allowing the event to propagate.
+        [Parameter] public Func<bool>? OnBeforeFocus { get => onBeforeFocus; set { if (value != onBeforeFocus) { updateFocusZone = true; onBeforeFocus = value; } } }   // This is likely not having an effect because of asynchronous code allowing the event to propagate.
 
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
         [Parameter] public EventCallback OnFocusNotification { get; set; }
 
         [Parameter] public string Role { get; set; } = "presentation";
-        [Parameter] public Func<bool> ShouldInputLoseFocusOnArrowKey { get => shouldInputLoseFocusOnArrowKey; set { if (value != shouldInputLoseFocusOnArrowKey) { updateFocusZone = true; shouldInputLoseFocusOnArrowKey = value; } } } // This is likely not having an effect because of asynchronous code allowing the event to propagate.
+        [Parameter] public Func<bool>? ShouldInputLoseFocusOnArrowKey { get => shouldInputLoseFocusOnArrowKey; set { if (value != shouldInputLoseFocusOnArrowKey) { updateFocusZone = true; shouldInputLoseFocusOnArrowKey = value; } } } // This is likely not having an effect because of asynchronous code allowing the event to propagate.
         [Parameter] public bool IsFocusable { get; set; }
 
-        [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> UnknownAttributes { get; set; }
+        [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? UnknownAttributes { get; set; }
 
 
         bool allowFocusRoot;
         bool checkForNoWrap;
-        string defaultActiveElement;
+        string? defaultActiveElement;
         FocusZoneDirection direction;
         bool disabled;
         bool doNotAllowFocusEventToPropagate;
         FocusZoneTabbableElements handleTabKey;
         bool isCircularNavigation;
-        List<ConsoleKey> innerZoneKeystrokeTriggers;
-        Func<bool> onBeforeFocus;
-        Func<bool> shouldInputLoseFocusOnArrowKey;
+        List<ConsoleKey>? innerZoneKeystrokeTriggers;
+        Func<bool>? onBeforeFocus;
+        Func<bool>? shouldInputLoseFocusOnArrowKey;
 
         bool updateFocusZone = false;
 
@@ -76,7 +76,7 @@ namespace BlazorFluentUI
 
         //private readonly Task<int>? _registrationTask = null;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        //public event PropertyChangedEventHandler? PropertyChanged;
         //private bool parametersUpdated = false;
 
         protected override Task OnInitializedAsync()
@@ -146,13 +146,13 @@ namespace BlazorFluentUI
         [JSInvokable]
         public bool JSOnBeforeFocus()
         {
-            return OnBeforeFocus();
+            return OnBeforeFocus!();
         }
 
         [JSInvokable]
         public bool JSShouldInputLoseFocusOnArrowKey()
         {
-            return ShouldInputLoseFocusOnArrowKey();
+            return ShouldInputLoseFocusOnArrowKey!();
         }
 
         [JSInvokable]

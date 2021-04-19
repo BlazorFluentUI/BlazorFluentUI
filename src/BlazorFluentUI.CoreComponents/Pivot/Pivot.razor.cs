@@ -10,14 +10,14 @@ namespace BlazorFluentUI
     public partial class Pivot : FluentUIComponentBase
     {
         [Parameter] public int? DefaultSelectedIndex { get; set; }
-        [Parameter] public string DefaultSelectedKey { get; set; }
+        [Parameter] public string? DefaultSelectedKey { get; set; }
         [Parameter] public bool HeadersOnly { get; set; }
         [Parameter] public PivotLinkFormat LinkFormat { get; set; }
         [Parameter] public PivotLinkSize LinkSize { get; set; }
-        [Parameter] public Action<PivotItem, MouseEventArgs> OnLinkClick { get; set; }
+        [Parameter] public Action<PivotItem, MouseEventArgs>? OnLinkClick { get; set; }
         [Parameter] public EventCallback<string> SelectedKeyChanged { get; set; }
         [Parameter]
-        public string SelectedKey
+        public string? SelectedKey
         {
             get => _selectedKey;
             set
@@ -29,10 +29,10 @@ namespace BlazorFluentUI
                 _selectedKey = value;
             }
         }
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
 
-        public IList<PivotItem> PivotItems { get; set; }
-        public virtual PivotItem Selected
+        public IList<PivotItem>? PivotItems { get; set; } 
+        public virtual PivotItem? Selected
         {
             get => _selected;
             set
@@ -43,20 +43,23 @@ namespace BlazorFluentUI
                 if (!HeadersOnly)
                 {
                     _redraw = true;
-                    _oldIndex = PivotItems.IndexOf(_selected);
-                    _oldChildContent = _selected?.ChildContent;
+                    if (PivotItems != null && _selected != null)
+                    {
+                        _oldIndex = PivotItems.IndexOf(_selected);
+                        _oldChildContent = _selected?.ChildContent;
+                    }
                 }
                 _selected = value;
-                SelectedKeyChanged.InvokeAsync(_selected.ItemKey);
+                SelectedKeyChanged.InvokeAsync(_selected?.ItemKey);
                 StateHasChanged();
             }
         }
 
-        protected PivotItem _selected;
+        protected PivotItem? _selected;
         private bool _isControlled;
-        private string _selectedKey;
+        private string? _selectedKey;
         protected bool _redraw;
-        protected RenderFragment _oldChildContent;
+        protected RenderFragment? _oldChildContent;
         protected int _oldIndex = 0;
 
         protected override void OnInitialized()
@@ -75,7 +78,7 @@ namespace BlazorFluentUI
 
         protected override void OnParametersSet()
         {
-            if (_isControlled && PivotItems.Count != 0 && SelectedKey != Selected?.ItemKey)
+            if (_isControlled && PivotItems?.Count != 0 && SelectedKey != Selected?.ItemKey)
             {
                 SetSelection();
             }
@@ -102,32 +105,39 @@ namespace BlazorFluentUI
         {
             if (!_isControlled && firstRender)
             {
-                if (!string.IsNullOrWhiteSpace(DefaultSelectedKey) && PivotItems.FirstOrDefault(item => item.ItemKey == DefaultSelectedKey) != null)
+                if (!string.IsNullOrWhiteSpace(DefaultSelectedKey) && PivotItems?.FirstOrDefault(item => item.ItemKey == DefaultSelectedKey) != null)
                 {
                     _selected = PivotItems.FirstOrDefault(item => item.ItemKey == DefaultSelectedKey);
                 }
-                else if (DefaultSelectedIndex.HasValue && DefaultSelectedIndex < PivotItems.Count())
+                else if (DefaultSelectedIndex.HasValue && DefaultSelectedIndex < PivotItems?.Count())
                 {
                     _selected = PivotItems.ElementAt(DefaultSelectedIndex.Value);
                 }
                 else
                 {
-                    _selected = PivotItems.FirstOrDefault();
+                    _selected = PivotItems?.FirstOrDefault();
                 }
-                _oldIndex = PivotItems.IndexOf(_selected);
-                _oldChildContent = _selected?.ChildContent;
-                StateHasChanged();
+                if (_selected != null && PivotItems != null)
+                {
+                    _oldIndex = PivotItems.IndexOf(_selected);
+                    _oldChildContent = _selected?.ChildContent;
+                    StateHasChanged();
+                }
+                
             }
             else if (_isControlled)
             {
-                if (!string.IsNullOrWhiteSpace(SelectedKey) && PivotItems.FirstOrDefault(item => item.ItemKey == SelectedKey) != null)
+                if (!string.IsNullOrWhiteSpace(SelectedKey) && PivotItems?.FirstOrDefault(item => item.ItemKey == SelectedKey) != null)
                 {
                     if (firstRender)
                     {
                         _selected = PivotItems.FirstOrDefault(item => item.ItemKey == SelectedKey);
-                        _oldIndex = PivotItems.IndexOf(_selected);
-                        _oldChildContent = _selected?.ChildContent;
-                        StateHasChanged();
+                        if (_selected != null && PivotItems != null)
+                        {
+                            _oldIndex = PivotItems.IndexOf(_selected);
+                            _oldChildContent = _selected?.ChildContent;
+                            StateHasChanged();
+                        }
                     }
                     else
                     {
@@ -138,14 +148,17 @@ namespace BlazorFluentUI
                 {
                     if (firstRender)
                     {
-                        _selected = PivotItems.FirstOrDefault();
-                        _oldIndex = PivotItems.IndexOf(_selected);
-                        _oldChildContent = _selected?.ChildContent;
-                        StateHasChanged();
+                        _selected = PivotItems?.FirstOrDefault();
+                        if (_selected != null && PivotItems != null)
+                        {
+                            _oldIndex = PivotItems.IndexOf(_selected);
+                            _oldChildContent = _selected?.ChildContent;
+                            StateHasChanged();
+                        }
                     }
                     else
                     {
-                        Selected = PivotItems.FirstOrDefault();
+                        Selected = PivotItems?.FirstOrDefault();
                     }
                 }
 

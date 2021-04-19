@@ -12,24 +12,24 @@ namespace BlazorFluentUI
         // This prevents animations on reset to 0 scenarios
         const decimal ZERO_THRESHOLD = 0.01M;
 
-        [Parameter] public string AriaValueText { get; set; }
+        [Parameter] public string? AriaValueText { get; set; }
         [Parameter] public double BarHeight { get; set; } = 2;
-        [Parameter] public string Description { get; set; }
+        [Parameter] public string? Description { get; set; }
         [Parameter] public bool Indeterminate { get; set; } = false;
-        [Parameter] public string Label { get; set; }
-        [Parameter] public RenderFragment<decimal> RenderProgressTemplate { get; set; }
+        [Parameter] public string? Label { get; set; }
+        [Parameter] public RenderFragment<decimal>? RenderProgressTemplate { get; set; }
         [Parameter] public decimal PercentComplete { get; set; } = -1;
         [Parameter] public bool ProgressHidden { get; set; }
 
-        protected string AriaValueMin;
-        protected string AriaValueMax;
-        protected string AriaValueNow;
+        protected string? AriaValueMin;
+        protected string? AriaValueMax;
+        protected string? AriaValueNow;
 
 
         private decimal _percent = -1;
         private const int marginBetweenText = 8;
         private const int textHeight = 18;
-        private bool isRTL = false;
+        //private bool isRTL = false;
         private Rule ProgressIndicatorItemProgressRule = new();
         private Rule ProgressIndicatorProgressTrackRule = new();
         private Rule ProgressIndicatorProgressBarRule = new();
@@ -107,7 +107,7 @@ namespace BlazorFluentUI
                 Css = $"position:absolute;" +
                         $"width:100%;" +
                         $"height:{BarHeight}px;" +
-                        $"background-color:{Theme.Palette.NeutralLight}"
+                        $"background-color:{Theme?.Palette.NeutralLight}"
             };
             ProgressIndicatorProgressBarRule.Properties = new CssString()
             {

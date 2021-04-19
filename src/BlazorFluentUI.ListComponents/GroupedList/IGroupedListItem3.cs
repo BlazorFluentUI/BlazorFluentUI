@@ -3,10 +3,10 @@
     public interface IGroupedListItem3<TItem> 
     {
         bool IsVisible { get;}
-        string Name { get; }
+        string? Name { get; }
         int Count { get; }
         int Depth { get; }
-        TItem Item { get; }
+        TItem? Item { get; }
         //ICollection<IGroupedListItem3<TItem>> Items { get; }
     }
 

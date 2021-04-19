@@ -120,22 +120,22 @@
 </div>
 
 @code {
-    private System.Windows.Input.ICommand buttonCommand;
-    private string debugText;
+    private System.Windows.Input.ICommand? buttonCommand;
+    private string? debugText;
     private int commandCount = 0;
 
-    private List<CommandBarItem> items;
-    private List<CommandBarItem> farItems;
-    private List<CommandBarItem> overflowItems;
+    private List<CommandBarItem>? items;
+    private List<CommandBarItem>? farItems;
+    private List<CommandBarItem>? overflowItems;
 
-    private List<CommandBarItem> customItems;
-    private List<CommandBarItem> contentItems;
+    private List<CommandBarItem>? customItems;
+    private List<CommandBarItem>? contentItems;
 
-    private List<CommandBarItem> itemsWithRadioButtons;
+    private List<CommandBarItem>? itemsWithRadioButtons;
 
     private Action<ItemClickedArgs> OnClick => args =>
     {
-        var item = farItems.FirstOrDefault(x => x.Key == args.Key);
+        var item = farItems?.FirstOrDefault(x => x.Key == args.Key);
         if (item != null)
         {
             item.Checked = !item.Checked;
@@ -146,7 +146,7 @@
     {
         buttonCommand = new RelayCommand((p) =>
         {
-            debugText = $"{p.ToString()} button was clicked. {commandCount++}";
+            debugText = $"{p?.ToString()} button was clicked. {commandCount++}";
             StateHasChanged();
         });
 

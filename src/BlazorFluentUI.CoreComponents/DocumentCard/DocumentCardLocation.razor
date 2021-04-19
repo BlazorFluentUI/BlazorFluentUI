@@ -4,6 +4,6 @@
 
 <LocalCS @bind-Rules="@DocumentCardLocationRules" />
 
-<a class=@($"{RootRule.Selector.SelectorName} {ClassName}") href="@LocationHref" @onclick="OnClick.HasValue ? OnClick.Value : EventCallback.Empty" style="@Style" @ref="RootElementReference" aria-label="@AriaLabel">
+<a class=@($"{RootRule.Selector?.SelectorName} {ClassName}") href="@LocationHref" @onclick="OnClick.HasValue ? OnClick.Value : EventCallback.Empty" style="@Style" @ref="RootElementReference" aria-label="@AriaLabel">
     @Location
 </a>

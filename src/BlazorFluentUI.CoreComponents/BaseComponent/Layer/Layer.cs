@@ -21,20 +21,20 @@ namespace BlazorFluentUI
         //private IJSObjectReference? panelModule;
 
 
-        [Inject] private LayerHostService LayerHostService { get; set; }
+        [Inject] private LayerHostService? LayerHostService { get; set; }
 
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public string? HostId { get; set; }
 
         //[CascadingParameter(Name = "HostedContent")] protected LayerHost? LayerHost { get; set; }
-        private LayerHost LayerHost { get; set; }
+        private LayerHost? LayerHost { get; set; }
 
         private bool addedToHost = false;
 
         public string id = Guid.NewGuid().ToString();
         private ElementReference _element;
 
-        private bool isFirstRendered = false;
+        //private bool isFirstRendered = false;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -42,16 +42,16 @@ namespace BlazorFluentUI
             {
                 if (HostId == null)
                 {
-                    LayerHost = LayerHostService.GetDefaultHost();
+                    LayerHost = LayerHostService?.GetDefaultHost();
                 }
                 else
                 {
-                    LayerHost = LayerHostService.GetHost(HostId);
+                    LayerHost = LayerHostService?.GetHost(HostId);
                 }
 
                 if (LayerHost != null)
                 {
-                    await LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent);
+                    await LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent)!;
                     addedToHost = true;
                 }
             }
@@ -84,21 +84,21 @@ namespace BlazorFluentUI
 
             if (firstRender)
             {
-                isFirstRendered = true;
+                //isFirstRendered = true;
                 if (!addedToHost)
                 {
                     if (HostId == null)
                     {
-                        LayerHost = LayerHostService.GetDefaultHost();
+                        LayerHost = LayerHostService?.GetDefaultHost();
                     }
                     else
                     {
-                        LayerHost = LayerHostService.GetHost(HostId);
+                        LayerHost = LayerHostService?.GetHost(HostId);
                     }
 
                     if (LayerHost != null)
                     {
-                        await LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent);
+                        await LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent)!;
                         addedToHost = true;
                         StateHasChanged();
                     }
@@ -111,7 +111,8 @@ namespace BlazorFluentUI
 
         public async ValueTask DisposeAsync()
         {
-            await LayerHost.RemoveHostedContentAsync(id);
+            if (LayerHost != null)
+                await LayerHost.RemoveHostedContentAsync(id)!;
             addedToHost = false;
             if (baseModule != null)
                 await baseModule.DisposeAsync();

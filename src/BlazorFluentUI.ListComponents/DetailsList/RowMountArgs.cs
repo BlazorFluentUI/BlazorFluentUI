@@ -8,8 +8,8 @@ namespace BlazorFluentUI.Lists
 {
     public class RowMountArgs<TItem>
     {
-        public DetailsRow<TItem> Row { get; set; }
-        public TItem Item { get; set; }
+        public DetailsRow<TItem>? Row { get; set; }
+        public TItem? Item { get; set; }
         public int Index { get; set; }
     }
 }

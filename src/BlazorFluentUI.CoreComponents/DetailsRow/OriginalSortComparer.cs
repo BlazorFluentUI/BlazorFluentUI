@@ -14,14 +14,18 @@ namespace BlazorFluentUI
             _original = original;
         }
 
-        public int Compare(TItem x, TItem y)
+        public int Compare(TItem? x, TItem? y)
         {
-            if (_original.IndexOf(x) > _original.IndexOf(y))
-                return 1;
-            else if (_original.IndexOf(x) < _original.IndexOf(y))
-                return -1;
-            else
-                return 0;
+            if (x != null && y != null)
+            {
+                if (_original.IndexOf(x) > _original.IndexOf(y))
+                    return 1;
+                else if (_original.IndexOf(x) < _original.IndexOf(y))
+                    return -1;
+                else
+                    return 0;
+            }
+            return 0;
         }
     }
 
@@ -76,7 +80,7 @@ namespace BlazorFluentUI
                     return 1;
                 }
 
-                int result = (xValue as IComparable).CompareTo(yValue);
+                int result = (xValue as IComparable)!.CompareTo(yValue);
                 if (result == 0)
                 {
                     continue;
@@ -90,14 +94,18 @@ namespace BlazorFluentUI
 
         }
 
-        public int FinalCompare(TItem x, TItem y)
+        public int FinalCompare(TItem? x, TItem? y)
         {
-            if (_original.IndexOf(x) > _original.IndexOf(y))
-                return 1;
-            else if (_original.IndexOf(x) < _original.IndexOf(y))
-                return -1;
-            else
-                return 0;
+            if (x != null && y != null)
+            {
+                if (_original.IndexOf(x) > _original.IndexOf(y))
+                    return 1;
+                else if (_original.IndexOf(x) < _original.IndexOf(y))
+                    return -1;
+                else
+                    return 0;
+            }
+            return 0;
         }
     }
 

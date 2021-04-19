@@ -8,15 +8,15 @@ namespace BlazorFluentUI
     {
         protected double rowGap;
         protected double columnGap;
-        protected string horizontalMargin;
-        protected string verticalMargin;
+        protected string? horizontalMargin;
+        protected string? verticalMargin;
 
-        private string _id = "g" + Guid.NewGuid().ToString();  //id selectors can't begin with a number
+        private readonly string _id = "g" + Guid.NewGuid().ToString();  //id selectors can't begin with a number
         protected string Id => _id; 
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public bool DisableShrink { get; set; } = false;
-        [Parameter] public CssValue Grow { get; set; } 
+        [Parameter] public CssValue? Grow { get; set; } 
         [Parameter] public bool Horizontal { get; set; } = false;
         [Parameter] public Alignment HorizontalAlign { get; set; } = Alignment.Unset;
         [Parameter] public bool Reversed { get; set; } = false;

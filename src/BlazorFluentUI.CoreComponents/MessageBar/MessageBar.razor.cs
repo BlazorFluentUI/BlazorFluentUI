@@ -19,22 +19,22 @@ namespace BlazorFluentUI
         public bool Truncated { get; set; }
 
         [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        public RenderFragment? ChildContent { get; set; }
 
         [Parameter]
-        public RenderFragment Actions { get; set; }
+        public RenderFragment? Actions { get; set; }
 
         [Parameter]
-        public string DismissButtonAriaLabel { get; set; }
+        public string? DismissButtonAriaLabel { get; set; }
 
         [Parameter]
-        public string OverflowButtonAriaLabel { get; set; }
+        public string? OverflowButtonAriaLabel { get; set; }
 
         [Parameter]
         public EventCallback OnDismiss { get; set; }
 
         [Parameter]
-        public MessageBar ComponentRef
+        public MessageBar? ComponentRef
         {
             get => componentRef;
             set
@@ -42,7 +42,8 @@ namespace BlazorFluentUI
                 if (value == componentRef)
                     return;
                 componentRef = value;
-                MessageBarType = value.MessageBarType;
+                if (value != null)
+                    MessageBarType = value.MessageBarType;
                 ComponentRefChanged.InvokeAsync(value);
             }
         }
@@ -50,7 +51,7 @@ namespace BlazorFluentUI
         [Parameter]
         public EventCallback<MessageBar> ComponentRefChanged { get; set; }
 
-        private MessageBar componentRef;
+        private MessageBar? componentRef;
 
         protected bool HasDismiss { get => (OnDismiss.HasDelegate); }
 
@@ -73,23 +74,15 @@ namespace BlazorFluentUI
 
         protected string GetTypeCss()
         {
-            switch (MessageBarType)
+            return MessageBarType switch
             {
-                case MessageBarType.Warning:
-                    return " ms-MessageBar--warning ";
-                case MessageBarType.Error:
-                    return " ms-MessageBar--error ";
-                case MessageBarType.Blocked:
-                    return " ms-MessageBar--blocked ";
-                case MessageBarType.SevereWarning:
-                    return " ms-MessageBar--severeWarning ";
-                case MessageBarType.Success:
-                    return " ms-MessageBar--success ";
-                default:
-                    return "";
-            }
+                MessageBarType.Warning => " ms-MessageBar--warning ",
+                MessageBarType.Error => " ms-MessageBar--error ",
+                MessageBarType.Blocked => " ms-MessageBar--blocked ",
+                MessageBarType.SevereWarning => " ms-MessageBar--severeWarning ",
+                MessageBarType.Success => " ms-MessageBar--success ",
+                _ => "",
+            };
         }
-
-      
     }
 }

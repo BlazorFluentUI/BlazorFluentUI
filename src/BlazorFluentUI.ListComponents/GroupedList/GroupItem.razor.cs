@@ -11,7 +11,7 @@ namespace BlazorFluentUI.Lists
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private List<IGroupedListItem3<TItem>> listReference;
+        private List<IGroupedListItem3<TItem>>? listReference;
 
         //private ReadOnlyObservableCollection<IGroupedListItem3> dataItems;
 
@@ -27,11 +27,11 @@ namespace BlazorFluentUI.Lists
         //private TItem _rootGroup;
         //private IEnumerable<TItem> _itemsSource;
 
-        private IDisposable _selectionSubscription;
-        private IDisposable _transformedDisposable;
+        //private IDisposable? _selectionSubscription;
+        //private IDisposable? _transformedDisposable;
 
         [CascadingParameter]
-        public SelectionZone<TItem> SelectionZone { get; set; }
+        public SelectionZone<TItem>? SelectionZone { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
@@ -40,7 +40,7 @@ namespace BlazorFluentUI.Lists
         /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.
         /// </summary>
         [Parameter]
-        public Func<TItem, TKey> GetKey { get; set; }
+        public Func<TItem, TKey>? GetKey { get; set; }
 
         [Parameter]
         public IList<Func<TItem, object>>? GroupBy { get; set; }
@@ -67,10 +67,10 @@ namespace BlazorFluentUI.Lists
         public EventCallback<bool> OnGroupExpandedChanged { get; set; }
 
         [Parameter]
-        public Action<IndexedItem<IGroupedListItem3<TItem>>> OnHeaderClick { get; set; }
+        public Action<IndexedItem<IGroupedListItem3<TItem>>>? OnHeaderClick { get; set; }
 
         [Parameter]
-        public Action<IndexedItem<IGroupedListItem3<TItem>>> OnHeaderToggle { get; set; }
+        public Action<IndexedItem<IGroupedListItem3<TItem>>>? OnHeaderToggle { get; set; }
 
         [Parameter]
         public Func<bool> OnShouldVirtualize { get; set; } = () => true;
@@ -79,7 +79,7 @@ namespace BlazorFluentUI.Lists
         public EventCallback<Viewport> OnViewportChanged { get; set; }
 
         [Parameter]
-        public Selection<TItem> Selection { get; set; }
+        public Selection<TItem>? Selection { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
@@ -94,8 +94,8 @@ namespace BlazorFluentUI.Lists
         public int StartIndex { get; set; }
 
 
-        private Func<TItem, object> getKeyInternal;
-        private ICollection<IGroupedListItem3<TItem>> groupedUIListItems;
+        //private Func<TItem, object> getKeyInternal;
+        //private ICollection<IGroupedListItem3<TItem>> groupedUIListItems;
 
         protected override Task OnInitializedAsync()
         {
@@ -308,9 +308,9 @@ namespace BlazorFluentUI.Lists
 
         public ValueTask DisposeAsync()
         {
-            _transformedDisposable?.Dispose();
-            _selectionSubscription?.Dispose();
-            GC.SuppressFinalize(this);
+            //_transformedDisposable?.Dispose();
+            //_selectionSubscription?.Dispose();
+            //GC.SuppressFinalize(this);
             return ValueTask.CompletedTask;
         }
     }

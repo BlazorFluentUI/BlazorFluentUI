@@ -4,6 +4,14 @@ namespace BlazorFluentUI.Demo.Shared.Models
 {
     public class DataItem
     {
+        public string? Key { get; set; }
+        public int KeyNumber { get; set; }
+        public string? DisplayName { get; set; }
+        public string? LongName { get; set; }
+        public string? Description { get; set; }
+        public static string ImgUrl => "redArrow.jpg";
+        public string? GroupName { get; set; }
+        public SelectableOptionMenuItemType Type { get; set; }
         public static Random random = new();
 
         public DataItem()
@@ -33,13 +41,6 @@ namespace BlazorFluentUI.Demo.Shared.Models
             DisplayName = text;
             Type = selectableOptionMenuItemType;
         }
-        public string Key { get; set; }
-        public int KeyNumber { get; set; }
-        public string DisplayName { get; set; }
-        public string LongName { get; set; }
-        public string Description { get; set; }
-        public static string ImgUrl => "redArrow.jpg";
-        public string GroupName { get; set; }
-        public SelectableOptionMenuItemType Type { get; set; }
+       
     }
 }

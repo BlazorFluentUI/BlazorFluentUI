@@ -15,7 +15,7 @@ namespace BlazorFluentUI
         public bool CanSelect { get; set; }
 
         [Parameter]
-        public RenderFragment DetailsCheckboxTemplate { get; set; }
+        public RenderFragment? DetailsCheckboxTemplate { get; set; }
 
         [Parameter]
         public bool Checked { get; set; }
@@ -24,7 +24,7 @@ namespace BlazorFluentUI
         public bool Compact { get; set; }
 
         [Parameter]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [Parameter]
         public bool IsFocusable { get; set; }

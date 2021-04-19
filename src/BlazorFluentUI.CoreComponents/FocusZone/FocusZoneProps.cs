@@ -29,10 +29,10 @@ namespace BlazorFluentUI
         public FocusZoneTabbableElements HandleTabKey { get; set; }
 
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("innerZoneKeystrokeTriggers")]
-        public List<ConsoleKey> InnerZoneKeystrokeTriggers { get; set; }
+        public List<ConsoleKey>? InnerZoneKeystrokeTriggers { get; set; }
 
         [JsonPropertyName("isCircularNavigation")]
         public bool IsCircularNavigation { get; set; }
@@ -52,7 +52,7 @@ namespace BlazorFluentUI
             {
                 AllowFocusRoot = focusZone.AllowFocusRoot,
                 CheckForNoWrap = focusZone.CheckForNoWrap,
-                DefaultActiveElement = new ElementReference(focusZone.DefaultActiveElement),
+                DefaultActiveElement = new ElementReference(focusZone.DefaultActiveElement!),
                 Direction = focusZone.Direction,
                 Disabled=focusZone.Disabled,
                 DoNotAllowFocusEventToPropagate=focusZone.DoNotAllowFocusEventToPropagate,

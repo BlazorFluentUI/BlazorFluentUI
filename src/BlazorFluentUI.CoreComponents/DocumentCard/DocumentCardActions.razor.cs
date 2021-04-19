@@ -34,7 +34,7 @@ namespace BlazorFluentUI
         private const int VERTICAL_PADDING = 4;
 
 
-        public static Dictionary<string, string> GlobalClassNames = new()
+        private static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "ms-DocumentCardActions"},
             {"action", "ms-DocumentCardActions-action"},
@@ -89,13 +89,13 @@ namespace BlazorFluentUI
             {
                 Css = $"float: left;" +
                     $"margin-right: 4px;" +
-                    $"color: {Theme.Palette.NeutralSecondary};" +
+                    $"color: {Theme?.Palette.NeutralSecondary};" +
                     $"cursor: pointer"
             };
 
             ActionButtonRule.Properties = new CssString()
             {
-                Css = $"font-size: {Theme.FontStyle.FontSize.MediumPlus};" +
+                Css = $"font-size: {Theme?.FontStyle.FontSize.MediumPlus};" +
                 $"height: {ACTION_SIZE}px;" +
                 $"width: {ACTION_SIZE}px;" 
             };
@@ -112,7 +112,7 @@ namespace BlazorFluentUI
             ActionButtonRule.Properties = new CssString()
             {
                 Css = $"margin-right: 8px;" +
-                $"font-size: {Theme.FontStyle.FontSize.Medium};" +
+                $"font-size: {Theme?.FontStyle.FontSize.Medium};" +
                 $"vertical-align: top;"
             };
         }

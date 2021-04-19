@@ -47,14 +47,14 @@ namespace BlazorFluentUI
         //[Parameter] public object CommandParameter { get; set; }
         //[Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> UnknownProperties { get; set; }
 
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
 
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
         private IJSObjectReference? baseModule;
 
         protected bool showMenu = false;
 
-        private ICommand command;
+        private ICommand? command;
         protected bool commandDisabled = false;
 
         protected bool isChecked = false;
@@ -63,7 +63,7 @@ namespace BlazorFluentUI
 
         internal bool isCompoundButton = false;
         internal bool isSplitButton = false;
-        private object _registrationToken;
+        private object? _registrationToken;
 
         private bool _menuShouldFocusOnMount = true;
         static List<ButtonBase> radioButtons = new();
@@ -102,7 +102,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
             if (firstRender)
             {
             }
@@ -125,9 +125,9 @@ namespace BlazorFluentUI
         };
 
 
-        private void Command_CanExecuteChanged(object sender, EventArgs e)
+        private void Command_CanExecuteChanged(object? sender, EventArgs e)
         {
-            commandDisabled = !Command.CanExecute(CommandParameter);
+            commandDisabled = !Command!.CanExecute(CommandParameter);
             InvokeAsync(StateHasChanged);
         }
 
@@ -149,7 +149,7 @@ namespace BlazorFluentUI
                         if (bFUButtonBase.isChecked == true)
                         {
                             bFUButtonBase.isChecked = false;
-                            bFUButtonBase.CheckedChanged.InvokeAsync(false);
+                            await bFUButtonBase.CheckedChanged.InvokeAsync(false);
                             bFUButtonBase.StateHasChanged();
                         }
                     }

@@ -10,7 +10,7 @@
         {
             foreach (var item in Items)
             {
-                <div @key=(GetKey(item)) class="ms-OverflowSet-item"  style=@Style>@ItemTemplate(item)</div>
+                <div @key=(GetKey!(item)) class="ms-OverflowSet-item"  style=@Style>@ItemTemplate(item)</div>
             }
         }
         @if (OverflowTemplate != null && OverflowItems != null && OverflowItems.Count() > 0)
@@ -37,7 +37,7 @@ else
             {
                 foreach (var item in Items)
                 {
-            <div @key=(GetKey(item)) class="ms-OverflowSet-item" style=@Style>@ItemTemplate(item) </div>
+            <div @key=(GetKey!(item)) class="ms-OverflowSet-item" style=@Style>@ItemTemplate(item) </div>
                 }
             }
             @if (OverflowTemplate != null && OverflowItems != null && OverflowItems.Count() > 0)

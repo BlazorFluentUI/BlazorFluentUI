@@ -9,7 +9,7 @@ namespace BlazorFluentUI
 {
     public partial class CalendarYear : FluentUIComponentBase
     {
-        [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; }
+        [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; } = new DateTimeFormatter();
         [Parameter] public int MaxYear { get; set; }
         [Parameter] public int MinYear { get; set; }
         [Parameter] public int NavigatedYear { get; set; } = 0;

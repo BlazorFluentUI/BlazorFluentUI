@@ -32,7 +32,7 @@
 
     internal static class PersonaColorUtils
     {
-        static PersonaInitialsColor[] _colorSwatchesLookup = new PersonaInitialsColor[]
+        static readonly PersonaInitialsColor[] _colorSwatchesLookup = new PersonaInitialsColor[]
         {
              PersonaInitialsColor.LightBlue,
         PersonaInitialsColor.Blue,
@@ -57,7 +57,7 @@
         };
 
 
-        public static PersonaInitialsColor GetInitialsColorFromName(string displayName)
+        public static PersonaInitialsColor GetInitialsColorFromName(string? displayName)
         {
             PersonaInitialsColor color = PersonaInitialsColor.Blue;
             if (string.IsNullOrWhiteSpace(displayName))
@@ -79,60 +79,34 @@
 
         public static string GetPersonaColorHexCode(PersonaInitialsColor personaInitialsColor)
         {
-            switch (personaInitialsColor)
+            return personaInitialsColor switch
             {
-                case PersonaInitialsColor.LightBlue:
-                    return "#4F6BED";
-                case PersonaInitialsColor.Blue:
-                    return "#0078D4";
-                case PersonaInitialsColor.DarkBlue:
-                    return "#004E8C";
-                case PersonaInitialsColor.Teal:
-                    return "#038387";
-                case PersonaInitialsColor.LightGreen:
-                case PersonaInitialsColor.Green:
-                    return "#498205";
-                case PersonaInitialsColor.DarkGreen:
-                    return "#0B6A0B";
-                case PersonaInitialsColor.LightPink:
-                    return "#C239B3";
-                case PersonaInitialsColor.Pink:
-                    return "#E3008C";
-                case PersonaInitialsColor.Magenta:
-                    return "#881798";
-                case PersonaInitialsColor.Purple:
-                    return "#5C2E91";
-                case PersonaInitialsColor.Orange:
-                    return "#CA5010";
-                case PersonaInitialsColor.Red:
-                    return "#EE1111";
-                case PersonaInitialsColor.LightRed:
-                    return "#D13438";
-                case PersonaInitialsColor.DarkRed:
-                    return "#A4262C";
-                case PersonaInitialsColor.Transparent:
-                    return "transparent";
-                case PersonaInitialsColor.Violet:
-                    return "#8764B8";
-                case PersonaInitialsColor.Gold:
-                    return "#986F0B";
-                case PersonaInitialsColor.Burgundy:
-                    return "#750B1C";
-                case PersonaInitialsColor.WarmGray:
-                    return "#7A7574";
-                case PersonaInitialsColor.Cyan:
-                    return "#005B70";
-                case PersonaInitialsColor.Rust:
-                    return "#8E562E";
-                case PersonaInitialsColor.CoolGray:
-                    return "#69797E";
-                case PersonaInitialsColor.Black:
-                    return "#1D1D1D";
-                case PersonaInitialsColor.Gray:
-                    return "#393939";
-                default:
-                    return "#0078D4";
-            }
+                PersonaInitialsColor.LightBlue => "#4F6BED",
+                PersonaInitialsColor.Blue => "#0078D4",
+                PersonaInitialsColor.DarkBlue => "#004E8C",
+                PersonaInitialsColor.Teal => "#038387",
+                PersonaInitialsColor.LightGreen or PersonaInitialsColor.Green => "#498205",
+                PersonaInitialsColor.DarkGreen => "#0B6A0B",
+                PersonaInitialsColor.LightPink => "#C239B3",
+                PersonaInitialsColor.Pink => "#E3008C",
+                PersonaInitialsColor.Magenta => "#881798",
+                PersonaInitialsColor.Purple => "#5C2E91",
+                PersonaInitialsColor.Orange => "#CA5010",
+                PersonaInitialsColor.Red => "#EE1111",
+                PersonaInitialsColor.LightRed => "#D13438",
+                PersonaInitialsColor.DarkRed => "#A4262C",
+                PersonaInitialsColor.Transparent => "transparent",
+                PersonaInitialsColor.Violet => "#8764B8",
+                PersonaInitialsColor.Gold => "#986F0B",
+                PersonaInitialsColor.Burgundy => "#750B1C",
+                PersonaInitialsColor.WarmGray => "#7A7574",
+                PersonaInitialsColor.Cyan => "#005B70",
+                PersonaInitialsColor.Rust => "#8E562E",
+                PersonaInitialsColor.CoolGray => "#69797E",
+                PersonaInitialsColor.Black => "#1D1D1D",
+                PersonaInitialsColor.Gray => "#393939",
+                _ => "#0078D4",
+            };
         }
     }
 

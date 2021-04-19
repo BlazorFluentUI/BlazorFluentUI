@@ -19,8 +19,8 @@ namespace BlazorFluentUI
         [Parameter] public TObject? Data { get; set; }
 
         [Parameter] public RenderFragment<TObject>? DataTemplate { get; set; }
-        [Parameter] public Func<TObject, TObject>? OnGrowData { get; set; }
-        [Parameter] public Func<TObject, TObject>? OnReduceData { get; set; }
+        [Parameter] public Func<TObject?, TObject?>? OnGrowData { get; set; }
+        [Parameter] public Func<TObject?, TObject?>? OnReduceData { get; set; }
         [Parameter] public Func<TObject, string>? GetCacheKey { get; set; }
 
         [Parameter] public EventCallback<TObject> OnDataReduced { get; set; }
@@ -50,7 +50,7 @@ namespace BlazorFluentUI
 
         private string? _resizeEventGuid;
         private DotNetObjectReference<ResizeGroup<TObject>>? selfReference;
-        private ValueTask<string> _resizeEventTokenTask;  // WARNING - can only await this ONCE
+        //private ValueTask<string> _resizeEventTokenTask;  // WARNING - can only await this ONCE
 
         private Task<Rectangle>? boundsTask;
         private CancellationTokenSource boundsCTS = new();

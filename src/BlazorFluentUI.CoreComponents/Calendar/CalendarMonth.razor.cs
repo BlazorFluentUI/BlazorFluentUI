@@ -9,7 +9,7 @@ namespace BlazorFluentUI
 {
     public partial class CalendarMonth : FluentUIComponentBase
     {
-        [Parameter] public DateTimeFormatter? DateTimeFormatter { get; set; }
+        [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; } = new DateTimeFormatter();
         [Parameter] public bool HighlightCurrentMonth { get; set; }
         [Parameter] public bool HighlightSelectedMonth { get; set; }
         [Parameter] public DateTime MaxDate { get; set; }

@@ -139,7 +139,7 @@
 
 @code {
 
-    RelayCommand buttonCommand;
+    RelayCommand? buttonCommand;
     bool commandEnabled = false;
     bool CommandEnabled
     {
@@ -147,20 +147,20 @@
         set
         {
             commandEnabled = value;
-            buttonCommand.OnCanExecuteChanged();
+            buttonCommand?.OnCanExecuteChanged();
         }
     }
 
     int commandCount = 0;
-    bool isChecked = false;
+    //bool isChecked = false;
     bool muted;
     string buttonDebug = "";
     bool? Checked;
     bool? Disabled;
 
-    bool isToggled = false;
+    //bool isToggled = false;
 
-    IEnumerable<ContextualMenuItem> MenuProperties;
+    IEnumerable<ContextualMenuItem>? MenuProperties;
 
     private void OnClickHandler(string button)
     {
@@ -186,7 +186,7 @@
         },
             p =>
             {
-                return ((Func<bool>)p).Invoke();
+                return ((Func<bool>)p!).Invoke();
             }
         );
 

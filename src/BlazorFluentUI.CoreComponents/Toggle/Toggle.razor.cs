@@ -14,35 +14,35 @@ namespace BlazorFluentUI
         [Parameter] public bool DefaultChecked { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool InlineLabel { get; set; }
-        [Parameter] public string Label { get; set; }
-        [Parameter] public string OffText { get; set; }
-        [Parameter] public string OnLabel { get; set; }
+        [Parameter] public string? Label { get; set; }
+        [Parameter] public string? OffText { get; set; }
+        [Parameter] public string? OnLabel { get; set; }
 
         [Parameter] public EventCallback<bool?> CheckedChanged { get; set; }
-        [Parameter] public string OnText { get; set; }
-        [Parameter] public string DefaultText { get; set; }
+        [Parameter] public string? OnText { get; set; }
+        [Parameter] public string? DefaultText { get; set; }
 
-        [Parameter] public ICommand Command { get; set; }
-        [Parameter] public object CommandParameter { get; set; }
+        [Parameter] public ICommand? Command { get; set; }
+        [Parameter] public object? CommandParameter { get; set; }
 
-        private ICommand command;
+        private ICommand? command;
         protected bool commandDisabled = false;
 
         protected bool IsChecked;
         protected string Id = Guid.NewGuid().ToString();
         protected string LabelId => Id + "-label";
         protected string StateTextId => Id + "-stateText";
-        protected string BadAriaLabel;
-        protected string LabelledById;
-        protected string StateText => Checked.HasValue ? (Checked.GetValueOrDefault() ? OnText : OffText) : DefaultText ?? "";
+        protected string? BadAriaLabel;
+        protected string? LabelledById;
+        protected string? StateText => Checked.HasValue ? (Checked.GetValueOrDefault() ? OnText : OffText) : DefaultText ?? "";
 
         private bool onOffMissing = false;
 
-        private ICollection<Rule> ToggleRules { get; set; }
+        private ICollection<Rule>? ToggleRules { get; set; }
 
-        private void Command_CanExecuteChanged(object sender, EventArgs e)
+        private void Command_CanExecuteChanged(object? sender, EventArgs e)
         {
-            commandDisabled = !Command.CanExecute(CommandParameter);
+            commandDisabled = !Command!.CanExecute(CommandParameter);
             InvokeAsync(StateHasChanged);
         }
 

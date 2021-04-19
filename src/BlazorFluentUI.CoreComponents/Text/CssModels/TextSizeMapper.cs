@@ -6,39 +6,30 @@ namespace BlazorFluentUI
 {
     internal class TextSizeMapper
     {
-        public static string TextSizeMappper(TextType textType, ITheme theme)
+        public static string TextSizeMappper(TextType textType, ITheme? theme)
         {
-            switch (textType)
+            if (theme != null)
             {
-                case TextType.Tiny:
-                    return theme.FontStyle.FontSize.Tiny;
-                case TextType.XSmall:
-                    return theme.FontStyle.FontSize.XSmall;
-                case TextType.Small:
-                    return theme.FontStyle.FontSize.Small;
-                case TextType.SmallPlus:
-                    return theme.FontStyle.FontSize.SmallPlus;
-                case TextType.Medium:
-                    return theme.FontStyle.FontSize.Medium;
-                case TextType.MediumPlus:
-                    return theme.FontStyle.FontSize.MediumPlus;
-                case TextType.Large:
-                    return theme.FontStyle.FontSize.Large;
-                case TextType.XLarge:
-                    return theme.FontStyle.FontSize.XLarge;
-                case TextType.XLargePlus:
-                    return theme.FontStyle.FontSize.XLargePlus;
-                case TextType.XxLarge:
-                    return theme.FontStyle.FontSize.XxLarge;
-                case TextType.XxLargePlus:
-                    return theme.FontStyle.FontSize.XxLargePlus;
-                case TextType.SuperLarge:
-                    return theme.FontStyle.FontSize.SuperLarge;
-                case TextType.Mega:
-                    return theme.FontStyle.FontSize.Mega;
-                default:
-                    return "inherit";
+                return textType switch
+                {
+                    TextType.Tiny => theme.FontStyle.FontSize.Tiny,
+                    TextType.XSmall => theme.FontStyle.FontSize.XSmall,
+                    TextType.Small => theme.FontStyle.FontSize.Small,
+                    TextType.SmallPlus => theme.FontStyle.FontSize.SmallPlus,
+                    TextType.Medium => theme.FontStyle.FontSize.Medium,
+                    TextType.MediumPlus => theme.FontStyle.FontSize.MediumPlus,
+                    TextType.Large => theme.FontStyle.FontSize.Large,
+                    TextType.XLarge => theme.FontStyle.FontSize.XLarge,
+                    TextType.XLargePlus => theme.FontStyle.FontSize.XLargePlus,
+                    TextType.XxLarge => theme.FontStyle.FontSize.XxLarge,
+                    TextType.XxLargePlus => theme.FontStyle.FontSize.XxLargePlus,
+                    TextType.SuperLarge => theme.FontStyle.FontSize.SuperLarge,
+                    TextType.Mega => theme.FontStyle.FontSize.Mega,
+                    _ => "inherit",
+                };
             }
+            return "inherit";
         }
+      
     }
 }

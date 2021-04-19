@@ -53,8 +53,8 @@ namespace BlazorFluentUI
             RootRule.Properties = new CssString()
             {
                 Css = $"margin: 8px 16px;" +
-                    $"color: {Theme.Palette.NeutralPrimary};" +
-                    $"background-color:  {Theme.Palette.NeutralLighter};" +
+                    $"color: {Theme?.Palette.NeutralPrimary};" +
+                    $"background-color:  {Theme?.Palette.NeutralLighter};" +
                     $"height: 32px;"
             };
         }

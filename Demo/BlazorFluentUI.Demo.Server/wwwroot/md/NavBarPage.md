@@ -32,7 +32,6 @@
         <div class="subSection">
             <Demo Header="Horizontal NavBar" Key="0" MetadataPath="NavBarPage">
                 <Stack Style="width:100%;">
-                    @debugText
                     <NavBar Header="TestHeader" Direction="LayoutDirection.Horizontal" Items=@items>
                         <FooterTemplate>
                             <div>A footer area.</div>
@@ -45,7 +44,6 @@
         <div class="subSection">
             <Demo Header="Vertical NavBar" Key="0" MetadataPath="NavBarPage">
                 <Stack Style="width:100%;">
-                    @debugText
                     <NavBar Header="TestHeader" Direction="LayoutDirection.Vertical" Items=@items>
                         <FooterTemplate>
                             <div>A footer area.</div>
@@ -58,8 +56,7 @@
 </div>
 
 @code{
-    private List<NavBarItem> items;
-    private string debugText;
+    private List<NavBarItem>? items;
 
     protected override Task OnInitializedAsync()
     {

@@ -5,7 +5,7 @@ namespace BlazorFluentUI
 {
     public static class DateUtilities
     {
-        public static List<DateTime> GetDateRangeArray(DateTime date, DateRangeType dateRangeType, DayOfWeek firstDayOfWeek, List<DayOfWeek> workWeekDays, int daysToSelectInDayView = 1)
+        public static List<DateTime> GetDateRangeArray(DateTime date, DateRangeType dateRangeType, DayOfWeek firstDayOfWeek, List<DayOfWeek>? workWeekDays = null, int daysToSelectInDayView = 1)
         {
             List<DateTime>? datesArray = new();
             DateTime startDate;
@@ -107,17 +107,12 @@ namespace BlazorFluentUI
             // First four-day week of the year - minumum days count
             int fourDayWeek = 4;
 
-            switch (firstWeekOfYear)
+            return firstWeekOfYear switch
             {
-                case FirstWeekOfYear.FirstFullWeek:
-                    return GetWeekOfYearFullDays(date, firstDayOfWeek, 7);
-
-                case FirstWeekOfYear.FirstFourDayWeek:
-                    return GetWeekOfYearFullDays(date, firstDayOfWeek, fourDayWeek);
-
-                default:
-                    return GetFirstDayWeekOfYear(date, firstDayOfWeek);
-            }
+                FirstWeekOfYear.FirstFullWeek => GetWeekOfYearFullDays(date, firstDayOfWeek, 7),
+                FirstWeekOfYear.FirstFourDayWeek => GetWeekOfYearFullDays(date, firstDayOfWeek, fourDayWeek),
+                _ => GetFirstDayWeekOfYear(date, firstDayOfWeek),
+            };
         }
 
         public static int GetFirstDayWeekOfYear(DateTime date, DayOfWeek firstDayOfWeek)

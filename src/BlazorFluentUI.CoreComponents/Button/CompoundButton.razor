@@ -59,8 +59,8 @@ else
 }
 
 @code{
-    private DefaultButton defaultButtonReference;
-    private PrimaryButton primaryButtonReference;
+    private DefaultButton defaultButtonReference = new DefaultButton();
+    private PrimaryButton primaryButtonReference = new PrimaryButton();
     protected override void OnAfterRender(bool firstRender)
     {
         if (Primary)

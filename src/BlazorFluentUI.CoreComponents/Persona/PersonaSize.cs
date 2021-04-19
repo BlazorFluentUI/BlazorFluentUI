@@ -14,9 +14,13 @@ namespace BlazorFluentUI
         public const string Size100 = "100px";
         public const string Size120 = "120px";
 
-        public static int SizeToPixels(string size)
+        public static int SizeToPixels(string? size)
         {
-            return int.Parse(size.Substring(0, size.Count() - 2));
+            string? t = size?[0..^2];
+            if (t != null)
+                return int.Parse(t);
+
+            return -1;
         }
     }
 }

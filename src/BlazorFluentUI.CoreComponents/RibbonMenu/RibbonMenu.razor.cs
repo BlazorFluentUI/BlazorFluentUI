@@ -8,10 +8,10 @@ namespace BlazorFluentUI
 {
     public partial class RibbonMenu<TItem> : FluentUIComponentBase
     {
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
 
-        [Parameter] public RenderFragment Backstage { get; set; }
-        [Parameter] public string BackstageHeader { get; set; }
+        [Parameter] public RenderFragment? Backstage { get; set; }
+        [Parameter] public string? BackstageHeader { get; set; }
         bool showBackstage;
         [Parameter] public bool ShowBackstage 
         { 

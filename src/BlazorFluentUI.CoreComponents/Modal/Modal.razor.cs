@@ -59,7 +59,7 @@ namespace BlazorFluentUI
         [Parameter]
         public bool IsClickableOutsideFocusTrap { get; set; }
 
-        private bool _isOpenDelayed = false;
+        //private bool _isOpenDelayed = false;
 
         private ElementReference allowScrollOnModal;
 
@@ -78,7 +78,7 @@ namespace BlazorFluentUI
         private Action<ModalVisibilityState> _animateTo;
         private Action _onTransitionComplete;
         private ElapsedEventHandler? _handler = null;
-        private bool _jsAvailable;
+        //private bool _jsAvailable;
         private DotNetObjectReference<Modal>? selfReference;
         private string? _keydownRegistration;
 
@@ -139,8 +139,8 @@ namespace BlazorFluentUI
 
             Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
 
-            if (_jsAvailable)
-            {
+            //if (_jsAvailable)
+            //{
                 if (currentVisibility != previousVisibility)
                 {
                     Debug.WriteLine("Clearing animation timer");
@@ -157,7 +157,7 @@ namespace BlazorFluentUI
                         _animateTo(ModalVisibilityState.Closed);
                     }
                 }
-            }
+            //}
 
             await base.OnParametersSetAsync();
         }

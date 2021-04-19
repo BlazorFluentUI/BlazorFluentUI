@@ -1,7 +1,6 @@
 ﻿@page "/detailsListAutoPage"
 @using Microsoft.AspNetCore.Components.Web
 @using DynamicData
-@using System.Reactive.Linq
 @using BlazorFluentUI.Lists
 
 <header class="root">
@@ -37,7 +36,7 @@
                 </Stack>
                 <TextField Label="Filter Description"
                            Value=@filter
-                           OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => prop.Contains(filter); }) />
+                           OnInput=@(val => { filter = val; descriptionColumn!.FilterPredicate = prop => prop.Contains(filter); }) />
                 <div data-is-scrollable="true" style="height:400px;overflow-y:auto;">
                     <DetailsListAuto  ItemsSource="dataSource"
                                      IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
@@ -47,7 +46,7 @@
                                      GetKey=@(x=>x.Key)
                                      LayoutMode="DetailsListLayoutMode.Justified"
                                      Selection="selection1"
-                                     SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key)) />
+                                     SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption?.Key!)) />
                 </div>
             </Demo>
         </div>
@@ -61,7 +60,7 @@
                                      GetKey=@(x=>x.Key)
                                      LayoutMode="DetailsListLayoutMode.FixedColumns"
                                      Selection="selection2"
-                                     SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key)) />
+                                     SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption?.Key!)) />
                 </div>
             </Demo>
         </div>
@@ -87,8 +86,8 @@
 
     bool? isVirtualizing = true;
     bool? isCompact = false;
-    IDropdownOption selectedModeOption;
-    System.Collections.Generic.List<IDropdownOption> selectionModeOptions;
+    IDropdownOption? selectedModeOption;
+    System.Collections.Generic.List<IDropdownOption>? selectionModeOptions;
 
     Selection<DataItem> selection1 = new Selection<DataItem>();
     Selection<DataItem> selection2 = new Selection<DataItem>();
@@ -103,7 +102,7 @@
     System.Collections.Generic.List<DetailsRowColumn<DataItem>> fixedColumnsSource = new ();
 
     string filter = "";
-    DetailsRowColumn<DataItem, string> descriptionColumn;
+    DetailsRowColumn<DataItem, string>? descriptionColumn;
 
 
     protected override void OnInitialized()
@@ -116,13 +115,13 @@
 
         // We load the column data into the columnsSource SourceCache.
         columnsSource.Add(new DetailsRowColumn<DataItem, int>("Key", x => x.KeyNumber) { MinWidth = 20, MaxWidth = 70, Index = 0, IsResizable = true });
-        columnsSource.Add(new DetailsRowColumn<DataItem, string>("Name", x => x.DisplayName) { Index = 1, MinWidth = 100, MaxWidth = 150, IsResizable = true });
-        descriptionColumn = new DetailsRowColumn<DataItem, string>("Description", x => x.Description) { Index = 2 };
+        columnsSource.Add(new DetailsRowColumn<DataItem, string>("Name", x => x.DisplayName!) { Index = 1, MinWidth = 100, MaxWidth = 150, IsResizable = true });
+        descriptionColumn = new DetailsRowColumn<DataItem, string>("Description", x => x.Description!) { Index = 2 };
         columnsSource.Add(descriptionColumn);
 
         fixedColumnsSource.Add(new DetailsRowColumn<DataItem, int>("Key", x => x.KeyNumber) { Index = 0 });
-        fixedColumnsSource.Add(new DetailsRowColumn<DataItem, string>("Name", x => x.DisplayName) { Index = 1 });
-        fixedColumnsSource.Add(new DetailsRowColumn<DataItem, string>("Description", x => x.Description) { Index = 2 });
+        fixedColumnsSource.Add(new DetailsRowColumn<DataItem, string>("Name", x => x.DisplayName!) { Index = 1 });
+        fixedColumnsSource.Add(new DetailsRowColumn<DataItem, string>("Description", x => x.Description!) { Index = 2 });
 
         // We're loading our sample data into the dataSource SourceCache.
         for (var i = 0; i < 100; i++)

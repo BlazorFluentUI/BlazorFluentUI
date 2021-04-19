@@ -9,6 +9,6 @@ namespace BlazorFluentUI.Demo.Shared.Models
     class TabItem<TItem>
     {
         public string? Header { get; set; }
-        public ObservableCollection<IGroup> Groups {get;set;}
+        public ObservableCollection<IGroup>? Groups {get;set;}
     }
 }

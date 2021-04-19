@@ -94,7 +94,7 @@
             @*@onmouseleave=@((args) => { if (DateRangeType != DateRangeType.Day) OnTableMouseLeave(args); })
                 @onmouseup=@((args) => { if (DateRangeType != DateRangeType.Day) OnTableMouseUp(args); })*@
             <tbody>
-                @for (var weekIndex = 0; weekIndex < Weeks.Count; weekIndex++)
+                @for (var weekIndex = 0; weekIndex < Weeks!.Count; weekIndex++)
                 {
                     var copiedWeekIndex = weekIndex;
                     <tr @key=@(WeekNumbers != null ? WeekNumbers[copiedWeekIndex] : copiedWeekIndex)>
@@ -105,7 +105,7 @@
                                 title=@(WeekNumbers != null ? String.Format(WeekNumberFormatString, WeekNumbers[copiedWeekIndex]) : "")
                                 aria-label=@(WeekNumbers != null ? String.Format(WeekNumberFormatString, WeekNumbers[copiedWeekIndex]) : "")
                                 scope="row">
-                                    <span>@WeekNumbers[copiedWeekIndex]</span>
+                                    <span>@(WeekNumbers != null ? WeekNumbers[copiedWeekIndex] : "")</span>
                             </th>
                         }
                         @for (var dayIndex = 0; dayIndex < Weeks[copiedWeekIndex].Count; dayIndex++)
@@ -120,7 +120,7 @@
                                 @onmouseup =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseUp(args); })*@
                             <td @key=@day.Key
                                 class=@GetDayClasses(day)
-                                @onclick=@(day.IsInBounds ? day.OnSelected : null)
+                                @onclick=@((day.IsInBounds ? day.OnSelected : null)!)
                                 @onmouseenter=@(args => {
                                         if (DateRangeType != DateRangeType.Day && day.IsInBounds && day.IsHighlightedOnHover)
                                         {
@@ -154,7 +154,7 @@
                                    })
                                 role="gridcell">
                                 <button @key=@(day.Key + "button")
-                                        @onclick=@(day.IsInBounds ? day.OnSelected : null)
+                                        @onclick=@((day.IsInBounds ? day.OnSelected : null)!)
                                         class=@($"dayButton{(!day.IsInBounds ? " ms-Calendar-dayIsDisabled" : "")}{(day.IsToday ? " ms-Calendar-dayIsToday" : "")}")
                                         disabled=@(!AllFocusable && !day.IsInBounds)
                                         role="gridcell"

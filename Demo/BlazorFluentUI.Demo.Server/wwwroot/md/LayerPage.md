@@ -62,7 +62,7 @@
 </div>
 @code{
     [CascadingParameter(Name = "Theme")]
-    public ITheme Theme { get; set; }
+    public ITheme? Theme { get; set; }
 
     bool panelIsOpen = false;
     bool? trapPanel = false;

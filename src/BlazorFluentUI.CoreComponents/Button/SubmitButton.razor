@@ -62,7 +62,7 @@ else
     [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
     [Parameter] public bool ForceDefault { get; set; } = false;
 
-    private ButtonBase baseReference;
+    private ButtonBase baseReference = new ButtonBase();
     private bool primary = true;
 
     protected override void OnParametersSet()

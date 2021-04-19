@@ -2,21 +2,21 @@
 {
     public class ElementMeasurements
     {
-        public double left { get; set; } 
-        public double top { get; set; }
-        public double right { get; set; }
-        public double bottom { get; set; }
-        public double x { get; set; }
-        public double y { get; set; }
-        public double width { get; set; }
-        public double height { get; set; }
-        public double cwidth { get; set; }
-        public double cheight { get; set; }
-        public string test { get; set; }
+        public double Left { get; set; }
+        public double Top { get; set; }
+        public double Right { get; set; }
+        public double Bottom { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public double Cwidth { get; set; }
+        public double Cheight { get; set; }
+        public string? Test { get; set; }
 
         public override string ToString()
         {
-            return $"left: {left} top: {top} right: {right} bottom: {bottom} width: {width} height: {height}";
+            return $"left: {Left} top: {Top} right: {Right} bottom: {Bottom} width: {Width} height: {Height}";
         }
     }
 }

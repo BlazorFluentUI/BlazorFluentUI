@@ -10,8 +10,8 @@ namespace BlazorFluentUI
         public bool Hidden { get; set; }
         public SelectableOptionMenuItemType ItemType { get; set; } = SelectableOptionMenuItemType.Normal;
 
-        string key;
-        public string Key
+        string? key;
+        public string? Key
         {
             get
             {
@@ -23,9 +23,9 @@ namespace BlazorFluentUI
             }
             set
             {
-                key= value;
+                key = value;
             }
         }
-        public string Text { get; set; }
+        public string? Text { get; set; }
     }
 }

@@ -53,8 +53,8 @@
     </div>
 </div>
 @code {
-    System.Collections.Generic.List<OverflowItem> items;
-    System.Collections.Generic.List<OverflowItem> smallerItems;
+    System.Collections.Generic.List<OverflowItem>? items;
+    System.Collections.Generic.List<OverflowItem>? smallerItems;
 
     Func<IEnumerable<OverflowItem>, IEnumerable<IContextualMenuItem>> itemTransform => (items) =>
     {

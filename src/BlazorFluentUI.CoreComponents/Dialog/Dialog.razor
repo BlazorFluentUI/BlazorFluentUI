@@ -13,7 +13,7 @@
        IsDarkOverlay=@IsDarkOverlay
        IsBlocking=@IsBlocking
        IsOpen=IsOpen
-       ContainerClass="@DialogMainRule.Selector.SelectorName"
+       ContainerClass="@DialogMainRule.Selector?.SelectorName"
        OnDismiss=@OnDismiss
        SubtitleAriaId=@(AriaDescribedBy != null ? AriaDescribedBy : SubText)
        TitleAriaId=@(AriaLabelledBy != null ? AriaLabelledBy : Title)>
@@ -25,8 +25,8 @@
                    DialogType=@DialogType
                    OnDismiss=@OnDismiss
                    ClassName=@ContentClass
-                   ContentTemplate=@ChildContent
-                   FooterTemplate=@FooterTemplate
+                   ContentTemplate=@(ChildContent!)
+                   FooterTemplate=@(FooterTemplate!)
                    DraggableHeaderClassName=@DraggableHeaderClassName
                    IsMultiline=@IsMultiline />
 

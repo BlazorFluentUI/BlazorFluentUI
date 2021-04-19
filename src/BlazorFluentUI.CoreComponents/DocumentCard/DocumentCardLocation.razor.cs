@@ -63,10 +63,10 @@ namespace BlazorFluentUI
         {
             RootRule.Properties = new CssString()
             {
-                Css = $"color: {Theme.Palette.ThemePrimary};" +
+                Css = $"color: {Theme?.Palette.ThemePrimary};" +
                     $"display: block;" +
-                    $"font-size: {Theme.FontStyle.FontSize.Small};" +
-                    $"font-weight: {Theme.FontStyle.FontWeight.SemiBold};" +
+                    $"font-size: {Theme?.FontStyle.FontSize.Small};" +
+                    $"font-weight: {Theme?.FontStyle.FontWeight.SemiBold};" +
                     "overflow:hidde;" +
                     "padding: 8px 16px;" +
                     "position: relative;" +
@@ -77,7 +77,7 @@ namespace BlazorFluentUI
 
             RootHoverRule.Properties = new CssString()
             {
-                Css = $"color: {Theme.Palette.ThemePrimary};" +
+                Css = $"color: {Theme?.Palette.ThemePrimary};" +
                 "cursor: pointer;"
             };
         }

@@ -13,7 +13,7 @@ namespace BlazorFluentUI.Demo.Shared.Models
     public class GroupedDataItem : DataItem
     {
         private System.Reactive.Disposables.CompositeDisposable disposables = new();
-        public System.Collections.Generic.List<GroupedDataItem> Data { get; set; }
+        public System.Collections.Generic.List<GroupedDataItem>? Data { get; set; }
         public IObservableCollection<GroupedDataItem> ObservableData { get; set; } = new ObservableCollectionExtended<GroupedDataItem>();
 
 

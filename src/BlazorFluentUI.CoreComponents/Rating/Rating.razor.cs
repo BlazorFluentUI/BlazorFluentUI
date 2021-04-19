@@ -10,7 +10,7 @@ namespace BlazorFluentUI
     {
         private double rating = -1;
 
-        protected ElementReference[] starReferences { get; set; }
+        protected ElementReference[]? StarReferences { get; set; }
 
         [Parameter]
         public bool AllowZeroStars { get; set; }
@@ -44,7 +44,7 @@ namespace BlazorFluentUI
         [Parameter]
         public string UnselectedIcon { get; set; } = "FavoriteStar";
         [Parameter]
-        public Func<double, double, string> GetAriaLabel { get; set; }
+        public Func<double, double, string>? GetAriaLabel { get; set; }
         [Parameter]
         public EventCallback<double> RatingValueChanged { get; set; }
         [Parameter]
@@ -63,13 +63,13 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            if (starReferences == null)
+            if (StarReferences == null)
             {
-                starReferences = new ElementReference[Max];
+                StarReferences = new ElementReference[Max];
             }
-            else if (Max != starReferences.Length)
+            else if (Max != StarReferences.Length)
             {
-                starReferences = new ElementReference[Max];
+                StarReferences = new ElementReference[Max];
             }
 
             return base.OnParametersSetAsync();

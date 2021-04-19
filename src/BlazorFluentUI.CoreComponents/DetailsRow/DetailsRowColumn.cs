@@ -41,27 +41,15 @@ namespace BlazorFluentUI
 
     public class DetailsRowColumn<TItem>
     {
-        public DetailsRowColumn()
-        { }
-        public DetailsRowColumn(string fieldName, Expression<Func<TItem, object>> fieldSelectorExpression)
-        {
-            Name = fieldName;
-            Key = fieldName;
-            AriaLabel = fieldName;
-            FieldSelectorExpression = fieldSelectorExpression;
-            FieldSelector = fieldSelectorExpression.Compile();
-            _ = DetailsRowUtils.GetPropertyInfo(fieldSelectorExpression);
-            _ = DetailsRowUtils.GetSetter(fieldSelectorExpression);
-        }
-        public Expression<Func<TItem, object>> FieldSelectorExpression {get;set;}
+        public Expression<Func<TItem, object>>? FieldSelectorExpression { get; set; }
 
-        public string AriaLabel { get; set; }
+        public string? AriaLabel { get; set; }
         public double CalculatedWidth { get; set; } = double.NaN;
         public ColumnActionsMode ColumnActionsMode { get; set; } = ColumnActionsMode.Clickable;
-        public RenderFragment<DynamicAccessor<TItem>> ColumnItemTemplate { get; set; }
+        public RenderFragment<DynamicAccessor<TItem>>? ColumnItemTemplate { get; set; }
 
-        public Func<TItem, object> FieldSelector { get; set; }
-        public string FilterAriaLabel { get; set; }
+        public Func<TItem, object>? FieldSelector { get; set; }
+        public string? FilterAriaLabel { get; set; }
 
         private Func<object, bool>? _filterPredicate;
         public Func<object, bool>? FilterPredicate
@@ -74,10 +62,10 @@ namespace BlazorFluentUI
             }
         }
 
-        public string GroupAriaLabel { get; set; }
-        public string IconClassName { get; set; }
-        public string IconName { get; set; }
-        public string IconSrc { get; set; }
+        public string? GroupAriaLabel { get; set; }
+        public string? IconClassName { get; set; }
+        public string? IconName { get; set; }
+        public string? IconSrc { get; set; }
         /// <summary>
         /// Forces columns to be in a particular order.  Useful for libraries (like DynamicData) that don't maintain order of collections internally.
         /// </summary>
@@ -97,25 +85,40 @@ namespace BlazorFluentUI
 
         private bool _isSortedDescending;
         public bool IsSortedDescending { get => _isSortedDescending; set { if (_isSortedDescending == value) return; else { _isSortedDescending = value; OnPropertyChanged(); } } }
-        public string Key { get; set; }
+        public string? Key { get; set; }
         public double MaxWidth { get; set; } = 300;
         public double MinWidth { get; set; } = 100;
-        public string Name { get; set; }
-        public Action<DetailsRowColumn<TItem>> OnColumnClick { get; set; }
-        public Action<DetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
-        public Type PropType { get; protected set; }
-        public string SortedAscendingAriaLabel { get; set; }
-        public string SortedDescendingAriaLabel { get; set; }
-        public Type Type { get; set; }
+        public string? Name { get; set; }
+        public Action<DetailsRowColumn<TItem>>? OnColumnClick { get; set; }
+        public Action<DetailsRowColumn<TItem>>? OnColumnContextMenu { get; set; }
+        public Type? PropType { get; protected set; }
+        public string? SortedAscendingAriaLabel { get; set; }
+        public string? SortedDescendingAriaLabel { get; set; }
+        public Type? Type { get; set; }
+
+        public DetailsRowColumn()
+        { }
+
+        public DetailsRowColumn(string fieldName, Expression<Func<TItem, object>> fieldSelectorExpression)
+        {
+            Name = fieldName;
+            Key = fieldName;
+            AriaLabel = fieldName;
+            FieldSelectorExpression = fieldSelectorExpression;
+            FieldSelector = fieldSelectorExpression.Compile();
+            _ = DetailsRowUtils.GetPropertyInfo(fieldSelectorExpression);
+            _ = DetailsRowUtils.GetSetter(fieldSelectorExpression);
+        }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public IObservable<PropertyChangedEventArgs> WhenPropertyChanged { get; private set; }
+        public IObservable<PropertyChangedEventArgs>? WhenPropertyChanged { get; private set; }
 
         protected void Initialize()
         {

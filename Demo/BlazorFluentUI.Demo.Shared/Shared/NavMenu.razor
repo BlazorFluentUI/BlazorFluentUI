@@ -2,7 +2,7 @@
 <Stack Horizontal="false" VerticalFill="true" Style="overflow:hidden;">
     <StackItem Grow="0" VerticalFill="false" Style="padding-left: 30px">
         <div class="top-row">
-            <Link Href="/">BlazorFluentUI V@(System.Reflection.Assembly.GetAssembly(typeof(FluentUIComponentBase))?.GetName()?.Version.ToString() ?? "NULL")</Link>
+            <Link Href="/">BlazorFluentUI V@(System.Reflection.Assembly.GetAssembly(typeof(FluentUIComponentBase))?.GetName()?.Version?.ToString() ?? "NULL")</Link>
         </div>
     </StackItem>
 
@@ -81,7 +81,7 @@
 
     bool collapseNavMenu = true;
 
-    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     void ToggleNavMenu()
     {

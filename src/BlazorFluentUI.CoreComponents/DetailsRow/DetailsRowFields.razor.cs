@@ -9,7 +9,7 @@ namespace BlazorFluentUI
     public partial class DetailsRowFields<TItem> : FluentUIComponentBase
     {
         [Parameter]
-        public TItem Item { get; set; }
+        public TItem? Item { get; set; }
 
         [Parameter]
         public int ItemIndex { get; set; }
@@ -27,7 +27,7 @@ namespace BlazorFluentUI
         public int ColumnStartIndex { get; set; }
 
         [Parameter]
-        public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
+        public IEnumerable<DetailsRowColumn<TItem>>? Columns { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
@@ -36,10 +36,10 @@ namespace BlazorFluentUI
         public bool EnableUpdateAnimations { get; set; }
 
         [Parameter]
-        public string RowClassNames { get; set; }
+        public string? RowClassNames { get; set; }
 
 
-        private string key;
+        //private readonly string? key;
 
         protected override Task OnParametersSetAsync()
         {

@@ -11,39 +11,40 @@ namespace BlazorFluentUI
     public partial class PersonaCoin : FluentUIComponentBase
     {
         [Parameter] public bool AllowPhoneInitials { get; set; }
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public int CoinSize { get; set; }
-        [Parameter] public string ImageAlt { get; set; }
+        [Parameter] public string? ImageAlt { get; set; }
         [Parameter] public bool ImageShouldFadeIn { get; set; }
         [Parameter] public bool ImageShouldStartVisible { get; set; }
-        [Parameter] public string ImageUrl { get; set; }
+        [Parameter] public string? ImageUrl { get; set; }
         [Parameter] public bool IsOutOfOffice { get; set; }
         [Parameter] public PersonaPresenceStatus Presence { get; set; }
-        [Parameter] public string PresenceTitle { get; set; }  //tooltip on hover
+        [Parameter] public string? PresenceTitle { get; set; }  //tooltip on hover
         [Parameter] public PersonaInitialsColor InitialsColor { get; set; }
         [Parameter] public bool ShowInitialsUntilImageLoads { get; set; }
         [Parameter] public bool ShowUnknownPersonaCoin { get; set; }
-        [Parameter] public string Size { get; set; }
-        [Parameter] public string Text { get; set; }
+        [Parameter] public string? Size { get; set; }
+        [Parameter] public string? Text { get; set; }
 
-        protected bool ShouldRenderInitials => !_isImageLoaded && (ShowInitialsUntilImageLoads && ImageUrl != null) || (ImageUrl == null || _isImageError || _hideImage);
+        protected bool ShouldRenderInitials => !_isImageLoaded && (ShowInitialsUntilImageLoads && ImageUrl != null) || (ImageUrl == null || _isImageError); // || _hideImage);
 
         private bool _isImageLoaded;
         private bool _isImageError;
-        private bool _hideImage;
 
-        Regex UNWANTED_CHARS_REGEX = new(@"\([^)]*\)|[\0-\u001F\!-/:-@\[-`\{-\u00BF\u0250-\u036F\uD800-\uFFFF]");
-        Regex PHONENUMBER_REGEX = new(@"^\d+[\d\s]*(:?ext|x|)\s*\d+$");
-        Regex MULTIPLE_WHITESPACES_REGEX = new(@"\s+");
-        Regex UNSUPPORTED_TEXT_REGEX = new(@"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]|[\uD840-\uD869][\uDC00-\uDED6]");
+        //private bool _hideImage;
+
+        readonly Regex UNWANTED_CHARS_REGEX = new(@"\([^)]*\)|[\0-\u001F\!-/:-@\[-`\{-\u00BF\u0250-\u036F\uD800-\uFFFF]");
+        readonly Regex PHONENUMBER_REGEX = new(@"^\d+[\d\s]*(:?ext|x|)\s*\d+$");
+        readonly Regex MULTIPLE_WHITESPACES_REGEX = new(@"\s+");
+        readonly Regex UNSUPPORTED_TEXT_REGEX = new(@"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]|[\uD840-\uD869][\uDC00-\uDED6]");
 
         private const string LocalSpecificityClass = "localPersonaCoinRule";
 
         private ICollection<IRule> PersonaCoinLocalRules { get; set; } = new List<IRule>();
-        private Rule InitialsRule = new();
-        private Rule ImageAreaRule = new();
-        private Rule ImageRule = new();
-        
+        private readonly Rule InitialsRule = new();
+        private readonly Rule ImageAreaRule = new();
+        private readonly Rule ImageRule = new();
+
 
         protected override Task OnInitializedAsync()
         {
@@ -68,8 +69,8 @@ namespace BlazorFluentUI
 
             return Task.CompletedTask;
         }
-       
-        protected string GetInitials(string displayName, bool isRTL, bool allowPhoneInitials)
+
+        protected string GetInitials(string? displayName, bool isRTL, bool allowPhoneInitials)
         {
             if (string.IsNullOrWhiteSpace(displayName))
                 return "";
@@ -118,7 +119,7 @@ namespace BlazorFluentUI
             {
                 return "" + initials[1] + initials[0];
             }
-            
+
             return initials;
         }
 
@@ -137,15 +138,15 @@ namespace BlazorFluentUI
         private void SetStyle()
         {
             int dimension = CoinSize != -1 ? CoinSize : PersonaSize.SizeToPixels(Size);
-            string fontSize = dimension switch
+            string? fontSize = dimension switch
             {
-                < 32 => Theme.FontStyle.FontSize.XSmall,
-                >= 32 and < 40 => Theme.FontStyle.FontSize.Medium,
-                >= 40 and < 48 => Theme.FontStyle.FontSize.MediumPlus,
-                >= 48 and < 56 => Theme.FontStyle.FontSize.Large,
-                >= 56 and < 72 => Theme.FontStyle.FontSize.XLarge,
-                >= 72 and < 100 => Theme.FontStyle.FontSize.XxLarge,
-                >= 100 => Theme.FontStyle.FontSize.SuperLarge,
+                < 32 => Theme?.FontStyle.FontSize.XSmall,
+                >= 32 and < 40 => Theme?.FontStyle.FontSize.Medium,
+                >= 40 and < 48 => Theme?.FontStyle.FontSize.MediumPlus,
+                >= 48 and < 56 => Theme?.FontStyle.FontSize.Large,
+                >= 56 and < 72 => Theme?.FontStyle.FontSize.XLarge,
+                >= 72 and < 100 => Theme?.FontStyle.FontSize.XxLarge,
+                >= 100 => Theme?.FontStyle.FontSize.SuperLarge,
             };
 
             string color = InitialsColor.ToString() != "" ? PersonaColorUtils.GetPersonaColorHexCode(InitialsColor) : PersonaColorUtils.GetPersonaColorHexCode(PersonaColorUtils.GetInitialsColorFromName(Text));
@@ -162,7 +163,7 @@ namespace BlazorFluentUI
 
             ImageAreaRule.Properties = new CssString
             {
-                Css = (dimension <= 10 ? 
+                Css = (dimension <= 10 ?
                     $"overflow:visible;"+
                     $"background:transparent;"+
                     $"height:0;"+

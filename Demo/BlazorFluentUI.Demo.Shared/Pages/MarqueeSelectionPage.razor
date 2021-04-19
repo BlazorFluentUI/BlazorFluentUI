@@ -45,13 +45,15 @@
                     <ul style="display:inline-block;border:1px solid var(--palette-NeutralTertiary);margin:0;padding:10px;overflow:hidden;user-select:none;">
                         @foreach (var photo in photos)
                         {
-                            <div key=@(photo.Key)
-                                 class=@($"photoCell {(selection.IsKeySelected(photo.Key) ? "is-selected" : "")}")
-                                 data-is-focusable="true"
-                                 data-selection-index=@photo.Key
-                                 style="width: @(photo.Width)px;height: @(photo.Height)px;position:relative;display:inline-block;margin:2px;box-sizing:border-box;background:var(--palette-NeutralLighter);line-height:100px;vertical-align:middle;text-align:center;">
-                                @photo.Key
-                            </div>
+                            <li>
+                                <div key=@(photo.Key)
+                                     class=@($"photoCell {(selection.IsKeySelected(photo.Key) ? "is-selected" : "")}")
+                                     data-is-focusable="true"
+                                     data-selection-index=@photo.Key
+                                     style="width: @(photo.Width)px;height: @(photo.Height)px;position:relative;display:inline-block;margin:2px;box-sizing:border-box;background:var(--palette-NeutralLighter);line-height:100px;vertical-align:middle;text-align:center;">
+                                    @photo.Key
+                                </div>
+                            </li>
                         }
                     </ul>
                 </MarqueeSelection>
@@ -61,7 +63,6 @@
 </div>
 
 @code {
-    [Inject] ThemeProvider ThemeProvider { get; set; }
 
     bool toggleIsMarqueeEnabled = true;
     List<Photo> photos = new List<Photo>();
@@ -69,7 +70,7 @@
 
     class Photo
     {
-        public string Url { get; set; }
+        public string? Url { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
         public int Key { get; set; }

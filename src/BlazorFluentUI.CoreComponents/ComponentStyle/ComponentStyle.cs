@@ -75,7 +75,8 @@ namespace BlazorFluentUI
                                 ruleAsString += GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString();
                                 continue;
                             }
-                            cssProperty = propAttribute.PropertyName;
+                            if (propAttribute.PropertyName != null)
+                                cssProperty = propAttribute.PropertyName;
                         }
                     }
                     else
@@ -96,7 +97,7 @@ namespace BlazorFluentUI
 
         private static List<PropertyInfo> GetCachedProperties(Type type)
         {
-            if (_propertyDictionary.TryGetValue(type, out List<PropertyInfo> properties) == false)
+            if (_propertyDictionary.TryGetValue(type, out List<PropertyInfo>? properties) == false)
             {
                 properties = type.GetProperties().ToList();
                 _propertyDictionary.Add(type, properties);
@@ -108,7 +109,7 @@ namespace BlazorFluentUI
         private static Attribute? GetCachedCustomAttribute(PropertyInfo property, Type attributeType)
         {
             Attribute? attribute = null;
-            if (_attributeDictionary.TryGetValue(property, out List<Attribute> attributes) == false)
+            if (_attributeDictionary.TryGetValue(property, out List<Attribute>? attributes) == false)
             {
                 attributes = property.GetCustomAttributes().ToList();
                 _attributeDictionary.Add(property, attributes);
@@ -133,8 +134,9 @@ namespace BlazorFluentUI
                 IL.Emit(OpCodes.Call, property.GetGetMethod()!);
                 IL.Emit(OpCodes.Ret);
 
-                getter = (Func<object, object>?)dynamicMethod.CreateDelegate(typeof(Func<object, object>));
-                cache.Add(property, getter);
+                getter = (Func<object, object>)dynamicMethod.CreateDelegate(typeof(Func<object, object>));
+                if (getter != null)
+                    cache.Add(property, getter);
                 //Debug.WriteLine($"Emit creation took: {TimeSpan.FromTicks(DateTime.Now.Ticks - start).TotalMilliseconds}ms");
             }
             else
@@ -142,7 +144,7 @@ namespace BlazorFluentUI
                 //Debug.WriteLine($"Cached getter took: {TimeSpan.FromTicks(DateTime.Now.Ticks-start).TotalMilliseconds}ms");
             }
 
-            return getter;
+            return getter!;
         }
     }
 }

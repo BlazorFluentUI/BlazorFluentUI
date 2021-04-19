@@ -6,16 +6,16 @@
 {
     <ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
                     Data=@_currentData
-                    GetCacheKey=@(x => x.CacheKey)
+                    GetCacheKey=@(x => x?.CacheKey)
                     ClassName=@ClassName
                     Style=@Style>
         <DataTemplate Context="data">
             <div class="mediumFont ms-NavBar-horizontal" role="menubar">
                 <div style="margin:8px 15px 0 -15px;">
-                    @HeaderTemplate(Header)
+                    @HeaderTemplate(Header!)
                 </div>
                 @*Primary*@
-                <OverflowSet ClassName="ms-NavBar-horizontal-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
+                <OverflowSet ClassName="ms-NavBar-horizontal-primarySet" Items=@data!.PrimaryItems OverflowItems=@(data.OverflowItems!.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
                     <ItemTemplate>
                         @if (context.IconOnly)
                         {
@@ -29,7 +29,7 @@
                                                          Disabled=@context.Disabled
                                                          AriaLabel=@context.AriaLabel
                                                          Checked=@context.Checked
-                                                         ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault             (x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
+                                                         ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items!))).FirstOrDefault(x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
                                                          Split=@context.Split Style=@context.Style
                                                          Command=@context.Command
                                                          CommandParameter=@context.CommandParameter/>
@@ -49,7 +49,7 @@
                                                  Disabled=@context.Disabled
                                                  AriaLabel=@context.AriaLabel
                                                  Checked=@context.Checked
-                                                 ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault(x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
+                                                 ClassName=@(context.ClassName + (context.Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items!))).FirstOrDefault(x=>x.Checked==true) != null ? $" subgroup-is-checked":""))
                                                  Split=@context.Split Style=@context.Style
                                                  Command=@context.Command
                                                  CommandParameter=@context.CommandParameter/>

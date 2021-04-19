@@ -205,10 +205,10 @@
     {
         [Required]
         [StringLength(5, ErrorMessage = "NameOnChange is too long.")]
-        public string NameOnChange { get; set; }
+        public string? NameOnChange { get; set; }
         [Required]
         [StringLength(5, ErrorMessage = "NameOnInput is too long.")]
-        public string NameOnInput { get; set; }
+        public string? NameOnInput { get; set; }
 
         public string exampleText { get; set; } = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut volutpat lacus vitae ex aliquam fermentum. Aenean viverra sollicitudin felis, nec malesuada sem cursus vitae. Maecenas lacus risus, scelerisque ac risus nec, hendrerit tristique risus. Cras sollicitudin suscipit pretium. Nunc dapibus gravida ligula, nec lacinia lorem aliquet id. Curabitur mauris turpis, consequat non magna nec, scelerisque accumsan est. Maecenas volutpat mauris vel mattis bibendum. Donec ornare elit quis dui euismod, vel cursus nibh viverra. Ut consectetur.";
     }

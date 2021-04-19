@@ -18,7 +18,7 @@
             {
                 var header = context.Item as HeaderItem3<TItem,TKey>;
                 bool isSelected = false;
-                if (Selection != null)
+                if (Selection != null && header != null)
                 {
                     isSelected = Selection.IsRangeSelected(header.GroupIndex, header.Count);
                     if (!headerSubscriptions.ContainsKey(header))
@@ -37,7 +37,7 @@
                     }
 
                 }
-                <GroupHeader IsOpen=@header.IsOpen
+                <GroupHeader IsOpen=@header!.IsOpen
                                 OnOpenChanged=@((isOpen)=>
                                                 {
                                                     if (header.IsOpen != isOpen)
@@ -60,10 +60,10 @@
                     <GroupItemAuto ItemsSource=@header.Items
                                   TItem=@TItem
                                   TKey=@TKey
-                                  GetKey=@GetKey
+                                  GetKey=@(GetKey!)
                                   IsVirtualizing=@IsVirtualizing
                                   Compact=@Compact
-                                  ItemTemplate=@ItemTemplate
+                                  ItemTemplate=@(ItemTemplate!)
                                   SelectionMode=@SelectionMode
                                   Selection=@Selection
                                   StartIndex=@header.GroupIndex
@@ -75,9 +75,9 @@
             }
             else
             {
-                @if (context.Item.IsVisible)
+                @if (context.Item!.IsVisible)
                 {
-                    @ItemTemplate(context)
+                    @ItemTemplate!(context)
                 }
             }
         </ItemTemplate>

@@ -12,6 +12,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BaseComponent\Extensions\MemoExtension.cs" />
+    <Compile Remove="BaseComponent\Layer\ObservableDictionary.cs" />
+    <Compile Remove="ResponsiveLayout\Collections\Comparer2.cs" />
+    <Compile Remove="ResponsiveLayout\Collections\DictionaryEnumerator.cs" />
+    <Compile Remove="ResponsiveLayout\Collections\IOrderedDictionary.cs" />
+    <Compile Remove="ResponsiveLayout\Collections\KeyedCollection2.cs" />
+    <Compile Remove="ResponsiveLayout\Collections\OrderedDictionary.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="tsconfig.json" />
   </ItemGroup>
@@ -39,6 +49,10 @@
     <TypeScriptCompile Include="tsconfig.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </TypeScriptCompile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ResponsiveLayout\Collections\" />
   </ItemGroup>
 
   <ProjectExtensions>

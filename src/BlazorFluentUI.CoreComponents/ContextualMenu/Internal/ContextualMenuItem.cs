@@ -14,17 +14,17 @@ namespace BlazorFluentUI.ContextualMenuInternal
     public class ContextualMenuItem : FluentUIComponentBase, IDisposable
     {
 
-        [Parameter] public string Href { get; set; }
-        [Parameter] public string Key { get; set; }
-        [Parameter] public string Text { get; set; }
-        [Parameter] public string SecondaryText { get; set; }
-        [Parameter] public string IconName { get; set; }
-        [Parameter] public string IconSrc { get; set; }
+        [Parameter] public string? Href { get; set; }
+        [Parameter] public string? Key { get; set; }
+        [Parameter] public string? Text { get; set; }
+        [Parameter] public string? SecondaryText { get; set; }
+        [Parameter] public string? IconName { get; set; }
+        [Parameter] public string? IconSrc { get; set; }
         [Parameter] public ContextualMenuItemType ItemType { get; set; }
 
         //[Parameter] public RenderFragment SubmenuContent { get; set; }
-        [Parameter] public IEnumerable<IContextualMenuItem> Items { get; set; }
-        [Parameter] public RenderFragment<IContextualMenuItem> ItemTemplate { get; set; }
+        [Parameter] public IEnumerable<IContextualMenuItem>? Items { get; set; }
+        [Parameter] public RenderFragment<IContextualMenuItem>? ItemTemplate { get; set; }
 
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool CanCheck { get; set; }
@@ -34,8 +34,8 @@ namespace BlazorFluentUI.ContextualMenuInternal
         [Parameter] public EventCallback<ItemClickedArgs> OnClick { get; set; }
         [Parameter] public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
 
-        [Parameter] public ICommand Command { get; set; }
-        [Parameter] public object CommandParameter { get; set; }
+        [Parameter] public ICommand? Command { get; set; }
+        [Parameter] public object? CommandParameter { get; set; }
 
         //[Parameter] public ContextualMenu ParentContextualMenu { get; set; }
 
@@ -45,7 +45,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
         [Parameter] public EventCallback<bool> DismissMenu { get; set; }
         //[Parameter] public EventCallback DismissSubMenu { get; set; }
 
-        [Parameter] public string SubmenuActiveKey { get; set; }
+        [Parameter] public string? SubmenuActiveKey { get; set; }
 
         [Parameter] public bool HasIcons { get; set; }
         [Parameter] public bool HasCheckables { get; set; }
@@ -56,7 +56,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
 
         //private ElementReference linkElementReference;
         //private List<int> eventHandlerIds;
-        private Timer enterTimer = new();
+        private readonly Timer enterTimer = new();
 
 
         //[JSInvokable] public void MouseEnterHandler()
@@ -172,7 +172,8 @@ namespace BlazorFluentUI.ContextualMenuInternal
         {
             System.Diagnostics.Debug.WriteLine($"ContextualMenuItem called click: {Key}");
 
-            await OnClick.InvokeAsync(new ItemClickedArgs() { MouseEventArgs = new MouseEventArgs(), Key = Key });
+            if (Key != null)
+                await OnClick.InvokeAsync(new ItemClickedArgs() { MouseEventArgs = new MouseEventArgs(), Key = Key });
             Command?.Execute(CommandParameter);
 
             if (!CanCheck)
@@ -280,7 +281,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
             builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, () => DismissMenu.InvokeAsync(true)));
             //builder.AddAttribute(23, "onclick:preventDefault", true);
             builder.AddAttribute(24, "role", "menuitem");
-            builder.AddAttribute(25, "class", $"ms-ContextualMenu-link ms-ContextualMenu-anchorLink mediumFont {(Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault(x => x.Checked == true) != null ? $" subgroup-is-checked" : "")}");  //the subgroup check is only for NavBar
+            builder.AddAttribute(25, "class", $"ms-ContextualMenu-link ms-ContextualMenu-anchorLink mediumFont {(Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items!))).FirstOrDefault(x => x.Checked == true) != null ? $" subgroup-is-checked" : "")}");  //the subgroup check is only for NavBar
             builder.AddAttribute(27, "onmouseenter", EventCallback.Factory.Create(this, MouseEnterHandler));
             builder.AddAttribute(28, "onmouseenter:preventDefault", true);
 
@@ -292,7 +293,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
 
         private IEnumerable<IContextualMenuItem> GetChild(IEnumerable<IContextualMenuItem> list)
         {
-            return list.Concat(list.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items)));
+            return list.Concat(list.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items!)));
         }
 
         private void RenderButtonItem(RenderTreeBuilder builder)
@@ -304,7 +305,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
             builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, ClickHandler));
             builder.AddAttribute(24, "onclick:preventDefault", true);
             builder.AddAttribute(25, "role", "menuitem");
-            builder.AddAttribute(26, "class", $"ms-ContextualMenu-link mediumFont {(Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items))).FirstOrDefault(x => x.Checked == true) != null ? $" subgroup-is-checked" : "")}");  //the subgroup check is only for NavBar
+            builder.AddAttribute(26, "class", $"ms-ContextualMenu-link mediumFont {(Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items!))).FirstOrDefault(x => x.Checked == true) != null ? $" subgroup-is-checked" : "")}");  //the subgroup check is only for NavBar
             builder.AddAttribute(27, "onmouseenter", EventCallback.Factory.Create(this, MouseEnterHandler));
             builder.AddAttribute(28, "onmouseenter:preventDefault", true);
             //builder.AddElementReferenceCapture(29, (linkElement) => linkElementReference = linkElement);  //need this to register mouse events in javascript (not available in Blazor)

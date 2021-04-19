@@ -24,7 +24,7 @@ namespace BlazorFluentUI
         // Come back to this later if needed!
         // Line needed on razor page:
         // style=@("overflowY: {(needsVerticalScrollBar ? "scroll" : "hidden")}; outline: none")
-        private bool needsVerticalScrollBar = false;
+        //private bool needsVerticalScrollBar = false;
 
         private string? _handleToLastFocusedElement;
 

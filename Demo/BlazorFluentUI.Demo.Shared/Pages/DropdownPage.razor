@@ -54,7 +54,7 @@
 
         <div class="subSection">
             <Demo Header="Controlled Multi-Selection" Key="3" MetadataPath="DropdownPage">
-                <Label>Selected: @string.Join(", ", controlledMultiSelectionResult.Select(x => x.Text))</Label>
+                <Label>Selected: @string.Join(", ", controlledMultiSelectionResult!.Select(x => x.Text))</Label>
                 <Dropdown ItemsSource=@items
                           MultiSelect="true"
                           Placeholder="Select options..."
@@ -99,13 +99,13 @@
 </div>
 @code {
 
-    IDropdownOption uncontrolledSingleSelectionResult;
+    IDropdownOption? uncontrolledSingleSelectionResult;
     IEnumerable<IDropdownOption> uncontrolledMultiSelectionResult = new List<IDropdownOption>();
 
-    IDropdownOption controlledSingleSelectionResult;
-    IEnumerable<IDropdownOption> controlledMultiSelectionResult;
+    IDropdownOption? controlledSingleSelectionResult;
+    IEnumerable<IDropdownOption>? controlledMultiSelectionResult;
 
-    List<IDropdownOption> items;
+    List<IDropdownOption>? items;
 
     protected override Task OnInitializedAsync()
     {
@@ -121,7 +121,7 @@
             new DataItem("Broccoli"),
             new DataItem("Carrot"),
             new DataItem("Lettuce")
-        }.Select(x => new DropdownOption { Key = x.Key, Text = x.DisplayName, ItemType = x.Type }).Cast<IDropdownOption>().ToList();
+        }.Select(x => new DropdownOption { Key = x.Key!, Text = x.DisplayName, ItemType = x.Type }).Cast<IDropdownOption>().ToList();
 
         controlledSingleSelectionResult = items.First(x => x.Key == "Banana");
 
@@ -149,12 +149,12 @@
     class ExampleModel
     {
         [Required]
-        public IDropdownOption SelectionResult { get; set; }
+        public IDropdownOption? SelectionResult { get; set; }
     }
 
     public void HandleValidSubmit()
     {
-        var i = 3;
+        //var i = 3;
     }
 
 }

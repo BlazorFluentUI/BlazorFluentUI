@@ -26,7 +26,7 @@
         <div class="subSection">
             <Demo Header="ChoiceGroup with ItemSource as List<string>" MetadataPath="ChoiceGroupPage" Key="0">
                 <Stack>
-                    <ChoiceGroup ItemsSource="this._stringItems" @bind-Value="this._selectedStringOption" Required="true">
+                    <ChoiceGroup ItemsSource="this._stringItems!" @bind-Value="this._selectedStringOption" Required="true">
                     </ChoiceGroup>
                     <br />
                     <div>
@@ -39,7 +39,7 @@
         <div class="subSection">
             <Demo Header="ChoiceGroup with ItemSource as List<IChoiceGroupOption>" MetadataPath="ChoiceGroupPage" Key="1">
                 <Stack>
-                    <ChoiceGroup ItemsSource="this._choiceGroupOptions" @bind-Value="this._selectedChoiceGroupOption">
+                    <ChoiceGroup ItemsSource="this._choiceGroupOptions!" @bind-Value="this._selectedChoiceGroupOption">
                     </ChoiceGroup>
                     <br />
                     <div>
@@ -52,9 +52,9 @@
         <div class="subSection">
             <Demo Header="ChoiceGroup with ItemSource as List<CustomObject> using OptionTemplate" MetadataPath="ChoiceGroupPage" Key="2">
                 <Stack>
-                    <ChoiceGroup ItemsSource="this._customObjects" @bind-Value="this._selectedCustomObject" ItemAlignment="FlexDirection.Row">
+                    <ChoiceGroup ItemsSource="this._customObjects!" @bind-Value="this._selectedCustomObject" ItemAlignment="FlexDirection.Row">
                         <OptionTemplate Context="item">
-                            <Icon IconName="@item.IconName" Style="font-size:36px"></Icon>
+                            <Icon IconName="@item!.IconName" Style="font-size:36px"></Icon>
                         </OptionTemplate>
                     </ChoiceGroup>
                     <br />
@@ -65,17 +65,17 @@
 
                 <Stack>
                     <h3>Datasource is a List&lt;CustomObject&gt; using the "OptionTemplate"</h3>
-                    <ChoiceGroup ItemsSource="this._customObjects2" @bind-Value="this._selectedCustomObject2" ItemAlignment="FlexDirection.Row">
+                    <ChoiceGroup ItemsSource="this._customObjects2!" @bind-Value="this._selectedCustomObject2" ItemAlignment="FlexDirection.Row">
                         <OptionTemplate Context="item">
                             <div style="width:200px;height:90px">
-                                <Icon IconName="@item.IconName" Style="font-size:36px;margin-bottom:10px"></Icon>
+                                <Icon IconName="@item!.IconName" Style="font-size:36px;margin-bottom:10px"></Icon>
                                 @if (item.Id == 1)
                                 {
                                     <DatePicker Disabled="_selectedCustomObject2?.Id != 1" @bind-Value="_selectedDate"></DatePicker>
                                 }
                                 else if (item.Id == 3)
                                 {
-                                    <Dropdown ItemsSource=@_months.Select(x=>new DropdownOption { Key = x.Name, Text = x.Name })
+                                    <Dropdown ItemsSource=@_months.Select(x=>new DropdownOption { Key = x.Name!, Text = x.Name })
                                               Disabled="_selectedCustomObject2?.Id != 3"
                                               Placeholder="Select a Month"
                                               @bind-SelectedOption=@_selectedMonthOption />
@@ -88,7 +88,7 @@
                         Selected option id: @(_selectedCustomObject2?.Id.ToString() ?? "none")
                     </div>
                     <div>
-                        Selected date: @(_selectedDate != DateTime.MinValue ? ((DateTime)_selectedDate).ToShortDateString() : "none")
+                        Selected date: @(_selectedDate != null ? ((DateTime)_selectedDate).ToShortDateString() : "none")
                     </div>
                     <div>
                         Selected month: @(_selectedMonthOption?.Text ?? "none")
@@ -103,16 +103,16 @@
 
 
 @code {
-    private string _selectedStringOption;
-    private ChoiceGroupOption _selectedChoiceGroupOption;
-    private CustomObject _selectedCustomObject;
-    private CustomObject _selectedCustomObject2;
+    private string? _selectedStringOption;
+    private ChoiceGroupOption? _selectedChoiceGroupOption;
+    private CustomObject? _selectedCustomObject;
+    private CustomObject? _selectedCustomObject2;
     private DateTime? _selectedDate = DateTime.Now;
     //private string _selectedMonth;
-    private IDropdownOption _selectedMonthOption;
+    private IDropdownOption? _selectedMonthOption;
 
-    private List<string> _stringItems = new List<string>
-{
+    private List<string>? _stringItems = new List<string>
+    {
         "Option A",
         "Option B",
         "Option C",
@@ -159,7 +159,7 @@
 
     private class ChoiceGroupOption : IChoiceGroupOption
     {
-        public string Label { get; set; }
+        public string? Label { get; set; }
         public bool IsDisabled { get; set; } = false;
         public bool IsVisible { get; set; } = true;
     }
@@ -167,14 +167,14 @@
     private class CustomObject : IChoiceGroupOption
     {
         public int Id { get; set; }
-        public string Label { get; set; }
+        public string? Label { get; set; }
         public bool IsDisabled { get; set; } = false;
         public bool IsVisible { get; set; } = true;
-        public string IconName { get; set; }
+        public string? IconName { get; set; }
     }
 
     private class Month
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

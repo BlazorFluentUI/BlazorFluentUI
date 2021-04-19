@@ -5,19 +5,19 @@ namespace BlazorFluentUI.Routing
     public interface INavBarItem : IContextualMenuItem, ICommandBarItem
     {
         //buttonStyles
-        string CacheKey { get; set; }
+        //string? CacheKey { get; set; }
         //commandBarButtonAs
-        bool IconOnly { get; set; }
+        //bool IconOnly { get; set; }
 
-        string Id { get; set; }
+        string? Id { get; set; }
 
         bool IsExpanded { get; set; }
 
         NavMatchType NavMatchType { get; set; }
-        bool RenderedInOverflow { get; set; }
+        //bool RenderedInOverflow { get; set; }
         //tooltipHostProps
-        string Url { get; set; }
+        string? Url { get; set; }
 
-        IEnumerable<IContextualMenuItem> Items { get; set; }
+        //IEnumerable<IContextualMenuItem> Items { get; set; }
     }
 }

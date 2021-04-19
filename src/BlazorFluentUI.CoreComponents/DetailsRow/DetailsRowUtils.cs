@@ -43,7 +43,7 @@ namespace BlazorFluentUI
             if (memberAcessExpression != null)
             {
                 //to here we assign the SetValue method of a property or field
-                Action<object, object> propertyOrFieldSetValue = null;
+                Action<object, object>? propertyOrFieldSetValue = null;
 
                 // property
                 var propertyInfo = memberAcessExpression.Member as PropertyInfo;
@@ -63,14 +63,15 @@ namespace BlazorFluentUI
 
                 // This is the expression to get declaring object instance.
                 // Example: for expression "o=>o.Property1.Property2.CollectionProperty[3].TargetProperty" it gives us the "o.Property1.Property2.CollectionProperty[3]" part
-                var memberAcessExpressionCompiledLambda = Expression.Lambda(memberAcessExpression.Expression, getterExpression.Parameters.Single()).Compile();
+                var memberAcessExpressionCompiledLambda = Expression.Lambda(memberAcessExpression.Expression!, getterExpression.Parameters.Single()).Compile();
                 void setter(TObject expressionParameter, TPropertyOnObject value)
                 {
                     // get the object instance on which is the property we want to set
                     var declaringObjectInstance = memberAcessExpressionCompiledLambda.DynamicInvoke(expressionParameter);
                     Debug.Assert(propertyOrFieldSetValue != null, "propertyOrFieldSetValue != null");
                     // set the value of the property
-                    propertyOrFieldSetValue(declaringObjectInstance, value);
+                    if (declaringObjectInstance != null && value != null)
+                        propertyOrFieldSetValue(declaringObjectInstance, value);
                 }
 
                 return setter;
@@ -116,8 +117,9 @@ namespace BlazorFluentUI
                     {
                         try
                         {
-                            var dictionaryInstance = (IDictionary)collectionGetterCompiledLambda.DynamicInvoke(expressionParameter);
-                            dictionaryInstance.Add(collectionKey, value);
+                            var dictionaryInstance = (IDictionary?)collectionGetterCompiledLambda.DynamicInvoke(expressionParameter);
+                            if (dictionaryInstance != null && collectionKey != null)
+                                dictionaryInstance.Add(collectionKey, value);
                         }
                         catch (Exception exception)
                         {
@@ -142,18 +144,21 @@ namespace BlazorFluentUI
                     {
                         try
                         {
-                            var collectionInstance = (IList<TPropertyOnObject>)collectionGetterCompiledLambda.DynamicInvoke(expressionParameter);
-                            var collectionIndexFromExpression = int.Parse(collectionKey.ToString());
+                            var collectionInstance = (IList<TPropertyOnObject>?)collectionGetterCompiledLambda.DynamicInvoke(expressionParameter);
+                            var collectionIndexFromExpression = int.Parse(collectionKey?.ToString()!);
 
                             // The semantics of a collection setter is to add value if the index in expression is <0 and set the item at the index
                             // if the index >=0.
-                            if (collectionIndexFromExpression < 0)
+                            if (collectionInstance != null)
                             {
-                                collectionInstance.Add(value);
-                            }
-                            else
-                            {
-                                collectionInstance[collectionIndexFromExpression] = value;
+                                if (collectionIndexFromExpression < 0)
+                                {
+                                    collectionInstance.Add(value);
+                                }
+                                else
+                                {
+                                    collectionInstance[collectionIndexFromExpression] = value;
+                                }
                             }
                         }
                         catch (Exception invocationException)

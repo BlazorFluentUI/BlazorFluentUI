@@ -18,9 +18,9 @@ namespace BlazorFluentUI.Lists
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private List<IGroupedListItem3<TItem>> listReference;
+        private List<IGroupedListItem3<TItem>>? listReference;
 
-        private ObservableCollection<IGroupedListItem3<TItem>> dataItems;
+        private ObservableCollection<IGroupedListItem3<TItem>>? dataItems;
 
         //private IEnumerable<Group<TItem,TKey>> _groups;
 
@@ -29,13 +29,13 @@ namespace BlazorFluentUI.Lists
 
 
         //private TItem _rootGroup;
-        private IList<TItem> _itemsSource;
+        private IList<TItem>? _itemsSource;
 
-        private IDisposable _selectionSubscription;
-        private IDisposable _transformedDisposable;
+        //private IDisposable? _selectionSubscription;
+        //private IDisposable? _transformedDisposable;
 
         [CascadingParameter]
-        public SelectionZone<TItem> SelectionZone { get; set; }
+        public SelectionZone<TItem?>? SelectionZone { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
@@ -44,22 +44,22 @@ namespace BlazorFluentUI.Lists
         /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.
         /// </summary>
         [Parameter]
-        public Func<TItem, TKey> GetKey { get; set; }
+        public Func<TItem, TKey>? GetKey { get; set; }
 
         [Parameter]
-        public Func<TItem, string> GroupTitleSelector { get; set; }
+        public Func<TItem, string>? GroupTitleSelector { get; set; }
 
         [Parameter]
         public bool IsVirtualizing { get; set; } = true;
 
         [Parameter]
-        public Func<TItem, MouseEventArgs, Task> ItemClicked { get; set; }
+        public Func<TItem, MouseEventArgs, Task>? ItemClicked { get; set; }
 
         [Parameter]
-        public IList<TItem> ItemsSource { get; set; }
+        public IList<TItem>? ItemsSource { get; set; }
 
         [Parameter]
-        public RenderFragment<IndexedItem<IGroupedListItem3<TItem>>> ItemTemplate { get; set; }
+        public RenderFragment<IndexedItem<IGroupedListItem3<TItem>>>? ItemTemplate { get; set; }
 
         [Parameter]
         public EventCallback<bool> OnGroupExpandedChanged { get; set; }
@@ -68,16 +68,16 @@ namespace BlazorFluentUI.Lists
         public Func<bool> OnShouldVirtualize { get; set; } = () => true;
 
         [Parameter]
-        public Selection<TItem> Selection { get; set; }
+        public Selection<TItem>? Selection { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
         [Parameter]
-        public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
+        public Func<TItem, IEnumerable<TItem>>? SubGroupSelector { get; set; }
 
-
-        Dictionary<HeaderItem3<TItem, TKey>, IDisposable> headerSubscriptions = new();
+#pragma warning disable CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
+        private Dictionary<HeaderItem3<TItem, TKey>, IDisposable> headerSubscriptions = new();
 
 
         protected override Task OnInitializedAsync()
@@ -95,9 +95,8 @@ namespace BlazorFluentUI.Lists
         {
             if (Selection != null)
             {
-                HeaderItem3<TItem, TKey>? header = (headerItem.Item as HeaderItem3<TItem, TKey>);
-
-                Selection.ToggleRangeSelected(header.GroupIndex, header.Count);
+                if (headerItem.Item is HeaderItem3<TItem, TKey> header)
+                    Selection.ToggleRangeSelected(header.GroupIndex, header.Count);
             }
             //if (SelectionZone != null)
             //{
@@ -154,7 +153,7 @@ namespace BlazorFluentUI.Lists
                         int cummulativeCount = 0;
                         for (int i =0; i< _itemsSource.Count; i++)
                         {
-                            HeaderItem3<TItem, TKey>? group = new HeaderItem3<TItem, TKey>(_itemsSource[i], 0, cummulativeCount, SubGroupSelector, GroupTitleSelector);
+                            HeaderItem3<TItem, TKey>? group = new(_itemsSource[i], 0, cummulativeCount, SubGroupSelector, GroupTitleSelector!);
                             dataItems.Add(group);
                             int subItemCount = GroupedList<TItem, TKey>.GetPlainItemsCount(_itemsSource[i], SubGroupSelector);
                             cummulativeCount += subItemCount;
@@ -175,7 +174,7 @@ namespace BlazorFluentUI.Lists
             foreach (TItem? item in groupedItems)
             {
                 IEnumerable<TItem>? subItems = subGroupSelector(item);
-                if (subItems == null || subItems.Count() == 0)
+                if (subItems == null || !subItems.Any())
                     flattenedItems.Add(item);
                 else
                 {
@@ -190,7 +189,7 @@ namespace BlazorFluentUI.Lists
         public static int GetPlainItemsCount(TItem item, Func<TItem, IEnumerable<TItem>> subgroupSelector)
         {
             IEnumerable<TItem>? subItems = subgroupSelector(item);
-            if (subItems == null || subItems.Count() == 0)
+            if (subItems == null || !subItems.Any())
                 return 1;
             else
             {
@@ -212,8 +211,10 @@ namespace BlazorFluentUI.Lists
                 header.Value.Dispose();
             }
 
-            _transformedDisposable?.Dispose();
-            _selectionSubscription?.Dispose();
+            //_transformedDisposable?.Dispose();
+            //_selectionSubscription?.Dispose();
         }
+#pragma warning restore CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
+
     }
 }

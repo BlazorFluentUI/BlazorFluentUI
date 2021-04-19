@@ -18,17 +18,17 @@ namespace BlazorFluentUI
 
         [Parameter] public bool IsFixed { get; set; } = true;
 
-        [Inject] private LayerHostService LayerHostService { get; set; }
+        [Inject] private LayerHostService? LayerHostService { get; set; }
 
         protected LayerPortalGenerator? portalGeneratorReference;
 
 
-        public Task AddOrUpdateHostedContentAsync(string layerId, RenderFragment? renderFragment)
+        public Task? AddOrUpdateHostedContentAsync(string layerId, RenderFragment? renderFragment)
         {
             return portalGeneratorReference?.AddOrUpdateHostedContentAsync(layerId, renderFragment);
         }
 
-        public Task RemoveHostedContentAsync(string layerId)
+        public Task? RemoveHostedContentAsync(string layerId)
         {
             return portalGeneratorReference?.RemoveHostedContentAsync(layerId);
         }
@@ -37,7 +37,7 @@ namespace BlazorFluentUI
         {
             if (firstRender)
             {
-                LayerHostService.RegisterHost(this);
+                LayerHostService?.RegisterHost(this);
                 //JSRuntime.InvokeAsync<string>("registerLayerHost")
             }
             await base.OnAfterRenderAsync(firstRender);
@@ -45,7 +45,7 @@ namespace BlazorFluentUI
 
         public void Dispose()
         {
-            LayerHostService.RemoveHost(this);
+            LayerHostService?.RemoveHost(this);
         }
     }
 }

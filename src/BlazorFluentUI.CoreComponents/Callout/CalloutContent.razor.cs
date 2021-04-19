@@ -215,7 +215,7 @@ namespace BlazorFluentUI
                 maxBounds.Height -= (2 * MinPagePadding);
             }
             Rectangle? targetRect = await FabricComponentTarget!.GetBoundsAsync();
-            //Debug.WriteLine($"TargetRect: {targetRect.left}, {targetRect.top}, {targetRect.right}, {targetRect.bottom}");
+            Debug.WriteLine($"TargetRect: {targetRect.Left}, {targetRect.Top}, {targetRect.Right}, {targetRect.Bottom}");
 
             contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
             if (CalloutMaxHeight > 0 && CalloutMaxHeight < contentMaxHeight)
@@ -226,7 +226,7 @@ namespace BlazorFluentUI
 
             CalloutPosition = await PositionCalloutAsync(targetRect, maxBounds);
             //this.CalloutPosition = calloutPositioning;
-            //Debug.WriteLine($"CalloutPosition: {CalloutPosition.ElementRectangle.left}, {CalloutPosition.ElementRectangle.top}, {CalloutPosition.ElementRectangle.right}, {CalloutPosition.ElementRectangle.bottom}");
+            Debug.WriteLine($"CalloutPosition: {CalloutPosition.ElementRectangle.Left}, {CalloutPosition.ElementRectangle.Top}, {CalloutPosition.ElementRectangle.Right}, {CalloutPosition.ElementRectangle.Bottom}");
 
             //this.Position = this.CalloutPosition.ElementRectangle;
 
@@ -761,8 +761,8 @@ namespace BlazorFluentUI
             {
                 Css = $"position:absolute;" +
                         $"box-sizing:border-box;" +
-                        $"border-radius:{Theme.Effects.RoundedCorner2};" +
-                        $"box-shadow:{Theme.Effects.Elevation16};" +
+                        $"border-radius:{Theme?.Effects.RoundedCorner2};" +
+                        $"box-shadow:{Theme?.Effects.Elevation16};" +
                         $"{(CalloutWidth != 0 ? $"width:{CalloutWidth}px;" : "")}" +
                         $"{(CalloutMaxWidth != 0 ? $"max-width:{CalloutMaxWidth}px;" : "")}" +
                         $"outline:transparent;"

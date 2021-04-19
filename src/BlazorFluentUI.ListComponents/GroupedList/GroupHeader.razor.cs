@@ -9,8 +9,8 @@ namespace BlazorFluentUI
 {
     public partial class GroupHeader : FluentUIComponentBase, IDisposable
     {
-        
-        bool isLoadingVisible;
+
+        //bool isLoadingVisible;
 
         [Parameter]
         public bool Compact { get; set; }
@@ -31,10 +31,10 @@ namespace BlazorFluentUI
         public bool IsOpen { get; set; }
 
         [Parameter]
-        public Action<bool> OnOpenChanged { get; set; }
+        public Action<bool>? OnOpenChanged { get; set; }
 
         [Parameter]
-        public Func<object,bool> IsGroupLoading { get; set; }
+        public Func<object,bool>? IsGroupLoading { get; set; }
 
         [Parameter]
         public bool IsSelectionCheckVisible { get; set; }
@@ -46,22 +46,22 @@ namespace BlazorFluentUI
         public string LoadingText { get; set; } = "Loading...";
 
         [Parameter]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Parameter]
-        public Action OnClick { get; set; }
+        public Action? OnClick { get; set; }
 
         [Parameter]
-        public Action OnToggle { get; set; }
+        public Action? OnToggle { get; set; }
 
-      
+
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
 
         [CascadingParameter]
-        private SelectionZone<object> SelectionZone { get; set; }
+        private SelectionZone<object>? SelectionZone { get; set; }
 
-        protected bool isSelected { get; set; }
+        protected bool IsSelected { get; set; }
 
          protected override Task OnInitializedAsync()
         {
@@ -73,18 +73,18 @@ namespace BlazorFluentUI
         {
             return base.OnParametersSetAsync();
         }
-       
+
 
         public void OnToggleOpen(MouseEventArgs mouseEventArgs)
         {
-            OnOpenChanged(!IsOpen);
+            OnOpenChanged!(!IsOpen);
             //isLoadingVisible = !isCollapsed && IsGroupLoading != null; // && IsGroupLoading(group);
-            
+
         }
 
         public void Dispose()
         {
-            
+
         }
     }
 }

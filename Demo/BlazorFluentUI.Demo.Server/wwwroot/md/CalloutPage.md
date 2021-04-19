@@ -38,7 +38,7 @@
                 @if (!calloutHidden)
                 {
                     <Callout FabricComponentTarget=@calloutTarget
-                             DirectionalHint=@((DirectionalHint)Enum.Parse(typeof(DirectionalHint),selectedOption.Key))
+                             DirectionalHint=@((DirectionalHint)Enum.Parse(typeof(DirectionalHint),selectedOption?.Key!))
                              OnDismiss=@DismissHandler>
                         <div Style="max-width:300px; padding:20px;">
                             <h2>Callout Test</h2>
@@ -56,13 +56,13 @@
 </div>
 @code {
 
-    bool isInitialized = false;
+    //bool isInitialized = false;
     bool calloutHidden = true;
 
-    FluentUIComponentBase calloutTarget;
+    FluentUIComponentBase? calloutTarget;
 
-    List<IDropdownOption> options;
-    IDropdownOption selectedOption;
+    List<IDropdownOption>? options;
+    IDropdownOption? selectedOption;
     //string SelectedDirection = DirectionalHint.BottomLeftEdge.ToString();
 
     protected override Task OnInitializedAsync()

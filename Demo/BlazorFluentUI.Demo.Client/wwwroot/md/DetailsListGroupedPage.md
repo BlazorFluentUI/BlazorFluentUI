@@ -3,8 +3,6 @@
 @using DynamicData.Binding
 @using System.Collections.ObjectModel
 @using System.Reactive.Linq
-
-
 @using BlazorFluentUI.Lists
 <header class="root">
     <h1 class="title">DetailsList - Grouped Data</h1>
@@ -48,7 +46,7 @@
                                  GroupTitleSelector=@(item=>item.DisplayName)
                                  LayoutMode="DetailsListLayoutMode.Justified"
                                  Selection="selection"
-                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
+                                 SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption?.Key!))>
                     </DetailsList>
                 </div>
             </Demo>
@@ -58,19 +56,19 @@
 @code {
     bool? isVirtualizing = true;
     bool? isCompact = false;
-    IDropdownOption selectedModeOption;
-    System.Collections.Generic.List<IDropdownOption> selectionModeOptions;
+    IDropdownOption? selectedModeOption;
+    System.Collections.Generic.List<IDropdownOption>? selectionModeOptions;
 
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
-    SourceCache<DataItem, string> dataSource = new SourceCache<DataItem, string>(x => x.Key);
+    SourceCache<DataItem, string> dataSource = new SourceCache<DataItem, string>(x => x.Key!);
     public System.ComponentModel.BindingList<GroupedDataItem> ReadonlyList = new System.ComponentModel.BindingList<GroupedDataItem>();
     int count = 0;
 
-    SourceCache<DetailsRowColumn<GroupedDataItem>, string> columnsSource = new SourceCache<DetailsRowColumn<GroupedDataItem>, string>(x => x.Key);
-    public ReadOnlyObservableCollection<DetailsRowColumn<GroupedDataItem>> ReadonlyColumns;
+    SourceCache<DetailsRowColumn<GroupedDataItem>, string> columnsSource = new SourceCache<DetailsRowColumn<GroupedDataItem>, string>(x => x.Key!);
+    public ReadOnlyObservableCollection<DetailsRowColumn<GroupedDataItem>>? ReadonlyColumns;
 
-    DetailsList<GroupedDataItem> detailsList;
+    DetailsList<GroupedDataItem>? detailsList;
 
     ObservableDataContainer dataContainer = new ObservableDataContainer();
 
@@ -85,7 +83,7 @@
 
         public IObservable<SortExpressionComparer<GroupedDataItem>> DynamicSortExpression { get; private set; }
 
-        public IObservable<bool> IsFiltered { get; private set; }
+        public IObservable<bool>? IsFiltered { get; private set; }
 
         public ObservableDataContainer()
         {
@@ -94,11 +92,11 @@
 
                 if (isDescending)
                 {
-                    return SortExpressionComparer<GroupedDataItem>.Descending(selector.ConvertToIComparable());
+                    return SortExpressionComparer<GroupedDataItem>.Descending(selector!.ConvertToIComparable());
                 }
                 else
                 {
-                    return SortExpressionComparer<GroupedDataItem>.Ascending(selector.ConvertToIComparable());
+                    return SortExpressionComparer<GroupedDataItem>.Ascending(selector!.ConvertToIComparable());
                 }
             });
         }
@@ -114,8 +112,8 @@
         selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Multiple");
 
         columnsSource.AddOrUpdate(new DetailsRowColumn<GroupedDataItem, int>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0, OnColumnClick = this.OnColumnClick });
-        columnsSource.AddOrUpdate(new DetailsRowColumn<GroupedDataItem, string>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-        var descColumn = new DetailsRowColumn<GroupedDataItem, string>("Description", x => x.Description) { Index = 2, OnColumnClick = this.OnColumnClick };
+        columnsSource.AddOrUpdate(new DetailsRowColumn<GroupedDataItem, string>("Name", x => x.DisplayName!) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+        var descColumn = new DetailsRowColumn<GroupedDataItem, string>("Description", x => x.Description!) { Index = 2, OnColumnClick = this.OnColumnClick };
         columnsSource.AddOrUpdate(descColumn);
 
 
@@ -167,7 +165,7 @@
             columnsSource.AddOrUpdate(copyList);
         }
         dataContainer.Descending = column.IsSortedDescending;
-        dataContainer.SortSelector = column.FieldSelector;
+        dataContainer.SortSelector = column.FieldSelector!;
 
         detailsList?.ForceUpdate();  //needed because GroupedList uses a transformed version of ItemsSource that doesn't update automatically.
 
@@ -176,11 +174,11 @@
     private Func<DataItem, IComparable> GetSortSelector(string key)
     {
         if (key == "Key")
-            return (item) => item.Key;
+            return (item) => item.Key!;
         else if (key == "Name")
-            return (item) => item.DisplayName;
+            return (item) => item.DisplayName!;
         else
-            return item => item.Description;
+            return item => item.Description!;
     }
 
 

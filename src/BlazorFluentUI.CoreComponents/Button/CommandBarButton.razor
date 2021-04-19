@@ -77,8 +77,8 @@
 
 
 @code{
-    private DefaultButton defaultButtonReference {get;set;}
-    private PrimaryButton primaryButtonReference;
+    private DefaultButton defaultButtonReference = new DefaultButton();
+    private PrimaryButton primaryButtonReference = new PrimaryButton();
     protected override void OnAfterRender(bool firstRender)
     {
         if (Primary)

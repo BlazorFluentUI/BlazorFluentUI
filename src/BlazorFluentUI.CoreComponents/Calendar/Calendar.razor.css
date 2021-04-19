@@ -143,9 +143,21 @@
         padding: 0;
     }
 
+::deep .dayCell {
+    margin: 0px;
+    padding: 0px;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(50, 49, 48);
+    cursor: pointer;
+    position: relative;
+}
 
 
-::deep .ms-Calendar-dayWrapper,
+
 ::deep .ms-Calendar-weekday {
     width: 28px;
     height: 28px;
@@ -162,14 +174,14 @@
 
 
 
-    ::deep .ms-Calendar-dayWrapper *::-moz-focus-inner,
+    ::deep .dayCell *::-moz-focus-inner,
     ::deep .ms-Calendar-weekday *::-moz-focus-inner {
         border: 0;
     }
 
 
 
-    ::deep .ms-Calendar-dayWrapper *,
+    ::deep .dayCell *,
     ::deep .ms-Calendar-weekday * {
         outline: transparent;
         position: relative;
@@ -177,7 +189,7 @@
 
 
 
-.ms-Fabric--isFocusVisible .ms-Calendar ::deep .ms-Calendar-dayWrapper *:focus:after,
+.ms-Fabric--isFocusVisible .ms-Calendar ::deep .dayCell *:focus:after,
 .ms-Fabric--isFocusVisible .ms-Calendar ::deep .ms-Calendar-weekday *:focus:after {
     content: '';
     position: absolute;
@@ -359,7 +371,8 @@
 ::deep .ms-Calendar-yearOption.ms-Calendar-yearIsHighlighted,
 ::deep .ms-Calendar-timeOption.ms-Calendar-timeIsHighlighted {
     color: var(--palette-NeutralDark);
-    background-color: var(--palette-NeutralLight);
+    background-color: var(--palette-ThemeLight);
+    font-weight:600;
 }
 
 
@@ -462,7 +475,7 @@
             width: 100%;
         }
 
-        ::deep .ms-Calendar-dayWrapper,
+        ::deep .dayCell,
         ::deep .ms-Calendar-weekday {
             width: 28px;
             height: 28px;
@@ -505,10 +518,6 @@
             /*@include ms-right(20px);*/
         }
 
-        ::deep .ms-Calendar-showWeekNumbers ms-Calendar-table .ms-Calendar-dayWrapper,
-        ::deep .ms-Calendar-showWeekNumbers ms-Calendar-table .ms-Calendar-weekday {
-            width: 28px;
-        }
 
         ::deep .ms-Calendar-monthPickerVisible .ms-Calendar-wrap {
             padding: 12px;
@@ -707,21 +716,13 @@
     ::deep .ms-Calendar-monthIsHighlighted {
         background-color: var(--palette-NeutralLight);
         color: var(--palette-NeutralDark);
+        font-weight: 600;
     }
 
 
 
         ::deep .ms-Calendar-monthIsHighlighted.ms-Calendar-monthOption:hover {
             background-color: var(--palette-NeutralLight);
-            /*@include high-contrast {
-                        color: highlight;
-                        border: 2px solid highlight;
-                        border-radius: 2px;
-
-                        &:hover {
-                            outline: 0 !important;
-                        }
-                    }*/
         }
 
 

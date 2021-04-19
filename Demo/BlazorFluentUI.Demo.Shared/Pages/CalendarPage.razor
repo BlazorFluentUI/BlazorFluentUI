@@ -23,58 +23,91 @@
     </div>
     <div>
         <div class="subSection">
-            <Demo Header="single date range" Key="0" MetadataPath="CalendarPage">
-                Calendar Date selected: @(((DateTime)calendar1Value).ToString("D"))
-                <br />
-                Calendar Date range: @(calendar1Range != null && calendar1Range.Count > 0 ? calendar1Range.Min().ToString("D") + " - " + calendar1Range.Max().ToString("D") : "")
-                <Calendar @bind-Value=@calendar1Value @bind-Range=@calendar1Range />
+            <Demo Header="Calendar" Key="0" MetadataPath="CalendarPage">
+                Selected date: @(((DateTime)calendar1Value).ToString("D"))
+                <Calendar @bind-Value=@calendar1Value />
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="Calendar with week range" Key="1" MetadataPath="CalendarPage">
-                Calendar Date selected: @(((DateTime)calendar2Value).ToString("D"))
-                <br />
-                Calendar Date range: @(calendar2Range != null && calendar2Range.Count > 0 ? calendar2Range.Min().ToString("D") + " - " + calendar2Range.Max().ToString("D") : "")
-                <Calendar DateRangeType="DateRangeType.Week" @bind-Value="calendar2Value" @bind-Range="calendar2Range" />
-            </Demo>
-
-        </div>
-        <div class="subSection">
-            <Demo Header="Calendar with month range" Key="2" MetadataPath="CalendarPage">
-
-                Calendar Date selected: @(((DateTime)calendar3Value).ToString("D"))
-                <br />
-                Calendar Date range: @(calendar3Range != null && calendar3Range.Count > 0 ? calendar3Range.Min().ToString("D") + " - " + calendar3Range.Max().ToString("D") : "")
-
-                <Calendar DateRangeType="DateRangeType.Month" @bind-Value="calendar3Value" @bind-Range="calendar3Range" />
-            </Demo>
-        </div>
-        <div class="subSection">
-            <Demo Header="Calendar with minimum, maximum, and restricted dates" Key="3" MetadataPath="CalendarPage">
-                Minimum date: @minDate.ToString("D")
-                <br />
-                Maximum date: @maxDate.ToString("D")
-                <br />
-                Restricted dates: @(restrictedDates != null ? string.Join(", ", restrictedDates.Select(x => x.ToShortDateString())) : "")
-                <br />
-                Calendar Date selected: @((DateTime)calendar4Value).ToString("D")
-                <br />
-                Calendar Date range: @(calendar4Range != null && calendar4Range.Count > 0 ? calendar4Range.Min().ToString("D") + " - " + calendar4Range.Max().ToString("D") : "")
-
-                <Calendar @bind-Value="calendar4Value" @bind-Range="calendar4Range" MinDate="minDate" MaxDate="maxDate" RestrictedDates="restrictedDates" />
-            </Demo>
-        </div>
-        <div class="subSection">
-            <Demo Header="Calendar with just dates, Header click reveals months" Key="4" MetadataPath="CalendarPage">
-                Calendar Date selected: @(((DateTime)calendar1Value).ToString("D"))
+            <Demo Header="Calendar with overlaid month picker when header is clicked" Key="1" MetadataPath="CalendarPage">
+                Selected date: @(((DateTime)calendar1Value).ToString("D"))
                 <br />
                 Calendar Date range: @(calendar1Range != null && calendar1Range.Count > 0 ? calendar1Range.Min().ToString("D") + " - " + calendar1Range.Max().ToString("D") : "")
 
-                <Calendar @bind-Value=@calendar1Value @bind-Range=@calendar1Range ShowMonthPickerAsOverlay="true" />
+                <Calendar @bind-Value=@calendar1Value @bind-Range=@calendar1Range ShowMonthPickerAsOverlay="true" HighlightSelectedMonth="true" />
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="Calendar with Blazor Forms Validation" Key="5" MetadataPath="CalendarPage">
+            <Demo Header="Calendar with week selection" Key="2" MetadataPath="CalendarPage">
+                Selected date: @(((DateTime)calendar2Value).ToString("D"))
+                <br />
+                Selected range: @(calendar2Range != null && calendar2Range.Count > 0 ? calendar2Range.Min().ToString("D") + " - " + calendar2Range.Max().ToString("D") : "")
+                <Calendar DateRangeType="DateRangeType.Week" @bind-Value="calendar2Value" @bind-Range="calendar2Range" HighlightSelectedMonth="true" />
+            </Demo>
+
+        </div>
+        <div class="subSection">
+            <Demo Header="Calendar with month selection" Key="3" MetadataPath="CalendarPage">
+                Selected date: @(((DateTime)calendar3Value).ToString("D"))
+                <br />
+                Selected range: @(calendar3Range != null && calendar3Range.Count > 0 ? calendar3Range.Min().ToString("D") + " - " + calendar3Range.Max().ToString("D") : "")
+
+                <Calendar DateRangeType="DateRangeType.Month" @bind-Value="calendar3Value" @bind-Range="calendar3Range" HighlightSelectedMonth="true" />
+            </Demo>
+        </div>
+        <div class="subSection">
+                <Demo Header="Calendar with week numbers" Key="4" MetadataPath="CalendarPage">
+                    Selected date: @(((DateTime)calendar4Value).ToString("D"))
+                    <br />
+                    <Calendar @bind-Value="calendar4Value" HighlightSelectedMonth="true" ShowWeekNumbers="true" />
+                </Demo>
+            </div>
+        <div class="subSection">
+            <Demo Header="Calendar displaying 6 weeks" Key="5" MetadataPath="CalendarPage">
+                Selected date: @(((DateTime)calendar4Value).ToString("D"))
+                <br />
+                <Calendar @bind-Value="calendar4Value" HighlightSelectedMonth="true" ShowSixWeeksByDefault="true" />
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Calendar with month picker and no day picker" Key="6" MetadataPath="CalendarPage">
+                Selected date: @(((DateTime)calendar4Value).ToString("D"))
+                <br />
+                <Calendar @bind-Value="calendar4Value" DateRangeType="DateRangeType.Month" HighlightSelectedMonth="true" IsDayPickerVisible="false" />
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Calendar date boundary and disabled dates" Key="7" MetadataPath="CalendarPage">
+                Selected date: @(((DateTime)calendar5Value).ToString("D"))
+                <br />
+                Date boundary: @(((DateTime)minDate).ToString("D")) - @(((DateTime)maxDate).ToString("D"))
+                <br />
+                Disabled dates: @(restrictedDates != null ? string.Join(", ", restrictedDates.Select(x => x.ToShortDateString())) : "")
+                <br />
+                <Calendar @bind-Value="calendar5Value" MinDate="(DateTime)minDate" MaxDate="(DateTime)maxDate" RestrictedDates="restrictedDates" HighlightSelectedMonth="true" />
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Calendar with custom selectable days" Key="8" MetadataPath="CalendarPage">
+                Selected date: @(((DateTime)calendar4Value).ToString("D"))
+                <br />
+                Selected range: @(calendar4Range != null && calendar4Range.Count > 0 ? calendar4Range.Min().ToString("D") + " - " + calendar4Range.Max().ToString("D") : "")
+                <br />
+                <Calendar @bind-Value="calendar4Value" DateRangeType="DateRangeType.WorkWeek" WorkWeekDays="workWeekDays" @bind-Range="calendar4Range" HighlightSelectedMonth="true" />
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Calendar with custom selectable days, week starting on Monday" Key="9" MetadataPath="CalendarPage">
+                Selected date: @(((DateTime)calendar4Value).ToString("D"))
+                <br />
+                Selected range: @(calendar4Range != null && calendar4Range.Count > 0 ? calendar4Range.Min().ToString("D") + " - " + calendar4Range.Max().ToString("D") : "")
+                <br />
+                <Calendar @bind-Value="calendar4Value" DateRangeType="DateRangeType.WorkWeek" WorkWeekDays="workWeekDays" FirstDayOfWeek="DayOfWeek.Monday" @bind-Range="calendar4Range" HighlightSelectedMonth="true" />
+            </Demo>
+        </div>
+
+        <div class="subSection">
+            <Demo Header="Calendar with Blazor Forms Validation" Key="10" MetadataPath="CalendarPage">
                 <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
                     <DataAnnotationsValidator />
                     <FluentUIValidationSummary />
@@ -83,11 +116,60 @@
                 </EditForm>
             </Demo>
         </div>
+        <div class="subSection">
+            <Demo Header="Calendar launched from a button" Key="11" MetadataPath="CalendarPage">
+
+                <DefaultButton OnClick=ClickHandler @ref="buttonContainerRef"
+                               Text=@(calendar6Value == null ? "Click for Calendar" : ((DateTime)calendar6Value).ToString("D")) />
+
+                @if (!calloutHidden)
+                {
+                    <Callout IsBeakVisible="false"
+                             GapSpace="0"
+                             DoNotLayer="false"
+                             FabricComponentTarget="@buttonContainerRef"
+                             DirectionalHint=DirectionalHint.BottomLeftEdge
+                             SetInitialFocus="true"
+                             OnDismiss=@DismissHandler>
+                        <FocusTrapZone IsClickableOutsideFocusTrap="true">
+                            <Calendar @bind-Value="calendar6Value"
+                                      IsMonthPickerVisible="true"
+                                      HighlightCurrentMonth="true"
+                                      IsDayPickerVisible="true"
+                                      ShowGoToToday="true"
+                                      OnDismiss=@DismissHandler
+                                      OnSelectDate="@DismissHandler"/>
+                        </FocusTrapZone>
+                    </Callout>
+                }
+            </Demo>
+        </div>
+        @*<div class="subSection">
+                <Demo Header="Calendar with multi-day view" Key="11" MetadataPath="CalendarPage">
+                    Selected date: @(((DateTime)calendar4Value).ToString("D"))
+                    <br />
+                    Selected range: @(calendar4Range != null && calendar4Range.Count > 0 ? calendar4Range.Min().ToString("D") + " - " + calendar4Range.Max().ToString("D") : "")
+                    <br />
+                    <Calendar @bind-Value="calendar4Value" DateRangeType="DateRangeType.WorkWeek" @bind-Range="calendar4Range" HighlightSelectedMonth="true" />
+                </Demo>
+            </div>*@
+        @*<div class="subSection">
+                <Demo Header="Calendar a tooltip for each day and disabling weekends " Key="12" MetadataPath="CalendarPage">
+                    Selected date: @(((DateTime)calendar4Value).ToString("D"))
+                    <br />
+                    Selected range: @(calendar4Range != null && calendar4Range.Count > 0 ? calendar4Range.Min().ToString("D") + " - " + calendar4Range.Max().ToString("D") : "")
+                    <br />
+                    <Calendar @bind-Value="calendar4Value" DateRangeType="DateRangeType.WorkWeek" WorkWeekDays="workWeekDays" FirstDayOfWeek="DayOfWeek.Monday" @bind-Range="calendar4Range" HighlightSelectedMonth="true" />
+                </Demo>
+            </div>*@
     </div>
 </div>
 
 
 @code {
+
+    bool calloutHidden = true;
+    FluentUIComponentBase buttonContainerRef;
 
     DateTime? calendar1Value = DateTime.Now;
     System.Collections.Generic.List<DateTime> calendar1Range;
@@ -100,10 +182,17 @@
 
     DateTime? calendar4Value = DateTime.Now;
     System.Collections.Generic.List<DateTime> calendar4Range;
-    DateTime maxDate = DateTime.Now + TimeSpan.FromDays(60);
-    DateTime minDate = DateTime.Now - TimeSpan.FromDays(60);
+
+    DateTime? calendar5Value = DateTime.Now;
+    System.Collections.Generic.List<DateTime> calendar5Range;
+
+    DateTime? calendar6Value;
+
+    DateTime? maxDate = DateTime.Now + TimeSpan.FromDays(60);
+    DateTime? minDate = DateTime.Now - TimeSpan.FromDays(60);
     System.Collections.Generic.List<DateTime> restrictedDates = new System.Collections.Generic.List<DateTime>() { DateTime.Now + TimeSpan.FromDays(4), DateTime.Now + TimeSpan.FromDays(5) };
 
+    List<DayOfWeek> workWeekDays = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Friday };
     ExampleModel exampleModel = new ExampleModel();
 
     class MondayValidation : ValidationAttribute
@@ -135,5 +224,18 @@
 
     public void HandleValidSubmit()
     {
+    }
+
+    Task ClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        calloutHidden = !calloutHidden;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    protected Task DismissHandler()
+    {
+        calloutHidden = true;
+        return Task.CompletedTask;
     }
 }

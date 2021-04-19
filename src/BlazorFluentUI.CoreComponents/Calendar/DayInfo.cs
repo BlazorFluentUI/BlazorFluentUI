@@ -13,5 +13,6 @@ namespace BlazorFluentUI
         public bool IsInBounds { get; set; }
         public Action OnSelected { get; set; }
         public int WeekIndex { get; set; }
+        public bool IsHighlightedOnHover { get; internal set; }
     }
 }

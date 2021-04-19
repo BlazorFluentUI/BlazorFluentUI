@@ -152,7 +152,7 @@ namespace BlazorFluentUI
         protected string GetDayClasses(DayInfo day)
         {
             string classNames = "";
-            classNames += "ms-Calendar-dayWrapper";
+            classNames += "dayCell";
             if (WeekCornersStyled.ContainsKey(day.WeekIndex + "_" + (day.OriginalDate.Day - 1)))
             {
                 classNames += WeekCornersStyled[day.WeekIndex + "_" + (day.OriginalDate.Day - 1)];
@@ -162,20 +162,29 @@ namespace BlazorFluentUI
             if (day.IsSelected && DateRangeType == DateRangeType.Day)
                 classNames += " ms-Calendar-dayBackground";
             if (day.IsSelected && DateRangeType == DateRangeType.Day)
-                classNames += " ms-Calendar-day--highlighted ms-Calendar-dayIsHighlighted";
-            if (day.IsInBounds && day.IsInMonth)
+                classNames += " ms-Calendar-dayIsHighlighted";
+            if (day.IsInBounds && day.IsInMonth && DateRangeType == DateRangeType.Day)
                 classNames += " ms-Calendar-dayIsFocused";
-            if (day.IsInBounds && !day.IsInMonth)
+            if (day.IsInBounds && !day.IsInMonth && DateRangeType == DateRangeType.Day)
                 classNames += " ms-Calendar-dayUnFocused";
+            if (!day.IsInBounds && day.IsInMonth)
+                    classNames += " ms-Calendar-dayOutsideBounds";
             switch (DateRangeType)
             {
                 case DateRangeType.Day:
                     classNames += " ms-Calendar-daySelection";
                     break;
                 case DateRangeType.Week:
-                case DateRangeType.WorkWeek:
-                    classNames += " ms-Calendar-weekSelection";
+                    //classNames += " ms-Calendar-weekSelection";
                     if (HoverWeek == day.WeekIndex)
+                        classNames += " ms-Calendar-dayHover";
+                    if (PressWeek == day.WeekIndex)
+                        classNames += " ms-Calendar-dayPress";
+                    break;
+                case DateRangeType.WorkWeek:
+                    //if (day.IsHighlightedOnHover)
+                    //    classNames += " ms-Calendar-dayIsFocused";
+                    if (HoverWeek == day.WeekIndex && day.IsHighlightedOnHover)
                         classNames += " ms-Calendar-dayHover";
                     if (PressWeek == day.WeekIndex)
                         classNames += " ms-Calendar-dayPress";
@@ -307,8 +316,9 @@ namespace BlazorFluentUI
             bool isAllDaysOfWeekOutOfMonth = false;
 
             // in work week view we want to select the whole week
-            DateRangeType selecteDateRangeType = DateRangeType == DateRangeType.WorkWeek ? DateRangeType.Week : DateRangeType;
-            List<DateTime>? selectedDates = SelectedDate == null ? new List<DateTime>(): DateUtilities.GetDateRangeArray((DateTime)SelectedDate, selecteDateRangeType, FirstDayOfWeek, WorkWeekDays);
+            //DateRangeType selecteDateRangeType = DateRangeType == DateRangeType.WorkWeek ? DateRangeType.Week : DateRangeType;
+            DateRangeType selecteDateRangeType = DateRangeType;
+            List<DateTime>? selectedDates = SelectedDate == null ? new List<DateTime>() : DateUtilities.GetDateRangeArray((DateTime)SelectedDate, selecteDateRangeType, FirstDayOfWeek, WorkWeekDays);
             if (DateRangeType != DateRangeType.Day)
             {
                 selectedDates = GetBoundedDateRange(selectedDates, MinDate, MaxDate);
@@ -332,6 +342,7 @@ namespace BlazorFluentUI
                         IsInMonth = date.Month == NavigatedDate.Month,
                         IsToday = DateTime.Compare(DateTime.Now.Date, originalDate) == 0,
                         IsSelected = IsInDateRangeArray(date, selectedDates),
+                        IsHighlightedOnHover = IsInWorkweekRange(date),
                         OnSelected = () => OnSelectDateInternal(originalDate, false),
                         IsInBounds =
                             (DateTime.Compare(MinDate, date) < 1 ) &&
@@ -369,6 +380,18 @@ namespace BlazorFluentUI
         {
             foreach (DateTime dateInRange in dateRange) {
                 if (DateTime.Compare(date, dateInRange) == 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsInWorkweekRange(DateTime date)
+        {
+            foreach (DayOfWeek workday in WorkWeekDays)
+            {
+                if (date.DayOfWeek == workday)
+                {
                     return true;
                 }
             }

@@ -26,6 +26,9 @@ namespace BlazorFluentUI
                     break;
 
                 case DateRangeType.Week:
+                    startDate = GetStartDateOfWeek(date.Date, firstDayOfWeek);
+                    endDate = startDate.AddDays(7);
+                    break;
                 case DateRangeType.WorkWeek:
                     startDate = GetStartDateOfWeek(date.Date, firstDayOfWeek);
                     endDate = startDate.AddDays(7);
@@ -76,6 +79,7 @@ namespace BlazorFluentUI
         {
             int selectedYear = navigatedDate.Year;
             int selectedMonth = navigatedDate.Month;
+            int daysInMonth = DateTime.DaysInMonth(selectedYear, selectedMonth);
             int dayOfMonth = 1;
             DateTime fistDayOfMonth = new(selectedYear, selectedMonth, dayOfMonth);
             DayOfWeek endOfFirstWeek = dayOfMonth + (firstDayOfWeek + 7 - 1) - AdjustWeekDay(firstDayOfWeek, fistDayOfMonth.DayOfWeek);
@@ -87,6 +91,7 @@ namespace BlazorFluentUI
                 // Get week number for end of week
                 weeksArray.Add(GetWeekNumber(endOfWeekRange, firstDayOfWeek, firstWeekOfYear));
                 dayOfMonth += 7;
+                if (dayOfMonth > daysInMonth) dayOfMonth = daysInMonth;
                 endOfWeekRange = new DateTime(selectedYear, selectedMonth, dayOfMonth);
             }
             return weeksArray;

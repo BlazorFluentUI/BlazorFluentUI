@@ -22,7 +22,7 @@ namespace BlazorFluentUI.Demo.Server
             {                
                 if (_env.IsDevelopment())
                     configure.DetailedErrors = true;
-            }).AddHubOptions(hub => hub.MaximumReceiveMessageSize= 100 * 1024);
+            }).AddHubOptions(hub => hub.MaximumReceiveMessageSize= 10 * 1024 * 1024);
             if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
             {
                 // Setup HttpClient for server side in a client side compatible fashion

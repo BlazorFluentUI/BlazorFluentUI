@@ -14,6 +14,7 @@ interface IRectangle {
 }
 
 export function registerHandlers(targetElement: HTMLElement, calloutRef: DotNetReferenceType): number[] {
+    if (targetElement) {
     var window = targetElement.ownerDocument.defaultView;
 
     var calloutDivId = Handler.addCallout(targetElement);
@@ -32,6 +33,7 @@ export function registerHandlers(targetElement: HTMLElement, calloutRef: DotNetR
         if (outsideCallout)
             calloutRef.invokeMethodAsync("FocusHandler");
     }, true);
+        }
     var clickId = Handler.addListener(document.documentElement, "click", (ev: Event) => {
         var outsideCallout = true;
         for (let prop in Handler.targetCombinedElements) {

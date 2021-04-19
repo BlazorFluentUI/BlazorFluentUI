@@ -100,14 +100,12 @@
                     <tr @key=@(WeekNumbers != null ? WeekNumbers[copiedWeekIndex] : copiedWeekIndex)>
                         @if (ShowWeekNumbers && WeekNumbers != null)
                         {
-                            <th class="ms-Calendar-weekNumbers"
+                            <th class="weekNumberCell"
                                 @key=@copiedWeekIndex
                                 title=@(WeekNumbers != null ? String.Format(WeekNumberFormatString, WeekNumbers[copiedWeekIndex]) : "")
                                 aria-label=@(WeekNumbers != null ? String.Format(WeekNumberFormatString, WeekNumbers[copiedWeekIndex]) : "")
                                 scope="row">
-                                <div class="ms-Calendar-day">
                                     <span>@WeekNumbers[copiedWeekIndex]</span>
-                                </div>
                             </th>
                         }
                         @for (var dayIndex = 0; dayIndex < Weeks[copiedWeekIndex].Count; dayIndex++)
@@ -124,7 +122,7 @@
                                 class=@GetDayClasses(day)
                                 @onclick=@(day.IsInBounds ? day.OnSelected : null)
                                 @onmouseenter=@(args => {
-                                        if (DateRangeType != DateRangeType.Day && day.IsInBounds)
+                                        if (DateRangeType != DateRangeType.Day && day.IsInBounds && day.IsHighlightedOnHover)
                                         {
                                             HoverWeek = copiedWeekIndex;
                                             HoverMonth = day.OriginalDate.Month;
@@ -157,7 +155,7 @@
                                 role="gridcell">
                                 <button @key=@(day.Key + "button")
                                         @onclick=@(day.IsInBounds ? day.OnSelected : null)
-                                        class=@($"ms-Calendar-day{(!day.IsInBounds ? " ms-Calendar-dayIsDisabled" : "")}{(day.IsToday ? " ms-Calendar-dayIsToday" : "")}")
+                                        class=@($"dayButton{(!day.IsInBounds ? " ms-Calendar-dayIsDisabled" : "")}{(day.IsToday ? " ms-Calendar-dayIsToday" : "")}")
                                         disabled=@(!AllFocusable && !day.IsInBounds)
                                         role="gridcell"
                                         aria-label=@(DateTimeFormatter.FormatMonthDayYear(day.OriginalDate))

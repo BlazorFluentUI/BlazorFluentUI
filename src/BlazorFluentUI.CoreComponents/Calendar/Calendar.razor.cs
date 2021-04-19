@@ -18,7 +18,7 @@ namespace BlazorFluentUI
         [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
         [Parameter] public FirstWeekOfYear FirstWeekOfYear { get; set; } = FirstWeekOfYear.FirstDay;
         [Parameter] public bool HighlightCurrentMonth { get; set; } = false;
-        [Parameter] public bool HighlightSelectedMonth { get; set; } = true;
+        [Parameter] public bool HighlightSelectedMonth { get; set; } = false;
         [Parameter] public bool IsDayPickerVisible { get; set; } = true;
         [Parameter] public bool IsMonthPickerVisible { get; set; } = true;
         [Parameter] public DateTime MaxDate { get; set; } = DateTime.MaxValue;

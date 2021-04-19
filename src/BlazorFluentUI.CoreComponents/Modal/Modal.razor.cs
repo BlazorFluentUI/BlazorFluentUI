@@ -11,7 +11,7 @@ namespace BlazorFluentUI
     public partial class Modal : FluentUIComponentBase, IDisposable
     {
         [Parameter]
-        public string ContainerClass { get; set; }
+        public string? ContainerClass { get; set; }
 
         [Parameter]
         public bool IsOpen { get; set; }
@@ -26,16 +26,16 @@ namespace BlazorFluentUI
         public bool IsDarkOverlay { get; set; } = true;
 
         [Parameter]
-        public string TitleAriaId { get; set; }
+        public string? TitleAriaId { get; set; }
 
         [Parameter]
-        public string SubtitleAriaId { get; set; }
+        public string? SubtitleAriaId { get; set; }
 
         [Parameter]
         public bool TopOffsetFixed { get; set; }
 
         [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        public RenderFragment? ChildContent { get; set; }
        
         [Parameter]
         public EventCallback<EventArgs> OnDismiss { get; set; }
@@ -51,10 +51,10 @@ namespace BlazorFluentUI
         public bool ForceFocusInsideTrap { get; set; } = true;
 
         [Parameter]
-        public string FirstFocusableSelector { get; set; }
+        public string? FirstFocusableSelector { get; set; }
 
         [Parameter]
-        public string CloseButtonAriaLabel { get; set; }
+        public string? CloseButtonAriaLabel { get; set; }
 
         [Parameter]
         public bool IsClickableOutsideFocusTrap { get; set; }
@@ -63,7 +63,7 @@ namespace BlazorFluentUI
 
         private ElementReference allowScrollOnModal;
 
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
 
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
         private IJSObjectReference? baseModule;
@@ -77,9 +77,10 @@ namespace BlazorFluentUI
         private Action _clearExistingAnimationTimer;
         private Action<ModalVisibilityState> _animateTo;
         private Action _onTransitionComplete;
-        private ElapsedEventHandler _handler = null;
+        private ElapsedEventHandler? _handler = null;
         private bool _jsAvailable;
-        private string _keydownRegistration;
+        private DotNetObjectReference<Modal>? selfReference;
+        private string? _keydownRegistration;
 
         public Modal()
         {
@@ -106,7 +107,7 @@ namespace BlazorFluentUI
                         //Debug.WriteLine("Inside invokeAsync from animateTo timer elapsed");
                         previousVisibility = currentVisibility;
                         currentVisibility = animationState;
-                        _onTransitionComplete();
+                        _onTransitionComplete!();
                     });
                 };
                 _animationTimer.Elapsed += _handler;
@@ -163,12 +164,13 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
             if (firstRender)
             {
-                _jsAvailable = true;
+
                 // 27 is Escape code
-                _keydownRegistration = await baseModule!.InvokeAsync<string>("registerWindowKeyDownEvent", DotNetObjectReference.Create(this), "27", "ProcessKeyDown");
+                selfReference = DotNetObjectReference.Create(this);
+                _keydownRegistration = await baseModule.InvokeAsync<string>("registerWindowKeyDownEvent", selfReference , "27", "ProcessKeyDown");
             }
             
             await base.OnAfterRenderAsync(firstRender);
@@ -210,8 +212,8 @@ namespace BlazorFluentUI
             if (_keydownRegistration != null)
             {
                 await baseModule!.InvokeVoidAsync("deregisterWindowKeyDownEvent", _keydownRegistration);
-                _keydownRegistration = null;
             }
+            selfReference?.Dispose();
         }
     }
 }

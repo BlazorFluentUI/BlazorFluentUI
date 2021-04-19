@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
-using System;
-using System.Diagnostics;
-using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
@@ -52,7 +51,7 @@ namespace BlazorFluentUI
 
                 if (LayerHost != null)
                 {
-                    LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent);
+                    await LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent);
                     addedToHost = true;
                 }
             }
@@ -99,7 +98,7 @@ namespace BlazorFluentUI
 
                     if (LayerHost != null)
                     {
-                        LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent);
+                        await LayerHost.AddOrUpdateHostedContentAsync(id, ChildContent);
                         addedToHost = true;
                         StateHasChanged();
                     }
@@ -112,9 +111,10 @@ namespace BlazorFluentUI
 
         public async ValueTask DisposeAsync()
         {
-            await LayerHost?.RemoveHostedContentAsync(id);
+            await LayerHost.RemoveHostedContentAsync(id);
             addedToHost = false;
-            //return ValueTask.CompletedTask;
+            if (baseModule != null)
+                await baseModule.DisposeAsync();
         }
     }
 }

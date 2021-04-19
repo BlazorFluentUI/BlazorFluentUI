@@ -125,7 +125,7 @@ namespace BlazorFluentUI.Lists
         private double resizeColumnMinWidth;
         private double resizeColumnOriginX;
 
-        private DotNetObjectReference<DetailsHeader<TItem>>? dotNetRef;
+        private DotNetObjectReference<DetailsHeader<TItem>>? selfReference;
         private ElementReference cellSizer;
 
         protected override Task OnInitializedAsync()
@@ -164,8 +164,8 @@ namespace BlazorFluentUI.Lists
 
             if (firstRender)
             {
-                dotNetRef = DotNetObjectReference.Create(this);
-                await scriptModule!.InvokeVoidAsync("registerDetailsHeader", dotNetRef, RootElementReference);
+                selfReference = DotNetObjectReference.Create(this);
+                await scriptModule!.InvokeVoidAsync("registerDetailsHeader", selfReference, RootElementReference);
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -238,12 +238,13 @@ namespace BlazorFluentUI.Lists
 
         public async ValueTask DisposeAsync()
         {
-            if (dotNetRef != null)
+            if (selfReference != null)
             {
-                await scriptModule!.InvokeVoidAsync("unregisterDetailsHeader", dotNetRef);
-                dotNetRef?.Dispose();
+                await scriptModule!.InvokeVoidAsync("unregisterDetailsHeader", selfReference);
+                selfReference?.Dispose();
             }
-            GC.SuppressFinalize(this);
+            if (scriptModule != null)
+                await scriptModule.DisposeAsync();
         }
     }
 }

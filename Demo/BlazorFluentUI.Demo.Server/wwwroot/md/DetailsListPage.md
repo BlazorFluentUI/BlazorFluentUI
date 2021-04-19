@@ -4,7 +4,6 @@
 @using DynamicData.Binding
 @using System.Collections.ObjectModel
 @using System.Reactive.Linq
-@using System.Reactive.Subjects
 @using BlazorFluentUI.Lists
 <header class="root">
     <h1 class="title">DetailsList</h1>

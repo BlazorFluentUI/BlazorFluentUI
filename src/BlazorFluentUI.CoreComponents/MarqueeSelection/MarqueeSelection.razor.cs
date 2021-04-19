@@ -26,8 +26,8 @@ namespace BlazorFluentUI
 
 
         private ManualRectangle? dragRect;
-        private DotNetObjectReference<MarqueeSelection<TItem>>? dotNetRef;
-        private MarqueeSelectionProps props;
+        private DotNetObjectReference<MarqueeSelection<TItem>>? selfReference;
+        private MarqueeSelectionProps? props;
 
         public static Dictionary<string, string> GlobalClassNames = new()
         {
@@ -44,13 +44,13 @@ namespace BlazorFluentUI
                 props = GenerateProps();
             }
 
-            if (dotNetRef != null)
+            if (selfReference != null)
             {
                 if (IsEnabled != props!.IsEnabled
                     || IsDraggingConstrainedToRoot != props.IsDraggingConstrainedToRoot)
                 {
                     props = GenerateProps();
-                    await scriptModule!.InvokeVoidAsync("updateProps", dotNetRef, props);
+                    await scriptModule!.InvokeVoidAsync("updateProps", selfReference, props);
                 }
             }
             await base.OnParametersSetAsync();
@@ -62,8 +62,8 @@ namespace BlazorFluentUI
 
             if (firstRender)
             {
-                dotNetRef = DotNetObjectReference.Create(this);
-                await scriptModule!.InvokeVoidAsync("registerMarqueeSelection", dotNetRef, RootElementReference, props);
+                selfReference = DotNetObjectReference.Create(this);
+                await scriptModule!.InvokeVoidAsync("registerMarqueeSelection", selfReference, RootElementReference, props);
             }
 
             await base.OnAfterRenderAsync(firstRender);
@@ -113,7 +113,7 @@ namespace BlazorFluentUI
         {
             foreach (int index in indices)
             {
-                Selection.SetIndexSelected(index, true, false);
+                Selection?.SetIndexSelected(index, true, false);
             }
             //Selection?.SetSelectedIndices(indices);
             //Debug.WriteLine($"Selected: {string.Join(',',indices)}");
@@ -124,17 +124,18 @@ namespace BlazorFluentUI
         public IEnumerable<int> GetSelectedIndicesAsync()
         {
             //return new List<int>(); //Selection?.SelectedIndices;
-            return Selection?.GetSelectedIndices();
+            return Selection!.GetSelectedIndices();
             //dragRect = manualRectangle;
         }
 
         public async ValueTask DisposeAsync()
         {
-            if (dotNetRef != null)
+            if (scriptModule != null)
             {
-                await scriptModule!.InvokeVoidAsync("unregisterMarqueeSelection", dotNetRef);
-                dotNetRef?.Dispose();
+                await scriptModule!.InvokeVoidAsync("unregisterMarqueeSelection", selfReference);
+                await scriptModule.DisposeAsync();
             }
+            selfReference?.Dispose();
         }
     }
 }

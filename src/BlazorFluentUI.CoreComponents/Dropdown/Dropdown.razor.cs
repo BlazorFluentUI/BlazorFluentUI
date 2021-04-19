@@ -257,8 +257,7 @@ namespace BlazorFluentUI
                 else
                     FieldIdentifier = FieldIdentifier.Create<IEnumerable<IDropdownOption>>(SelectedOptionsExpression!);
 
-                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
-
+                //CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
                 CascadedEditContext!.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
             }
         }

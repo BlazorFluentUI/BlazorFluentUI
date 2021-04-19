@@ -20,14 +20,13 @@ class List {
         const rootMargin = 50;
         this.intersectionObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach((entry) => {
-                var _a;
                 if (!entry.isIntersecting) {
                     return;
                 }
                 const spacerBeforeRect = this.spacerBefore.getBoundingClientRect();
                 const spacerAfterRect = this.spacerAfter.getBoundingClientRect();
                 const spacerSeparation = spacerAfterRect.top - spacerBeforeRect.bottom;
-                const containerSize = (_a = entry.rootBounds) === null || _a === void 0 ? void 0 : _a.height;
+                const containerSize = entry.rootBounds?.height;
                 if (entry.target === this.spacerBefore) {
                     component.invokeMethodAsync('OnBeforeSpacerVisible', entry.intersectionRect.top - entry.boundingClientRect.top, spacerSeparation, containerSize);
                 }

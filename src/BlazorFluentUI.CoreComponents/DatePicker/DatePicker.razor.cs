@@ -62,7 +62,7 @@ namespace BlazorFluentUI
 
         protected string calloutId;
         protected ElementReference datePickerDiv;
-        protected TextField textFieldComponent;
+        protected TextField? textFieldComponent;
         //protected string id = Guid.NewGuid().ToString();
 
         private bool _preventFocusOpeningPicker = false;
@@ -85,21 +85,17 @@ namespace BlazorFluentUI
         {
             _oldIsDatePickerShown = IsDatePickerShown;
 
-            DateTime nextMinDate, nextMaxDate, nextInitialPickerDate;
-            DateTime? nextValue;
-            bool nextIsRequired;
-            Func<DateTime, string> nextFormatDate;
-            if (!parameters.TryGetValue("MinDate", out nextMinDate))
+            if (!parameters.TryGetValue("MinDate", out DateTime nextMinDate))
                 nextMinDate = MinDate;
-            if (!parameters.TryGetValue("MaxDate", out nextMaxDate))
+            if (!parameters.TryGetValue("MaxDate", out DateTime nextMaxDate))
                 nextMaxDate = MaxDate;
-            if (!parameters.TryGetValue("Value", out nextValue))
+            if (!parameters.TryGetValue("Value", out DateTime? nextValue))
                 nextValue = Value;
-            if (!parameters.TryGetValue("InitialPickerDate", out nextInitialPickerDate))
+            if (!parameters.TryGetValue("InitialPickerDate", out DateTime nextInitialPickerDate))
                 nextInitialPickerDate = InitialPickerDate;
-            if (!parameters.TryGetValue("IsRequired", out nextIsRequired))
+            if (!parameters.TryGetValue("IsRequired", out bool nextIsRequired))
                 nextIsRequired = IsRequired;
-            if (!parameters.TryGetValue("FormatDate", out nextFormatDate))
+            if (!parameters.TryGetValue("FormatDate", out Func<DateTime, string>? nextFormatDate))
                 nextFormatDate = FormatDate;
 
             if (DateTime.Compare(MinDate, nextMinDate) == 0 &&
@@ -153,7 +149,7 @@ namespace BlazorFluentUI
 
                 FieldIdentifier = FieldIdentifier.Create<DateTime?>(ValueExpression);
 
-                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+                //CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
 
                 CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
             }
@@ -209,6 +205,11 @@ namespace BlazorFluentUI
             {
                 IsDatePickerShown = false;
                 ValidateTextInput();
+            }
+            if (AllowTextInput)
+            {
+                _preventFocusOpeningPicker = true;
+                DisableAutoFocus = !DisableAutoFocus;
             }
         }
 
@@ -309,9 +310,10 @@ namespace BlazorFluentUI
 
             if (AllowTextInput)
             {
-                DateTime? date = DateTime.MinValue;
+               
                 if (!string.IsNullOrWhiteSpace(inputValue))
                 {
+                    DateTime? date = DateTime.MinValue;
                     if (SelectedDate != DateTime.MinValue && FormatDate != null && FormatDateInternal(SelectedDate) == inputValue)
                     {
                         return;
@@ -351,6 +353,8 @@ namespace BlazorFluentUI
                             }
                         }
                     }
+                    OnSelectDate.InvokeAsync(date);
+                    ValueChanged.InvokeAsync(date);
                 }
                 else
                 {
@@ -358,8 +362,7 @@ namespace BlazorFluentUI
                 }
 
                 CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
-                OnSelectDate.InvokeAsync(date);
-                ValueChanged.InvokeAsync(date);
+                
 
             }
             else if (IsRequired && string.IsNullOrWhiteSpace(inputValue))
@@ -392,7 +395,7 @@ namespace BlazorFluentUI
             return errorMessge;
         }
 
-        private bool IsDateOutOfBounds(DateTime? date, DateTime minDate, DateTime maxDate)
+        private static bool IsDateOutOfBounds(DateTime? date, DateTime minDate, DateTime maxDate)
         {
             return DateTimeCompareNullable(minDate, date) > 0 || DateTimeCompareNullable(maxDate, date) < 0;
         }

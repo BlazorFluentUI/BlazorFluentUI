@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -12,13 +13,12 @@ namespace BlazorFluentUI
     public partial class FocusZone : FluentUIComponentBase, IAsyncDisposable
     {
         [Inject] private IJSRuntime? JSRuntime { get; set; }
+        private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/focusZone.js";
+        private IJSObjectReference? scriptModule;
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        //private IJSObjectReference? baseModule;
+        private IJSObjectReference? baseModule;
 
-        private const string FocusPath = "./_content/BlazorFluentUI.CoreComponents/focusZone.js";
-        private IJSObjectReference? focusModule;
-
-        [Parameter] public bool AllowFocusRoot { get=>allowFocusRoot; set { if (value != allowFocusRoot) { updateFocusZone = true; allowFocusRoot = value; } } }
+        [Parameter] public bool AllowFocusRoot { get => allowFocusRoot; set { if (value != allowFocusRoot) { updateFocusZone = true; allowFocusRoot = value; } } }
         //[Parameter] public ComponentBase As { get; set; }
         [Parameter] public bool CheckForNoWrap { get => checkForNoWrap; set { if (value != checkForNoWrap) { updateFocusZone = true; checkForNoWrap = value; } } }
         [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -63,15 +63,18 @@ namespace BlazorFluentUI
 
         public async void FocusFirstElement()
         {
-            await focusModule!.InvokeVoidAsync("focusFirstElementChild", RootElementReference);
+            if (baseModule != null)
+                await baseModule.InvokeVoidAsync("focusFirstElementChild", RootElementReference);
         }
 
         protected string Id = Guid.NewGuid().ToString();
+        private DotNetObjectReference<FocusZone>? selfReference;
+
         //private int[] _lastIndexPath;
         //private bool _jsAvailable;
-        private int _registrationId = -1;
+        //private int _registrationId = -1;
 
-        private readonly Task<int>? _registrationTask = null;
+        //private readonly Task<int>? _registrationTask = null;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         //private bool parametersUpdated = false;
@@ -84,28 +87,23 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            //baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-            focusModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath, FocusPath);
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", ScriptPath);
+            selfReference = DotNetObjectReference.Create(this);
 
             if (firstRender)
             {
-                if (_registrationTask == null)
-                {
-                    _ = RegisterFocusZoneAsync();
-                }
-                else if (!_registrationTask.IsCompleted)
-                {
-                    //await _registrationTask;
-                }
-                //_jsAvailable = true;
+                FocusZoneProps? props = FocusZoneProps.GenerateProps(this, Id); //, RootElementReference);
+                await scriptModule.InvokeVoidAsync("registerFocusZone", selfReference, RootElementReference, props);
+
                 updateFocusZone = false;
             }
             else
             {
-                if (_registrationId != -1 && updateFocusZone)
+                if ( updateFocusZone)
                 {
                     updateFocusZone = false;
-                    _ = UpdateFocusZoneAsync();
+                    await UpdateFocusZoneAsync();
                 }
             }
             await base.OnAfterRenderAsync(firstRender);
@@ -122,8 +120,8 @@ namespace BlazorFluentUI
         {
             try
             {
-                FocusZoneProps? props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
-                await focusModule!.InvokeVoidAsync("updateFocusZone", _registrationId, props);
+                FocusZoneProps? props = FocusZoneProps.GenerateProps(this, Id);
+                await scriptModule!.InvokeVoidAsync("updateFocusZoneProps", selfReference, props);
             }
             catch (TaskCanceledException)
             {
@@ -132,18 +130,13 @@ namespace BlazorFluentUI
         }
 
 
-        private async Task RegisterFocusZoneAsync()
-        {
-            FocusZoneProps? props = FocusZoneProps.GenerateProps(this, Id, RootElementReference);
-            _registrationId = await focusModule!.InvokeAsync<int>("register", props, DotNetObjectReference.Create(this));
-        }
+
 
         private async Task UnregisterFocusZoneAsync()
         {
             try
             {
-                await focusModule!.InvokeVoidAsync("unregister", _registrationId);
-                _registrationId = -1;
+                await scriptModule!.InvokeVoidAsync("unregisterFocusZone", selfReference);
             }
             catch (TaskCanceledException)
             {
@@ -187,13 +180,10 @@ namespace BlazorFluentUI
 
         public async ValueTask DisposeAsync()
         {
-            if (_registrationId != -1)
-            {
-                //Debug.WriteLine("Trying to unregister focuszone");
-                await UnregisterFocusZoneAsync();
-
-            }
-            GC.SuppressFinalize(this);
+            if (scriptModule != null) await UnregisterFocusZoneAsync();
+            if (scriptModule != null) await scriptModule.DisposeAsync();
+            if (baseModule != null) await baseModule.DisposeAsync();
+            selfReference?.Dispose();
         }
     }
 }

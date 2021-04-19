@@ -15,7 +15,7 @@ namespace BlazorFluentUI
             get => _filterPredicate;
             set
             {
-                base.FilterPredicate = x => FilterPredicate != null ? FilterPredicate((TProp)x) : true;
+                base.FilterPredicate = x => FilterPredicate == null || FilterPredicate((TProp)x);
                 _filterPredicate = value;
             }
         }
@@ -50,9 +50,8 @@ namespace BlazorFluentUI
             AriaLabel = fieldName;
             FieldSelectorExpression = fieldSelectorExpression;
             FieldSelector = fieldSelectorExpression.Compile();
-
-            var propInfo = DetailsRowUtils.GetPropertyInfo(fieldSelectorExpression);
-            var setter = DetailsRowUtils.GetSetter(fieldSelectorExpression);
+            _ = DetailsRowUtils.GetPropertyInfo(fieldSelectorExpression);
+            _ = DetailsRowUtils.GetSetter(fieldSelectorExpression);
         }
         public Expression<Func<TItem, object>> FieldSelectorExpression {get;set;}
 
@@ -123,7 +122,7 @@ namespace BlazorFluentUI
             WhenPropertyChanged = Observable.FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
               handler =>
               {
-                  PropertyChangedEventHandler changed = (sender, e) => handler(e);
+                  void changed(object? sender, PropertyChangedEventArgs e) => handler(e);
                   return changed;
               },
               handler => PropertyChanged += handler,

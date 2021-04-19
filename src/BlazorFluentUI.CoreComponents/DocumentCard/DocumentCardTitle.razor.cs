@@ -11,8 +11,6 @@ namespace BlazorFluentUI
     {
         public string Id { get; set; }
 
-        private DotNetObjectReference<DocumentCardTitle>? _dotNetObjectReference;
-
         /// <summary>
         /// Title text.
         /// If the card represents more than one document, this should be the title of one document and a "+X" string.
@@ -42,7 +40,7 @@ namespace BlazorFluentUI
 
         private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/documentCard.js";
         private IJSObjectReference? scriptModule;
-
+        private DotNetObjectReference<DocumentCardTitle>? selfReference;
 
         private string? TruncatedTitleFirstPiece { get; set; }
         private string? TruncatedTitleSecondPiece { get; set; }
@@ -75,10 +73,8 @@ namespace BlazorFluentUI
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", ScriptPath);
-
-
-            _dotNetObjectReference = DotNetObjectReference.Create(this);
-            await scriptModule!.InvokeVoidAsync("initTitle", Id, RootElementReference, _dotNetObjectReference, ShouldTruncate, Title).ConfigureAwait(false);
+            selfReference = DotNetObjectReference.Create(this);
+            await scriptModule.InvokeVoidAsync("initTitle", Id, RootElementReference, selfReference, ShouldTruncate, Title).ConfigureAwait(false);
 
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
         }
@@ -103,8 +99,12 @@ namespace BlazorFluentUI
 
         public async ValueTask DisposeAsync()
         {
-            await scriptModule!.InvokeVoidAsync("removeElement", Id).ConfigureAwait(false);
-            _dotNetObjectReference?.Dispose();
+            if (scriptModule != null)
+            {
+                await scriptModule.InvokeVoidAsync("removeElement", Id).ConfigureAwait(false);
+                await scriptModule.DisposeAsync();
+            }
+            selfReference?.Dispose();
         }
     }
 }

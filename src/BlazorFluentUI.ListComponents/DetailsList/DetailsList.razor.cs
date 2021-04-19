@@ -138,11 +138,11 @@ namespace BlazorFluentUI.Lists
             if (_viewport != null && _viewport != _lastViewport)
             {
                 AdjustColumns(
-                    parameters.GetValueOrDefault<IEnumerable<TItem>>("ItemsSource"),
+                    parameters.GetValueOrDefault<IEnumerable<TItem>>("ItemsSource")!,
                     parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode"),
                     parameters.GetValueOrDefault<SelectionMode>("SelectionMode"),
                     parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility"),
-                    parameters.GetValueOrDefault<IEnumerable<DetailsRowColumn<TItem>>>("Columns"),
+                    parameters.GetValueOrDefault<IEnumerable<DetailsRowColumn<TItem>>>("Columns")!,
                     true
                     );
             }
@@ -423,7 +423,8 @@ namespace BlazorFluentUI.Lists
                 _viewportRegistration = -1;
             }
             selfReference?.Dispose();
-            GC.SuppressFinalize(this);
+            if (baseModule != null)
+                await baseModule.DisposeAsync();
         }
     }
 }

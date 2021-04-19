@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
-using Sigil;
-using System.Diagnostics;
 
 namespace BlazorFluentUI
 {
@@ -127,10 +124,16 @@ namespace BlazorFluentUI
         private static Func<object, object> GetCachedGetter(PropertyInfo property, Dictionary<PropertyInfo, Func<object,object>> cache)
         {
             long start = DateTime.Now.Ticks;
-            if (cache.TryGetValue(property, out Func<object, object> getter) == false)
+            if (cache.TryGetValue(property, out Func<object, object>? getter) == false)
             {
-                Emit<Func<object, object>>? getterEmitter = Emit<Func<object, object>>.NewDynamicMethod().LoadArgument(0).CastClass(property.DeclaringType).Call(property.GetGetMethod()).Return();
-                getter = getterEmitter.CreateDelegate();
+                DynamicMethod dynamicMethod = new(property.Name + "_DynamicMethod", typeof(Func<object, object>), new Type[] { typeof(object) });
+                ILGenerator IL = dynamicMethod.GetILGenerator();
+                IL.Emit(OpCodes.Ldarg_0);
+                IL.Emit(OpCodes.Castclass, property.DeclaringType!);
+                IL.Emit(OpCodes.Call, property.GetGetMethod()!);
+                IL.Emit(OpCodes.Ret);
+
+                getter = (Func<object, object>?)dynamicMethod.CreateDelegate(typeof(Func<object, object>));
                 cache.Add(property, getter);
                 //Debug.WriteLine($"Emit creation took: {TimeSpan.FromTicks(DateTime.Now.Ticks - start).TotalMilliseconds}ms");
             }

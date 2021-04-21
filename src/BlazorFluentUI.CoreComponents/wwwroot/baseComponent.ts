@@ -6,10 +6,11 @@ const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
 const IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
 
 
-interface DotNetReferenceType {
+export interface DotNetReferenceType {
 
     invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
     invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
+    _id: number;
 }
 
 interface ElementReferenceResult {
@@ -207,7 +208,8 @@ export function measureElementRect(element: HTMLElement): IRectangle {
     if (element !== undefined && element !== null) {
         // EdgeHTML's rectangle can't be serialized for some reason.... serializes to 0 everything.   So break it apart into simple JSON.
         var rect = element.getBoundingClientRect();
-        return { height: rect.height, width: rect.width, left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom };
+        //return { height: rect.height, width: rect.width, left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom };
+        return rect;
     }
     else
         return { height: 0, width: 0, left: 0, right: 0, top: 0, bottom: 0 };
@@ -487,11 +489,13 @@ export function focusElement(element: HTMLElement) {
 }
 
 export function focusFirstElementChild(element: HTMLElement,) {
-    let child = this.getFirstFocusable(element, element, true);
-    if (child) {
-        child.focus();
-    } else {
-        element.focus();
+    if (element !== undefined && element != null) {
+        let child = this.getFirstFocusable(element, element, true);
+        if (child) {
+            child.focus();
+        } else {
+            element.focus();
+        }
     }
 }
 

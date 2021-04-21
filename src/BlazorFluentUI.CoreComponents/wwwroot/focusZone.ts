@@ -1,5 +1,7 @@
 import * as FluentUIBaseComponent from './baseComponent.js'
 
+type DotNetReferenceType = FluentUIBaseComponent.DotNetReferenceType;
+
 interface Set<T> {
     add(value: T): Set<T>;
     clear(): void;
@@ -20,12 +22,6 @@ declare var Set: SetConstructor;
 
 interface Map<T> {
     [K: number]: T;
-}
-
-interface DotNetReferenceType {
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-    _id: number;
 }
 
 interface IFocusZoneProps {

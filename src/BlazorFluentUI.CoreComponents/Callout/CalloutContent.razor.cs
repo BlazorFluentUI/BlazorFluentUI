@@ -16,7 +16,7 @@ namespace BlazorFluentUI
         private IJSObjectReference? baseModule;
 
         private const string CalloutPath = "./_content/BlazorFluentUI.CoreComponents/callout.js";
-        private static IJSObjectReference? calloutModule;
+        private IJSObjectReference? calloutModule;
 
 
         [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -104,11 +104,18 @@ namespace BlazorFluentUI
             {
                 isEventHandlersRegistered = true;
                 selfReference = DotNetObjectReference.Create(this);
-                eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", RootElementReference, selfReference);
+                try
+                {
+                    eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", RootElementReference, selfReference);
+                }
+                catch (Exception ex)
+                {
+
+                }
 
 
 
-                if (!isMeasured && FabricComponentTarget != null && firstRender)
+                if (!isMeasured && FabricComponentTarget != null && firstRender && eventHandlerIds != null )
                 {
                     await CalculateCalloutPositionAsync();
                 }
@@ -368,11 +375,11 @@ namespace BlazorFluentUI
 
         private async Task<(PartialRectangle element, RectangleEdge targetEdge, RectangleEdge alignmentEdge)> FinalizePositionDataAsync(ElementPositionInfo positionedElement, Rectangle bounds)
         {
-            PartialRectangle? finalizedElement = await FinalizeElementPositionAsync(positionedElement.ElementRectangle,/*hostElement,*/ positionedElement.TargetEdge, bounds, positionedElement.AlignmentEdge);
+            PartialRectangle? finalizedElement = await FinalizeElementPositionAsync(positionedElement.ElementRectangle, positionedElement.TargetEdge, bounds, positionedElement.AlignmentEdge);
             return (finalizedElement, positionedElement.TargetEdge, positionedElement.AlignmentEdge);
         }
 
-        private async Task<PartialRectangle> FinalizeElementPositionAsync(Rectangle elementRectangle, /* hostElement, */ RectangleEdge targetEdge, Rectangle bounds, RectangleEdge alignmentEdge)
+        private async Task<PartialRectangle> FinalizeElementPositionAsync(Rectangle elementRectangle, RectangleEdge targetEdge, Rectangle bounds, RectangleEdge alignmentEdge)
         {
             Rectangle? hostRectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", RootElementReference);
             //Debug.WriteLine($"HostRect: {hostRectangle.left}, {hostRectangle.top}, {hostRectangle.right}, {hostRectangle.bottom}");
@@ -788,7 +795,7 @@ namespace BlazorFluentUI
             };
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (calloutModule != null && eventHandlerIds != null)
             {
@@ -799,6 +806,8 @@ namespace BlazorFluentUI
             if (baseModule != null)
                 await baseModule.DisposeAsync();
             selfReference?.Dispose();
+
+            GC.SuppressFinalize(this);
         }
     }
 }

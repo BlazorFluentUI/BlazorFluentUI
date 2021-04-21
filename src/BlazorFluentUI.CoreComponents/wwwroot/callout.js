@@ -1,13 +1,13 @@
 export function registerHandlers(targetElement, calloutRef) {
     if (targetElement) {
         var window = targetElement.ownerDocument.defaultView;
-        var calloutDivId = Handler.addCallout(targetElement);
+        var calloutDivId = Handler.addCallout(targetElement) ?? 0;
         var scrollId = Handler.addListener(window, "scroll", (ev) => { if (checkTarget(ev, targetElement)) {
             calloutRef.invokeMethodAsync("ScrollHandler");
-        } ; }, true);
+        } ; }, true) ?? 0;
         var resizeId = Handler.addListener(window, "resize", (ev) => { if (checkTarget(ev, targetElement)) {
             calloutRef.invokeMethodAsync("ResizeHandler");
-        } ; }, true);
+        } ; }, true) ?? 0;
         var focusId = Handler.addListener(document.documentElement, "focus", (ev) => {
             var outsideCallout = true;
             for (let prop in Handler.targetCombinedElements) {
@@ -19,7 +19,7 @@ export function registerHandlers(targetElement, calloutRef) {
             }
             if (outsideCallout)
                 calloutRef.invokeMethodAsync("FocusHandler");
-        }, true);
+        }, true) ?? 0;
     }
     var clickId = Handler.addListener(document.documentElement, "click", (ev) => {
         var outsideCallout = true;
@@ -32,7 +32,7 @@ export function registerHandlers(targetElement, calloutRef) {
         }
         if (outsideCallout)
             calloutRef.invokeMethodAsync("ClickHandler");
-    }, true);
+    }, true) ?? 0;
     //set focus, too
     return [scrollId, resizeId, focusId, clickId, calloutDivId];
 }

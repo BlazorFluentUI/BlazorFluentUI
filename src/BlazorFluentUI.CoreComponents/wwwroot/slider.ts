@@ -1,9 +1,7 @@
-import { KeyCodes } from './baseComponent.js'
+import * as FluentUIBaseComponent from './baseComponent.js'
 
-interface DotNetReferenceType {
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-}
+
+type DotNetReferenceType = FluentUIBaseComponent.DotNetReferenceType;
 
 interface EventParams {
     element: HTMLElement | Window;
@@ -101,18 +99,18 @@ function onKeyDown(slider: DotNetReferenceType, event: KeyboardEvent): Promise<v
     let diff: number;
     let value: number;
     switch (event.which) {
-        case KeyCodes.right: //right arrow
-        case KeyCodes.up: //up arrow
+        case FluentUIBaseComponent.KeyCodes.right: //right arrow
+        case FluentUIBaseComponent.KeyCodes.up: //up arrow
             slider.invokeMethodAsync("OnKeyDown", { step: +1 });
             break;
-        case KeyCodes.left: //left arrow
-        case KeyCodes.down: //down arrow
+        case FluentUIBaseComponent.KeyCodes.left: //left arrow
+        case FluentUIBaseComponent.KeyCodes.down: //down arrow
             slider.invokeMethodAsync("OnKeyDown", { step: -1 });
             break;
-        case KeyCodes.home: //home
+        case FluentUIBaseComponent.KeyCodes.home: //home
             slider.invokeMethodAsync("OnKeyDown", { min: true });
             break;
-        case KeyCodes.end: //end
+        case FluentUIBaseComponent.KeyCodes.end: //end
             slider.invokeMethodAsync("OnKeyDown", { max: true });
             break;
         default:

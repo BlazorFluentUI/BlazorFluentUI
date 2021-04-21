@@ -1,14 +1,9 @@
 ﻿import * as FluentUIBaseComponent from './baseComponent.js'
 
+type DotNetReferenceType = FluentUIBaseComponent.DotNetReferenceType;
 type IRectangle = FluentUIBaseComponent.IRectangle;
 type EventGroup = FluentUIBaseComponent.EventGroup;
 type EventParams = FluentUIBaseComponent.EventParams;
-
-interface DotNetReferenceType {
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-    _id: number;
-}
 
 const SELECTION_DISABLED_ATTRIBUTE_NAME = 'data-selection-disabled';
 const SELECTION_INDEX_ATTRIBUTE_NAME = 'data-selection-index';

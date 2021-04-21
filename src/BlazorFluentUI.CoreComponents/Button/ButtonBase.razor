@@ -45,6 +45,7 @@
         {
             __builder.AddAttribute(28, "MenuItemTemplate", MenuItemTemplate);
         }
+        __builder.AddAttribute(29, "ButtonBase", this);
         __builder.CloseComponent();
     };
 
@@ -118,6 +119,7 @@ else
 
 
 @code{
+            private ElementReference _parentRef;
     @*RenderFragment<ButtonBase> ButtonContent = buttonBase => __builder =>
         {
             <span class="ms-Button-flexContainer">

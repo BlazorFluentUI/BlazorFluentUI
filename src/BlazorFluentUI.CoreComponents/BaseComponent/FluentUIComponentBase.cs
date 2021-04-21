@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.JSInterop;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+
 namespace BlazorFluentUI
 {
-    public class FluentUIComponentBase : ComponentBase
+    public class FluentUIComponentBase : ComponentBase, IAsyncDisposable
     {
         [CascadingParameter(Name = "Theme")]
         public ITheme? Theme { get; set; }
@@ -145,6 +145,14 @@ namespace BlazorFluentUI
         private void OnThemeChangedPrivate(object? sender, ThemeChangedArgs themeChangedArgs)
         {
             //reloadStyle = true;
+        }
+
+        public virtual async ValueTask DisposeAsync()
+        {
+            if (baseModule != null)
+                await baseModule.DisposeAsync();
+
+            GC.SuppressFinalize(this);
         }
     }
 }

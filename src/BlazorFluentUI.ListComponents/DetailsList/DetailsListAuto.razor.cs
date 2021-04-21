@@ -725,7 +725,7 @@ namespace BlazorFluentUI.Lists
             OnRowWillUnmount.InvokeAsync(new RowMountArgs<TItem> { Row = row, Item = row.Item, Index = row.ItemIndex });
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (_viewportRegistration != -1)
             {

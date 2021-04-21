@@ -134,7 +134,7 @@ namespace BlazorFluentUI.Resize
             return elementDimension;
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (baseModule != null)
             {

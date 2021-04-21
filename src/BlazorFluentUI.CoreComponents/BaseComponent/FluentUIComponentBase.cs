@@ -151,8 +151,6 @@ namespace BlazorFluentUI
         {
             if (baseModule != null)
                 await baseModule.DisposeAsync();
-
-            GC.SuppressFinalize(this);
         }
     }
 }

@@ -106,13 +106,12 @@
 
                                         <div style="display:flex; flex-direction:column; height:114px;width:114px;margin:3px;background-color:lightblue;overflow:hidden;"
                                              data-selection-index=@context.Index
-                                             class=@($"{(selection.IsKeySelected(context.Item.Key!) ? " is-selected":"")}")
+                                             class=@($"{(selection.IsKeySelected(context.Item!.Key!) ? " is-selected":"")}")
                                              data-is-focusable="true"
                                              @onclick=@(()=> {
-
-                                            //selectionZone.HandleClick(context);
-                                            DebugText = context.Item.Key + " clicked";
-                                        })>
+                                                            //selectionZone.HandleClick(context);
+                                                            DebugText = context.Item.Key + " clicked";
+                                                        })>
                                             <img height="25" width="25" src=@DataItem.ImgUrl />
                                             <em>This is item #@context.Item!.Key</em>
                                             <span style="margin-left:10px;">@context.Item.DisplayName</span>

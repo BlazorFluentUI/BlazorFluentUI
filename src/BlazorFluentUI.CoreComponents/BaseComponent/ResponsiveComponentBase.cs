@@ -61,7 +61,7 @@ namespace BlazorFluentUI
             return Task.CompletedTask;
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (baseModule != null)
             {

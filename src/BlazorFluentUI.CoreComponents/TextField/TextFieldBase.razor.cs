@@ -675,7 +675,7 @@ namespace BlazorFluentUI
             return newDictionaryCreated;
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (baseModule != null)
                 await baseModule.DisposeAsync();

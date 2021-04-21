@@ -458,7 +458,7 @@ namespace BlazorFluentUI.Lists
         };
 
         /// <inheritdoc />
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             _refreshCts?.Cancel();
 
@@ -470,7 +470,6 @@ namespace BlazorFluentUI.Lists
                 }
                 _selfReference.Dispose();
             }
-            GC.SuppressFinalize(this);
         }
     }
 }

@@ -128,7 +128,7 @@ namespace BlazorFluentUI
             //dragRect = manualRectangle;
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (scriptModule != null)
             {

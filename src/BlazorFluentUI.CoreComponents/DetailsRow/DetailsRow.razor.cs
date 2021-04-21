@@ -218,12 +218,10 @@ namespace BlazorFluentUI
             }
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             await OnRowWillUnmount.InvokeAsync(this);
             selectionSubscription?.Dispose();
-
-            GC.SuppressFinalize(this);
         }
     }
 }

@@ -119,49 +119,6 @@ else
 
 
 @code{
-            private ElementReference _parentRef;
-    @*RenderFragment<ButtonBase> ButtonContent = buttonBase => __builder =>
-        {
-            <span class="ms-Button-flexContainer">
-                @if (buttonBase.IconName != null)
-                {
-                    <Icon ClassName="ms-Button-icon"
-                             IconName=@buttonBase.IconName />
-                }
-                @if (buttonBase.Text != null || (buttonBase.isCompoundButton && buttonBase.SecondaryText != null))
-                {
-                    <span class="ms-Button-textContainer">
-                        <span class="ms-Button-label">@buttonBase.Text</span>
-                        @if (buttonBase.isCompoundButton && buttonBase.SecondaryText != null)
-                        {
-                            <span class="ms-Button-description"
-                                  >@buttonBase.SecondaryText</span>
-                        }
-                    </span>
-                }
-                @if (buttonBase.AriaDescripton != null)
-                {
-                    <span class="ms-Button-screenReaderText">@buttonBase.AriaDescripton</span>
-                }
-                @if (buttonBase.Text == null && buttonBase.ContentTemplate != null)
-                {
-                    @buttonBase.ContentTemplate
-                }
-                @if (!buttonBase.isSplitButton && buttonBase.MenuItems != null && !buttonBase.HideChevron)
-                {
-                    <Icon IconName="ChevronDown"
-                             ClassName="ms-Button-menuIcon" />
-                }
-                @if (buttonBase.MenuItems != null  && buttonBase.contextMenuShown)
-                {
-                    <ContextualMenu FabricComponentTarget=@buttonBase
-                                       ShouldFocusOnMount=@buttonBase._menuShouldFocusOnMount
-                                       OnDismiss=@(EventCallback.Empty)
-                                       />
-                }
-            </span>
-        };*@
-
     private string GetClassNames()
     {
         string classNames = "ms-Button";

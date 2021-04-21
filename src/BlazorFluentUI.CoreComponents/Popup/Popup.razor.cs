@@ -54,7 +54,7 @@ namespace BlazorFluentUI
             //return Task.CompletedTask;
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (_handleToLastFocusedElement != null && baseModule != null)
             {

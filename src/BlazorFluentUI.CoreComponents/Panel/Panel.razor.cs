@@ -451,7 +451,7 @@ namespace BlazorFluentUI
             return IsBlocking && IsOpen;
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             _clearExistingAnimationTimer?.Invoke();
 

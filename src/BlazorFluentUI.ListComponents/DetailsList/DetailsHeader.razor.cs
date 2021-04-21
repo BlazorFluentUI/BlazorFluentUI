@@ -236,7 +236,7 @@ namespace BlazorFluentUI.Lists
 
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (selfReference != null)
             {

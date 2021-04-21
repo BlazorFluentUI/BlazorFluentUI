@@ -142,7 +142,7 @@ namespace BlazorFluentUI
             //await JSRuntime.InvokeVoidAsync("FluentUIBaseComponent.focusElement", RootElementReference).ConfigureAwait(false);
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (scriptModule != null)
                 await scriptModule.DisposeAsync();

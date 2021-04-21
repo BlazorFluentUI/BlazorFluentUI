@@ -178,7 +178,7 @@ namespace BlazorFluentUI
         //    }
         //}
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (scriptModule != null) await UnregisterFocusZoneAsync();
             if (scriptModule != null) await scriptModule.DisposeAsync();

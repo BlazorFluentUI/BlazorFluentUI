@@ -296,22 +296,5 @@ namespace BlazorFluentUI.Lists
             //Debug.WriteLine($"There are {groupedUIListItems.Count} items to render");
             return base.OnAfterRenderAsync(firstRender);
         }
-
-
-
-        //public void SelectAll()
-        //{
-        //    SelectionZone.AddItems(dataItems.)
-        //}
-
-
-
-        public ValueTask DisposeAsync()
-        {
-            //_transformedDisposable?.Dispose();
-            //_selectionSubscription?.Dispose();
-            //GC.SuppressFinalize(this);
-            return ValueTask.CompletedTask;
-        }
     }
 }

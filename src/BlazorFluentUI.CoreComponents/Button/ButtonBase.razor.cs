@@ -389,7 +389,7 @@ namespace BlazorFluentUI
 
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (_registrationToken != null)
                 await DeregisterListFocusAsync();
@@ -398,7 +398,6 @@ namespace BlazorFluentUI
             {
                 radioButtons.Remove(this);
             }
-            GC.SuppressFinalize(this);
         }
     }
 }

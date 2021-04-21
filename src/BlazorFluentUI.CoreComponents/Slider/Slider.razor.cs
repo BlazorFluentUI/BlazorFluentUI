@@ -286,7 +286,7 @@ namespace BlazorFluentUI
             return $"{direction}:{thumbOffsetPercent}%;";
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (baseModule != null)
             {

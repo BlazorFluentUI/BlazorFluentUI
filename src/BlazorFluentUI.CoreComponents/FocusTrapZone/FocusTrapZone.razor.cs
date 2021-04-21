@@ -88,7 +88,7 @@ namespace BlazorFluentUI
         }
 
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (_id != -1 && scriptModule != null)
             {

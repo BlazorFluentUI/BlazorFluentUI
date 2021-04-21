@@ -428,7 +428,7 @@ namespace BlazorFluentUI.Lists
             // TO-DO - will require measuring row cells, jsinterop
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (_viewportRegistration != -1)
             {

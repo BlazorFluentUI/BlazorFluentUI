@@ -108,7 +108,7 @@ namespace BlazorFluentUI
                 {
                     eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", RootElementReference, selfReference);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }

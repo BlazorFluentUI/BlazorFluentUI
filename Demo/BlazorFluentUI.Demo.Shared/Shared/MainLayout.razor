@@ -54,7 +54,7 @@
     [Inject]
     public ThemeProvider? ThemeProvider { get; set; }
 
-    private bool? customTheme;
+    private bool customTheme;
     private string? dark;
 
     private Rule ScrollbarRule = new Rule();
@@ -68,10 +68,10 @@
     }
 
 
-    private Task SwitchTheme(bool? checkedState)
+    private Task SwitchTheme()
     {
-        customTheme = checkedState;
-        if (checkedState.GetValueOrDefault())
+        customTheme = !customTheme;
+        if (customTheme)
         {
             var palette = new DefaultPaletteDark();
             ThemeProvider?.UpdateTheme(palette, new DefaultSemanticColorsDark(palette), new DefaultSemanticTextColorsDark(palette));

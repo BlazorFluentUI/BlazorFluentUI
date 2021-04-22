@@ -35,8 +35,8 @@
                                 <GroupedList ItemsSource=@groupedData
                                              TKey="object"
                                              GetKey="item => item.Key"
-                                             Compact=@isCompact.GetValueOrDefault()
-                                             IsVirtualizing=@isVirtualizing.GetValueOrDefault()
+                                             Compact=@isCompact
+                                             IsVirtualizing=@isVirtualizing
                                              TItem="GroupedDataItem"
                                              GroupTitleSelector=@(x=>x.DisplayName)
                                              Selection=@selection
@@ -45,7 +45,7 @@
                                     <ItemTemplate>
                                         <DetailsRow Item=@context.Item!.Item
                                                     Columns=@(columns!)
-                                                    Compact=@isCompact.GetValueOrDefault()
+                                                    Compact=@isCompact
                                                     ItemIndex=@context.Index
                                                     Selection=@(selection!)
                                                     GroupNestingDepth=@context.Item.Depth
@@ -61,9 +61,9 @@
     </div>
 </div>
 @code {
-    
-    bool? isCompact;
-    bool? isVirtualizing = true;
+
+    bool isCompact;
+    bool isVirtualizing = true;
     int count = 0;
     //GroupedDataItem rootGroup;
     System.Collections.Generic.List<DataItem>? data;

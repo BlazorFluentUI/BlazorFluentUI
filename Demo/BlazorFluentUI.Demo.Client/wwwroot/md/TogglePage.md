@@ -30,17 +30,43 @@
                 <Toggle @bind-Checked=@BoundChecked OnText="On!" OffText="Off!" Label="This is a toggle using binding." />
             </Demo>
         </div>
+        <div class="subSection">
+            <Demo Header="Basic Toggles" Key="1" MetadataPath="TogglePage">
+                <Toggle Label="Enabled and checked" DefaultChecked="true" OnText="On" OffText="Off" CheckedChanged=@OnChecked />
+
+                <Toggle Label="Enabled and unchecked" OnText="On" OffText="Off" CheckedChanged=@OnChecked />
+
+                <Toggle Label="Disabled and checked" DefaultChecked="true" Disabled="true" OnText="On" OffText="Off" />
+
+                <Toggle Label="Disabled and unchecked" Disabled="true" OnText="On" OffText="Off" />
+
+                <Toggle Label="With inline label" InlineLabel="true" OnText="On" OffText="Off" CheckedChanged=@OnChecked />
+
+                <Toggle Label="Disabled with inline label" InlineLabel="true" Disabled="true" OnText="On" OffText="Off" />
+
+                <Toggle Label="With inline label and without OnText and OffText" InlineLabel="true" CheckedChanged=@OnChecked />
+
+                <Toggle Label="Disabled with inline label and without OnText and OffText" InlineLabel="true" Disabled="true" />
+
+                <Toggle Label="Enabled and checked (ARIA 1.0 compatible)"
+                        DefaultChecked="true"
+                        OnText="On"
+                        OffText="Off"
+                        CheckedChanged=@OnChecked
+                        Role=ToggleRole.Checkbox />
+                </Demo>
+        </div>
     </div>
 </div>
 
 @code {
-    private bool? IsChecked = false;
+    private bool IsChecked = false;
 
-    private bool? BoundChecked = false;
+    private bool BoundChecked = false;
 
-    Task OnChecked(bool? isChecked)
+    Task OnChecked(bool isChecked)
     {
-        IsChecked = isChecked;
+        isChecked = !isChecked;
         return Task.CompletedTask;
     }
 

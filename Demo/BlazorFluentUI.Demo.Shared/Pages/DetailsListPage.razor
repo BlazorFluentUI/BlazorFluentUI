@@ -46,14 +46,14 @@
                     @if (ReadonlyList != null)
                     {
                         <DetailsList ItemsSource="null"
-                                     IsVirtualizing=@isVirtualizing.GetValueOrDefault()
-                                     Compact=@isCompact.GetValueOrDefault()
+                                     IsVirtualizing=@isVirtualizing
+                                     Compact=@isCompact
                                      Columns="ReadonlyColumns"
                                      GetKey=@(item => item.Key)
                                      LayoutMode="DetailsListLayoutMode.Justified"
                                      Selection="selection"
                                      SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption?.Key!))
-                                     DisableSelectionZone=@selectionDisabled.GetValueOrDefault() />
+                                     DisableSelectionZone=@selectionDisabled />
                     }
                     else
                     {
@@ -69,9 +69,9 @@
     // https://developer.microsoft.com/en-us/fluentui#/controls/web/detailslist for examples of how to use DetailsList
     // other ways.
 
-    bool? isVirtualizing = true;
-    bool? isCompact = false;
-    bool? selectionDisabled = false;
+    bool isVirtualizing = true;
+    bool isCompact = false;
+    bool selectionDisabled = false;
     IDropdownOption? selectedModeOption;
     System.Collections.Generic.List<IDropdownOption>? selectionModeOptions;
 

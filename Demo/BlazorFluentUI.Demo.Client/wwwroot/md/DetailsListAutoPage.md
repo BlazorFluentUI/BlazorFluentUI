@@ -39,9 +39,9 @@
                            OnInput=@(val => { filter = val; descriptionColumn!.FilterPredicate = prop => prop.Contains(filter); }) />
                 <div data-is-scrollable="true" style="height:400px;overflow-y:auto;">
                     <DetailsListAuto  ItemsSource="dataSource"
-                                     IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
+                                     IsVirtualizing=@isVirtualizing
                                      TItem="DataItem"
-                                     Compact="@isCompact.GetValueOrDefault()"
+                                     Compact=@isCompact
                                      Columns="columnsSource"
                                      GetKey=@(x=>x.Key)
                                      LayoutMode="DetailsListLayoutMode.Justified"
@@ -84,8 +84,8 @@
 </div>
 @code {
 
-    bool? isVirtualizing = true;
-    bool? isCompact = false;
+    bool isVirtualizing = true;
+    bool isCompact = false;
     IDropdownOption? selectedModeOption;
     System.Collections.Generic.List<IDropdownOption>? selectionModeOptions;
 

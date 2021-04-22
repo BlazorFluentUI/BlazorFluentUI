@@ -40,8 +40,8 @@
                                  Columns="ReadonlyColumns"
                                  GetKey="(item)=>item.Key"
                                  TItem="GroupedDataItem"
-                                 Compact="@isCompact.GetValueOrDefault()"
-                                 IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
+                                 Compact="@isCompact"
+                                 IsVirtualizing="@isVirtualizing"
                                  SubGroupSelector=@(item=> item.ObservableData)
                                  GroupTitleSelector=@(item=>item.DisplayName)
                                  LayoutMode="DetailsListLayoutMode.Justified"
@@ -54,8 +54,8 @@
     </div>
 </div>
 @code {
-    bool? isVirtualizing = true;
-    bool? isCompact = false;
+    bool isVirtualizing = true;
+    bool isCompact = false;
     IDropdownOption? selectedModeOption;
     System.Collections.Generic.List<IDropdownOption>? selectionModeOptions;
 

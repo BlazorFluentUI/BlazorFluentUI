@@ -43,7 +43,7 @@
 
 
                 <Panel IsLightDismiss="true"
-                       HostId=@(trapPanel.GetValueOrDefault() ? "pageHost" : null)
+                       HostId=@(trapPanel ? "pageHost" : null)
                        IsOpen=@panelIsOpen
                        OnDismiss=@(() => panelIsOpen = false)>
                     <p>
@@ -65,5 +65,5 @@
     public ITheme? Theme { get; set; }
 
     bool panelIsOpen = false;
-    bool? trapPanel = false;
+    bool trapPanel = false;
 }

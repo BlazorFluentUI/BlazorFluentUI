@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -12,29 +15,40 @@ namespace BlazorFluentUI
     {
         [Parameter] public bool? Checked { get; set; }
         [Parameter] public bool DefaultChecked { get; set; }
+
+        [Parameter] public bool ValidateOnInit { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool InlineLabel { get; set; }
-        [Parameter] public string? Label { get; set; }
+        [Parameter] public string ? Label { get; set; }
+        [Parameter] public RenderFragment? CustomLabel { get; set; }
         [Parameter] public string? OffText { get; set; }
         [Parameter] public string? OnLabel { get; set; }
 
-        [Parameter] public EventCallback<bool?> CheckedChanged { get; set; }
+        [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+        [Parameter] public Expression<Func<bool>>? CheckedExpression { get; set; }
         [Parameter] public string? OnText { get; set; }
         [Parameter] public string? DefaultText { get; set; }
 
         [Parameter] public ICommand? Command { get; set; }
         [Parameter] public object? CommandParameter { get; set; }
+        [Parameter] public ToggleRole Role { get; set; } = ToggleRole.Switch;
+
+        [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
+        private FieldIdentifier FieldIdentifier;
 
         private ICommand? command;
         protected bool commandDisabled = false;
 
-        protected bool IsChecked;
-        protected string Id = Guid.NewGuid().ToString();
-        protected string LabelId => Id + "-label";
-        protected string StateTextId => Id + "-stateText";
-        protected string? BadAriaLabel;
-        protected string? LabelledById;
-        protected string? StateText => Checked.HasValue ? (Checked.GetValueOrDefault() ? OnText : OffText) : DefaultText ?? "";
+        private bool IsChecked;
+        private bool CheckedUncontrolled;
+
+        private readonly string Id = Guid.NewGuid().ToString();
+
+        private string LabelId => Id + "-label";
+        private string StateTextId => Id + "-stateText";
+   
+        private string? LabelledById;
+        private string? StateText;
 
         private bool onOffMissing = false;
 
@@ -73,7 +87,33 @@ namespace BlazorFluentUI
 
         protected override void OnInitialized()
         {
-            IsChecked = Checked ?? DefaultChecked;
+            if (!Checked.HasValue)
+            {
+                IsChecked = DefaultChecked;
+                CheckedUncontrolled = true;
+                
+            }
+
+            if (CascadedEditContext != null)
+            {
+                if (CheckedExpression == null)
+                {
+                    throw new InvalidOperationException($"{GetType()} requires a value for the 'CheckedExpression' " +
+                        $"parameter. Normally this is provided automatically when using 'bind-Checked'.");
+                }
+                FieldIdentifier = FieldIdentifier.Create(CheckedExpression);
+
+                if (ValidateOnInit)
+                {
+                    CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
+                }
+
+                CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
+            }
+
+            //IsChecked = Checked ?? DefaultChecked;
+            //CheckedChanged.InvokeAsync(IsChecked);
+
             base.OnInitialized();
         }
 
@@ -84,9 +124,13 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            IsChecked = Checked ?? IsChecked;
+            if (!CheckedUncontrolled)
+            {
+                IsChecked = Checked ?? IsChecked;
+            }
+            StateText = (IsChecked ? OnText : OffText) ?? DefaultText ?? "";
 
-            if (string.IsNullOrWhiteSpace(AriaLabel) && string.IsNullOrWhiteSpace(BadAriaLabel))
+            if (string.IsNullOrWhiteSpace(AriaLabel))
                 LabelledById = LabelId;
             else
                 LabelledById = StateTextId;
@@ -113,16 +157,34 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
+        private void CascadedEditContext_OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+        {
+            InvokeAsync(() => StateHasChanged());  //invokeasync required for serverside
+        }
+
         protected Task OnClick(MouseEventArgs args)
         {
-            Debug.WriteLine($"Clicked and {(!Disabled ? "not" : "")} Disabled");
-            
+            //Debug.WriteLine($"Clicked and {(!IsChecked ? "on" : "off")} ({(!Disabled ? "not" : "")} Disabled)");
+
             if (Command != null)
             {
                 Command.Execute(CommandParameter);
             }
 
-            return CheckedChanged.InvokeAsync(!IsChecked);
+            Checked = IsChecked = !IsChecked;
+            StateText = (IsChecked ? OnText : OffText) ?? DefaultText ?? "";
+            return CheckedChanged.InvokeAsync(IsChecked);
+        }
+
+        private string GetToggleRole()
+        {
+            return Role switch
+            {
+                ToggleRole.Checkbox => "checkbox",
+                ToggleRole.MenuItemCheckbox => "menuitemcheckbox",
+                ToggleRole.Switch => "switch",
+                _ => "switch",
+            };
         }
 
     }

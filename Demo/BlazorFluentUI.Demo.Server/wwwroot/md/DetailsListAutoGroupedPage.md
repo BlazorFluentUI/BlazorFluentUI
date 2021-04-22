@@ -41,10 +41,10 @@
                     <DetailsListAuto ItemsSource="dataSource"
                                      @ref="detailsList"
                                      Columns="columnsSource"
-                                     Compact="@isCompact.GetValueOrDefault()"
+                                     Compact="@isCompact"
                                      GetKey=@(x=>x.Key)
                                      TItem="DataItem"
-                                     IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
+                                     IsVirtualizing="@isVirtualizing"
                                      GroupBy=@(new System.Collections.Generic.List<Func<DataItem,object>>
                                               {
                                                   x=>x.GroupName!,
@@ -59,8 +59,8 @@
     </div>
 </div>
 @code {
-    bool? isVirtualizing = true;
-    bool? isCompact = false;
+    bool isVirtualizing = true;
+    bool isCompact = false;
     IDropdownOption? selectedModeOption;
     System.Collections.Generic.List<IDropdownOption>? selectionModeOptions;
 

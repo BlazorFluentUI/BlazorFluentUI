@@ -24,7 +24,7 @@
             <Demo Header="RichText Editor" Key="0" MetadataPath="RichTextEditorPage">
                 <Toggle Label="Readonly" @bind-Checked=@isReadonly />
                 <RichTextEditor @bind-RichText=@htmlContents
-                                ReadOnly=@isReadonly.GetValueOrDefault() />
+                                ReadOnly=@isReadonly />
 
                 @htmlContents
             </Demo>
@@ -32,6 +32,6 @@
     </div>
 </div>
 @code {
-    bool? isReadonly = false;
+    bool isReadonly = false;
     string htmlContents = "";
 }

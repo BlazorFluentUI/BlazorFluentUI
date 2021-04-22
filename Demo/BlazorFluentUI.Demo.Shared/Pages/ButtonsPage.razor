@@ -95,24 +95,55 @@
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="Action Button" Key="5" MetadataPath="ButtonsPage">
+            <Demo Header="Icon Button with Tooltip" Key="5" MetadataPath="ButtonsPage">
+                <TooltipHost>
+                    <TooltipContent>
+                        Emoji
+                    </TooltipContent>
+                    <ChildContent>
+                        <IconButton OnClick=@(() => OnClickHandler("Icon")) IconName="Emoji2" AriaLabel="Emoji" Disabled=@Disabled.GetValueOrDefault() Checked=Checked />
+                    </ChildContent>
+                </TooltipHost>
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Action Button" Key="6" MetadataPath="ButtonsPage">
                 <ActionButton IconName="AddFriend" Disabled=@Disabled.GetValueOrDefault() Checked=Checked OnClick=@(() => OnClickHandler("Action"))>
                     Create account
                 </ActionButton>
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="Command Button" Key="6" MetadataPath="ButtonsPage">
+            <Demo Header="Command Button" Key="7" MetadataPath="ButtonsPage">
                 <CommandButton IconName="Add" Text="New item" MenuItems="MenuProperties" Disabled=@Disabled.GetValueOrDefault() Checked=Checked />
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="Button-like Anchor" Key="7" MetadataPath="ButtonsPage">
+            <Demo Header="Button-like Anchor" Key="8" MetadataPath="ButtonsPage">
                 <DefaultButton Text="BlazorFluentUI GitHub" Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Disabled=@Disabled.GetValueOrDefault() Checked=Checked />
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="Toggle Button" Key="8" MetadataPath="ButtonsPage">
+            <Demo Header="Button with Aria Description for Screen Reader" Key="9" MetadataPath="ButtonsPage">
+                <PrimaryButton AriaDescripton="Detailed description used for screen reader." Disabled=@Disabled.GetValueOrDefault() Checked=Checked>
+                    Button with Aria Description
+                </PrimaryButton>
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Custom Split Button" Key="10" MetadataPath="ButtonsPage">
+                <IconButton Split="true"
+                            IconName="Add"
+                            SplitButtonAriaLabel="See 2 options"
+                            AriaRoleDescription="split button"
+                            MenuItems="MenuProperties"
+                            AriaLabel="New item"
+                            OnClick=@(() => OnClickHandler("Custom Split"))
+                            Disabled=@Disabled.GetValueOrDefault() Checked=Checked />
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Toggle Button" Key="11" MetadataPath="ButtonsPage">
                 <DefaultButton Toggle="true"
                                Checked=@(muted || Checked.GetValueOrDefault())
                                Text=@(muted ? "Volume muted" : "Volume unmuted" )

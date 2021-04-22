@@ -59,8 +59,10 @@
                     disabled=@GetDisabledStatus()
                     @onclick=@ClickHandler
                     @onkeydown=@KeyDownHandler
-                    data-is-focusable=@(this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? false : true)
+                    data-is-focusable=@(this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? "false" : "true")
                     style=@Style
+                    aria-roledescription=@AriaRoleDescription
+                    aria-label=@AriaLabel
                     @attributes=@UnknownProperties
                     @ref="RootElementReference">
                 @ButtonContentRederFragment()
@@ -74,8 +76,10 @@
                disabled=@GetDisabledStatus()
                @onclick=@ClickHandler
                @onkeydown=@KeyDownHandler
-               data-is-focusable=@(this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? false : true)
+               data-is-focusable=@(this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? "false" : "true")
                style=@Style
+               aria-roledescription=@AriaRoleDescription
+               aria-label=@AriaLabel
                @attributes=@UnknownProperties
                @ref="RootElementReference">
                 @ButtonContentRederFragment()
@@ -84,35 +88,39 @@
         }
     </KeytipData>;
 
-@if (isSplitButton)
-{
-    <div class="ms-Button-splitContainer"
-         tabindex=@(!Disabled && !PrimaryDisabled && !commandDisabled ? 0 : -1)>
-        <span style="display:flex;">
-            @KeytipDataRenderFragment
-            @if (Primary)
-            {
-                <PrimaryButton IconName="ChevronDown"
-                                  ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
-                                  OnClick=@MenuClickHandler
-                                  Disabled=@Disabled />
-                <span class=@($"ms-Button-divider ms-Button--primary{(Disabled ? " is-disabled" : "")}")></span>
-            }
-            else
-            {
-                <DefaultButton IconName="ChevronDown"
-                                  ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
-                                  OnClick=@MenuClickHandler
-                                  Disabled=@Disabled />
-                <span class=@($"ms-Button-divider ms-Button--default{(Disabled ? " is-disabled" : "")}")></span>
-            }
-        </span>
-    </div>
-}
-else
-{
-    @KeytipDataRenderFragment
-}
+    @if (isSplitButton)
+    {
+        <div class="ms-Button-splitContainer" aria-roledescription="@AriaRoleDescription" aria-label="@AriaLabel" data-is-focusable="true" role="button" aria-haspopup="true" aria-expanded="false"
+             tabindex=@(!Disabled && !PrimaryDisabled && !commandDisabled ? 0 : -1)>
+            <span style="display:flex;">
+                @KeytipDataRenderFragment
+                @if (Primary)
+                {
+                    <PrimaryButton IconName="ChevronDown"
+                                   AriaLabel="@SplitButtonAriaLabel"
+                                   ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
+                                   OnClick=@MenuClickHandler
+                                   Disabled=@Disabled
+                                   tabindex="-1" />
+                    <span class=@($"ms-Button-divider ms-Button--primary{(Disabled ? " is-disabled" : "")}")></span>
+                }
+                else
+                {
+                    <DefaultButton IconName="ChevronDown"
+                                   AriaLabel="@SplitButtonAriaLabel"
+                                   ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
+                                   OnClick=@MenuClickHandler
+                                   Disabled=@Disabled
+                                   tabindex="-1" />
+                    <span class=@($"ms-Button-divider ms-Button--default{(Disabled ? " is-disabled" : "")}")></span>
+                }
+            </span>
+        </div>
+    }
+    else
+    {
+        @KeytipDataRenderFragment
+    }
 }
 
 

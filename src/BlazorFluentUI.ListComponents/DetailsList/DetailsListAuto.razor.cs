@@ -315,7 +315,7 @@ namespace BlazorFluentUI.Lists
                 .SelectMany(prop =>
                 {
                     // now watch for changes to the Columns object properties and return an initial value so that any following logic can be setup
-                    return Columns.Aggregate(Observable.Empty<PropertyChangedEventArgs>(), (x, y) => x.Merge(y.WhenPropertyChanged!));
+                    return Columns.Aggregate(Observable.Empty<PropertyChangedEventArgs>(), (x, y) => x.Merge(y.WhenPropertyChanged != null ? y.WhenPropertyChanged : Observable.Empty<PropertyChangedEventArgs>()));
                 });
 
 

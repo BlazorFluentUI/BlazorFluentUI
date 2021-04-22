@@ -196,10 +196,10 @@
     </div>
 </div>
 @code {
-    string onInputContent = "";
-    string onChangeContent = "";
+        string onInputContent = "";
+        string onChangeContent = "";
 
-    ExampleModel model = new ExampleModel();
+        ExampleModel model = new ExampleModel();
 
     class ExampleModel
     {
@@ -221,6 +221,13 @@
 
     public string GetErrorMessage(string value)
     {
-        return value.Length < 3 ? "" : $"Input value length must be less than 3. Actual length is {value.Length}.";
+        if (value == null)
+        {
+            return "Value Required";
+        }
+        else
+        {
+            return value.Length < 3 ? "" : $"Input value length must be less than 3. Actual length is {value.Length}.";
+        }
     }
 }

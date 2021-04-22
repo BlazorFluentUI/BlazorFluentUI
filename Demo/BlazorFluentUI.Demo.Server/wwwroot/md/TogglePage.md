@@ -24,8 +24,8 @@
             <Demo Header="Bound Toggles" Key="0" MetadataPath="TogglePage">
                 <Stack Tokens="@(new StackTokens() { ChildrenGap = new [] {10d}})">
                     <Label>This is a toggle using binding (controlled) which is now @(BoundChecked1 ? "on" :"off")</Label>
-                    <Toggle @bind-Checked=@BoundChecked1 OnText="On!" OffText="Off!" />
-                    <Toggle @bind-Checked=@BoundChecked2 OnText="On!" OffText="Off!" Label="This is a toggle using binding." />
+                    <Toggle @bind-Checked=@BoundChecked1 OnText="On" OffText="Off" />
+                    <Toggle @bind-Checked=@BoundChecked2 OnText="On" OffText="Off" Label="This is a toggle using binding." />
                 </Stack>
             </Demo>
         </div>

@@ -20,7 +20,7 @@ namespace BlazorFluentUI
         [Parameter] public bool IsOutOfOffice { get; set; }
         [Parameter] public PersonaPresenceStatus Presence { get; set; }
         [Parameter] public string? PresenceTitle { get; set; }  //tooltip on hover
-        [Parameter] public PersonaInitialsColor InitialsColor { get; set; }
+        [Parameter] public PersonaInitialsColor? InitialsColor { get; set; }
         [Parameter] public bool ShowInitialsUntilImageLoads { get; set; }
         [Parameter] public bool ShowUnknownPersonaCoin { get; set; }
         [Parameter] public string? Size { get; set; }
@@ -149,7 +149,7 @@ namespace BlazorFluentUI
                 >= 100 => Theme?.FontStyle.FontSize.SuperLarge,
             };
 
-            string color = InitialsColor.ToString() != "" ? PersonaColorUtils.GetPersonaColorHexCode(InitialsColor) : PersonaColorUtils.GetPersonaColorHexCode(PersonaColorUtils.GetInitialsColorFromName(Text));
+            string color = InitialsColor.HasValue ? PersonaColorUtils.GetPersonaColorHexCode(InitialsColor.Value) : PersonaColorUtils.GetPersonaColorHexCode(PersonaColorUtils.GetInitialsColorFromName(Text));
 
             InitialsRule.Properties = new CssString
             {

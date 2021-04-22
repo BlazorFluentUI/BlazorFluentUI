@@ -19,7 +19,7 @@ namespace BlazorFluentUI
         [Parameter] public bool ImageShouldFadeIn { get; set; }
         [Parameter] public bool ImageShouldStartVisible { get; set; }
         [Parameter] public string? ImageUrl { get; set; }
-        [Parameter] public PersonaInitialsColor InitialsColor { get; set; }
+        [Parameter] public PersonaInitialsColor? InitialsColor { get; set; }
         [Parameter] public bool IsOutOfOffice { get; set; }
         [Parameter] public string? OptionalText { get; set; }
         [Parameter] public PersonaPresenceStatus Presence { get; set; }

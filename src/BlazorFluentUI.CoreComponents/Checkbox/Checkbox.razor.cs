@@ -62,6 +62,8 @@ namespace BlazorFluentUI
 
         [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
 
+        [Parameter] public RenderFragment? OnRenderLabel { get; set; }
+
         [Parameter] public Expression<Func<bool>>? CheckedExpression { get; set; }
 
         [Parameter] public EventCallback<bool> IndeterminateChanged { get; set; }

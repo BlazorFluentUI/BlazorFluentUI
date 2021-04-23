@@ -9,16 +9,16 @@ namespace BlazorFluentUI.Lists
     {
 
         [Parameter]
-        public DetailsRowColumn<TItem> Column { get; set; }
+        public DetailsRowColumn<TItem>? Column { get; set; }
 
         [Parameter]
-        public RenderFragment<object> ColumnHeaderTooltipTemplate { get; set; }
+        public RenderFragment<object>? ColumnHeaderTooltipTemplate { get; set; }
 
         [Parameter]
         public int ColumnIndex { get; set; }
 
         [Parameter]
-        public object DragDropHelper { get; set; }
+        public object? DragDropHelper { get; set; }
 
         [Parameter]
         public bool IsDraggable { get; set; }
@@ -33,7 +33,7 @@ namespace BlazorFluentUI.Lists
         public EventCallback<DetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
 
         [Parameter]
-        public string ParentId { get; set; }
+        public string? ParentId { get; set; }
 
         [Parameter]
         public EventCallback<int> UpdateDragInfo { get; set; }
@@ -44,19 +44,27 @@ namespace BlazorFluentUI.Lists
 
         private bool HasAccessibleLabel()
         {
-            return !string.IsNullOrEmpty(Column.AriaLabel)
-                || !string.IsNullOrEmpty(Column.FilterAriaLabel)
+            if (Column != null)
+            {
+                return !string.IsNullOrEmpty(Column.AriaLabel)
+                    || !string.IsNullOrEmpty(Column.FilterAriaLabel)
                 || !string.IsNullOrEmpty(Column.SortedAscendingAriaLabel)
                 || !string.IsNullOrEmpty(Column.SortedDescendingAriaLabel)
                 || !string.IsNullOrEmpty(Column.GroupAriaLabel);
+            }
+            else
+                return false;
         }
 
         private void HandleColumnClick(MouseEventArgs mouseEventArgs)
         {
-            if (Column.ColumnActionsMode == ColumnActionsMode.Disabled)
-                return;
-            Column.OnColumnClick?.Invoke(Column);
-            OnColumnClick.InvokeAsync(Column);
+            if (Column != null)
+            {
+                if (Column.ColumnActionsMode == ColumnActionsMode.Disabled)
+                    return;
+                Column.OnColumnClick?.Invoke(Column);
+                OnColumnClick.InvokeAsync(Column);
+            }
         }
     }
 }

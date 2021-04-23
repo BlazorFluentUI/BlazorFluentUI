@@ -1,24 +1,13 @@
 import * as FluentUIBaseComponent from './baseComponent.js'
 
+type DotNetReferenceType = FluentUIBaseComponent.DotNetReferenceType;
 type EventGroup = FluentUIBaseComponent.EventGroup;
-interface DotNetReferenceType {
-
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-}
+type IRectangle = FluentUIBaseComponent.IRectangle;
 
 interface SerializableDictionary<T> {
     [K: string]: T;
 }
 
-interface IRectangle {
-    left: number;
-    top: number;
-    width: number;
-    height: number;
-    right?: number;
-    bottom?: number;
-}
 
 var _lastId: number = 0;
 var cachedLists: Map<number, List> = new Map<number, List>();

@@ -64,7 +64,7 @@
                                                     ItemIndex=@context.Index
                                                     Columns=@_adjustedColumns
                                                     SelectionMode=@SelectionMode
-                                                    Selection=@Selection
+                                                    Selection=@(Selection!)
                                                     Compact=@Compact
                                                     CheckboxVisibility=@CheckboxVisibility />
                                     }
@@ -77,14 +77,14 @@
                                          TItem="TItem"
                                          TKey="object"
                                          @ref=@groupedList
-                                         GetKey=@GetKey
+                                         GetKey=@(GetKey!)
                                          Selection=@Selection
                                          SubGroupSelector=@SubGroupSelector
-                                         GroupTitleSelector=@GroupTitleSelector
+                                         GroupTitleSelector=@(GroupTitleSelector!)
                                          IsVirtualizing=@IsVirtualizing
                                          SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                                 <ItemTemplate>
-                                    <DetailsRow Item=@context.Item.Item
+                                    <DetailsRow Item=@context.Item!.Item
                                                 TItem="TItem"
                                                 ItemIndex=@context.Index
                                                 Selection=@Selection
@@ -126,14 +126,14 @@
                         <GroupedList ItemsSource=@ItemsSource
                                      TItem="TItem"
                                      TKey="object"
-                                     GetKey=@GetKey
+                                     GetKey=@(GetKey!)
                                      @ref=@groupedList
                                      Selection=@Selection
                                      SubGroupSelector=@SubGroupSelector
-                                     GroupTitleSelector=@GroupTitleSelector
+                                     GroupTitleSelector=@(GroupTitleSelector!)
                                      SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                             <ItemTemplate>
-                                <DetailsRow Item=@context.Item.Item
+                                <DetailsRow Item=@context.Item!.Item
                                             ItemIndex=@context.Index
                                             TItem="TItem"
                                             Columns=@_adjustedColumns

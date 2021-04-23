@@ -22,7 +22,7 @@ namespace BlazorFluentUI.Demo.Server
             {                
                 if (_env.IsDevelopment())
                     configure.DetailedErrors = true;
-            });
+            }).AddHubOptions(hub => hub.EnableDetailedErrors = true);
             if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
             {
                 // Setup HttpClient for server side in a client side compatible fashion

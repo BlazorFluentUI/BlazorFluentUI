@@ -34,30 +34,31 @@ const LARGE_DISTANCE_FROM_CENTER = 999999999;
 const LARGE_NEGATIVE_DISTANCE_FROM_CENTER = -999999999;
 const ALLOWED_INPUT_TYPES = ['text', 'number', 'password', 'email', 'tel', 'url', 'search'];
 const ALLOW_VIRTUAL_ELEMENTS = false; // this is not used in Blazor... concept for React only
-var count = 0;
-var allInstances = {};
+const focusZones = new Map();
+//var count = 0;
+//var allInstances: Map<FocusZone> = {};
 var outerZones = new Set();
 let _disposeGlobalKeyDownListener;
-export function register(props, focusZone) {
-    let currentId = count++;
-    allInstances[currentId] = new FocusZoneInternal(props, focusZone);
-    return currentId;
+export function registerFocusZone(dotNet, root, props) {
+    let focusZone = new FocusZone(dotNet, root, props);
+    focusZones.set(dotNet._id, focusZone);
 }
-export function unregister(id) {
-    let focusZone = allInstances[id];
-    if (focusZone) {
-        focusZone.unRegister();
-    }
-    delete allInstances[id];
-}
-export function updateFocusZone(id, props) {
-    let focusZone = allInstances[id];
-    if (focusZone) {
+export function updateFocusZoneProps(dotNet, props) {
+    let focusZone = focusZones.get(dotNet._id);
+    if (typeof focusZone !== 'undefined' && focusZone !== null) {
         focusZone.updateFocusZone(props);
     }
 }
-class FocusZoneInternal {
-    constructor(focusZoneProps, dotNetRef) {
+export function unregisterFocusZone(dotNet) {
+    let focusZone = focusZones.get(dotNet._id);
+    if (typeof focusZone !== 'undefined' && focusZone !== null) {
+        focusZone.unRegister();
+        //focusZone.dispose();
+        //focusZones.delete(dotNet._id);
+    }
+}
+class FocusZone {
+    constructor(dotNet, root, props) {
         this._disposables = [];
         this._onBlur = () => {
             this._setParkedFocus(false);
@@ -67,7 +68,7 @@ class FocusZoneInternal {
                 // If the event target is inside a portal do not process the event.
                 return;
             }
-            const { direction, disabled, innerZoneKeystrokeTriggers } = this._focusZoneProps;
+            const { direction, disabled, innerZoneKeystrokeTriggers } = this.props;
             if (disabled) {
                 return;
             }
@@ -78,7 +79,7 @@ class FocusZoneInternal {
             if (ev.defaultPrevented) {
                 return;
             }
-            if (document.activeElement === this._root && this._isInnerZone) {
+            if (document.activeElement === this.root && this._isInnerZone) {
                 // If this element has focus, it is being controlled by a parent.
                 // Ignore the keystroke.
                 return;
@@ -131,8 +132,8 @@ class FocusZoneInternal {
                         }
                         return;
                     case 9 /* tab */:
-                        if (this._focusZoneProps.handleTabKey === FocusZoneTabbableElements.all ||
-                            (this._focusZoneProps.handleTabKey === FocusZoneTabbableElements.inputOnly && this._isElementInput(ev.target))) {
+                        if (this.props?.handleTabKey === FocusZoneTabbableElements.all ||
+                            (this.props?.handleTabKey === FocusZoneTabbableElements.inputOnly && this._isElementInput(ev.target))) {
                             let focusChanged = false;
                             this._processingTabKey = true;
                             if (direction === FocusZoneDirection.vertical ||
@@ -153,8 +154,8 @@ class FocusZoneInternal {
                         if (this._isElementInput(ev.target) && !this._shouldInputLoseFocus(ev.target, false)) {
                             return;
                         }
-                        const firstChild = this._root && this._root.firstChild;
-                        if (this._root && firstChild && this.focusElement(FluentUIBaseComponent.getNextElement(this._root, firstChild, true))) {
+                        const firstChild = this.root && this.root.firstChild;
+                        if (this.root && firstChild && this.focusElement(FluentUIBaseComponent.getNextElement(this.root, firstChild, true))) {
                             break;
                         }
                         return;
@@ -162,8 +163,8 @@ class FocusZoneInternal {
                         if (this._isElementInput(ev.target) && !this._shouldInputLoseFocus(ev.target, true)) {
                             return;
                         }
-                        const lastChild = this._root && this._root.lastChild;
-                        if (this._root && this.focusElement(FluentUIBaseComponent.getPreviousElement(this._root, lastChild, true, true, true))) {
+                        const lastChild = this.root && this.root.lastChild;
+                        if (this.root && this.focusElement(FluentUIBaseComponent.getPreviousElement(this.root, lastChild, true, true, true))) {
                             break;
                         }
                         return;
@@ -184,16 +185,16 @@ class FocusZoneInternal {
                 // If the event target is inside a portal do not process the event.
                 return;
             }
-            const { doNotAllowFocusEventToPropagate } = this._focusZoneProps;
+            const { doNotAllowFocusEventToPropagate } = this.props;
             const isImmediateDescendant = this._isImmediateDescendantOfZone(ev.target);
             let newActiveElement;
-            this._dotNetRef.invokeMethodAsync("JSOnFocusNotification");
+            this.dotNet.invokeMethodAsync("JSOnFocusNotification");
             if (isImmediateDescendant) {
                 newActiveElement = ev.target;
             }
             else {
                 let parentElement = ev.target;
-                while (parentElement && parentElement !== this._root) {
+                while (parentElement && parentElement !== this.root) {
                     if (FluentUIBaseComponent.isElementTabbable(parentElement) && this._isImmediateDescendantOfZone(parentElement)) {
                         newActiveElement = parentElement;
                         break;
@@ -213,7 +214,7 @@ class FocusZoneInternal {
                     this._updateTabIndexes();
                 }
             }
-            this._dotNetRef.invokeMethodAsync("JSOnActiveElementChanged");
+            this.dotNet.invokeMethodAsync("JSOnActiveElementChanged");
             if (doNotAllowFocusEventToPropagate) {
                 ev.stopPropagation();
             }
@@ -228,13 +229,13 @@ class FocusZoneInternal {
                 // If the event target is inside a portal do not process the event.
                 return;
             }
-            const { disabled } = this._focusZoneProps;
+            const { disabled } = this.props;
             if (disabled) {
                 return;
             }
             let target = ev.target;
             const path = [];
-            while (target && target !== this._root) {
+            while (target && target !== this.root) {
                 path.push(target);
                 target = FluentUIBaseComponent.getParent(target, ALLOW_VIRTUAL_ELEMENTS);
             }
@@ -249,24 +250,24 @@ class FocusZoneInternal {
                 }
             }
         };
-        this._root = focusZoneProps.root;
-        this._focusZoneProps = focusZoneProps;
-        this._dotNetRef = dotNetRef;
+        this.dotNet = dotNet;
+        this.root = root;
+        this.props = props;
         this._focusAlignment = {
             x: 0,
             y: 0
         };
-        this._root.addEventListener("keydown", this._onKeyDown, false);
-        this._root.addEventListener("focusin", this._onFocus, false);
-        this._root.addEventListener("mousedown", this._onMouseDown, false);
+        this.root?.addEventListener("keydown", this._onKeyDown, false);
+        this.root?.addEventListener("focusin", this._onFocus, false);
+        this.root?.addEventListener("mousedown", this._onMouseDown, false);
         this.initialized();
     }
     updateFocusZone(props) {
-        this._focusZoneProps = props;
-        allInstances[props.id] = this;
-        if (this._root) {
-            const windowElement = FluentUIBaseComponent.getWindow(this._root);
-            let parentElement = FluentUIBaseComponent.getParent(this._root, ALLOW_VIRTUAL_ELEMENTS);
+        this.props = props;
+        //allInstances[props.id] = this;
+        if (this.root) {
+            const windowElement = FluentUIBaseComponent.getWindow(this.root);
+            let parentElement = FluentUIBaseComponent.getParent(this.root, ALLOW_VIRTUAL_ELEMENTS);
             while (parentElement && parentElement !== document.body && parentElement.nodeType === 1) {
                 if (FluentUIBaseComponent.isElementFocusZone(parentElement)) {
                     this._isInnerZone = true;
@@ -280,21 +281,21 @@ class FocusZoneInternal {
             if (windowElement && outerZones.size === 1) {
                 _disposeGlobalKeyDownListener = FluentUIBaseComponent.on(windowElement, 'keydown', this._onKeyDownCapture, true);
             }
-            this._disposables.push(FluentUIBaseComponent.on(this._root, 'blur', this._onBlur, true));
+            this._disposables.push(FluentUIBaseComponent.on(this.root, 'blur', this._onBlur, true));
             // Assign initial tab indexes so that we can set initial focus as appropriate.
             this._updateTabIndexes();
             // using a hack to detect whether the passed in HTMLElement is valid (came from a legitimate .NET ElementReference)
-            if ((this._focusZoneProps.defaultActiveElement).__internalId !== null) {
-                if (this._activeElement != this._focusZoneProps.defaultActiveElement) {
-                    this._activeElement = this._focusZoneProps.defaultActiveElement;
+            if ((this.props?.defaultActiveElement)?.__internalId !== null) {
+                if (this._activeElement != this.props?.defaultActiveElement) {
+                    this._activeElement = this.props?.defaultActiveElement;
                     this.focus();
                 }
             }
         }
     }
     initialized() {
-        const windowElement = FluentUIBaseComponent.getWindow(this._root);
-        let parentElement = FluentUIBaseComponent.getParent(this._root, ALLOW_VIRTUAL_ELEMENTS);
+        const windowElement = FluentUIBaseComponent.getWindow(this.root);
+        let parentElement = FluentUIBaseComponent.getParent(this.root, ALLOW_VIRTUAL_ELEMENTS);
         while (parentElement && parentElement !== document.body && parentElement.nodeType === 1) {
             if (FluentUIBaseComponent.isElementFocusZone(parentElement)) {
                 this._isInnerZone = true;
@@ -308,12 +309,12 @@ class FocusZoneInternal {
         if (windowElement && outerZones.size === 1) {
             _disposeGlobalKeyDownListener = FluentUIBaseComponent.on(windowElement, 'keydown', this._onKeyDownCapture, true);
         }
-        this._disposables.push(FluentUIBaseComponent.on(this._root, 'blur', this._onBlur, true));
+        this._disposables.push(FluentUIBaseComponent.on(this.root, 'blur', this._onBlur, true));
         // Assign initial tab indexes so that we can set initial focus as appropriate.
         this._updateTabIndexes();
         // using a hack to detect whether the passed in HTMLElement is valid (came from a legitimate .NET ElementReference)
-        if ((this._focusZoneProps.defaultActiveElement).__internalId !== null) {
-            this._activeElement = this._focusZoneProps.defaultActiveElement;
+        if ((this.props?.defaultActiveElement)?.__internalId !== null) {
+            this._activeElement = this.props?.defaultActiveElement;
             this.focus();
         }
     }
@@ -324,23 +325,23 @@ class FocusZoneInternal {
    * we restore focusability to the pre-parked state.
    */
     _setParkedFocus(isParked) {
-        if (this._root && this._isParked !== isParked) {
+        if (this.root && this._isParked !== isParked) {
             this._isParked = isParked;
             if (isParked) {
-                if (!this._focusZoneProps.allowFocusRoot) {
-                    this._parkedTabIndex = this._root.getAttribute('tabindex');
-                    this._root.setAttribute('tabindex', '-1');
+                if (!this.props?.allowFocusRoot) {
+                    this._parkedTabIndex = this.root.getAttribute('tabindex');
+                    this.root.setAttribute('tabindex', '-1');
                 }
-                this._root.focus();
+                this.root.focus();
             }
             else {
-                if (!this._focusZoneProps.allowFocusRoot) {
+                if (!this.props?.allowFocusRoot) {
                     if (this._parkedTabIndex) {
-                        this._root.setAttribute('tabindex', this._parkedTabIndex);
+                        this.root.setAttribute('tabindex', this._parkedTabIndex);
                         this._parkedTabIndex = undefined;
                     }
                     else {
-                        this._root.removeAttribute('tabindex');
+                        this.root.removeAttribute('tabindex');
                     }
                 }
             }
@@ -354,37 +355,37 @@ class FocusZoneInternal {
         if (outerZones.size === 0 && _disposeGlobalKeyDownListener) {
             _disposeGlobalKeyDownListener();
         }
-        this._root.removeEventListener("keydown", this._onKeyDown, false);
-        this._root.removeEventListener("focus", this._onFocus, false);
-        this._root.removeEventListener("mousedown", this._onMouseDown, false);
+        this.root.removeEventListener("keydown", this._onKeyDown, false);
+        this.root.removeEventListener("focus", this._onFocus, false);
+        this.root.removeEventListener("mousedown", this._onMouseDown, false);
     }
     focus(forceIntoFirstElement = false) {
-        if (this._root) {
-            if (!forceIntoFirstElement && this._root.getAttribute(IS_FOCUSABLE_ATTRIBUTE) === 'true' && this._isInnerZone) {
-                const ownerZoneElement = this._getOwnerZone(this._root);
-                if (ownerZoneElement !== this._root) {
-                    const ownerZone = allInstances[ownerZoneElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
-                    return !!ownerZone && ownerZone.focusElement(this._root);
+        if (this.root) {
+            if (!forceIntoFirstElement && this.root.getAttribute(IS_FOCUSABLE_ATTRIBUTE) === 'true' && this._isInnerZone) {
+                const ownerZoneElement = this._getOwnerZone(this.root);
+                if (ownerZoneElement !== this.root) {
+                    const ownerZone = focusZones[ownerZoneElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
+                    return !!ownerZone && ownerZone.focusElement(this.root);
                 }
                 return false;
             }
             else if (!forceIntoFirstElement &&
                 this._activeElement &&
-                FluentUIBaseComponent.elementContains(this._root, this._activeElement) &&
+                FluentUIBaseComponent.elementContains(this.root, this._activeElement) &&
                 FluentUIBaseComponent.isElementTabbable(this._activeElement)) {
                 this._activeElement.focus();
                 return true;
             }
             else {
-                const firstChild = this._root.firstChild;
-                return this.focusElement(FluentUIBaseComponent.getNextElement(this._root, firstChild, true));
+                const firstChild = this.root.firstChild;
+                return this.focusElement(FluentUIBaseComponent.getNextElement(this.root, firstChild, true));
             }
         }
         return false;
     }
     focusElement(element) {
-        const { onBeforeFocusExists } = this._focusZoneProps;
-        if (onBeforeFocusExists && !this._dotNetRef.invokeMethodAsync("JSOnBeforeFocus")) {
+        const { onBeforeFocusExists } = this.props;
+        if (onBeforeFocusExists && !this.dotNet.invokeMethodAsync("JSOnBeforeFocus")) {
             return false;
         }
         if (element) {
@@ -398,9 +399,9 @@ class FocusZoneInternal {
         return false;
     }
     _updateTabIndexes(element) {
-        if (!element && this._root) {
+        if (!element && this.root) {
             this._defaultFocusElement = null;
-            element = this._root;
+            element = this.root;
             if (this._activeElement && !FluentUIBaseComponent.elementContains(element, this._activeElement)) {
                 this._activeElement = null;
             }
@@ -419,7 +420,7 @@ class FocusZoneInternal {
                     child.setAttribute(TABINDEX, '-1');
                 }
                 if (FluentUIBaseComponent.isElementTabbable(child)) {
-                    if (this._focusZoneProps.disabled) {
+                    if (this.props?.disabled) {
                         child.setAttribute(TABINDEX, '-1');
                     }
                     else if (!this._isInnerZone && ((!this._activeElement && !this._defaultFocusElement) || this._activeElement === child)) {
@@ -453,7 +454,7 @@ class FocusZoneInternal {
     }
     _getOwnerZone(element) {
         let parentElement = FluentUIBaseComponent.getParent(element, ALLOW_VIRTUAL_ELEMENTS);
-        while (parentElement && parentElement !== this._root && parentElement !== document.body) {
+        while (parentElement && parentElement !== this.root && parentElement !== document.body) {
             if (FluentUIBaseComponent.isElementFocusZone(parentElement)) {
                 return parentElement;
             }
@@ -478,7 +479,7 @@ class FocusZoneInternal {
         }
     }
     _setFocusAlignment(element, isHorizontal, isVertical) {
-        if (this._focusZoneProps.direction === FocusZoneDirection.bidirectional && (!this._focusAlignment || isHorizontal || isVertical)) {
+        if (this.props?.direction === FocusZoneDirection.bidirectional && (!this._focusAlignment || isHorizontal || isVertical)) {
             const rect = element.getBoundingClientRect();
             const left = rect.left + rect.width / 2;
             const top = rect.top + rect.height / 2;
@@ -497,23 +498,23 @@ class FocusZoneInternal {
         }
     }
     _isImmediateDescendantOfZone(element) {
-        return this._getOwnerZone(element) === this._root;
+        return this._getOwnerZone(element) === this.root;
     }
     /**
 * Traverse to find first child zone.
 */
     _getFirstInnerZone(rootElement) {
-        rootElement = rootElement || this._activeElement || this._root;
+        rootElement = rootElement || this._activeElement || this.root;
         if (!rootElement) {
             return null;
         }
         if (FluentUIBaseComponent.isElementFocusZone(rootElement)) {
-            return allInstances[rootElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
+            return focusZones[rootElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
         }
         let child = rootElement.firstElementChild;
         while (child) {
             if (FluentUIBaseComponent.isElementFocusZone(child)) {
-                return allInstances[child.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
+                return focusZones[child.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
             }
             const match = this._getFirstInnerZone(child);
             if (match) {
@@ -527,7 +528,7 @@ class FocusZoneInternal {
    * Walk up the dom try to find a focusable element.
    */
     _tryInvokeClickForFocusable(target) {
-        if (target === this._root) {
+        if (target === this.root) {
             return false;
         }
         do {
@@ -541,7 +542,7 @@ class FocusZoneInternal {
                 return true;
             }
             target = FluentUIBaseComponent.getParent(target, ALLOW_VIRTUAL_ELEMENTS);
-        } while (target !== this._root);
+        } while (target !== this.root);
         return false;
     }
     /**
@@ -550,7 +551,7 @@ class FocusZoneInternal {
     _portalContainsElement(element) {
         // This might break our control when used inside a Layer...
         return false;
-        //return element && !!this._root && FluentUIBaseComponent portalContainsElement(element, this._root.current);
+        //return element && !!this.root && FluentUIBaseComponent portalContainsElement(element, this.root.current);
     }
     _isElementInput(element) {
         if (element && element.tagName && (element.tagName.toLowerCase() === 'input' || element.tagName.toLowerCase() === 'textarea')) {
@@ -575,22 +576,22 @@ class FocusZoneInternal {
             if (isRangeSelected ||
                 (selectionStart > 0 && !isForward) ||
                 (selectionStart !== inputValue.length && isForward) ||
-                (!!this._focusZoneProps.handleTabKey && !(this._focusZoneProps.shouldInputLoseFocusOnArrowKeyExists && this._dotNetRef.invokeMethodAsync("JSShouldInputLoseFocusOnArrowKey")))) {
+                (!!this.props?.handleTabKey && !(this.props?.shouldInputLoseFocusOnArrowKeyExists && this.dotNet.invokeMethodAsync("JSShouldInputLoseFocusOnArrowKey")))) {
                 return false;
             }
         }
         return true;
     }
     _shouldWrapFocus(element, noWrapDataAttribute) {
-        return !!this._focusZoneProps.checkForNoWrap ? FluentUIBaseComponent.shouldWrapFocus(element, noWrapDataAttribute) : true;
+        return !!this.props?.checkForNoWrap ? FluentUIBaseComponent.shouldWrapFocus(element, noWrapDataAttribute) : true;
     }
     _moveFocus(isForward, getDistanceFromCenter, ev, useDefaultWrap = true) {
         let element = this._activeElement;
         let candidateDistance = -1;
         let candidateElement = undefined;
         let changedFocus = false;
-        const isBidirectional = this._focusZoneProps.direction === FocusZoneDirection.bidirectional;
-        if (!element || !this._root) {
+        const isBidirectional = this.props?.direction === FocusZoneDirection.bidirectional;
+        if (!element || !this.root) {
             return false;
         }
         if (this._isElementInput(element)) {
@@ -600,7 +601,7 @@ class FocusZoneInternal {
         }
         const activeRect = isBidirectional ? element.getBoundingClientRect() : null;
         do {
-            element = (isForward ? FluentUIBaseComponent.getNextElement(this._root, element) : FluentUIBaseComponent.getPreviousElement(this._root, element));
+            element = (isForward ? FluentUIBaseComponent.getNextElement(this.root, element) : FluentUIBaseComponent.getPreviousElement(this.root, element));
             if (isBidirectional) {
                 if (element) {
                     const targetRect = element.getBoundingClientRect();
@@ -628,12 +629,12 @@ class FocusZoneInternal {
             changedFocus = true;
             this.focusElement(candidateElement);
         }
-        else if (this._focusZoneProps.isCircularNavigation && useDefaultWrap) {
+        else if (this.props?.isCircularNavigation && useDefaultWrap) {
             if (isForward) {
-                return this.focusElement(FluentUIBaseComponent.getNextElement(this._root, this._root.firstElementChild, true));
+                return this.focusElement(FluentUIBaseComponent.getNextElement(this.root, this.root.firstElementChild, true));
             }
             else {
-                return this.focusElement(FluentUIBaseComponent.getPreviousElement(this._root, this._root.lastElementChild, true, true, true));
+                return this.focusElement(FluentUIBaseComponent.getPreviousElement(this.root, this.root.lastElementChild, true, true, true));
             }
         }
         return changedFocus;
@@ -720,7 +721,7 @@ class FocusZoneInternal {
             else {
                 topBottomComparison = parseFloat(targetRect.bottom.toFixed(3)) > parseFloat(activeRect.top.toFixed(3));
             }
-            if (topBottomComparison && targetRect.right <= activeRect.right && this._focusZoneProps.direction !== FocusZoneDirection.vertical) {
+            if (topBottomComparison && targetRect.right <= activeRect.right && this.props?.direction !== FocusZoneDirection.vertical) {
                 distance = activeRect.right - targetRect.right;
             }
             else {
@@ -750,7 +751,7 @@ class FocusZoneInternal {
             else {
                 topBottomComparison = parseFloat(targetRect.top.toFixed(3)) < parseFloat(activeRect.bottom.toFixed(3));
             }
-            if (topBottomComparison && targetRect.left >= activeRect.left && this._focusZoneProps.direction !== FocusZoneDirection.vertical) {
+            if (topBottomComparison && targetRect.left >= activeRect.left && this.props?.direction !== FocusZoneDirection.vertical) {
                 distance = targetRect.left - activeRect.left;
             }
             else if (!shouldWrap) {

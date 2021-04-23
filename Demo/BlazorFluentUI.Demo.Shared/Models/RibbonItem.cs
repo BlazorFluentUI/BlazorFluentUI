@@ -9,7 +9,7 @@ namespace BlazorFluentUI.Demo.Shared.Models
 {
     class RibbonItem :IRibbonItem
     {
-        public string Text { get; set; }
+        public string? Text { get; set; }
         public double Priority { get; set; }
     }
 }

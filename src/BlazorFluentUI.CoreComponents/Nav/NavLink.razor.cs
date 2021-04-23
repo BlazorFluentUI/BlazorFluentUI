@@ -11,23 +11,23 @@ namespace BlazorFluentUI.Routing
 {
     public partial class NavLink : FluentUIComponentBase
     {
-        [Inject] protected NavigationManager NavigationManager { get; set; }
+        [Inject] protected NavigationManager? NavigationManager { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }  //LINKS
+        [Parameter] public RenderFragment? ChildContent { get; set; }  //LINKS
 
         //[Parameter] public string AriaLabel { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public bool ForceAnchor { get; set; } //unused for now
-        
+
         [Parameter] public string? IconName { get; set; }
         [Parameter] public string? IconSrc { get; set; }
         [Parameter] public bool IsButton { get; set; }
-        [Parameter] public string Name { get; set; }
-        [Parameter] public string Target { get; set; }  //link <a> target
-        [Parameter] public string Title { get; set; } //tooltip and ARIA
-        [Parameter] public string Id { get; set; }
+        [Parameter] public string? Name { get; set; }
+        [Parameter] public string? Target { get; set; }  //link <a> target
+        [Parameter] public string? Title { get; set; } //tooltip and ARIA
+        [Parameter] public string? Id { get; set; }
         [Parameter] public bool IsExpanded { get => isExpanded; set => isExpanded = value; }
-        [Parameter] public string Url { get; set; }
+        [Parameter] public string? Url { get; set; }
 
         [Parameter] public int NestedDepth { get; set; }
         [Parameter] public NavMatchType NavMatchType { get; set; } = NavMatchType.RelativeLinkOnly;
@@ -35,26 +35,28 @@ namespace BlazorFluentUI.Routing
         [Parameter] public EventCallback<NavLink> OnClick { get; set; }
         [Parameter] public EventCallback<bool> IsExpandedChanged { get; set; }
 
-        [CascadingParameter(Name = "ClearSelectionAction")] Action ClearSelectionAction { get; set; }
-        [Parameter] public ICommand Command { get; set; }
-        [Parameter] public object CommandParameter { get; set; }
-        protected bool isExpanded { get; set; }
-
-
-        protected bool isSelected { get; set; }
+        [CascadingParameter(Name = "ClearSelectionAction")] Action? ClearSelectionAction { get; set; }
+        [Parameter] public ICommand? Command { get; set; }
+        [Parameter] public object? CommandParameter { get; set; }
+        protected bool isExpanded;
+        protected bool isSelected;
         protected string depthClass = "";
 
-        private Rule NavLinkLeftPaddingRule = new();
-        private Rule ChevronButtonLeftRule = new();
+        private readonly Rule NavLinkLeftPaddingRule = new();
+        private readonly Rule ChevronButtonLeftRule = new();
         private ICollection<IRule> NavLinkLocalRules { get; set; } = new List<IRule>();
 
 
         protected override Task OnInitializedAsync()
         {
             //System.Diagnostics.Debug.WriteLine("Initializing NavFabricLinkBase");
-            ProcessUri(NavigationManager.Uri);
-            NavigationManager.LocationChanged += UriHelper_OnLocationChanged;
+            if (NavigationManager != null)
+            {
+                ProcessUri(NavigationManager.Uri);
+                NavigationManager.LocationChanged += UriHelper_OnLocationChanged;
+            }
             CreateLocalCss();
+
 
             return base.OnInitializedAsync();
         }
@@ -86,17 +88,17 @@ namespace BlazorFluentUI.Routing
             };
         }
 
-        private void UriHelper_OnLocationChanged(object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+        private void UriHelper_OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
         {
             ProcessUri(e.Location);
         }
 
         private void ProcessUri(string uri)
         {
-            if (uri.StartsWith(NavigationManager.BaseUri))
-                uri = uri.Substring(NavigationManager.BaseUri.Length, uri.Length - NavigationManager.BaseUri.Length);
+            if (NavigationManager != null && uri.StartsWith(NavigationManager.BaseUri))
+                uri = uri[NavigationManager.BaseUri.Length..];
 
-            string processedUri = null;
+            string? processedUri = null;
             switch (NavMatchType)
             {
                 case NavMatchType.RelativeLinkOnly:
@@ -127,12 +129,12 @@ namespace BlazorFluentUI.Routing
                     break;
             }
 
-            if (processedUri.Equals(Id) && !isSelected)
+            if (processedUri != null && processedUri.Equals(Id) && !isSelected)
             {
                 isSelected = true;
                 StateHasChanged();
             }
-            else if (!processedUri.Equals(Id) && isSelected)
+            else if (processedUri != null && !processedUri.Equals(Id) && isSelected)
             {
                 isSelected = false;
                 StateHasChanged();

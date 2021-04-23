@@ -4,8 +4,8 @@
 <div class=@($"ms-TooltipHost {ClassName}")
      style=@Style
      @ref=@RootElementReference
-     @onfocus=@(ev => OnTooltipMouseEnter(null))
-     @onblur=@(ev => OnTooltipMouseLeave(null))
+     @onfocus=@OnTooltipMouseEnter
+     @onblur=@OnTooltipMouseLeave
      @onmouseenter=@OnTooltipMouseEnter
      @onmouseleave=@OnTooltipMouseLeave
      @onkeydown=@OnTooltipKeyDown>

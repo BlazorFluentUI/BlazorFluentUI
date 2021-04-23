@@ -63,7 +63,7 @@ else
         <FocusZone>
             <div class="ms-Calendar-optionGrid" role="grid" aria-readonly="true">
 
-                @foreach (var rowNum in RowIndexes)
+                @foreach (var rowNum in RowIndexes!)
                 {
                     var monthsForRow = ShortMonthNames.Skip(rowNum * 4).Take(4).ToArray();
                     <div @key=@($"monthRow_{rowNum}") role="row">

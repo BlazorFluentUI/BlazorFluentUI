@@ -1,4 +1,4 @@
-import { elementContains } from './baseComponent.js';
+import * as FluentUIBaseComponent from './baseComponent.js';
 class Handler {
     static addListener(element, event, handler, capture) {
         element.addEventListener(event, handler, capture);
@@ -25,7 +25,7 @@ export function registerMouseDownHandler(panelElement, panelDotNet) {
     var mouseDownId = Handler.addListener(document.body, "mousedown", (ev) => {
         //first get whether click is inside panel
         if (!ev.defaultPrevented) {
-            var contains = elementContains(panelElement, ev.target);
+            var contains = FluentUIBaseComponent.elementContains(panelElement, ev.target);
             //var contains = window["BlazorFluentUiFocusTrapZone"].elementContains(panelElement, ev.target);
             if (!contains) {
                 ev.preventDefault();

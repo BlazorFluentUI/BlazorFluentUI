@@ -56,18 +56,18 @@ namespace BlazorFluentUI
 
         private void SetSelectorNames()
         {
-            foreach (IRule? rule in rules)
+            foreach (IRule? rule in rules!)
             {
                 Rule? innerRule = rule as Rule;
-                if (innerRule!.Selector.GetType() == typeof(IdSelector) || innerRule.Selector.GetType() == typeof(MediaSelector))
+                if (innerRule!.Selector?.GetType() == typeof(IdSelector) || innerRule.Selector?.GetType() == typeof(MediaSelector))
                     continue;
-                if (string.IsNullOrWhiteSpace(innerRule.Selector.SelectorName))
+                if (string.IsNullOrWhiteSpace(innerRule.Selector?.SelectorName))
                 {
-                    innerRule.Selector.SelectorName = $"css-{ComponentStyle!.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(innerRule)}";
+                    innerRule.Selector!.SelectorName = $"css-{ComponentStyle!.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(innerRule)}";
                 }
                 else
                 {
-                    innerRule.Selector.SelectorName = $"{innerRule.Selector.SelectorName}-{ComponentStyle.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(innerRule)}";
+                    innerRule.Selector.SelectorName = $"{innerRule.Selector.SelectorName}-{ComponentStyle?.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(innerRule)}";
                 }
             }
             RulesChanged.InvokeAsync(rules);

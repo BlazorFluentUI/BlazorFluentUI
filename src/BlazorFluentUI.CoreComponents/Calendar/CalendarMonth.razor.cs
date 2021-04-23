@@ -9,7 +9,7 @@ namespace BlazorFluentUI
 {
     public partial class CalendarMonth : FluentUIComponentBase
     {
-        [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; }
+        [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; } = new DateTimeFormatter();
         [Parameter] public bool HighlightCurrentMonth { get; set; }
         [Parameter] public bool HighlightSelectedMonth { get; set; }
         [Parameter] public DateTime MaxDate { get; set; }
@@ -25,11 +25,11 @@ namespace BlazorFluentUI
         protected bool IsYearPickerVisible;
         protected bool IsPrevYearInBounds;
         protected bool IsNextYearInBounds;
-        
+
         protected string PreviousYearAriaLabel = "Previous year"; //needs localization!
         protected string NextYearAriaLabel = "Next year"; //needs localization!
 
-        protected List<int> RowIndexes;
+        protected List<int>? RowIndexes;
 
         protected string[] ShortMonthNames = DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames;
         protected string[] MonthNames = DateTimeFormatInfo.CurrentInfo.MonthNames;
@@ -64,14 +64,14 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
-        protected Task OnHeaderSelectInternal() 
+        protected Task OnHeaderSelectInternal()
         {
-            if (!YearPickerHidden) 
+            if (!YearPickerHidden)
             {
                 focusOnUpdate = true;
                 IsYearPickerVisible = true;
-            } 
-            else if (OnHeaderSelect.HasDelegate) 
+            }
+            else if (OnHeaderSelect.HasDelegate)
             {
                 return OnHeaderSelect.InvokeAsync(true);
             }
@@ -122,16 +122,16 @@ namespace BlazorFluentUI
         protected string GetMonthClasses(int monthIndex, bool isInBounds)
         {
             bool isCurrentMonth = (monthIndex + 1 == Today.Month && NavigatedDate.Year == Today.Year);
-            bool isNavigatedMonth = NavigatedDate.Month == (monthIndex + 1);
+            //bool isNavigatedMonth = NavigatedDate.Month == (monthIndex + 1);
             bool isSelectedMonth = SelectedDate.Month == (monthIndex + 1);
             bool isSelectedYear = SelectedDate.Year == NavigatedDate.Year;
 
             string classNames = "";
             classNames += "ms-Calendar-monthOption";
             if (HighlightCurrentMonth && isCurrentMonth)
-                classNames += " ms-Calendar-day--today ms-Calendar-monthIsCurrentMonth";
+                classNames += " ms-Calendar-monthIsCurrentMonth";
             if ((HighlightCurrentMonth || HighlightSelectedMonth) && isSelectedMonth && isSelectedYear)
-                classNames += " ms-Calendar-day--highlighted ms-Calendar-monthIsHighlighted";
+                classNames += " ms-Calendar-monthIsHighlighted";
             if (!isInBounds)
                 classNames += " ms-Calendar-monthOption--disabled ms-Calendar-monthOptionIsDisabled";
             return classNames;

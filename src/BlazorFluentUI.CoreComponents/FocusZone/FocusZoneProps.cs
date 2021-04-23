@@ -29,10 +29,10 @@ namespace BlazorFluentUI
         public FocusZoneTabbableElements HandleTabKey { get; set; }
 
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("innerZoneKeystrokeTriggers")]
-        public List<ConsoleKey> InnerZoneKeystrokeTriggers { get; set; }
+        public List<ConsoleKey>? InnerZoneKeystrokeTriggers { get; set; }
 
         [JsonPropertyName("isCircularNavigation")]
         public bool IsCircularNavigation { get; set; }
@@ -40,19 +40,19 @@ namespace BlazorFluentUI
         [JsonPropertyName("onBeforeFocusExists")]
         public bool OnBeforeFocusExists { get; set; }
 
-        [JsonPropertyName("root")]
-        public ElementReference Root { get; set; }
+        //[JsonPropertyName("root")]
+        //public ElementReference Root { get; set; }
 
         [JsonPropertyName("shouldInputLoseFocusOnArrowKeyExists")]
         public bool ShouldInputLoseFocusOnArrowKeyExists { get; set; }
 
-        public static FocusZoneProps GenerateProps(FocusZone focusZone, string id, ElementReference root)
+        public static FocusZoneProps GenerateProps(FocusZone focusZone, string id) //, ElementReference root)
         {
             FocusZoneProps? props = new()
             {
                 AllowFocusRoot = focusZone.AllowFocusRoot,
                 CheckForNoWrap = focusZone.CheckForNoWrap,
-                DefaultActiveElement = new ElementReference(focusZone.DefaultActiveElement),
+                DefaultActiveElement = new ElementReference(focusZone.DefaultActiveElement!),
                 Direction = focusZone.Direction,
                 Disabled=focusZone.Disabled,
                 DoNotAllowFocusEventToPropagate=focusZone.DoNotAllowFocusEventToPropagate,
@@ -61,7 +61,7 @@ namespace BlazorFluentUI
                 InnerZoneKeystrokeTriggers = focusZone.InnerZoneKeystrokeTriggers,
                 IsCircularNavigation =focusZone.IsCircularNavigation,
                 OnBeforeFocusExists = focusZone.OnBeforeFocus != null,
-                Root = root,
+                //Root = root,
                 ShouldInputLoseFocusOnArrowKeyExists = focusZone.ShouldInputLoseFocusOnArrowKey != null
             };
 

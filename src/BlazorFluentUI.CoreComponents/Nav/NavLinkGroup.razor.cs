@@ -7,11 +7,11 @@ namespace BlazorFluentUI.Routing
     public partial class NavLinkGroup : FluentUIComponentBase
     {
         [Parameter] public bool CollapseByDefault { get; set; }
-        [Parameter] public RenderFragment ChildContent { get; set; }
-        [Parameter] public RenderFragment<string> GroupHeaderTemplate { get; set; }
-        [Parameter] public string Name { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
+        [Parameter] public RenderFragment<string>? GroupHeaderTemplate { get; set; }
+        [Parameter] public string? Name { get; set; }
 
-        [CascadingParameter] protected string ExpandButtonAriaLabel { get; set; }
+        [CascadingParameter] protected string? ExpandButtonAriaLabel { get; set; }
 
         [Parameter] public EventCallback<NavLinkGroup> OnClick { get; set; }
 

@@ -11,34 +11,34 @@ namespace BlazorFluentUI
     public partial class Persona : FluentUIComponentBase
     {
         [Parameter] public bool AllowPhoneInitials { get; set; }
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public int CoinSize { get; set; } = -1;
         [Parameter] public bool HidePersonaDetails { get; set; }
-        [Parameter] public string ImageAlt { get; set; }
-        [Parameter] public string ImageInitials{ get; set; }
+        [Parameter] public string? ImageAlt { get; set; }
+        [Parameter] public string? ImageInitials { get; set; }
         [Parameter] public bool ImageShouldFadeIn { get; set; }
         [Parameter] public bool ImageShouldStartVisible { get; set; }
-        [Parameter] public string ImageUrl { get; set; }
-        [Parameter] public PersonaInitialsColor InitialsColor { get; set; }
+        [Parameter] public string? ImageUrl { get; set; }
+        [Parameter] public PersonaInitialsColor? InitialsColor { get; set; }
         [Parameter] public bool IsOutOfOffice { get; set; }
-        [Parameter] public string OptionalText { get; set; }
+        [Parameter] public string? OptionalText { get; set; }
         [Parameter] public PersonaPresenceStatus Presence { get; set; }
-        [Parameter] public string PresenceTitle { get; set; }  //tooltip on hover
-        [Parameter] public string SecondaryText { get; set; }
+        [Parameter] public string? PresenceTitle { get; set; }  //tooltip on hover
+        [Parameter] public string? SecondaryText { get; set; }
         [Parameter] public bool ShowInitialsUntilImageLoads { get; set; }
         [Parameter] public bool ShowSecondaryText { get; set; }
         [Parameter] public bool ShowUnknownPersonaCoin { get; set; }
         [Parameter] public string Size { get; set; } = PersonaSize.Size48;
-        [Parameter] public string TertiaryText { get; set; }
-        [Parameter] public string Text { get; set; }
+        [Parameter] public string? TertiaryText { get; set; }
+        [Parameter] public string? Text { get; set; }
 
         private ICollection<IRule> PersonaLocalRules { get; set; } = new List<IRule>();
-        private Rule PersonaRootRule = new();
-        private Rule DetailsRule = new();
-        private Rule PrimaryTextRule = new();
-        private Rule SecondaryTextRule = new();
-        private Rule TertiaryTextRule = new();
-        private Rule OptionalTextRule = new();
+        private readonly Rule PersonaRootRule = new();
+        private readonly Rule DetailsRule = new();
+        private readonly Rule PrimaryTextRule = new();
+        private readonly Rule SecondaryTextRule = new();
+        private readonly Rule TertiaryTextRule = new();
+        private readonly Rule OptionalTextRule = new();
 
         private const string LocalSpecificityClass = "localPersonaRule";
 
@@ -92,9 +92,9 @@ namespace BlazorFluentUI
         private void SetStyle()
         {
             int primaryHeight = -1;
-            string primaryLineHeight = null;
-            string primaryOverflowX = null;
-            string primaryFontSize = null;
+            string? primaryLineHeight = null;
+            string? primaryOverflowX = null;
+            string? primaryFontSize = null;
 
             if (ShowSecondaryText)
             {
@@ -125,7 +125,7 @@ namespace BlazorFluentUI
                         {
                             Css="padding-left:17px;"
                         };
-                        primaryFontSize = Theme.FontStyle.FontSize.Small;
+                        primaryFontSize = Theme?.FontStyle.FontSize.Small;
                         primaryLineHeight = PersonaSize.Size8;
                         break;
                     case PersonaSize.Size24:
@@ -196,7 +196,7 @@ namespace BlazorFluentUI
                             Css = $"height:{PersonaSize.Size56};" +
                                   $"min-width:{PersonaSize.Size56};"
                         };
-                        primaryFontSize= Theme.FontStyle.FontSize.XLarge;
+                        primaryFontSize= Theme?.FontStyle.FontSize.XLarge;
                         if (ShowSecondaryText)
                             primaryHeight = 22;
                         break;
@@ -206,7 +206,7 @@ namespace BlazorFluentUI
                             Css = $"height:{PersonaSize.Size72};" +
                                   $"min-width:{PersonaSize.Size72};"
                         };
-                        primaryFontSize = Theme.FontStyle.FontSize.XLarge;
+                        primaryFontSize = Theme?.FontStyle.FontSize.XLarge;
                         break;
                     case PersonaSize.Size100:
                         PersonaRootRule.Properties = new CssString()
@@ -214,7 +214,7 @@ namespace BlazorFluentUI
                             Css = $"height:{PersonaSize.Size100};" +
                                   $"min-width:{PersonaSize.Size100};"
                         };
-                        primaryFontSize = Theme.FontStyle.FontSize.XLarge;
+                        primaryFontSize = Theme?.FontStyle.FontSize.XLarge;
                         if (ShowSecondaryText)
                             primaryHeight = 22;
                         break;
@@ -224,7 +224,7 @@ namespace BlazorFluentUI
                             Css = $"height:{PersonaSize.Size120};" +
                                   $"min-width:{PersonaSize.Size120};"
                         };
-                        primaryFontSize = Theme.FontStyle.FontSize.XLarge;
+                        primaryFontSize = Theme?.FontStyle.FontSize.XLarge;
                         if (ShowSecondaryText)
                             primaryHeight = 22;
                         break;
@@ -242,8 +242,8 @@ namespace BlazorFluentUI
             int secondaryHeight = -1;
             int secondaryLineHeight = -1;
             int secondaryFontSize = -1;
-            string secondaryDisplay = null;
-            string secondaryOverflowX = null;
+            string? secondaryDisplay = null;
+            string? secondaryOverflowX = null;
 
             if (Size == PersonaSize.Size8 | Size == PersonaSize.Size24 || Size == PersonaSize.Size32)
                 secondaryDisplay = "none";

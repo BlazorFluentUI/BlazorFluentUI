@@ -114,7 +114,7 @@
     padding: 0;
     margin: 0 8px;
     user-select: none;
-    font-weight: var(--fontWeight.Regular);
+    font-weight: var(--fontWeight-Regular);
 }
 .ms-Toggle--disabled ::deep .ms-Label.ms-Toggle-stateText {
     color: var(--semanticTextColors-DisabledText);

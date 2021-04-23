@@ -1,23 +1,17 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
-    public partial class FocusTrapZone : FluentUIComponentBase, IDisposable
+    public partial class FocusTrapZone : FluentUIComponentBase, IAsyncDisposable
     {
-        //protected static Stack<FocusTrapZone> _focusStack = new();
-
         [Inject]
         private IJSRuntime? JSRuntime { get; set; }
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        //private IJSObjectReference? baseModule;
-
-        private const string FocusPath = "./_content/BlazorFluentUI.CoreComponents/focusTrapZone.js";
-        private IJSObjectReference? module;
+        private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/focusTrapZone.js";
+        private IJSObjectReference? scriptModule;
 
         [Parameter]
         public RenderFragment? ChildContent { get; set; }
@@ -52,14 +46,14 @@ namespace BlazorFluentUI
 
         protected ElementReference _firstBumper;
         protected ElementReference _lastBumper;
-
+        private DotNetObjectReference<FocusTrapZone>? selfReference;
         private int _id = -1;
 
 
         public async Task FocusAsync()
         {
             if (_id != -1)
-                await module!.InvokeVoidAsync("focus", _id);
+                await scriptModule!.InvokeVoidAsync("focus", _id);
         }
 
         protected override async Task OnParametersSetAsync()
@@ -67,7 +61,7 @@ namespace BlazorFluentUI
             if (_id != -1)
             {
                 FocusTrapZoneProps? props = new(this, _firstBumper, _lastBumper);
-                await module!.InvokeVoidAsync("updateProps", _id, props);
+                await scriptModule!.InvokeVoidAsync("updateProps", _id, props);
             }
 
             await base.OnParametersSetAsync();
@@ -75,7 +69,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            module = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", FocusPath);
+            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", ScriptPath);
 
             if (firstRender)
             {
@@ -88,19 +82,21 @@ namespace BlazorFluentUI
         private async void RegisterFocusTrapZone()
         {
             FocusTrapZoneProps? props = new(this, _firstBumper, _lastBumper);
-            _id = await module!.InvokeAsync<int>("register", props, DotNetObjectReference.Create(this));
+
+            selfReference = DotNetObjectReference.Create(this);
+            _id = await scriptModule!.InvokeAsync<int>("register", props, selfReference);
         }
 
 
-        public async void Dispose()
+        public override async ValueTask DisposeAsync()
         {
-            if (_id != -1)
-                await module!.InvokeVoidAsync("unregister", _id);
-
-            GC.SuppressFinalize(this);
+            if (_id != -1 && scriptModule != null)
+            {
+                await scriptModule.InvokeVoidAsync("unregister", _id);
+                await scriptModule.DisposeAsync();
+            }
+            selfReference?.Dispose();
         }
-
     }
-
 }
 

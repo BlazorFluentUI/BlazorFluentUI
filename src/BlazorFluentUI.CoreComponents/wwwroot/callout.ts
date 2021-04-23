@@ -1,37 +1,29 @@
-interface DotNetReferenceType {
+import * as FluentUIBaseComponent from './baseComponent.js'
 
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-}
-
-interface IRectangle {
-    left: number;
-    top: number;
-    width: number;
-    height: number;
-    right?: number;
-    bottom?: number;
-}
+type DotNetReferenceType = FluentUIBaseComponent.DotNetReferenceType;
+type IRectangle = FluentUIBaseComponent.IRectangle;
 
 export function registerHandlers(targetElement: HTMLElement, calloutRef: DotNetReferenceType): number[] {
-    var window = targetElement.ownerDocument.defaultView;
+    if (targetElement) {
+        var window = targetElement.ownerDocument.defaultView;
 
-    var calloutDivId = Handler.addCallout(targetElement);
+        var calloutDivId = Handler.addCallout(targetElement) ?? 0;
 
-    var scrollId = Handler.addListener(window, "scroll", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ScrollHandler"); }; }, true);
-    var resizeId = Handler.addListener(window, "resize", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ResizeHandler"); }; }, true);
-    var focusId = Handler.addListener(document.documentElement, "focus", (ev: Event) => {
-        var outsideCallout = true;
-        for (let prop in Handler.targetCombinedElements) {
-            if (Object.prototype.hasOwnProperty.call(Handler.targetCombinedElements, prop)) {
-                outsideCallout = checkTarget(ev, Handler.targetCombinedElements[prop]);
-                if (outsideCallout == false)
-                    break;
+        var scrollId = Handler.addListener(window, "scroll", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ScrollHandler"); }; }, true) ?? 0;
+        var resizeId = Handler.addListener(window, "resize", (ev: Event) => { if (checkTarget(ev, targetElement)) { calloutRef.invokeMethodAsync("ResizeHandler"); }; }, true) ?? 0;
+        var focusId = Handler.addListener(document.documentElement, "focus", (ev: Event) => {
+            var outsideCallout = true;
+            for (let prop in Handler.targetCombinedElements) {
+                if (Object.prototype.hasOwnProperty.call(Handler.targetCombinedElements, prop)) {
+                    outsideCallout = checkTarget(ev, Handler.targetCombinedElements[prop]);
+                    if (outsideCallout == false)
+                        break;
+                }
             }
-        }
-        if (outsideCallout)
-            calloutRef.invokeMethodAsync("FocusHandler");
-    }, true);
+            if (outsideCallout)
+                calloutRef.invokeMethodAsync("FocusHandler");
+        }, true) ?? 0;
+    }
     var clickId = Handler.addListener(document.documentElement, "click", (ev: Event) => {
         var outsideCallout = true;
         for (let prop in Handler.targetCombinedElements) {
@@ -43,7 +35,7 @@ export function registerHandlers(targetElement: HTMLElement, calloutRef: DotNetR
         }
         if (outsideCallout)
             calloutRef.invokeMethodAsync("ClickHandler");
-    }, true);
+    }, true) ?? 0;
 
     //set focus, too
 

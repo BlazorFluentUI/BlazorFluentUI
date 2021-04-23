@@ -34,9 +34,13 @@ namespace BlazorFluentUI
 
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
-            await baseModule!.InvokeVoidAsync("enableBodyScroll");
+            if (baseModule != null)
+            {
+                await baseModule!.InvokeVoidAsync("enableBodyScroll");
+                await baseModule.DisposeAsync();
+            }
         }
     }
 }

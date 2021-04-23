@@ -53,7 +53,7 @@
 @code {
     decimal progressValue = 0;
     const decimal INTERVAL_INCREMENT = 0.01M;
-    System.Timers.Timer timer;
+    System.Timers.Timer? timer;
 
     override protected Task OnInitializedAsync()
     {
@@ -67,7 +67,7 @@
     {
         if (firstRender)
         {
-            timer.Start();
+            timer?.Start();
         }
         return Task.CompletedTask;
     }

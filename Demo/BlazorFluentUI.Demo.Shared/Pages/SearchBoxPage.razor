@@ -133,15 +133,15 @@
 @code {
 
     List<string> allSuggestions = new List<string> { "Aahron", "Aalam", "Aamir", "Abad", "Abbas", "Abbott", "Aberham", "Baaron", "Backstere", "Baen", "Babet", "Bellamie", "Beltran", "Benn" };
-    List<SearchItem> allSearchItemSuggestions;
-    List<ContextualMenuItem> suggestedItems;
+    List<SearchItem>? allSearchItemSuggestions;
+    List<ContextualMenuItem>? suggestedItems;
 
-    string SelectedItem { get; set; }
-    ICollection<string> SelectedItems { get; set; }
-    ICollection<SearchItem> SelectedPersons { get; set; }
+    string? SelectedItem { get; set; }
+    ICollection<string>? SelectedItems { get; set; }
+    ICollection<SearchItem>? SelectedPersons { get; set; }
 
     bool modalIsOpen;
-    string modalText;
+    string? modalText;
     IEnumerable<string> ProvideSuggestions(string filter)
     {
         // System.Threading.Thread.Sleep(1000); // Test the non blocking behavior of the control
@@ -171,7 +171,7 @@
             }
         }
 
-        var filteredSuggestions = allSearchItemSuggestions.FindAll(suggestion => suggestion.Name.ToLower().Contains(filter.ToLower()));
+        var filteredSuggestions = allSearchItemSuggestions.FindAll(suggestion => suggestion.Name!.ToLower().Contains(filter.ToLower()));
         return filteredSuggestions;
 
     }
@@ -187,7 +187,7 @@
         {
             RelayCommand buttonCommand = new RelayCommand((p) =>
             {
-                modalText = (string)p;
+                modalText = (string?)p;
                 modalIsOpen = true;
                 StateHasChanged();
             });
@@ -212,7 +212,7 @@
 
         }
 
-        var filteredSuggestions = suggestedItems.FindAll(suggestion => suggestion.Text.ToLower().Contains(filter.ToLower()));
+        var filteredSuggestions = suggestedItems.FindAll(suggestion => suggestion.Text!.ToLower().Contains(filter.ToLower()));
         return filteredSuggestions;
     }
     void DismissHandler(EventArgs args)

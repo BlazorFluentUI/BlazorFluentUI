@@ -10,53 +10,53 @@ namespace BlazorFluentUI
 {
     public partial class TooltipHost : FluentUIComponentBase, IDisposable
     {
-        private static TooltipHost CurrentVisibleTooltip { get; set; }
+        private static TooltipHost? CurrentVisibleTooltip { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public double CloseDelay { get; set; } = double.NaN;
         [Parameter] public TooltipDelay Delay { get; set; } = TooltipDelay.Medium;
         [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.TopCenter;
         //[Parameter] public FluentUIComponentBase FabricComponentTarget { get; set; }
-        [Parameter] public string HostClassName { get; set; }
+        [Parameter] public string? HostClassName { get; set; }
         [Parameter] public EventCallback<bool> OnTooltipToggle { get; set; }
         [Parameter] public TooltipOverflowMode OverflowMode { get; set; } = TooltipOverflowMode.None;
-        [Parameter] public FluentUIComponentBase Parent { get; set; }
+        [Parameter] public FluentUIComponentBase? Parent { get; set; }
         [Parameter] public bool SetAriaDescribedBy { get; set; }
-        [Parameter] public RenderFragment TooltipContent { get; set; }
+        [Parameter] public RenderFragment? TooltipContent { get; set; }
 
-        protected FluentUIComponentBase TargetElement;
+        protected FluentUIComponentBase? TargetElement;
         protected bool ShowTooltip;
 
         protected bool IsTooltipVisible = false;
         protected bool IsAriaPlaceholderRendered = false;
 
-        private Timer _openTimer;
-        private Timer _dismissTimer;
+        private Timer? openTimer;
+        private Timer? dismissTimer;
 
 
         protected override void OnInitialized()
         {
-            _openTimer = new Timer();
-            _openTimer.Elapsed += _openTimer_Elapsed;
-            _dismissTimer = new Timer();
-            _dismissTimer.Elapsed += _dismissTimer_Elapsed;
+            openTimer = new Timer();
+            openTimer.Elapsed += openTimer_Elapsed;
+            dismissTimer = new Timer();
+            dismissTimer.Elapsed += dismissTimer_Elapsed;
             base.OnInitialized();
         }
 
-        private void _openTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void openTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             InvokeAsync(() =>
             {
-                _openTimer.Stop();
+                openTimer?.Stop();
                 ToggleTooltip(true);
             });
         }
 
-        private void _dismissTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void dismissTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             InvokeAsync(() =>
             {
-                _dismissTimer.Stop();
+                dismissTimer?.Stop();
                 ToggleTooltip(false);
             });
         }
@@ -80,10 +80,10 @@ namespace BlazorFluentUI
         protected Task OnTooltipMouseEnter(EventArgs args)
         {
             Debug.WriteLine("OnMouseEnter");
-            if (TooltipHost.CurrentVisibleTooltip != null && TooltipHost.CurrentVisibleTooltip != this)
-                TooltipHost.CurrentVisibleTooltip.Dismiss();
+            if (CurrentVisibleTooltip != null && CurrentVisibleTooltip != this)
+                CurrentVisibleTooltip.Dismiss();
 
-            TooltipHost.CurrentVisibleTooltip = this;
+            CurrentVisibleTooltip = this;
 
             if (OverflowMode != TooltipOverflowMode.None)
             {
@@ -96,15 +96,18 @@ namespace BlazorFluentUI
             // do another test to see if tooltip target is inside a portal relative to the tooltiphost.  Probably won't deal with this for a while.
             // return and do nothing if so...
 
-            _dismissTimer.Stop();
-            _openTimer.Stop();
+            dismissTimer?.Stop();
+            openTimer?.Stop();
 
             if (Delay != TooltipDelay.Zero)
             {
                 IsAriaPlaceholderRendered = true;
                 double delayTime = GetDelayTime(Delay);
-                _openTimer.Interval = delayTime;
-                _openTimer.Start();
+                if (openTimer != null)
+                {
+                    openTimer.Interval = delayTime;
+                    openTimer.Start();
+                }
             }
             else
             {
@@ -116,16 +119,16 @@ namespace BlazorFluentUI
 
         protected Task OnTooltipMouseLeave(EventArgs args)
         {
-            if (_dismissTimer != null)  // component can be disposed already and still return this event 
+            if (dismissTimer != null)  // component can be disposed already and still return this event
             {
                 Debug.WriteLine("OnMouseLeave");
-                _dismissTimer.Stop();
-                _openTimer.Stop();
+                dismissTimer.Stop();
+                openTimer?.Stop();
 
                 if (!double.IsNaN(CloseDelay))
                 {
-                    _dismissTimer.Interval = CloseDelay;
-                    _dismissTimer.Start();
+                    dismissTimer.Interval = CloseDelay;
+                    dismissTimer.Start();
                 }
                 else
                 {
@@ -175,30 +178,23 @@ namespace BlazorFluentUI
 
         private static double GetDelayTime(TooltipDelay delay)
         {
-            switch (delay)
+            return delay switch
             {
-                case TooltipDelay.Medium:
-                    return 300;
-                case TooltipDelay.Long:
-                    return 500;
-                default:
-                    return 0;
-            }
+                TooltipDelay.Medium => 300,
+                TooltipDelay.Long => 500,
+                _ => 0,
+            };
         }
-
-        
 
         public void Dispose()
         {
-            _dismissTimer.Stop();
-            _openTimer.Stop();
-            _dismissTimer = null;
-            _openTimer = null;
+            dismissTimer?.Stop();
+            openTimer?.Stop();
+            dismissTimer = null;
+            openTimer = null;
 
-
-
-            if (TooltipHost.CurrentVisibleTooltip == this)
-                TooltipHost.CurrentVisibleTooltip = null;
+            if (CurrentVisibleTooltip == this)
+                CurrentVisibleTooltip = null;
         }
     }
 }

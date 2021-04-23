@@ -1,10 +1,6 @@
-﻿import { elementContains }from './baseComponent.js'
+﻿import * as FluentUIBaseComponent from './baseComponent.js'
 
-interface DotNetReferenceType {
-
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-}
+type DotNetReferenceType = FluentUIBaseComponent.DotNetReferenceType;
 
 interface Map<T> {
     [K: number]: T;
@@ -42,7 +38,7 @@ export function registerMouseDownHandler(panelElement: HTMLElement, panelDotNet:
     var mouseDownId = Handler.addListener(document.body, "mousedown", (ev: Event) => {
         //first get whether click is inside panel
         if (!ev.defaultPrevented) {
-            var contains = elementContains(panelElement, <HTMLElement>ev.target);
+            var contains = FluentUIBaseComponent.elementContains(panelElement, <HTMLElement>ev.target);
             //var contains = window["BlazorFluentUiFocusTrapZone"].elementContains(panelElement, ev.target);
             if (!contains) {
                 ev.preventDefault();

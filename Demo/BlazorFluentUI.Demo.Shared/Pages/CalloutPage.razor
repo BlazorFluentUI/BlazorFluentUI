@@ -26,29 +26,29 @@
                       ItemsSource=@options
                       @bind-SelectedOption=@selectedOption />
 
-<Demo Header="Callout" Key="0" MetadataPath="CalloutPage">
+            <Demo Header="Callout" Key="0" MetadataPath="CalloutPage">
 
-    <div style="height:200px;"></div>
-    <div style="display:inline;overflow-x:auto;">
-        <div style="width:300px"></div>
-        <DefaultButton Text="Show Callout" OnClick=ClickHandler @ref="calloutTarget" />
-        <div style="width:300px"></div>
-    </div>
-    <div style="height:400px;"></div>
-    @if (!calloutHidden)
-    {
-        <Callout FabricComponentTarget=@calloutTarget
-                    DirectionalHint=@((DirectionalHint)Enum.Parse(typeof(DirectionalHint),selectedOption.Key))
-                    OnDismiss=@DismissHandler>
-            <div Style="max-width:300px; padding:20px;">
-                <h2>Callout Test</h2>
-                <p style="min-width: 150px;">
-                    There are a few things in here.
-                </p>
-                <PrimaryButton Text="Ok" />
-            </div>
-        </Callout>
-    }
+                <div style="height:200px;"></div>
+                <div style="display:inline;overflow-x:auto;">
+                    <div style="width:300px"></div>
+                    <DefaultButton Text="Show Callout" OnClick=ClickHandler @ref="calloutTarget" />
+                    <div style="width:300px"></div>
+                </div>
+                <div style="height:400px;"></div>
+                @if (!calloutHidden)
+                {
+                    <Callout FabricComponentTarget=@calloutTarget
+                             DirectionalHint=@((DirectionalHint)Enum.Parse(typeof(DirectionalHint),selectedOption?.Key!))
+                             OnDismiss=@DismissHandler>
+                        <div Style="max-width:300px; padding:20px;">
+                            <h2>Callout Test</h2>
+                            <p style="min-width: 150px;">
+                                There are a few things in here.
+                            </p>
+                            <PrimaryButton Text="Ok" />
+                        </div>
+                    </Callout>
+                }
 
             </Demo>
         </div>
@@ -56,14 +56,14 @@
 </div>
 @code {
 
-        bool isInitialized = false;
-        bool calloutHidden = true;
+    //bool isInitialized = false;
+    bool calloutHidden = true;
 
-        FluentUIComponentBase calloutTarget;
+    FluentUIComponentBase? calloutTarget;
 
-        List<IDropdownOption> options;
-        IDropdownOption selectedOption;
-        //string SelectedDirection = DirectionalHint.BottomLeftEdge.ToString();
+    List<IDropdownOption>? options;
+    IDropdownOption? selectedOption;
+    //string SelectedDirection = DirectionalHint.BottomLeftEdge.ToString();
 
     protected override Task OnInitializedAsync()
     {

@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    public partial class Image : FluentUIComponentBase
+    public partial class Image : FluentUIComponentBase, IAsyncDisposable
     {
         [Inject] private IJSRuntime? JSRuntime { get; set; }
 
-        [Parameter] public string Alt { get; set; }
+        [Parameter] public string? Alt { get; set; }
         [Parameter] public ImageCoverStyle CoverStyle { get; set; } = ImageCoverStyle.None;
         [Parameter] public double Height { get; set; } = double.NaN;
         [Parameter] public ImageFit ImageFit { get; set; } = ImageFit.Unset;
         [Parameter] public bool MaximizeFrame { get; set; }
-        [Parameter] public string Role { get; set; }
+        [Parameter] public string? Role { get; set; }
         [Parameter] public bool ShouldFadeIn { get; set; } = true;
         [Parameter] public bool ShouldStartVisible { get; set; } = false;
-        [Parameter] public string Src { get; set; }
+        [Parameter] public string? Src { get; set; }
         [Parameter] public double Width { get; set; } = double.NaN;
 
         [Parameter] public EventCallback<ImageLoadState> OnLoadingStateChange { get; set; }
@@ -42,8 +42,7 @@ namespace BlazorFluentUI
 
         public override async Task SetParametersAsync(ParameterView parameters)
         {
-            string src;
-            parameters.TryGetValue("Src", out src);
+            parameters.TryGetValue("Src", out string? src);
             if (Src != src)
                 imageLoadState = ImageLoadState.NotLoaded;
 
@@ -52,7 +51,7 @@ namespace BlazorFluentUI
         }
 
         protected override Task OnParametersSetAsync()
-        {           
+        {
             if (CoverStyle == ImageCoverStyle.Landscape)
                 isLandscape = true;
 
@@ -140,7 +139,7 @@ namespace BlazorFluentUI
                 else
                 {
                     styles += "width:auto;height:100%;";
-                }              
+                }
             }
 
             if (ImageFit == ImageFit.CenterContain)
@@ -190,7 +189,7 @@ namespace BlazorFluentUI
                     return;
                 }
 
-                double desiredRatio = 0;
+                double desiredRatio;
                 if (!double.IsNaN(Width) && !double.IsNaN(Height))
                 {
                     desiredRatio = Width / Height;
@@ -210,10 +209,13 @@ namespace BlazorFluentUI
                 {
                     isLandscape = false;
                 }
-            
             }
         }
 
-
+        public override async ValueTask DisposeAsync()
+        {
+            if (baseModule != null)
+                await baseModule.DisposeAsync();
+        }
     }
 }

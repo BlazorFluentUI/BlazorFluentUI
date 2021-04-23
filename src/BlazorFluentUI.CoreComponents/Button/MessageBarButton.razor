@@ -3,32 +3,33 @@
 @using Microsoft.AspNetCore.Components.Web
 
 <DefaultButton Href=@Href
-                  ClassName=@(ClassName + " ms-Button--messageBar")
-                  Style=@Style
-                  Primary=@Primary
-                  Disabled=@Disabled
-                  AllowDisabledFocus=@AllowDisabledFocus
-                  PrimaryDisabled=@PrimaryDisabled
-                  Checked=@Checked
-                  AriaDescripton=@AriaDescripton
-                  Text=@Text
-                  SecondaryText=@SecondaryText
-                  Toggle=@Toggle
-                  Split=@Split
-                  IconName=@IconName
-                  IconSrc=@IconSrc
-                  HideChevron=@HideChevron
-                  MenuItems=@MenuItems
-                  CheckedChanged=@CheckedChanged
-                  OnClick=@OnClick
-                  OnKeyDown=@OnKeyDown
-                  Command=@Command
-                  CommandParameter=@CommandParameter
-                  UnknownProperties=@UnknownProperties
-                  @ref="baseReference" />
+               ClassName=@(ClassName + " ms-Button--messageBar")
+               Style=@Style
+               Primary=@Primary
+               Disabled=@Disabled
+               AllowDisabledFocus=@AllowDisabledFocus
+               PrimaryDisabled=@PrimaryDisabled
+               Checked=@Checked
+               AriaDescripton=@AriaDescripton
+               SplitButtonAriaLabel=@SplitButtonAriaLabel
+               Text=@Text
+               SecondaryText=@SecondaryText
+               Toggle=@Toggle
+               Split=@Split
+               IconName=@IconName
+               IconSrc=@IconSrc
+               HideChevron=@HideChevron
+               MenuItems=@MenuItems
+               CheckedChanged=@CheckedChanged
+               OnClick=@OnClick
+               OnKeyDown=@OnKeyDown
+               Command=@Command
+               CommandParameter=@CommandParameter
+               UnknownProperties=@UnknownProperties
+               @ref="baseReference" />
 
 @code{
-    private DefaultButton baseReference;
+    private DefaultButton baseReference = new DefaultButton();
     protected override void OnAfterRender(bool firstRender)
     {
         RootElementReference = baseReference.RootElementReference;

@@ -1,12 +1,9 @@
 import * as FluentUIBaseComponent from './baseComponent.js'
+type DotNetReferenceType = FluentUIBaseComponent.DotNetReferenceType;
 
 
 const HIDDEN_FROM_ACC_TREE = 'data-is-hidden-from-acc-tree';
 
-interface DotNetReferenceType {
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-}
 
 interface IFocusTrapZoneProps {
     rootElement: HTMLElement;

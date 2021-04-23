@@ -37,6 +37,11 @@
     left: 0;
 }
 
+.ms-Panel--sm ::deep .ms-Panel-main {
+    left: auto;
+    right: 0;
+    width: 272px;
+}
 .ms-Panel--smLeft ::deep .ms-Panel-main {
     left: 0;
     right: auto;

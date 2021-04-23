@@ -52,8 +52,8 @@ namespace BlazorFluentUI
         {
             RootRule.Properties = new CssString()
             {
-                Css = $"font-size: {Theme.FontStyle.FontSize.XxLargePlus};" +
-                    $"color: {Theme.Palette.ThemePrimary};" +
+                Css = $"font-size: {Theme?.FontStyle.FontSize.XxLargePlus};" +
+                    $"color: {Theme?.Palette.ThemePrimary};" +
                     "display:block;" +
                     "padding: 16px 16px 0 16px;"
             };

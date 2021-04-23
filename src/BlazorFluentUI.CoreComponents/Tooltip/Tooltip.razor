@@ -3,7 +3,7 @@
 
 <LocalCS @bind-Rules="@TooltipLocalRules" />
 
-<Callout ClassName=@($"mediumFont fadeIn200 {TooltipRule.Selector.SelectorName} {TooltipAfterRule.Selector.SelectorName} {ClassName}")
+<Callout ClassName=@($"mediumFont fadeIn200 {TooltipRule.Selector?.SelectorName} {TooltipAfterRule.Selector?.SelectorName} {ClassName}")
          FabricComponentTarget=@FabricComponentTarget
          DirectionalHint=@DirectionalHint
          Style=@($"{Style}")

@@ -34,7 +34,7 @@
                             <TextField Label="Sample TextField" />
                         </p>
                         <p>
-                            <Dropdown ItemsSource=@items.Select(x=>new DropdownOption { Key=x.DisplayName, Text=x.DisplayName})
+                            <Dropdown ItemsSource=@items!.Select(x => new DropdownOption { Key = x.DisplayName!, Text = x.DisplayName})
                                       Placeholder="Select an option"
                                       OnChange=@UncontrolledSingleChangeHandler />
                         </p>
@@ -57,7 +57,7 @@
                             <TextField Label="Sample TextField" />
                         </p>
                         <p>
-                            <Dropdown ItemsSource=@items.Select(x=>new DropdownOption { Key=x.DisplayName, Text=x.DisplayName})
+                            <Dropdown ItemsSource=@items!.Select(x=>new DropdownOption { Key = x.DisplayName!, Text = x.DisplayName})
                                       Placeholder="Select an option"
                                       OnChange=@UncontrolledSingleChangeHandler />
                         </p>
@@ -75,10 +75,10 @@
 @code {
     bool dialogOpen = false;
     bool largeDialogOpen = false;
-    string uncontrolledSingleSelectionResult;
+    string? uncontrolledSingleSelectionResult;
     bool isBlocking = false;
 
-    List<DataItem> items;
+    List<DataItem>? items;
 
     protected override Task OnInitializedAsync()
     {
@@ -95,6 +95,6 @@
 
     void UncontrolledSingleChangeHandler(DropdownChangeArgs args)
     {
-        uncontrolledSingleSelectionResult = args.Option?.Key;
+        uncontrolledSingleSelectionResult = args.Option.Key;
     }
 }

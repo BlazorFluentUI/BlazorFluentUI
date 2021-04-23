@@ -9,14 +9,12 @@ namespace BlazorFluentUI
     public class ResponsiveComponentBase : FluentUIComponentBase, IAsyncDisposable
     {
         //STATE
-        private bool _jsAvailable;
-        private string? _resizeEventToken;
-        private ValueTask<string> _resizeEventTokenTask;  // WARNING - can only await this ONCE
-        private string _resizeEventGuid;
+        private string? _resizeEventGuid;
+        private DotNetObjectReference<ResponsiveComponentBase>? selfReference;
 
         [Inject] IJSRuntime? JSRuntime { get; set; }
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private static IJSObjectReference? baseModule;
+        private IJSObjectReference? baseModule;
 
         protected ResponsiveMode CurrentMode { get; set; }
 
@@ -25,7 +23,6 @@ namespace BlazorFluentUI
             baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
             if (firstRender)
             {
-                _jsAvailable = true;
                 Rectangle? windowRect = await baseModule!.InvokeAsync<Rectangle>("getWindowRect");
                 foreach (object? item in Enum.GetValues(typeof(ResponsiveMode)))
                 {
@@ -36,7 +33,8 @@ namespace BlazorFluentUI
                     }
                 }
                 _resizeEventGuid = Guid.NewGuid().ToString().Replace("-", "");
-                _resizeEventTokenTask = baseModule!.InvokeAsync<string>("registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync", _resizeEventGuid);
+                selfReference = DotNetObjectReference.Create(this);
+                await baseModule.InvokeVoidAsync("registerResizeEvent", selfReference , "OnResizedAsync", _resizeEventGuid);
                 StateHasChanged();  // we will never have window size until after first render, so re-render after this to update the component with ResponsiveMode info.
             }
             await base.OnAfterRenderAsync(firstRender);
@@ -63,15 +61,16 @@ namespace BlazorFluentUI
             return Task.CompletedTask;
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
-            if (_jsAvailable) // && _resizeEventTokenTask.IsCompleted)
+            if (baseModule != null)
             {
-                //_resizeEventToken = await _resizeEventTokenTask;
-                //await baseModule!.InvokeVoidAsync("deregisterResizeEvent", _resizeEventToken);
-                await baseModule!.InvokeVoidAsync("deregisterResizeEvent", _resizeEventGuid);
+                if (_resizeEventGuid != null)
+                    await baseModule.InvokeVoidAsync("deregisterResizeEvent", _resizeEventGuid);
+
+                await baseModule.DisposeAsync();
             }
-            GC.SuppressFinalize(this);
+            selfReference?.Dispose();
         }
     }
 }

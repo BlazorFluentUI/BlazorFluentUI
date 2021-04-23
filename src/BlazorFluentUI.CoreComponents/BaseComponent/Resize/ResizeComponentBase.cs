@@ -13,9 +13,9 @@ namespace BlazorFluentUI.Resize
     {
         [Inject] IJSRuntime? JSRuntime { get; set; }
         [Parameter] public bool Vertical { get; set; }
-        public Func<bool> OnGrowData { get; set; }
-        public Func<bool> OnReduceData { get; set; }
-        public Func<string> GetCacheKey { get; set; }
+        public Func<bool>? OnGrowData { get; set; }
+        public Func<bool>? OnReduceData { get; set; }
+        public Func<string>? GetCacheKey { get; set; }
 
 
         protected string hiddenParentStyles = "position:relative;";
@@ -31,12 +31,9 @@ namespace BlazorFluentUI.Resize
         private Dictionary<string, double> _measurementCache = new();
 
         //STATE
-        private bool _jsAvailable;
-        private string? _resizeEventToken;
-
-        private ValueTask<string> _resizeEventTokenTask;  // WARNING - can only await this ONCE
-
-        private Task<Rectangle> boundsTask;
+        private string? _resizeEventGuid;
+        private DotNetObjectReference<ResizeComponentBase>? selfReference;
+        private Task<Rectangle>? boundsTask;
         private CancellationTokenSource boundsCTS = new();
 
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
@@ -92,8 +89,9 @@ namespace BlazorFluentUI.Resize
 
             if (firstRender)
             {
-                _jsAvailable = true;
-                _resizeEventTokenTask = baseModule!.InvokeAsync<string>("registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
+                _resizeEventGuid = Guid.NewGuid().ToString().Replace("-", "");
+                selfReference = DotNetObjectReference.Create(this);
+                await baseModule.InvokeVoidAsync("registerResizeEvent", selfReference, "OnResizedAsync", _resizeEventGuid);
             }
 
             double containerDimension = await GetContainerDimension();
@@ -104,7 +102,7 @@ namespace BlazorFluentUI.Resize
 
                 if (elementDimension > containerDimension)
                 {
-                    if (OnReduceData())
+                    if (OnReduceData!())
                     {
                         onceOversized = true;
                         StateHasChanged();
@@ -114,7 +112,7 @@ namespace BlazorFluentUI.Resize
                 {
                     if (onceOversized == false)
                     {
-                        if (OnGrowData())
+                        if (OnGrowData!())
                         {
                             StateHasChanged();
                         }
@@ -131,19 +129,19 @@ namespace BlazorFluentUI.Resize
         {
             // must get this via a funcion because we don't know yet if either of these elements will exist to be measured.
             ElementReference refToMeasure = !_hasRenderedContent ? initialHiddenDiv : updateHiddenDiv;
-            ScrollDimensions? elementBounds = await baseModule.InvokeAsync<ScrollDimensions>("measureScrollDimensions", cancellationToken, refToMeasure);
+            ScrollDimensions? elementBounds = await baseModule!.InvokeAsync<ScrollDimensions>("measureScrollDimensions", cancellationToken, refToMeasure);
             double elementDimension = Vertical ? elementBounds.ScrollHeight : elementBounds.ScrollWidth;
             return elementDimension;
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
-            if (_jsAvailable && _resizeEventTokenTask.IsCompleted)
+            if (baseModule != null)
             {
-                _resizeEventToken = await _resizeEventTokenTask;
-                await baseModule!.InvokeVoidAsync("deregisterResizeEvent", _resizeEventToken);
+                await baseModule.InvokeVoidAsync("deregisterResizeEvent", _resizeEventGuid);
+                await baseModule.DisposeAsync();
             }
-            GC.SuppressFinalize(this);
+            selfReference?.Dispose();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using BlazorFluentUI.Style;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,17 +12,13 @@ namespace BlazorFluentUI
     {
         private double rating = -1;
 
-        protected ElementReference[] starReferences { get; set; }
+        protected ElementReference[]? StarReferences { get; set; }
 
-        [Parameter]
-        public bool AllowZeroStars { get; set; }
+        [Parameter] public bool AllowZeroStars { get; set; }
 
-        [Parameter]
-        public string IconName { get; set; } = "FavoriteStarFill";
-        [Parameter]
-        public int Max { get; set; } = 5;
-        [Parameter]
-        public double RatingValue
+        [Parameter] public string IconName { get; set; } = "FavoriteStarFill";
+        [Parameter] public int Max { get; set; } = 5;
+        [Parameter] public double RatingValue
         {
             get => rating;
             set
@@ -35,20 +33,15 @@ namespace BlazorFluentUI
                 //StateHasChanged();
             }
         }
-        [Parameter]
-        public bool Disabled { get; set; }
-        [Parameter]
-        public bool ReadOnly { get; set; }
-        [Parameter]
-        public RatingSize Size { get; set; } = RatingSize.Small;
-        [Parameter]
-        public string UnselectedIcon { get; set; } = "FavoriteStar";
-        [Parameter]
-        public Func<double, double, string> GetAriaLabel { get; set; }
-        [Parameter]
-        public EventCallback<double> RatingValueChanged { get; set; }
-        [Parameter]
-        public EventCallback<double> OnChange { get; set; }
+        [Parameter] public bool Disabled { get; set; }
+        [Parameter] public bool ReadOnly { get; set; }
+        [Parameter] public RatingSize Size { get; set; } = RatingSize.Small;
+        [Parameter] public string UnselectedIcon { get; set; } = "FavoriteStar";
+
+        [Parameter] public string AriaLabelFormat { get; set; } = "{0} of {1} stars";
+        [Parameter] public Func<double, double, string>? GetAriaLabel { get; set; }
+        [Parameter] public EventCallback<double> RatingValueChanged { get; set; }
+        [Parameter] public EventCallback<double> OnChange { get; set; }
 
         private const int ratingLargeIconSize = 20;
         private const int ratingSmallIconSize = 16;
@@ -63,13 +56,13 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            if (starReferences == null)
+            if (StarReferences == null)
             {
-                starReferences = new ElementReference[Max];
+                StarReferences = new ElementReference[Max];
             }
-            else if (Max != starReferences.Length)
+            else if (Max != StarReferences.Length)
             {
-                starReferences = new ElementReference[Max];
+                StarReferences = new ElementReference[Max];
             }
 
             return base.OnParametersSetAsync();

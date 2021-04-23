@@ -1,5 +1,7 @@
 import * as FluentUIBaseComponent from './baseComponent.js'
 
+type DotNetReferenceType = FluentUIBaseComponent.DotNetReferenceType;
+
 interface Set<T> {
     add(value: T): Set<T>;
     clear(): void;
@@ -21,13 +23,8 @@ declare var Set: SetConstructor;
 interface Map<T> {
     [K: number]: T;
 }
-interface DotNetReferenceType {
 
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-}
-
-interface FocusZoneProps {
+interface IFocusZoneProps {
     allowFocusRoot: boolean,
     checkForNoWrap: boolean,
     defaultActiveElement: HTMLElement,
@@ -39,7 +36,7 @@ interface FocusZoneProps {
     isCircularNavigation: boolean,
     innerZoneKeystrokeTriggers: FluentUIBaseComponent.KeyCodes[],
     onBeforeFocusExists: boolean,
-    root: HTMLElement,
+    //root: HTMLElement,
     shouldInputLoseFocusOnArrowKeyExists: boolean
 }
 
@@ -79,36 +76,39 @@ const LARGE_NEGATIVE_DISTANCE_FROM_CENTER = -999999999;
 const ALLOWED_INPUT_TYPES = ['text', 'number', 'password', 'email', 'tel', 'url', 'search'];
 const ALLOW_VIRTUAL_ELEMENTS = false;  // this is not used in Blazor... concept for React only
 
-var count = 0;
-var allInstances: Map<FocusZoneInternal> = {};
-var outerZones: Set<FocusZoneInternal> = new Set<FocusZoneInternal>();
+const focusZones = new Map<number, FocusZone>();
+//var count = 0;
+//var allInstances: Map<FocusZone> = {};
+var outerZones: Set<FocusZone> = new Set<FocusZone>();
 
 let _disposeGlobalKeyDownListener: () => void | undefined;
 
-export function register(props: FocusZoneProps, focusZone: DotNetReferenceType): number {
-    let currentId = count++;
-    allInstances[currentId] = new FocusZoneInternal(props, focusZone);
-    return currentId;
+export function registerFocusZone(dotNet: DotNetReferenceType, root: HTMLElement, props: IFocusZoneProps) {
+    let focusZone = new FocusZone(dotNet, root, props);
+    focusZones.set(dotNet._id, focusZone);
 }
 
-export function unregister(id: number): void {
-    let focusZone = allInstances[id];
-    if (focusZone) {
-        focusZone.unRegister();
-    }
-    delete allInstances[id];
-}
-
-export function updateFocusZone(id: number, props: FocusZoneProps): void {
-    let focusZone = allInstances[id];
-    if (focusZone) {
+export function updateFocusZoneProps(dotNet: DotNetReferenceType, props: IFocusZoneProps) {
+    let focusZone = focusZones.get(dotNet._id);
+    if (typeof focusZone !== 'undefined' && focusZone !== null) {
         focusZone.updateFocusZone(props);
     }
 }
 
-class FocusZoneInternal {
-    private _dotNetRef: DotNetReferenceType;
-    private _root: HTMLElement;
+export function unregisterFocusZone(dotNet: DotNetReferenceType) {
+    let focusZone = focusZones.get(dotNet._id);
+    if (typeof focusZone !== 'undefined' && focusZone !== null) {
+        focusZone.unRegister();
+        //focusZone.dispose();
+        //focusZones.delete(dotNet._id);
+    }
+}
+
+class FocusZone {
+    dotNet: DotNetReferenceType;
+    root: HTMLElement;
+    props: IFocusZoneProps;
+
     private _disposables: Function[] = [];
 
 
@@ -132,34 +132,34 @@ class FocusZoneInternal {
     private _isInnerZone: boolean;
     private _parkedTabIndex: string | null | undefined;
     private _processingTabKey: boolean;
-    private _focusZoneProps: FocusZoneProps;
+    private _focusZoneProps: IFocusZoneProps;
 
-    constructor(focusZoneProps: FocusZoneProps, dotNetRef: DotNetReferenceType) {
-        this._root = focusZoneProps.root;
-        this._focusZoneProps = focusZoneProps;
-        this._dotNetRef = dotNetRef;
+    constructor(dotNet: DotNetReferenceType, root: HTMLElement, props: IFocusZoneProps) {
+        this.dotNet = dotNet;
+        this.root = root;
+        this.props = props;
 
         this._focusAlignment = {
             x: 0,
             y: 0
         };
 
-        this._root.addEventListener("keydown", this._onKeyDown, false);
-        this._root.addEventListener("focusin", this._onFocus, false);
-        this._root.addEventListener("mousedown", this._onMouseDown, false);
+        this.root?.addEventListener("keydown", this._onKeyDown, false);
+        this.root?.addEventListener("focusin", this._onFocus, false);
+        this.root?.addEventListener("mousedown", this._onMouseDown, false);
 
         this.initialized();
 
     }
 
-    public updateFocusZone(props: FocusZoneProps) {
-        this._focusZoneProps = props;
+    public updateFocusZone(props: IFocusZoneProps) {
+        this.props = props;
 
-        allInstances[props.id] = this;
+        //allInstances[props.id] = this;
 
-        if (this._root) {
-            const windowElement = FluentUIBaseComponent.getWindow(this._root);
-            let parentElement = FluentUIBaseComponent.getParent(this._root, ALLOW_VIRTUAL_ELEMENTS);
+        if (this.root) {
+            const windowElement = FluentUIBaseComponent.getWindow(this.root);
+            let parentElement = FluentUIBaseComponent.getParent(this.root, ALLOW_VIRTUAL_ELEMENTS);
 
             while (parentElement && parentElement !== document.body && parentElement.nodeType === 1) {
                 if (FluentUIBaseComponent.isElementFocusZone(parentElement)) {
@@ -176,15 +176,15 @@ class FocusZoneInternal {
             if (windowElement && outerZones.size === 1) {
                 _disposeGlobalKeyDownListener = FluentUIBaseComponent.on(windowElement, 'keydown', this._onKeyDownCapture, true);
             }
-            this._disposables.push(FluentUIBaseComponent.on(this._root, 'blur', this._onBlur, true));
+            this._disposables.push(FluentUIBaseComponent.on(this.root, 'blur', this._onBlur, true));
 
             // Assign initial tab indexes so that we can set initial focus as appropriate.
             this._updateTabIndexes();
 
             // using a hack to detect whether the passed in HTMLElement is valid (came from a legitimate .NET ElementReference)
-            if ((<any>(this._focusZoneProps.defaultActiveElement)).__internalId !== null) {
-                if (this._activeElement != this._focusZoneProps.defaultActiveElement) {
-                    this._activeElement = this._focusZoneProps.defaultActiveElement;
+            if ((<any>(this.props?.defaultActiveElement))?.__internalId !== null) {
+                if (this._activeElement != this.props?.defaultActiveElement) {
+                    this._activeElement = this.props?.defaultActiveElement;
                     this.focus();
                 }
             }
@@ -192,8 +192,8 @@ class FocusZoneInternal {
     }
 
     private initialized() {
-        const windowElement: Window = FluentUIBaseComponent.getWindow(this._root);
-        let parentElement: HTMLElement = FluentUIBaseComponent.getParent(this._root, ALLOW_VIRTUAL_ELEMENTS);
+        const windowElement: Window = FluentUIBaseComponent.getWindow(this.root);
+        let parentElement: HTMLElement = FluentUIBaseComponent.getParent(this.root, ALLOW_VIRTUAL_ELEMENTS);
 
         while (parentElement && parentElement !== document.body && parentElement.nodeType === 1) {
             if (FluentUIBaseComponent.isElementFocusZone(parentElement)) {
@@ -210,14 +210,14 @@ class FocusZoneInternal {
         if (windowElement && outerZones.size === 1) {
             _disposeGlobalKeyDownListener = FluentUIBaseComponent.on(windowElement, 'keydown', this._onKeyDownCapture, true);
         }
-        this._disposables.push(FluentUIBaseComponent.on(this._root, 'blur', this._onBlur, true));
+        this._disposables.push(FluentUIBaseComponent.on(this.root, 'blur', this._onBlur, true));
 
         // Assign initial tab indexes so that we can set initial focus as appropriate.
         this._updateTabIndexes();
 
         // using a hack to detect whether the passed in HTMLElement is valid (came from a legitimate .NET ElementReference)
-        if ((<any>(this._focusZoneProps.defaultActiveElement)).__internalId !== null) {
-            this._activeElement = this._focusZoneProps.defaultActiveElement;
+        if ((<any>(this.props?.defaultActiveElement))?.__internalId !== null) {
+            this._activeElement = this.props?.defaultActiveElement;
             this.focus();
         }
     }
@@ -230,22 +230,22 @@ class FocusZoneInternal {
    */
     private _setParkedFocus(isParked: boolean): void {
 
-        if (this._root && this._isParked !== isParked) {
+        if (this.root && this._isParked !== isParked) {
             this._isParked = isParked;
 
             if (isParked) {
-                if (!this._focusZoneProps.allowFocusRoot) {
-                    this._parkedTabIndex = this._root.getAttribute('tabindex');
-                    this._root.setAttribute('tabindex', '-1');
+                if (!this.props?.allowFocusRoot) {
+                    this._parkedTabIndex = this.root.getAttribute('tabindex');
+                    this.root.setAttribute('tabindex', '-1');
                 }
-                this._root.focus();
+                this.root.focus();
             } else {
-                if (!this._focusZoneProps.allowFocusRoot) {
+                if (!this.props?.allowFocusRoot) {
                     if (this._parkedTabIndex) {
-                        this._root.setAttribute('tabindex', this._parkedTabIndex);
+                        this.root.setAttribute('tabindex', this._parkedTabIndex);
                         this._parkedTabIndex = undefined;
                     } else {
-                        this._root.removeAttribute('tabindex');
+                        this.root.removeAttribute('tabindex');
                     }
                 }
             }
@@ -262,7 +262,7 @@ class FocusZoneInternal {
             return;
         }
 
-        const { direction, disabled, innerZoneKeystrokeTriggers } = this._focusZoneProps;
+        const { direction, disabled, innerZoneKeystrokeTriggers } = this.props;
 
         if (disabled) {
             return;
@@ -277,7 +277,7 @@ class FocusZoneInternal {
             return;
         }
 
-        if (document.activeElement === this._root && this._isInnerZone) {
+        if (document.activeElement === this.root && this._isInnerZone) {
             // If this element has focus, it is being controlled by a parent.
             // Ignore the keystroke.
             return;
@@ -340,8 +340,8 @@ class FocusZoneInternal {
 
                 case FluentUIBaseComponent.KeyCodes.tab:
                     if (
-                        this._focusZoneProps.handleTabKey === FocusZoneTabbableElements.all ||
-                        (this._focusZoneProps.handleTabKey === FocusZoneTabbableElements.inputOnly && this._isElementInput(ev.target as HTMLElement))
+                        this.props?.handleTabKey === FocusZoneTabbableElements.all ||
+                        (this.props?.handleTabKey === FocusZoneTabbableElements.inputOnly && this._isElementInput(ev.target as HTMLElement))
                     ) {
                         let focusChanged = false;
                         this._processingTabKey = true;
@@ -365,8 +365,8 @@ class FocusZoneInternal {
                     if (this._isElementInput(ev.target as HTMLElement) && !this._shouldInputLoseFocus(ev.target as HTMLInputElement, false)) {
                         return;
                     }
-                    const firstChild = this._root && (this._root.firstChild as HTMLElement | null);
-                    if (this._root && firstChild && this.focusElement(FluentUIBaseComponent.getNextElement(this._root, firstChild, true) as HTMLElement)) {
+                    const firstChild = this.root && (this.root.firstChild as HTMLElement | null);
+                    if (this.root && firstChild && this.focusElement(FluentUIBaseComponent.getNextElement(this.root, firstChild, true) as HTMLElement)) {
                         break;
                     }
                     return;
@@ -376,8 +376,8 @@ class FocusZoneInternal {
                         return;
                     }
 
-                    const lastChild = this._root && (this._root.lastChild as HTMLElement | null);
-                    if (this._root && this.focusElement(FluentUIBaseComponent.getPreviousElement(this._root, lastChild, true, true, true) as HTMLElement)) {
+                    const lastChild = this.root && (this.root.lastChild as HTMLElement | null);
+                    if (this.root && this.focusElement(FluentUIBaseComponent.getPreviousElement(this.root, lastChild, true, true, true) as HTMLElement)) {
                         break;
                     }
                     return;
@@ -403,18 +403,18 @@ class FocusZoneInternal {
             return;
         }
 
-        const { doNotAllowFocusEventToPropagate } = this._focusZoneProps;
+        const { doNotAllowFocusEventToPropagate } = this.props;
         const isImmediateDescendant = this._isImmediateDescendantOfZone(ev.target as HTMLElement);
         let newActiveElement: HTMLElement | undefined;
 
-        this._dotNetRef.invokeMethodAsync("JSOnFocusNotification");
+        this.dotNet.invokeMethodAsync("JSOnFocusNotification");
 
         if (isImmediateDescendant) {
             newActiveElement = ev.target as HTMLElement;
         } else {
             let parentElement = ev.target as HTMLElement;
 
-            while (parentElement && parentElement !== this._root) {
+            while (parentElement && parentElement !== this.root) {
                 if (FluentUIBaseComponent.isElementTabbable(parentElement) && this._isImmediateDescendantOfZone(parentElement)) {
                     newActiveElement = parentElement;
                     break;
@@ -439,7 +439,7 @@ class FocusZoneInternal {
             }
         }
 
-        this._dotNetRef.invokeMethodAsync("JSOnActiveElementChanged");
+        this.dotNet.invokeMethodAsync("JSOnActiveElementChanged");
 
         if (doNotAllowFocusEventToPropagate) {
             ev.stopPropagation();
@@ -460,7 +460,7 @@ class FocusZoneInternal {
             return;
         }
 
-        const { disabled } = this._focusZoneProps;
+        const { disabled } = this.props;
 
         if (disabled) {
             return;
@@ -469,7 +469,7 @@ class FocusZoneInternal {
         let target = ev.target as HTMLElement;
         const path = [];
 
-        while (target && target !== this._root) {
+        while (target && target !== this.root) {
             path.push(target);
             target = FluentUIBaseComponent.getParent(target, ALLOW_VIRTUAL_ELEMENTS) as HTMLElement;
         }
@@ -500,44 +500,44 @@ class FocusZoneInternal {
             _disposeGlobalKeyDownListener();
         }
 
-        this._root.removeEventListener("keydown", this._onKeyDown, false);
-        this._root.removeEventListener("focus", this._onFocus, false);
-        this._root.removeEventListener("mousedown", this._onMouseDown, false);
+        this.root.removeEventListener("keydown", this._onKeyDown, false);
+        this.root.removeEventListener("focus", this._onFocus, false);
+        this.root.removeEventListener("mousedown", this._onMouseDown, false);
     }
 
     public focus(forceIntoFirstElement: boolean = false): boolean {
-        if (this._root) {
-            if (!forceIntoFirstElement && this._root.getAttribute(IS_FOCUSABLE_ATTRIBUTE) === 'true' && this._isInnerZone) {
-                const ownerZoneElement = this._getOwnerZone(this._root) as HTMLElement;
+        if (this.root) {
+            if (!forceIntoFirstElement && this.root.getAttribute(IS_FOCUSABLE_ATTRIBUTE) === 'true' && this._isInnerZone) {
+                const ownerZoneElement = this._getOwnerZone(this.root) as HTMLElement;
 
-                if (ownerZoneElement !== this._root) {
-                    const ownerZone = allInstances[ownerZoneElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE) as string];
+                if (ownerZoneElement !== this.root) {
+                    const ownerZone = focusZones[ownerZoneElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE) as string];
 
-                    return !!ownerZone && ownerZone.focusElement(this._root);
+                    return !!ownerZone && ownerZone.focusElement(this.root);
                 }
 
                 return false;
             } else if (
                 !forceIntoFirstElement &&
                 this._activeElement &&
-                FluentUIBaseComponent.elementContains(this._root, this._activeElement) &&
+                FluentUIBaseComponent.elementContains(this.root, this._activeElement) &&
                 FluentUIBaseComponent.isElementTabbable(this._activeElement)
             ) {
                 this._activeElement.focus();
                 return true;
             } else {
-                const firstChild = this._root.firstChild as HTMLElement;
+                const firstChild = this.root.firstChild as HTMLElement;
 
-                return this.focusElement(FluentUIBaseComponent.getNextElement(this._root, firstChild, true) as HTMLElement);
+                return this.focusElement(FluentUIBaseComponent.getNextElement(this.root, firstChild, true) as HTMLElement);
             }
         }
         return false;
     }
 
     public focusElement(element: HTMLElement): boolean {
-        const { onBeforeFocusExists } = this._focusZoneProps;
+        const { onBeforeFocusExists } = this.props;
 
-        if (onBeforeFocusExists && !this._dotNetRef.invokeMethodAsync("JSOnBeforeFocus")) {
+        if (onBeforeFocusExists && !this.dotNet.invokeMethodAsync("JSOnBeforeFocus")) {
             return false;
         }
 
@@ -555,9 +555,9 @@ class FocusZoneInternal {
     }
 
     private _updateTabIndexes(element?: HTMLElement) {
-        if (!element && this._root) {
+        if (!element && this.root) {
             this._defaultFocusElement = null;
-            element = this._root;
+            element = this.root;
             if (this._activeElement && !FluentUIBaseComponent.elementContains(element, this._activeElement)) {
                 this._activeElement = null;
             }
@@ -581,7 +581,7 @@ class FocusZoneInternal {
                 }
 
                 if (FluentUIBaseComponent.isElementTabbable(child)) {
-                    if (this._focusZoneProps.disabled) {
+                    if (this.props?.disabled) {
                         child.setAttribute(TABINDEX, '-1');
                     } else if (!this._isInnerZone && ((!this._activeElement && !this._defaultFocusElement) || this._activeElement === child)) {
                         this._defaultFocusElement = child;
@@ -613,7 +613,7 @@ class FocusZoneInternal {
     private _getOwnerZone(element?: HTMLElement): HTMLElement | null {
         let parentElement = FluentUIBaseComponent.getParent(element as HTMLElement, ALLOW_VIRTUAL_ELEMENTS);
 
-        while (parentElement && parentElement !== this._root && parentElement !== document.body) {
+        while (parentElement && parentElement !== this.root && parentElement !== document.body) {
             if (FluentUIBaseComponent.isElementFocusZone(parentElement)) {
                 return parentElement;
             }
@@ -647,7 +647,7 @@ class FocusZoneInternal {
     }
 
     private _setFocusAlignment(element: HTMLElement, isHorizontal?: boolean, isVertical?: boolean) {
-        if (this._focusZoneProps.direction === FocusZoneDirection.bidirectional && (!this._focusAlignment || isHorizontal || isVertical)) {
+        if (this.props?.direction === FocusZoneDirection.bidirectional && (!this._focusAlignment || isHorizontal || isVertical)) {
             const rect = element.getBoundingClientRect();
             const left = rect.left + rect.width / 2;
             const top = rect.top + rect.height / 2;
@@ -670,28 +670,28 @@ class FocusZoneInternal {
     }
 
     private _isImmediateDescendantOfZone(element?: HTMLElement): boolean {
-        return this._getOwnerZone(element) === this._root;
+        return this._getOwnerZone(element) === this.root;
     }
 
     /**
 * Traverse to find first child zone.
 */
-    private _getFirstInnerZone(rootElement?: HTMLElement | null): FocusZoneInternal | null {
-        rootElement = rootElement || this._activeElement || this._root;
+    private _getFirstInnerZone(rootElement?: HTMLElement | null): FocusZone | null {
+        rootElement = rootElement || this._activeElement || this.root;
 
         if (!rootElement) {
             return null;
         }
 
         if (FluentUIBaseComponent.isElementFocusZone(rootElement)) {
-            return allInstances[rootElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE) as string];
+            return focusZones[rootElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE) as string];
         }
 
         let child = rootElement.firstElementChild as HTMLElement | null;
 
         while (child) {
             if (FluentUIBaseComponent.isElementFocusZone(child)) {
-                return allInstances[child.getAttribute(FOCUSZONE_ID_ATTRIBUTE) as string];
+                return focusZones[child.getAttribute(FOCUSZONE_ID_ATTRIBUTE) as string];
             }
             const match = this._getFirstInnerZone(child);
 
@@ -709,7 +709,7 @@ class FocusZoneInternal {
    * Walk up the dom try to find a focusable element.
    */
     private _tryInvokeClickForFocusable(target: HTMLElement): boolean {
-        if (target === this._root) {
+        if (target === this.root) {
             return false;
         }
 
@@ -728,7 +728,7 @@ class FocusZoneInternal {
             }
 
             target = FluentUIBaseComponent.getParent(target, ALLOW_VIRTUAL_ELEMENTS) as HTMLElement;
-        } while (target !== this._root);
+        } while (target !== this.root);
 
         return false;
     }
@@ -741,7 +741,7 @@ class FocusZoneInternal {
         // This might break our control when used inside a Layer...
         return false;
 
-        //return element && !!this._root && FluentUIBaseComponent portalContainsElement(element, this._root.current);
+        //return element && !!this.root && FluentUIBaseComponent portalContainsElement(element, this.root.current);
     }
 
     private _isElementInput(element: HTMLElement): boolean {
@@ -770,7 +770,7 @@ class FocusZoneInternal {
                 isRangeSelected ||
                 (selectionStart! > 0 && !isForward) ||
                 (selectionStart !== inputValue.length && isForward) ||
-                (!!this._focusZoneProps.handleTabKey && !(this._focusZoneProps.shouldInputLoseFocusOnArrowKeyExists && this._dotNetRef.invokeMethodAsync<boolean>("JSShouldInputLoseFocusOnArrowKey")))
+                (!!this.props?.handleTabKey && !(this.props?.shouldInputLoseFocusOnArrowKeyExists && this.dotNet.invokeMethodAsync<boolean>("JSShouldInputLoseFocusOnArrowKey")))
             ) {
                 return false;
             }
@@ -780,7 +780,7 @@ class FocusZoneInternal {
     }
 
     private _shouldWrapFocus(element: HTMLElement, noWrapDataAttribute: 'data-no-vertical-wrap' | 'data-no-horizontal-wrap'): boolean {
-        return !!this._focusZoneProps.checkForNoWrap ? FluentUIBaseComponent.shouldWrapFocus(element, noWrapDataAttribute) : true;
+        return !!this.props?.checkForNoWrap ? FluentUIBaseComponent.shouldWrapFocus(element, noWrapDataAttribute) : true;
     }
 
     private _moveFocus(
@@ -793,9 +793,9 @@ class FocusZoneInternal {
         let candidateDistance = -1;
         let candidateElement: HTMLElement | undefined = undefined;
         let changedFocus = false;
-        const isBidirectional = this._focusZoneProps.direction === FocusZoneDirection.bidirectional;
+        const isBidirectional = this.props?.direction === FocusZoneDirection.bidirectional;
 
-        if (!element || !this._root) {
+        if (!element || !this.root) {
             return false;
         }
 
@@ -808,7 +808,7 @@ class FocusZoneInternal {
         const activeRect = isBidirectional ? element.getBoundingClientRect() : null;
 
         do {
-            element = (isForward ? FluentUIBaseComponent.getNextElement(this._root, element) : FluentUIBaseComponent.getPreviousElement(this._root, element)) as HTMLElement;
+            element = (isForward ? FluentUIBaseComponent.getNextElement(this.root, element) : FluentUIBaseComponent.getPreviousElement(this.root, element)) as HTMLElement;
 
             if (isBidirectional) {
                 if (element) {
@@ -839,17 +839,17 @@ class FocusZoneInternal {
         if (candidateElement && candidateElement !== this._activeElement) {
             changedFocus = true;
             this.focusElement(candidateElement);
-        } else if (this._focusZoneProps.isCircularNavigation && useDefaultWrap) {
+        } else if (this.props?.isCircularNavigation && useDefaultWrap) {
             if (isForward) {
                 return this.focusElement(FluentUIBaseComponent.getNextElement(
-                    this._root,
-                    this._root.firstElementChild as HTMLElement,
+                    this.root,
+                    this.root.firstElementChild as HTMLElement,
                     true
                 ) as HTMLElement);
             } else {
                 return this.focusElement(FluentUIBaseComponent.getPreviousElement(
-                    this._root,
-                    this._root.lastElementChild as HTMLElement,
+                    this.root,
+                    this.root.lastElementChild as HTMLElement,
                     true,
                     true,
                     true
@@ -961,7 +961,7 @@ class FocusZoneInternal {
                         topBottomComparison = parseFloat(targetRect.bottom.toFixed(3)) > parseFloat(activeRect.top.toFixed(3));
                     }
 
-                    if (topBottomComparison && targetRect.right <= activeRect.right && this._focusZoneProps.direction !== FocusZoneDirection.vertical) {
+                    if (topBottomComparison && targetRect.right <= activeRect.right && this.props?.direction !== FocusZoneDirection.vertical) {
                         distance = activeRect.right - targetRect.right;
                     } else {
                         if (!shouldWrap) {
@@ -1001,7 +1001,7 @@ class FocusZoneInternal {
                         topBottomComparison = parseFloat(targetRect.top.toFixed(3)) < parseFloat(activeRect.bottom.toFixed(3));
                     }
 
-                    if (topBottomComparison && targetRect.left >= activeRect.left && this._focusZoneProps.direction !== FocusZoneDirection.vertical) {
+                    if (topBottomComparison && targetRect.left >= activeRect.left && this.props?.direction !== FocusZoneDirection.vertical) {
                         distance = targetRect.left - activeRect.left;
                     } else if (!shouldWrap) {
                         distance = LARGE_NEGATIVE_DISTANCE_FROM_CENTER;

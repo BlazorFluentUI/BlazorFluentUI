@@ -5,12 +5,12 @@
 <div @ref="RootElementReference" style="display: inline">
     <OverflowSet Items=@((List<IRibbonItem>)items) OverflowItems=@((List<IRibbonItem>)overflowItems) GetKey=@(x => Guid.NewGuid().ToString()) Style="display: inline-block;vertical-align: top">
         <ItemTemplate>
-                @ItemTemplate(context)
+                @ItemTemplate!(context)
         </ItemTemplate>
         <OverflowTemplate>
-            <CommandBarButton SubordinateItemTemplate=@true HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@(ItemTransform(context))>
+            <CommandBarButton SubordinateItemTemplate=@true HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@(ItemTransform!(context))>
                 <MenuItemTemplate Context="overflowItem">
-                    @ItemTemplate((IRibbonItem)overflowItem)
+                    @ItemTemplate!((IRibbonItem)overflowItem)
                 </MenuItemTemplate>
             </CommandBarButton>
         </OverflowTemplate>

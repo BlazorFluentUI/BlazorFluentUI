@@ -35,19 +35,19 @@
                                 <GroupedList ItemsSource=@groupedData
                                              TKey="object"
                                              GetKey="item => item.Key"
-                                             Compact=@isCompact.GetValueOrDefault()
-                                             IsVirtualizing=@isVirtualizing.GetValueOrDefault()
+                                             Compact=@isCompact
+                                             IsVirtualizing=@isVirtualizing
                                              TItem="GroupedDataItem"
                                              GroupTitleSelector=@(x=>x.DisplayName)
                                              Selection=@selection
                                              SubGroupSelector=@(x=>x.Data)
                                              SelectionMode=@SelectionMode.Multiple>
                                     <ItemTemplate>
-                                        <DetailsRow Item=@context.Item.Item
-                                                    Columns=@columns
-                                                    Compact=@isCompact.GetValueOrDefault()
+                                        <DetailsRow Item=@context.Item!.Item
+                                                    Columns=@(columns!)
+                                                    Compact=@isCompact
                                                     ItemIndex=@context.Index
-                                                    Selection=@selection
+                                                    Selection=@(selection!)
                                                     GroupNestingDepth=@context.Item.Depth
                                                     SelectionMode=@SelectionMode.Multiple />
                                     </ItemTemplate>
@@ -61,24 +61,24 @@
     </div>
 </div>
 @code {
-    string DebugText = "";
-    bool? isCompact;
-    bool? isVirtualizing = true;
+
+    bool isCompact;
+    bool isVirtualizing = true;
     int count = 0;
     //GroupedDataItem rootGroup;
-    System.Collections.Generic.List<DataItem> data;
-    System.Collections.Generic.List<GroupedDataItem> groupedData;
+    System.Collections.Generic.List<DataItem>? data;
+    System.Collections.Generic.List<GroupedDataItem>? groupedData;
     Selection<GroupedDataItem> selection = new Selection<GroupedDataItem>();
 
-    System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>> columns;
+    System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>>? columns;
 
     protected override Task OnInitializedAsync()
     {
 
         columns = new System.Collections.Generic.List<DetailsRowColumn<GroupedDataItem>>();
-        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Key, Name = "Key", MinWidth = 60 });
-        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.DisplayName, Name = "Name" });
-        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Description, Name = "Description" });
+        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Key!, Name = "Key", MinWidth = 60 });
+        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.DisplayName!, Name = "Name" });
+        columns.Add(new DetailsRowColumn<GroupedDataItem> { FieldSelector = x => x.Description!, Name = "Description" });
 
         data = new System.Collections.Generic.List<DataItem>();
 
@@ -90,15 +90,15 @@
 
         groupedData = data.GroupBy(x =>
         {
-            var number = int.Parse(x.Key);
+            var number = int.Parse(x.Key!);
             int group = (number - 1) / 10;
             return group;
         }).Select(x =>
         {
             var subGroup = new GroupedDataItem(x);
-            subGroup.Data = subGroup.Data.GroupBy(y =>
+            subGroup.Data = subGroup.Data?.GroupBy(y =>
             {
-                var number = int.Parse(y.Key);
+                var number = int.Parse(y.Key!);
                 int group = (number - 1) / 5;
                 return group;
             }).Select(y =>

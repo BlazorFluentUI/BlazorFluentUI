@@ -2,7 +2,7 @@
 @inherits FluentUIComponentBase
 
 <div class=@($"mediumFont ms-GroupHeader{(Compact ? " ms-GroupHeader--compact" : "")}{(!IsOpen ? " is-collapsed" : "")}{(CurrentlySelected ? " is-selected": "")}{(string.IsNullOrEmpty(ClassName) ? "":" " + ClassName)}")
-     @onclick=@OnClick 
+     @onclick=@(OnClick!)
      data-is-focusable="true">
     <FocusZone ClassName="ms-GroupHeader-groupHeaderContainer"
                Direction="FocusZoneDirection.Horizontal">
@@ -13,7 +13,7 @@
                     role="checkbox"
                     aria-checked=@CurrentlySelected
                     data-selection-toggle="true"
-                    @onclick=@OnToggle
+                    @onclick=@(OnToggle!)
                     @onclick:stopPropagation="true">
                 <Check Checked=@CurrentlySelected />
             </button>
@@ -27,7 +27,6 @@
                 class="ms-GroupHeader-expand"
                 @onclick=@OnToggleOpen
                 @onclick:stopPropagation="true"
-                aria-expanded=""
                 aria-controls="">
             <Icon ClassName="ms-GroupHeader-expandIsCollapsed" IconName="ChevronRightMed" />
         </button>
@@ -38,10 +37,10 @@
             </span>
         </div>
 
-        @if (isLoadingVisible)
+        @*@if (isLoadingVisible)
         {
             <Spinner Label=@LoadingText />
-        }
+        }*@
 
     </FocusZone>
 </div>

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
-using Sigil;
-using System.Diagnostics;
 
 namespace BlazorFluentUI
 {
@@ -78,7 +75,8 @@ namespace BlazorFluentUI
                                 ruleAsString += GetCachedGetter(property, _rulePropertiesGetters).Invoke(rule.Properties)?.ToString();
                                 continue;
                             }
-                            cssProperty = propAttribute.PropertyName;
+                            if (propAttribute.PropertyName != null)
+                                cssProperty = propAttribute.PropertyName;
                         }
                     }
                     else
@@ -99,7 +97,7 @@ namespace BlazorFluentUI
 
         private static List<PropertyInfo> GetCachedProperties(Type type)
         {
-            if (_propertyDictionary.TryGetValue(type, out List<PropertyInfo> properties) == false)
+            if (_propertyDictionary.TryGetValue(type, out List<PropertyInfo>? properties) == false)
             {
                 properties = type.GetProperties().ToList();
                 _propertyDictionary.Add(type, properties);
@@ -111,7 +109,7 @@ namespace BlazorFluentUI
         private static Attribute? GetCachedCustomAttribute(PropertyInfo property, Type attributeType)
         {
             Attribute? attribute = null;
-            if (_attributeDictionary.TryGetValue(property, out List<Attribute> attributes) == false)
+            if (_attributeDictionary.TryGetValue(property, out List<Attribute>? attributes) == false)
             {
                 attributes = property.GetCustomAttributes().ToList();
                 _attributeDictionary.Add(property, attributes);
@@ -127,11 +125,18 @@ namespace BlazorFluentUI
         private static Func<object, object> GetCachedGetter(PropertyInfo property, Dictionary<PropertyInfo, Func<object,object>> cache)
         {
             long start = DateTime.Now.Ticks;
-            if (cache.TryGetValue(property, out Func<object, object> getter) == false)
+            if (cache.TryGetValue(property, out Func<object, object>? getter) == false)
             {
-                Emit<Func<object, object>>? getterEmitter = Emit<Func<object, object>>.NewDynamicMethod().LoadArgument(0).CastClass(property.DeclaringType).Call(property.GetGetMethod()).Return();
-                getter = getterEmitter.CreateDelegate();
-                cache.Add(property, getter);
+                DynamicMethod dynamicMethod = new(property.Name + "_DynamicMethod", typeof(Func<object, object>), new Type[] { typeof(object) });
+                ILGenerator IL = dynamicMethod.GetILGenerator();
+                IL.Emit(OpCodes.Ldarg_0);
+                IL.Emit(OpCodes.Castclass, property.DeclaringType!);
+                IL.Emit(OpCodes.Call, property.GetGetMethod()!);
+                IL.Emit(OpCodes.Ret);
+
+                getter = (Func<object, object>)dynamicMethod.CreateDelegate(typeof(Func<object, object>));
+                if (getter != null)
+                    cache.Add(property, getter);
                 //Debug.WriteLine($"Emit creation took: {TimeSpan.FromTicks(DateTime.Now.Ticks - start).TotalMilliseconds}ms");
             }
             else
@@ -139,7 +144,7 @@ namespace BlazorFluentUI
                 //Debug.WriteLine($"Cached getter took: {TimeSpan.FromTicks(DateTime.Now.Ticks-start).TotalMilliseconds}ms");
             }
 
-            return getter;
+            return getter!;
         }
     }
 }

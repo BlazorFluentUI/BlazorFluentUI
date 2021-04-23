@@ -94,7 +94,7 @@
     </div>
 </div>
 @code {
-    MsTextStyle customStyle;
+    MsTextStyle? customStyle;
 
     protected override void OnInitialized()
     {

@@ -3,9 +3,9 @@ namespace BlazorFluentUI
     public class ClassSelector : ISelector
     {
         public string LiteralPrefix { get; set; } = "";
-        public string SelectorName { get; set; }
+        public string? SelectorName { get; set; }
         public PseudoElements PseudoElement { get; set; } = PseudoElements.None;
-        public PseudoClass PseudoClass { get; set; }
+        public PseudoClass? PseudoClass { get; set; }
 
         private string ToPseudoClass()
         {

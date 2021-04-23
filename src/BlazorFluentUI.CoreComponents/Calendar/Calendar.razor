@@ -17,7 +17,7 @@
                                         FirstDayOfWeek=@FirstDayOfWeek
                                         DateRangeType=@DateRangeType
                                         AutoNavigateOnSelection=@AutoNavigateOnSelection
-                                        OnHeaderSelect=@(ShowMonthPickerAsOverlay ? OnHeaderSelect : null)
+                                        OnHeaderSelect=@((ShowMonthPickerAsOverlay ? OnHeaderSelect : null)!)
                                         ShowWeekNumbers=@ShowWeekNumbers
                                         FirstWeekOfYear=@FirstWeekOfYear
                                         DateTimeFormatter=@DateTimeFormatter
@@ -45,7 +45,7 @@
                                           DateTimeFormatter=@DateTimeFormatter
                                           MinDate=@MinDate
                                           MaxDate=@MaxDate
-                                          YearPickerHidden=@(YearPickerHidden || ShowMonthPickerAsOverlay) />
+                                          YearPickerHidden=@YearPickerHidden  />
                     }
                     @if (IsTimePickerVisible)
                     {

@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Components.Web
-@using Microsoft.JSInterop
-@namespace BlazorFluentUI
+﻿@namespace BlazorFluentUI
 @inherits FluentUIComponentBase
 @typeparam TObject 
 
@@ -12,7 +10,7 @@
         {
             <div style=@hiddenDivStyles @ref="updateHiddenDiv">
                 <CascadingValue Value="true" Name="IsMeasured">
-                    @DataTemplate(_dataToMeasure)
+                    @DataTemplate!(_dataToMeasure!)
                 </CascadingValue>
             </div>
         }
@@ -20,13 +18,13 @@
         <div @ref="initialHiddenDiv" style=@(_isInitialMeasure ? hiddenDivStyles : "")>
             @if (_isInitialMeasure)
             {
-                @DataTemplate(_dataToMeasure)
+                @DataTemplate!(_dataToMeasure!)
             }
             else
             {
                 @if (_renderedData != null)
                 {
-                    @DataTemplate(_renderedData)
+                    @DataTemplate!(_renderedData)
                 }
             }
         </div>

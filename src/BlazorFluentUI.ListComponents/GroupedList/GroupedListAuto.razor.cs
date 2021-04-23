@@ -19,49 +19,50 @@ using System.Collections.Specialized;
 
 namespace BlazorFluentUI.Lists
 {
-    public partial class GroupedListAuto<TItem,TKey> : FluentUIComponentBase, IDisposable
+    public partial class GroupedListAuto<TItem, TKey> : FluentUIComponentBase, IDisposable
+        where TKey : notnull
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private List<IGroupedListItem3<TItem>> listReference;
+        private List<IGroupedListItem3<TItem>>? listReference;
 
-        private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> dataItems;
+        //private ReadOnlyObservableCollection<IGroupedListItem3<TItem>>? dataItems;
 
         //private IEnumerable<Group<TItem,TKey>> _groups;
 
         private const double COMPACT_ROW_HEIGHT = 32;
         private const double ROW_HEIGHT = 42;
 
-        private SourceCache<TItem, TKey> sourceCache;
+        private SourceCache<TItem, TKey>? sourceCache;
         //private SourceList<TItem> sourceList;
-        private IDisposable sourceListSubscription;
+        private IDisposable? sourceListSubscription;
 
         //private TItem _rootGroup;
-        private IEnumerable<TItem> _itemsSource;
+        private IEnumerable<TItem>? _itemsSource;
 
-        private IDisposable _selectionSubscription;
-        private IDisposable _transformedDisposable;
+        //private IDisposable? _selectionSubscription;
+        //private IDisposable? _transformedDisposable;
 
         [CascadingParameter]
-        public SelectionZone<TItem> SelectionZone { get; set; }
+        public SelectionZone<TItem>? SelectionZone { get; set; }
 
-        private IEnumerable<DetailsRowColumn<TItem>> _columns;
-      
+        private IEnumerable<DetailsRowColumn<TItem>>? _columns;
+
         /// <summary>
         /// This is intended to be populated only when GroupedList is rendered under DetailsList.
         /// </summary>
         [Parameter]
-        public IEnumerable<DetailsRowColumn<TItem>> Columns { get => _columns; set { if (_columns == value) return; else { _columns = value; OnPropertyChanged(); } } }
+        public IEnumerable<DetailsRowColumn<TItem>>? Columns { get => _columns; set { if (_columns == value) return; else { _columns = value; OnPropertyChanged(); } } }
 
 
         [Parameter]
         public bool Compact { get; set; }
 
         /// <summary>
-        /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.  
+        /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.
         /// </summary>
         [Parameter]
-        public Func<TItem, TKey> GetKey { get; set; }
+        public Func<TItem, TKey>? GetKey { get; set; }
 
         [Parameter]
         public IList<Func<TItem, object>>? GroupBy { get; set; }
@@ -94,7 +95,7 @@ namespace BlazorFluentUI.Lists
         public EventCallback<Viewport> OnViewportChanged { get; set; }
 
         [Parameter]
-        public Selection<TItem> Selection { get; set; }
+        public Selection<TItem>? Selection { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
@@ -109,22 +110,22 @@ namespace BlazorFluentUI.Lists
         //public Func<TItem, IEnumerable<TItem>> SubGroupSelector { get; set; }
 
 
-        private Func<TItem, object> getKeyInternal;
-        private IDisposable sourceCacheSubscription;
-        private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> groupedUIListItems;
+        //private Func<TItem, object>? getKeyInternal;
+        private IDisposable? sourceCacheSubscription;
+        private ReadOnlyObservableCollection<IGroupedListItem3<TItem>>? groupedUIListItems;
 
         private IList<bool>? _sortDescending;
         private IList<Func<TItem, object>>? _sortBy;
-        private BehaviorSubject<IComparer<TItem>> sortExpressionComparer;// = new BehaviorSubject<IComparer<TItem>>(new SortExpressionComparer<TItem>());
-        private BehaviorSubject<IComparer<IGroupedListItem3<TItem>>> subGroupSortExpressionComparer;// = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(new SortExpressionComparer<IGroupedListItem3<TItem>>());
-        private bool _groupSortDescending;
+        private BehaviorSubject<IComparer<TItem>>? sortExpressionComparer;// = new BehaviorSubject<IComparer<TItem>>(new SortExpressionComparer<TItem>());
+        private BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>? subGroupSortExpressionComparer;// = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(new SortExpressionComparer<IGroupedListItem3<TItem>>());
+        //private bool _groupSortDescending;
 
         private Subject<Unit> resorter = new();
 
         Dictionary<HeaderItem3<TItem,TKey>, IDisposable> headerSubscriptions = new();
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -183,19 +184,20 @@ namespace BlazorFluentUI.Lists
         /// OnHeaderToggled is the action for clicking the select all button AND the default action for header clicking if the callback isn't set externally
         /// </summary>
         /// <param name="indexedItem"></param>
-        private async Task OnHeaderToggled(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
+        private void OnHeaderToggled(IndexedItem<IGroupedListItem3<TItem>> indexedItem)
         {
             if (Selection != null)
             {
                 HeaderItem3<TItem, TKey>? header = (indexedItem.Item as HeaderItem3<TItem, TKey>);
 
-                Selection.ToggleRangeSelected(header.GroupIndex, header.Count);
+                if (header != null)
+                    Selection.ToggleRangeSelected(header.GroupIndex, header.Count);
             }
         }
 
         public void ForceUpdate()
         {
-            _itemsSource = null;
+            _itemsSource = Enumerable.Empty<TItem>();
 
             StateHasChanged();
         }
@@ -223,11 +225,11 @@ namespace BlazorFluentUI.Lists
                 _sortBy = SortBy;
                 _sortDescending = SortDescending;
 
-                IComparer<TItem> sortExpression = null;
-                IComparer<IGroupedListItem3<TItem>> subGroupListSortExpression = null;
+                IComparer<TItem>? sortExpression = null;
+                IComparer<IGroupedListItem3<TItem>>? subGroupListSortExpression = null;
                 if (GroupBy != null)
                 {
-                    for (int i = 0; i < GroupBy.Count(); i++)
+                    for (int i = 0; i < GroupBy.Count; i++)
                     {
                         if (sortExpression == null)
                         {
@@ -239,9 +241,9 @@ namespace BlazorFluentUI.Lists
                         else
                         {
                             if (GroupSortDescending)
-                                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByDescending(GroupBy[i].ConvertToIComparable());
+                                sortExpression = (sortExpression as SortExpressionComparer<TItem>)!.ThenByDescending(GroupBy[i].ConvertToIComparable());
                             else
-                                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByAscending(GroupBy[i].ConvertToIComparable());
+                                sortExpression = (sortExpression as SortExpressionComparer<TItem>)!.ThenByAscending(GroupBy[i].ConvertToIComparable());
                         }
                     }
                 }
@@ -249,72 +251,72 @@ namespace BlazorFluentUI.Lists
                 if (SortBy != null)
                 {
                     System.Collections.Generic.List<Func<TItem, object>>? sortBy = SortBy.ToList();  //making a local copy
-                    for (int i = 0; i < sortBy.Count(); i++)
+                    for (int i = 0; i < sortBy.Count; i++)
                     {
                         int j = i;  //local copy.
                         if (sortExpression == null)
                         {
-                            if (SortDescending[j])
+                            if (SortDescending![j])
                                 sortExpression = SortExpressionComparer<TItem>.Descending(sortBy[j].ConvertToIComparable());
                             else
                                 sortExpression = SortExpressionComparer<TItem>.Ascending(sortBy[j].ConvertToIComparable());
                         }
                         else
                         {
-                            if (SortDescending[j])
-                                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByDescending(sortBy[j].ConvertToIComparable());
+                            if (SortDescending![j])
+                                sortExpression = (sortExpression as SortExpressionComparer<TItem>)!.ThenByDescending(sortBy[j].ConvertToIComparable());
                             else
-                                sortExpression = (sortExpression as SortExpressionComparer<TItem>).ThenByAscending(sortBy[j].ConvertToIComparable());
+                                sortExpression = (sortExpression as SortExpressionComparer<TItem>)!.ThenByAscending(sortBy[j].ConvertToIComparable());
                         }
                     }
-                    for (int i = 0; i < sortBy.Count(); i++)
+                    for (int i = 0; i < sortBy.Count; i++)
                     {
                         int j = i;  //local copy, necessary for the callback... not really for the above part.
                         if (subGroupListSortExpression == null)
                         {
-                            if (SortDescending[j])
-                                subGroupListSortExpression = SortExpressionComparer<IGroupedListItem3<TItem>>.Descending(x => sortBy[j](x.Item) as IComparable);
+                            if (SortDescending![j])
+                                subGroupListSortExpression = SortExpressionComparer<IGroupedListItem3<TItem>>.Descending(x => (sortBy[j](x.Item!) as IComparable)!);
                             else
-                                subGroupListSortExpression = SortExpressionComparer<IGroupedListItem3<TItem>>.Ascending(x => sortBy[j](x.Item) as IComparable);
+                                subGroupListSortExpression = SortExpressionComparer<IGroupedListItem3<TItem>>.Ascending(x => (sortBy[j](x.Item!) as IComparable)!);
                         }
                         else
                         {
-                            if (SortDescending[j])
-                                subGroupListSortExpression = (subGroupListSortExpression as SortExpressionComparer<IGroupedListItem3<TItem>>).ThenByDescending(x => sortBy[j](x.Item) as IComparable);
+                            if (SortDescending![j])
+                                subGroupListSortExpression = (subGroupListSortExpression as SortExpressionComparer<IGroupedListItem3<TItem>>)!.ThenByDescending(x => (sortBy[j](x.Item!) as IComparable)!);
                             else
-                                subGroupListSortExpression = (subGroupListSortExpression as SortExpressionComparer<IGroupedListItem3<TItem>>).ThenByAscending(x => sortBy[j](x.Item) as IComparable);
+                                subGroupListSortExpression = (subGroupListSortExpression as SortExpressionComparer<IGroupedListItem3<TItem>>)!.ThenByAscending(x => (sortBy[j](x.Item!) as IComparable)!);
                         }
                     }
                 }
 
                 if (sortExpression == null)  // need to sort by **something** or else DD will use any ordering after grouping and it won't match selection sort.  Going to use original list order.
                 {
-                    sortExpression = new OriginalSortComparer<TItem>(ItemsSource); //new SortExpressionComparer<TItem>();
-                    subGroupListSortExpression = new OriginalGroupSortComparer<TItem>(ItemsSource); //new SortExpression<IGroupedListItem3<TItem>>((x,y)=> x.Item);
+                    sortExpression = new OriginalSortComparer<TItem>(ItemsSource!); //new SortExpressionComparer<TItem>();
+                    subGroupListSortExpression = new OriginalGroupSortComparer<TItem>(ItemsSource!); //new SortExpression<IGroupedListItem3<TItem>>((x,y)=> x.Item);
                 }
 
                 if (sortExpressionComparer == null)
                     sortExpressionComparer = new BehaviorSubject<IComparer<TItem>>(sortExpression);
                 else
                     sortExpressionComparer.OnNext(sortExpression);
-                
+
                 if (subGroupSortExpressionComparer == null)
-                    subGroupSortExpressionComparer = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(subGroupListSortExpression);
+                    subGroupSortExpressionComparer = new BehaviorSubject<IComparer<IGroupedListItem3<TItem>>>(subGroupListSortExpression!);
                 else
-                    subGroupSortExpressionComparer.OnNext(subGroupListSortExpression);
+                    subGroupSortExpressionComparer.OnNext(subGroupListSortExpression!);
             }
             else if ((SortBy == null && _sortBy != null) || sortExpressionComparer == null)
             {
-                //even if there's no sorting and we're using the original list's order, we need to apply grouping "sorting" for the selection list 
-                IComparer<TItem> sortExpression = null;
-             
+                //even if there's no sorting and we're using the original list's order, we need to apply grouping "sorting" for the selection list
+                IComparer<TItem>? sortExpression = null;
+
                 if (GroupBy != null)
-                    sortExpression = new OriginalSortComparerPresortedByGroups<TItem>(ItemsSource, GroupBy, GroupSortDescending); //new SortExpressionComparer<TItem>();
+                    sortExpression = new OriginalSortComparerPresortedByGroups<TItem>(ItemsSource!, GroupBy, GroupSortDescending); //new SortExpressionComparer<TItem>();
                 else
-                    sortExpression = new OriginalSortComparer<TItem>(ItemsSource);
+                    sortExpression = new OriginalSortComparer<TItem>(ItemsSource!);
                 //    sortExpression = (sortExpression as SortExpressionComparer<TItem>).Add(ThenByAscending(new OriginalSortComparer<TItem>(ItemsSource));
 
-                OriginalGroupSortComparer<TItem>? subGroupListSortExpression = new OriginalGroupSortComparer<TItem>(ItemsSource); //new SortExpression<IGroupedListItem3<TItem>>((x,y)=> x.Item);
+                OriginalGroupSortComparer<TItem>? subGroupListSortExpression = new(ItemsSource!); //new SortExpression<IGroupedListItem3<TItem>>((x,y)=> x.Item);
 
                 if (sortExpressionComparer == null)
                     sortExpressionComparer = new BehaviorSubject<IComparer<TItem>>(sortExpression);
@@ -343,22 +345,22 @@ namespace BlazorFluentUI.Lists
                 {
                     if (_itemsSource is INotifyCollectionChanged)
                     {
-                        (_itemsSource as INotifyCollectionChanged).CollectionChanged -= GroupedListAuto_CollectionChanged;
+                        (_itemsSource as INotifyCollectionChanged)!.CollectionChanged -= GroupedListAuto_CollectionChanged;
                     }
 
                     _itemsSource = ItemsSource;
                     CreateSourceCache();
-                    
+
                     if (_itemsSource is INotifyCollectionChanged)
                     {
-                        (_itemsSource as INotifyCollectionChanged).CollectionChanged += GroupedListAuto_CollectionChanged;
+                        (_itemsSource as INotifyCollectionChanged)!.CollectionChanged += GroupedListAuto_CollectionChanged;
                     }
 
                     if (_itemsSource != null)
-                        sourceCache.AddOrUpdate(_itemsSource);
+                        sourceCache?.AddOrUpdate(_itemsSource);
                 }
             }
-           
+
 
             await base.OnParametersSetAsync();
 
@@ -369,36 +371,48 @@ namespace BlazorFluentUI.Lists
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    sourceCache.Edit(x =>
+                    sourceCache?.Edit(x =>
                     {
-                        foreach (TItem item in e.NewItems)
+                        if (e.NewItems != null)
                         {
-                            x.AddOrUpdate(item);
+                            foreach (TItem item in e.NewItems)
+                            {
+                                x.AddOrUpdate(item);
+                            }
                         }
                     });
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    sourceCache.Edit(x =>
+                    sourceCache?.Edit(x =>
                     {
-                        foreach (TItem item in e.OldItems)
+                        if (e.OldItems != null)
                         {
-                            x.Remove(item);
+                            foreach (TItem item in e.OldItems)
+                            {
+                                x.Remove(item);
+                            }
                         }
                     });
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    sourceCache.Edit(x =>
+                    sourceCache?.Edit(x =>
                     {
-                        x.Clear();
-                        x.AddOrUpdate(_itemsSource);
+                        if (_itemsSource != null)
+                        {
+                            x.Clear();
+                            x.AddOrUpdate(_itemsSource);
+                        }
                     });
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    sourceCache.Edit(x =>
+                    sourceCache?.Edit(x =>
                     {
-                        foreach (TItem item in e.NewItems)
+                        if (e.NewItems != null)
                         {
-                            x.AddOrUpdate(item);
+                            foreach (TItem item in e.NewItems)
+                            {
+                                x.AddOrUpdate(item);
+                            }
                         }
                     });
                     break;
@@ -424,29 +438,29 @@ namespace BlazorFluentUI.Lists
                 return;
             }
 
-            sourceCache = new SourceCache<TItem,TKey>(GetKey);
+            sourceCache = new SourceCache<TItem,TKey>(GetKey!);
 
-            Func<TItem, object>? firstGrouping = GroupBy.FirstOrDefault();
-            IEnumerable<Func<TItem, object>>? remainingGrouping = GroupBy.Skip(1);
+            Func<TItem, object>? firstGrouping = GroupBy?.FirstOrDefault();
+            IEnumerable<Func<TItem, object>>? remainingGrouping = GroupBy?.Skip(1);
 
-            IConnectableObservable<IChangeSet<TItem, TKey>>? published = sourceCache.Connect()                
+            IConnectableObservable<IChangeSet<TItem, TKey>>? published = sourceCache.Connect()
                 .Publish();
 
             Subject<Unit> reindexTrigger = new();
 
             ReplaySubject<IConnectableObservable<ISortedChangeSet<IGroupedListItem3<TItem>, object>>> futureGroups = new();
 
-            IConnectableObservable<ISortedChangeSet<IGroup<TItem, TKey, object>, object>>? groupsPublished = published.Group(firstGrouping)
-                .Sort(SortExpressionComparer<IGroup<TItem, TKey, object>>.Ascending(x => x.Key as IComparable))
+            IConnectableObservable<ISortedChangeSet<IGroup<TItem, TKey, object>, object>>? groupsPublished = published.Group(firstGrouping!)
+                .Sort(SortExpressionComparer<IGroup<TItem, TKey, object>>.Ascending(x => (x.Key as IComparable)!))
                 .Replay();
 
-            
+
             groupsPublished
                 .Transform(group =>
                 {
-                    return new HeaderItem3<TItem, TKey>(group, remainingGrouping, 0, groupsPublished, null, subGroupSortExpressionComparer, () => InvokeAsync(StateHasChanged), reindexTrigger) as IGroupedListItem3<TItem>;
+                    return new HeaderItem3<TItem, TKey>(group, remainingGrouping, 0, groupsPublished, null, subGroupSortExpressionComparer!, () => InvokeAsync(StateHasChanged), reindexTrigger) as IGroupedListItem3<TItem>;
                 })
-                .Sort(SortExpressionComparer<IGroupedListItem3<TItem>>.Ascending(x=>x.Name))
+                .Sort(SortExpressionComparer<IGroupedListItem3<TItem>>.Ascending(x=>x.Name!))
                 .Bind(out groupedUIListItems)
                 .Do(_ => {
                     //InvokeAsync(StateHasChanged);
@@ -458,7 +472,7 @@ namespace BlazorFluentUI.Lists
             groupsPublished.Connect();
 
             published
-                .Sort(sortExpressionComparer)
+                .Sort(sortExpressionComparer!)
                 .Bind(out ReadOnlyObservableCollection<TItem>? selectionItems)
                 .Subscribe(x => { }, error =>
                 {
@@ -479,8 +493,8 @@ namespace BlazorFluentUI.Lists
 
         public void Dispose()
         {
-            _transformedDisposable?.Dispose();
-            _selectionSubscription?.Dispose();
+            //_transformedDisposable?.Dispose();
+            //_selectionSubscription?.Dispose();
 
             foreach (KeyValuePair<HeaderItem3<TItem, TKey>, IDisposable> header in headerSubscriptions)
             {

@@ -8,6 +8,7 @@
             OutlineColor = theme.Palette.NeutralSecondary;
             BorderRadius = theme.Effects.RoundedCorner2;
             ZIndex = theme.ZIndex.FocusStyle;
+            HighContrastStyle = "";
         }
         public double Inset = 0;
         public double Width = 1;

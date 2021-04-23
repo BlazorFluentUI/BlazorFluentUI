@@ -5,7 +5,7 @@ namespace BlazorFluentUI
 {
     public static class DateUtilities
     {
-        public static List<DateTime> GetDateRangeArray(DateTime date, DateRangeType dateRangeType, DayOfWeek firstDayOfWeek, List<DayOfWeek> workWeekDays, int daysToSelectInDayView = 1)
+        public static List<DateTime> GetDateRangeArray(DateTime date, DateRangeType dateRangeType, DayOfWeek firstDayOfWeek, List<DayOfWeek>? workWeekDays = null, int daysToSelectInDayView = 1)
         {
             List<DateTime>? datesArray = new();
             DateTime startDate;
@@ -26,6 +26,9 @@ namespace BlazorFluentUI
                     break;
 
                 case DateRangeType.Week:
+                    startDate = GetStartDateOfWeek(date.Date, firstDayOfWeek);
+                    endDate = startDate.AddDays(7);
+                    break;
                 case DateRangeType.WorkWeek:
                     startDate = GetStartDateOfWeek(date.Date, firstDayOfWeek);
                     endDate = startDate.AddDays(7);
@@ -76,6 +79,7 @@ namespace BlazorFluentUI
         {
             int selectedYear = navigatedDate.Year;
             int selectedMonth = navigatedDate.Month;
+            int daysInMonth = DateTime.DaysInMonth(selectedYear, selectedMonth);
             int dayOfMonth = 1;
             DateTime fistDayOfMonth = new(selectedYear, selectedMonth, dayOfMonth);
             DayOfWeek endOfFirstWeek = dayOfMonth + (firstDayOfWeek + 7 - 1) - AdjustWeekDay(firstDayOfWeek, fistDayOfMonth.DayOfWeek);
@@ -87,6 +91,7 @@ namespace BlazorFluentUI
                 // Get week number for end of week
                 weeksArray.Add(GetWeekNumber(endOfWeekRange, firstDayOfWeek, firstWeekOfYear));
                 dayOfMonth += 7;
+                if (dayOfMonth > daysInMonth) dayOfMonth = daysInMonth;
                 endOfWeekRange = new DateTime(selectedYear, selectedMonth, dayOfMonth);
             }
             return weeksArray;
@@ -102,17 +107,12 @@ namespace BlazorFluentUI
             // First four-day week of the year - minumum days count
             int fourDayWeek = 4;
 
-            switch (firstWeekOfYear)
+            return firstWeekOfYear switch
             {
-                case FirstWeekOfYear.FirstFullWeek:
-                    return GetWeekOfYearFullDays(date, firstDayOfWeek, 7);
-
-                case FirstWeekOfYear.FirstFourDayWeek:
-                    return GetWeekOfYearFullDays(date, firstDayOfWeek, fourDayWeek);
-
-                default:
-                    return GetFirstDayWeekOfYear(date, firstDayOfWeek);
-            }
+                FirstWeekOfYear.FirstFullWeek => GetWeekOfYearFullDays(date, firstDayOfWeek, 7),
+                FirstWeekOfYear.FirstFourDayWeek => GetWeekOfYearFullDays(date, firstDayOfWeek, fourDayWeek),
+                _ => GetFirstDayWeekOfYear(date, firstDayOfWeek),
+            };
         }
 
         public static int GetFirstDayWeekOfYear(DateTime date, DayOfWeek firstDayOfWeek)

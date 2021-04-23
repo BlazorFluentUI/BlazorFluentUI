@@ -4,10 +4,10 @@ namespace BlazorFluentUI
 {
     public partial class StackItem : FluentUIComponentBase
     {
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
 
-        [Parameter] public CssValue Grow { get; set; }
-        [Parameter] public CssValue Shrink { get; set; }
+        [Parameter] public CssValue? Grow { get; set; }
+        [Parameter] public CssValue? Shrink { get; set; }
         [Parameter] public bool DisableShrink { get; set; } = false;
         [Parameter] public Alignment Align { get; set; } = Alignment.Unset;
         [Parameter] public bool VerticalFill { get; set; } = true;
@@ -38,7 +38,7 @@ namespace BlazorFluentUI
                 style += $"align-self:{CssUtils.AlignMap[Align]};";
             
             if (Order.HasValue)
-                style += $"order:{Order.Value.ToString()};";
+                style += $"order:{Order.Value};";
 
             return style;
         }

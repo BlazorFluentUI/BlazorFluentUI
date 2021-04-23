@@ -1,12 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import * as FluentUIBaseComponent from './baseComponent.js';
 export function getDistanceBetweenPoints(point1, point2) {
     const left1 = point1.left || 0;
@@ -184,7 +175,7 @@ export function unregisterMarqueeSelection(dotNet) {
 const MIN_DRAG_DISTANCE = 5;
 class MarqueeSelection {
     constructor(dotNet, root, props) {
-        this.onMouseDown = (ev) => __awaiter(this, void 0, void 0, function* () {
+        this.onMouseDown = async (ev) => {
             // Ensure the mousedown is within the boundaries of the target. If not, it may have been a click on a scrollbar.
             if (this._isMouseEventOnScrollbar(ev)) {
                 return;
@@ -195,7 +186,7 @@ class MarqueeSelection {
             if (!this.isTouch &&
                 this.props.isEnabled &&
                 !this._isDragStartInSelection(ev)) {
-                let shouldStart = yield this.dotNet.invokeMethodAsync("OnShouldStartSelectionInternal");
+                let shouldStart = await this.dotNet.invokeMethodAsync("OnShouldStartSelectionInternal");
                 if (shouldStart) {
                     if (this.scrollableSurface && ev.button === 0 && this.root) {
                         this._selectedIndicies = {};
@@ -207,11 +198,11 @@ class MarqueeSelection {
                         this._scrollTop = this.scrollableSurface.scrollTop;
                         this._scrollLeft = this.scrollableSurface.scrollLeft;
                         this._rootRect = this.root.getBoundingClientRect();
-                        yield this._onMouseMove(ev);
+                        await this._onMouseMove(ev);
                     }
                 }
             }
-        });
+        };
         this.dotNet = dotNet;
         this.root = root;
         this.props = props;
@@ -268,155 +259,151 @@ class MarqueeSelection {
         };
     }
     _onAsyncMouseMove(ev) {
-        this.animationFrameRequest = window.requestAnimationFrame(() => __awaiter(this, void 0, void 0, function* () {
-            yield this._onMouseMove(ev);
-        }));
+        this.animationFrameRequest = window.requestAnimationFrame(async () => {
+            await this._onMouseMove(ev);
+        });
         ev.stopPropagation();
         ev.preventDefault();
     }
-    _onMouseMove(ev) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!this.autoScroll) {
-                return;
+    async _onMouseMove(ev) {
+        if (!this.autoScroll) {
+            return;
+        }
+        if (ev.clientX !== undefined) {
+            this._lastMouseEvent = ev;
+        }
+        const rootRect = this._getRootRect();
+        const currentPoint = { left: ev.clientX - rootRect.left, top: ev.clientY - rootRect.top };
+        if (!this._dragOrigin) {
+            this._dragOrigin = currentPoint;
+        }
+        if (ev.buttons !== undefined && ev.buttons === 0) {
+            this.onMouseUp(ev);
+        }
+        else {
+            if (this._mirroredDragRect || getDistanceBetweenPoints(this._dragOrigin, currentPoint) > MIN_DRAG_DISTANCE) {
+                if (!this._mirroredDragRect) {
+                    //const { selection } = this.props;
+                    if (!ev.shiftKey) {
+                        await this.dotNet.invokeMethodAsync("UnselectAll");
+                        //selection.setAllSelected(false);
+                    }
+                    this._preservedIndicies = await this.dotNet.invokeMethodAsync("GetSelectedIndicesAsync");
+                }
+                // We need to constrain the current point to the rootRect boundaries.
+                const constrainedPoint = this.props.isDraggingConstrainedToRoot
+                    ? {
+                        left: Math.max(0, Math.min(rootRect.width, this._lastMouseEvent.clientX - rootRect.left)),
+                        top: Math.max(0, Math.min(rootRect.height, this._lastMouseEvent.clientY - rootRect.top)),
+                    }
+                    : {
+                        left: this._lastMouseEvent.clientX - rootRect.left,
+                        top: this._lastMouseEvent.clientY - rootRect.top,
+                    };
+                this.dragRect = {
+                    left: Math.min(this._dragOrigin.left || 0, constrainedPoint.left),
+                    top: Math.min(this._dragOrigin.top || 0, constrainedPoint.top),
+                    width: Math.abs(constrainedPoint.left - (this._dragOrigin.left || 0)),
+                    height: Math.abs(constrainedPoint.top - (this._dragOrigin.top || 0)),
+                };
+                await this._evaluateSelectionAsync(this.dragRect, rootRect);
+                this._mirroredDragRect = this.dragRect;
+                await this.dotNet.invokeMethodAsync("SetDragRect", this.dragRect);
+                //this.setState({ dragRect });
             }
-            if (ev.clientX !== undefined) {
-                this._lastMouseEvent = ev;
+        }
+        return false;
+    }
+    async _evaluateSelectionAsync(dragRect, rootRect) {
+        // Break early if we don't need to evaluate.
+        if (!dragRect || !this.root) {
+            return;
+        }
+        const allElements = this.root.querySelectorAll('[data-selection-index]');
+        if (!this._itemRectCache) {
+            this._itemRectCache = {};
+        }
+        for (let i = 0; i < allElements.length; i++) {
+            const element = allElements[i];
+            const index = element.getAttribute('data-selection-index');
+            // Pull the memoized rectangle for the item, or the get the rect and memoize.
+            let itemRect = this._itemRectCache[index];
+            if (!itemRect) {
+                itemRect = element.getBoundingClientRect();
+                // Normalize the item rect to the dragRect coordinates.
+                itemRect = {
+                    left: itemRect.left - rootRect.left,
+                    top: itemRect.top - rootRect.top,
+                    width: itemRect.width,
+                    height: itemRect.height,
+                    right: itemRect.left - rootRect.left + itemRect.width,
+                    bottom: itemRect.top - rootRect.top + itemRect.height,
+                };
+                if (itemRect.width > 0 && itemRect.height > 0) {
+                    this._itemRectCache[index] = itemRect;
+                }
             }
-            const rootRect = this._getRootRect();
-            const currentPoint = { left: ev.clientX - rootRect.left, top: ev.clientY - rootRect.top };
-            if (!this._dragOrigin) {
-                this._dragOrigin = currentPoint;
-            }
-            if (ev.buttons !== undefined && ev.buttons === 0) {
-                this.onMouseUp(ev);
+            if (itemRect.top < dragRect.top + dragRect.height &&
+                itemRect.bottom > dragRect.top &&
+                itemRect.left < dragRect.left + dragRect.width &&
+                itemRect.right > dragRect.left) {
+                this._selectedIndicies[index] = true;
             }
             else {
-                if (this._mirroredDragRect || getDistanceBetweenPoints(this._dragOrigin, currentPoint) > MIN_DRAG_DISTANCE) {
-                    if (!this._mirroredDragRect) {
-                        //const { selection } = this.props;
-                        if (!ev.shiftKey) {
-                            yield this.dotNet.invokeMethodAsync("UnselectAll");
-                            //selection.setAllSelected(false);
-                        }
-                        this._preservedIndicies = yield this.dotNet.invokeMethodAsync("GetSelectedIndicesAsync");
-                    }
-                    // We need to constrain the current point to the rootRect boundaries.
-                    const constrainedPoint = this.props.isDraggingConstrainedToRoot
-                        ? {
-                            left: Math.max(0, Math.min(rootRect.width, this._lastMouseEvent.clientX - rootRect.left)),
-                            top: Math.max(0, Math.min(rootRect.height, this._lastMouseEvent.clientY - rootRect.top)),
-                        }
-                        : {
-                            left: this._lastMouseEvent.clientX - rootRect.left,
-                            top: this._lastMouseEvent.clientY - rootRect.top,
-                        };
-                    this.dragRect = {
-                        left: Math.min(this._dragOrigin.left || 0, constrainedPoint.left),
-                        top: Math.min(this._dragOrigin.top || 0, constrainedPoint.top),
-                        width: Math.abs(constrainedPoint.left - (this._dragOrigin.left || 0)),
-                        height: Math.abs(constrainedPoint.top - (this._dragOrigin.top || 0)),
-                    };
-                    yield this._evaluateSelectionAsync(this.dragRect, rootRect);
-                    this._mirroredDragRect = this.dragRect;
-                    yield this.dotNet.invokeMethodAsync("SetDragRect", this.dragRect);
-                    //this.setState({ dragRect });
-                }
+                delete this._selectedIndicies[index];
             }
-            return false;
-        });
-    }
-    _evaluateSelectionAsync(dragRect, rootRect) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // Break early if we don't need to evaluate.
-            if (!dragRect || !this.root) {
-                return;
+        }
+        // set previousSelectedIndices to be all of the selected indices from last time
+        const previousSelectedIndices = this._allSelectedIndices || {};
+        this._allSelectedIndices = {};
+        // set all indices that are supposed to be selected in _allSelectedIndices
+        for (const index in this._selectedIndicies) {
+            if (this._selectedIndicies.hasOwnProperty(index)) {
+                this._allSelectedIndices[index] = true;
             }
-            const allElements = this.root.querySelectorAll('[data-selection-index]');
-            if (!this._itemRectCache) {
-                this._itemRectCache = {};
+        }
+        if (this._preservedIndicies) {
+            for (const index of this._preservedIndicies) {
+                this._allSelectedIndices[index] = true;
             }
-            for (let i = 0; i < allElements.length; i++) {
-                const element = allElements[i];
-                const index = element.getAttribute('data-selection-index');
-                // Pull the memoized rectangle for the item, or the get the rect and memoize.
-                let itemRect = this._itemRectCache[index];
-                if (!itemRect) {
-                    itemRect = element.getBoundingClientRect();
-                    // Normalize the item rect to the dragRect coordinates.
-                    itemRect = {
-                        left: itemRect.left - rootRect.left,
-                        top: itemRect.top - rootRect.top,
-                        width: itemRect.width,
-                        height: itemRect.height,
-                        right: itemRect.left - rootRect.left + itemRect.width,
-                        bottom: itemRect.top - rootRect.top + itemRect.height,
-                    };
-                    if (itemRect.width > 0 && itemRect.height > 0) {
-                        this._itemRectCache[index] = itemRect;
-                    }
-                }
-                if (itemRect.top < dragRect.top + dragRect.height &&
-                    itemRect.bottom > dragRect.top &&
-                    itemRect.left < dragRect.left + dragRect.width &&
-                    itemRect.right > dragRect.left) {
-                    this._selectedIndicies[index] = true;
-                }
-                else {
-                    delete this._selectedIndicies[index];
-                }
+        }
+        // check if needs to update selection, only when current _allSelectedIndices
+        // is different than previousSelectedIndices
+        let needToUpdate = false;
+        for (const index in this._allSelectedIndices) {
+            if (this._allSelectedIndices[index] !== previousSelectedIndices[index]) {
+                needToUpdate = true;
+                break;
             }
-            // set previousSelectedIndices to be all of the selected indices from last time
-            const previousSelectedIndices = this._allSelectedIndices || {};
-            this._allSelectedIndices = {};
-            // set all indices that are supposed to be selected in _allSelectedIndices
-            for (const index in this._selectedIndicies) {
-                if (this._selectedIndicies.hasOwnProperty(index)) {
-                    this._allSelectedIndices[index] = true;
-                }
-            }
-            if (this._preservedIndicies) {
-                for (const index of this._preservedIndicies) {
-                    this._allSelectedIndices[index] = true;
-                }
-            }
-            // check if needs to update selection, only when current _allSelectedIndices
-            // is different than previousSelectedIndices
-            let needToUpdate = false;
-            for (const index in this._allSelectedIndices) {
+        }
+        if (!needToUpdate) {
+            for (const index in previousSelectedIndices) {
                 if (this._allSelectedIndices[index] !== previousSelectedIndices[index]) {
                     needToUpdate = true;
                     break;
                 }
             }
-            if (!needToUpdate) {
-                for (const index in previousSelectedIndices) {
-                    if (this._allSelectedIndices[index] !== previousSelectedIndices[index]) {
-                        needToUpdate = true;
-                        break;
-                    }
-                }
+        }
+        // only update selection when needed
+        if (needToUpdate) {
+            // Stop change events, clear selection to re-populate.
+            //selection.setChangeEvents(false);
+            //selection.setAllSelected(false);
+            await this.dotNet.invokeMethodAsync("SetChangeEvents", false);
+            await this.dotNet.invokeMethodAsync("UnselectAll"); //.then(_ => {
+            const indices = [];
+            for (const index of Object.keys(this._allSelectedIndices)) {
+                indices.push(Number(index));
+                //selection.setIndexSelected(Number(index), true, false);
             }
-            // only update selection when needed
-            if (needToUpdate) {
-                // Stop change events, clear selection to re-populate.
-                //selection.setChangeEvents(false);
-                //selection.setAllSelected(false);
-                yield this.dotNet.invokeMethodAsync("SetChangeEvents", false);
-                yield this.dotNet.invokeMethodAsync("UnselectAll"); //.then(_ => {
-                const indices = [];
-                for (const index of Object.keys(this._allSelectedIndices)) {
-                    indices.push(Number(index));
-                    //selection.setIndexSelected(Number(index), true, false);
-                }
-                yield this.dotNet.invokeMethodAsync("SetSelectedIndices", indices);
-                //});
-                //for (const index of Object.keys(this._allSelectedIndices!)) {
-                //    selection.setIndexSelected(Number(index), true, false);
-                //}
-                //selection.setChangeEvents(true);
-                yield this.dotNet.invokeMethodAsync("SetChangeEvents", true);
-            }
-        });
+            await this.dotNet.invokeMethodAsync("SetSelectedIndices", indices);
+            //});
+            //for (const index of Object.keys(this._allSelectedIndices!)) {
+            //    selection.setIndexSelected(Number(index), true, false);
+            //}
+            //selection.setChangeEvents(true);
+            await this.dotNet.invokeMethodAsync("SetChangeEvents", true);
+        }
     }
     onMouseUp(ev) {
         this.events.off(window);

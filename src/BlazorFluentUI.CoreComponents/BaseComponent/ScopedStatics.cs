@@ -8,6 +8,6 @@ namespace BlazorFluentUI
         public bool FocusRectsInitialized { get; set; } = false;
 
         public bool AssembliesScanned { get; set; } = false;
-        public List<Type> ComponentTypes { get; set; }
+        public List<Type>? ComponentTypes { get; set; }
     }
 }

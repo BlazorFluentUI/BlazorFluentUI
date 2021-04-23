@@ -1,31 +1,11 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
 const IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
 const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
 const FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
 const FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
 const IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
-//interface IVirtualElement extends HTMLElement {
-//    _virtual: {
-//        parent?: IVirtualElement;
-//        children: IVirtualElement[];
-//    };
-//}
-//interface IVirtualRelationship {
-//    parent: HTMLElement;
-//    children: HTMLElement[];
-//}
 //Store the element that the layer is started from so we can later match up the layer's children with the original parent.
 const layerElements = {};
-//const virtualRelationships: Map<IVirtualRelationship> = {};
 export function initializeFocusRects() {
     if (!window.__hasInitializeFocusRects__) {
         window.__hasInitializeFocusRects__ = true;
@@ -166,13 +146,14 @@ export function measureElementRect(element) {
     if (element !== undefined && element !== null) {
         // EdgeHTML's rectangle can't be serialized for some reason.... serializes to 0 everything.   So break it apart into simple JSON.
         var rect = element.getBoundingClientRect();
-        return { height: rect.height, width: rect.width, left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom };
+        //return { height: rect.height, width: rect.width, left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom };
+        return rect;
     }
     else
         return { height: 0, width: 0, left: 0, right: 0, top: 0, bottom: 0 };
 }
 export function getWindow(element) {
-    return element.ownerDocument.defaultView;
+    return element?.ownerDocument.defaultView;
 }
 export function getWindowRect() {
     var rect = {
@@ -252,13 +233,12 @@ export function deregisterWindowKeyDownEvent(guid) {
     window.removeEventListener("keydown", func);
     eventRegister[guid] = null;
 }
-export function registerResizeEvent(dotnetRef, functionName) {
-    var guid = Guid.newGuid();
-    eventRegister[guid] = debounce((ev) => {
+export function registerResizeEvent(dotnetRef, functionName, guid) {
+    var async = new Async(this);
+    eventRegister[guid] = async.debounce((ev) => {
         dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
     }, 100, { leading: true });
     window.addEventListener("resize", eventRegister[guid]);
-    return guid;
 }
 export function deregisterResizeEvent(guid) {
     var func = eventRegister[guid];
@@ -277,7 +257,7 @@ var _lastId = 0;
 var cachedViewports = new Map();
 class Viewport {
     constructor(component, rootElement, fireInitialViewport = false) {
-        this.RESIZE_DELAY = 500;
+        this.RESIZE_DELAY = 100;
         this.MAX_RESIZE_ATTEMPTS = 3;
         this.viewport = { width: 0, height: 0 };
         this._onAsyncResizeAsync = () => {
@@ -286,7 +266,8 @@ class Viewport {
         this.id = _lastId++;
         this.component = component;
         this.rootElement = rootElement;
-        this._onAsyncResizeAsync = debounce(this._onAsyncResizeAsync, this.RESIZE_DELAY, { leading: true });
+        this._async = new Async(this);
+        this._onAsyncResizeAsync = this._async.debounce(this._onAsyncResizeAsync, this.RESIZE_DELAY, { leading: true });
         this.viewportResizeObserver = new window.ResizeObserver(this._onAsyncResizeAsync);
         this.viewportResizeObserver.observe(this.rootElement);
         if (fireInitialViewport) {
@@ -296,33 +277,31 @@ class Viewport {
     disconnect() {
         this.viewportResizeObserver.disconnect();
     }
-    _updateViewportAsync(withForceUpdate) {
-        return __awaiter(this, void 0, void 0, function* () {
-            //const { viewport } = this.state;
-            const viewportElement = this.rootElement;
-            const scrollElement = findScrollableParent(viewportElement);
-            const scrollRect = getRect(scrollElement);
-            const clientRect = getRect(viewportElement);
-            const updateComponentAsync = () => __awaiter(this, void 0, void 0, function* () {
-                if (withForceUpdate) {
-                    yield this.component.invokeMethodAsync("ForceUpdate");
-                }
-            });
-            const isSizeChanged = (clientRect && clientRect.width) !== this.viewport.width || (scrollRect && scrollRect.height) !== this.viewport.height;
-            if (isSizeChanged && this._resizeAttempts < this.MAX_RESIZE_ATTEMPTS && clientRect && scrollRect) {
-                this._resizeAttempts++;
-                this.viewport = {
-                    width: clientRect.width,
-                    height: scrollRect.height
-                };
-                yield this.component.invokeMethodAsync("ViewportChanged", this.viewport);
-                yield this._updateViewportAsync(withForceUpdate);
+    async _updateViewportAsync(withForceUpdate) {
+        //const { viewport } = this.state;
+        const viewportElement = this.rootElement;
+        const scrollElement = findScrollableParent(viewportElement);
+        const scrollRect = getRect(scrollElement);
+        const clientRect = getRect(viewportElement);
+        const updateComponentAsync = async () => {
+            if (withForceUpdate) {
+                await this.component.invokeMethodAsync("ForceUpdate");
             }
-            else {
-                this._resizeAttempts = 0;
-                yield updateComponentAsync();
-            }
-        });
+        };
+        const isSizeChanged = (clientRect && clientRect.width) !== this.viewport.width || (scrollRect && scrollRect.height) !== this.viewport.height;
+        if (isSizeChanged && this._resizeAttempts < this.MAX_RESIZE_ATTEMPTS && clientRect && scrollRect) {
+            this._resizeAttempts++;
+            this.viewport = {
+                width: clientRect.width,
+                height: scrollRect.height
+            };
+            await this.component.invokeMethodAsync("ViewportChanged", this.viewport);
+            await this._updateViewportAsync(withForceUpdate);
+        }
+        else {
+            this._resizeAttempts = 0;
+            await updateComponentAsync();
+        }
     }
     ;
 }
@@ -394,12 +373,14 @@ export function focusElement(element) {
     element.focus();
 }
 export function focusFirstElementChild(element) {
-    let child = this.getFirstFocusable(element, element, true);
-    if (child) {
-        child.focus();
-    }
-    else {
-        element.focus();
+    if (element !== undefined && element != null) {
+        let child = this.getFirstFocusable(element, element, true);
+        if (child) {
+            child.focus();
+        }
+        else {
+            element.focus();
+        }
     }
 }
 export function shouldWrapFocus(element, noWrapDataAttribute) {
@@ -679,8 +660,8 @@ function createNewEvent(eventName) {
     return event;
 }
 export function on(element, eventName, callback, options) {
-    element.addEventListener(eventName, callback, options);
-    return () => element.removeEventListener(eventName, callback, options);
+    element?.addEventListener(eventName, callback, options);
+    return () => element?.removeEventListener(eventName, callback, options);
 }
 function _expandRect(rect, pagesBefore, pagesAfter) {
     const top = rect.top - pagesBefore * rect.height;
@@ -708,105 +689,6 @@ function _mergeRect(targetRect, newRect) {
     targetRect.width = targetRect.right - targetRect.left + 1;
     targetRect.height = targetRect.bottom - targetRect.top + 1;
     return targetRect;
-}
-export function debounce(func, wait, options) {
-    if (this._isDisposed) {
-        let noOpFunction = (() => {
-            /** Do nothing */
-        });
-        noOpFunction.cancel = () => {
-            return;
-        };
-        /* tslint:disable:no-any */
-        noOpFunction.flush = (() => null);
-        /* tslint:enable:no-any */
-        noOpFunction.pending = () => false;
-        return noOpFunction;
-    }
-    let waitMS = wait || 0;
-    let leading = false;
-    let trailing = true;
-    let maxWait = null;
-    let lastCallTime = 0;
-    let lastExecuteTime = new Date().getTime();
-    let lastResult;
-    // tslint:disable-next-line:no-any
-    let lastArgs;
-    let timeoutId = null;
-    if (options && typeof options.leading === 'boolean') {
-        leading = options.leading;
-    }
-    if (options && typeof options.trailing === 'boolean') {
-        trailing = options.trailing;
-    }
-    if (options && typeof options.maxWait === 'number' && !isNaN(options.maxWait)) {
-        maxWait = options.maxWait;
-    }
-    let markExecuted = (time) => {
-        if (timeoutId) {
-            this.clearTimeout(timeoutId);
-            timeoutId = null;
-        }
-        lastExecuteTime = time;
-    };
-    let invokeFunction = (time) => {
-        markExecuted(time);
-        lastResult = func.apply(this._parent, lastArgs);
-    };
-    let callback = (userCall) => {
-        let now = new Date().getTime();
-        let executeImmediately = false;
-        if (userCall) {
-            if (leading && now - lastCallTime >= waitMS) {
-                executeImmediately = true;
-            }
-            lastCallTime = now;
-        }
-        let delta = now - lastCallTime;
-        let waitLength = waitMS - delta;
-        let maxWaitDelta = now - lastExecuteTime;
-        let maxWaitExpired = false;
-        if (maxWait !== null) {
-            // maxWait only matters when there is a pending callback
-            if (maxWaitDelta >= maxWait && timeoutId) {
-                maxWaitExpired = true;
-            }
-            else {
-                waitLength = Math.min(waitLength, maxWait - maxWaitDelta);
-            }
-        }
-        if (delta >= waitMS || maxWaitExpired || executeImmediately) {
-            invokeFunction(now);
-        }
-        else if ((timeoutId === null || !userCall) && trailing) {
-            timeoutId = this.setTimeout(callback, waitLength);
-        }
-        return lastResult;
-    };
-    let pending = () => {
-        return !!timeoutId;
-    };
-    let cancel = () => {
-        if (pending()) {
-            // Mark the debounced function as having executed
-            markExecuted(new Date().getTime());
-        }
-    };
-    let flush = () => {
-        if (pending()) {
-            invokeFunction(new Date().getTime());
-        }
-        return lastResult;
-    };
-    // tslint:disable-next-line:no-any
-    let resultFunction = ((...args) => {
-        lastArgs = args;
-        return callback(true);
-    });
-    resultFunction.cancel = cancel;
-    resultFunction.flush = flush;
-    resultFunction.pending = pending;
-    return resultFunction;
 }
 const RTL_LOCAL_STORAGE_KEY = 'isRTL';
 let _isRTL;
@@ -855,8 +737,17 @@ export function setItem(key, data) {
         /* Eat the exception */
     }
 }
+/**
+ * Bugs often appear in async code when stuff gets disposed, but async operations don't get canceled.
+ * This Async helper class solves these issues by tying async code to the lifetime of a disposable object.
+ *
+ * Usage: Anything class extending from BaseModel can access this helper via this.async. Otherwise create a
+ * new instance of the class and remember to call dispose() during your code's dispose handler.
+ *
+ * @public
+ */
 export class Async {
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(parent, onError) {
         this._timeoutIds = null;
         this._immediateIds = null;
@@ -925,7 +816,6 @@ export class Async {
             if (!this._timeoutIds) {
                 this._timeoutIds = {};
             }
-            /* tslint:disable:ban-native-functions */
             timeoutId = setTimeout(() => {
                 // Time to execute the timeout, enqueue it as a foreground task to be executed.
                 try {
@@ -936,12 +826,9 @@ export class Async {
                     callback.apply(this._parent);
                 }
                 catch (e) {
-                    if (this._onErrorHandler) {
-                        this._onErrorHandler(e);
-                    }
+                    this._logError(e);
                 }
             }, duration);
-            /* tslint:enable:ban-native-functions */
             this._timeoutIds[timeoutId] = true;
         }
         return timeoutId;
@@ -952,10 +839,8 @@ export class Async {
      */
     clearTimeout(id) {
         if (this._timeoutIds && this._timeoutIds[id]) {
-            /* tslint:disable:ban-native-functions */
             clearTimeout(id);
             delete this._timeoutIds[id];
-            /* tslint:enable:ban-native-functions */
         }
     }
     /**
@@ -971,7 +856,6 @@ export class Async {
             if (!this._immediateIds) {
                 this._immediateIds = {};
             }
-            /* tslint:disable:ban-native-functions */
             let setImmediateCallback = () => {
                 // Time to execute the timeout, enqueue it as a foreground task to be executed.
                 try {
@@ -986,7 +870,6 @@ export class Async {
                 }
             };
             immediateId = win.setTimeout(setImmediateCallback, 0);
-            /* tslint:enable:ban-native-functions */
             this._immediateIds[immediateId] = true;
         }
         return immediateId;
@@ -999,10 +882,8 @@ export class Async {
     clearImmediate(id, targetElement) {
         const win = getWindow(targetElement);
         if (this._immediateIds && this._immediateIds[id]) {
-            /* tslint:disable:ban-native-functions */
             win.clearTimeout(id);
             delete this._immediateIds[id];
-            /* tslint:enable:ban-native-functions */
         }
     }
     /**
@@ -1017,7 +898,6 @@ export class Async {
             if (!this._intervalIds) {
                 this._intervalIds = {};
             }
-            /* tslint:disable:ban-native-functions */
             intervalId = setInterval(() => {
                 // Time to execute the interval callback, enqueue it as a foreground task to be executed.
                 try {
@@ -1027,7 +907,6 @@ export class Async {
                     this._logError(e);
                 }
             }, duration);
-            /* tslint:enable:ban-native-functions */
             this._intervalIds[intervalId] = true;
         }
         return intervalId;
@@ -1038,10 +917,8 @@ export class Async {
      */
     clearInterval(id) {
         if (this._intervalIds && this._intervalIds[id]) {
-            /* tslint:disable:ban-native-functions */
             clearInterval(id);
             delete this._intervalIds[id];
-            /* tslint:enable:ban-native-functions */
         }
     }
     /**
@@ -1058,6 +935,7 @@ export class Async {
      * @param options - The options object.
      * @returns The new throttled function.
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     throttle(func, wait, options) {
         if (this._isDisposed) {
             return this._noop;
@@ -1067,7 +945,7 @@ export class Async {
         let trailing = true;
         let lastExecuteTime = 0;
         let lastResult;
-        // tslint:disable-next-line:no-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let lastArgs;
         let timeoutId = null;
         if (options && typeof options.leading === 'boolean') {
@@ -1077,7 +955,7 @@ export class Async {
             trailing = options.trailing;
         }
         let callback = (userCall) => {
-            let now = new Date().getTime();
+            let now = Date.now();
             let delta = now - lastExecuteTime;
             let waitLength = leading ? waitMS - delta : waitMS;
             if (delta >= waitMS && (!userCall || leading)) {
@@ -1093,11 +971,11 @@ export class Async {
             }
             return lastResult;
         };
-        // tslint:disable-next-line:no-any
-        let resultFunction = (...args) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let resultFunction = ((...args) => {
             lastArgs = args;
             return callback(true);
-        };
+        });
         return resultFunction;
     }
     /**
@@ -1115,6 +993,7 @@ export class Async {
      * @param options - The options object.
      * @returns The new debounced function.
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     debounce(func, wait, options) {
         if (this._isDisposed) {
             let noOpFunction = (() => {
@@ -1123,9 +1002,7 @@ export class Async {
             noOpFunction.cancel = () => {
                 return;
             };
-            /* tslint:disable:no-any */
             noOpFunction.flush = (() => null);
-            /* tslint:enable:no-any */
             noOpFunction.pending = () => false;
             return noOpFunction;
         }
@@ -1134,9 +1011,9 @@ export class Async {
         let trailing = true;
         let maxWait = null;
         let lastCallTime = 0;
-        let lastExecuteTime = new Date().getTime();
+        let lastExecuteTime = Date.now();
         let lastResult;
-        // tslint:disable-next-line:no-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let lastArgs;
         let timeoutId = null;
         if (options && typeof options.leading === 'boolean') {
@@ -1160,7 +1037,7 @@ export class Async {
             lastResult = func.apply(this._parent, lastArgs);
         };
         let callback = (userCall) => {
-            let now = new Date().getTime();
+            let now = Date.now();
             let executeImmediately = false;
             if (userCall) {
                 if (leading && now - lastCallTime >= waitMS) {
@@ -1195,16 +1072,16 @@ export class Async {
         let cancel = () => {
             if (pending()) {
                 // Mark the debounced function as having executed
-                markExecuted(new Date().getTime());
+                markExecuted(Date.now());
             }
         };
         let flush = () => {
             if (pending()) {
-                invokeFunction(new Date().getTime());
+                invokeFunction(Date.now());
             }
             return lastResult;
         };
-        // tslint:disable-next-line:no-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let resultFunction = ((...args) => {
             lastArgs = args;
             return callback(true);
@@ -1221,7 +1098,6 @@ export class Async {
             if (!this._animationFrameIds) {
                 this._animationFrameIds = {};
             }
-            /* tslint:disable:ban-native-functions */
             let animationFrameCallback = () => {
                 try {
                     // Now delete the record and call the callback.
@@ -1237,7 +1113,6 @@ export class Async {
             animationFrameId = win.requestAnimationFrame
                 ? win.requestAnimationFrame(animationFrameCallback)
                 : win.setTimeout(animationFrameCallback, 0);
-            /* tslint:enable:ban-native-functions */
             this._animationFrameIds[animationFrameId] = true;
         }
         return animationFrameId;
@@ -1245,13 +1120,11 @@ export class Async {
     cancelAnimationFrame(id, targetElement) {
         const win = getWindow(targetElement);
         if (this._animationFrameIds && this._animationFrameIds[id]) {
-            /* tslint:disable:ban-native-functions */
             win.cancelAnimationFrame ? win.cancelAnimationFrame(id) : win.clearTimeout(id);
-            /* tslint:enable:ban-native-functions */
             delete this._animationFrameIds[id];
         }
     }
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     _logError(e) {
         if (this._onErrorHandler) {
             this._onErrorHandler(e);
@@ -1287,7 +1160,6 @@ export function filteredAssign(isAllowed, target, ...args) {
      */
 export class EventGroup {
     /** parent: the context in which events attached to non-HTMLElements are called */
-    // tslint:disable-next-line:no-any
     constructor(parent) {
         this._id = EventGroup._uniqueId++;
         this._parent = parent;
@@ -1299,11 +1171,7 @@ export class EventGroup {
      *  which may lead to unexpected behavior if it differs from the defaults.
      *
      */
-    static raise(
-    // tslint:disable-next-line:no-any
-    target, eventName, 
-    // tslint:disable-next-line:no-any
-    eventArgs, bubbleEvent) {
+    static raise(target, eventName, eventArgs, bubbleEvent) {
         let retVal;
         if (EventGroup._isElement(target)) {
             if (typeof document !== 'undefined' && document.createEvent) {
@@ -1311,17 +1179,17 @@ export class EventGroup {
                 ev.initEvent(eventName, bubbleEvent || false, true);
                 assign(ev, eventArgs);
                 retVal = target.dispatchEvent(ev);
-                // tslint:disable-next-line:no-any
             }
-            else if (typeof document !== 'undefined' && document['createEventObject']) {
+            else if (typeof document !== 'undefined' && document.createEventObject) {
                 // IE8
-                // tslint:disable-next-line:no-any
-                let evObj = document['createEventObject'](eventArgs);
+                let evObj = document.createEventObject(eventArgs);
                 // cannot set cancelBubble on evObj, fireEvent will overwrite it
                 target.fireEvent('on' + eventName, evObj);
             }
         }
         else {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore  -- FIXME: strictBindCallApply error - https://github.com/microsoft/fluentui/issues/17331
             while (target && retVal !== false) {
                 let events = target.__events__;
                 let eventRecords = events ? events[eventName] : null;
@@ -1329,6 +1197,8 @@ export class EventGroup {
                     for (let id in eventRecords) {
                         if (eventRecords.hasOwnProperty(id)) {
                             let eventRecordList = eventRecords[id];
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            // @ts-ignore  -- FIXME: strictBindCallApply error - https://github.com/microsoft/fluentui/issues/17331
                             for (let listIndex = 0; retVal !== false && listIndex < eventRecordList.length; listIndex++) {
                                 let record = eventRecordList[listIndex];
                                 if (record.objectCallback) {
@@ -1344,18 +1214,15 @@ export class EventGroup {
         }
         return retVal;
     }
-    // tslint:disable-next-line:no-any
     static isObserved(target, eventName) {
         let events = target && target.__events__;
         return !!events && !!events[eventName];
     }
     /** Check to see if the target has declared support of the given event. */
-    // tslint:disable-next-line:no-any
     static isDeclared(target, eventName) {
         let declaredEvents = target && target.__declaredEvents;
         return !!declaredEvents && !!declaredEvents[eventName];
     }
-    // tslint:disable-next-line:no-any
     static stopPropagation(event) {
         if (event.stopPropagation) {
             event.stopPropagation();
@@ -1376,7 +1243,6 @@ export class EventGroup {
         }
     }
     /** On the target, attach a set of events, where the events object is a name to function mapping. */
-    // tslint:disable-next-line:no-any
     onAll(target, events, useCapture) {
         for (let eventName in events) {
             if (events.hasOwnProperty(eventName)) {
@@ -1388,9 +1254,7 @@ export class EventGroup {
      * On the target, attach an event whose handler will be called in the context of the parent
      * of this instance of EventGroup.
      */
-    on(target, // tslint:disable-line:no-any
-    eventName, callback, // tslint:disable-line:no-any
-    options) {
+    on(target, eventName, callback, options) {
         if (eventName.indexOf(',') > -1) {
             let events = eventName.split(/[ ,]+/);
             for (let i = 0; i < events.length; i++) {
@@ -1417,7 +1281,6 @@ export class EventGroup {
             events[eventName][this._id].push(eventRecord);
             events[eventName].count++;
             if (EventGroup._isElement(target)) {
-                // tslint:disable-next-line:no-any
                 let processElementEvent = (...args) => {
                     if (this._isDisposed) {
                         return;
@@ -1425,6 +1288,8 @@ export class EventGroup {
                     let result;
                     try {
                         result = callback.apply(parent, args);
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore  -- FIXME: strictBindCallApply error - https://github.com/microsoft/fluentui/issues/17331
                         if (result === false && args[0]) {
                             let e = args[0];
                             if (e.preventDefault) {
@@ -1437,15 +1302,13 @@ export class EventGroup {
                         }
                     }
                     catch (e) {
-                        /* ErrorHelper.log(e); */
+                        // ignore
                     }
                     return result;
                 };
                 eventRecord.elementCallback = processElementEvent;
                 if (target.addEventListener) {
-                    /* tslint:disable:ban-native-functions */
                     target.addEventListener(eventName, processElementEvent, options);
-                    /* tslint:enable:ban-native-functions */
                 }
                 else if (target.attachEvent) {
                     // IE8
@@ -1453,7 +1316,6 @@ export class EventGroup {
                 }
             }
             else {
-                // tslint:disable-next-line:no-any
                 let processObjectEvent = (...args) => {
                     if (this._isDisposed) {
                         return;
@@ -1466,9 +1328,7 @@ export class EventGroup {
             this._eventRecords.push(eventRecord);
         }
     }
-    off(target, // tslint:disable-line:no-any
-    eventName, callback, // tslint:disable-line:no-any
-    options) {
+    off(target, eventName, callback, options) {
         for (let i = 0; i < this._eventRecords.length; i++) {
             let eventRecord = this._eventRecords[i];
             if ((!target || target === eventRecord.target) &&
@@ -1506,10 +1366,9 @@ export class EventGroup {
         }
     }
     /** Trigger the given event in the context of this instance of EventGroup. */
-    // tslint:disable-next-line:no-any
-    //public raise(eventName: string, eventArgs?: any, bubbleEvent?: boolean): boolean | undefined {
-    //    return EventGroup.raise(this._parent, eventName, eventArgs, bubbleEvent);
-    //}
+    raise(eventName, eventArgs, bubbleEvent) {
+        return EventGroup.raise(this._parent, eventName, eventArgs, bubbleEvent);
+    }
     /** Declare an event as being supported by this instance of EventGroup. */
     declare(event) {
         let declaredEvents = (this._parent.__declaredEvents = this._parent.__declaredEvents || {});

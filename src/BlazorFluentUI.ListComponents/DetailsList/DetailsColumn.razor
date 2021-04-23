@@ -3,7 +3,7 @@
 @typeparam TItem
 
 <div role="columnheader"
-     aria-sort=@(Column.IsSorted ? (Column.IsSortedDescending ? "descending" : "ascending"): "none")
+     aria-sort=@(Column!.IsSorted ? (Column.IsSortedDescending ? "descending" : "ascending"): "none")
      aria-colindex=@ColumnIndex
      class=@($"ms-DetailsColumn{(Column.ColumnActionsMode != ColumnActionsMode.Disabled ? " is-actionable" : "")}{(string.IsNullOrEmpty(Column.Name) ? " is-empty" : "")}{(Column.IsPadded ? " is-padded" : "")}{(Column.IsIconOnly ? " is-iconOnly" : "")}")
      data-is-draggable=@IsDraggable

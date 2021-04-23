@@ -114,12 +114,12 @@
 
     System.Collections.Generic.List<TabItem<GroupItem>> Items { get; set; } = new System.Collections.Generic.List<TabItem<GroupItem>>();
 
-    private List<NavBarItem> backstageItems;
+    private List<NavBarItem>? backstageItems;
 
     [Parameter] public bool ShowBackstage { get; set; }
     [Parameter] public EventCallback<bool> ShowBackstageChanged { get; set; }
 
-    System.Windows.Input.ICommand BackCommand { get; set; }
+    System.Windows.Input.ICommand? BackCommand { get; set; }
     void BackAction(object param)
     {
         ShowBackstage = false;
@@ -130,7 +130,7 @@
 
     protected override void OnInitialized()
     {
-        BackCommand = new RelayCommand(BackAction);
+        BackCommand = new RelayCommand(BackAction!);
 
         var undoRedoGroup = new GroupItem();
         undoRedoGroup.ItemsSource.Add(new ButtonViewModel() { Text = "Undo", IconName = "Undo" });

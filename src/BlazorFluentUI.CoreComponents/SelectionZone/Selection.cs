@@ -29,8 +29,8 @@ namespace BlazorFluentUI
             foreach (TItem? item in items)
             {
                 object? key = GetKey(item);
-
-                SetKeySelected(key, true, false);
+                if (key != null)
+                    SetKeySelected(key, true, false);
             }
             SetChangeEvents(true);
         }
@@ -38,15 +38,15 @@ namespace BlazorFluentUI
         private SelectionMode _selectionMode = SelectionMode.Single;
         public SelectionMode SelectionMode { get => _selectionMode;  set { if (_selectionMode != value) { _selectionMode = value; AdjustSelectionMode(); } } }
 
-        public Func<TItem, object> GetKey { get; set; }
+        public Func<TItem, object?>? GetKey { get; set; }
 
-        public Func<TItem, int?, bool> CanSelectItem { get; set; } = (item, index) => (index.HasValue && index.Value < 0) ? false : true;
+        public Func<TItem, int?, bool> CanSelectItem { get; set; } = (item, index) => !index.HasValue || index.Value >= 0;
 
         public int? Count { get; set; }
 
         private Subject<Unit> selectionChanged = new();
         public IObservable<Unit> SelectionChanged => selectionChanged.AsObservable();
-        public event EventHandler OnSelectionChanged;
+        public event EventHandler? OnSelectionChanged;
 
         private int _unselectableCount;
         private bool _isAllSelected;
@@ -54,14 +54,14 @@ namespace BlazorFluentUI
         private Dictionary<object, int> _keyToIndexMap = new();
         private Dictionary<int, object> _exemptedIndices = new();
         private Dictionary<int, TItem> _unselectableIndices = new();
-        private List<int> _selectedIndices = new();
+        private List<int>? _selectedIndices = new();
 
         private HashSet<object> _exemptedKeys = new();
-        private HashSet<object> _unselectableKeys = new();
-        private List<object> _selectedKeys = new();
+        //private HashSet<object> _unselectableKeys = new();
+        //private List<object> _selectedKeys = new();
 
         private int _changeEventSuppressionCount;
-        private List<TItem> _selectedItems = new();
+        private List<TItem>? _selectedItems = new();
 
 
         private bool _hasChanged;
@@ -100,7 +100,7 @@ namespace BlazorFluentUI
         public IList<TItem> GetItems()
         {
 
-            return _items != null ? _items : new List<TItem>();
+            return _items ?? new List<TItem>();
         }
 
         public void SetItems(IList<TItem> items, bool shouldClear = true)
@@ -118,7 +118,7 @@ namespace BlazorFluentUI
                 //unsubscribe
                 (_items as INotifyCollectionChanged)!.CollectionChanged += Selection_CollectionChanged;
             }
-            if (items != null && items != _items && items is INotifyCollectionChanged)
+            if (items != _items && items != null && items is INotifyCollectionChanged)
             {
                 //subscribe to observable list change (like sort order!)
                 (items as INotifyCollectionChanged)!.CollectionChanged += Selection_CollectionChanged;
@@ -126,31 +126,32 @@ namespace BlazorFluentUI
 
             _unselectableCount = 0;
             int index = 0;
-            foreach (TItem? item in items)
+            foreach (TItem? item in items!)
             {
-                object? key = GetKey(item);
+                object? key = GetKey!(item);
                 if (key != null)
                 {
                     newKeyToIndexMap.Add(key, index);
-                }
 
-                if (!CanSelectItem(item, null))
-                {
-                    newUnselectableIndices[index] = item;
-                    newUnselectableKeys.Add(key);
-                    _unselectableCount++;
+
+                    if (!CanSelectItem(item, null))
+                    {
+                        newUnselectableIndices[index] = item;
+                        newUnselectableKeys.Add(key);
+                        _unselectableCount++;
+                    }
                 }
 
                 index++;
             }
 
-            if (shouldClear || items.Count() == 0)
+            if (shouldClear || items.Count == 0)
             {
                 SetAllSelected(false, true);
             }
 
-            Dictionary<int, object>? newExemptedIndices = new();
-            HashSet<object>? newExemptedKeys = new();
+            Dictionary<int, object> newExemptedIndices = new();
+            HashSet<object> newExemptedKeys = new();
             int newExemptedCount = 0;
 
             foreach (KeyValuePair<int, object> i in _exemptedIndices)
@@ -158,7 +159,7 @@ namespace BlazorFluentUI
                 //skipping hasOwnProperty check
                 index = i.Key;
                 TItem? item = (index < _items!.Count && index >= 0) ? _items[index] : default;
-                object? exemptKey = item != null ? GetKey(item) : null;
+                object? exemptKey = item != null ? GetKey!(item) : null;
                 int newIndex = exemptKey != null ? (newKeyToIndexMap.ContainsKey(exemptKey) ? newKeyToIndexMap[exemptKey] : -1) : index;
 
                 if (newIndex == -1)
@@ -167,10 +168,13 @@ namespace BlazorFluentUI
                 }
                 else
                 {
-                    newExemptedIndices[newIndex] = exemptKey;
-                    newExemptedKeys.Add(exemptKey);
-                    newExemptedCount++;
-                    hasSelectionChanged = hasSelectionChanged || newIndex != index;
+                    if (exemptKey != null)
+                    {
+                        newExemptedIndices[newIndex] = exemptKey;
+                        newExemptedKeys.Add(exemptKey);
+                        newExemptedCount++;
+                        hasSelectionChanged = hasSelectionChanged || newIndex != index;
+                    }
                 }
             }
 
@@ -184,7 +188,7 @@ namespace BlazorFluentUI
             _exemptedCount = newExemptedCount;
             _keyToIndexMap = newKeyToIndexMap;
             _unselectableIndices = newUnselectableIndices;
-            _unselectableKeys = newUnselectableKeys;
+            //_unselectableKeys = newUnselectableKeys;
             _items = items;
             _selectedItems = null;
 
@@ -217,11 +221,11 @@ namespace BlazorFluentUI
 
                     _unselectableCount = 0;
                     int index = 0;
-                    foreach (TItem? item in _items)
+                    foreach (TItem item in _items!)
                     {
                         if (item != null)
                         {
-                            object? key = GetKey(item);
+                            object? key = GetKey!(item);
                             if (key != null)
                             {
                                 newKeyToIndexMap.Add(key, index);
@@ -268,7 +272,7 @@ namespace BlazorFluentUI
             if (isAllSelected && SelectionMode != SelectionMode.Multiple)
                 return;
 
-            int selectableCount = _items != null ? _items.Count() - _unselectableCount : 0;
+            int selectableCount = _items != null ? _items.Count - _unselectableCount : 0;
 
             SetChangeEvents(false);
 
@@ -360,7 +364,7 @@ namespace BlazorFluentUI
                 throw new Exception("_items was null");
 
             return _isAllSelected
-                ? _items.Count() - _exemptedCount - _unselectableCount
+                ? _items.Count - _exemptedCount - _unselectableCount
                 : _exemptedCount;
         }
 
@@ -468,10 +472,13 @@ namespace BlazorFluentUI
                 // Determine if we need to add the exemption.
                 if (!isExempt && ((isSelected && !_isAllSelected) || (!isSelected && _isAllSelected)))
                 {
-                    object? key = GetKey(_items[index]);
-                    _exemptedKeys.Add(key);
-                    _exemptedIndices[index] = key;
-                    _exemptedCount++;
+                    object? key = GetKey!(_items[index]);
+                    if (key != null)
+                    {
+                        _exemptedKeys.Add(key);
+                        _exemptedIndices[index] = key;
+                        _exemptedCount++;
+                    }
                 }
 
                 if (shouldAnchor)

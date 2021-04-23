@@ -35,10 +35,13 @@
     }
     @if (MenuItems != null && ContextMenuShown)
     {
+        if (ButtonBase == null)
+            ButtonBase = this;
 
         if (MenuItemTemplate != null)
         {
-            <ContextualMenu FabricComponentTarget=@this
+
+            <ContextualMenu FabricComponentTarget=@ButtonBase
                             ShouldFocusOnMount=@_menuShouldFocusOnMount
                             OnDismiss=@(isDismissed => {
 
@@ -53,7 +56,7 @@
         }
         else
         {
-            <ContextualMenu FabricComponentTarget=@this
+            <ContextualMenu FabricComponentTarget=@ButtonBase
                             ShouldFocusOnMount=@_menuShouldFocusOnMount
                             OnDismiss=@(isDismissed => {
 
@@ -71,6 +74,7 @@
 @code {
     bool _menuShouldFocusOnMount = true;
 
+    [Parameter] public FluentUIComponentBase? ButtonBase { get; set; }
     [Parameter] public bool ContextMenuShown { get; set; }
     [Parameter] public EventCallback<bool> ContextMenuShownChanged { get; set; }
 }

@@ -35,7 +35,7 @@ namespace BlazorFluentUI
         [Parameter]
         public ImageFit ImageFit { get; set; } = ImageFit.Unset;
 
-        public static Dictionary<string, string> GlobalClassNames = new()
+        private static Dictionary<string, string> GlobalClassNames = new()
         {
             {"root", "root"},
             {"centeredIcon", "centeredIcon"},
@@ -83,12 +83,12 @@ namespace BlazorFluentUI
         {
             RootRule.Properties = new CssString()
             {
-                Css = $"border-bottom: 1px solid {Theme.Palette.NeutralLight};" +
+                Css = $"border-bottom: 1px solid {Theme?.Palette.NeutralLight};" +
                     $"position: relative;" +
-                    $"background-color: {Theme.Palette.NeutralLighterAlt};" +
+                    $"background-color: {Theme?.Palette.NeutralLighterAlt};" +
                     $"overflow:hidden;" +
-                    $"{(Height != double.NaN ? $"height:{Height}px;" : "")}" +
-                    $"{(Width != double.NaN ? $"width:{Width}px;" : "")}"
+                    $"{(!double.IsNaN(Height) ? $"height:{Height}px;" : "")}" +
+                    $"{(!double.IsNaN(Width) ? $"width:{Width}px;" : "")}"
             };
 
             CenteredIconRule.Properties = new CssString()

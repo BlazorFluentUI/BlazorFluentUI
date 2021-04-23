@@ -16,13 +16,13 @@ namespace BlazorFluentUI.Lists
         //private SelectionZone<TItem> SelectionZone { get; set; }
 
         [Parameter]
-        public string AriaLabelForSelectAllCheckbox { get; set; }
+        public string? AriaLabelForSelectAllCheckbox { get; set; }
 
         [Parameter]
-        public string AriaLabelForSelectionColumn { get; set; }
+        public string? AriaLabelForSelectionColumn { get; set; }
 
         [Parameter]
-        public string AriaLabelForToggleAllGroup { get; set; }
+        public string? AriaLabelForToggleAllGroup { get; set; }
 
         [Parameter]
         public CheckboxVisibility CheckboxVisibility { get; set; }
@@ -31,19 +31,19 @@ namespace BlazorFluentUI.Lists
         public CollapseAllVisibility CollapseAllVisibility { get; set; }
 
         [Parameter]
-        public RenderFragment<object> ColumnHeaderTooltipTemplate { get; set; }
+        public RenderFragment<object>? ColumnHeaderTooltipTemplate { get; set; }
 
         [Parameter]
-        public object ColumnReorderOptions { get; set; }
+        public object? ColumnReorderOptions { get; set; }
 
         [Parameter]
-        public object ColumnReorderProps { get; set; }
+        public object? ColumnReorderProps { get; set; }
 
         [Parameter]
-        public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
+        public IEnumerable<DetailsRowColumn<TItem>>? Columns { get; set; }
 
         [Parameter]
-        public RenderFragment DetailsCheckboxTemplate { get; set; }
+        public RenderFragment? DetailsCheckboxTemplate { get; set; }
 
         [Parameter]
         public int GroupNestingDepth { get; set; }
@@ -86,13 +86,13 @@ namespace BlazorFluentUI.Lists
         public SelectAllVisibility SelectAllVisibility { get; set; } = SelectAllVisibility.Visible;
 
         [Parameter]
-        public Selection<TItem> Selection { get; set; }
+        public Selection<TItem>? Selection { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; }
 
         [Parameter]
-        public string TooltipHostClassName { get; set; }
+        public string? TooltipHostClassName { get; set; }
 
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
@@ -105,13 +105,13 @@ namespace BlazorFluentUI.Lists
         private bool isCheckboxHidden;
         private bool isCheckboxAlwaysVisible;
         private int frozenColumnCountFromStart;
-        private int frozenColumnCountFromEnd;
+        //private int frozenColumnCountFromEnd;
 
-        private string id;
-        private object dragDropHelper;
+        private string? id;
+        //private object? dragDropHelper;
         private (int SourceIndex, int TargetIndex) onDropIndexInfo;
-        private int currentDropHintIndex;
-        private int draggedColumnIndex = -1;
+        //private int currentDropHintIndex;
+        //private int draggedColumnIndex = -1;
 
         private bool isResizingColumn;
 
@@ -119,20 +119,20 @@ namespace BlazorFluentUI.Lists
 
         //state
         //private bool isAllSelected;
-        private bool isAllCollapsed;
+        //private bool isAllCollapsed;
         private bool isSizing;
         private int resizeColumnIndex;
         private double resizeColumnMinWidth;
         private double resizeColumnOriginX;
 
-        private DotNetObjectReference<DetailsHeader<TItem>>? dotNetRef;
-        private ElementReference cellSizer;
+        private DotNetObjectReference<DetailsHeader<TItem>>? selfReference;
+        //private ElementReference cellSizer;
 
         protected override Task OnInitializedAsync()
         {
             id = "G" + Guid.NewGuid().ToString();
             onDropIndexInfo = (-1, -1);
-            currentDropHintIndex = -1;
+            //currentDropHintIndex = -1;
 
             return base.OnInitializedAsync();
         }
@@ -164,8 +164,8 @@ namespace BlazorFluentUI.Lists
 
             if (firstRender)
             {
-                dotNetRef = DotNetObjectReference.Create(this);
-                await scriptModule!.InvokeVoidAsync("registerDetailsHeader", dotNetRef, RootElementReference);
+                selfReference = DotNetObjectReference.Create(this);
+                await scriptModule!.InvokeVoidAsync("registerDetailsHeader", selfReference, RootElementReference);
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -176,7 +176,7 @@ namespace BlazorFluentUI.Lists
             isSizing = true;
             resizeColumnIndex = columnIndex; //columnIndex - (showCheckbox ? 2 : 1);
             resizeColumnOriginX = originX;
-            resizeColumnMinWidth = Columns.ElementAt(resizeColumnIndex).CalculatedWidth;
+            resizeColumnMinWidth = Columns!.ElementAt(resizeColumnIndex).CalculatedWidth;
             InvokeAsync(StateHasChanged);
         }
 
@@ -184,7 +184,7 @@ namespace BlazorFluentUI.Lists
         public void OnDoubleClick(int columnIndex)
         {
             //System.Diagnostics.Debug.WriteLine("DoubleClick happened.");
-            OnColumnAutoResized.InvokeAsync(new ItemContainer<DetailsRowColumn<TItem>> { Item = Columns.ElementAt(columnIndex), Index = columnIndex });
+            OnColumnAutoResized.InvokeAsync(new ItemContainer<DetailsRowColumn<TItem>> { Item = Columns!.ElementAt(columnIndex), Index = columnIndex });
         }
 
         private void OnSelectAllClicked(MouseEventArgs mouseEventArgs)
@@ -219,9 +219,9 @@ namespace BlazorFluentUI.Lists
                 double movement = mouseEventArgs.ClientX - resizeColumnOriginX;
                 //skipping RTL check
                 double calculatedWidth = resizeColumnMinWidth + movement;
-                double currentColumnMinWidth = Columns.ElementAt(resizeColumnIndex).MinWidth;
+                double currentColumnMinWidth = Columns!.ElementAt(resizeColumnIndex).MinWidth;
                 double constrictedCalculatedWidth = Math.Max((currentColumnMinWidth < 0 || double.IsNaN(currentColumnMinWidth) ? MIN_COLUMN_WIDTH : currentColumnMinWidth), calculatedWidth);
-                OnColumnResized.InvokeAsync(new ColumnResizedArgs<TItem>(Columns.ElementAt(resizeColumnIndex), resizeColumnIndex, constrictedCalculatedWidth));
+                OnColumnResized.InvokeAsync(new ColumnResizedArgs<TItem>(Columns!.ElementAt(resizeColumnIndex), resizeColumnIndex, constrictedCalculatedWidth));
 
             }
 
@@ -236,14 +236,15 @@ namespace BlazorFluentUI.Lists
 
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
-            if (dotNetRef != null)
+            if (selfReference != null)
             {
-                await scriptModule!.InvokeVoidAsync("unregisterDetailsHeader", dotNetRef);
-                dotNetRef?.Dispose();
+                await scriptModule!.InvokeVoidAsync("unregisterDetailsHeader", selfReference);
+                selfReference?.Dispose();
             }
-            GC.SuppressFinalize(this);
+            if (scriptModule != null)
+                await scriptModule.DisposeAsync();
         }
     }
 }

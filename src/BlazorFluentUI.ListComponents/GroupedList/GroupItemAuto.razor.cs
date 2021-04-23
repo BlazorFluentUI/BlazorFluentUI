@@ -21,7 +21,7 @@ namespace BlazorFluentUI.Lists
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        private List<IGroupedListItem3<TItem>> listReference;
+        private List<IGroupedListItem3<TItem>>? listReference;
 
         //private ReadOnlyObservableCollection<IGroupedListItem3> dataItems;
 
@@ -37,11 +37,11 @@ namespace BlazorFluentUI.Lists
         //private TItem _rootGroup;
         //private IEnumerable<TItem> _itemsSource;
 
-        private IDisposable _selectionSubscription;
-        private IDisposable _transformedDisposable;
+        //private IDisposable? _selectionSubscription;
+        //private IDisposable? _transformedDisposable;
 
         [CascadingParameter]
-        public SelectionZone<TItem> SelectionZone { get; set; }
+        public SelectionZone<TItem>? SelectionZone { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
@@ -50,7 +50,7 @@ namespace BlazorFluentUI.Lists
         /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.  
         /// </summary>
         [Parameter]
-        public Func<TItem, TKey> GetKey { get; set; }
+        public Func<TItem, TKey>? GetKey { get; set; }
 
         //[Parameter]
         //public IList<Func<TItem, object>>? GroupBy { get; set; }
@@ -77,10 +77,10 @@ namespace BlazorFluentUI.Lists
         public EventCallback<bool> OnGroupExpandedChanged { get; set; }
 
         [Parameter]
-        public Action<IndexedItem<IGroupedListItem3<TItem>>> OnHeaderClick { get; set; }
+        public Action<IndexedItem<IGroupedListItem3<TItem>>>? OnHeaderClick { get; set; }
 
         [Parameter]
-        public Action<IndexedItem<IGroupedListItem3<TItem>>> OnHeaderToggle { get; set; }
+        public Action<IndexedItem<IGroupedListItem3<TItem>>>? OnHeaderToggle { get; set; }
 
         [Parameter]
         public Func<bool> OnShouldVirtualize { get; set; } = () => true;
@@ -89,7 +89,7 @@ namespace BlazorFluentUI.Lists
         public EventCallback<Viewport> OnViewportChanged { get; set; }
 
         [Parameter]
-        public Selection<TItem> Selection { get; set; }
+        public Selection<TItem>? Selection { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; } = SelectionMode.Single;
@@ -103,13 +103,15 @@ namespace BlazorFluentUI.Lists
         [Parameter]
         public int StartIndex { get; set; }
 
-        
-        private Func<TItem, object> getKeyInternal;
-        private IDisposable sourceCacheSubscription;
-        private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> groupedUIListItems;
+
+        //private Func<TItem, object> getKeyInternal;
+        //private IDisposable sourceCacheSubscription;
+        //private ReadOnlyObservableCollection<IGroupedListItem3<TItem>> groupedUIListItems;
 
 
+#pragma warning disable CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
         Dictionary<HeaderItem3<TItem, TKey>, IDisposable> headerSubscriptions = new();
+#pragma warning restore CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
 
         //private IList<bool>? _sortDescending;
         //private IList<Func<TItem, object>>? _sortBy;
@@ -352,15 +354,17 @@ namespace BlazorFluentUI.Lists
 
 
 
-        public ValueTask DisposeAsync()
+        public override ValueTask DisposeAsync()
         {
+#pragma warning disable CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
             foreach (KeyValuePair<HeaderItem3<TItem, TKey>, IDisposable> header in headerSubscriptions)
+#pragma warning restore CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
             {
                 header.Value.Dispose();
             }
 
-            _transformedDisposable?.Dispose();
-            _selectionSubscription?.Dispose();
+            //_transformedDisposable?.Dispose();
+            //_selectionSubscription?.Dispose();
 
             return ValueTask.CompletedTask;
         }

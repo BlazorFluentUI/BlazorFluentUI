@@ -15,7 +15,7 @@ namespace BlazorFluentUI
 
         public ITheme Theme { get => _theme; }
 
-        public event EventHandler<ThemeChangedArgs> ThemeChanged;
+        public event EventHandler<ThemeChangedArgs>? ThemeChanged;
 
         public ThemeProvider()
         {
@@ -51,7 +51,7 @@ namespace BlazorFluentUI
             //        prop.SetValue(_theme.SemanticColors, prop.GetValue(semanticColorOverrides));
             //    }
             //}
-            semanticColorOverrides.CopyTo(_theme.SemanticColors);
+            semanticColorOverrides.CopyTo(_theme.SemanticColors!);
             //foreach (var prop in typeof(ISemanticTextColors).GetProperties())
             //{
             //    if (prop.GetValue(semanticTextColorOverrides) != null)
@@ -59,7 +59,7 @@ namespace BlazorFluentUI
             //        prop.SetValue(_theme.SemanticTextColors, prop.GetValue(semanticTextColorOverrides));
             //    }
             //}
-            semanticTextColorOverrides.CopyTo(_theme.SemanticTextColors);
+            semanticTextColorOverrides.CopyTo(_theme.SemanticTextColors!);
 
             foreach (Theme? comp in ThemeComponents)
             {
@@ -68,7 +68,7 @@ namespace BlazorFluentUI
             ThemeChanged?.Invoke(this, new ThemeChangedArgs(_theme));
         }
 
-        private ITheme CreateTheme(IPalette palette = null)
+        private static ITheme CreateTheme(IPalette? palette = null)
         {
             Theme? theme = new();
             theme.Palette = palette ?? new DefaultPalette();

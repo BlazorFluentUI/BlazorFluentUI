@@ -5,65 +5,69 @@
 @if (ChildContent == null)
 {
     <ButtonBase Href=@Href
-                   ClassName=@ClassName
-                   Style=@Style
-                   Primary=@true
-                   Disabled=@Disabled
-                   AllowDisabledFocus=@AllowDisabledFocus
-                   PrimaryDisabled=@PrimaryDisabled
-                   Checked=@Checked
-                   AriaDescripton=@AriaDescripton
-                   Text=@Text
-                   SecondaryText=@SecondaryText
-                   Toggle=@Toggle
-                   Split=@Split
-                   IconName=@IconName
-                   IconSrc=@IconSrc
-                   HideChevron=@HideChevron
-                   MenuItems=@MenuItems
-                   CheckedChanged=@CheckedChanged
-                   OnClick=@OnClick
-                   OnKeyDown=@OnKeyDown
-                   Command=@Command
-                   CommandParameter=@CommandParameter
-                   UnknownProperties=@UnknownProperties
-                   IsRadioButton=@IsRadioButton
-                   GroupName=@GroupName
-                   @ref="baseReference" />
+                ClassName=@ClassName
+                Style=@Style
+                Primary=@true
+                Disabled=@Disabled
+                AllowDisabledFocus=@AllowDisabledFocus
+                PrimaryDisabled=@PrimaryDisabled
+                Checked=@Checked
+                AriaDescripton=@AriaDescripton
+                AriaLabel=@AriaLabel
+                SplitButtonAriaLabel=@SplitButtonAriaLabel
+                Text=@Text
+                SecondaryText=@SecondaryText
+                Toggle=@Toggle
+                Split=@Split
+                IconName=@IconName
+                IconSrc=@IconSrc
+                HideChevron=@HideChevron
+                MenuItems=@MenuItems
+                CheckedChanged=@CheckedChanged
+                OnClick=@OnClick
+                OnKeyDown=@OnKeyDown
+                Command=@Command
+                CommandParameter=@CommandParameter
+                UnknownProperties=@UnknownProperties
+                IsRadioButton=@IsRadioButton
+                GroupName=@GroupName
+                @ref="baseReference" />
 }
 else
 {
     <ButtonBase Href=@Href
-                   ClassName=@ClassName
-                   Style=@Style
-                   Primary=@true
-                   Disabled=@Disabled
-                   AllowDisabledFocus=@AllowDisabledFocus
-                   PrimaryDisabled=@PrimaryDisabled
-                   Checked=@Checked
-                   AriaDescripton=@AriaDescripton
-                   Text=@Text
-                   ContentTemplate=@ChildContent
-                   SecondaryText=@SecondaryText
-                   Toggle=@Toggle
-                   Split=@Split
-                   IconName=@IconName
-                   IconSrc=@IconSrc
-                   HideChevron=@HideChevron
-                   MenuItems=@MenuItems
-                   CheckedChanged=@CheckedChanged
-                   OnClick=@OnClick
-                   OnKeyDown=@OnKeyDown
-                   Command=@Command
-                   CommandParameter=@CommandParameter
-                   UnknownProperties=@UnknownProperties
-                   IsRadioButton=@IsRadioButton
-                   GroupName=@GroupName
-                   @ref="baseReference" />
+                ClassName=@ClassName
+                Style=@Style
+                Primary=@true
+                Disabled=@Disabled
+                AllowDisabledFocus=@AllowDisabledFocus
+                PrimaryDisabled=@PrimaryDisabled
+                Checked=@Checked
+                AriaDescripton=@AriaDescripton
+                AriaLabel=@AriaLabel
+                SplitButtonAriaLabel=@SplitButtonAriaLabel
+                Text=@Text
+                ContentTemplate=@ChildContent
+                SecondaryText=@SecondaryText
+                Toggle=@Toggle
+                Split=@Split
+                IconName=@IconName
+                IconSrc=@IconSrc
+                HideChevron=@HideChevron
+                MenuItems=@MenuItems
+                CheckedChanged=@CheckedChanged
+                OnClick=@OnClick
+                OnKeyDown=@OnKeyDown
+                Command=@Command
+                CommandParameter=@CommandParameter
+                UnknownProperties=@UnknownProperties
+                IsRadioButton=@IsRadioButton
+                GroupName=@GroupName
+                @ref="baseReference" />
 }
 
 @code{
-    private ButtonBase baseReference;
+    private ButtonBase baseReference = new ButtonBase();
     protected override void OnAfterRender(bool firstRender)
     {
         RootElementReference = baseReference.RootElementReference;

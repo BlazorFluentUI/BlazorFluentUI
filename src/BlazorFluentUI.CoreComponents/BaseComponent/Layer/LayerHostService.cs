@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
@@ -38,9 +35,9 @@ namespace BlazorFluentUI
             }
         }
 
-        public LayerHost GetHost(string id)
+        public LayerHost? GetHost(string id)
         {
-            LayerHost host = null;
+            LayerHost? host = null;
             if (hosts.ContainsKey(id))
                 host = hosts[id];
 
@@ -49,15 +46,16 @@ namespace BlazorFluentUI
 
         public IObservable<LayerHost> GetHostObs(string id)
         {
-            BehaviorSubject<LayerHost> subject;
+            BehaviorSubject<LayerHost>? subject;
             if (hostSubjects.ContainsKey(id))
                 subject = hostSubjects[id];
             else
             {
-                LayerHost host = null;
+                LayerHost? host = null;
                 if (hosts.ContainsKey(id))
                     host = hosts[id];
-                subject = new BehaviorSubject<LayerHost>(host);
+
+                subject = new BehaviorSubject<LayerHost>(host!);
                 hostSubjects.Add(id, subject);
             }
             return subject.AsObservable();
@@ -81,7 +79,7 @@ namespace BlazorFluentUI
             }
         }
 
-        public LayerHost GetDefaultHost()
+        public LayerHost? GetDefaultHost()
         {
             //if (rootHost == null)
                 //throw new Exception("You need to add a LayerHost somewhere after your Router root component.");

@@ -219,8 +219,8 @@
 @code{
 
     private string overrideSelectedKey = "0";
-    private string separateSelectedKey;
-    private string PivotItemKey;
+    private string? separateSelectedKey;
+    private string? PivotItemKey;
 
     private void RotateSelection()
     {
@@ -229,7 +229,7 @@
 
     private void OnLinkClick(PivotItem item, MouseEventArgs ev)
     {
-        PivotItemKey = item.HeaderText;
+        PivotItemKey = item.HeaderText!;
         StateHasChanged();
 
     }

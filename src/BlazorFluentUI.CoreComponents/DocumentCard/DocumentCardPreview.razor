@@ -4,13 +4,13 @@
 
 <LocalCS @bind-Rules="@DocumentCardDetailsLocalRules" />
 
-<div class=@($"{RootRule.Selector.SelectorName} {ClassName}") @ref=RootElementReference style=@Style>
+<div class=@($"{RootRule.Selector?.SelectorName} {ClassName}") @ref=RootElementReference style=@Style>
     @if (!IsFileList && PreviewImages != null)
     {
 
         @if (PreviewImages[0].PreviewIconProps != null)
         {
-            <div class="@PreviewIconRule.Selector.SelectorName" style="@($"width:{PreviewImages[0].Width}px; height:{PreviewImages[0].Height}px; {PreviewImages[0].Styles}")">
+            <div class="@PreviewIconRule.Selector?.SelectorName" style="@($"width:{PreviewImages[0].Width}px; height:{PreviewImages[0].Height}px; {PreviewImages[0].Styles}")">
                 <Icon IconName="@PreviewImages[0].PreviewIconProps?.IconName" IconSrc="@PreviewImages[0].PreviewIconProps?.IconSrc" Style="@PreviewImages[0].PreviewIconProps?.Styles"></Icon>
             </div>
         }
@@ -23,7 +23,7 @@
                 </Image>
                 @if (!string.IsNullOrWhiteSpace(PreviewImages[0].IconSrc))
                 {
-                    <Image ClassName="@IconRule.Selector.SelectorName" Width="32" Height="32" Src="@PreviewImages[0].IconSrc" AriaRoleDescription="presentation" Alt=""
+                    <Image ClassName="@IconRule.Selector?.SelectorName" Width="32" Height="32" Src="@PreviewImages[0].IconSrc" AriaRoleDescription="presentation" Alt=""
                               Style="@($"{PreviewImages[0].Styles}")">
 
                     </Image>
@@ -35,21 +35,21 @@
     else if (PreviewImages?.Length > 1)
     {
         <div>
-            <ul class="@FileListRule.Selector.SelectorName">
+            <ul class="@FileListRule.Selector?.SelectorName">
                 @foreach (var item in PreviewImages.Take(LIST_ITEM_COUNT))
                 {
                     <li>
-                        <Image ClassName="@FileListIconRule.Selector.SelectorName" Width="16" Height="16" Src="@PreviewImages[0].IconSrc" AriaRoleDescription="presentation" Alt=""
+                        <Image ClassName="@FileListIconRule.Selector?.SelectorName" Width="16" Height="16" Src="@PreviewImages[0].IconSrc" AriaRoleDescription="presentation" Alt=""
                                   Style="@($"{item.Styles}")">
 
                         </Image>
-                        <BlazorFluentUI.Link Href="@item.LinkProperties?.Href" Target="@item.LinkProperties?.Target" ClassName="@FileListLinkRule.Selector.SelectorName">@item.Name</BlazorFluentUI.Link>
+                        <BlazorFluentUI.Link Href="@item.LinkProperties?.Href" Target="@item.LinkProperties?.Target" ClassName="@FileListLinkRule.Selector?.SelectorName">@item.Name</BlazorFluentUI.Link>
                     </li>
                 }
             </ul>
             @if (OverflowDocumentCount > 0)
             {
-                <span class="@FileListOverflowTextRule.Selector.SelectorName">@GetOverflowDocumentCountText(OverflowDocumentCount)</span>
+                <span class="@FileListOverflowTextRule.Selector?.SelectorName">@GetOverflowDocumentCountText(OverflowDocumentCount)</span>
             }
         </div>
     }

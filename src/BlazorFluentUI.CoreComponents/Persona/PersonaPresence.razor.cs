@@ -11,12 +11,12 @@ namespace BlazorFluentUI
         [Parameter] public int CoinSize { get; set; }
         [Parameter] public bool IsOutOfOffice { get; set; }
         [Parameter] public PersonaPresenceStatus Presence { get; set; }
-        [Parameter] public string PresenceTitle { get; set; }  //tooltip on hover
-        [Parameter] public string Size { get; set; }
+        [Parameter] public string? PresenceTitle { get; set; }  //tooltip on hover
+        [Parameter] public string? Size { get; set; }
 
         protected bool RenderIcon;
-        private string _presenceHeightWidth;
-        private string _presenceFontSize;
+        private string? _presenceHeightWidth;
+        private string? _presenceFontSize;
 
         private const int coinSizeFontScaleFactor = 6;
         private const int coinSizePresenceScaleFactor = 3;
@@ -51,7 +51,7 @@ namespace BlazorFluentUI
                     : presenceFontMaxSize + "px";
             }
 
-            RenderIcon = !(Size == PersonaSize.Size8 || Size == PersonaSize.Size24 || Size == PersonaSize.Size32) && (CoinSize != -1 ? CoinSize > 32 : true);
+            RenderIcon = !(Size == PersonaSize.Size8 || Size == PersonaSize.Size24 || Size == PersonaSize.Size32) && (CoinSize == -1 || CoinSize > 32);
 
             SetStyle();
 
@@ -89,20 +89,14 @@ namespace BlazorFluentUI
                 return "";
             string? oofIcon = "SkypeArrow";
 
-            switch (presence)
+            return presence switch
             {
-                case PersonaPresenceStatus.Online:
-                    return "SkypeCheck";
-                case PersonaPresenceStatus.Away:
-                    return isOutofOffice ? oofIcon : "SkypeClock";
-                case PersonaPresenceStatus.DND:
-                    return "SkypeMinus";
-                case PersonaPresenceStatus.Offline:
-                    return isOutofOffice ? oofIcon : "";
-                default:
-                    return "";
-            }
-
+                PersonaPresenceStatus.Online => "SkypeCheck",
+                PersonaPresenceStatus.Away => isOutofOffice ? oofIcon : "SkypeClock",
+                PersonaPresenceStatus.DND => "SkypeMinus",
+                PersonaPresenceStatus.Offline => isOutofOffice ? oofIcon : "",
+                _ => "",
+            };
         }
 
 
@@ -139,13 +133,13 @@ namespace BlazorFluentUI
                 };
             }
 
-            string pRight = null;
-            string pTop = null;
-            string pLeft = null;
-            string pBorder = null;
-            string pHeight = null;
-            string pWidth = null;
-            string pBackgroundColor = null;
+            string? pRight = null;
+            string? pTop = null;
+            string? pLeft = null;
+            string? pBorder = null;
+            string? pHeight = null;
+            string? pWidth = null;
+            string? pBackgroundColor = null;
 
             string bpBorderColor = PresenceColor.Busy;
 
@@ -249,7 +243,7 @@ namespace BlazorFluentUI
 
             if (isOpenCirclePresence || Presence == PersonaPresenceStatus.Blocked)
             {
-                pBackgroundColor = Theme.SemanticColors.BodyBackground;
+                pBackgroundColor = Theme?.SemanticColors.BodyBackground;
 
                 PresenceBeforeRule.Properties = new CssString
                 {
@@ -276,12 +270,12 @@ namespace BlazorFluentUI
                       (pBackgroundColor != null ? $"background-color:{pBackgroundColor};" : "")
             };
 
-            string iPosition = null;
-            string iFontSize = null;
-            string iLineHeight = null;
-            string iLeft = null;
-            string iColor = null;
-            string iBorderColor = null;
+            string? iPosition = null;
+            string? iFontSize = null;
+            string? iLineHeight = null;
+            string? iLeft = null;
+            string? iColor = null;
+            string? iBorderColor = null;
 
             switch (Size)
             {
@@ -290,15 +284,15 @@ namespace BlazorFluentUI
                     iLineHeight = PersonaPresenceSize.Size16;
                     break;
                 case PersonaSize.Size72:
-                    iFontSize = Theme.FontStyle.FontSize.Small;
+                    iFontSize = Theme?.FontStyle.FontSize.Small;
                     iLineHeight = PersonaPresenceSize.Size20;
                     break;
                 case PersonaSize.Size100:
-                    iFontSize = Theme.FontStyle.FontSize.Medium;
+                    iFontSize = Theme?.FontStyle.FontSize.Medium;
                     iLineHeight = PersonaPresenceSize.Size28;
                     break;
                 case PersonaSize.Size120:
-                    iFontSize = Theme.FontStyle.FontSize.Medium;
+                    iFontSize = Theme?.FontStyle.FontSize.Medium;
                     iLineHeight = PersonaPresenceSize.Size32;
                     break;
             }

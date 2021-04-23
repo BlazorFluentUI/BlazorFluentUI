@@ -24,16 +24,18 @@
     <div>
         <div class="subSection">
             <Demo Header="Basic DatePicker" Key="1" MetadataPath="DatePickerPage">
-                <DatePicker AllowTextInput="false"
-                            Style="max-width:300px; margin:0 0 15px 0;"
-                            @bind-Value="selectedDate1"
-                            Placeholder="Select a date..."
-                            FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeekOption?.Key)) />
                 <Dropdown ItemsSource=@DaysOfWeek.Select(x=>new DropdownOption {Key=x.ToString(), Text=System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(x) })
                           Style="max-width:300px; margin:0 0 15px 0;"
                           Placeholder="Select an option"
                           @bind-SelectedOption=@selectedDayOfWeekOption
                           Label="Select the first day of the week" />
+                <DatePicker AllowTextInput="false"
+                            Style="max-width:300px; margin:0 0 15px 0;"
+                            @bind-Value="selectedDate1"
+                            Placeholder="Select a date..."
+                            FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeekOption?.Key!)) />
+                Selected date: @selectedDate1
+
             </Demo>
         </div>
         <div class="subSection">
@@ -43,6 +45,7 @@
                             IsRequired="true"
                             @bind-Value="selectedDate2"
                             Placeholder="Select a date..." />
+                <br />Selected date: @selectedDate2
             </Demo>
         </div>
         <div class="subSection">
@@ -58,6 +61,7 @@
                             Label="Disabled (with Label)"
                             @bind-Value="selectedDate2"
                             Placeholder="Select a date..." />
+                <br />Selected date: @selectedDate2
             </Demo>
         </div>
         <div class="subSection">
@@ -71,6 +75,7 @@
                             Label="DatePicker with string date input"
                             @bind-Value="selectedDate3"
                             Placeholder="Select a date..." />
+                <br />Selected date: @selectedDate3
             </Demo>
         </div>
         <div class="subSection">
@@ -94,6 +99,7 @@
                             FormatDate=@((date) => date.ToString()) />
 
                 <DefaultButton Text="Set date to null" @onclick=@(args => selectedDate4 = null) />
+                <br />Selected date: @selectedDate4
             </Demo>
         </div>
     </div>
@@ -118,7 +124,7 @@
             ErrorMessage = "Only Mondays are allowed.";
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (value is DateTime)
             {
@@ -140,10 +146,7 @@
 
     public void HandleValidSubmit()
     {
-        var i = 3;
+        //var i = 3;
     }
-
-
-
 }
 

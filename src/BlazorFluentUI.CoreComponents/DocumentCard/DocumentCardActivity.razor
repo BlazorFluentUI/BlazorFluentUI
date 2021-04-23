@@ -17,7 +17,7 @@
             }
         </div>
     }
-    <div class=@($"{GlobalClassNames["details"]} {DetailsRule.Selector.SelectorName}")>
+    <div class=@($"{GlobalClassNames["details"]} {DetailsRule.Selector?.SelectorName}")>
         <span class="@GlobalClassNames["name"]">@GetNameString()</span>
         <span class="@GlobalClassNames["activity"]">@Activity</span>
     </div>

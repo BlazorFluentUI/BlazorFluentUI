@@ -18,27 +18,27 @@ namespace BlazorFluentUI
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
         private IJSObjectReference? baseModule;
 
-        private const string PanelPath = "./_content/BlazorFluentUI.CoreComponents/panel.js";
-        private IJSObjectReference? panelModule;
+        private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/panel.js";
+        private IJSObjectReference? scriptModule;
 
 
         [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        public RenderFragment? ChildContent { get; set; }
 
         [Parameter]
-        public string CloseButtonAriaLabel { get; set; }
+        public string? CloseButtonAriaLabel { get; set; }
 
         [Parameter]
-        public string CustomWidth { get; set; }
+        public string? CustomWidth { get; set; }
 
         [Parameter]
         public ElementReference ElementToFocusOnDismiss { get; set; }
 
         [Parameter]
-        public string FirstFocusableSelector { get; set; }
+        public string? FirstFocusableSelector { get; set; }
 
         [Parameter]
-        public RenderFragment FooterTemplate { get; set; }
+        public RenderFragment? FooterTemplate { get; set; }
 
         [Parameter]
         public bool ForceFocusInsideTrap { get; set; }
@@ -47,13 +47,13 @@ namespace BlazorFluentUI
         public bool HasCloseButton { get; set; } = true;
 
         [Parameter]
-        public string HeaderClassName { get; set; }
+        public string? HeaderClassName { get; set; }
 
         [Parameter]
-        public RenderFragment HeaderTemplate { get; set; }
+        public RenderFragment? HeaderTemplate { get; set; }
 
         [Parameter]
-        public string HeaderText { get; set; }
+        public string? HeaderText { get; set; }
 
         [Parameter]
         public string? HostId { get; set; }
@@ -74,10 +74,10 @@ namespace BlazorFluentUI
         public bool IsOpen { get; set; }
 
         [Parameter]
-        public RenderFragment NavigationTemplate { get; set; }
+        public RenderFragment? NavigationTemplate { get; set; }
 
         [Parameter]
-        public RenderFragment NavigationContentTemplate { get; set; }
+        public RenderFragment? NavigationContentTemplate { get; set; }
 
         [Parameter]
         public EventCallback OnDismiss { get; set; }
@@ -103,32 +103,33 @@ namespace BlazorFluentUI
         private bool isAnimating = false;
         private bool animationRenderStart = false;
 
-        private EventCallback ThrowawayCallback;
+        private readonly EventCallback ThrowawayCallback;
 
         private PanelVisibilityState previousVisibility = PanelVisibilityState.Closed;
         private PanelVisibilityState currentVisibility = PanelVisibilityState.Closed;
         private bool isFooterSticky = false;
 
-        private Action onPanelClick;
-        private Action _dismiss;
+        private Action? onPanelClick;
+        private Action? _dismiss;
         private List<int> _scrollerEventId = new();
         private int _resizeId = -1;
         private int _mouseDownId = -1;
 
-        private Timer _animationTimer;
-        private Action _clearExistingAnimationTimer;
-        private Action<PanelVisibilityState> _animateTo;
-        private Action _onTransitionComplete;
+        private Timer? _animationTimer;
+        private Action? _clearExistingAnimationTimer;
+        private Action<PanelVisibilityState>? _animateTo;
+        private Action? _onTransitionComplete;
 
         private ElementReference panelElement;
         private ElementReference scrollableContent;
         private bool _scrollerRegistered;
 
-        private ElapsedEventHandler _handler = null;
+        private ElapsedEventHandler? _handler = null;
 
         private bool _jsAvailable = false;
 
         private static string _headerId = "";
+        private DotNetObjectReference<Panel>? selfReference;
 
         public Panel()
         {
@@ -157,7 +158,7 @@ namespace BlazorFluentUI
 
             onPanelClick = () =>
             {
-                _dismiss();
+                _dismiss!();
             };
 
             _dismiss = () =>
@@ -207,7 +208,7 @@ namespace BlazorFluentUI
                     }
                     else
                     {
-                        _dismiss();
+                        _dismiss!();
                     }
                 }
             }
@@ -273,25 +274,26 @@ namespace BlazorFluentUI
             //    _mouseDownId = await baseModule!.InvokeAsync<int>("registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
             //}
 
+            selfReference = DotNetObjectReference.Create(this);
             if (ShouldListenForOuterClick() && _mouseDownId == -1)
             {
                 _mouseDownId = -2;
-                _mouseDownId = await panelModule!.InvokeAsync<int>("registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
+                _mouseDownId = await scriptModule!.InvokeAsync<int>("registerMouseDownHandler", panelElement, selfReference);
             }
             else if (!ShouldListenForOuterClick() && _mouseDownId > -1)
             {
-                await panelModule!.InvokeVoidAsync("unregisterHandler", _mouseDownId);
+                await scriptModule!.InvokeVoidAsync("unregisterHandler", _mouseDownId);
             }
 
             if (IsOpen && _resizeId == -1)
             {
                 _resizeId = -2;
-                _resizeId = await panelModule!.InvokeAsync<int>("registerSizeHandler", DotNetObjectReference.Create(this));
+                _resizeId = await scriptModule!.InvokeAsync<int>("registerSizeHandler", selfReference);
                 //listen for lightdismiss
             }
             else if (!IsOpen && _resizeId > -1)
             {
-                await panelModule!.InvokeVoidAsync("unregisterHandler", _resizeId);
+                await scriptModule!.InvokeVoidAsync("unregisterHandler", _resizeId);
             }
 
             //if (IsOpen && !_scrollerRegistered)
@@ -308,7 +310,7 @@ namespace BlazorFluentUI
 
                 foreach (int id in copied)
                 {
-                    await panelModule!.InvokeVoidAsync("unregisterHandler", id);
+                    await scriptModule!.InvokeVoidAsync("unregisterHandler", id);
                 }
             }
         }
@@ -316,7 +318,7 @@ namespace BlazorFluentUI
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-            panelModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import",  PanelPath);
+            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import",  ScriptPath);
 
             if (firstRender)
             {
@@ -347,7 +349,7 @@ namespace BlazorFluentUI
                         //{
                         previousVisibility = currentVisibility;
                         currentVisibility = animationState;
-                        _onTransitionComplete();
+                        _onTransitionComplete!();
                         //});
                     };
                     _animationTimer.Elapsed += _handler;
@@ -368,7 +370,7 @@ namespace BlazorFluentUI
                     {
                         await OnDismissed.InvokeAsync(null);
                     }
-                    InvokeAsync(StateHasChanged);
+                    await InvokeAsync(StateHasChanged);
                 };
             }
             await SetRegistrationsAsync();
@@ -395,7 +397,7 @@ namespace BlazorFluentUI
                 currentVisibility = PanelVisibilityState.AnimatingClosed;
                 // This StateHasChanged call was added because using a custom close button in NavigationTemplate did not cause a state change to occur.
                 // The result was that the animation class would not get added and the close transition would not show.  This is a hack to make it work.
-                InvokeAsync(StateHasChanged);
+                StateHasChanged();
             }
 
             //Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
@@ -405,18 +407,18 @@ namespace BlazorFluentUI
                 if (currentVisibility != previousVisibility)
                 {
                     Debug.WriteLine("Clearing animation timer");
-                    _clearExistingAnimationTimer();
+                    _clearExistingAnimationTimer!();
                     if (currentVisibility == PanelVisibilityState.AnimatingOpen)
                     {
                         isAnimating = true;
                         animationRenderStart = true;
-                        _animateTo(PanelVisibilityState.Open);
+                        _animateTo!(PanelVisibilityState.Open);
                     }
                     else if (currentVisibility == PanelVisibilityState.AnimatingClosed)
                     {
                         isAnimating = true;
                         //animationRenderStart = true;
-                        _animateTo(PanelVisibilityState.Closed);
+                        _animateTo!(PanelVisibilityState.Closed);
                     }
                 }
 
@@ -449,27 +451,33 @@ namespace BlazorFluentUI
             return IsBlocking && IsOpen;
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             _clearExistingAnimationTimer?.Invoke();
-            if (_scrollerEventId != null)
-            {
-                foreach (int id in _scrollerEventId)
-                {
-                    await panelModule!.InvokeVoidAsync("unregisterHandler", id);
-                }
-                _scrollerEventId.Clear();
-            }
 
-            if (_resizeId != -1)
+            if (scriptModule != null && baseModule != null)
             {
-                await panelModule!.InvokeVoidAsync("unregisterHandler", _resizeId);
+                if (_scrollerEventId != null)
+                {
+                    foreach (int id in _scrollerEventId)
+                    {
+                        await scriptModule.InvokeVoidAsync("unregisterHandler", id);
+                    }
+                    _scrollerEventId.Clear();
+                }
+
+                if (_resizeId != -1)
+                {
+                    await scriptModule.InvokeVoidAsync("unregisterHandler", _resizeId);
+                }
+                if (_mouseDownId != -1)
+                {
+                    await scriptModule.InvokeVoidAsync("unregisterHandler", _mouseDownId);
+                }
+                await scriptModule.DisposeAsync();
+                await baseModule.DisposeAsync();
             }
-            if (_mouseDownId != -1)
-            {
-                await panelModule!.InvokeVoidAsync("unregisterHandler", _mouseDownId);
-            }
-            GC.SuppressFinalize(this);
+            selfReference?.Dispose();
         }
     }
 

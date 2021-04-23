@@ -1,13 +1,8 @@
 ﻿import * as FluentUIBaseComponent from './baseComponent.js'
 
+type DotNetReferenceType = FluentUIBaseComponent.DotNetReferenceType;
 type EventGroup = FluentUIBaseComponent.EventGroup;
 
-interface DotNetReferenceType {
-
-    invokeMethod<T>(methodIdentifier: string, ...args: any[]): T;
-    invokeMethodAsync<T>(methodIdentifier: string, ...args: any[]): Promise<T>;
-    _id: number;
-}
 
 const MOUSEDOWN_PRIMARY_BUTTON = 0; // for mouse down event we are using ev.button property, 0 means left button
 const MOUSEMOVE_PRIMARY_BUTTON = 1; // for mouse move event we are using ev.buttons property, 1 means left button

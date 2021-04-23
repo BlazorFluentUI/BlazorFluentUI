@@ -1,28 +1,21 @@
 # New for V5
 
-## V5.2
+### V5.2
 - Library is now using JavaScript isolation (see https://docs.microsoft.com/en-us/aspnet/core/blazor/call-javascript-from-dotnet?view=aspnetcore-5.0#blazor-javascript-isolation-and-object-references). No longer needed to reference the scripts in your `_Host.cshtml` / `index.html`! (with exception of the still experimental RichTextEditor script and acompanying quill library)
 
-## V5.1
+### V5.1
 - Add editable column for `DetailsList, DetailsListAuto` 
 - Add new component `TextFieldNumber`, based on `TextField`. Supports `int, long, short, float, double and decimal`. 
   See https://www.blazorfluentui.net/TextFieldNumberPage for examples
 
 
-## Renaming all the stuff
-We renamed the root namespace to `BlazorFluentUI`.
+## Previous versions
 
-We dropped the `BFU` prefix from all the component-and project names. In the cases where this would lead to collisions with already existing Blazor components or .NET classes, we prefixed with `FluentUI`
-
-Both changes were made to align the library closer to the Fluent UI React environment. Also the codebase is not so cluttered with 'BFU' anymore.
-
-
-# New for v4
-
-## Css Isolation and Speed
+# New for V4
+### Css Isolation and Speed
 All components have been refactored to use css isolation for their global styles.  Styles should load as soon as the css file loads.  In version 3, styles would only load after the components had been created causing a slight delay while the styles loaded and the UI repainted itself.  If you are going to modify the styles of any of these components with your own isolated css, make sure you use the `::deep` selector.
 
-## Blazor-based Forms Validation
+### Blazor-based Forms Validation
 BFU input components now work with `<EditForm>` and `<DataAnnotationsValidator>`.  The inputs that work with `<EditForm>` are:
 - BFUTextField
 - BFUCheckbox
@@ -36,10 +29,10 @@ In addition to those components, we have created a `BFUSubmitButton` whose only 
 
 Finally, we have a modified ValidationSummary component called `BFUValidationSummary` that uses `BFUMessageBar` styling to show validation errors.  You can still use the original version and style the `<li>` elements however you like.
 
-## BFUList, BFUDetailsList, & BFUGroupedList
+### BFUList, BFUDetailsList, & BFUGroupedList
 These have been refactored to use a similar technique to the new blazor `Virtualize` component.  In addition, the method by which grouping was performed has been redone to increase performance dramatically.  Two breaking consequences of this change are a `GetKey` property requirement.  You need to define a key for each item in your list.  Second, you must define your own container for your list with appropriate styling and the attribute `data-is-scrollable`.
 
-## BFUDetailsListAuto 
+### BFUDetailsListAuto 
 The original BFUDetailsList requires you to sort and filter your list data yourself for every change.  Setting a column's `IsSorted` property to `true` meant only that the filter icon would show.  
 
 `BFUDetailstListAuto` is a new component that will do all of this for you **automatically**.  Provide the component with your items and define the columns as before.  However, when you click on a column header, the list will resort itself automatically without you having to modify your input list.  Filtering works similarly.  You will have to provide your own filter predicate:  `<Func<TProp,bool>` - return true if your property should be displayed, false if it should not be displayed.  

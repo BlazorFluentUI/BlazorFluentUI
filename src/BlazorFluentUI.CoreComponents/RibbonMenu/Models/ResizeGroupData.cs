@@ -14,7 +14,7 @@ namespace BlazorFluentUI.Models
         public bool ShowDelimiter { get; set; }
 
 
-        public event EventHandler Changed;
+        public event EventHandler? Changed;
         IEnumerable<IRibbonItem> allItems;
 
         public ResizeGroupData(IEnumerable<IRibbonItem> allItems, bool isLastGroupInTab)// IEnumerable<IRibbonItem> items, IEnumerable<IRibbonItem> overflowItems, string cacheKey)
@@ -119,7 +119,7 @@ namespace BlazorFluentUI.Models
                 #endregion
 
 
-                Changed?.Invoke(this, null);
+                Changed?.Invoke(this, new EventArgs());
                 return true;
             }
             else

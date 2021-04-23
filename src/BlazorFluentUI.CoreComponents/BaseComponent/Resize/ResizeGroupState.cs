@@ -2,8 +2,8 @@
 {
     public class ResizeGroupState<TObject>
     {
-        public TObject RenderedData { get; set; }
-        public TObject DataToMeasure { get; set; }
+        public TObject? RenderedData { get; set; }
+        public TObject? DataToMeasure { get; set; }
         public ResizeDirection ResizeDirection { get; set; } = ResizeDirection.None;
         public bool MeasureContainer { get; set; }
 
@@ -17,14 +17,14 @@
         {
         }
 
-        public ResizeGroupState(ResizeDirection resizeDirection, TObject dataToMeasure)
+        public ResizeGroupState(ResizeDirection resizeDirection, TObject? dataToMeasure)
         {
             RenderedData = default;
             ResizeDirection = resizeDirection;
             DataToMeasure = dataToMeasure;
         }
 
-        public ResizeGroupState(TObject renderedData, ResizeDirection resizeDirection, TObject dataToMeasure)
+        public ResizeGroupState(TObject renderedData, ResizeDirection resizeDirection, TObject? dataToMeasure)
         {
             RenderedData = renderedData;
             ResizeDirection = resizeDirection;

@@ -2,10 +2,10 @@
 @inherits FluentUIComponentBase
 
 <div class=@($"mediumFont ms-Toggle {GetClassExtras()}") style=@Style>
-    @if (!string.IsNullOrWhiteSpace(Label))
+    @if (!string.IsNullOrWhiteSpace(Label) || !string.IsNullOrWhiteSpace(CustomLabel?.ToString()))
     {
         <Label ClassName="ms-Toggle-label" HtmlFor=@Id>
-            @Label
+            @Label@CustomLabel
         </Label>
     }
     <div class="ms-Toggle-container">
@@ -14,7 +14,7 @@
                     disabled=@(Disabled || commandDisabled)
                     id=@Id
                     type="button"
-                    role="switch"
+                    role=@GetToggleRole()
                     aria-disabled=@(Disabled || commandDisabled)
                     aria-checked=@IsChecked
                     aria-label=@AriaLabel

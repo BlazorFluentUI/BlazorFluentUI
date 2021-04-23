@@ -15,11 +15,11 @@ namespace BlazorFluentUI.Lists
             _original = original;
         }
 
-        public int Compare(IGroupedListItem3<TItem> x, IGroupedListItem3<TItem> y)
+        public int Compare(IGroupedListItem3<TItem>? x, IGroupedListItem3<TItem>? y)
         {
-            if (_original.IndexOf(x.Item) > _original.IndexOf(y.Item))
+            if (_original.IndexOf(x!.Item!) > _original.IndexOf(y!.Item!))
                 return 1;
-            else if (_original.IndexOf(x.Item) < _original.IndexOf(y.Item))
+            else if (_original.IndexOf(x!.Item!) < _original.IndexOf(y!.Item!))
                 return -1;
             else
                 return 0;

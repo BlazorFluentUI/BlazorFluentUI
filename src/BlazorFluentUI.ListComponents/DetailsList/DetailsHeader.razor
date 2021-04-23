@@ -52,27 +52,27 @@
                      @onclick=@OnToggleCollapseAll
                      data-is-focusable="true"
                      aria-label=@AriaLabelForToggleAllGroup
-                     aria-expanded=@(!isAllCollapsed)
+                     aria-expanded=@(!IsAllCollapsed)
                      role=@(!string.IsNullOrEmpty(AriaLabelForToggleAllGroup) ? "button" : null)>
                     @if (UseFastIcons)
                     {
-                        <FontIcon ClassName=@($"ms-DetailsHeader-collapseButton{(isAllCollapsed ? " is-collapsed":"")}")
+                        <FontIcon ClassName=@($"ms-DetailsHeader-collapseButton{(IsAllCollapsed ? " is-collapsed":"")}")
                                      IconName="ChevronRightMed" />
                     }
                     else
                     {
-                        <Icon ClassName=@($"ms-DetailsHeader-collapseButton{(isAllCollapsed ? " is-collapsed":"")}")
+                        <Icon ClassName=@($"ms-DetailsHeader-collapseButton{(IsAllCollapsed ? " is-collapsed":"")}")
                                  IconName="ChevronRightMed" />
                     }
                 </div>
             }
             <GroupSpacer IndentWidth=@IndentWidth
                             Count=@(GroupNestingDepth-1) />
-            @for (var colIndex = 0; colIndex < Columns.Count(); colIndex++)
+            @for (var colIndex = 0; colIndex < Columns?.Count(); colIndex++)
             {
                 var currentColIndex = colIndex;
-                var isDraggable = (ColumnReorderProps != null) ? currentColIndex >= frozenColumnCountFromStart && currentColIndex < Columns.Count() - frozenColumnCountFromEnd : false;
-                @if (isDraggable || currentColIndex == Columns.Count() - frozenColumnCountFromEnd)
+                var isDraggable = (ColumnReorderProps != null) ? currentColIndex >= frozenColumnCountFromStart && currentColIndex < Columns.Count()  : false;
+                @if (isDraggable || currentColIndex == Columns.Count() )
                 {
                     <div class="ms-DetailsHeader-dropHint"
                          id=@($"columnDropHint_{currentColIndex}")>
@@ -103,7 +103,7 @@
                                   ParentId=@id
                                   IsDraggable=@isDraggable
                                   UpdateDragInfo=@UpdateDragInfo
-                                  DragDropHelper=@dragDropHelper
+                                  DragDropHelper=null
                                   OnColumnClick=@OnColumnClick
                                   OnColumnContextMenu=@OnColumnContextMenu
                                   ColumnHeaderTooltipTemplate=@ColumnHeaderTooltipTemplate
@@ -129,16 +129,16 @@
                          />
                 }
             }
-            @if (ColumnReorderProps != null && frozenColumnCountFromEnd == 0)
+            @if (ColumnReorderProps != null )
             {
                 <div class="ms-DetailsHeader-dropHint"
-                     id=@($"columnDropHint_{Columns.Count()}")>
+                     id=@($"columnDropHint_{Columns?.Count()}")>
                     @if (UseFastIcons)
                     {
                         <FontIcon ClassName="ms-DetailsHeader-dropHintCaret"
                                      AriaHidden="true"
                                      IconName="CircleShapeSolid" 
-                                     data-sizer-index=@Columns.Count()
+                                     data-sizer-index=@Columns?.Count()
                                      data-is-focusable="false"
                                      />
                     }
@@ -147,12 +147,12 @@
                         <Icon ClassName="ms-DetailsHeader-dropHintCaret"
                                  AriaHidden="true"
                                  IconName="CircleShapeSolid"
-                                 data-sizer-index=@Columns.Count()
+                                 data-sizer-index=@Columns?.Count()
                                  data-is-focusable="false"
                                  />
                     }
                     <div aria-hidden="true"
-                         data-sizer-index=@Columns.Count()
+                         data-sizer-index=@Columns?.Count()
                          data-is-focusable="false"
                          class="ms-DetailsHeader-dropHintLine" />
                 </div>

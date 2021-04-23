@@ -65,13 +65,13 @@
     {
         selection.GetKey = (item => item.Key);
         Columns.Add(new DetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0 });
-        Columns.Add(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-        Columns.Add(new DetailsRowColumn<DataItem>("Description", x => x.Description) { Index = 2 });
+        Columns.Add(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName!) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+        Columns.Add(new DetailsRowColumn<DataItem>("Description", x => x.Description!) { Index = 2 });
 
         // Do NOT use the DetailsRowColumn with two generic parameters.  It does not create an expression that can be used with DynamicAccessor.
         CustomColumns.Add(new DetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0 });
-        CustomColumns.Add(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-        CustomColumns.Add(new DetailsRowColumn<DataItem>("Notes", x => x.Description)
+        CustomColumns.Add(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName!) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
+        CustomColumns.Add(new DetailsRowColumn<DataItem>("Notes", x => x.Description!)
         {
             Index = 2,
             // Two issues:

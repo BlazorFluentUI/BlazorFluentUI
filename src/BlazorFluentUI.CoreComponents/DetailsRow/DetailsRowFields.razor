@@ -5,11 +5,12 @@
 <div class="ms-DetailsRow-fields"
      data-automationid="DetailsRowFields"
      role="presentation">
-    @for(var index=0; index<Columns.Count(); index++)
+    @for(var index=0; index<Columns?.Count(); index++)
     {
-        var column = Columns.ElementAt(index);
+        var column = Columns?.ElementAt(index);
         string width = "";
-        if (double.IsNaN(column.CalculatedWidth))
+
+        if (double.IsNaN(column!.CalculatedWidth))
         {
             width = "auto";
         }
@@ -29,11 +30,11 @@
              >
             @if (column.ColumnItemTemplate != null)
             {
-                @column.ColumnItemTemplate(new DynamicAccessor<TItem>(Item, column.FieldSelectorExpression))
+                @column.ColumnItemTemplate(new DynamicAccessor<TItem>(Item!, column.FieldSelectorExpression!))
             }
             else
             {
-                @: @(column.FieldSelector(Item)?.ToString())
+                @: @(column.FieldSelector!(Item!).ToString())
             }
         </div>
     }

@@ -45,6 +45,7 @@
         {
             __builder.AddAttribute(28, "MenuItemTemplate", MenuItemTemplate);
         }
+        __builder.AddAttribute(29, "ButtonBase", this);
         __builder.CloseComponent();
     };
 
@@ -58,8 +59,10 @@
                     disabled=@GetDisabledStatus()
                     @onclick=@ClickHandler
                     @onkeydown=@KeyDownHandler
-                    data-is-focusable=@(this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? false : true)
+                    data-is-focusable=@(this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? "false" : "true")
                     style=@Style
+                    aria-roledescription=@AriaRoleDescription
+                    aria-label=@AriaLabel
                     @attributes=@UnknownProperties
                     @ref="RootElementReference">
                 @ButtonContentRederFragment()
@@ -73,8 +76,10 @@
                disabled=@GetDisabledStatus()
                @onclick=@ClickHandler
                @onkeydown=@KeyDownHandler
-               data-is-focusable=@(this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? false : true)
+               data-is-focusable=@(this.Disabled || PrimaryDisabled || commandDisabled || isSplitButton ? "false" : "true")
                style=@Style
+               aria-roledescription=@AriaRoleDescription
+               aria-label=@AriaLabel
                @attributes=@UnknownProperties
                @ref="RootElementReference">
                 @ButtonContentRederFragment()
@@ -83,83 +88,45 @@
         }
     </KeytipData>;
 
-@if (isSplitButton)
-{
-    <div class="ms-Button-splitContainer"
-         tabindex=@(!Disabled && !PrimaryDisabled && !commandDisabled ? 0 : -1)>
-        <span style="display:flex;">
-            @KeytipDataRenderFragment
-            @if (Primary)
-            {
-                <PrimaryButton IconName="ChevronDown"
-                                  ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
-                                  OnClick=@MenuClickHandler
-                                  Disabled=@Disabled />
-                <span class=@($"ms-Button-divider ms-Button--primary{(Disabled ? " is-disabled" : "")}")></span>
-            }
-            else
-            {
-                <DefaultButton IconName="ChevronDown"
-                                  ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
-                                  OnClick=@MenuClickHandler
-                                  Disabled=@Disabled />
-                <span class=@($"ms-Button-divider ms-Button--default{(Disabled ? " is-disabled" : "")}")></span>
-            }
-        </span>
-    </div>
-}
-else
-{
-    @KeytipDataRenderFragment
-}
+    @if (isSplitButton)
+    {
+        <div class="ms-Button-splitContainer" aria-roledescription="@AriaRoleDescription" aria-label="@AriaLabel" data-is-focusable="true" role="button" aria-haspopup="true" aria-expanded="false"
+             tabindex=@(!Disabled && !PrimaryDisabled && !commandDisabled ? 0 : -1)>
+            <span style="display:flex;">
+                @KeytipDataRenderFragment
+                @if (Primary)
+                {
+                    <PrimaryButton IconName="ChevronDown"
+                                   AriaLabel="@SplitButtonAriaLabel"
+                                   ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
+                                   OnClick=@MenuClickHandler
+                                   Disabled=@Disabled
+                                   tabindex="-1" />
+                    <span class=@($"ms-Button-divider ms-Button--primary{(Disabled ? " is-disabled" : "")}")></span>
+                }
+                else
+                {
+                    <DefaultButton IconName="ChevronDown"
+                                   AriaLabel="@SplitButtonAriaLabel"
+                                   ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
+                                   OnClick=@MenuClickHandler
+                                   Disabled=@Disabled
+                                   tabindex="-1" />
+                    <span class=@($"ms-Button-divider ms-Button--default{(Disabled ? " is-disabled" : "")}")></span>
+                }
+            </span>
+        </div>
+    }
+    else
+    {
+        @KeytipDataRenderFragment
+    }
 }
 
 
 
 
 @code{
-    @*RenderFragment<ButtonBase> ButtonContent = buttonBase => __builder =>
-        {
-            <span class="ms-Button-flexContainer">
-                @if (buttonBase.IconName != null)
-                {
-                    <Icon ClassName="ms-Button-icon"
-                             IconName=@buttonBase.IconName />
-                }
-                @if (buttonBase.Text != null || (buttonBase.isCompoundButton && buttonBase.SecondaryText != null))
-                {
-                    <span class="ms-Button-textContainer">
-                        <span class="ms-Button-label">@buttonBase.Text</span>
-                        @if (buttonBase.isCompoundButton && buttonBase.SecondaryText != null)
-                        {
-                            <span class="ms-Button-description"
-                                  >@buttonBase.SecondaryText</span>
-                        }
-                    </span>
-                }
-                @if (buttonBase.AriaDescripton != null)
-                {
-                    <span class="ms-Button-screenReaderText">@buttonBase.AriaDescripton</span>
-                }
-                @if (buttonBase.Text == null && buttonBase.ContentTemplate != null)
-                {
-                    @buttonBase.ContentTemplate
-                }
-                @if (!buttonBase.isSplitButton && buttonBase.MenuItems != null && !buttonBase.HideChevron)
-                {
-                    <Icon IconName="ChevronDown"
-                             ClassName="ms-Button-menuIcon" />
-                }
-                @if (buttonBase.MenuItems != null  && buttonBase.contextMenuShown)
-                {
-                    <ContextualMenu FabricComponentTarget=@buttonBase
-                                       ShouldFocusOnMount=@buttonBase._menuShouldFocusOnMount
-                                       OnDismiss=@(EventCallback.Empty)
-                                       />
-                }
-            </span>
-        };*@
-
     private string GetClassNames()
     {
         string classNames = "ms-Button";

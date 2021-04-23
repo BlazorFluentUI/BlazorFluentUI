@@ -24,9 +24,9 @@
             <Demo Header="Default Style" Key="0" MetadataPath="DocumentCardPage">
                 <Stack Style="width:100%;" Tokens="@(new StackTokens() { ChildrenGap = new [] {20d}})">
                     <DocumentCard Type="DocumentCardType.Normal" OnClickHref="http://bing.com">
-                        <DocumentCardPreview PreviewImages="@defaultImages.Take(1).ToArray()"></DocumentCardPreview>
+                        <DocumentCardPreview PreviewImages="@defaultImages?.Take(1).ToArray()"></DocumentCardPreview>
                         <DocumentCardTitle Title="this is a title a long title a really long title very long indeed this is a title a long title a really long title very long indeed" ShouldTruncate="true"></DocumentCardTitle>
-                        <DocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></DocumentCardActivity>
+                        <DocumentCardActivity Activity="Created a few minutes ago" People="@persons?.Take(1).ToArray()"></DocumentCardActivity>
                     </DocumentCard>
                 </Stack>
             </Demo>
@@ -36,10 +36,10 @@
             <Demo Header="Compact Style" Key="1" MetadataPath="DocumentCardPage">
                 <Stack Style="width:100%;" Tokens="@(new StackTokens() { ChildrenGap = new [] {20d}})">
                     <DocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
-                        <DocumentCardPreview PreviewImages="@images.Take(1).ToArray()"></DocumentCardPreview>
+                        <DocumentCardPreview PreviewImages="@images?.Take(1).ToArray()"></DocumentCardPreview>
                         <DocumentCardDetails>
                             <DocumentCardTitle ShouldTruncate="false" Title="My Heading"></DocumentCardTitle>
-                            <DocumentCardActivity Activity="Test activity" People="@persons.Take(1).ToArray()"></DocumentCardActivity>
+                            <DocumentCardActivity Activity="Test activity" People="@persons?.Take(1).ToArray()"></DocumentCardActivity>
                         </DocumentCardDetails>
                     </DocumentCard>
                     <DocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
@@ -53,14 +53,14 @@
                         <DocumentCardPreview PreviewImages="@previewImagesUsingIcon"></DocumentCardPreview>
                         <DocumentCardDetails>
                             <DocumentCardTitle ShouldTruncate="false" Title="View and share files"></DocumentCardTitle>
-                            <DocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></DocumentCardActivity>
+                            <DocumentCardActivity Activity="Created a few minutes ago" People="@persons?.Take(1).ToArray()"></DocumentCardActivity>
                         </DocumentCardDetails>
                     </DocumentCard>
                     <DocumentCard Type="DocumentCardType.Compact" OnClickHref="http://bing.com">
                         <DocumentCardPreview PreviewImages="@previewOutlookUsingIcon"></DocumentCardPreview>
                         <DocumentCardDetails>
                             <DocumentCardTitle ShouldTruncate="false" Title="View and share files"></DocumentCardTitle>
-                            <DocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></DocumentCardActivity>
+                            <DocumentCardActivity Activity="Created a few minutes ago" People="@persons?.Take(1).ToArray()"></DocumentCardActivity>
                         </DocumentCardDetails>
                     </DocumentCard>
                 </Stack>
@@ -74,7 +74,7 @@
                         <DocumentCardPreview PreviewImages="@images"></DocumentCardPreview>
                         <DocumentCardLocation Location="Github" LocationHref="https://www.github.com"></DocumentCardLocation>
                         <DocumentCardTitle Title="this is a title" ShouldTruncate="false"></DocumentCardTitle>
-                        <DocumentCardActivity Activity="Created a few minutes ago" People="@persons.Take(1).ToArray()"></DocumentCardActivity>
+                        <DocumentCardActivity Activity="Created a few minutes ago" People="@persons?.Take(1).ToArray()"></DocumentCardActivity>
                         <DocumentCardActions Actions="@actions" Views="342"></DocumentCardActions>
                     </DocumentCard>
                 </Stack>
@@ -83,16 +83,16 @@
     </div>
 </div>
 @code {
-    [Inject] public ThemeProvider ThemeProvider { get; set; }
+    [Inject] public ThemeProvider? ThemeProvider { get; set; }
 
-    public ITheme Theme => ThemeProvider.Theme;
+    public ITheme Theme => ThemeProvider!.Theme;
 
-    DocumentPreviewImage[] defaultImages;
-    DocumentPreviewImage[] previewImagesUsingIcon;
-    DocumentPreviewImage[] previewOutlookUsingIcon;
-    DocumentCardActivityPerson[] persons;
-    DocumentPreviewImage[] images;
-    DocumentCardAction[] actions;
+    DocumentPreviewImage[]? defaultImages;
+    DocumentPreviewImage[]? previewImagesUsingIcon;
+    DocumentPreviewImage[]? previewOutlookUsingIcon;
+    DocumentCardActivityPerson[]? persons;
+    DocumentPreviewImage[]? images;
+    DocumentCardAction[]? actions;
 
     protected override Task OnParametersSetAsync()
     {

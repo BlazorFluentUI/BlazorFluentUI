@@ -1,11 +1,6 @@
 ﻿@page "/detailsListAutoGroupedPage"
-@using System.Collections.ObjectModel
 @using System.Reactive.Linq
-@using System.Reactive.Subjects
-
 @using DynamicData
-@using DynamicData.Binding
-
 @using BlazorFluentUI.Lists
 
 <header class="root">
@@ -41,22 +36,22 @@
                 </Stack>
                 <TextField Label="Filter Description"
                            Value=@filter
-                           OnInput=@(val => { filter = val; descriptionColumn.FilterPredicate = prop => (prop as string).Contains(filter); }) />
+                           OnInput=@(val => { filter = val; descriptionColumn!.FilterPredicate = prop => (prop as string)!.Contains(filter); }) />
                 <div data-is-scrollable="true" style="height:100%;overflow-y:auto;">
                     <DetailsListAuto ItemsSource="dataSource"
                                      @ref="detailsList"
                                      Columns="columnsSource"
-                                     Compact="@isCompact.GetValueOrDefault()"
+                                     Compact="@isCompact"
                                      GetKey=@(x=>x.Key)
                                      TItem="DataItem"
-                                     IsVirtualizing="@isVirtualizing.GetValueOrDefault()"
+                                     IsVirtualizing="@isVirtualizing"
                                      GroupBy=@(new System.Collections.Generic.List<Func<DataItem,object>>
-                              {
-                                  x=>x.GroupName,
-                                  x=>x.KeyNumber % 2 == 0 ? "even" :"odd"
-                              })
+                                              {
+                                                  x=>x.GroupName!,
+                                                  x=>x.KeyNumber % 2 == 0 ? "even" :"odd"
+                                              })
                                      LayoutMode="DetailsListLayoutMode.Justified"
-                                     SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption.Key))>
+                                     SelectionMode=@((SelectionMode)Enum.Parse(typeof(SelectionMode), selectedModeOption!.Key!))>
                     </DetailsListAuto>
                 </div>
             </Stack>
@@ -64,22 +59,22 @@
     </div>
 </div>
 @code {
-    bool? isVirtualizing = true;
-    bool? isCompact = false;
-    IDropdownOption selectedModeOption;
-    System.Collections.Generic.List<IDropdownOption> selectionModeOptions;
+    bool isVirtualizing = true;
+    bool isCompact = false;
+    IDropdownOption? selectedModeOption;
+    System.Collections.Generic.List<IDropdownOption>? selectionModeOptions;
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
-    System.Collections.Generic.List<DataItem> dataSource = new ();
+    System.Collections.Generic.List<DataItem> dataSource = new();
     int count = 0;
 
-    System.Collections.Generic.List<DetailsRowColumn<DataItem>> columnsSource = new ();
+    System.Collections.Generic.List<DetailsRowColumn<DataItem>> columnsSource = new();
 
-    DetailsListAuto<DataItem> detailsList;
+    DetailsListAuto<DataItem>? detailsList;
 
     string filter = "";
-    DetailsRowColumn<DataItem> descriptionColumn;
+    DetailsRowColumn<DataItem>? descriptionColumn;
 
     protected override void OnInitialized()
     {
@@ -90,8 +85,8 @@
         selectedModeOption = selectionModeOptions.FirstOrDefault(x => x.Key == "Multiple");
 
         columnsSource.Add(new DetailsRowColumn<DataItem, int>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0 });
-        columnsSource.Add(new DetailsRowColumn<DataItem, string>("Name", x => x.DisplayName) { Index = 1, MaxWidth = 150, IsResizable = true });
-        descriptionColumn = new DetailsRowColumn<DataItem, string>("Description", x => x.Description) { Index = 2 };
+        columnsSource.Add(new DetailsRowColumn<DataItem, string>("Name", x => x.DisplayName!) { Index = 1, MaxWidth = 150, IsResizable = true });
+        descriptionColumn = new DetailsRowColumn<DataItem, string>("Description", x => x.Description!) { Index = 2 };
         columnsSource.Add(descriptionColumn);
 
 

@@ -30,16 +30,16 @@
         <div class="subSection">
             <Demo Header="Default Button" Key="0" MetadataPath="ButtonsPage">
                 <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
-                    <DefaultButton Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) Disabled="@Disabled.GetValueOrDefault()" Checked="Checked" />
-                    <PrimaryButton OnClick=@(() => OnClickHandler("Default Primary")) Disabled="@Disabled.GetValueOrDefault()" Checked="Checked">Primary</PrimaryButton>
+                    <DefaultButton Text="Standard" OnClick=@(() => OnClickHandler("Default Standard")) Disabled="@Disabled" Checked="Checked" />
+                    <PrimaryButton OnClick=@(() => OnClickHandler("Default Primary")) Disabled="@Disabled" Checked="Checked">Primary</PrimaryButton>
                 </Stack>
             </Demo>
         </div>
         <div class="subSection">
             <Demo Header="Compound Button" Key="1" MetadataPath="ButtonsPage">
                 <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } })>
-                    <CompoundButton Text="Standard" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Standard")) Disabled=@Disabled.GetValueOrDefault() Checked=Checked />
-                    <CompoundButton Text="Primary" Primary="true" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Primary")) Disabled=@Disabled.GetValueOrDefault() Checked=Checked />
+                    <CompoundButton Text="Standard" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Standard")) Disabled=@Disabled Checked=Checked />
+                    <CompoundButton Text="Primary" Primary="true" SecondaryText="This is the secondary text." OnClick=@(() => OnClickHandler("Compound Primary")) Disabled=@Disabled Checked=Checked />
                 </Stack>
             </Demo>
         </div>
@@ -49,9 +49,9 @@
                     <CommandBarButton IconName="Add"
                                       Text="New item"
                                       MenuItems="MenuProperties"
-                                      Disabled="@Disabled.GetValueOrDefault()"
+                                      Disabled="@Disabled"
                                       Checked="Checked" />
-                    <CommandBarButton IconName="Mail" Text="Send mail" Disabled="@Disabled.GetValueOrDefault()" Checked="Checked" />
+                    <CommandBarButton IconName="Mail" Text="Send mail" Disabled="@Disabled" Checked="Checked" />
                 </Stack>
             </Demo>
         </div>
@@ -62,20 +62,20 @@
                                    Split="true"
                                    MenuItems="MenuProperties"
                                    OnClick=@(() => OnClickHandler("Standart Split"))
-                                   Disabled=@Disabled.GetValueOrDefault()
+                                   Disabled=@Disabled
                                    Checked=Checked />
                     <PrimaryButton Text="Primary"
                                    Split="true"
                                    MenuItems="MenuProperties"
                                    OnClick=@(() => OnClickHandler("Primary Split"))
-                                   Disabled=@Disabled.GetValueOrDefault()
+                                   Disabled=@Disabled
                                    Checked=Checked />
                     <DefaultButton Text="Main action disabled"
                                    PrimaryDisabled="true"
                                    Split="true"
                                    MenuItems="MenuProperties"
                                    OnClick=@(() => OnClickHandler("Main Action Disabled Split"))
-                                   Disabled=@Disabled.GetValueOrDefault()
+                                   Disabled=@Disabled
                                    Checked=Checked />
                     <PrimaryButton Text="Disabled"
                                    Disabled="true"
@@ -89,36 +89,67 @@
         <div class="subSection">
             <Demo Header="Icon Button" Key="4" MetadataPath="ButtonsPage">
                 <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 8.0 } })>
-                    <IconButton OnClick=@(() => OnClickHandler("Icon")) IconName="Emoji2" AriaLabel="Emoji" Disabled=@Disabled.GetValueOrDefault() Checked=Checked />
-                    <IconButton MenuItems="MenuProperties" IconName="Emoji2" AriaLabel="Emoji" Disabled=@Disabled.GetValueOrDefault() Checked=Checked />
+                    <IconButton OnClick=@(() => OnClickHandler("Icon")) IconName="Emoji2" AriaLabel="Emoji" Disabled=@Disabled Checked=Checked />
+                    <IconButton MenuItems="MenuProperties" IconName="Emoji2" AriaLabel="Emoji" Disabled=@Disabled Checked=Checked />
                 </Stack>
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="Action Button" Key="5" MetadataPath="ButtonsPage">
-                <ActionButton IconName="AddFriend" Disabled=@Disabled.GetValueOrDefault() Checked=Checked OnClick=@(() => OnClickHandler("Action"))>
+            <Demo Header="Icon Button with Tooltip" Key="5" MetadataPath="ButtonsPage">
+                <TooltipHost>
+                    <TooltipContent>
+                        Emoji
+                    </TooltipContent>
+                    <ChildContent>
+                        <IconButton OnClick=@(() => OnClickHandler("Icon")) IconName="Emoji2" AriaLabel="Emoji" Disabled=@Disabled Checked=Checked />
+                    </ChildContent>
+                </TooltipHost>
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Action Button" Key="6" MetadataPath="ButtonsPage">
+                <ActionButton IconName="AddFriend" Disabled=@Disabled Checked=Checked OnClick=@(() => OnClickHandler("Action"))>
                     Create account
                 </ActionButton>
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="Command Button" Key="6" MetadataPath="ButtonsPage">
-                <CommandButton IconName="Add" Text="New item" MenuItems="MenuProperties" Disabled=@Disabled.GetValueOrDefault() Checked=Checked />
+            <Demo Header="Command Button" Key="7" MetadataPath="ButtonsPage">
+                <CommandButton IconName="Add" Text="New item" MenuItems="MenuProperties" Disabled=@Disabled Checked=Checked />
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="Button-like Anchor" Key="7" MetadataPath="ButtonsPage">
-                <DefaultButton Text="BlazorFluentUI GitHub" Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Disabled=@Disabled.GetValueOrDefault() Checked=Checked />
+            <Demo Header="Button-like Anchor" Key="8" MetadataPath="ButtonsPage">
+                <DefaultButton Text="BlazorFluentUI GitHub" Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Disabled=@Disabled Checked=Checked />
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="Toggle Button" Key="8" MetadataPath="ButtonsPage">
+            <Demo Header="Button with Aria Description for Screen Reader" Key="9" MetadataPath="ButtonsPage">
+                <PrimaryButton AriaDescripton="Detailed description used for screen reader." Disabled=@Disabled Checked=Checked>
+                    Button with Aria Description
+                </PrimaryButton>
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Custom Split Button" Key="10" MetadataPath="ButtonsPage">
+                <IconButton Split="true"
+                            IconName="Add"
+                            SplitButtonAriaLabel="See 2 options"
+                            AriaRoleDescription="split button"
+                            MenuItems="MenuProperties"
+                            AriaLabel="New item"
+                            OnClick=@(() => OnClickHandler("Custom Split"))
+                            Disabled=@Disabled Checked=Checked />
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="Toggle Button" Key="11" MetadataPath="ButtonsPage">
                 <DefaultButton Toggle="true"
-                               Checked=@(muted || Checked.GetValueOrDefault())
+                               Checked=@(muted || Checked)
                                Text=@(muted ? "Volume muted" : "Volume unmuted" )
                                IconName=@(muted ? "Volume0" : "Volume3")
                                OnClick=Mute
-                               Disabled=Disabled.GetValueOrDefault() />
+                               Disabled=Disabled />
             </Demo>
         </div>
         <div class="subSection">
@@ -139,7 +170,7 @@
 
 @code {
 
-    RelayCommand buttonCommand;
+    RelayCommand? buttonCommand;
     bool commandEnabled = false;
     bool CommandEnabled
     {
@@ -147,20 +178,20 @@
         set
         {
             commandEnabled = value;
-            buttonCommand.OnCanExecuteChanged();
+            buttonCommand?.OnCanExecuteChanged();
         }
     }
 
     int commandCount = 0;
-    bool isChecked = false;
+    //bool isChecked = false;
     bool muted;
     string buttonDebug = "";
-    bool? Checked;
-    bool? Disabled;
+    bool Checked;
+    bool Disabled;
 
-    bool isToggled = false;
+    //bool isToggled = false;
 
-    IEnumerable<ContextualMenuItem> MenuProperties;
+    IEnumerable<ContextualMenuItem>? MenuProperties;
 
     private void OnClickHandler(string button)
     {
@@ -186,7 +217,7 @@
         },
             p =>
             {
-                return ((Func<bool>)p).Invoke();
+                return ((Func<bool>)p!).Invoke();
             }
         );
 

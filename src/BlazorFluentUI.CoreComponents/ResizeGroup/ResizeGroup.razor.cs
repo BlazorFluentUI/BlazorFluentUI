@@ -16,12 +16,12 @@ namespace BlazorFluentUI
         [Inject] IJSRuntime? JSRuntime { get; set; }
 
         [Parameter] public bool Vertical { get; set; }
-        [Parameter] public TObject Data { get; set; }
+        [Parameter] public TObject? Data { get; set; }
 
-        [Parameter] public RenderFragment<TObject> DataTemplate { get; set; }
-        [Parameter] public Func<TObject, TObject> OnGrowData { get; set; }
-        [Parameter] public Func<TObject, TObject> OnReduceData { get; set; }
-        [Parameter] public Func<TObject, string> GetCacheKey { get; set; }
+        [Parameter] public RenderFragment<TObject>? DataTemplate { get; set; }
+        [Parameter] public Func<TObject?, TObject?>? OnGrowData { get; set; }
+        [Parameter] public Func<TObject?, TObject?>? OnReduceData { get; set; }
+        [Parameter] public Func<TObject, string>? GetCacheKey { get; set; }
 
         [Parameter] public EventCallback<TObject> OnDataReduced { get; set; }
         [Parameter] public EventCallback<TObject> OnDataGrown { get; set; }
@@ -43,19 +43,19 @@ namespace BlazorFluentUI
         private Dictionary<string, double> _measurementCache = new();
 
         //STATE
-        private TObject _renderedData;
-        private TObject _dataToMeasure;
+        private TObject? _renderedData;
+        private TObject? _dataToMeasure;
         private bool _measureContainer;
         private ResizeDirection _resizeDirection = ResizeDirection.None;
-        private bool _jsAvailable;
-        private string? _resizeEventToken;
 
-        private ValueTask<string> _resizeEventTokenTask;  // WARNING - can only await this ONCE
+        private string? _resizeEventGuid;
+        private DotNetObjectReference<ResizeGroup<TObject>>? selfReference;
+        //private ValueTask<string> _resizeEventTokenTask;  // WARNING - can only await this ONCE
 
-        private Task<Rectangle> boundsTask;
+        private Task<Rectangle>? boundsTask;
         private CancellationTokenSource boundsCTS = new();
 
-        private Task<ResizeGroupState<TObject>> nextStateTask;
+        private Task<ResizeGroupState<TObject>>? nextStateTask;
         private CancellationTokenSource nextStateCTS = new();
 
         protected override Task OnInitializedAsync()
@@ -74,7 +74,7 @@ namespace BlazorFluentUI
 
         protected override bool ShouldRender()
         {
-            if (_dataToMeasure == null || _measurementCache.ContainsKey(GetCacheKey(_dataToMeasure)))
+            if (_dataToMeasure == null || _measurementCache.ContainsKey(GetCacheKey!(_dataToMeasure)))
             {
                 _dataNeedsMeasuring = false;
             }
@@ -105,12 +105,13 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
 
             if (firstRender)
             {
-                _jsAvailable = true;
-                _resizeEventTokenTask = baseModule!.InvokeAsync<string>("registerResizeEvent", DotNetObjectReference.Create(this), "OnResizedAsync");
+                _resizeEventGuid = Guid.NewGuid().ToString().Replace("-", "");
+                selfReference = DotNetObjectReference.Create(this);
+                await baseModule.InvokeVoidAsync("registerResizeEvent", selfReference, "OnResizedAsync", _resizeEventGuid);
             }
 
             if (_renderedData != null)
@@ -141,7 +142,7 @@ namespace BlazorFluentUI
                 //    nextStateCTS.Dispose();
                 //    nextStateCTS = new CancellationTokenSource();
                 //}
-                nextStateTask = GetNextStateAsync(newContainerDimension, _containerDimension, _dataToMeasure, _renderedData, _resizeDirection, nextStateCTS.Token);
+                nextStateTask = GetNextStateAsync(newContainerDimension, _containerDimension, _dataToMeasure!, _renderedData!, _resizeDirection, nextStateCTS.Token);
                 ResizeGroupState<TObject>? nextState = await nextStateTask;
 
                 if (nextState != null)
@@ -175,14 +176,14 @@ namespace BlazorFluentUI
 
         private ResizeGroupState<TObject> GetInitialState()
         {
-            return new ResizeGroupState<TObject>() { ResizeDirection = ResizeDirection.Grow, DataToMeasure = Data, MeasureContainer = true };
+            return new ResizeGroupState<TObject>() { ResizeDirection = ResizeDirection.Grow, DataToMeasure = Data!, MeasureContainer = true };
         }
 
         private async Task<ResizeGroupState<TObject>> GetNextStateAsync(double newContainerDimension, double oldContainerDimension, TObject dataToMeasure, TObject renderedData, ResizeDirection resizeDirection, CancellationToken cancellationToken)
         {
             double replacementContainerDimension = oldContainerDimension;
             if (double.IsNaN(newContainerDimension) && dataToMeasure == null)
-                return null;
+                return default!;
 
             if (!double.IsNaN(newContainerDimension))
             {
@@ -190,7 +191,7 @@ namespace BlazorFluentUI
                 if (!double.IsNaN(oldContainerDimension) && renderedData != null && dataToMeasure == null)
                 {
                     ResizeGroupState<TObject>? state = new(renderedData, resizeDirection, dataToMeasure);
-                    ResizeGroupState<TObject>? alteredState = UpdateContainerDimension(oldContainerDimension, newContainerDimension, Data, renderedData);
+                    ResizeGroupState<TObject>? alteredState = UpdateContainerDimension(oldContainerDimension, newContainerDimension, Data!, renderedData);
                     state.ReplaceProperties(alteredState);
                     return state;
                 }
@@ -255,14 +256,14 @@ namespace BlazorFluentUI
             while (elementDimension < containerDimension)
             {
                 Debug.WriteLine("Loop in GrowUntilNotFit");
-                TObject? nextMeasuredData = OnGrowData(dataToMeasure);
+                TObject? nextMeasuredData = OnGrowData!(dataToMeasure);
                 if (nextMeasuredData == null)
                 {
                     Debug.WriteLine($"GrowUntilNotFit:  got null nextMeasuredData");
                     return new ResizeGroupState<TObject>() { RenderedData = dataToMeasure, NullifyDataToMeasure = true, ForceNoneResizeDirection = true, ContainerDimension = containerDimension };
                 }
 
-                bool found = _measurementCache.TryGetValue(GetCacheKey(nextMeasuredData), out elementDimension);
+                bool found = _measurementCache.TryGetValue(GetCacheKey!(nextMeasuredData), out elementDimension);
                 if (!found)
                 {
                     return new ResizeGroupState<TObject>() { DataToMeasure = nextMeasuredData, ContainerDimension = containerDimension };
@@ -284,7 +285,7 @@ namespace BlazorFluentUI
             while (elementDimension > containerDimension)
             {
                 Debug.WriteLine("Loop in ShrinkUntilTheyFit");
-                TObject? nextMeasuredData = OnReduceData(dataToMeasure);
+                TObject? nextMeasuredData = OnReduceData!(dataToMeasure);
                 if (nextMeasuredData == null)
                 {
                     Debug.WriteLine("ShrinkUntilTheyFit:  nextMeasuredData was null");
@@ -293,7 +294,7 @@ namespace BlazorFluentUI
                 }
 
 
-                bool found = _measurementCache.TryGetValue(GetCacheKey(nextMeasuredData), out elementDimension);
+                bool found = _measurementCache.TryGetValue(GetCacheKey!(nextMeasuredData), out elementDimension);
                 if (!found)
                 {
                     return new ResizeGroupState<TObject>() { DataToMeasure = nextMeasuredData, ResizeDirection = ResizeDirection.Shrink, ContainerDimension = containerDimension };
@@ -307,14 +308,14 @@ namespace BlazorFluentUI
 
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
-            if (_jsAvailable && _resizeEventTokenTask.IsCompleted)
+            if (baseModule != null )
             {
-                _resizeEventToken = await _resizeEventTokenTask;
-                await baseModule!.InvokeVoidAsync("deregisterResizeEvent", _resizeEventToken);
+                await baseModule!.InvokeVoidAsync("deregisterResizeEvent", _resizeEventGuid);
+                await baseModule.DisposeAsync();
             }
-            GC.SuppressFinalize(this);
+            selfReference?.Dispose();
         }
     }
 

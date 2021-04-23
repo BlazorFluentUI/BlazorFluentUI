@@ -4,7 +4,7 @@ namespace BlazorFluentUI
 {
     public class ItemClickedArgs
     {
-        public string Key { get; set; }
-        public MouseEventArgs MouseEventArgs { get; set; }
+        public string? Key { get; set; }
+        public MouseEventArgs? MouseEventArgs { get; set; }
     }
 }

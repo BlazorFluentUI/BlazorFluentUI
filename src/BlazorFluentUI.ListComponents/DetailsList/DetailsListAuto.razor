@@ -70,7 +70,7 @@
                                     else
                                     {
                                         <DetailsRow Item=@context.Item
-                                                       GetKey=@GetKey
+                                                       GetKey=@(GetKey!)
                                                        ItemIndex=@context.Index
                                                        Columns=@_adjustedColumns
                                                        TItem="TItem"
@@ -90,7 +90,7 @@
                                             @ref=@groupedList
                                             TItem="TItem"
                                             TKey="object"
-                                            GetKey=@GetKey
+                                            GetKey=@(GetKey!)
                                             GroupBy=@GroupBy
                                             SortBy=@groupSortSelectors
                                             SortDescending=@groupSortDescendingList
@@ -99,7 +99,7 @@
                                             SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                                 <ItemTemplate>
                                     <DetailsRow TItem="TItem"
-                                                   Item=@(((PlainItem3<TItem,object>)context.Item).Item)
+                                                   Item=@(((PlainItem3<TItem,object>)context.Item!).Item)
                                                    GetKey=@GetKey
                                                    ItemIndex=@context.Index
                                                    Selection=@Selection
@@ -147,7 +147,7 @@
                                             @ref=@groupedList
                                             TItem="TItem"
                                             TKey="object"
-                                            GetKey=@GetKey
+                                            GetKey=@(GetKey!)
                                             GroupBy=@GroupBy
                                             SortBy=@groupSortSelectors
                                             SortDescending=@groupSortDescendingList
@@ -156,7 +156,7 @@
                                             SelectionMode=@(CheckboxVisibility != CheckboxVisibility.Hidden ? SelectionMode : SelectionMode.None)>
                             <ItemTemplate>
                                 <DetailsRow TItem="TItem"
-                                               Item=@(((PlainItem3<TItem,object>)context.Item).Item)
+                                               Item=@(((PlainItem3<TItem,object>)context.Item!).Item)
                                                GetKey=@GetKey
                                                ItemIndex=@context.Index
                                                Selection=@Selection

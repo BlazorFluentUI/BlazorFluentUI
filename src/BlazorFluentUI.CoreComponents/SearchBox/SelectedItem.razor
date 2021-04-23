@@ -9,7 +9,7 @@
     {
         @Content
     }
-    else
+    else if (Content != null)
     {
         if(ItemTemplate != null)
         {
@@ -17,7 +17,7 @@
         }
         else
         {
-            @ProvideString(Content);
+            @ProvideString!(Content);
         }
     }
     <IconButton OnClick=ButtonClicked IconName="Cancel" />
@@ -25,10 +25,10 @@
 
 @code {
 
-    [Parameter] public T Content { get; set; }
+    [Parameter] public T? Content { get; set; }
     [Parameter] public EventCallback<SelectedItem<T>> Clicked { get; set; }
-    [Parameter] public RenderFragment<T> ItemTemplate { get; set; }
-    [Parameter] public Func<T, string> ProvideString { get; set; }
+    [Parameter] public RenderFragment<T>? ItemTemplate { get; set; }
+    [Parameter] public Func<T?, string>? ProvideString { get; set; }
 
     private void ButtonClicked(MouseEventArgs e)
     {

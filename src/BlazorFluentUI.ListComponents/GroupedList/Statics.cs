@@ -191,49 +191,49 @@ namespace BlazorFluentUI
 
         //}
 
-        public static IObservable<IChangeSet<TDestination, TKey>> TransformWithInlineUpdate<TObject, TKey, TDestination>(this IObservable<IChangeSet<TObject, TKey>> source,
-            Func<TObject, TDestination> transformFactory,
-            Action<TDestination, TObject> updateAction = null)
-        {
-            return source.Scan((ChangeAwareCache<TDestination, TKey>)null, (cache, changes) =>
-            {
-                if (cache == null)
-                    cache = new ChangeAwareCache<TDestination, TKey>(changes.Count);
+        //public static IObservable<IChangeSet<TDestination, TKey>> TransformWithInlineUpdate<TObject, TKey, TDestination>(this IObservable<IChangeSet<TObject, TKey>> source,
+        //    Func<TObject, TDestination> transformFactory,
+        //    Action<TDestination, TObject> updateAction = null)
+        //{
+        //    return source.Scan((ChangeAwareCache<TDestination, TKey>)null, (cache, changes) =>
+        //    {
+        //        if (cache == null)
+        //            cache = new ChangeAwareCache<TDestination, TKey>(changes.Count);
 
-                foreach (Change<TObject, TKey> change in changes)
-                {
-                    switch (change.Reason)
-                    {
-                            case ChangeReason.Add:
-                                cache.AddOrUpdate(transformFactory(change.Current), change.Key);
-                                break;
-                            case ChangeReason.Update:
-                                {
-                                    if (updateAction == null) continue;
+        //        foreach (Change<TObject, TKey> change in changes)
+        //        {
+        //            switch (change.Reason)
+        //            {
+        //                    case ChangeReason.Add:
+        //                        cache.AddOrUpdate(transformFactory(change.Current), change.Key);
+        //                        break;
+        //                    case ChangeReason.Update:
+        //                        {
+        //                            if (updateAction == null) continue;
 
-                                TDestination? previous = cache.Lookup(change.Key)
-                                        .ValueOrThrow(() => new MissingKeyException($"{change.Key} is not found."));
+        //                        TDestination? previous = cache.Lookup(change.Key)
+        //                                .ValueOrThrow(() => new MissingKeyException($"{change.Key} is not found."));
 
-                                    updateAction(previous, change.Current);
+        //                            updateAction(previous, change.Current);
 
-                                    //send a refresh as this will force downstream operators 
-                                    cache.Refresh(change.Key);
-                                }
-                                break;
-                            case ChangeReason.Remove:
-                                cache.Remove(change.Key);
-                                break;
-                            case ChangeReason.Refresh:
-                                cache.Refresh(change.Key);
-                                break;
-                            case ChangeReason.Moved:
-                                //Do nothing !
-                                break;
-                    }
-                }
-                return cache;
-            }).Select(cache => cache.CaptureChanges());
-        }
+        //                            //send a refresh as this will force downstream operators 
+        //                            cache.Refresh(change.Key);
+        //                        }
+        //                        break;
+        //                    case ChangeReason.Remove:
+        //                        cache.Remove(change.Key);
+        //                        break;
+        //                    case ChangeReason.Refresh:
+        //                        cache.Refresh(change.Key);
+        //                        break;
+        //                    case ChangeReason.Moved:
+        //                        //Do nothing !
+        //                        break;
+        //            }
+        //        }
+        //        return cache;
+        //    }).Select(cache => cache.CaptureChanges());
+        //}
 
 
         public static IObservable<IChangeSet<TItem, object>> Filter<TItem>(this IObservable<IChangeSet<TItem, object>> source, IEnumerable<IObservable<Func<TItem, bool>>> filterPredicates)
@@ -277,11 +277,11 @@ namespace BlazorFluentUI
             // to check for that param and call the func with it if it has one...
             Expression call;
             call = Expression.Convert(
-                func.Target == null
-                ? Expression.Call(func.Method, convertedParam)
-                : Expression.Call(Expression.Constant(func.Target), func.Method, convertedParam), resultType);
+                func!.Target == null
+                ? Expression.Call(func!.Method, convertedParam)
+                : Expression.Call(Expression.Constant(func.Target), func.Method, convertedParam), resultType!);
 
-            Type? delegateType = typeof(Func<,>).MakeGenericType(argType, resultType);
+            Type? delegateType = typeof(Func<,>).MakeGenericType(argType, resultType!);
             return Expression.Lambda(delegateType, call, param).Compile();
         }
 

@@ -16,7 +16,7 @@ namespace BlazorFluentUI
 
 
         private ICollection<IRule> CssRules = new HashSet<IRule>();
-        private Rule? msTextRule;
+        private Rule msTextRule = new ();
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
@@ -26,7 +26,7 @@ namespace BlazorFluentUI
             builder.CloseComponent();
 
             builder.OpenElement(3, As);
-            builder.AddAttribute(4, "class", $"{msTextRule?.Selector.SelectorName} {ClassName}");
+            builder.AddAttribute(4, "class", $"{msTextRule.Selector?.SelectorName} {ClassName}");
             builder.AddAttribute(5, "style", $"{Style}");
             builder.AddContent(6, ChildContent);
             builder.CloseElement();
@@ -50,7 +50,8 @@ namespace BlazorFluentUI
 
         protected override void OnThemeChanged()
         {
-            msTextRule.Properties = CreateTextStyle();
+            if (msTextRule != null)
+                msTextRule.Properties = CreateTextStyle();
             base.OnThemeChanged();
         }
 
@@ -63,7 +64,7 @@ namespace BlazorFluentUI
                 WebkitFontSmoothing = CustomVariant?.WebkitFontSmoothing ?? "antialiased",
                 MozOsxFontSmoothing = CustomVariant?.MozOsxFontSmoothing ?? "grayscale",
                 FontFamily = CustomVariant?.FontFamily ?? "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-                FontWeight = CustomVariant?.FontWeight ?? ((int)Variant > (int)TextType.Large ? Theme.FontStyle.FontWeight.SemiBold.ToString() : Theme.FontStyle.FontWeight.Regular.ToString()),
+                FontWeight = CustomVariant?.FontWeight ?? ((int)Variant > (int)TextType.Large ? Theme?.FontStyle.FontWeight.SemiBold.ToString() : Theme?.FontStyle.FontWeight.Regular.ToString()),
                 FontSize = CustomVariant?.FontSize ?? (Variant == TextType.None ? "inherit" : TextSizeMapper.TextSizeMappper(Variant, Theme))
             };
 

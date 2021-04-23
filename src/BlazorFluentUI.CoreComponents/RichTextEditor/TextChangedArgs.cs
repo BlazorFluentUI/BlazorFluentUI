@@ -9,7 +9,7 @@ namespace BlazorFluentUI
     public class TextChangedArgs
     {
         [DataMember(Name = "html")]
-        public string Html { get; set; }
+        public string? Html { get; set; }
 
         private ChangeSource source;
         [DataMember(Name = "source")]

@@ -8,32 +8,32 @@ namespace BlazorFluentUI
 {
     public partial class CommandBar : FluentUIComponentBase
     {
-        [Parameter] public IEnumerable<ICommandBarItem> Items { get; set; }
-        [Parameter] public IEnumerable<ICommandBarItem> OverflowItems { get; set; }
-        [Parameter] public IEnumerable<ICommandBarItem> FarItems { get; set; }
+        [Parameter] public IEnumerable<ICommandBarItem>? Items { get; set; }
+        [Parameter] public IEnumerable<ICommandBarItem>? OverflowItems { get; set; }
+        [Parameter] public IEnumerable<ICommandBarItem>? FarItems { get; set; }
 
         [Parameter] public EventCallback<ICommandBarItem> OnDataReduced { get; set; }
         [Parameter] public EventCallback<ICommandBarItem> OnDataGrown { get; set; }
 
         [Parameter] public bool ShiftOnReduce { get; set; }
 
-        [Parameter] public RenderFragment<ICommandBarItem> ItemTemplate { get; set; }
+        [Parameter] public RenderFragment<ICommandBarItem>? ItemTemplate { get; set; }
 
-        protected Func<CommandBarData, CommandBarData> onGrowData;
-        protected Func<CommandBarData, CommandBarData> onReduceData;
+        protected Func<CommandBarData?, CommandBarData?>? onGrowData;
+        protected Func<CommandBarData?, CommandBarData?>? onReduceData;
 
-        protected CommandBarData _currentData;
+        protected CommandBarData? _currentData;
 
         protected override Task OnInitializedAsync()
         {
             onReduceData = (data) =>
             {
-                if (data.PrimaryItems.Count > 0)
+                if (data!.PrimaryItems?.Count > 0)
                 {
                     ICommandBarItem movedItem = data.PrimaryItems[ShiftOnReduce ? 0 : data.PrimaryItems.Count - 1];
                     movedItem.RenderedInOverflow = true;
 
-                    data.OverflowItems.Insert(0, movedItem);
+                    data.OverflowItems?.Insert(0, movedItem);
                     data.PrimaryItems.Remove(movedItem);
 
                     data.CacheKey = ComputeCacheKey(data);
@@ -48,16 +48,16 @@ namespace BlazorFluentUI
 
             onGrowData = (data) =>
             {
-                if (data.OverflowItems.Count > data.MinimumOverflowItems)
+                if (data!.OverflowItems?.Count > data.MinimumOverflowItems)
                 {
                     ICommandBarItem? movedItem = data.OverflowItems[0];
                     movedItem.RenderedInOverflow = false;
                     data.OverflowItems.Remove(movedItem);
 
                     if (ShiftOnReduce)
-                        data.PrimaryItems.Insert(0, movedItem);
+                        data.PrimaryItems?.Insert(0, movedItem);
                     else
-                        data.PrimaryItems.Add(movedItem);
+                        data.PrimaryItems?.Add(movedItem);
 
                     data.CacheKey = ComputeCacheKey(data);
 
@@ -76,9 +76,9 @@ namespace BlazorFluentUI
         {
             _currentData = new CommandBarData()
             {
-                PrimaryItems = new List<ICommandBarItem>(Items != null ? Items : new List<ICommandBarItem>()),
-                OverflowItems = new List<ICommandBarItem>(OverflowItems != null ? OverflowItems : new List<ICommandBarItem>()),
-                FarItems = new List<ICommandBarItem>(FarItems != null ? FarItems : new List<ICommandBarItem>()),
+                PrimaryItems = new List<ICommandBarItem>(Items ?? new List<ICommandBarItem>()),
+                OverflowItems = new List<ICommandBarItem>(OverflowItems ?? new List<ICommandBarItem>()),
+                FarItems = new List<ICommandBarItem>(FarItems ?? new List<ICommandBarItem>()),
                 MinimumOverflowItems = OverflowItems != null ? OverflowItems.Count() : 0,
                 CacheKey = ""
             };
@@ -88,12 +88,12 @@ namespace BlazorFluentUI
 
         private static string ComputeCacheKey(CommandBarData data)
         {
-            string? primaryKey = data.PrimaryItems.Aggregate("", (acc, item) => acc + item.CacheKey);
-            string? farKey = data.FarItems.Aggregate("", (acc, item) => acc + item.CacheKey);
-            string? overflowKey = data.OverflowItems.Aggregate("", (acc, item) => acc + item.CacheKey);
+            string? primaryKey = data.PrimaryItems?.Aggregate("", (acc, item) => acc + item.CacheKey);
+            string? farKey = data.FarItems?.Aggregate("", (acc, item) => acc + item.CacheKey);
+            string? overflowKey = data.OverflowItems?.Aggregate("", (acc, item) => acc + item.CacheKey);
             return string.Join(" ", primaryKey, farKey, overflowKey);
         }
 
-        
+
     }
 }

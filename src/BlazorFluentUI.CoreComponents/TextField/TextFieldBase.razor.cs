@@ -23,7 +23,7 @@ namespace BlazorFluentUI
         }
     }
 
-    public partial class TextFieldBase<TValue> : FluentUIComponentBase, IDisposable
+    public partial class TextFieldBase<TValue> : FluentUIComponentBase, IAsyncDisposable
     {
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
         private IJSObjectReference? baseModule;
@@ -214,6 +214,21 @@ namespace BlazorFluentUI
             }
         }
 
+        public void Validate()
+        {
+            if(ValidateOnFocusOut)
+            {
+                if(!isFocused)
+                {
+                    Validate(CurrentValue);
+                }
+            }
+            else
+            {
+                Validate(CurrentValue);
+            }
+        }
+
         /// <summary>
         /// Constructs an instance of <see cref="TextField{TValue}"/>.
         /// </summary>
@@ -328,16 +343,14 @@ namespace BlazorFluentUI
             }
             if (TryParseValueFromString(Convert.ToString(args.Value, CultureInfo.InvariantCulture), out TValue? result, out string? validationErrorMessage))
             {
-
+                await OnInput.InvokeAsync(result);
+                await ValueChanged.InvokeAsync(result);
                 if (ValidateAllChanges())
                 {
                     await DeferredValidation(result).ConfigureAwait(false);
                 }
 
                 await AdjustInputHeightAsync();
-
-                await OnInput.InvokeAsync(result);
-                await ValueChanged.InvokeAsync(result);
             }
             else
             {
@@ -391,7 +404,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
 
             if (!firstRendered)
             {
@@ -561,7 +574,7 @@ namespace BlazorFluentUI
             }
             else
             {
-                if (value == null || (latestValidatedValue != null && latestValidatedValue.Equals(value)))
+                if ((latestValidatedValue != null && latestValidatedValue.Equals(value))) // value == null ||  removed because otherwise it doesn't validate for required
                     return;
 
                 latestValidatedValue = value;
@@ -572,7 +585,8 @@ namespace BlazorFluentUI
                 }
                 OnNotifyValidationResult?.Invoke(value, errorMessage!);
 
-                // OnNotifyValidationResult?.Invoke(ErrorMessage!, value);
+                //OnNotifyValidationResult?.Invoke(ErrorMessage!, value);
+                StateHasChanged();
             }
         }
 
@@ -675,13 +689,10 @@ namespace BlazorFluentUI
             return newDictionaryCreated;
         }
 
-        protected virtual void Dispose(bool disposing)
+        public override async ValueTask DisposeAsync()
         {
-        }
-
-        void IDisposable.Dispose()
-        {
-            Dispose(disposing: true);
+            if (baseModule != null)
+                await baseModule.DisposeAsync();
         }
     }
 }

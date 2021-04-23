@@ -8,18 +8,18 @@ namespace BlazorFluentUI
     public partial class Tooltip : FluentUIComponentBase
     {
         [Parameter] public int BeakWidth { get; set; } = 16;
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public TooltipDelay Delay { get; set; } = TooltipDelay.Medium;
         [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.TopCenter;
-        [Parameter] public FluentUIComponentBase FabricComponentTarget { get; set; }
+        [Parameter] public FluentUIComponentBase? FabricComponentTarget { get; set; }
         [Parameter] public double MaxWidth { get; set; } = 364;
         [Parameter] public EventCallback<EventArgs> OnMouseEnter { get; set; }
         [Parameter] public EventCallback<EventArgs> OnMouseLeave { get; set; }
 
         private ICollection<IRule> TooltipLocalRules { get; set; } = new List<IRule>();
 
-        private Rule TooltipRule = new();
-        private Rule TooltipAfterRule = new();
+        private readonly Rule TooltipRule = new();
+        private readonly Rule TooltipAfterRule = new();
         private double TooltipGabSpace;
 
         protected override void OnInitialized()
@@ -50,7 +50,7 @@ namespace BlazorFluentUI
             TooltipRule.Properties = new CssString()
             {
                 Css = $"background:var(--semanticColors.MenuBackground);" +
-                            $"box-shadow:{Theme.Effects.Elevation8};" +
+                            $"box-shadow:{Theme?.Effects?.Elevation8};" +
                             $"padding:8px;" +
                             $"max-width:{MaxWidth}px;"
             };

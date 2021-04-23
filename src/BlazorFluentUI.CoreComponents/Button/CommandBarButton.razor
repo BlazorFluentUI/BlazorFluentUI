@@ -56,6 +56,8 @@
         }
         __builder.AddAttribute(29, "IsRadioButton", IsRadioButton);
         __builder.AddAttribute(30, "GroupName", GroupName);
+        __builder.AddAttribute(31, "SplitButtonAriaLabel", SplitButtonAriaLabel);
+
 
         __builder.AddComponentReferenceCapture(31, (__value) =>
         {
@@ -77,8 +79,8 @@
 
 
 @code{
-    private DefaultButton defaultButtonReference {get;set;}
-    private PrimaryButton primaryButtonReference;
+    private DefaultButton defaultButtonReference = new DefaultButton();
+    private PrimaryButton primaryButtonReference = new PrimaryButton();
     protected override void OnAfterRender(bool firstRender)
     {
         if (Primary)

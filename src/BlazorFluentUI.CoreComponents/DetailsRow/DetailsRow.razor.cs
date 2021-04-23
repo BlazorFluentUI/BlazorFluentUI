@@ -20,7 +20,7 @@ namespace BlazorFluentUI
         public bool AnySelected { get; set; }
 
         [Parameter]
-        public IEnumerable<DetailsRowColumn<TItem>> Columns { get; set; }
+        public IEnumerable<DetailsRowColumn<TItem>>? Columns { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
@@ -29,7 +29,7 @@ namespace BlazorFluentUI
         public bool EnableUpdateAnimations { get; set; }
 
         [Parameter]
-        public Func<TItem, object> GetKey { get; set; }
+        public Func<TItem, object>? GetKey { get; set; }
 
         [Parameter]
         public int GroupNestingDepth { get; set; }
@@ -44,7 +44,7 @@ namespace BlazorFluentUI
         public bool IsRowHeader { get; set; }
 
         [Parameter]
-        public TItem Item { get; set; }
+        public TItem? Item { get; set; }
 
         [Parameter]
         public int ItemIndex { get; set; }
@@ -59,7 +59,7 @@ namespace BlazorFluentUI
         public double RowWidth { get; set; } = 0;
 
         [Parameter]
-        public Selection<TItem> Selection { get; set; }
+        public Selection<TItem>? Selection { get; set; }
 
         [Parameter]
         public SelectionMode SelectionMode { get; set; }
@@ -75,13 +75,13 @@ namespace BlazorFluentUI
 
         private bool canSelect;
         private bool showCheckbox;
-        private ColumnMeasureInfo<TItem> columnMeasureInfo = null;
+        private ColumnMeasureInfo<TItem>? columnMeasureInfo = null;
         private ElementReference cellMeasurer;
         private bool isSelected;
         private bool isSelectionModal;
-        private Rule localCheckCoverRule;
-        private Selection<TItem> selection;
-        private IDisposable selectionSubscription;
+        private Rule? localCheckCoverRule;
+        private Selection<TItem>? selection;
+        private IDisposable? selectionSubscription;
 
         private ICollection<IRule> DetailsRowLocalRules { get; set; } = new List<IRule>();
 
@@ -91,12 +91,15 @@ namespace BlazorFluentUI
             return base.OnInitializedAsync();
         }
 
-        private async Task OnClick(MouseEventArgs args)
+        private void OnClick(MouseEventArgs args)
         {
             //SelectionZone.SelectToIndex(ItemIndex, true);  // No need to make the selection, SelectionZone does this via javascript methods already
 
             // This is a good hack to make SelectionZone say an item was invoked without selecting it.  The internal javascript methods only fire this function when an item is selected and focused and the user hits the spacebar.  This is a departure from the react version, but we've had this functionality in the Blazor version for a while.
-            SelectionZone.OnItemInvoked.Invoke(Item, ItemIndex);
+            if (SelectionZone != null && SelectionZone.OnItemInvoked != null && Item != null)
+            {
+                SelectionZone.OnItemInvoked.Invoke(Item, ItemIndex);
+            }
 
         }
 
@@ -131,7 +134,7 @@ namespace BlazorFluentUI
                     {
                         bool changed = false;
                         bool newIsSelected;
-                        if (GetKey != null)
+                        if (GetKey != null && Item != null)
                         {
                             newIsSelected = Selection.IsKeySelected(GetKey(Item), false);
                         }
@@ -159,7 +162,7 @@ namespace BlazorFluentUI
             }
             if (Selection != null)
             {
-                if (GetKey != null)
+                if (GetKey != null && Item!= null)
                 {
                     isSelected = Selection.IsKeySelected(GetKey(Item), false);
                 }
@@ -193,7 +196,7 @@ namespace BlazorFluentUI
             {
                 Action<double>? method = columnMeasureInfo.OnMeasureDone;
                 Rectangle? size = await baseModule.InvokeAsync<Rectangle>("measureElementRect", cellMeasurer);
-                method(size.Width);
+                method?.Invoke(size.Width);
                 columnMeasureInfo = null;
                 await InvokeAsync(StateHasChanged);
             }
@@ -203,16 +206,19 @@ namespace BlazorFluentUI
 
         public void MeasureCell(int index, Action<double> onMeasureDone)
         {
-            DetailsRowColumn<TItem>? column = Columns.ElementAt(index);
-            column.MinWidth = 0;
-            column.MaxWidth = 999999;
-            column.CalculatedWidth = double.NaN;
+            if (Columns != null)
+            {
+                DetailsRowColumn<TItem>? column = Columns.ElementAt(index);
+                column.MinWidth = 0;
+                column.MaxWidth = 999999;
+                column.CalculatedWidth = double.NaN;
 
-            columnMeasureInfo = new ColumnMeasureInfo<TItem> { Index = index, Column = column, OnMeasureDone = onMeasureDone };
-            InvokeAsync(StateHasChanged);
+                columnMeasureInfo = new ColumnMeasureInfo<TItem> { Index = index, Column = column, OnMeasureDone = onMeasureDone };
+                InvokeAsync(StateHasChanged);
+            }
         }
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             await OnRowWillUnmount.InvokeAsync(this);
             selectionSubscription?.Dispose();

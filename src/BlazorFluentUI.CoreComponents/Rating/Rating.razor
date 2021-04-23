@@ -2,16 +2,19 @@
 @inherits FluentUIComponentBase
 
 <div class=@($"{(Disabled || ReadOnly ? "" : "ms-RatingStar-root")} mediumFont {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
+     aria-Label=@(!ReadOnly ? AriaLabel : null)
+     role=@(!ReadOnly ? "radiogroup" : null)
      @ref=@RootElementReference>
     <FocusZone ClassName=@($"ms-Rating-focuszone {(this.Size == RatingSize.Large ? "ms-RatingStar-root--large": "ms-RatingStar-root--small")}")
-                  Direction="FocusZoneDirection.Horizontal"
-                  DefaultActiveElement=@(RatingValue != -1 && starReferences.Length == Max ? (starReferences[(int)Math.Max(0, Math.Ceiling(RatingValue)-1)]).Id : "")
-                  AriaLabel=@(ReadOnly ? (GetAriaLabel != null ? GetAriaLabel(RatingValue != -1 ? RatingValue : 0, Max) : null) : null)
-                  AriaReadonly=@ReadOnly
-                  IsFocusable=@ReadOnly
-                  Disabled=@ReadOnly
-                  AllowFocusRoot=@ReadOnly
-                  tabindex=@(ReadOnly ? "0" : "-1" )>
+               Direction="FocusZoneDirection.Horizontal"
+               DefaultActiveElement=@(RatingValue != -1 && StarReferences?.Length == Max ? (StarReferences[(int)Math.Max(0, Math.Ceiling(RatingValue)-1)]).Id : "")
+               AriaLabel=@(ReadOnly ? (GetAriaLabel != null ? GetAriaLabel(RatingValue != -1 ? RatingValue : 0, Max) : null) : null)
+               AriaReadonly=@ReadOnly
+               IsFocusable=@ReadOnly
+               Disabled=@ReadOnly
+               AllowFocusRoot=@ReadOnly
+               Role=@(ReadOnly ? "textbox" : null)
+               tabindex=@(ReadOnly ? "0" : null )>
         @for (int i = 1; i <= Max; i++)
         {
             var percentage = GetPercentageOf(i);
@@ -19,12 +22,16 @@
             var style = $"width:{GetPercentageOf(i)}%;";
             <button disabled="@(Disabled || ReadOnly)"
                     class=@($"{(Disabled || ReadOnly ? "ms-Rating-button--disabled" : "ms-Rating-button")} {(this.Size == RatingSize.Large ? "ms-Rating--large": "ms-Rating--small")}")
-                    data-is-current=@(i == GetFullRating() ? "true" : "false" )
-                    role="presentation"
-                    @ref=@starReferences[value-1]
+                    data-is-current=@(i == GetFullRating() ? "true" : null)
+                    role="radio"
+                    @ref=@StarReferences![value-1]
                     type="button"
-                    @onclick="(() =>OnClick(value))">
-                <span class="ms-Rating-labelText">Select @value of 5 stars</span>
+                    @onclick="(() =>OnClick(value))"
+                    @onfocus="(() =>OnClick(value))"
+                    aria-checked=@(i == GetFullRating() ? "true" : "false")
+                    aria-hidden=@(ReadOnly ? "true" : null)
+                    tabindex=@(ReadOnly ? "0" : "-1" )>
+                <span class="ms-Rating-labelText">@string.Format(AriaLabelFormat, value, Max)</span>
                 <div class="ms-RatingStar-container">
                     <Icon ClassName=@(Disabled ? "ms-RatingStar-back--disabled" : "ms-RatingStar-back") IconName="@(percentage > 0 ? IconName : UnselectedIcon)" />
                     @if (!Disabled)

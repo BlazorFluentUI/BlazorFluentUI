@@ -6,11 +6,11 @@ namespace BlazorFluentUI
     public partial class Callout : FluentUIComponentBase
     {
         //[Inject] private IComponentContext ComponentContext { get; set; }
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public ElementReference ElementTarget { get; set; }  // not working yet
-        [Parameter] public FluentUIComponentBase FabricComponentTarget { get; set; }
+        [Parameter] public FluentUIComponentBase? FabricComponentTarget { get; set; }
 
         [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.BottomAutoEdge;
         [Parameter] public bool DirectionalHintFixed { get; set; }
@@ -21,15 +21,15 @@ namespace BlazorFluentUI
         [Parameter] public int CalloutWidth { get; set; } = 0;
         [Parameter] public int CalloutMaxHeight { get; set; } = 0;
         [Parameter] public int CalloutMaxWidth { get; set; } = 0;
-        [Parameter] public string BackgroundColor { get; set; } = null;
-        [Parameter] public Rectangle Bounds { get; set; }
+        [Parameter] public string? BackgroundColor { get; set; } = null;
+        [Parameter] public Rectangle? Bounds { get; set; }
         [Parameter] public int MinPagePadding { get; set; } = 8;
         [Parameter] public bool PreventDismissOnScroll { get; set; } = false;
         [Parameter] public bool PreventDismissOnResize { get; set; } = false;
         [Parameter] public bool PreventDismissOnLostFocus { get; set; } = false;
         [Parameter] public bool CoverTarget { get; set; } = false;
         [Parameter] public bool AlignTargetEdge { get; set; } = false;
-        [Parameter] public string Role { get; set; }
+        [Parameter] public string? Role { get; set; }
 
         [Parameter] public bool SetInitialFocus { get; set; }
 

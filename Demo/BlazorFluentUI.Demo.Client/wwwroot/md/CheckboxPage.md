@@ -69,7 +69,7 @@
 
 @code{
 
-    private StackTokens stackTokens;
+    private StackTokens? stackTokens;
     private bool _isFirstChecked;
     private bool _isSecondChecked;
     private bool _isIndeterminate;
@@ -97,7 +97,7 @@
 
     public void HandleValidSubmit()
     {
-        var i = 3;
+        //var i = 3;
     }
 
 }

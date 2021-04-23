@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>BlazorFluentUI.Demo.Shared</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,4 +17,13 @@
     <ProjectReference Include="..\..\src\BlazorFluentUI.ListComponents\BlazorFluentUI.ListComponents.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <DemoSource Include="$(ProjectDir)\Pages\**\*.*" />
+    </ItemGroup>
+
+    <Message Text="Copying the demo source files to the wwwroot/md folders." Importance="High" />
+    <Copy SourceFiles="@(DemoSource)" DestinationFiles="..\BlazorFluentUI.Demo.Server\wwwroot\md\%(RecursiveDir)%(Filename).md" />
+    <Copy SourceFiles="@(DemoSource)" DestinationFiles="..\BlazorFluentUI.Demo.Client\wwwroot\md\%(RecursiveDir)%(Filename).md" />
+  </Target>
 </Project>

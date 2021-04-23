@@ -2,11 +2,11 @@
 @inherits FluentUIComponentBase
 
 <CommandButton key="@ItemKey"
-                  ClassName=@($"ms-Pivot-link mediumFont{(ParentPivot.Selected == this ? " is-selected" : "")}")
+                  ClassName=@($"ms-Pivot-link mediumFont{(ParentPivot?.Selected == this ? " is-selected" : "")}")
                   OnClick="SelectItem"
                   AriaLabel=@AriaLabel
                   role="tab"
-                  aria-selected=@(ParentPivot.Selected == this ? "true" : "false")
+                  aria-selected=@(ParentPivot?.Selected == this ? "true" : "false")
                   name="@HeaderText"
                   data-content="@dataContent">
     <span class="ms-Pivot-linkContent">

@@ -5,10 +5,10 @@
 <div @ref="RootElementReference" class=@($"{ClassName} mediumFont ms-Persona-coin") style=@Style>
     @if (Size != PersonaSize.Size8)
     {
-        <div class=@($"ms-Persona-imageArea {LocalSpecificityClass} {ImageAreaRule.Selector.SelectorName}")>
+        <div class=@($"ms-Persona-imageArea {LocalSpecificityClass} {ImageAreaRule.Selector?.SelectorName}")>
             @if (ShouldRenderInitials)
             {
-                <div class=@($"ms-Persona-initials {LocalSpecificityClass} {InitialsRule.Selector.SelectorName}{(ShowUnknownPersonaCoin? " ms-Personal-initials--showUnknownPersonaCoin" : "")}")
+                <div class=@($"ms-Persona-initials {LocalSpecificityClass} {InitialsRule.Selector?.SelectorName}{(ShowUnknownPersonaCoin? " ms-Personal-initials--showUnknownPersonaCoin" : "")}")
                      aria-hidden="true">
                     @if (ShowUnknownPersonaCoin)
                     {
@@ -32,7 +32,7 @@
             {
                 var dimension = CoinSize != -1 ? CoinSize : PersonaSize.SizeToPixels(Size);
                 <Image Src=@ImageUrl
-                          ClassName=@($"ms-Persona-image {LocalSpecificityClass} {ImageRule.Selector.SelectorName}")
+                          ClassName=@($"ms-Persona-image {LocalSpecificityClass} {ImageRule.Selector?.SelectorName}")
                           ImageFit=@ImageFit.Cover
                           Width=@dimension
                           Height=@dimension

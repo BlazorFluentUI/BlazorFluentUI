@@ -36,7 +36,7 @@
                              Data=@(new ResizeGroupData<OverflowItem>(items, overflowItems, ComputeCacheKey(items)))
                              GetCacheKey=@getCacheKey>
                     <DataTemplate Context="data">
-                        <OverflowSet Items=@data.Items OverflowItems=@data.OverflowItems GetKey=@(x=> x.Key)>
+                        <OverflowSet Items=@data!.Items OverflowItems=@data.OverflowItems GetKey=@(x=> x.Key)>
                             <ItemTemplate>
                                 <CommandBarButton IconName="Add" Text=@context.Name />
                             </ItemTemplate>
@@ -58,8 +58,8 @@
     List<OverflowItem> items = new List<OverflowItem>();
     List<OverflowItem> overflowItems = new List<OverflowItem>();
 
-    Func<ResizeGroupData<OverflowItem>, ResizeGroupData<OverflowItem>> onGrowData;
-    Func<ResizeGroupData<OverflowItem>, ResizeGroupData<OverflowItem>> onReduceData;
+    Func<ResizeGroupData<OverflowItem>?, ResizeGroupData<OverflowItem>?>? onGrowData;
+    Func<ResizeGroupData<OverflowItem>?, ResizeGroupData<OverflowItem>?>? onReduceData;
 
     Func<IEnumerable<OverflowItem>, IEnumerable<IContextualMenuItem>> itemTransform => (items) =>
     {
@@ -87,7 +87,7 @@
                 <ContextualMenuItem Text=@context.Name Key=@context.Key />
             </OverflowItemTemplate>
         </OverflowSet>;*@
-    Func<ResizeGroupData<OverflowItem>, string> getCacheKey = data => data.CacheKey;
+    Func<ResizeGroupData<OverflowItem>?, string> getCacheKey = data => data!.CacheKey;
 
 
     protected override Task OnInitializedAsync()

@@ -14,9 +14,9 @@ else
 
 @functions{
     private bool isRendered = false;
-    private System.Timers.Timer timer;
+    private System.Timers.Timer? timer;
 
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public int Delay { get; set; }
 
     protected override Task OnInitializedAsync()
@@ -29,13 +29,13 @@ else
 
     protected override Task OnParametersSetAsync()
     {
-        timer.Interval = this.Delay;
+        timer!.Interval = this.Delay;
         return base.OnParametersSetAsync();
     }
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        timer.Start();
+        timer!.Start();
         return base.OnAfterRenderAsync(firstRender);
     }
 

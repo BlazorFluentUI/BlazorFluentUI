@@ -18,16 +18,16 @@ namespace BlazorFluentUI
         [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
         [Parameter] public FirstWeekOfYear FirstWeekOfYear { get; set; } = FirstWeekOfYear.FirstDay;
         [Parameter] public bool HighlightCurrentMonth { get; set; } = false;
-        [Parameter] public bool HighlightSelectedMonth { get; set; } = true;
+        [Parameter] public bool HighlightSelectedMonth { get; set; } = false;
         [Parameter] public bool IsDayPickerVisible { get; set; } = true;
         [Parameter] public bool IsMonthPickerVisible { get; set; } = true;
         [Parameter] public DateTime MaxDate { get; set; } = DateTime.MaxValue;
         [Parameter] public DateTime MinDate { get; set; } = DateTime.MinValue;
         [Parameter] public EventCallback OnDismiss { get; set; }
         [Parameter] public EventCallback<SelectedDateResult> OnSelectDate { get; set; }
-        [Parameter] public List<DateTime> Range { get; set; }  // readonly value!  meant to supplement binding 
-        [Parameter] public EventCallback<List<DateTime>> RangeChanged { get; set; }  // complement to Range readonly value!  meant to supplement binding 
-        [Parameter] public List<DateTime> RestrictedDates { get; set; }
+        [Parameter] public List<DateTime>? Range { get; set; }  // readonly value!  meant to supplement binding
+        [Parameter] public EventCallback<List<DateTime>> RangeChanged { get; set; }  // complement to Range readonly value!  meant to supplement binding
+        [Parameter] public List<DateTime>? RestrictedDates { get; set; }
         [Parameter] public bool SelectDateOnClick { get; set; } = false;
         [Parameter] public bool ShowCloseButton { get; set; } = false;
         [Parameter] public bool ShowGoToToday { get; set; } = true;
@@ -35,7 +35,7 @@ namespace BlazorFluentUI
         [Parameter] public bool ShowSixWeeksByDefault { get; set; } = false;
         [Parameter] public bool ShowWeekNumbers { get; set; } = false;
         [Parameter] public DateTime Today { get; set; } = DateTimeOffset.Now.Date;
-        [Parameter] public DateTime? Value { get; set; } = DateTime.MinValue;
+        [Parameter] public DateTime? Value { get; set; } //= DateTime.MinValue;
         [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
         [Parameter] public List<DayOfWeek> WorkWeekDays { get; set; } = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
         [Parameter] public bool YearPickerHidden { get; set; } = false;
@@ -65,7 +65,7 @@ namespace BlazorFluentUI
         private bool isLoaded = false;
         private bool focusOnUpdate = false;
 
-        
+
         protected override Task OnParametersSetAsync()
         {
             if (CascadedEditContext != null && ValueExpression != null)
@@ -77,8 +77,7 @@ namespace BlazorFluentUI
                 //}
                 FieldIdentifier = FieldIdentifier.Create<DateTime?>(ValueExpression);
 
-                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
-
+                //CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
                 CascadedEditContext.OnValidationStateChanged += CascadedEditContext_OnValidationStateChanged;
             }
 
@@ -97,8 +96,8 @@ namespace BlazorFluentUI
                 NavigatedDayDate = CurrentDate;
                 NavigatedMonthDate = CurrentDate;
 
-                IsMonthPickerVisibleInternal = ShowMonthPickerAsOverlay ? false : IsMonthPickerVisible;
-                IsDayPickerVisibleInternal = ShowMonthPickerAsOverlay ? true : IsDayPickerVisible;
+                IsMonthPickerVisibleInternal = !ShowMonthPickerAsOverlay && IsMonthPickerVisible;
+                IsDayPickerVisibleInternal = ShowMonthPickerAsOverlay || IsDayPickerVisible;
 
                 GoTodayEnabled = ShowGoToToday;
                 if (GoTodayEnabled)
@@ -124,8 +123,7 @@ namespace BlazorFluentUI
         {
             bool valuesDifferent = false;
 
-            DateTime? nextValue;
-            parameters.TryGetValue("Value", out nextValue);
+            parameters.TryGetValue("Value", out DateTime? nextValue);
             if (nextValue != null && Value == null)
             {
                 valuesDifferent = true;
@@ -137,8 +135,8 @@ namespace BlazorFluentUI
 
             if (valuesDifferent)
             {
-                NavigatedDayDate = (DateTime)nextValue;
-                NavigatedMonthDate = (DateTime)nextValue;
+                NavigatedDayDate = (DateTime)nextValue!;
+                NavigatedMonthDate = (DateTime)nextValue!;
             }
             SelectedDate = nextValue != DateTime.MinValue ? nextValue : Today;
 
@@ -146,7 +144,7 @@ namespace BlazorFluentUI
         }
 
         protected async void OnGotoToday(MouseEventArgs args) {
-            
+
             if (SelectDateOnClick) {
                 // When using Defaultprops, TypeScript doesn't know that React is going to inject defaults
                 // so we use exclamation mark as a hint to the type checker (see link below)
@@ -189,7 +187,7 @@ namespace BlazorFluentUI
             return Task.CompletedTask;
         }
 
-       
+
         protected async Task OnNavigateMonthDate(NavigatedDateResult result)
         {
             if (!result.FocusOnNavigatedDay)
@@ -237,6 +235,6 @@ namespace BlazorFluentUI
             NavigatedMonthDate = date;
         }
 
-    
+
     }
 }

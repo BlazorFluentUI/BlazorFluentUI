@@ -12,7 +12,7 @@ namespace BlazorFluentUI
         [Parameter] public bool AllFocusable { get; set; }
         [Parameter] public bool AutoNavigateOnSelection { get; set; }
         [Parameter] public DateRangeType DateRangeType { get; set; }
-        [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; }
+        [Parameter] public DateTimeFormatter DateTimeFormatter { get; set; } = new DateTimeFormatter();
         [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
         [Parameter] public FirstWeekOfYear FirstWeekOfYear { get; set; }
         [Parameter] public DateTime MaxDate { get; set; }
@@ -22,13 +22,13 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback OnDismiss { get; set; }
         [Parameter] public EventCallback<NavigatedDateResult> OnNavigateDate { get; set; }
         [Parameter] public EventCallback<SelectedDateResult> OnSelectDate { get; set; }
-        [Parameter] public List<DateTime> RestrictedDates { get; set; }
+        [Parameter] public List<DateTime>? RestrictedDates { get; set; }
         [Parameter] public DateTime? SelectedDate { get; set; }
         [Parameter] public bool ShowCloseButton { get; set; }
         [Parameter] public bool ShowSixWeeksByDefault { get; set; }
         [Parameter] public bool ShowWeekNumbers { get; set; }
         [Parameter] public DateTime? Today { get; set; }
-        [Parameter] public List<DayOfWeek> WorkWeekDays { get; set; }
+        [Parameter] public List<DayOfWeek>? WorkWeekDays { get; set; }
 
 
         protected string DayPickerId = Guid.NewGuid().ToString();
@@ -42,9 +42,9 @@ namespace BlazorFluentUI
         protected bool PrevMonthInBounds;
         protected bool NextMonthInBounds;
 
-        protected List<List<DayInfo>> Weeks;
-        protected List<int> WeekNumbers;
-        protected Dictionary<string, string> WeekCornersStyled;
+        protected List<List<DayInfo>>? Weeks;
+        protected List<int>? WeekNumbers;
+        protected Dictionary<string, string>? WeekCornersStyled;
 
         protected int HoverWeek = -1;
         protected int HoverMonth = -1;
@@ -64,7 +64,7 @@ namespace BlazorFluentUI
 
             if (ShowWeekNumbers)
             {
-                WeekNumbers = DateUtilities.GetWeekNumbersInMonth(Weeks.Count, FirstDayOfWeek, FirstWeekOfYear, NavigatedDate);
+                WeekNumbers = DateUtilities.GetWeekNumbersInMonth(Weeks!.Count, FirstDayOfWeek, FirstWeekOfYear, NavigatedDate);
             }
             else
                 WeekNumbers = null;
@@ -120,17 +120,12 @@ namespace BlazorFluentUI
             return OnDismiss.InvokeAsync(null);
         }
 
-
-        protected static void OnTableMouseLeave(System.EventArgs eventArgs)
-        {
-
-        }
-        protected static void OnTableMouseUp(MouseEventArgs mouseEventArgs)
-        {   
-            
-        }
-
-
+        //protected static void OnTableMouseLeave(System.EventArgs eventArgs)
+        //{
+        //}
+        //protected static void OnTableMouseUp(MouseEventArgs mouseEventArgs)
+        //{
+        //}
         //protected Task OnDayMouseOver(MouseEventArgs eventArgs)
         //{
         //    return Task.CompletedTask;
@@ -148,12 +143,11 @@ namespace BlazorFluentUI
         //    return Task.CompletedTask;
         //}
 
-
         protected string GetDayClasses(DayInfo day)
         {
             string classNames = "";
-            classNames += "ms-Calendar-dayWrapper";
-            if (WeekCornersStyled.ContainsKey(day.WeekIndex + "_" + (day.OriginalDate.Day - 1)))
+            classNames += "dayCell";
+            if (WeekCornersStyled !=null && WeekCornersStyled.ContainsKey(day.WeekIndex + "_" + (day.OriginalDate.Day - 1)))
             {
                 classNames += WeekCornersStyled[day.WeekIndex + "_" + (day.OriginalDate.Day - 1)];
             }
@@ -162,20 +156,29 @@ namespace BlazorFluentUI
             if (day.IsSelected && DateRangeType == DateRangeType.Day)
                 classNames += " ms-Calendar-dayBackground";
             if (day.IsSelected && DateRangeType == DateRangeType.Day)
-                classNames += " ms-Calendar-day--highlighted ms-Calendar-dayIsHighlighted";
-            if (day.IsInBounds && day.IsInMonth)
+                classNames += " ms-Calendar-dayIsHighlighted";
+            if (day.IsInBounds && day.IsInMonth && DateRangeType == DateRangeType.Day)
                 classNames += " ms-Calendar-dayIsFocused";
-            if (day.IsInBounds && !day.IsInMonth)
+            if (day.IsInBounds && !day.IsInMonth && DateRangeType == DateRangeType.Day)
                 classNames += " ms-Calendar-dayUnFocused";
+            if (!day.IsInBounds && day.IsInMonth)
+                    classNames += " ms-Calendar-dayOutsideBounds";
             switch (DateRangeType)
             {
                 case DateRangeType.Day:
                     classNames += " ms-Calendar-daySelection";
                     break;
                 case DateRangeType.Week:
-                case DateRangeType.WorkWeek:
-                    classNames += " ms-Calendar-weekSelection";
+                    //classNames += " ms-Calendar-weekSelection";
                     if (HoverWeek == day.WeekIndex)
+                        classNames += " ms-Calendar-dayHover";
+                    if (PressWeek == day.WeekIndex)
+                        classNames += " ms-Calendar-dayPress";
+                    break;
+                case DateRangeType.WorkWeek:
+                    //if (day.IsHighlightedOnHover)
+                    //    classNames += " ms-Calendar-dayIsFocused";
+                    if (HoverWeek == day.WeekIndex && day.IsHighlightedOnHover)
                         classNames += " ms-Calendar-dayHover";
                     if (PressWeek == day.WeekIndex)
                         classNames += " ms-Calendar-dayPress";
@@ -198,7 +201,7 @@ namespace BlazorFluentUI
             switch (DateRangeType)
             {
                 case DateRangeType.Month:
-                    for (int weekIndex = 0; weekIndex < Weeks.Count; weekIndex++)
+                    for (int weekIndex = 0; weekIndex < Weeks!.Count; weekIndex++)
                     {
                         List<DayInfo>? week = Weeks[weekIndex];
                         for (int dayIndex =0; dayIndex < week.Count; dayIndex++)
@@ -252,7 +255,7 @@ namespace BlazorFluentUI
                     break;
                 case DateRangeType.Week:
                 case DateRangeType.WorkWeek:
-                    for (int weekIndex =0; weekIndex < Weeks.Count; weekIndex++)
+                    for (int weekIndex =0; weekIndex < Weeks!.Count; weekIndex++)
                     {
                         int minIndex = Weeks[weekIndex].IndexOf(Weeks[weekIndex].First(x => x.IsInBounds));
                         int maxIndex = Weeks[weekIndex].IndexOf(Weeks[weekIndex].Last(x => x.IsInBounds));
@@ -301,14 +304,15 @@ namespace BlazorFluentUI
 
             // cycle backwards to get first day of week
             while (date.DayOfWeek != FirstDayOfWeek)
-                date = date - TimeSpan.FromDays(1);
+                date -= TimeSpan.FromDays(1);
 
             // a flag to indicate whether all days of the week are in the month
             bool isAllDaysOfWeekOutOfMonth = false;
 
             // in work week view we want to select the whole week
-            DateRangeType selecteDateRangeType = DateRangeType == DateRangeType.WorkWeek ? DateRangeType.Week : DateRangeType;
-            List<DateTime>? selectedDates = SelectedDate == null ? new List<DateTime>(): DateUtilities.GetDateRangeArray((DateTime)SelectedDate, selecteDateRangeType, FirstDayOfWeek, WorkWeekDays);
+            //DateRangeType selecteDateRangeType = DateRangeType == DateRangeType.WorkWeek ? DateRangeType.Week : DateRangeType;
+            DateRangeType selecteDateRangeType = DateRangeType;
+            List<DateTime>? selectedDates = SelectedDate == null ? new List<DateTime>() : DateUtilities.GetDateRangeArray((DateTime)SelectedDate, selecteDateRangeType, FirstDayOfWeek, WorkWeekDays);
             if (DateRangeType != DateRangeType.Day)
             {
                 selectedDates = GetBoundedDateRange(selectedDates, MinDate, MaxDate);
@@ -332,6 +336,7 @@ namespace BlazorFluentUI
                         IsInMonth = date.Month == NavigatedDate.Month,
                         IsToday = DateTime.Compare(DateTime.Now.Date, originalDate) == 0,
                         IsSelected = IsInDateRangeArray(date, selectedDates),
+                        IsHighlightedOnHover = IsInWorkweekRange(date),
                         OnSelected = () => OnSelectDateInternal(originalDate, false),
                         IsInBounds =
                             (DateTime.Compare(MinDate, date) < 1 ) &&
@@ -355,9 +360,9 @@ namespace BlazorFluentUI
 
         private bool GetIsRestrictedDate(DateTime date)
         {
-            if (RestrictedDates == null) 
+            if (RestrictedDates == null)
                 return false;
-            
+
             if (RestrictedDates.Select(x=>x.Date).Contains(date))
             {
                 return true;
@@ -375,6 +380,21 @@ namespace BlazorFluentUI
             return false;
         }
 
+        private bool IsInWorkweekRange(DateTime date)
+        {
+            if (WorkWeekDays != null)
+            {
+                foreach (DayOfWeek workday in WorkWeekDays)
+                {
+                    if (date.DayOfWeek == workday)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         private static List<DateTime> GetBoundedDateRange(List<DateTime> dateRange, DateTime? minDate = null, DateTime? maxDate = null)
         {
             List<DateTime>? boundedDateRange = dateRange;
@@ -387,6 +407,6 @@ namespace BlazorFluentUI
             return boundedDateRange;
         }
 
-        
+
 }
 }

@@ -9,9 +9,9 @@ namespace BlazorFluentUI.Routing
 {
     public partial class Nav: FluentUIComponentBase
     {
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
         //[Parameter] public string AriaLabel { get; set; }
-        [Parameter] public string ExpandButtonAriaLabel { get; set; }
+        [Parameter] public string? ExpandButtonAriaLabel { get; set; }
 
         [Parameter] public bool IsOnTop { get; set; }
 

@@ -11,14 +11,11 @@ namespace BlazorFluentUI
     /**
      * This adds accessibility to Dialog and Panel controls
      */
-    public partial class Popup : FluentUIComponentBase, IDisposable
+    public partial class Popup : FluentUIComponentBase, IAsyncDisposable
     {
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
 
-        [Parameter] public string Role { get; set; }
-        //[Parameter] public string AriaLabel { get; set; }
-        //[Parameter] public string AriaLabelledBy { get; set; }
-        //[Parameter] public string AriaDescribedBy { get; set; }
+        [Parameter] public string? Role { get; set; }
         [Parameter] public bool ShouldRestoreFocus { get; set; } = true;  //THIS DOES NOTHING AT THE MOMENT.
 
         [Parameter] public EventCallback<EventArgs> OnDismiss { get; set; }
@@ -27,9 +24,9 @@ namespace BlazorFluentUI
         // Come back to this later if needed!
         // Line needed on razor page:
         // style=@("overflowY: {(needsVerticalScrollBar ? "scroll" : "hidden")}; outline: none")
-        private bool needsVerticalScrollBar = false;
+        //private bool needsVerticalScrollBar = false;
 
-        private string _handleToLastFocusedElement;
+        private string? _handleToLastFocusedElement;
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
@@ -57,11 +54,12 @@ namespace BlazorFluentUI
             //return Task.CompletedTask;
         }
 
-        public async void Dispose()
+        public override async ValueTask DisposeAsync()
         {
-            if (_handleToLastFocusedElement != null)
+            if (_handleToLastFocusedElement != null && baseModule != null)
             {
-                await baseModule!.InvokeVoidAsync("restoreLastFocus", _handleToLastFocusedElement, ShouldRestoreFocus);
+                await baseModule.InvokeVoidAsync("restoreLastFocus", _handleToLastFocusedElement, ShouldRestoreFocus);
+                await baseModule.DisposeAsync();
             }
         }
     }

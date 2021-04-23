@@ -7,8 +7,8 @@ namespace BlazorFluentUI.Models
 {
     public class RibbonItemOld
     {
-        public ComponentBase DirectVisible { get; set; }
-        public ComponentBase ContextMenuVisible { get; set; }
+        public ComponentBase? DirectVisible { get; set; }
+        public ComponentBase? ContextMenuVisible { get; set; }
 
 
     }

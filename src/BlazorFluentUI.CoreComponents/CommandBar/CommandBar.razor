@@ -4,13 +4,13 @@
 <div>
     <ResizeGroup OnGrowData=@onGrowData OnReduceData=@onReduceData
                     Data=@_currentData
-                    GetCacheKey=@(x => x.CacheKey)
+                    GetCacheKey=@(x => x!.CacheKey)
                     ClassName=@ClassName
                     Style=@Style>
         <DataTemplate Context="data">
             <div class="mediumFont ms-CommandBar" role="menubar">
                 @*Primary*@
-                <OverflowSet ClassName="ms-CommandBar-primarySet" Items=@data.PrimaryItems OverflowItems=@(data.OverflowItems.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
+                <OverflowSet ClassName="ms-CommandBar-primarySet" Items=@data!.PrimaryItems OverflowItems=@(data.OverflowItems!.Count() > 0 ? data.OverflowItems : null) GetKey=@(x=>x.Key)>
                     <ItemTemplate>
                         @if (ItemTemplate != null)
                         {
@@ -30,7 +30,7 @@
                                                              OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                              Command=@context.Command CommandParameter=@context.CommandParameter
                                                              Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                                             Split=@context.Split Style=@context.Style 
+                                                             Split=@context.Split Style=@context.Style
                                                              Toggle=@context.Toggle
                                                              IsRadioButton=@context.IsRadioButton GroupName=@context.GroupName />
                                     </ChildContent>
@@ -49,7 +49,7 @@
                                                      OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                      Command=@context.Command CommandParameter=@context.CommandParameter
                                                      Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                                     Split=@context.Split Style=@context.Style 
+                                                     Split=@context.Split Style=@context.Style
                                                      Toggle=@context.Toggle
                                                      IsRadioButton=@context.IsRadioButton GroupName=@context.GroupName/>
                             }
@@ -75,7 +75,7 @@
                                                          OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                          Command=@context.Command CommandParameter=@context.CommandParameter
                                                          Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                                         Split=@context.Split Style=@context.Style 
+                                                         Split=@context.Split Style=@context.Style
                                                          Toggle=@context.Toggle
                                                          IsRadioButton=@context.IsRadioButton GroupName=@context.GroupName/>
                                 </ChildContent>
@@ -94,7 +94,7 @@
                                                  OnClick=@(args => context.OnClick?.Invoke(new ItemClickedArgs() { MouseEventArgs = args, Key = context.Key }))
                                                  Command=@context.Command CommandParameter=@context.CommandParameter
                                                  Disabled=@context.Disabled AriaLabel=@context.AriaLabel Checked=@context.Checked ClassName=@context.ClassName
-                                                 Split=@context.Split Style=@context.Style 
+                                                 Split=@context.Split Style=@context.Style
                                                  Toggle=@context.Toggle
                                                  IsRadioButton=@context.IsRadioButton GroupName=@context.GroupName/>
                         }

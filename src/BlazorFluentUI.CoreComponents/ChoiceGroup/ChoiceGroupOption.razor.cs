@@ -18,16 +18,16 @@ namespace BlazorFluentUI
 
         [Parameter] public bool Focused { get; set; }
         [Parameter] public bool Required { get; set; } = false;
-        [Parameter] public string Label { get; set; }
+        [Parameter] public string? Label { get; set; }
         [Parameter] public bool IsDisabled { get; set; } = false;
         [Parameter] public bool IsVisible { get; set; } = true;
-        [Parameter] public TItem Item { get; set; }
-        [Parameter] public RenderFragment<TItem> OptionTemplate { get; set; }
+        [Parameter] public TItem? Item { get; set; }
+        [Parameter] public RenderFragment<TItem?>? OptionTemplate { get; set; }
         [Parameter] public EventCallback<ChoiceGroupOptionClickedEventArgs> OnClick { get; set; }
         [Parameter] public EventCallback<ChoiceGroupOptionFocusEventArgs> OnFocus { get; set; }
         [Parameter] public EventCallback<ChoiceGroupOptionFocusEventArgs> OnBlur { get; set; }
-        [Parameter] public string Id { get; set; }
-        [CascadingParameter] protected ChoiceGroup<TItem> ChoiceGroup { get; set; }
+        [Parameter] public string? Id { get; set; }
+        [CascadingParameter] protected ChoiceGroup<TItem>? ChoiceGroup { get; set; }
 
         private bool _isSelected = false;
 
@@ -45,7 +45,8 @@ namespace BlazorFluentUI
                 IsDisabled = choiceGroupOption.IsDisabled;
             }
 
-            _isSelected = Equals(ChoiceGroup.Value, Item);
+            if (ChoiceGroup != null)
+                _isSelected = Equals(ChoiceGroup.Value, Item);
 
             if (string.IsNullOrWhiteSpace(Id))
                 Id = Id = $"g{Guid.NewGuid()}";
@@ -124,15 +125,15 @@ namespace BlazorFluentUI
 
     public class ChoiceGroupOptionClickedEventArgs : EventArgs
     {
-        public MouseEventArgs MouseEventArgs { get; set; }
+        public MouseEventArgs? MouseEventArgs { get; set; }
 
-        public object Item { get; set; }
+        public object? Item { get; set; }
     }
 
     public class ChoiceGroupOptionFocusEventArgs : EventArgs
     {
-        public FocusEventArgs FocusEventArgs { get; set; }
+        public FocusEventArgs? FocusEventArgs { get; set; }
 
-        public object Item { get; set; }
+        public object? Item { get; set; }
     }
 }

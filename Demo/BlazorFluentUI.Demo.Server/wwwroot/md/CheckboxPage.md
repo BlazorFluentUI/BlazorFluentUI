@@ -43,7 +43,7 @@
                                 Custom-rendered label with a link to <BlazorFluentUI.Link Href='https://www.microsoft.com' Target='_blank'>Microsoft home page</BlazorFluentUI.Link>
                             </span>
                         </OnRenderLabel>
-                    </Checkbox>
+                        </Checkbox>
                 </Stack>
             </Demo>
         </div>

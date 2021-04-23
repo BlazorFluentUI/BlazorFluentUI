@@ -314,7 +314,7 @@
  .ms-Button--default {
     color: var(--semanticTextColors-ButtonText);
     background-color: var(--palette-White);
-    border: 5px solid var(--palette-NeutralSecondaryAlt);
+    border: 1px solid var(--palette-NeutralSecondaryAlt);
 }
     /*
  .ms-Fabric--isFocusVisible .ms-Button--default:focus:after {

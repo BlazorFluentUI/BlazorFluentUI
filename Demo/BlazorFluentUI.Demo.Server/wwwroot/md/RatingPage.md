@@ -22,22 +22,22 @@
     <div>
         <div class="subSection">
             <Demo Header="Rating" Key="0" MetadataPath="RatingPage">
-                <Label>Large Stars:</Label>
-                <Rating Size="RatingSize.Large" />
+                Large Stars:<br />
+                <Rating Size="RatingSize.Large" AriaLabelFormat="Select {0} of {1} stars" />
 
-                <Label>Small Stars:</Label>
+                Small Stars:<br />
                 <Rating RatingValue="3" />
 
-                <Label>10 Small Stars:</Label>
-                <Rating Max="10" />
+                10 Small Stars:<br />
+                <Rating AriaLabel="10 small stars" Max="10" />
 
-                <Label>Disabled:</Label>
+                Disabled:<br />
                 <Rating Disabled="true" />
 
-                <Label>Half star in readOnly mode:</Label>
-                <Rating ReadOnly="true" RatingValue="2.5" />
+                Half star in readOnly mode:<br />
+                <Rating ReadOnly="true" RatingValue="2.5" GetAriaLabel="@((value, max) => $"Half star in readOnly mode rating value is {value.ToString()} of {max.ToString()}")" />
 
-                <Label>Custom icons:</Label>
+                Custom icons:<br />
                 <Rating RatingValue="2.5" IconName="StarburstSolid" UnselectedIcon="Starburst" />
             </Demo>
         </div>

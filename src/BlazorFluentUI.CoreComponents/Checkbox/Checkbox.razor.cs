@@ -66,6 +66,8 @@ namespace BlazorFluentUI
 
         [Parameter] public EventCallback<bool> IndeterminateChanged { get; set; }
 
+        [Parameter] public RenderFragment? OnRenderLabel { get; set; }
+
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
 
         private FieldIdentifier FieldIdentifier;

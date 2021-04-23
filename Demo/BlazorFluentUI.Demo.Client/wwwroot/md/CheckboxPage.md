@@ -37,6 +37,13 @@
                     <Label>Controlled checkbox is @(_isFirstChecked ? "checked" : "unchecked").</Label>
                     <Checkbox Label="Controlled checkbox" @bind-Checked=@_isFirstChecked />
                     <Checkbox Label='Checkbox rendered with boxSide "end"' BoxSide="BoxSide.End" />
+                    <Checkbox Label="Checkbox with link inside the label">
+                        <OnRenderLabel>
+                            <span>
+                                Custom-rendered label with a link to <BlazorFluentUI.Link Href='https://www.microsoft.com' Target='_blank'>Microsoft home page</BlazorFluentUI.Link>
+                            </span>
+                        </OnRenderLabel>
+                        </Checkbox>
                 </Stack>
             </Demo>
         </div>
@@ -53,7 +60,7 @@
         </div>
         <div class="subSection">
             <Demo Header="Blazor Forms Validation Example" Key="3" MetadataPath="CheckboxPage">
-                <Stack Tokens=stackTokens>
+
                     <EditForm Model="exampleModel" OnValidSubmit=@HandleValidSubmit>
                         <DataAnnotationsValidator />
                         <FluentUIValidationSummary />
@@ -61,7 +68,7 @@
                         <Checkbox Label="I agree with the terms!" @bind-Checked=@(exampleModel.IsChecked) />
                         <SubmitButton Text="Submit" />
                     </EditForm>
-                </Stack>
+
             </Demo>
         </div>
     </div>
@@ -78,7 +85,7 @@
     protected override void OnInitialized()
     {
         _isIndeterminate = true;
-        stackTokens = new StackTokens { ChildrenGap = new double[] { 10 } };
+        stackTokens = new StackTokens { ChildrenGap = new double[] { 10d } };
         base.OnInitialized();
     }
 
@@ -99,5 +106,4 @@
     {
         //var i = 3;
     }
-
 }

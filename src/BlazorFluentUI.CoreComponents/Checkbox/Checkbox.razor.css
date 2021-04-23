@@ -122,11 +122,10 @@
 
 .ms-Checkbox-label {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     cursor: pointer;
     position: relative;
     align-self:stretch;
-    padding: 0px 8px;
     width: 100%;
     user-select: none;
 }
@@ -171,7 +170,7 @@
     transition-timing-function: cubic-bezier(.4,0,.23,1);
     /* in case the icon is bigger than the box */
     overflow: hidden;
-    margin-left: 4px;
+    margin-right: 4px;
 }
     .ms-Checkbox.is-indeterminate ::deep .ms-Checkbox-checkbox::after {
         content: "";

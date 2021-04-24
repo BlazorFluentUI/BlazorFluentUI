@@ -47,12 +47,12 @@
                     </ChildContent>
                 </TooltipHost>
                 
-                <TooltipHost IsBreakVisible="false">
+                <TooltipHost IsBeakVisible="false">
                     <TooltipContent>
                         Hey, look here!
                     </TooltipContent>
                     <ChildContent>
-                        <DefaultButton>Without break</DefaultButton>
+                        <DefaultButton>Without beak</DefaultButton>
                     </ChildContent>
                 </TooltipHost>
             </Demo>

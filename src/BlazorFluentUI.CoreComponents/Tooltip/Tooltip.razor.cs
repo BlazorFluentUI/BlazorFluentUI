@@ -16,7 +16,7 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<EventArgs> OnMouseEnter { get; set; }
         [Parameter] public EventCallback<EventArgs> OnMouseLeave { get; set; }
         [Parameter] public int GapSpace { get; set; } = 0;
-        [Parameter] public bool IsBreakVisible { get; set; } = true;
+        [Parameter] public bool IsBeakVisible { get; set; } = true;
 
         private ICollection<IRule> TooltipLocalRules { get; set; } = new List<IRule>();
 

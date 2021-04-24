@@ -25,7 +25,7 @@ namespace BlazorFluentUI
         [Parameter] public RenderFragment? TooltipContent { get; set; }
         
         [Parameter] public int GapSpace { get; set; } = 0;
-        [Parameter] public bool IsBreakVisible { get; set; } = true;
+        [Parameter] public bool IsBeakVisible { get; set; } = true;
 
         protected FluentUIComponentBase? TargetElement;
         protected bool ShowTooltip;

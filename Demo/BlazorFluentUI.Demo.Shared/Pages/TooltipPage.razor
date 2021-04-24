@@ -29,12 +29,30 @@
     <div>
         <div class="subSection">
             <Demo Header="Tooltip" Key="0" MetadataPath="TooltipPage">
-               <TooltipHost>
+                <TooltipHost>
                     <TooltipContent>
                         Hey, look here!
                     </TooltipContent>
                     <ChildContent>
                         <DefaultButton>Hover to see a tooltip</DefaultButton>
+                    </ChildContent>
+                </TooltipHost>
+                
+                <TooltipHost GapSpace="10">
+                    <TooltipContent>
+                        Hey, look here!
+                    </TooltipContent>
+                    <ChildContent>
+                        <DefaultButton>With gap</DefaultButton>
+                    </ChildContent>
+                </TooltipHost>
+                
+                <TooltipHost IsBeakVisible="false">
+                    <TooltipContent>
+                        Hey, look here!
+                    </TooltipContent>
+                    <ChildContent>
+                        <DefaultButton>Without beak</DefaultButton>
                     </ChildContent>
                 </TooltipHost>
             </Demo>

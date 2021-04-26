@@ -33,7 +33,7 @@
                           style=@(autoAdjustedHeight != -1 ? $"height:{autoAdjustedHeight}px;" : "")
                           @bind-value=@CurrentValue
                           @bind-value:event="oninput"
-                          @onchange=@ChangeHandler
+                          @onchange=@OnChangeHandler
                           @attributes="@AdditionalAttributes"
                           class="mediumFont ms-TextField-field"
                           aria-label=@AriaLabel
@@ -46,8 +46,9 @@
                           @onkeydown=@OnKeyDown
                           @onkeyup=@OnKeyUp
                           @onkeypress=@OnKeyPress
-                          @onfocus=@OnFocusInternal
-                          @onblur=@OnBlurInternal />
+                          @onfocus=@OnFocusHandler
+                          @onblur=@OnBlurHandler
+                          @onpaste=@OnPaste/>
             }
             else
             {
@@ -56,7 +57,7 @@
                        id=@id
                        value=@(BindConverter.FormatValue(CurrentValueAsString))
                        @oninput=@(EventCallback.Factory.CreateBinder<string?>(this, __value => CurrentValueAsString = __value, CurrentValueAsString))
-                       @onchange=@ChangeHandler
+                       @onchange=@OnChangeHandler
                        @attributes=@AdditionalAttributes
                        autocomplete=@GetAutoCompleteString()
                        step="@_stepAttributeValue"
@@ -68,11 +69,12 @@
                        readOnly=@ReadOnly
                        placeholder=@Placeholder
                        disabled=@Disabled
-                       @onkeydown=@OnKeyDown
+                       @onkeydown=@OnKeyDownHandler
                        @onkeyup=@OnKeyUp
                        @onkeypress=@OnKeyPress
-                       @onfocus=@OnFocusInternal
-                       @onblur=@OnBlurInternal />
+                       @onfocus=@OnFocusHandler
+                       @onblur=@OnBlurHandler
+                       @onpaste=@OnPaste/>
 
             }
             @if (hasIcon)

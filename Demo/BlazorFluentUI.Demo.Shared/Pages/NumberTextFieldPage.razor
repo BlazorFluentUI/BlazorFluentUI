@@ -2,7 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 
 <header class="root">
-    <h1 class="title">TextFieldNumber</h1>
+    <h1 class="title">NumberTextField</h1>
 </header>
 <div class="section" style="transition-delay: 0s;">
     <div id="overview" tabindex="-1">
@@ -11,7 +11,7 @@
     <div class="content">
         <div class="ms-Markdown">
             <p>
-                Number text fields (<code>TextFieldNumber</code>) give people a way to enter and edit numbers (<code>int, long, short, double, float, decimal</code>). They’re used in forms, modal dialogs, tables, and other surfaces where number input is required.
+                Number text fields (<code>NumberTextField</code>) give people a way to enter and edit numbers (<code>int, long, short, double, float, decimal</code>). They’re used in forms, modal dialogs, tables, and other surfaces where number input is required.
 </p>
         </div>
     </div>
@@ -19,32 +19,32 @@
 <div class="section" style="transition-delay: 0s;">
     <div id="overview" tabindex="-1">
         <h2 class="subHeading">Usage</h2>
-        <p>These <code>&lt;TextFieldNumber&gt;</code> components can be used both within and without <code>&lt;EditForm&gt;</code> block <strong>but</strong> you don't get validation messages when you don't put them in an <code>&lt;EditForm&gt;</code></p>
+        <p>These <code>&lt;NumberTextField&gt;</code> components can be used both within and without <code>&lt;EditForm&gt;</code> block <strong>but</strong> you don't get validation messages when you don't put them in an <code>&lt;EditForm&gt;</code></p>
     </div>
     <div>
         <div class="subSection">
             <Demo Header="TextFieldNumbers without EditForm" Key="0" MetadataPath="TextFieldNumberPage">
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Int test" @bind-Value="model.exampleInt" @bind-Value:event="OnChange" />
+                    <NumberTextField Label="Int test" @bind-Value="model.exampleInt" @bind-Value:event="OnChange" />
                 </div>
                 Example int: @model.exampleInt
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Long test" @bind-Value="model.exampleLong" />
+                    <NumberTextField Label="Long test" @bind-Value="model.exampleLong" />
                 </div>
                 Example long: @model.exampleLong
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Short test (unbound)" Value="Int16.MinValue" />
+                    <NumberTextField Label="Short test (unbound)" Value="Int16.MinValue" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Float test (OnChange)" @bind-Value="@model.exampleFloat" @bind-Value:event="OnChange" />
+                    <NumberTextField Label="Float test (OnChange)" @bind-Value="@model.exampleFloat" @bind-Value:event="OnChange" />
                     Example float: @model.exampleFloat
                 </div>
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Double test" @bind-Value="@model.exampleDouble" />
+                    <NumberTextField Label="Double test" @bind-Value="@model.exampleDouble" />
                     Example double: @model.exampleDouble
                 </div>
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Decimal test" @bind-Value="@model.exampleDecimal" />
+                    <NumberTextField Label="Decimal test" @bind-Value="@model.exampleDecimal" />
                     Example decimal: @model.exampleDecimal
                 </div>
             </Demo>
@@ -54,26 +54,26 @@
                 <EditForm Model=@model OnValidSubmit=@HandleValidSubmit>
                 <FluentUIValidationSummary />
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Int test" @bind-Value="model.exampleInt" @bind-Value:event="OnChange" />
+                    <NumberTextField Label="Int test" @bind-Value="model.exampleInt" @bind-Value:event="OnChange" />
                 </div>
                 Example int: @model.exampleInt
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Long test" @bind-Value="model.exampleLong" />
+                    <NumberTextField Label="Long test" @bind-Value="model.exampleLong" />
                 </div>
                 Example long: @model.exampleLong
                 <div class="textFieldDiv">
-                    <TextFieldNumber TValue="short" Label="Short test (unbound)" Value="Int16.MinValue" />
+                    <NumberTextField TValue="short" Label="Short test (unbound)" Value="Int16.MinValue" />
                 </div>
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Float test (OnChange)" @bind-Value="@model.exampleFloat" @bind-Value:event="OnChange" />
+                    <NumberTextField Label="Float test (OnChange)" @bind-Value="@model.exampleFloat" @bind-Value:event="OnChange" />
                     Example float: @model.exampleFloat
                 </div>
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Double test" @bind-Value="@model.exampleDouble" />
+                    <NumberTextField Label="Double test" @bind-Value="@model.exampleDouble" />
                     Example double: @model.exampleDouble
                 </div>
                 <div class="textFieldDiv">
-                    <TextFieldNumber Label="Decimal test" @bind-Value="@model.exampleDecimal" />
+                    <NumberTextField Label="Decimal test" @bind-Value="@model.exampleDecimal" />
                     Example decimal: @model.exampleDecimal
                 </div>
                 </EditForm>

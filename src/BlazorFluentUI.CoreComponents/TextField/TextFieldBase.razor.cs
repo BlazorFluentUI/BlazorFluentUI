@@ -13,15 +13,14 @@ using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
-    public class TextField : TextFieldBase<string?> { }
-    public class TextFieldNumber<TValue> : TextFieldBase<TValue>
+    public class TextField : TextFieldBase<string?>
     {
-        public TextFieldNumber()
-        {
-            InputType = InputType.Number;
-            AutoComplete = AutoComplete.Off;
-        }
+        [Parameter] public new EventCallback<string?> OnChange { get; set; }
+        [Parameter] public new EventCallback<string?> OnInput { get; set; }
     }
+
+
+
 
     public partial class TextFieldBase<TValue> : FluentUIComponentBase, IAsyncDisposable
     {
@@ -134,6 +133,8 @@ namespace BlazorFluentUI
 
         [Parameter] public EventCallback<TValue> OnChange { get; set; }
         [Parameter] public EventCallback<TValue> OnInput { get; set; }
+
+        [Parameter] public EventCallback<ClipboardEventArgs> OnPaste { get; set; }
 
         /// <summary>
         /// Gets the associated <see cref="Forms.EditContext"/>.
@@ -367,8 +368,12 @@ namespace BlazorFluentUI
             }
         }
 
-        protected async Task ChangeHandler(ChangeEventArgs args)
+        protected async Task OnChangeHandler(ChangeEventArgs args)
         {
+            if (OnChange.HasDelegate)
+            {
+                await OnChange.InvokeAsync((TValue?)args.Value);
+            }
             if (TryParseValueFromString((string?)args.Value, out TValue? result, out _))
             {
                 await OnChange.InvokeAsync(result);
@@ -376,7 +381,7 @@ namespace BlazorFluentUI
             }
         }
 
-        protected async Task OnFocusInternal(FocusEventArgs args)
+        protected async Task OnFocusHandler(FocusEventArgs args)
         {
             if (OnFocus.HasDelegate)
             {
@@ -389,7 +394,7 @@ namespace BlazorFluentUI
             }
         }
 
-        protected async Task OnBlurInternal(FocusEventArgs args)
+        protected async Task OnBlurHandler(FocusEventArgs args)
         {
             if (OnBlur.HasDelegate)
             {
@@ -399,6 +404,14 @@ namespace BlazorFluentUI
             if (ValidateOnFocusOut && !defaultErrorMessageIsSet)
             {
                 Validate(CurrentValue);
+            }
+        }
+
+        protected async Task OnKeyDownHandler(KeyboardEventArgs args)
+        {
+            if (OnKeyDown.HasDelegate)
+            {
+                await OnKeyDown.InvokeAsync(args);
             }
         }
 
@@ -574,19 +587,22 @@ namespace BlazorFluentUI
             }
             else
             {
-                if ((latestValidatedValue != null && latestValidatedValue.Equals(value))) // value == null ||  removed because otherwise it doesn't validate for required
-                    return;
-
-                latestValidatedValue = value;
-                string? errorMessage = OnGetErrorMessage?.Invoke(value);
-                if (errorMessage != null)
+                if (value != null)
                 {
-                    ErrorMessage = errorMessage;
-                }
-                OnNotifyValidationResult?.Invoke(value, errorMessage!);
+                    if (latestValidatedValue != null && latestValidatedValue.Equals(value))
+                        return;
 
-                //OnNotifyValidationResult?.Invoke(ErrorMessage!, value);
-                StateHasChanged();
+                    latestValidatedValue = value;
+                    string? errorMessage = OnGetErrorMessage?.Invoke(value);
+                    if (errorMessage != null)
+                    {
+                        ErrorMessage = errorMessage;
+                    }
+                    OnNotifyValidationResult?.Invoke(value, errorMessage!);
+
+                    //OnNotifyValidationResult?.Invoke(ErrorMessage!, value);
+                    StateHasChanged();
+                }
             }
         }
 

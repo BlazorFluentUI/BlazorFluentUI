@@ -1,0 +1,15 @@
+﻿@namespace BlazorFluentUI
+@inherits TextFieldBase<string?>
+
+<TextFieldBase TValue="string"
+               @ref=TextFieldReference
+               DefaultValue="@DefaultValue"
+               OnFocus=HandleOnFocusAsync
+               OnBlur=HandleOnBlurAsync
+               @onmousedown=HandleOnMouseDownAsync
+               @onmouseup=HandleOnMouseUpAsync
+               OnChange=HandleOnChangeAsync
+               OnPaste=HandleOnPasteAsync
+               OnKeyDown=HandleOnKeyDownAsync
+               ValueChanged=HandleValueChanged />
+

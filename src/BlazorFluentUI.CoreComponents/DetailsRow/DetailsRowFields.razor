@@ -28,9 +28,17 @@
              style=@($"width:{width};padding-left:{CellLeftPadding}px;")
 
              >
-            @if (column.ColumnItemTemplate != null)
+            @if (column.InternalColumnItemTemplate != null && column.FieldSelectorExpression != null)
             {
-                @column.ColumnItemTemplate(new DynamicAccessor<TItem>(Item!, column.FieldSelectorExpression!))
+                var fragment = (column.InternalColumnItemTemplate as RenderFragment<DynamicAccessor<TItem>>);
+                if (fragment != null)
+                    @fragment(new DynamicAccessor<TItem>(Item!, column.FieldSelectorExpression!))
+            }
+            else if (column.InternalColumnItemTemplate != null && column.FieldSelectorExpression == null)
+            {
+                var fragment = (column.InternalColumnItemTemplate as RenderFragment<TItem>);
+                if (fragment != null)
+                    @fragment(Item!)
             }
             else
             {

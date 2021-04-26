@@ -40,7 +40,7 @@ namespace BlazorFluentUI.Lists
         public object? ColumnReorderProps { get; set; }
 
         [Parameter]
-        public IEnumerable<DetailsRowColumn<TItem>>? Columns { get; set; }
+        public IEnumerable<IDetailsRowColumn<TItem>>? Columns { get; set; }
 
         [Parameter]
         public RenderFragment? DetailsCheckboxTemplate { get; set; }
@@ -65,13 +65,13 @@ namespace BlazorFluentUI.Lists
 
 
         [Parameter]
-        public EventCallback<ItemContainer<DetailsRowColumn<TItem>>> OnColumnAutoResized { get; set; }
+        public EventCallback<ItemContainer<IDetailsRowColumn<TItem>>> OnColumnAutoResized { get; set; }
 
         [Parameter]
-        public EventCallback<DetailsRowColumn<TItem>> OnColumnClick { get; set; }
+        public EventCallback<IDetailsRowColumn<TItem>> OnColumnClick { get; set; }
 
         [Parameter]
-        public EventCallback<DetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
+        public EventCallback<IDetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
 
         [Parameter]
         public EventCallback<object> OnColumnIsSizingChanged { get; set; }
@@ -184,7 +184,7 @@ namespace BlazorFluentUI.Lists
         public void OnDoubleClick(int columnIndex)
         {
             //System.Diagnostics.Debug.WriteLine("DoubleClick happened.");
-            OnColumnAutoResized.InvokeAsync(new ItemContainer<DetailsRowColumn<TItem>> { Item = Columns!.ElementAt(columnIndex), Index = columnIndex });
+            OnColumnAutoResized.InvokeAsync(new ItemContainer<IDetailsRowColumn<TItem>> { Item = Columns!.ElementAt(columnIndex), Index = columnIndex });
         }
 
         private void OnSelectAllClicked(MouseEventArgs mouseEventArgs)

@@ -20,7 +20,7 @@ namespace BlazorFluentUI
         public bool AnySelected { get; set; }
 
         [Parameter]
-        public IEnumerable<DetailsRowColumn<TItem>>? Columns { get; set; }
+        public IEnumerable<IDetailsRowColumn<TItem>>? Columns { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }
@@ -208,7 +208,7 @@ namespace BlazorFluentUI
         {
             if (Columns != null)
             {
-                DetailsRowColumn<TItem>? column = Columns.ElementAt(index);
+                IDetailsRowColumn<TItem>? column = Columns.ElementAt(index);
                 column.MinWidth = 0;
                 column.MaxWidth = 999999;
                 column.CalculatedWidth = double.NaN;

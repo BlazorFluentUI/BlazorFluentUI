@@ -36,7 +36,7 @@
                 </Stack>
                 <TextField Label="Filter Description"
                            Value=@filter
-                           OnInput=@(val => { filter = val; descriptionColumn!.FilterPredicate = prop => prop.Contains(filter); }) />
+                           OnInput=@(val => { filter = val; descriptionColumn!.FilterPredicate = prop => (prop as string).Contains(filter); }) />
                 <div data-is-scrollable="true" style="height:400px;overflow-y:auto;">
                     <DetailsListAuto  ItemsSource="dataSource"
                                      IsVirtualizing=@isVirtualizing
@@ -98,8 +98,8 @@
     int count = 0;
 
     // We're creating another container for the column array that needs to be defined to show columns in DetailsList.
-    System.Collections.Generic.List<DetailsRowColumn<DataItem>> columnsSource = new ();
-    System.Collections.Generic.List<DetailsRowColumn<DataItem>> fixedColumnsSource = new ();
+    System.Collections.Generic.List<IDetailsRowColumn<DataItem>> columnsSource = new ();
+    System.Collections.Generic.List<IDetailsRowColumn<DataItem>> fixedColumnsSource = new ();
 
     string filter = "";
     DetailsRowColumn<DataItem, string>? descriptionColumn;

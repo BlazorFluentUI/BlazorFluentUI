@@ -9,7 +9,7 @@ namespace BlazorFluentUI.Lists
     {
 
         [Parameter]
-        public DetailsRowColumn<TItem>? Column { get; set; }
+        public IDetailsRowColumn<TItem>? Column { get; set; }
 
         [Parameter]
         public RenderFragment<object>? ColumnHeaderTooltipTemplate { get; set; }
@@ -27,10 +27,10 @@ namespace BlazorFluentUI.Lists
         public bool IsDropped { get; set; }
 
         [Parameter]
-        public EventCallback<DetailsRowColumn<TItem>> OnColumnClick { get; set; }
+        public EventCallback<IDetailsRowColumn<TItem>> OnColumnClick { get; set; }
 
         [Parameter]
-        public EventCallback<DetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
+        public EventCallback<IDetailsRowColumn<TItem>> OnColumnContextMenu { get; set; }
 
         [Parameter]
         public string? ParentId { get; set; }

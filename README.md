@@ -1,5 +1,5 @@
 # BlazorFluentUI
-Simple port of Fluent UI (formerly Office Fabric) React components and style to Blazor
+Port of Fluent UI React components and style (formerly Office Fabric) to Blazor
 
 ## Blazor Webassembly Demo
 Temporary:  https://ambitious-river-018c10b1e.azurestaticapps.net/

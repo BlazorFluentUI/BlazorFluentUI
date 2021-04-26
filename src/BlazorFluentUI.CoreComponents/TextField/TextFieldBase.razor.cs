@@ -574,19 +574,22 @@ namespace BlazorFluentUI
             }
             else
             {
-                if ((latestValidatedValue != null && latestValidatedValue.Equals(value))) // value == null ||  removed because otherwise it doesn't validate for required
-                    return;
-
-                latestValidatedValue = value;
-                string? errorMessage = OnGetErrorMessage?.Invoke(value);
-                if (errorMessage != null)
+                if (value != null)
                 {
-                    ErrorMessage = errorMessage;
-                }
-                OnNotifyValidationResult?.Invoke(value, errorMessage!);
+                    if ((latestValidatedValue != null && latestValidatedValue.Equals(value))) // value == null ||  removed because otherwise it doesn't validate for required
+                        return;
 
-                //OnNotifyValidationResult?.Invoke(ErrorMessage!, value);
-                StateHasChanged();
+                    latestValidatedValue = value;
+                    string? errorMessage = OnGetErrorMessage?.Invoke(value);
+                    if (errorMessage != null)
+                    {
+                        ErrorMessage = errorMessage;
+                    }
+                    OnNotifyValidationResult?.Invoke(value, errorMessage!);
+
+                    //OnNotifyValidationResult?.Invoke(ErrorMessage!, value);
+                    StateHasChanged();
+                }
             }
         }
 

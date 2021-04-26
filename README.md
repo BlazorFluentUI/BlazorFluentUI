@@ -2,7 +2,8 @@
 Simple port of Fluent UI (formerly Office Fabric) React components and style to Blazor
 
 ## Blazor Webassembly Demo
-https://www.blazorfluentui.net/
+Temporary:  https://ambitious-river-018c10b1e.azurestaticapps.net/
+Currently Down: https://www.blazorfluentui.net/
 
 ## Blazor Server Demo
 https://blazorfluentui.azurewebsites.net/ (Older version!)

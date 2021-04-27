@@ -69,12 +69,12 @@
     System.Collections.Generic.List<DataItem> dataSource = new();
     int count = 0;
 
-    System.Collections.Generic.List<DetailsRowColumn<DataItem>> columnsSource = new();
+    System.Collections.Generic.List<IDetailsRowColumn<DataItem>> columnsSource = new();
 
     DetailsListAuto<DataItem>? detailsList;
 
     string filter = "";
-    DetailsRowColumn<DataItem>? descriptionColumn;
+    IDetailsRowColumn<DataItem>? descriptionColumn;
 
     protected override void OnInitialized()
     {

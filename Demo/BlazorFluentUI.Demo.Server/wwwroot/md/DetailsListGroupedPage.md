@@ -65,8 +65,8 @@
     public System.ComponentModel.BindingList<GroupedDataItem> ReadonlyList = new System.ComponentModel.BindingList<GroupedDataItem>();
     int count = 0;
 
-    SourceCache<DetailsRowColumn<GroupedDataItem>, string> columnsSource = new SourceCache<DetailsRowColumn<GroupedDataItem>, string>(x => x.Key!);
-    public ReadOnlyObservableCollection<DetailsRowColumn<GroupedDataItem>>? ReadonlyColumns;
+    SourceCache<IDetailsRowColumn<GroupedDataItem>, string> columnsSource = new SourceCache<IDetailsRowColumn<GroupedDataItem>, string>(x => x.Key!);
+    public ReadOnlyObservableCollection<IDetailsRowColumn<GroupedDataItem>>? ReadonlyColumns;
 
     DetailsList<GroupedDataItem>? detailsList;
 
@@ -134,7 +134,7 @@
             .Subscribe();
 
         columnsSource.Connect()
-            .Sort(SortExpressionComparer<DetailsRowColumn<GroupedDataItem>>.Ascending(x => x.Index))
+            .Sort(SortExpressionComparer<IDetailsRowColumn<GroupedDataItem>>.Ascending(x => x.Index))
             .Bind(out ReadonlyColumns)
             .Do(_ => StateHasChanged())  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
             .Subscribe();
@@ -142,7 +142,7 @@
         base.OnInitialized();
     }
 
-    private void OnColumnClick(DetailsRowColumn<GroupedDataItem> column)
+    private void OnColumnClick(IDetailsRowColumn<GroupedDataItem> column)
     {
 
         if (column.IsSorted)

@@ -106,7 +106,7 @@ namespace BlazorFluentUI
                 if (isFocused && maskCursorPosition > 0 )
                 {
                     await baseModule.InvokeVoidAsync("setSelectionRange", Element, maskCursorPosition, maskCursorPosition);
-                }
+        }
             }
 
         }
@@ -310,7 +310,7 @@ namespace BlazorFluentUI
                         cursorPos = GetLeftFormatIndex(maskCharData, selectionStart);
                     }
                 }
-            }
+        }
             else if (inputValue!.Length > DisplayValue!.Length)
             {
                 // This case is if the user added characters
@@ -321,7 +321,7 @@ namespace BlazorFluentUI
                 cursorPos = InsertString(maskCharData, startPos, enteredString);
             }
             else if (inputValue.Length <= DisplayValue.Length)
-            {
+        {
                 /**
                  * This case is reached only if the user has selected a block of 1 or more
                  * characters and input a character replacing the characters they've selected.
@@ -348,11 +348,19 @@ namespace BlazorFluentUI
             //await ValueChanged.InvokeAsync((string?)args.Value);
         }
 
+            //// Check if backspace or delete press is valid.
+            //if (!(keyCode === KeyCodes.backspace && selectionEnd && selectionEnd > 0) &&
+            //    !(keyCode === KeyCodes.del && selectionStart !== null && selectionStart < textField.current.value.length)
+            //                    )
+            //                    {
+            //                        return;
+            //                    }
 
         private async Task HandleOnKeyDownAsync(KeyboardEventArgs args)
         {
             Console.WriteLine("In KeyDown)");
 
+            //ChangeSelectionData = null;
             var keyCode = args.Key;
             var ctrlKey = args.CtrlKey;
             var metaKey = args.MetaKey;

@@ -16,11 +16,11 @@ How To Use: [Blazor Server](https://github.com/BlazorFluentUI/BlazorFluentUI/wik
 ## Revision history
 
 ### V5.2
-- Library is now using JavaScript isolation (see https://docs.microsoft.com/en-us/aspnet/core/blazor/call-javascript-from-dotnet?view=aspnetcore-5.0#blazor-javascript-isolation-and-object-references). No longer needed to reference the scripts in your `_Host.cshtml` / `index.html`! (with exception of the still experimental RichTextEditor script and acompanying Quill library). Blazor Server demo no longer supports IE11/Legacy edge because of this change
+- Library is now using JavaScript isolation (see https://docs.microsoft.com/en-us/aspnet/core/blazor/call-javascript-from-dotnet?view=aspnetcore-5.0#blazor-javascript-isolation-and-object-references). No longer needed to reference the scripts in your `_Host.cshtml` / `index.html`! (with exception of the still experimental RichTextEditor script and acompanying Quill library). Blazor Server in .NET 5.0 no longer supports IE11/Legacy edge so neither does the demo.
 
 ### V5.1
 - Add editable column for `DetailsList, DetailsListAuto` 
-- Add new component `TextFieldNumber`, based on `TextField`. Supports `int, long, short, float, double and decimal`. 
+- Add new component `TextFieldNumber` (, based on `TextField`. Supports `int, long, short, float, double and decimal`. 
   See https://www.blazorfluentui.net/TextFieldNumberPage for examples
 
 

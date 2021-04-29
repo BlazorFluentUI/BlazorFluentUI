@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
@@ -106,7 +107,11 @@ namespace BlazorFluentUI
                 selfReference = DotNetObjectReference.Create(this);
                 try
                 {
-                    eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", RootElementReference, selfReference);
+                    try
+                    {
+                        eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", cancellationTokenSource.Token, RootElementReference, selfReference);
+                    }
+                    catch { }
                 }
                 catch (Exception)
                 {
@@ -117,7 +122,7 @@ namespace BlazorFluentUI
 
                 if (!isMeasured && FabricComponentTarget != null && firstRender && eventHandlerIds != null )
                 {
-                    await CalculateCalloutPositionAsync();
+                    await CalculateCalloutPositionAsync(cancellationTokenSource.Token);
                 }
 
             }
@@ -189,7 +194,7 @@ namespace BlazorFluentUI
             {
                 _finalPositionAnnounced = false;
                 //this will never get called initially because the target won't be rendered yet.  Shouldn't be called after due to isMeasured
-                await CalculateCalloutPositionAsync();
+                await CalculateCalloutPositionAsync(cancellationTokenSource.Token);
 
             }
             await base.OnParametersSetAsync();
@@ -205,42 +210,50 @@ namespace BlazorFluentUI
         //    StateHasChanged();
         //}
 
-        private async Task CalculateCalloutPositionAsync()
+        private async Task CalculateCalloutPositionAsync(CancellationToken cancellationToken)
         {
-            Rectangle maxBounds;
-            if (Bounds != null)
-                maxBounds = Bounds;
-            else
+            try
             {
-                //javascript to get screen bounds
-                maxBounds = await baseModule!.InvokeAsync<Rectangle>("getWindowRect");
-                maxBounds.Top += MinPagePadding;
-                maxBounds.Left += MinPagePadding;
-                maxBounds.Bottom -= MinPagePadding;
-                maxBounds.Right -= MinPagePadding;
-                maxBounds.Width -= (2 * MinPagePadding);
-                maxBounds.Height -= (2 * MinPagePadding);
-            }
-            Rectangle? targetRect = await FabricComponentTarget!.GetBoundsAsync();
-            Debug.WriteLine($"TargetRect: {targetRect.Left}, {targetRect.Top}, {targetRect.Right}, {targetRect.Bottom}");
+                Rectangle maxBounds;
+                if (Bounds != null)
+                    maxBounds = Bounds;
+                else
+                {
+                    //javascript to get screen bounds
+                    maxBounds = await baseModule!.InvokeAsync<Rectangle>("getWindowRect");
+                    maxBounds.Top += MinPagePadding;
+                    maxBounds.Left += MinPagePadding;
+                    maxBounds.Bottom -= MinPagePadding;
+                    maxBounds.Right -= MinPagePadding;
+                    maxBounds.Width -= (2 * MinPagePadding);
+                    maxBounds.Height -= (2 * MinPagePadding);
+                }
 
-            contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
-            if (CalloutMaxHeight > 0 && CalloutMaxHeight < contentMaxHeight)
+                Rectangle? targetRect = await FabricComponentTarget!.GetBoundsAsync();
+                Debug.WriteLine($"TargetRect: {targetRect.Left}, {targetRect.Top}, {targetRect.Right}, {targetRect.Bottom}");
+
+                contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
+                if (CalloutMaxHeight > 0 && CalloutMaxHeight < contentMaxHeight)
+                {
+                    contentMaxHeight = CalloutMaxHeight;
+                }
+                //StateHasChanged();
+
+                CalloutPosition = await PositionCalloutAsync(targetRect, maxBounds, cancellationToken);
+                //this.CalloutPosition = calloutPositioning;
+                Debug.WriteLine($"CalloutPosition: {CalloutPosition.ElementRectangle.Left}, {CalloutPosition.ElementRectangle.Top}, {CalloutPosition.ElementRectangle.Right}, {CalloutPosition.ElementRectangle.Bottom}");
+
+                //this.Position = this.CalloutPosition.ElementRectangle;
+
+
+                isMeasured = true;
+                Hidden = false;
+                StateHasChanged();
+            }
+            catch (TaskCanceledException canceled)
             {
-                contentMaxHeight = CalloutMaxHeight;
+                Debug.WriteLine("Task was canceled.  Probably due to the component being disposed.");
             }
-            //StateHasChanged();
-
-            CalloutPosition = await PositionCalloutAsync(targetRect, maxBounds);
-            //this.CalloutPosition = calloutPositioning;
-            Debug.WriteLine($"CalloutPosition: {CalloutPosition.ElementRectangle.Left}, {CalloutPosition.ElementRectangle.Top}, {CalloutPosition.ElementRectangle.Right}, {CalloutPosition.ElementRectangle.Bottom}");
-
-            //this.Position = this.CalloutPosition.ElementRectangle;
-
-
-            isMeasured = true;
-            Hidden = false;
-            StateHasChanged();
         }
 
         private double GetMaxHeight(Rectangle targetRect, Rectangle maxBounds)
@@ -278,19 +291,19 @@ namespace BlazorFluentUI
             return maxHeight > 0 ? maxHeight : bounds.Height;
         }
 
-        private async Task<CalloutPositionedInfo> PositionCalloutAsync(Rectangle targetRect, Rectangle maxBounds)
+        private async Task<CalloutPositionedInfo> PositionCalloutAsync(Rectangle targetRect, Rectangle maxBounds, CancellationToken cancellationToken)
         {
             int beakWidth = IsBeakVisible ? BeakWidth : 0;
             double gap = Math.Sqrt(beakWidth * beakWidth * 2) / 2 + GapSpace;
 
             //Debug.WriteLine($"MaxBounds: {maxBounds.left}, {maxBounds.top}, {maxBounds.right}, {maxBounds.bottom}");
-            ElementPositionInfo? positionedElement = await PositionElementRelativeAsync(gap, targetRect, maxBounds);
+            ElementPositionInfo? positionedElement = await PositionElementRelativeAsync(gap, targetRect, maxBounds, cancellationToken);
 
             Rectangle? beakPositioned = PositionBeak(beakWidth, positionedElement);
 
             CalloutBeakPositionedInfo? finalizedBeakPosition = FinalizeBeakPosition(positionedElement, beakPositioned, maxBounds);
 
-            (PartialRectangle element, RectangleEdge targetEdge, RectangleEdge alignmentEdge) = await FinalizePositionDataAsync(positionedElement, maxBounds);
+            (PartialRectangle element, RectangleEdge targetEdge, RectangleEdge alignmentEdge) = await FinalizePositionDataAsync(positionedElement, maxBounds, cancellationToken);
 
             return new CalloutPositionedInfo(element, targetEdge, alignmentEdge, finalizedBeakPosition);
 
@@ -341,8 +354,10 @@ namespace BlazorFluentUI
                 targetEdge);
         }
 
-        private static Rectangle PositionBeak(double beakWidth, ElementPositionInfo elementPosition)
+        private static Rectangle PositionBeak(double beakWidth, ElementPositionInfo? elementPosition)
         {
+            if (elementPosition == null)
+                return new Rectangle(0, 0, 0, 0);
             Rectangle? target = elementPosition.TargetRectangle;
             (RectangleEdge positiveEdge, RectangleEdge negativeEdge) = GetFlankingEdges(elementPosition.TargetEdge);
             double beakTargetPoint = GetCenterValue(target, elementPosition.TargetEdge);
@@ -373,15 +388,18 @@ namespace BlazorFluentUI
         }
 
 
-        private async Task<(PartialRectangle element, RectangleEdge targetEdge, RectangleEdge alignmentEdge)> FinalizePositionDataAsync(ElementPositionInfo positionedElement, Rectangle bounds)
+        private async Task<(PartialRectangle element, RectangleEdge targetEdge, RectangleEdge alignmentEdge)> FinalizePositionDataAsync(ElementPositionInfo positionedElement, Rectangle bounds, CancellationToken cancellationToken)
         {
-            PartialRectangle? finalizedElement = await FinalizeElementPositionAsync(positionedElement.ElementRectangle, positionedElement.TargetEdge, bounds, positionedElement.AlignmentEdge);
+            PartialRectangle? finalizedElement = await FinalizeElementPositionAsync(positionedElement.ElementRectangle, positionedElement.TargetEdge, bounds, positionedElement.AlignmentEdge, cancellationToken);
             return (finalizedElement, positionedElement.TargetEdge, positionedElement.AlignmentEdge);
         }
 
-        private async Task<PartialRectangle> FinalizeElementPositionAsync(Rectangle elementRectangle, RectangleEdge targetEdge, Rectangle bounds, RectangleEdge alignmentEdge)
+        private async Task<PartialRectangle> FinalizeElementPositionAsync(Rectangle elementRectangle, RectangleEdge targetEdge, Rectangle bounds, RectangleEdge alignmentEdge, CancellationToken cancellationToken)
         {
-            Rectangle? hostRectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", RootElementReference);
+            //HOW TO DO THE PARTIAL STUFF?  Might need to set other sides to -1
+            PartialRectangle? returnValue = new();
+
+            Rectangle? hostRectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", cancellationToken, RootElementReference);
             //Debug.WriteLine($"HostRect: {hostRectangle.left}, {hostRectangle.top}, {hostRectangle.right}, {hostRectangle.bottom}");
 
 
@@ -389,8 +407,6 @@ namespace BlazorFluentUI
             //elementEdgeString
             RectangleEdge returnEdge = FinalizeReturnEdge(elementRectangle, alignmentEdge != RectangleEdge.None ? alignmentEdge : GetFlankingEdges(targetEdge).positiveEdge, bounds);
 
-            //HOW TO DO THE PARTIAL STUFF?  Might need to set other sides to -1
-            PartialRectangle? returnValue = new();
             switch (elementEdge)
             {
                 case RectangleEdge.Bottom:
@@ -421,6 +437,7 @@ namespace BlazorFluentUI
                     returnValue.Top = GetRelativeEdgeDifference(elementRectangle, hostRectangle, returnEdge);
                     break;
             }
+
             return returnValue;
         }
 
@@ -441,7 +458,7 @@ namespace BlazorFluentUI
             return GetRelativeEdgeValue(edge, edgeDifference);
         }
 
-        private async Task<ElementPositionInfo> PositionElementRelativeAsync(double gap, Rectangle targetRect, Rectangle boundingRect)
+        private async Task<ElementPositionInfo?> PositionElementRelativeAsync(double gap, Rectangle targetRect, Rectangle boundingRect, CancellationToken cancellationToken)
         {
 
             //previous data... not implemented
@@ -460,7 +477,7 @@ namespace BlazorFluentUI
 
             //Now calculate positionedElement
             //GetRectangleFromElement()
-            Rectangle? calloutRectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", calloutReference);
+            Rectangle? calloutRectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", cancellationToken, calloutReference);
             //Debug.WriteLine($"Callout: {calloutRectangle.left}, {calloutRectangle.top}, {calloutRectangle.right}, {calloutRectangle.bottom}");
 
             ElementPosition? positionedElement = PositionElementWithinBounds(calloutRectangle, targetRect, boundingRect, positionData, gap);
@@ -797,6 +814,7 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
+            cancellationTokenSource.Cancel();
             if (calloutModule != null && eventHandlerIds != null)
             {
                 isEventHandlersRegistered = false;
@@ -804,7 +822,10 @@ namespace BlazorFluentUI
                 await calloutModule.DisposeAsync();
             }
             if (baseModule != null)
+            {
                 await baseModule.DisposeAsync();
+                baseModule = null;
+            }
             selfReference?.Dispose();
 
             GC.SuppressFinalize(this);

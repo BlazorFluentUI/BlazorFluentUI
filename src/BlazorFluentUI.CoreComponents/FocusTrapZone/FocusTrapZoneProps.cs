@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 
 namespace BlazorFluentUI
@@ -55,6 +56,7 @@ namespace BlazorFluentUI
             RootElement = focusTrapZone.RootElementReference;
             FirstBumper = firstBumper;
             LastBumper = lastBumper;
+            
         }
     }
 }

@@ -60,8 +60,12 @@ namespace BlazorFluentUI
         {
             if (_id != -1)
             {
-                FocusTrapZoneProps? props = new(this, _firstBumper, _lastBumper);
-                await scriptModule!.InvokeVoidAsync("updateProps", _id, props);
+                try
+                {
+                    FocusTrapZoneProps? props = new(this, _firstBumper, _lastBumper);
+                    await scriptModule!.InvokeVoidAsync("updateProps", _id, props);
+                }
+                catch { }
             }
 
             await base.OnParametersSetAsync();
@@ -84,12 +88,17 @@ namespace BlazorFluentUI
             FocusTrapZoneProps? props = new(this, _firstBumper, _lastBumper);
 
             selfReference = DotNetObjectReference.Create(this);
-            _id = await scriptModule!.InvokeAsync<int>("register", props, selfReference);
+            try
+            {
+                _id = await scriptModule!.InvokeAsync<int>("register", cancellationTokenSource.Token, props, selfReference);
+            }
+            catch { }
         }
 
 
         public override async ValueTask DisposeAsync()
         {
+            cancellationTokenSource.Cancel();
             if (_id != -1 && scriptModule != null)
             {
                 await scriptModule.InvokeVoidAsync("unregister", _id);

@@ -170,7 +170,7 @@ export function getElementId(element) {
     }
     return null;
 }
-var eventRegister = {};
+var eventRegister = new Map();
 var eventElementRegister = {};
 /* Function for Dropdown, but could apply to focusing on any element after onkeydown outside of list containing is-element-focusable items */
 export function registerKeyEventsForList(element) {
@@ -218,32 +218,32 @@ export function deregisterKeyEventsForList(guid) {
 }
 export function registerWindowKeyDownEvent(dotnetRef, keyCode, functionName) {
     var guid = Guid.newGuid();
-    eventRegister[guid] = (ev) => {
+    eventRegister.set(guid, (ev) => {
         if (ev.code == keyCode) {
             ev.preventDefault();
             ev.stopPropagation();
             dotnetRef.invokeMethodAsync(functionName, ev.code);
         }
-    };
-    window.addEventListener("keydown", eventRegister[guid]);
+    });
+    window.addEventListener("keydown", eventRegister.get(guid));
     return guid;
 }
 export function deregisterWindowKeyDownEvent(guid) {
-    var func = eventRegister[guid];
+    var func = eventRegister.get(guid);
     window.removeEventListener("keydown", func);
-    eventRegister[guid] = null;
+    eventRegister.delete(guid);
 }
 export function registerResizeEvent(dotnetRef, functionName, guid) {
     var async = new Async(this);
-    eventRegister[guid] = async.debounce((ev) => {
+    eventRegister.set(guid, async.debounce((ev) => {
         dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
-    }, 100, { leading: true });
-    window.addEventListener("resize", eventRegister[guid]);
+    }, 100, { leading: true }));
+    window.addEventListener("resize", eventRegister.get(guid));
 }
 export function deregisterResizeEvent(guid) {
-    var func = eventRegister[guid];
+    var func = eventRegister.get(guid);
     window.removeEventListener("resize", func);
-    eventRegister[guid] = null;
+    eventRegister.delete(guid);
 }
 class Guid {
     static newGuid() {

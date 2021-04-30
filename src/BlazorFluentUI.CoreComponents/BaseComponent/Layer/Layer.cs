@@ -104,7 +104,7 @@ namespace BlazorFluentUI
                     }
                 }
 
-                await baseModule!.InvokeVoidAsync("addOrUpdateVirtualParent", _element);
+                await baseModule!.InvokeVoidAsync("addOrUpdateVirtualParent", cancellationTokenSource.Token, _element);
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -113,6 +113,7 @@ namespace BlazorFluentUI
         {
             if (LayerHost != null)
                 await LayerHost.RemoveHostedContentAsync(id)!;
+            cancellationTokenSource.Cancel();
             addedToHost = false;
             if (baseModule != null)
                 await baseModule.DisposeAsync();

@@ -53,21 +53,31 @@ namespace BlazorFluentUI
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
         private IJSObjectReference? baseModule;
 
+        protected CancellationTokenSource cancellationTokenSource;
+
         protected override async Task OnInitializedAsync()
         {
             ThemeProvider.ThemeChanged += OnThemeChangedPrivate;
             ThemeProvider.ThemeChanged += OnThemeChangedProtected;
+            cancellationTokenSource = new CancellationTokenSource();
             await base.OnInitializedAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-
-            if (!ScopedStatics!.FocusRectsInitialized)
+            try
             {
-                ScopedStatics.FocusRectsInitialized = true;
-                await baseModule!.InvokeVoidAsync("initializeFocusRects");
+                baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+
+                if (!ScopedStatics!.FocusRectsInitialized)
+                {
+                    ScopedStatics.FocusRectsInitialized = true;
+                    await baseModule!.InvokeVoidAsync("initializeFocusRects");
+                }
+            }
+            catch (TaskCanceledException canceled)
+            {
+                
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -79,7 +89,7 @@ namespace BlazorFluentUI
                 if (baseModule == null)
                     baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
 
-                Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", RootElementReference);
+                Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", cancellationTokenSource.Token, RootElementReference);
                 return rectangle;
             }
             catch (JSException)
@@ -93,7 +103,7 @@ namespace BlazorFluentUI
             try
             {
                 if (baseModule == null)
-                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", cancellationToken, BasePath);
 
                 Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", cancellationToken, RootElementReference);
                 return rectangle;
@@ -149,6 +159,7 @@ namespace BlazorFluentUI
 
         public virtual async ValueTask DisposeAsync()
         {
+            cancellationTokenSource.Cancel();
             if (baseModule != null)
                 await baseModule.DisposeAsync();
         }

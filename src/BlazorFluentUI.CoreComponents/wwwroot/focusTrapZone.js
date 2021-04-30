@@ -83,8 +83,8 @@ class FocusTrapZoneInternal {
             }
             else if (lastActiveFocusTrap._props.rootElement &&
                 lastActiveFocusTrap._props.rootElement.hasAttribute(HIDDEN_FROM_ACC_TREE)) {
-                lastActiveFocusTrap._props.rootElement.removeAttribute(HIDDEN_FROM_ACC_TREE);
-                lastActiveFocusTrap._props.rootElement.removeAttribute('aria-hidden');
+                lastActiveFocusTrap._props.rootElement?.removeAttribute(HIDDEN_FROM_ACC_TREE);
+                lastActiveFocusTrap._props.rootElement?.removeAttribute('aria-hidden');
             }
         };
         this._findElementAndFocusAsync = () => {
@@ -203,18 +203,18 @@ class FocusTrapZoneInternal {
         };
         this._props = focusTrapZoneProps;
         this._dotNetRef = dotNetRef;
-        this._props.rootElement.addEventListener("focus", this._onRootFocus, false);
-        this._props.rootElement.addEventListener("blur", this._onRootBlur, false);
-        this._props.firstBumper.addEventListener("focus", this._onFirstBumperFocus, false);
-        this._props.lastBumper.addEventListener("focus", this._onLastBumperFocus, false);
+        this._props.rootElement?.addEventListener("focus", this._onRootFocus, false);
+        this._props.rootElement?.addEventListener("blur", this._onRootBlur, false);
+        this._props.firstBumper?.addEventListener("focus", this._onFirstBumperFocus, false);
+        this._props.lastBumper?.addEventListener("focus", this._onLastBumperFocus, false);
         //this._bringFocusIntoZone();
     }
     unRegister() {
         const activeElement = document.activeElement;
-        this._props.rootElement.removeEventListener("focus", this._onRootFocus, false);
-        this._props.rootElement.removeEventListener("blur", this._onRootBlur, false);
-        this._props.firstBumper.removeEventListener("focus", this._onFirstBumperFocus, false);
-        this._props.lastBumper.removeEventListener("focus", this._onLastBumperFocus, false);
+        this._props.rootElement?.removeEventListener("focus", this._onRootFocus, false);
+        this._props.rootElement?.removeEventListener("blur", this._onRootBlur, false);
+        this._props.firstBumper?.removeEventListener("focus", this._onFirstBumperFocus, false);
+        this._props.lastBumper?.removeEventListener("focus", this._onLastBumperFocus, false);
         if (!this._props.disabled ||
             this._props.forceFocusInsideTrapOnOutsideFocus ||
             // @ts-ignore

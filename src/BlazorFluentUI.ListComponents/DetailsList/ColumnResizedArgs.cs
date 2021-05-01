@@ -4,9 +4,9 @@
     {
         public int ColumnIndex { get; set; }
         public double NewWidth { get; set; }
-        public DetailsRowColumn<TItem> Column { get; set; }
+        public IDetailsRowColumn<TItem> Column { get; set; }
 
-        public ColumnResizedArgs(DetailsRowColumn<TItem> column, int colIndex, double width)
+        public ColumnResizedArgs(IDetailsRowColumn<TItem> column, int colIndex, double width)
         {
             Column = column;
             ColumnIndex = colIndex;

@@ -58,8 +58,8 @@
 
     Selection<DataItem> selection = new Selection<DataItem>();
 
-    public System.Collections.Generic.List<DetailsRowColumn<DataItem>> Columns = new();
-    public System.Collections.Generic.List<DetailsRowColumn<DataItem>> CustomColumns = new();
+    public System.Collections.Generic.List<IDetailsRowColumn<DataItem>> Columns = new();
+    public System.Collections.Generic.List<IDetailsRowColumn<DataItem>> CustomColumns = new();
 
     protected override void OnInitialized()
     {
@@ -71,7 +71,7 @@
         // Do NOT use the DetailsRowColumn with two generic parameters.  It does not create an expression that can be used with DynamicAccessor.
         CustomColumns.Add(new DetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0 });
         CustomColumns.Add(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName!) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-        CustomColumns.Add(new DetailsRowColumn<DataItem>("Notes", x => x.Description!)
+        CustomColumns.Add(new DetailsRowColumn<DataItem,DataItem>("Notes", x => x)
         {
             Index = 2,
             // Two issues:
@@ -80,16 +80,17 @@
             //     to the original property because DynamicAccessor creates a setter from your original getter (the field selector).
             // 2.  Blazor cannot do type conversions directly with binding yet.  Since the output (of DynamicAccessor's Value) is an object, we need to manually 
             //     create the callback that sets the Value from the change.  We can't use generics (easily) because they would all have to be the same type.
-            ColumnItemTemplate = description => builder =>
-            {
-                builder.OpenComponent<TextField>(0);
-                builder.AddAttribute(1, "Value", description.Value);
-                builder.AddAttribute(2, "ValueChanged", EventCallback.Factory.Create<string>(this, changedText =>
-                {
-                    description.Value = changedText;
-                }));
-                builder.CloseComponent();
-            }
+            ColumnItemTemplate = obj => @<TextField @bind-Value="obj.Description" @bind-Value:event="OnChange"/>
+            //ColumnItemTemplate = description => builder =>
+            //{
+            //    builder.OpenComponent<TextField>(0);
+            //    builder.AddAttribute(1, "Value", description.Value);
+            //    builder.AddAttribute(2, "ValueChanged", EventCallback.Factory.Create<string>(this, changedText =>
+            //    {
+            //        description.Value = changedText;
+            //    }));
+            //    builder.CloseComponent();
+            //}
 
         });
 
@@ -105,7 +106,7 @@
         base.OnInitialized();
     }
 
-    private void OnColumnClick(DetailsRowColumn<DataItem> column)
+    private void OnColumnClick(IDetailsRowColumn<DataItem> column)
     {
         // since we're creating a new list, we need to make a copy of what was previously selected
         var selected = selection.GetSelection();

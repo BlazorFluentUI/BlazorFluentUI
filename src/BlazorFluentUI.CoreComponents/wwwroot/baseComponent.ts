@@ -257,7 +257,7 @@ interface MapSimple<T> {
     [K: string]: T;
 }
 
-var eventRegister: MapSimple<(ev: UIEvent) => void> = {};
+var eventRegister: Map<string, (ev: UIEvent) => void> = new Map <string, (ev: UIEvent) => void>();
 
 var eventElementRegister: MapSimple<[HTMLElement, (ev: UIEvent) => void]> = {};
 
@@ -307,35 +307,39 @@ export function deregisterKeyEventsForList(guid: number) {
 
 export function registerWindowKeyDownEvent(dotnetRef: DotNetReferenceType, keyCode: string, functionName: string): string {
     var guid = Guid.newGuid();
-    eventRegister[guid] = (ev: KeyboardEvent) => {
+    eventRegister.set(guid, (ev: KeyboardEvent) => {
         if (ev.code == keyCode) {
             ev.preventDefault();
             ev.stopPropagation();
             dotnetRef.invokeMethodAsync(functionName, ev.code);
         }
-    };
-    window.addEventListener("keydown", eventRegister[guid]);
+    });
+    window.addEventListener("keydown", eventRegister.get(guid));
     return guid;
 }
 
-export function deregisterWindowKeyDownEvent(guid: number) {
-    var func = eventRegister[guid];
+export function deregisterWindowKeyDownEvent(guid: string) {
+    var func = eventRegister.get(guid);
     window.removeEventListener("keydown", func);
-    eventRegister[guid] = null;
+    eventRegister.delete(guid);
 }
 
 export function registerResizeEvent(dotnetRef: DotNetReferenceType, functionName: string, guid: string) {
     var async = new Async(this);
-    eventRegister[guid] = async.debounce((ev: UIEvent) => {
-        dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
-    }, 100, { leading: true });
-    window.addEventListener("resize", eventRegister[guid]);
+    eventRegister.set(
+        guid,
+        async.debounce((ev: UIEvent) => {
+            dotnetRef.invokeMethodAsync(functionName, window.innerWidth, innerHeight);
+        }, 100, { leading: true })
+    );
+    window.addEventListener("resize", eventRegister.get(guid))
+
 }
 
-export function deregisterResizeEvent(guid: number) {
-    var func = eventRegister[guid];
+export function deregisterResizeEvent(guid: string) {
+    var func = eventRegister.get(guid);
     window.removeEventListener("resize", func);
-    eventRegister[guid] = null;
+    eventRegister.delete(guid);
 }
 
 class Guid {

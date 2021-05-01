@@ -84,8 +84,8 @@
     int count = 0;
 
     // We're creating another container for the column array that needs to be defined to show columns in DetailsList.
-    SourceCache<DetailsRowColumn<DataItem>, string> columnsSource = new SourceCache<DetailsRowColumn<DataItem>, string>(x => x.Key!);
-    public ReadOnlyObservableCollection<DetailsRowColumn<DataItem>>? ReadonlyColumns;
+    SourceCache<IDetailsRowColumn<DataItem>, string> columnsSource = new SourceCache<IDetailsRowColumn<DataItem>, string>(x => x.Key!);
+    public ReadOnlyObservableCollection<IDetailsRowColumn<DataItem>>? ReadonlyColumns;
 
     // This class just holds some properties that make it easier to sort and filter data.
     ObservableDataContainer dataContainer = new ObservableDataContainer();
@@ -195,7 +195,7 @@
             // automatically.  We also have a Do operator in there that calls a StateHasChanged whenever the contents are changed or if
             // the Sort expression changes.
             columnsSource.Connect()
-                    .Sort(SortExpressionComparer<DetailsRowColumn<DataItem>>.Ascending(x => x.Index))
+                    .Sort(SortExpressionComparer<IDetailsRowColumn<DataItem>>.Ascending(x => x.Index))
                     .Bind(out ReadonlyColumns)
                     .Do(_ => InvokeAsync(StateHasChanged))  //when a column is clicked, that column's details will update... but other columns won't.  Need to call StateHasChanged to redraw all.
                     .Subscribe();
@@ -208,7 +208,7 @@
     // This callback is fired when a column header is clicked.  We go through each column item and change their sort properties.
     // To update the changes in our UI, we just use the `AddOrUpdate` method and DynamicData will make the changes in the bound
     // list.
-    private void OnColumnClick(DetailsRowColumn<DataItem> column)
+    private void OnColumnClick(IDetailsRowColumn<DataItem> column)
     {
         if (column.IsSorted)
         {

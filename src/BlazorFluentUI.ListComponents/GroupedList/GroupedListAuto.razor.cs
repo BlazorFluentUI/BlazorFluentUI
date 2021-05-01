@@ -46,13 +46,13 @@ namespace BlazorFluentUI.Lists
         [CascadingParameter]
         public SelectionZone<TItem>? SelectionZone { get; set; }
 
-        private IEnumerable<DetailsRowColumn<TItem>>? _columns;
+        private IEnumerable<IDetailsRowColumn<TItem>>? _columns;
 
         /// <summary>
         /// This is intended to be populated only when GroupedList is rendered under DetailsList.
         /// </summary>
         [Parameter]
-        public IEnumerable<DetailsRowColumn<TItem>>? Columns { get => _columns; set { if (_columns == value) return; else { _columns = value; OnPropertyChanged(); } } }
+        public IEnumerable<IDetailsRowColumn<TItem>>? Columns { get => _columns; set { if (_columns == value) return; else { _columns = value; OnPropertyChanged(); } } }
 
 
         [Parameter]

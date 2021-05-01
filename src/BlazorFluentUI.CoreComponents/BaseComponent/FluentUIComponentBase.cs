@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -53,39 +54,40 @@ namespace BlazorFluentUI
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
         private IJSObjectReference? baseModule;
 
+        protected CancellationTokenSource cancellationTokenSource = new ();
+
         protected override async Task OnInitializedAsync()
         {
             ThemeProvider.ThemeChanged += OnThemeChangedPrivate;
             ThemeProvider.ThemeChanged += OnThemeChangedProtected;
+            //cancellationTokenSource = new CancellationTokenSource();
             await base.OnInitializedAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-
-            if (!ScopedStatics!.FocusRectsInitialized)
+            try
             {
-                ScopedStatics.FocusRectsInitialized = true;
-                await baseModule!.InvokeVoidAsync("initializeFocusRects");
+                baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", cancellationTokenSource.Token, BasePath);
+
+                if (!ScopedStatics!.FocusRectsInitialized)
+                {
+                    ScopedStatics.FocusRectsInitialized = true;
+                    await baseModule!.InvokeVoidAsync("initializeFocusRects", cancellationTokenSource.Token);
+                }
+            }
+            catch (TaskCanceledException cancelled)
+            {
+                Debug.WriteLine($"Task cancelled: {cancelled.Message}");
             }
             await base.OnAfterRenderAsync(firstRender);
         }
 
         public async Task<Rectangle> GetBoundsAsync()
         {
-            try
-            {
-                if (baseModule == null)
-                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            CancellationToken token = cancellationTokenSource.Token;
+            return await GetBoundsAsync(token);
 
-                Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", RootElementReference);
-                return rectangle;
-            }
-            catch (JSException)
-            {
-                return new Rectangle();
-            }
         }
 
         public async Task<Rectangle> GetBoundsAsync(CancellationToken cancellationToken)
@@ -93,7 +95,7 @@ namespace BlazorFluentUI
             try
             {
                 if (baseModule == null)
-                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", cancellationToken, BasePath);
 
                 Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", cancellationToken, RootElementReference);
                 return rectangle;
@@ -104,28 +106,19 @@ namespace BlazorFluentUI
             }
         }
 
+        public async Task<Rectangle> GetBoundsAsync(ElementReference elementReference)
+        {
+            CancellationToken token = cancellationTokenSource.Token;
+            return await GetBoundsAsync(elementReference, token);
+        }
+
         public async Task<Rectangle> GetBoundsAsync(ElementReference elementReference, CancellationToken cancellationToken)
         {
             try
             {
                 if (baseModule == null)
-                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", cancellationToken, BasePath);
                 Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", cancellationToken, elementReference);
-                return rectangle;
-            }
-            catch (JSException)
-            {
-                return new Rectangle();
-            }
-        }
-
-        public async Task<Rectangle> GetBoundsAsync(ElementReference elementReference)
-        {
-            try
-            {
-                if (baseModule == null)
-                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-                Rectangle? rectangle = await baseModule!.InvokeAsync<Rectangle>("measureElementRect", elementReference);
                 return rectangle;
             }
             catch (JSException)
@@ -149,6 +142,7 @@ namespace BlazorFluentUI
 
         public virtual async ValueTask DisposeAsync()
         {
+            cancellationTokenSource.Cancel();
             if (baseModule != null)
                 await baseModule.DisposeAsync();
         }

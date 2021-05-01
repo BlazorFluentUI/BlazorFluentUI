@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+- main
 
 pr:
  branches:
@@ -52,7 +52,7 @@ steps:
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '5'
     minorVersion: '2'
-    patchVersion: '4'
+    patchVersion: '7'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'push'

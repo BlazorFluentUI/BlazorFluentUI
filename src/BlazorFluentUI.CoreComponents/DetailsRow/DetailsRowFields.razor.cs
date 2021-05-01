@@ -27,7 +27,7 @@ namespace BlazorFluentUI
         public int ColumnStartIndex { get; set; }
 
         [Parameter]
-        public IEnumerable<DetailsRowColumn<TItem>>? Columns { get; set; }
+        public IEnumerable<IDetailsRowColumn<TItem>>? Columns { get; set; }
 
         [Parameter]
         public bool Compact { get; set; }

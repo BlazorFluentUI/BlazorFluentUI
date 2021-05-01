@@ -80,7 +80,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", cancellationTokenSource.Token, BasePath);
 
             if (firstRender)
             {
@@ -104,7 +104,7 @@ namespace BlazorFluentUI
                     }
                 }
 
-                await baseModule!.InvokeVoidAsync("addOrUpdateVirtualParent", _element);
+                await baseModule!.InvokeVoidAsync("addOrUpdateVirtualParent", cancellationTokenSource.Token, _element);
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -113,6 +113,7 @@ namespace BlazorFluentUI
         {
             if (LayerHost != null)
                 await LayerHost.RemoveHostedContentAsync(id)!;
+            cancellationTokenSource.Cancel();
             addedToHost = false;
             if (baseModule != null)
                 await baseModule.DisposeAsync();

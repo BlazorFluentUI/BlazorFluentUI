@@ -103,7 +103,7 @@ namespace BlazorFluentUI
         private bool isAnimating = false;
         private bool animationRenderStart = false;
 
-        private readonly EventCallback ThrowawayCallback;
+        private EventCallback ThrowawayCallback { get; set; }
 
         private PanelVisibilityState previousVisibility = PanelVisibilityState.Closed;
         private PanelVisibilityState currentVisibility = PanelVisibilityState.Closed;

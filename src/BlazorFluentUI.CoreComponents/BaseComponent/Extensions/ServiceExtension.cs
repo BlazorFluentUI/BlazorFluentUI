@@ -10,6 +10,7 @@ namespace BlazorFluentUI
             services.AddScoped<ThemeProvider>();
             services.AddScoped<ScopedStatics>();
             services.AddScoped<LayerHostService>();
+            services.AddTransient<MaskedTextFieldInternalState>();
         }
     }
 }

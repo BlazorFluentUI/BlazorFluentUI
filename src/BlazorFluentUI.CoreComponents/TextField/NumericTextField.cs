@@ -1,8 +1,8 @@
 ﻿namespace BlazorFluentUI
 {
-    public class NumberTextField<TValue> : TextFieldBase<TValue>
+    public class NumericTextField<TValue> : TextFieldBase<TValue>
     {
-        public NumberTextField()
+        public NumericTextField()
         {
             InputType = InputType.Number;
             AutoComplete = AutoComplete.Off;

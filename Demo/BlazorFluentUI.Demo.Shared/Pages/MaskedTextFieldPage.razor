@@ -25,12 +25,13 @@
         <div class="subSection">
             <Demo Header="Customizable Masked TextField" Key="0" MetadataPath="MaskedTextFieldPage">
                 <div class="textFieldDiv">
-                    <MaskedTextField Label="With input mask" Mask="m\ask: (999) 999 - 9999" />
+                    <MaskedTextField Label="With input mask" @bind-Value=@model.exampleString1 Mask="m\ask: (999) 999 - 9999" MaskChar="'?'" />
                 </div>
+                Example: @model.exampleString1<br />
                 <div class="textFieldDiv">
-                    <MaskedTextField Label="With input mask" @bind-Value="model.exampleString" @bind-Value:event="OnInput" Mask="m\ask: ****" MaskFormat="*:[a-zA-Z0-9]" MaskChar="'?'" />
+                    <MaskedTextField Label="With input mask" @bind-Value=@model.exampleString2 Mask="m\ask: ****" MaskFormat="*:[a-zA-Z0-9]" MaskChar="'?'" />
                 </div>
-                Example: @model.exampleString
+                Example: @model.exampleString2
 
             </Demo>
         </div>
@@ -52,7 +53,8 @@
 
     class ExampleModel
     {
-        public string? exampleString { get; set; }
+        public string? exampleString1 { get; set; }
+        public string? exampleString2 { get; set; }
         public int exampleInt { get; set; } = int.MaxValue;
 
     }

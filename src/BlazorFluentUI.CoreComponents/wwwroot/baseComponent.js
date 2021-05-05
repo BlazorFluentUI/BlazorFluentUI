@@ -61,12 +61,12 @@ const _disableIosBodyScroll = (event) => {
 // end
 export function getSelectionStart(element) {
     if (element == null)
-        return -1;
+        return null;
     return element.selectionStart;
 }
 export function getSelectionEnd(element) {
     if (element == null)
-        return -1;
+        return null;
     return element.selectionEnd;
 }
 export function setSelectionRange(element, start, end) {

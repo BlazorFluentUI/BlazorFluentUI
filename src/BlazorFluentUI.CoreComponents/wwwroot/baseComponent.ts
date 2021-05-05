@@ -99,15 +99,15 @@ const _disableIosBodyScroll = (event: TouchEvent) => {
 
 // end
 
-export function getSelectionStart(element: HTMLInputElement): number {
+export function getSelectionStart(element: HTMLInputElement): number | null {
     if (element == null)
-        return -1;
+        return null;
     return element.selectionStart;
 }
 
-export function getSelectionEnd(element: HTMLInputElement): number {
+export function getSelectionEnd(element: HTMLInputElement): number | null {
     if (element == null)
-        return -1;
+        return null;
     return element.selectionEnd;
 }
 

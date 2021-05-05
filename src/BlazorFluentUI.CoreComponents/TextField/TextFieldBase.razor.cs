@@ -15,68 +15,12 @@ namespace BlazorFluentUI
 {
     public class TextField : TextFieldBase<string?>
     {
-        [Parameter] public new EventCallback<string?> OnChange { get; set; }
-        [Parameter] public new EventCallback<string?> OnInput { get; set; }
+
     }
 
 
-
-
-    public partial class TextFieldBase<TValue> : FluentUIComponentBase, IAsyncDisposable
+    public partial class TextFieldBase<TValue> : TextFieldParameters
     {
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
-        protected string id = Guid.NewGuid().ToString();
-        protected string descriptionId = Guid.NewGuid().ToString();
-        private bool hasIcon;
-        private bool hasLabel;
-
-        private ICollection<IRule> TextFieldLocalRules { get; set; } = new List<IRule>();
-        private readonly ICollection<Task> DeferredValidationTasks = new List<Task>();
-        private readonly Rule TextField_Field_HasIcon = new();
-
-        protected double autoAdjustedHeight = -1;
-        protected bool isFocused = false;
-        private bool defaultErrorMessageIsSet;
-        private bool firstRendered = false;
-        private TValue? latestValidatedValue = default;
-
-        private readonly EventHandler<ValidationStateChangedEventArgs> _validationStateChangedHandler;
-        private bool _previousParsingAttemptFailed;
-        private ValidationMessageStore? _parsingValidationMessages;
-        private Type? _nullableUnderlyingType;
-
-        private readonly static string _stepAttributeValue; // Null by default, so only allows whole numbers as per HTML spec
-
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-        [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
-
-        /// <summary>
-        /// Gets or sets the associated <see cref="ElementReference"/>.
-        /// <para>
-        /// May be <see langword="null"/> if accessed before the component is rendered.
-        /// </para>
-        /// </summary>
-        [DisallowNull] public ElementReference? Element { get; protected set; }
-        /// <summary>
-        /// Gets or sets the error message used when displaying an a parsing error.
-        /// </summary
-        [Parameter] public string ParsingErrorMessage { get; set; } = "The {0} field must be a number.";
-        [Parameter] public bool Multiline { get; set; }
-        [Parameter] public InputType InputType { get; set; } = InputType.Text;
-
-        /// <summary>
-        /// Gets or sets a collection of additional attributes that will be applied to the created element.
-        /// </summary>
-        [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
-
-        /// <summary>
-        /// Gets or sets the value of the input. This should be used with two-way binding.
-        /// </summary>
-        /// <example>
-        /// @bind-Value="model.PropertyName"
-        /// </example>
         [Parameter] public TValue? Value { get; set; }
 
         [Parameter] public TValue? DefaultValue { get; set; }
@@ -91,50 +35,54 @@ namespace BlazorFluentUI
         /// </summary>
         [Parameter] public Expression<Func<TValue>>? ValueExpression { get; set; }
 
-        /// <summary>
-        /// Gets or sets the display name for this field.
-        /// <para>This value is used when generating error messages when the input value fails to parse correctly.</para>
-        /// </summary>
-        [Parameter] public string? DisplayName { get; set; }
-
-        [Parameter] public bool Required { get; set; }
-
-
-        [Parameter] public bool Resizable { get; set; } = true;
-        [Parameter] public bool AutoAdjustHeight { get; set; }
-        [Parameter] public bool Underlined { get; set; }
-        [Parameter] public bool Borderless { get; set; }
-        [Parameter] public string? Label { get; set; }
-        [Parameter] public RenderFragment? RenderLabel { get; set; }
-        [Parameter] public string? Description { get; set; }
-        [Parameter] public string? Prefix { get; set; }
-        [Parameter] public RenderFragment? PrefixContent { get; set; }
-        [Parameter] public string? Suffix { get; set; }
-        [Parameter] public RenderFragment? SuffixContent { get; set; }
-        [Parameter] public bool Disabled { get; set; }
-        [Parameter] public bool ReadOnly { get; set; }
-        [Parameter] public string? ErrorMessage { get; set; }
-        [Parameter] public bool ValidateOnFocusIn { get; set; }
-        [Parameter] public bool ValidateOnFocusOut { get; set; }
-        [Parameter] public bool ValidateOnLoad { get; set; } = true;
-        [Parameter] public int DeferredValidationTime { get; set; } = 0;
-        [Parameter] public AutoComplete AutoComplete { get; set; } = AutoComplete.On;
-        [Parameter] public string? Placeholder { get; set; }
-        [Parameter] public string? IconName { get; set; }
-        [Parameter] public string? IconSrc { get; set; }
-        [Parameter] public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
-        [Parameter] public EventCallback<KeyboardEventArgs> OnKeyUp { get; set; }
-        [Parameter] public EventCallback<KeyboardEventArgs> OnKeyPress { get; set; }
         [Parameter] public Func<TValue, string>? OnGetErrorMessage { get; set; }
         [Parameter] public Action<TValue, string>? OnNotifyValidationResult { get; set; }
-        [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }  // expose click event for Combobox and pickers
-        [Parameter] public EventCallback<FocusEventArgs> OnBlur { get; set; }
-        [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; }
-
         [Parameter] public EventCallback<TValue> OnChange { get; set; }
         [Parameter] public EventCallback<TValue> OnInput { get; set; }
 
-        [Parameter] public EventCallback<ClipboardEventArgs> OnPaste { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
+        [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
+
+        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        private IJSObjectReference? baseModule;
+
+        private readonly ICollection<Task> DeferredValidationTasks = new List<Task>();
+
+
+        double autoAdjustedHeight = -1;
+
+        private bool firstRendered = false;
+        private TValue? latestValidatedValue = default;
+
+        private readonly EventHandler<ValidationStateChangedEventArgs> _validationStateChangedHandler;
+        private bool _previousParsingAttemptFailed;
+        private ValidationMessageStore? _parsingValidationMessages;
+        private Type? _nullableUnderlyingType;
+
+        private readonly static string _stepAttributeValue; // Null by default, so only allows whole numbers as per HTML spec
+
+
+        /// <summary>
+        /// Gets or sets the associated <see cref="ElementReference"/>.
+        /// <para>
+        /// May be <see langword="null"/> if accessed before the component is rendered.
+        /// </para>
+        /// </summary>
+        [DisallowNull] public ElementReference? Element { get; set; }
+        /// <summary>
+        /// Gets or sets the error message used when displaying an a parsing error.
+        /// </summary
+        [Parameter] public string ParsingErrorMessage { get; set; } = "The {0} field must be a number.";
+
+
+        /// <summary>
+        /// Gets or sets the value of the input. This should be used with two-way binding.
+        /// </summary>
+        /// <example>
+        /// @bind-Value="model.PropertyName"
+        /// </example>
+
+
 
         /// <summary>
         /// Gets the associated <see cref="Forms.EditContext"/>.
@@ -158,7 +106,7 @@ namespace BlazorFluentUI
                 if (hasChanged)
                 {
                     Value = value;
-                    InputHandler(new ChangeEventArgs { Value = Value }).ConfigureAwait(true);
+                    InputHandler(new ChangeEventArgs { Value = Value }).ConfigureAwait(false);
                 }
             }
         }
@@ -318,23 +266,7 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
-        protected override void OnThemeChanged()
-        {
-            if (hasIcon)
-            {
-                SetStyle();
-            }
-        }
 
-        private void CreateLocalCss()
-        {
-            if (hasIcon)
-            {
-                TextField_Field_HasIcon.Selector = new ClassSelector() { SelectorName = "ms-TextField-field" };
-
-                TextFieldLocalRules.Add(TextField_Field_HasIcon);
-            }
-        }
 
         protected async Task InputHandler(ChangeEventArgs args)
         {
@@ -342,6 +274,7 @@ namespace BlazorFluentUI
             {
                 ErrorMessage = "";
             }
+
             if (TryParseValueFromString(Convert.ToString(args.Value, CultureInfo.InvariantCulture), out TValue? result, out string? validationErrorMessage))
             {
                 await OnInput.InvokeAsync(result);
@@ -368,7 +301,7 @@ namespace BlazorFluentUI
             }
         }
 
-        protected async Task OnChangeHandler(ChangeEventArgs args)
+        private async Task OnChangeHandler(ChangeEventArgs args)
         {
             if (OnChange.HasDelegate)
             {
@@ -627,16 +560,7 @@ namespace BlazorFluentUI
             };
         }
 
-        private void SetStyle()
-        {
-            if (hasIcon)
-            {
-                TextField_Field_HasIcon.Properties = new CssString()
-                {
-                    Css = $"padding-right:{(Multiline ? "40px" : "24px")};"
-                };
-            }
-        }
+
         private void UpdateAdditionalValidationAttributes()
         {
             bool hasAriaInvalidAttribute = AdditionalAttributes != null && AdditionalAttributes.ContainsKey("aria-invalid");

@@ -1,6 +1,7 @@
 ﻿@namespace BlazorFluentUI
-@inherits FluentUIComponentBase
+@inherits TextFieldParameters
 @typeparam TValue
+
 
 <LocalCS @bind-Rules="@TextFieldLocalRules" />
 
@@ -29,7 +30,7 @@
             @if (Multiline)
             {
                 <textarea id=@id
-                          @ref="Element"
+                          @ref=@Element
                           style=@(autoAdjustedHeight != -1 ? $"height:{autoAdjustedHeight}px;" : "")
                           @bind-value=@CurrentValue
                           @bind-value:event="oninput"

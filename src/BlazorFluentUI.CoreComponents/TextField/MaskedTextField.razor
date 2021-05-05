@@ -1,15 +1,85 @@
 ﻿@namespace BlazorFluentUI
-@inherits TextFieldBase<string?>
+@inherits TextFieldParameters
 
-<TextFieldBase TValue="string"
-               @ref=TextFieldReference
-               DefaultValue="@DefaultValue"
-               OnFocus=HandleOnFocusAsync
-               OnBlur=HandleOnBlurAsync
-               @onmousedown=HandleOnMouseDownAsync
-               @onmouseup=HandleOnMouseUpAsync
-               OnChange=HandleOnChangeAsync
-               OnPaste=HandleOnPasteAsync
-               OnKeyDown=HandleOnKeyDownAsync
-               ValueChanged=HandleValueChanged />
+<LocalCS @bind-Rules="@TextFieldLocalRules" />
 
+<div class=@($"ms-TextField mediumFont {(Underlined ? "ms-TextField--underlined" : "")} {(!string.IsNullOrWhiteSpace(ErrorMessage) ? "has-error" : "")} {(Disabled ? "is-disabled" : "")} {(Multiline ? "ms-TextField--multiline" : "")} {(Borderless ? "ms-TextField--borderless" : "")} {(!Resizable ? "ms-TextField--unresizable" : "")}  {(isFocused ? "is-focused" : "")} {(Required ? "is-required" : "")} {(!hasLabel ? "no-label" : "")} {(AutoAdjustHeight ? "auto-adjust-height" : "" )} {ClassName}")
+     style=@Style
+     @ref="RootElementReference"
+     @onclick="OnClick">
+    <div class="ms-TextField-wrapper">
+        @if (hasLabel)
+        {
+            <Label ClassName="ms-TextField-label" Required=@Required HtmlFor=@id Disabled=@Disabled>@(Label + (Underlined ? ":" : ""))</Label>
+        }
+        <div class="ms-TextField-fieldGroup">
+            @if (Prefix != null)
+            {
+                <div class="ms-TextField-prefix">
+                    <span style="padding-bottom: 1px;">@Prefix</span>
+                </div>
+            }
+            else if (PrefixContent != null)
+            {
+                <div class="ms-TextField-prefix">
+                    @PrefixContent
+                </div>
+            }
+
+            <input type=@TypeUtils.InputMap[this.InputType]
+                   id=@id
+                   value=@Value
+                   @ref=Element
+                   autocomplete="off"
+                   class="mediumFont ms-TextField-field"
+                   aria-label=@AriaLabel
+                   aria-describedby=@descriptionId
+                   aria-invalid=@(!string.IsNullOrWhiteSpace(ErrorMessage) ? true : false)
+                   readOnly=@ReadOnly
+                   placeholder=@Placeholder
+                   disabled=@Disabled
+                   @oninput=@HandleOnInputAsync
+                   @onmousedown=@HandleOnMouseDownAsync
+                   @onmouseup=@HandleOnMouseUpAsync
+                   @onkeydown=@HandleOnKeyDownAsync
+                   @onfocus=@HandleOnFocusAsync
+                   @onblur=@HandleOnBlurAsync
+                   @onpaste=@HandleOnPasteAsync
+                   @attributes=@AdditionalAttributes />
+
+
+            @if (hasIcon)
+            {
+                <Icon ClassName="ms-TextField-icon" IconName=@IconName IconSrc=@IconSrc />
+            }
+            @if (Suffix != null)
+            {
+                <div class="ms-TextField-suffix">
+                    <span style="padding-bottom: 1px;">@Suffix</span>
+                </div>
+            }
+            else if (SuffixContent != null)
+            {
+                <div class="ms-TextField-suffix">
+                    @SuffixContent
+                </div>
+            }
+        </div>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(ErrorMessage))
+    {
+        <div id="descriptionId">
+            <span class="ms-TextField-description">@Description</span>
+            @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+            {
+                <div role="alert">
+                    <DelayedRender Delay="100">
+                        <p class="slideDownIn20 ms-TextField--errorMessage">
+                            <span data-automation-id="error-message">@ErrorMessage</span>
+                        </p>
+                    </DelayedRender>
+                </div>
+            }
+        </div>
+    }
+</div>

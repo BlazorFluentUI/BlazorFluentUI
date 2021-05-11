@@ -180,15 +180,22 @@ export function hasOverflow(element: HTMLElement): boolean {
 }
 
 export function measureScrollWindow(element: HTMLElement): IRectangle {
-    var rect: IRectangle = {
-        width: element.scrollWidth,
-        height: element.scrollHeight,
-        top: element.scrollTop,
-        left: element.scrollLeft,
-        bottom: element.scrollTop + element.clientHeight,
-        right: element.scrollLeft + element.clientWidth,
+    if (element !== undefined && element !== null) {
+
+        var rect: IRectangle = {
+            width: element.scrollWidth,
+            height: element.scrollHeight,
+            top: element.scrollTop,
+            left: element.scrollLeft,
+            bottom: element.scrollTop + element.clientHeight,
+            right: element.scrollLeft + element.clientWidth,
+        }
+        return rect;
     }
-    return rect;
+    else {
+        return { height: 0, width: 0, left: 0, right: 0, top: 0, bottom: 0 };
+    }
+
 }
 
 interface IScrollDimensions {
@@ -197,11 +204,15 @@ interface IScrollDimensions {
 }
 
 export function measureScrollDimensions(element: HTMLElement): IScrollDimensions {
-    var dimensions: IScrollDimensions = {
-        scrollHeight: element.scrollHeight,
-        scrollWidth: element.scrollWidth,
+    if (element !== undefined && element !== null) {
+        var dimensions: IScrollDimensions = {
+            scrollHeight: element?.scrollHeight,
+            scrollWidth: element?.scrollWidth,
+        }
+        return dimensions;
     }
-    return dimensions;
+    else
+        return { scrollHeight: 0, scrollWidth: 0 };
 }
 
 export function measureElementRect(element: HTMLElement): IRectangle {
@@ -240,7 +251,7 @@ interface MapSimple<T> {
     [K: string]: T;
 }
 
-var eventRegister: Map<string, (ev: UIEvent) => void> = new Map <string, (ev: UIEvent) => void>();
+var eventRegister: Map<string, (ev: UIEvent) => void> = new Map<string, (ev: UIEvent) => void>();
 
 var eventElementRegister: MapSimple<[HTMLElement, (ev: UIEvent) => void]> = {};
 

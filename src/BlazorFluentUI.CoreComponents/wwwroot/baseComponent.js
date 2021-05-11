@@ -125,22 +125,31 @@ export function hasOverflow(element) {
     return false;
 }
 export function measureScrollWindow(element) {
-    var rect = {
-        width: element.scrollWidth,
-        height: element.scrollHeight,
-        top: element.scrollTop,
-        left: element.scrollLeft,
-        bottom: element.scrollTop + element.clientHeight,
-        right: element.scrollLeft + element.clientWidth,
-    };
-    return rect;
+    if (element !== undefined && element !== null) {
+        var rect = {
+            width: element.scrollWidth,
+            height: element.scrollHeight,
+            top: element.scrollTop,
+            left: element.scrollLeft,
+            bottom: element.scrollTop + element.clientHeight,
+            right: element.scrollLeft + element.clientWidth,
+        };
+        return rect;
+    }
+    else {
+        return { height: 0, width: 0, left: 0, right: 0, top: 0, bottom: 0 };
+    }
 }
 export function measureScrollDimensions(element) {
-    var dimensions = {
-        scrollHeight: element.scrollHeight,
-        scrollWidth: element.scrollWidth,
-    };
-    return dimensions;
+    if (element !== undefined && element !== null) {
+        var dimensions = {
+            scrollHeight: element?.scrollHeight,
+            scrollWidth: element?.scrollWidth,
+        };
+        return dimensions;
+    }
+    else
+        return { scrollHeight: 0, scrollWidth: 0 };
 }
 export function measureElementRect(element) {
     if (element !== undefined && element !== null) {

@@ -27,7 +27,10 @@
                           Placeholder="Select an option"
                           OnChange=@UncontrolledSingleChangeHandler
                           Label=@($"Selected: {uncontrolledSingleSelectionResult?.Text}")
-                          Style="width:300px;" />
+                          Style="width:300px;"
+                          @ref=@dropDown1 />
+                <br />
+                <DefaultButton OnClick=ClickHandler>Clear!</DefaultButton>
             </Demo>
         </div>
 
@@ -99,6 +102,7 @@
 </div>
 @code {
 
+    private Dropdown dropDown1;
     IDropdownOption? uncontrolledSingleSelectionResult;
     IEnumerable<IDropdownOption> uncontrolledMultiSelectionResult = new List<IDropdownOption>();
 
@@ -154,7 +158,13 @@
 
     public void HandleValidSubmit()
     {
-        //var i = 3;
+
+    }
+
+    public void ClickHandler()
+    {
+        if (dropDown1 != null && uncontrolledSingleSelectionResult != null)
+            dropDown1.RemoveSelection(uncontrolledSingleSelectionResult.Key!);
     }
 
 }

@@ -36,10 +36,18 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            if (baseModule != null)
+            try
             {
-                await baseModule!.InvokeVoidAsync("enableBodyScroll");
-                await baseModule.DisposeAsync();
+                if (baseModule != null)
+                {
+                    await baseModule!.InvokeVoidAsync("enableBodyScroll");
+                    await baseModule.DisposeAsync();
+                }
+
+                await base.DisposeAsync();
+            }
+            catch (TaskCanceledException)
+            {
             }
         }
     }

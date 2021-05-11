@@ -310,12 +310,20 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            if (baseModule != null )
+            try
             {
-                await baseModule!.InvokeVoidAsync("deregisterResizeEvent", _resizeEventGuid);
-                await baseModule.DisposeAsync();
+                if (baseModule != null)
+                {
+                    await baseModule!.InvokeVoidAsync("deregisterResizeEvent", _resizeEventGuid);
+                    await baseModule.DisposeAsync();
+                }
+                selfReference?.Dispose();
+
+                await base.DisposeAsync();
             }
-            selfReference?.Dispose();
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 

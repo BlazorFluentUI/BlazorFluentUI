@@ -115,7 +115,7 @@ namespace BlazorFluentUI
 
                 }
 
-                if (!isMeasured && FabricComponentTarget != null && firstRender && eventHandlerIds != null )
+                if (!isMeasured && FabricComponentTarget != null && firstRender && eventHandlerIds != null)
                 {
                     await CalculateCalloutPositionAsync(token);
                 }
@@ -156,7 +156,7 @@ namespace BlazorFluentUI
         }
 
         [JSInvokable]
-        public  void FocusHandler()
+        public void FocusHandler()
         {
             //Need way to tie focus handler between all the callouts (linked contextualmenus)  ... only dimiss when ALL of them lost focus.
             System.Diagnostics.Debug.WriteLine($"Callout {PortalId} called dismiss from FocusHandler from {DirectionalHint}");
@@ -809,20 +809,24 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            if (calloutModule != null && eventHandlerIds != null)
+            try
             {
-                isEventHandlersRegistered = false;
-                await calloutModule.InvokeVoidAsync("unregisterHandlers", eventHandlerIds);
-                await calloutModule.DisposeAsync();
+                if (calloutModule != null && eventHandlerIds != null)
+                {
+                    isEventHandlersRegistered = false;
+                    await calloutModule.InvokeVoidAsync("unregisterHandlers", eventHandlerIds);
+                    await calloutModule.DisposeAsync();
+                }
+                if (baseModule != null)
+                {
+                    await baseModule.DisposeAsync();
+                    baseModule = null;
+                }
+                selfReference?.Dispose();
             }
-            if (baseModule != null)
+            catch (TaskCanceledException)
             {
-                await baseModule.DisposeAsync();
-                baseModule = null;
             }
-            selfReference?.Dispose();
-
-            GC.SuppressFinalize(this);
         }
     }
 }

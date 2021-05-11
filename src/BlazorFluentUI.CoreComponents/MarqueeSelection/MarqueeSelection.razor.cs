@@ -130,12 +130,20 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            if (scriptModule != null)
+            try
             {
-                await scriptModule!.InvokeVoidAsync("unregisterMarqueeSelection", selfReference);
-                await scriptModule.DisposeAsync();
+                if (scriptModule != null)
+                {
+                    await scriptModule!.InvokeVoidAsync("unregisterMarqueeSelection", selfReference);
+                    await scriptModule.DisposeAsync();
+                }
+                selfReference?.Dispose();
+
+                await base.DisposeAsync();
             }
-            selfReference?.Dispose();
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 }

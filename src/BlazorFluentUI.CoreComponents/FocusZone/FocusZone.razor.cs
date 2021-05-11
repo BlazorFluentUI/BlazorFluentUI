@@ -180,10 +180,24 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            if (scriptModule != null) await UnregisterFocusZoneAsync();
-            if (scriptModule != null) await scriptModule.DisposeAsync();
-            if (baseModule != null) await baseModule.DisposeAsync();
-            selfReference?.Dispose();
+            try
+            {
+                if (scriptModule != null)
+                {
+                    await scriptModule!.InvokeVoidAsync("unregisterFocusZone", selfReference);
+                    await scriptModule.DisposeAsync();
+                }
+                if (baseModule != null)
+                    await baseModule.DisposeAsync();
+
+                selfReference?.Dispose();
+
+                await base.DisposeAsync();
+            }
+            catch (TaskCanceledException)
+            {
+            }
+
         }
     }
 }

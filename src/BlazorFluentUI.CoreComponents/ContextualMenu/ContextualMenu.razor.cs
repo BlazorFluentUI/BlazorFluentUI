@@ -149,13 +149,16 @@ namespace BlazorFluentUI
             await OnMenuOpened.InvokeAsync(this);
         }
 
-        public new async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
-            await OnMenuDismissed.InvokeAsync(this);
-            //await base.DisposeAsync();
-            GC.SuppressFinalize(this);
-        }
-
-
+            try
+            {
+                await OnMenuDismissed.InvokeAsync(this);
+                await base.DisposeAsync();
+            }
+            catch (TaskCanceledException)
+            {
+            }
+}
     }
 }

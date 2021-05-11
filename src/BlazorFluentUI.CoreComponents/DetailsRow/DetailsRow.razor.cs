@@ -220,8 +220,15 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            await OnRowWillUnmount.InvokeAsync(this);
-            selectionSubscription?.Dispose();
+            try
+            {
+                await OnRowWillUnmount.InvokeAsync(this);
+                selectionSubscription?.Dispose();
+                await base.DisposeAsync();
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 }

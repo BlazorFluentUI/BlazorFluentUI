@@ -33,7 +33,7 @@ namespace BlazorFluentUI.Lists
 
         private IEnumerable<TItem>? _loadedItems;
 
-        private CancellationTokenSource? _refreshCts;
+        //private CancellationTokenSource? _refreshCts;
 
         private Exception? _refreshException;
 
@@ -390,7 +390,7 @@ namespace BlazorFluentUI.Lists
 
         private async ValueTask RefreshDataCoreAsync(bool renderOnSuccess)
         {
-            _refreshCts?.Cancel();
+            cancellationTokenSource.Cancel();
             CancellationToken cancellationToken;
 
             if (_itemsProvider == DefaultItemsProvider)
@@ -398,13 +398,13 @@ namespace BlazorFluentUI.Lists
                 // If we're using the DefaultItemsProvider (because the developer supplied a fixed
                 // Items collection) we know it will complete synchronously, and there's no point
                 // instantiating a new CancellationTokenSource
-                _refreshCts = null;
+                //cancellationTokenSource = null;
                 cancellationToken = CancellationToken.None;
             }
             else
             {
-                _refreshCts = new CancellationTokenSource();
-                cancellationToken = _refreshCts.Token;
+                cancellationTokenSource = new CancellationTokenSource();
+                cancellationToken = cancellationTokenSource.Token;
             }
 
             ItemsProviderRequest request = new(_itemsBefore, _visibleItemCapacity, cancellationToken);
@@ -460,15 +460,22 @@ namespace BlazorFluentUI.Lists
         /// <inheritdoc />
         public override async ValueTask DisposeAsync()
         {
-            _refreshCts?.Cancel();
-
-            if (_selfReference != null)
+            //_refreshCts?.Cancel();
+            try
             {
-                if (_listId != -1)
+                if (_selfReference != null)
                 {
-                    await scriptModule!.InvokeVoidAsync("removeList", _listId);
+                    if (_listId != -1)
+                    {
+                        await scriptModule!.InvokeVoidAsync("removeList", _listId);
+                    }
+                    _selfReference.Dispose();
                 }
-                _selfReference.Dispose();
+
+                await base.DisposeAsync();
+            }
+            catch (TaskCanceledException)
+            {
             }
         }
     }

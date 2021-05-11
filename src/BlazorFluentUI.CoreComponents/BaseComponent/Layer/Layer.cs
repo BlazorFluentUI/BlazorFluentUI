@@ -74,7 +74,7 @@ namespace BlazorFluentUI
             builder.AddAttribute(1, "class", "ms-layer");
             builder.AddAttribute(2, "style", Style);
             builder.AddAttribute(3, "data-layer-id", id);
-            builder.AddElementReferenceCapture(4, element => _element=element);
+            builder.AddElementReferenceCapture(4, element => _element = element);
             builder.CloseElement();
         }
 
@@ -111,12 +111,17 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            if (LayerHost != null)
-                await LayerHost.RemoveHostedContentAsync(id)!;
-            cancellationTokenSource.Cancel();
-            addedToHost = false;
-            if (baseModule != null)
-                await baseModule.DisposeAsync();
+            try
+            {
+                if (LayerHost != null)
+                    await LayerHost.RemoveHostedContentAsync(id)!;
+                addedToHost = false;
+                if (baseModule != null && !cancellationTokenSource.IsCancellationRequested)
+                    await baseModule.DisposeAsync();
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 }

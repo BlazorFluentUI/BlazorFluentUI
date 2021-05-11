@@ -430,14 +430,22 @@ namespace BlazorFluentUI.Lists
 
         public override async ValueTask DisposeAsync()
         {
-            if (_viewportRegistration != -1)
+            try
             {
-                await baseModule!.InvokeVoidAsync("removeViewport", _viewportRegistration);
-                _viewportRegistration = -1;
+                if (_viewportRegistration != -1)
+                {
+                    await baseModule!.InvokeVoidAsync("removeViewport", _viewportRegistration);
+                    _viewportRegistration = -1;
+                }
+                selfReference?.Dispose();
+                if (baseModule != null)
+                    await baseModule.DisposeAsync();
+
+                await base.DisposeAsync();
             }
-            selfReference?.Dispose();
-            if (baseModule != null)
-                await baseModule.DisposeAsync();
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 }

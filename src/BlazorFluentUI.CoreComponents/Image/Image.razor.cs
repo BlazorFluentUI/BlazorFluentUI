@@ -214,8 +214,16 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            if (baseModule != null)
-                await baseModule.DisposeAsync();
+            try
+            {
+                if (baseModule != null)
+                    await baseModule.DisposeAsync();
+
+                await base.DisposeAsync();
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 }

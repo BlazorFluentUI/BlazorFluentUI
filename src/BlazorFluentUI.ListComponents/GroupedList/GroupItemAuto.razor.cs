@@ -47,7 +47,7 @@ namespace BlazorFluentUI.Lists
         public bool Compact { get; set; }
 
         /// <summary>
-        /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.  
+        /// GetKey must get a key that can be transformed into a unique string because the key will be written as HTML.  You can leave this null if your ItemsSource implements IList as the index will be used as a key.
         /// </summary>
         [Parameter]
         public Func<TItem, TKey>? GetKey { get; set; }
@@ -332,7 +332,7 @@ namespace BlazorFluentUI.Lists
             //    //        sourceCache.AddOrUpdate(_itemsSource);
             //    //}
             //}
-           
+
 
 
             await base.OnParametersSetAsync();
@@ -345,7 +345,7 @@ namespace BlazorFluentUI.Lists
             return base.OnAfterRenderAsync(firstRender);
         }
 
-        
+
 
         //public void SelectAll()
         //{
@@ -356,17 +356,23 @@ namespace BlazorFluentUI.Lists
 
         public override ValueTask DisposeAsync()
         {
-#pragma warning disable CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
-            foreach (KeyValuePair<HeaderItem3<TItem, TKey>, IDisposable> header in headerSubscriptions)
-#pragma warning restore CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
+            try
             {
-                header.Value.Dispose();
+#pragma warning disable CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
+                foreach (KeyValuePair<HeaderItem3<TItem, TKey>, IDisposable> header in headerSubscriptions)
+#pragma warning restore CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
+                {
+                    header.Value.Dispose();
+                }
+
+                //_transformedDisposable?.Dispose();
+                //_selectionSubscription?.Dispose();
             }
-
-            //_transformedDisposable?.Dispose();
-            //_selectionSubscription?.Dispose();
-
+            catch (TaskCanceledException)
+            {
+            }
             return ValueTask.CompletedTask;
+
         }
     }
 }

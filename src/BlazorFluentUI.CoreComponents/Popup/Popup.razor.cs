@@ -56,10 +56,18 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            if (_handleToLastFocusedElement != null && baseModule != null)
+            try
             {
-                await baseModule.InvokeVoidAsync("restoreLastFocus", _handleToLastFocusedElement, ShouldRestoreFocus);
-                await baseModule.DisposeAsync();
+                if (_handleToLastFocusedElement != null && baseModule != null)
+                {
+                    await baseModule.InvokeVoidAsync("restoreLastFocus", _handleToLastFocusedElement, ShouldRestoreFocus);
+                    await baseModule.DisposeAsync();
+                }
+
+                await base.DisposeAsync();
+            }
+            catch (TaskCanceledException)
+            {
             }
         }
     }

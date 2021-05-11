@@ -455,29 +455,37 @@ namespace BlazorFluentUI
         {
             _clearExistingAnimationTimer?.Invoke();
 
-            if (scriptModule != null && baseModule != null)
+            try
             {
-                if (_scrollerEventId != null)
+                if (scriptModule != null && baseModule != null)
                 {
-                    foreach (int id in _scrollerEventId)
+                    if (_scrollerEventId != null)
                     {
-                        await scriptModule.InvokeVoidAsync("unregisterHandler", id);
+                        foreach (int id in _scrollerEventId)
+                        {
+                            await scriptModule.InvokeVoidAsync("unregisterHandler", id);
+                        }
+                        _scrollerEventId.Clear();
                     }
-                    _scrollerEventId.Clear();
-                }
 
-                if (_resizeId != -1)
-                {
-                    await scriptModule.InvokeVoidAsync("unregisterHandler", _resizeId);
+                    if (_resizeId != -1)
+                    {
+                        await scriptModule.InvokeVoidAsync("unregisterHandler", _resizeId);
+                    }
+                    if (_mouseDownId != -1)
+                    {
+                        await scriptModule.InvokeVoidAsync("unregisterHandler", _mouseDownId);
+                    }
+                    await scriptModule.DisposeAsync();
+                    await baseModule.DisposeAsync();
                 }
-                if (_mouseDownId != -1)
-                {
-                    await scriptModule.InvokeVoidAsync("unregisterHandler", _mouseDownId);
-                }
-                await scriptModule.DisposeAsync();
-                await baseModule.DisposeAsync();
+                selfReference?.Dispose();
+
+                await base.DisposeAsync();
             }
-            selfReference?.Dispose();
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 

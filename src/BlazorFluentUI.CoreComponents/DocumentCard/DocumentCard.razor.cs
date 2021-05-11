@@ -144,8 +144,15 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            if (scriptModule != null)
-                await scriptModule.DisposeAsync();
+            try
+            {
+                if (scriptModule != null)
+                    await scriptModule.DisposeAsync();
+                await base.DisposeAsync();
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 }

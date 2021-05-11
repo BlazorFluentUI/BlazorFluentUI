@@ -54,7 +54,7 @@ namespace BlazorFluentUI
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
         private IJSObjectReference? baseModule;
 
-        protected CancellationTokenSource cancellationTokenSource = new ();
+        protected CancellationTokenSource cancellationTokenSource = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -142,9 +142,15 @@ namespace BlazorFluentUI
 
         public virtual async ValueTask DisposeAsync()
         {
-            cancellationTokenSource.Cancel();
-            if (baseModule != null)
-                await baseModule.DisposeAsync();
+            try
+            {
+                cancellationTokenSource.Cancel();
+                if (baseModule != null && !cancellationTokenSource.IsCancellationRequested)
+                    await baseModule.DisposeAsync();
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 }

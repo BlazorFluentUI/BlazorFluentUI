@@ -238,13 +238,21 @@ namespace BlazorFluentUI.Lists
 
         public override async ValueTask DisposeAsync()
         {
-            if (selfReference != null)
+            try
             {
-                await scriptModule!.InvokeVoidAsync("unregisterDetailsHeader", selfReference);
-                selfReference?.Dispose();
+                if (selfReference != null)
+                {
+                    await scriptModule!.InvokeVoidAsync("unregisterDetailsHeader", selfReference);
+                    selfReference?.Dispose();
+                }
+                if (scriptModule != null)
+                    await scriptModule.DisposeAsync();
+
+                await base.DisposeAsync();
             }
-            if (scriptModule != null)
-                await scriptModule.DisposeAsync();
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 }

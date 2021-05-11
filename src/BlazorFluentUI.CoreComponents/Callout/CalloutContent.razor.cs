@@ -108,18 +108,12 @@ namespace BlazorFluentUI
                 selfReference = DotNetObjectReference.Create(this);
                 try
                 {
-                    try
-                    {
-                        eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", token, RootElementReference, selfReference);
-                    }
-                    catch { }
+                    eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", RootElementReference, selfReference);
                 }
                 catch (Exception)
                 {
 
                 }
-
-
 
                 if (!isMeasured && FabricComponentTarget != null && firstRender && eventHandlerIds != null )
                 {
@@ -815,11 +809,10 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            cancellationTokenSource.Cancel();
             if (calloutModule != null && eventHandlerIds != null)
             {
                 isEventHandlersRegistered = false;
-                await calloutModule.InvokeVoidAsync("unregisterHandlers", cancellationTokenSource.Token, eventHandlerIds);
+                await calloutModule.InvokeVoidAsync("unregisterHandlers", eventHandlerIds);
                 await calloutModule.DisposeAsync();
             }
             if (baseModule != null)

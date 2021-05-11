@@ -42,6 +42,7 @@
             <Demo Header="DatePicker Required" Key="2" MetadataPath="DatePickerPage">
                 <DatePicker AllowTextInput="false"
                             Style="max-width:300px; margin:0 0 15px 0;"
+                            Underlined="true"
                             IsRequired="true"
                             @bind-Value="selectedDate2"
                             Placeholder="Select a date..." />

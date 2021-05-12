@@ -205,7 +205,8 @@ namespace BlazorFluentUI
             if (IsDatePickerShown)
             {
                 IsDatePickerShown = false;
-                ValidateTextInput();
+                if (Value != null)
+                    ValidateTextInput();
             }
             if (AllowTextInput)
             {

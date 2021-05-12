@@ -92,10 +92,6 @@ class Handler {
     }
 }
 
-function clickHandler(ev: Event) {
-
-}
-
 
 function checkTarget(ev: Event, targetElement: HTMLElement): boolean {
     const target = ev.target as HTMLElement;

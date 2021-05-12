@@ -68,8 +68,6 @@ class Handler {
 Handler.i = 1;
 Handler.listeners = {};
 Handler.targetCombinedElements = {};
-function clickHandler(ev) {
-}
 function checkTarget(ev, targetElement) {
     const target = ev.target;
     const isEventTargetOutsideCallout = !elementContains(targetElement, target);

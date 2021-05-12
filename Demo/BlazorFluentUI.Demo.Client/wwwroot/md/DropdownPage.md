@@ -102,7 +102,7 @@
 </div>
 @code {
 
-    private Dropdown dropDown1;
+    private Dropdown? dropDown1;
     IDropdownOption? uncontrolledSingleSelectionResult;
     IEnumerable<IDropdownOption> uncontrolledMultiSelectionResult = new List<IDropdownOption>();
 

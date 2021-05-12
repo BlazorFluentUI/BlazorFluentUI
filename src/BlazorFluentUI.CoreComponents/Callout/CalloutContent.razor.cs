@@ -156,12 +156,12 @@ namespace BlazorFluentUI
         }
 
         [JSInvokable]
-        public void FocusHandler()
+        public async Task FocusHandler()
         {
             //Need way to tie focus handler between all the callouts (linked contextualmenus)  ... only dimiss when ALL of them lost focus.
             System.Diagnostics.Debug.WriteLine($"Callout {PortalId} called dismiss from FocusHandler from {DirectionalHint}");
 
-            //await OnDismiss.InvokeAsync(null);
+            await OnDismiss.InvokeAsync(null);
         }
 
         [JSInvokable]
@@ -225,7 +225,7 @@ namespace BlazorFluentUI
                 }
 
                 Rectangle? targetRect = await FabricComponentTarget!.GetBoundsAsync();
-                Debug.WriteLine($"TargetRect: {targetRect.Left}, {targetRect.Top}, {targetRect.Right}, {targetRect.Bottom}");
+                //Debug.WriteLine($"TargetRect: {targetRect.Left}, {targetRect.Top}, {targetRect.Right}, {targetRect.Bottom}");
 
                 contentMaxHeight = GetMaxHeight(targetRect, maxBounds);
                 if (CalloutMaxHeight > 0 && CalloutMaxHeight < contentMaxHeight)
@@ -236,7 +236,7 @@ namespace BlazorFluentUI
 
                 CalloutPosition = await PositionCalloutAsync(targetRect, maxBounds, cancellationToken);
                 //this.CalloutPosition = calloutPositioning;
-                Debug.WriteLine($"CalloutPosition: {CalloutPosition.ElementRectangle.Left}, {CalloutPosition.ElementRectangle.Top}, {CalloutPosition.ElementRectangle.Right}, {CalloutPosition.ElementRectangle.Bottom}");
+                //Debug.WriteLine($"CalloutPosition: {CalloutPosition.ElementRectangle.Left}, {CalloutPosition.ElementRectangle.Top}, {CalloutPosition.ElementRectangle.Right}, {CalloutPosition.ElementRectangle.Bottom}");
 
                 //this.Position = this.CalloutPosition.ElementRectangle;
 

@@ -92,8 +92,6 @@ namespace BlazorFluentUI
             //SelectedKeys.Clear();
             SelectedOptions = Enumerable.Empty<IDropdownOption>();
             //SelectedKey = null;
-            if (FieldIdentifier.FieldName != null)
-                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {
@@ -105,6 +103,9 @@ namespace BlazorFluentUI
                 if (SelectedOptionChanged.HasDelegate)
                     SelectedOptionChanged.InvokeAsync(SelectedOption);
             }
+
+            if (FieldIdentifier.FieldName != null)
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
             StateHasChanged();
         }
 
@@ -114,9 +115,6 @@ namespace BlazorFluentUI
             IDropdownOption? option = ItemsSource!.FirstOrDefault(x => x.Key == key);
             if (option == null)
                 return;
-
-            if (FieldIdentifier.FieldName != null)
-                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {
@@ -144,6 +142,9 @@ namespace BlazorFluentUI
                 }
                 IsOpen = false;
             }
+
+            if (FieldIdentifier.FieldName != null)
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
             StateHasChanged();
         }
 
@@ -152,9 +153,6 @@ namespace BlazorFluentUI
             IDropdownOption? option = ItemsSource!.FirstOrDefault(x => x.Key == key);
             if (option == null)
                 return;
-
-            if (FieldIdentifier.FieldName != null)
-                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
 
             if (MultiSelect)
             {
@@ -183,6 +181,9 @@ namespace BlazorFluentUI
                 }
 
             }
+
+            if (FieldIdentifier.FieldName != null)
+                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
             StateHasChanged();
         }
 

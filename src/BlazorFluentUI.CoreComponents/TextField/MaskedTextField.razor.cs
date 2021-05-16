@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -34,11 +35,14 @@ namespace BlazorFluentUI
 
     }
 
-
-
     public partial class MaskedTextField : TextFieldParameters, IAsyncDisposable
     {
-        [Inject] private MaskedTextFieldInternalState internalState { get; set; }
+        private List<MaskValue> MaskCharData { get; set; } = new();
+        private bool IsFocused { get; set; } = false;
+        private bool MoveCursorOnMouseUp { get; set; } = false;
+        private int MaskCursorPosition { get; set; }
+
+        public (ChangeType changeType, int? selectionStart, int? selectionEnd) ChangeSelectionData { get; set; }
         [Inject] private IJSRuntime? JSRuntime { get; set; }
         /// <summary>
         /// The masking string that defines the mask's behavior. A backslash will escape any character. Special format characters are: '9': [0-9] 'a': [a-zA-Z] '*': [a-zA-Z0-9]
@@ -59,14 +63,6 @@ namespace BlazorFluentUI
         [Parameter] public string? DefaultValue { get; set; }
 
         [Parameter] public string? Value { get; set; }
-        //{
-        //    get => DisplayValue;
-        //    set
-        //    {
-        //        if (displayValue == value)
-        //            DisplayValue = value;
-        //    }
-        //}
 
         /// <summary>
         /// Gets or sets a callback that updates the bound value.
@@ -84,6 +80,17 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<MouseEventArgs> OnMouseUp { get; set; }
 
         [Parameter] public EventCallback<ChangeEventArgs> OnInput { get; set; }
+
+        /// <summary>
+        /// Gets the <see cref="FieldIdentifier"/> for the bound value.
+        /// </summary>
+        protected internal FieldIdentifier FieldIdentifier { get; set; }
+        [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
+
+        private readonly EventHandler<ValidationStateChangedEventArgs> _validationStateChangedHandler;
+        //private bool _previousParsingAttemptFailed;
+        //private ValidationMessageStore? _parsingValidationMessages;
+        private Type? _nullableUnderlyingType;
 
         private ElementReference? Element;
 
@@ -108,17 +115,14 @@ namespace BlazorFluentUI
             }
         }
 
-
         public MaskedTextField()
         {
             AutoComplete = AutoComplete.Off;
-            internalState = new MaskedTextFieldInternalState();
-
         }
 
         protected override Task OnInitializedAsync()
         {
-            internalState.MaskCharData = ParseMask(Mask, ParsedMaskFormat);
+            MaskCharData = ParseMask(Mask, ParsedMaskFormat);
 
             if (!string.IsNullOrWhiteSpace(ErrorMessage))
             {
@@ -141,17 +145,6 @@ namespace BlazorFluentUI
         {
             baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
 
-            // Move the cursor to the start of the mask format after values update.
-            //if (TextFieldReference != null && TextFieldReference.Element != null)
-            //{
-            //    //Value = GetMaskDisplay(Mask, internalState.MaskCharData, MaskChar);
-            //    Element = TextFieldReference.Element;
-
-            //    if (isFocused && internalState.MaskCursorPosition > 0)
-            //    {
-            //        await baseModule.InvokeVoidAsync("setSelectionRange", Element, internalState.MaskCursorPosition, internalState.MaskCursorPosition);
-            //    }
-            //}
             await base.OnAfterRenderAsync(firstRender);
         }
 
@@ -171,12 +164,12 @@ namespace BlazorFluentUI
             //}
             if (Element != null)
             {
-                if (internalState.MaskCursorPosition > 0)
+                if (MaskCursorPosition > 0)
                 {
-                    await baseModule!.InvokeVoidAsync("setSelectionRange", Element, internalState.MaskCursorPosition, internalState.MaskCursorPosition);
+                    await baseModule!.InvokeVoidAsync("setSelectionRange", Element, MaskCursorPosition, MaskCursorPosition);
                 }
             }
-            internalState.MoveCursorOnMouseUp = false;
+            MoveCursorOnMouseUp = false;
 
             await base.OnParametersSetAsync();
             return;
@@ -191,19 +184,18 @@ namespace BlazorFluentUI
             ParsedMaskFormat = ParseMaskFormat(MaskFormat);
 
 
-            Value = GetMaskDisplay(Mask, internalState.MaskCharData, MaskChar);
+            Value = GetMaskDisplay(Mask, MaskCharData, MaskChar);
 
 
 
-            //if (CascadedEditContext != null && ValueExpression != null)
-            //{
-            //    CascadedEditContext.OnValidationStateChanged += _validationStateChangedHandler;
-            //    FieldIdentifier = FieldIdentifier.Create(ValueExpression);
+            if (CascadedEditContext != null && ValueExpression != null)
+            {
+                CascadedEditContext.OnValidationStateChanged += _validationStateChangedHandler;
+                FieldIdentifier = FieldIdentifier.Create(ValueExpression);
 
-            //    _nullableUnderlyingType = Nullable.GetUnderlyingType(typeof(TValue));
 
-            //    UpdateAdditionalValidationAttributes();
-            //}
+                UpdateAdditionalValidationAttributes();
+            }
             // For derived components, retain the usual lifecycle with OnInit/OnParametersSet/etc.
             base.SetParametersAsync(ParameterView.Empty);
             return Task.CompletedTask;
@@ -217,43 +209,19 @@ namespace BlazorFluentUI
             });
         }
 
-        //private void HandleValueChanged(string? value)
-        //{
-        //    DisplayValue = value;
-        //    SetValue(value);
-        //}
-
-        //private void SetValue(string newValue)
-        //{
-        //    int valueIndex = 0;
-        //    int charDataIndex = 0;
-
-        //    while (valueIndex < newValue.Length && charDataIndex < internalState.MaskCharData.Count)
-        //    {
-        //        // Test if the next character in the new value fits the next format character
-        //        char testVal = newValue[valueIndex];
-        //        if (internalState.MaskCharData[charDataIndex].Format!.IsMatch(testVal.ToString()))
-        //        {
-        //            internalState.MaskCharData[charDataIndex].Value = testVal;
-        //            charDataIndex++;
-        //        }
-        //        valueIndex++;
-        //    }
-        //}
-
         private async Task HandleOnFocusAsync(FocusEventArgs args)
         {
 
             isFocused = true;
 
             // Move the cursor position to the leftmost unfilled position
-            for (int i = 0; i < internalState.MaskCharData.Count; i++)
+            for (int i = 0; i < MaskCharData.Count; i++)
             {
-                if (internalState.MaskCharData[i].Value == null)
+                if (MaskCharData[i].Value == null)
                 {
-                    internalState.MaskCursorPosition = (internalState.MaskCharData[i].DisplayIndex);
-                    Debug.WriteLine($"OnFocus: cursor pos - {internalState.MaskCursorPosition}");
-                    await baseModule!.InvokeVoidAsync("setSelectionRange", Element, internalState.MaskCursorPosition, internalState.MaskCursorPosition);
+                    MaskCursorPosition = (MaskCharData[i].DisplayIndex);
+                    Debug.WriteLine($"OnFocus: cursor pos - {MaskCursorPosition}");
+                    await baseModule!.InvokeVoidAsync("setSelectionRange", Element, MaskCursorPosition, MaskCursorPosition);
                     break;
                 }
             }
@@ -264,7 +232,7 @@ namespace BlazorFluentUI
         {
 
             isFocused = false;
-            internalState.MoveCursorOnMouseUp = true;
+            MoveCursorOnMouseUp = true;
             await OnBlur.InvokeAsync(args);
         }
 
@@ -274,7 +242,7 @@ namespace BlazorFluentUI
 
             if (!isFocused)
             {
-                internalState.MoveCursorOnMouseUp = true;
+                MoveCursorOnMouseUp = true;
             }
 
             await OnMouseDown.InvokeAsync(args);
@@ -285,15 +253,15 @@ namespace BlazorFluentUI
 
 
             // Move the cursor on mouseUp after focusing the textField
-            if (internalState.MoveCursorOnMouseUp)
+            if (MoveCursorOnMouseUp)
             {
-                internalState.MoveCursorOnMouseUp = false;
+                MoveCursorOnMouseUp = false;
                 // Move the cursor position to the rightmost unfilled position
-                for (int i = 0; i < internalState.MaskCharData.Count; i++)
+                for (int i = 0; i < MaskCharData.Count; i++)
                 {
-                    if (internalState.MaskCharData[i].Value == null)
+                    if (MaskCharData[i].Value == null)
                     {
-                        internalState.MaskCursorPosition = internalState.MaskCharData[i].DisplayIndex;
+                        MaskCursorPosition = MaskCharData[i].DisplayIndex;
                         break;
                     }
                 }
@@ -303,36 +271,35 @@ namespace BlazorFluentUI
         }
 
         private async Task HandleOnInputAsync(ChangeEventArgs args)
-        //private async Task<string?> HandleOnInputAsync(string? inputValue)
         {
             string? inputValue = args.Value!.ToString();
 
-            if (Element != null && internalState.ChangeSelectionData.selectionStart <= 0 && internalState.ChangeSelectionData.selectionEnd <= 0)
+            if (Element != null && ChangeSelectionData.selectionStart <= 0 && ChangeSelectionData.selectionEnd <= 0)
             {
                 int? ss = await GetSelectionStart(Element);
                 int? se = await GetSelectionEnd(Element);
-                ChangeType ct = internalState.ChangeSelectionData.changeType;
+                ChangeType ct = ChangeSelectionData.changeType;
 
-                internalState.ChangeSelectionData = (changeType: ct != ChangeType.Default ? ct : ChangeType.Default,
+                ChangeSelectionData = (changeType: ct != ChangeType.Default ? ct : ChangeType.Default,
                                        selectionStart: ss != null ? ss : -1,
                                        selectionEnd: se != null ? se : -1);
 
 
-                if (internalState.ChangeSelectionData == (default, 0, 0))
+                if (ChangeSelectionData == (default, 0, 0))
                 {
                     return; // inputValue;
                 }
             }
 
             int cursorPos = 0;
-            ChangeType changeType = internalState.ChangeSelectionData.changeType;
-            int selectionStart = (int)internalState.ChangeSelectionData.selectionStart!;
-            int selectionEnd = (int)internalState.ChangeSelectionData.selectionEnd!;
+            ChangeType changeType = ChangeSelectionData.changeType;
+            int selectionStart = (int)ChangeSelectionData.selectionStart!;
+            int selectionEnd = (int)ChangeSelectionData.selectionEnd!;
 
             if (changeType == ChangeType.TextPasted)
             {
                 int charsSelected = selectionEnd - selectionStart;
-                int charCount = inputValue!.Length + charsSelected - displayValue!.Length;
+                int charCount = inputValue!.Length + charsSelected - Value!.Length;
                 int startPos = selectionStart;
 
                 string pastedString = inputValue.Substring(startPos!, charCount);
@@ -340,9 +307,9 @@ namespace BlazorFluentUI
                 // Clear any selected characters
                 if (charsSelected > 0)
                 {
-                    internalState.MaskCharData = ClearRange(internalState.MaskCharData, selectionStart, charsSelected);
+                    MaskCharData = ClearRange(MaskCharData, selectionStart, charsSelected);
                 }
-                cursorPos = InsertString(internalState.MaskCharData, startPos, pastedString);
+                cursorPos = InsertString(MaskCharData, startPos, pastedString);
             }
             else if (changeType == ChangeType.Delete || changeType == ChangeType.Backspace)
             {
@@ -353,55 +320,55 @@ namespace BlazorFluentUI
                 if (charCount > 0)
                 {
                     // charCount is > 0 if range was deleted
-                    internalState.MaskCharData = ClearRange(internalState.MaskCharData, selectionStart, charCount);
-                    cursorPos = GetRightFormatIndex(internalState.MaskCharData, selectionStart);
+                    MaskCharData = ClearRange(MaskCharData, selectionStart, charCount);
+                    cursorPos = GetRightFormatIndex(MaskCharData, selectionStart);
                 }
                 else
                 {
                     // If charCount == 0, there was no selection and a single character was deleted
                     if (isDel)
                     {
-                        internalState.MaskCharData = ClearNext(internalState.MaskCharData, selectionStart);
-                        cursorPos = GetRightFormatIndex(internalState.MaskCharData, selectionStart);
+                        MaskCharData = ClearNext(MaskCharData, selectionStart);
+                        cursorPos = GetRightFormatIndex(MaskCharData, selectionStart);
                     }
                     else
                     {
-                        internalState.MaskCharData = ClearPrev(internalState.MaskCharData, selectionStart);
-                        cursorPos = GetLeftFormatIndex(internalState.MaskCharData, selectionStart);
+                        MaskCharData = ClearPrev(MaskCharData, selectionStart);
+                        cursorPos = GetLeftFormatIndex(MaskCharData, selectionStart);
                     }
                 }
             }
-            else if (inputValue!.Length > displayValue!.Length)
+            else if (inputValue!.Length > Value!.Length)
             {
                 // This case is if the user added characters
-                int charCount = inputValue.Length - displayValue.Length;
+                int charCount = inputValue.Length - Value.Length;
                 int startPos = (selectionEnd!) - charCount;
                 string enteredString = inputValue.Substring(startPos, charCount);
 
-                cursorPos = InsertString(internalState.MaskCharData, startPos, enteredString);
+                cursorPos = InsertString(MaskCharData, startPos, enteredString);
             }
-            else if (inputValue.Length <= displayValue.Length)
+            else if (inputValue.Length <= Value.Length)
             {
                 /**
                  * This case is reached only if the user has selected a block of 1 or more
                  * characters and input a character replacing the characters they've selected.
                  */
                 int charCount = 1;
-                int selectCount = displayValue.Length + charCount - inputValue.Length;
+                int selectCount = Value.Length + charCount - inputValue.Length;
                 int startPos = (selectionEnd!) - charCount;
                 string enteredString = inputValue.Substring(startPos, charCount);
 
                 // Clear the selected range
-                internalState.MaskCharData = ClearRange(internalState.MaskCharData, startPos, selectCount);
+                MaskCharData = ClearRange(MaskCharData, startPos, selectCount);
                 // Insert the printed character
-                cursorPos = InsertString(internalState.MaskCharData, startPos, enteredString);
+                cursorPos = InsertString(MaskCharData, startPos, enteredString);
             }
 
-            internalState.ChangeSelectionData = (default, 0, 0);
+            ChangeSelectionData = (default, 0, 0);
 
-            string newValue = GetMaskDisplay(Mask, internalState.MaskCharData, MaskChar);
+            string newValue = GetMaskDisplay(Mask, MaskCharData, MaskChar);
 
-            internalState.MaskCursorPosition = cursorPos;
+            MaskCursorPosition = cursorPos;
 
 
             await OnInput.InvokeAsync(new ChangeEventArgs { Value = newValue });
@@ -422,7 +389,7 @@ namespace BlazorFluentUI
         {
             Console.WriteLine("In KeyDown");
 
-            internalState.ChangeSelectionData = (default, 0, 0);
+            ChangeSelectionData = (default, 0, 0);
             if (Element != null && displayValue != null)
             {
                 var keyCode = args.Key;
@@ -440,7 +407,7 @@ namespace BlazorFluentUI
                     {
                         return;
                     }
-                    internalState.ChangeSelectionData = (changeType: keyCode == "Backspace" ? ChangeType.Backspace : ChangeType.Delete,
+                    ChangeSelectionData = (changeType: keyCode == "Backspace" ? ChangeType.Backspace : ChangeType.Delete,
                                     selectionStart: selectionStart != null ? selectionStart : -1,
                                     selectionEnd: selectionEnd != null ? selectionEnd : -1);
                 }
@@ -459,7 +426,7 @@ namespace BlazorFluentUI
                 int selectionStart = await GetSelectionStart(Element);
                 int selectionEnd = await GetSelectionEnd(Element);
 
-                internalState.ChangeSelectionData = (changeType: ChangeType.TextPasted,
+                ChangeSelectionData = (changeType: ChangeType.TextPasted,
                                 selectionStart: selectionStart > 0 ? selectionStart : -1,
                                 selectionEnd: selectionEnd > 0 ? selectionEnd : -1);
             }
@@ -469,9 +436,49 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            //internalState.OnChange -= StateHasChanged;
+            //OnChange -= StateHasChanged;
             if (baseModule != null)
                 await baseModule.DisposeAsync();
+        }
+
+        private void UpdateAdditionalValidationAttributes()
+        {
+            bool hasAriaInvalidAttribute = AdditionalAttributes != null && AdditionalAttributes.ContainsKey("aria-invalid");
+            if (CascadedEditContext.GetValidationMessages(FieldIdentifier).Any())
+            {
+                if (hasAriaInvalidAttribute)
+                {
+                    // Do not overwrite the attribute value
+                    return;
+                }
+
+                if (ConvertToDictionary(AdditionalAttributes, out var additionalAttributes))
+                {
+                    AdditionalAttributes = additionalAttributes;
+                }
+
+                // To make the `Input` components accessible by default
+                // we will automatically render the `aria-invalid` attribute when the validation fails
+                additionalAttributes["aria-invalid"] = true;
+            }
+            else if (hasAriaInvalidAttribute)
+            {
+                // No validation errors. Need to remove `aria-invalid` if it was rendered already
+                if (AdditionalAttributes!.Count == 1)
+                {
+                    // Only aria-invalid argument is present which we don't need any more
+                    AdditionalAttributes = null;
+                }
+                else
+                {
+                    if (ConvertToDictionary(AdditionalAttributes, out var additionalAttributes))
+                    {
+                        AdditionalAttributes = additionalAttributes;
+                    }
+
+                    additionalAttributes.Remove("aria-invalid");
+                }
+            }
         }
 
         private Dictionary<char, Regex> ParseMaskFormat(string maskFormat)

@@ -100,5 +100,33 @@ namespace BlazorFluentUI
                 };
             }
         }
+
+        /// <summary>
+        /// Returns a dictionary with the same values as the specified <paramref name="source"/>.
+        /// </summary>
+        /// <returns>true, if a new dictrionary with copied values was created. false - otherwise.</returns>
+        protected static bool ConvertToDictionary(IReadOnlyDictionary<string, object>? source, out Dictionary<string, object> result)
+        {
+            bool newDictionaryCreated = true;
+            if (source == null)
+            {
+                result = new Dictionary<string, object>();
+            }
+            else if (source is Dictionary<string, object> currentDictionary)
+            {
+                result = currentDictionary;
+                newDictionaryCreated = false;
+            }
+            else
+            {
+                result = new Dictionary<string, object>();
+                foreach (KeyValuePair<string, object> item in source)
+                {
+                    result.Add(item.Key, item.Value);
+                }
+            }
+
+            return newDictionaryCreated;
+        }
     }
 }

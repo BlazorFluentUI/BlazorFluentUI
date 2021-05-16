@@ -25,7 +25,7 @@
         <div class="subSection">
             <Demo Header="Customizable Masked TextField" Key="0" MetadataPath="MaskedTextFieldPage">
                 <div class="textFieldDiv">
-                    <MaskedTextField Label="With input mask" @bind-Value=@model.exampleString1 Mask="m\ask: (999) 999 - 9999" MaskChar="'?'" />
+                    <MaskedTextField Label="With input mask" @bind-Value=@model.exampleString1 Mask="m\ask: (999) 999 - 9999" MaskChar="'_'" />
                 </div>
                 Example: @model.exampleString1<br />
                 <div class="textFieldDiv">
@@ -35,17 +35,17 @@
 
             </Demo>
         </div>
-        @*<div class="subSection">
-            <Demo Header="NumberTextFields with EditForm" Key="1" MetadataPath="NumberTextFieldPage">
+        <div class="subSection">
+            <Demo Header="MaskedTextField with EditForm" Key="1" MetadataPath="NumberTextFieldPage">
                 <EditForm Model=@model OnValidSubmit=@HandleValidSubmit>
                     <FluentUIValidationSummary />
                     <div class="textFieldDiv">
-                        <NumberTextField Label="Int test" @bind-Value="model.exampleInt" @bind-Value:event="OnChange" />
+                        <MaskedTextField Label="Int test" @bind-Value="model.exampleString1" @bind-Value:event="OnChange" />
                     </div>
-                    Example int: @model.exampleInt
+                    Example: @model.exampleString1<br />
                 </EditForm>
             </Demo>
-        </div>*@
+        </div>
     </div>
 </div>
 @code {
@@ -55,7 +55,6 @@
     {
         public string? exampleString1 { get; set; }
         public string? exampleString2 { get; set; }
-        public int exampleInt { get; set; } = int.MaxValue;
 
     }
 

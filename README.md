@@ -14,6 +14,9 @@ How To Use: [Blazor Server](https://github.com/BlazorFluentUI/BlazorFluentUI/wik
 [Theming](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/Theming---defaults-and-custom) 
 
 ## Revision history
+### V5.3
+- `TextFieldNumber` is renamed to `NumericTextField`
+- `MaskedTextFiled` is now available as a **BETA** component. See https://www.blazorfluentui.net/MaskedTextFieldPage for examples
 
 ### V5.2
 - Library is now using JavaScript isolation (see https://docs.microsoft.com/en-us/aspnet/core/blazor/call-javascript-from-dotnet?view=aspnetcore-5.0#blazor-javascript-isolation-and-object-references). No longer needed to reference the scripts in your `_Host.cshtml` / `index.html`! (with exception of the still experimental RichTextEditor script and acompanying Quill library). Blazor Server in .NET 5.0 no longer supports IE11/Legacy edge so neither does the demo.

@@ -1,0 +1,66 @@
+﻿@page "/MaskedTextFieldPage"
+@using System.ComponentModel.DataAnnotations
+
+<header class="root">
+    <h1 class="title">MaskedTextField</h1>
+</header>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading hiddenContent">Overview</h2>
+    </div>
+    <div class="content">
+        <div class="ms-Markdown">
+            <p>
+                Masked text fields (<code>MaskedTextField</code>) give people a way to enter and edit strings in a specified format. They’re used in forms, modal dialogs, tables, and other surfaces where input in a specified format is required.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="section" style="transition-delay: 0s;">
+    <div id="overview" tabindex="-1">
+        <h2 class="subHeading">Usage</h2>
+        <p>These <code>&lt;MaskedTextField&gt;</code> components can be used both within and without <code>&lt;EditForm&gt;</code> block <strong>but</strong> you don't get validation messages when you don't put them in an <code>&lt;EditForm&gt;</code></p>
+    </div>
+    <div>
+        <div class="subSection">
+            <Demo Header="Customizable Masked TextField" Key="0" MetadataPath="MaskedTextFieldPage">
+                <div class="textFieldDiv">
+                    <MaskedTextField Label="With input mask" @bind-Value=@model.exampleString1 Mask="m\ask: (999) 999 - 9999" MaskChar="'_'" />
+                </div>
+                Example: @model.exampleString1<br />
+                <div class="textFieldDiv">
+                    <MaskedTextField Label="With input mask" @bind-Value=@model.exampleString2 Mask="m\ask: ****" MaskFormat="*:[a-zA-Z0-9]" MaskChar="'?'" />
+                </div>
+                Example: @model.exampleString2
+
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="MaskedTextField with EditForm" Key="1" MetadataPath="NumberTextFieldPage">
+                <EditForm Model=@model OnValidSubmit=@HandleValidSubmit>
+                    <FluentUIValidationSummary />
+                    <div class="textFieldDiv">
+                        <MaskedTextField Label="Int test" @bind-Value="model.exampleString1" @bind-Value:event="OnChange" />
+                    </div>
+                    Example: @model.exampleString1<br />
+                </EditForm>
+            </Demo>
+        </div>
+    </div>
+</div>
+@code {
+    ExampleModel model = new ExampleModel();
+
+    class ExampleModel
+    {
+        public string? exampleString1 { get; set; }
+        public string? exampleString2 { get; set; }
+
+    }
+
+
+    public void HandleValidSubmit()
+    {
+
+    }
+}

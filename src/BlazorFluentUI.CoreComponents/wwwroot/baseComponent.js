@@ -59,6 +59,21 @@ const _disableIosBodyScroll = (event) => {
     event.preventDefault();
 };
 // end
+export function getSelectionStart(element) {
+    if (element == null)
+        return null;
+    return element.selectionStart;
+}
+export function getSelectionEnd(element) {
+    if (element == null)
+        return null;
+    return element.selectionEnd;
+}
+export function setSelectionRange(element, start, end) {
+    if (element == null)
+        return;
+    return element.setSelectionRange(start, end);
+}
 export function getClientHeight(element) {
     if (element == null)
         return 0;

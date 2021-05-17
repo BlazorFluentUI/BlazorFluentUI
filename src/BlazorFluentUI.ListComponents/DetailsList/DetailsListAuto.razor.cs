@@ -451,7 +451,8 @@ namespace BlazorFluentUI.Lists
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            if (baseModule == null)
+                baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
 
             if (firstRender)
             {
@@ -471,8 +472,6 @@ namespace BlazorFluentUI.Lists
         {
             // this was attached in the ms-DetailsList-contentWrapper div.  When holding Ctrl nothing happens (since it's a meta key), but if you click while holding Ctrl, a large number of keydown events is sent to this handler and freezes the UI.
         }
-
-
 
         private static void OnAllSelected()
         {

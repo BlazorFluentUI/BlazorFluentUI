@@ -31,9 +31,8 @@ namespace BlazorFluentUI
         public static async Task<ResponsiveMode> GetResponsiveModeAsync(IJSRuntime JSRuntime)
         {
             string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-            IJSObjectReference? baseModule;
 
-            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            IJSObjectReference? baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
 
             ResponsiveMode responsiveMode = ResponsiveMode.Small;
             Rectangle? windowRect = await baseModule.InvokeAsync<Rectangle>("getWindowRect");

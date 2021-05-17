@@ -73,7 +73,8 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", ScriptPath);
+            if (scriptModule == null)
+                scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", ScriptPath);
 
             if (firstRender)
             {

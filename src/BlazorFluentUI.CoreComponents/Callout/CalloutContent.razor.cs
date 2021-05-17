@@ -99,8 +99,10 @@ namespace BlazorFluentUI
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             CancellationToken token = cancellationTokenSource.Token;
-            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", token, BasePath);
-            calloutModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", token, CalloutPath);
+            if (baseModule == null)
+                baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", token, BasePath);
+            if (calloutModule == null)
+                calloutModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", token, CalloutPath);
 
             if (!isEventHandlersRegistered)
             {

@@ -80,6 +80,8 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<MouseEventArgs> OnMouseUp { get; set; }
 
         [Parameter] public EventCallback<ChangeEventArgs> OnInput { get; set; }
+        [Parameter] public Func<string, string>? OnGetErrorMessage { get; set; }
+        [Parameter] public Action<string, string>? OnNotifyValidationResult { get; set; }
 
         /// <summary>
         /// Gets the <see cref="FieldIdentifier"/> for the bound value.
@@ -87,10 +89,10 @@ namespace BlazorFluentUI
         protected internal FieldIdentifier FieldIdentifier { get; set; }
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
 
+        private string? latestValidatedValue = default;
         private readonly EventHandler<ValidationStateChangedEventArgs> _validationStateChangedHandler;
         //private bool _previousParsingAttemptFailed;
         //private ValidationMessageStore? _parsingValidationMessages;
-        private Type? _nullableUnderlyingType;
 
         private ElementReference? Element;
 
@@ -118,6 +120,14 @@ namespace BlazorFluentUI
         public MaskedTextField()
         {
             AutoComplete = AutoComplete.Off;
+            _validationStateChangedHandler = OnValidateStateChanged;
+        }
+
+        private void OnValidateStateChanged(object? sender, ValidationStateChangedEventArgs eventArgs)
+        {
+            UpdateAdditionalValidationAttributes();
+
+            StateHasChanged();
         }
 
         protected override Task OnInitializedAsync()
@@ -381,6 +391,7 @@ namespace BlazorFluentUI
             await ValueChanged.InvokeAsync(Value);
 
             StateHasChanged();
+            Validate(Value);
             return;
         }
 
@@ -433,7 +444,41 @@ namespace BlazorFluentUI
             await OnPaste.InvokeAsync(args);
         }
 
+        private void Validate(string? value)
+        {
+            if (CascadedEditContext != null && ValueExpression != null)
+            {
+                if (value != null)
+                    CascadedEditContext.NotifyFieldChanged(FieldIdentifier);
 
+                if (CascadedEditContext.GetValidationMessages(FieldIdentifier).Any())
+                {
+                    ErrorMessage = string.Join(',', CascadedEditContext.GetValidationMessages(FieldIdentifier));
+                }
+                else
+                {
+                    ErrorMessage = "";
+                }
+            }
+            else
+            {
+                if (value != null)
+                {
+                    if (latestValidatedValue != null && latestValidatedValue.Equals(value))
+                        return;
+
+                    latestValidatedValue = value;
+                    string? errorMessage = OnGetErrorMessage?.Invoke(value);
+                    if (errorMessage != null)
+                    {
+                        ErrorMessage = errorMessage;
+                    }
+                    OnNotifyValidationResult?.Invoke(value, errorMessage!);
+
+                    StateHasChanged();
+                }
+            }
+        }
         public override async ValueTask DisposeAsync()
         {
             //OnChange -= StateHasChanged;

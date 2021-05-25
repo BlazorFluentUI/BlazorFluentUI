@@ -163,7 +163,7 @@ namespace BlazorFluentUI
             //Need way to tie focus handler between all the callouts (linked contextualmenus)  ... only dimiss when ALL of them lost focus.
             System.Diagnostics.Debug.WriteLine($"Callout {PortalId} called dismiss from FocusHandler from {DirectionalHint}");
 
-            await OnDismiss.InvokeAsync(null);
+            //await OnDismiss.InvokeAsync(null);
         }
 
         [JSInvokable]
@@ -302,7 +302,7 @@ namespace BlazorFluentUI
 
             (PartialRectangle element, RectangleEdge targetEdge, RectangleEdge alignmentEdge) = await FinalizePositionDataAsync(positionedElement, maxBounds, cancellationToken);
 
-            return new CalloutPositionedInfo(element, targetEdge, alignmentEdge, finalizedBeakPosition);
+            return new CalloutPositionedInfo(element, null, targetEdge, alignmentEdge, finalizedBeakPosition);
 
         }
 
@@ -346,7 +346,7 @@ namespace BlazorFluentUI
                     break;
             }
             return new CalloutBeakPositionedInfo(
-                returnValue,
+                returnValue, null,
                 GetClosestEdge(elementPosition.TargetEdge, positionedBeak, actualElement),
                 targetEdge);
         }

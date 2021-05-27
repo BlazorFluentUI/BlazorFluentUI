@@ -97,7 +97,7 @@ namespace BlazorFluentUI
 
 
         [JSInvokable]
-        public void OnResizedAsync()
+        public  void OnResizedAsync()
         {
             _measureContainer = true;
             StateHasChanged();
@@ -110,7 +110,7 @@ namespace BlazorFluentUI
 
             if (firstRender)
             {
-                _resizeEventGuid = Guid.NewGuid().ToString().Replace("-", "");
+                _resizeEventGuid = $"id_{Guid.NewGuid().ToString().Replace("-", "")}"                                  ;
                 selfReference = DotNetObjectReference.Create(this);
                 await baseModule.InvokeVoidAsync("registerResizeEvent", selfReference, "OnResizedAsync", _resizeEventGuid);
             }

@@ -22,7 +22,7 @@ namespace BlazorFluentUI
         {
             await base.OnParametersSetAsync();
             if (string.IsNullOrWhiteSpace(Id))
-                Id = Id = $"g{Guid.NewGuid()}";
+                Id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
         }
 
         private async Task OnChoiceOptionClicked(ChoiceGroupOptionClickedEventArgs choiceGroupOptionClickedEventArgs)

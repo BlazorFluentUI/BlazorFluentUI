@@ -17,7 +17,7 @@ namespace BlazorFluentUI
             {
                 if(key == null)
                 {
-                    key = Guid.NewGuid().ToString();
+                    key = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
                 }
                 return key;
             }

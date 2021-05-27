@@ -59,12 +59,12 @@ namespace BlazorFluentUI
                 if (BackstageHeader != null && PivotItems?.Count > 1 && DefaultSelectedKey == null)
                 {
 #pragma warning disable BL0005 // Component parameter should not be set outside of its component.
-                    backstageItemKey = PivotItems[0].ItemKey = Guid.NewGuid().ToString();
+                    backstageItemKey = PivotItems[0].ItemKey = $"k_{Guid.NewGuid().ToString().Replace("-", "")}";
                     PivotItem? firstItemAfterBackstage = PivotItems[1];
                     if (firstItemAfterBackstage.ItemKey == null)
                     {
 
-                        firstItemAfterBackstage.ItemKey = Guid.NewGuid().ToString();
+                        firstItemAfterBackstage.ItemKey = $"k_{Guid.NewGuid().ToString().Replace("-", "")}";
 
                     }
                     DefaultSelectedKey = firstItemAfterBackstage.ItemKey;

@@ -3,7 +3,7 @@
 @inherits FluentUIComponentBase
 
 <div @ref="RootElementReference" style="display: inline">
-    <OverflowSet Items=@((List<IRibbonItem>)items) OverflowItems=@((List<IRibbonItem>)overflowItems) GetKey=@(x => Guid.NewGuid().ToString()) Style="display: inline-block;vertical-align: top">
+    <OverflowSet Items=@((List<IRibbonItem>)items) OverflowItems=@((List<IRibbonItem>)overflowItems) GetKey=@(x => $"k_{ Guid.NewGuid().ToString().Replace("-", "")}") Style="display: inline-block;vertical-align: top">
         <ItemTemplate>
                 @ItemTemplate!(context)
         </ItemTemplate>

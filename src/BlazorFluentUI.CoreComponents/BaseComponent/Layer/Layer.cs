@@ -31,7 +31,7 @@ namespace BlazorFluentUI
 
         private bool addedToHost = false;
 
-        public string id = Guid.NewGuid().ToString();
+        public string id = $"id_{Guid.NewGuid().ToString().Replace("-","")}";
         private ElementReference _element;
 
         //private bool isFirstRendered = false;

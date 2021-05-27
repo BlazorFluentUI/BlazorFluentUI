@@ -33,7 +33,7 @@ namespace BlazorFluentUI
                         break;
                     }
                 }
-                _resizeEventGuid = Guid.NewGuid().ToString().Replace("-", "");
+                _resizeEventGuid = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
                 selfReference = DotNetObjectReference.Create(this);
                 await baseModule.InvokeVoidAsync("registerResizeEvent", selfReference , "OnResizedAsync", _resizeEventGuid);
                 StateHasChanged();  // we will never have window size until after first render, so re-render after this to update the component with ResponsiveMode info.

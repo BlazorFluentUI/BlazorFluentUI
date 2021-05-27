@@ -31,7 +31,7 @@ namespace BlazorFluentUI
         private IJSObjectReference? baseModule;
         private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/slider.js";
 
-        private readonly string id = Guid.NewGuid().ToString();
+        private readonly string id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
         private ElementReference slideBox;
         private ElementReference sliderLine;
         private ElementReference thumb;

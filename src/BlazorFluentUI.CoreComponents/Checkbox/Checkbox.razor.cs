@@ -72,7 +72,7 @@ namespace BlazorFluentUI
 
         private FieldIdentifier FieldIdentifier;
 
-        private readonly string Id = Guid.NewGuid().ToString();
+        private readonly string Id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
         private bool _isChecked;
         private bool _reversed;
         private bool _indeterminate;

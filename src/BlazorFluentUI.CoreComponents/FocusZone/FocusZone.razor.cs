@@ -67,7 +67,7 @@ namespace BlazorFluentUI
                 await baseModule.InvokeVoidAsync("focusFirstElementChild", RootElementReference);
         }
 
-        protected string Id = Guid.NewGuid().ToString();
+        protected string Id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
         private DotNetObjectReference<FocusZone>? selfReference;
 
         //private int[] _lastIndexPath;

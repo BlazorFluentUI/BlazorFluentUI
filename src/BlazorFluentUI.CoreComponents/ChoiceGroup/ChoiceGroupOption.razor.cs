@@ -49,7 +49,7 @@ namespace BlazorFluentUI
                 _isSelected = Equals(ChoiceGroup.Value, Item);
 
             if (string.IsNullOrWhiteSpace(Id))
-                Id = Id = $"g{Guid.NewGuid()}";
+                Id = $"id_{Guid.NewGuid().ToString().Replace("-","")}";
         }
 
         //private void AddFieldHoverOrFocusStyles(HashSet<IRule> rules, ITheme theme, string pseudoSelector)

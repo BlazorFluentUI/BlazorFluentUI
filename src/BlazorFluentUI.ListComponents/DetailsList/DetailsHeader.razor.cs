@@ -130,7 +130,7 @@ namespace BlazorFluentUI.Lists
 
         protected override Task OnInitializedAsync()
         {
-            id = "G" + Guid.NewGuid().ToString();
+            id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
             onDropIndexInfo = (-1, -1);
             //currentDropHintIndex = -1;
 

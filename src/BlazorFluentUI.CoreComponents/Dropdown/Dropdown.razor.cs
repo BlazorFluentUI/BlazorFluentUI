@@ -52,7 +52,7 @@ namespace BlazorFluentUI
 
         protected bool IsOpen { get; set; }
 
-        protected string id = Guid.NewGuid().ToString();
+        protected string id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
         protected bool isSmall = false;
         protected Rectangle dropDownBounds = new();
 

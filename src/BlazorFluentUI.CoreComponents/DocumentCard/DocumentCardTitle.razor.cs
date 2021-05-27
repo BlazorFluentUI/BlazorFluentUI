@@ -55,7 +55,7 @@ namespace BlazorFluentUI
         public DocumentCardTitle()
         {
             ShouldTruncate = true;
-            Id = $"documentCard" + Guid.NewGuid();
+            Id = $"dc_{Guid.NewGuid().ToString().Replace("-", "")}";
         }
 
         protected override void OnParametersSet()

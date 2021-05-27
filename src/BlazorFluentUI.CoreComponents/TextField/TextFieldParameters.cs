@@ -63,8 +63,8 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<ClipboardEventArgs> OnPaste { get; set; }
 
         protected ICollection<IRule> TextFieldLocalRules { get; set; } = new List<IRule>();
-        protected string id = Guid.NewGuid().ToString();
-        protected string descriptionId = Guid.NewGuid().ToString();
+        protected string id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
+        protected string descriptionId = $"d_{Guid.NewGuid().ToString().Replace("-", "")}";
         protected bool hasIcon;
         protected bool hasLabel;
         protected bool isFocused = false;

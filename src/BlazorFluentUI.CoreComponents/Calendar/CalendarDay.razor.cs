@@ -31,8 +31,8 @@ namespace BlazorFluentUI
         [Parameter] public List<DayOfWeek>? WorkWeekDays { get; set; }
 
 
-        protected string DayPickerId = Guid.NewGuid().ToString();
-        protected string MonthAndYearId = Guid.NewGuid().ToString();
+        protected string DayPickerId = $"d_{Guid.NewGuid().ToString().Replace("-", "")}";
+        protected string MonthAndYearId = $"my_{Guid.NewGuid().ToString().Replace("-", "")}";
 
         protected string PreviousMonthAriaLabel = "Previous month"; //needs localization!
         protected string NextMonthAriaLabel = "Next month"; //needs localization!

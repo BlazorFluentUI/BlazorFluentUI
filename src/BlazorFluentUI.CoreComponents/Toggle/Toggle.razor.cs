@@ -42,10 +42,10 @@ namespace BlazorFluentUI
         private bool IsChecked;
         private bool CheckedUncontrolled;
 
-        private readonly string Id = Guid.NewGuid().ToString();
+        private readonly string Id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
 
-        private string LabelId => Id + "-label";
-        private string StateTextId => Id + "-stateText";
+        private string LabelId => Id + "_label";
+        private string StateTextId => Id + "_stateText";
    
         private string? LabelledById;
         private string? StateText;

@@ -54,7 +54,7 @@ namespace BlazorFluentUI
 
         public Dialog()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
             DefaultTitleTextId = Id = "-title";
             DefaultSubTextId = Id = "-subText";
         }

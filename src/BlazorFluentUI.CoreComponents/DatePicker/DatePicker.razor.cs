@@ -63,7 +63,7 @@ namespace BlazorFluentUI
         protected string? calloutId;
         protected ElementReference datePickerDiv;
         protected TextField? textFieldComponent;
-        //protected string id = Guid.NewGuid().ToString();
+        //protected string id = $"id_{Guid.NewGuid().ToString().Replace("-","")}";
 
         private bool _preventFocusOpeningPicker = false;
         private bool _oldIsDatePickerShown;

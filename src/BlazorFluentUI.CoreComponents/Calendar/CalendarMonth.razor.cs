@@ -21,7 +21,7 @@ namespace BlazorFluentUI
         [Parameter] public DateTime Today { get; set; }
         [Parameter] public bool YearPickerHidden { get; set; }
 
-        protected string MonthPickerId = Guid.NewGuid().ToString();
+        protected string MonthPickerId = $"mp_{Guid.NewGuid().ToString().Replace("-", "")}";
         protected bool IsYearPickerVisible;
         protected bool IsPrevYearInBounds;
         protected bool IsNextYearInBounds;

@@ -168,10 +168,10 @@ namespace BlazorFluentUI
                 baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
             if (firstRender)
             {
-
+                _keydownRegistration = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
                 // 27 is Escape code
                 selfReference = DotNetObjectReference.Create(this);
-                _keydownRegistration = await baseModule.InvokeAsync<string>("registerWindowKeyDownEvent", selfReference , "27", "ProcessKeyDown");
+                await baseModule.InvokeAsync<string>("registerWindowKeyDownEvent", selfReference , "27", "ProcessKeyDown", _keydownRegistration);
             }
             
             await base.OnAfterRenderAsync(firstRender);
@@ -210,7 +210,7 @@ namespace BlazorFluentUI
         public async void Dispose()
         {
             _clearExistingAnimationTimer();
-            if (_keydownRegistration != null)
+            if (baseModule != null)
             {
                 await baseModule!.InvokeVoidAsync("deregisterWindowKeyDownEvent", _keydownRegistration);
             }

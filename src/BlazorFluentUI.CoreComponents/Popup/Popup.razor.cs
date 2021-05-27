@@ -38,7 +38,8 @@ namespace BlazorFluentUI
                 baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
             if (firstRender)
             {
-                _handleToLastFocusedElement = await baseModule!.InvokeAsync<string>("storeLastFocusedElement");
+                _handleToLastFocusedElement = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
+                await baseModule!.InvokeVoidAsync("storeLastFocusedElement", _handleToLastFocusedElement);
             }
             await base.OnAfterRenderAsync(firstRender);
         }

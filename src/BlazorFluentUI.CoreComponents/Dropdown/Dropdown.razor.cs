@@ -59,7 +59,7 @@ namespace BlazorFluentUI
         private ElementReference calloutReference;
         private ElementReference panelReference;
         private ElementReference _chosenReference;
-        private string? _registrationToken;
+        private string? _registrationGuid;
 
         private FocusZone? calloutFocusZone;
         private CalloutPositionedInfo? _calloutPositionedInfo;
@@ -211,11 +211,11 @@ namespace BlazorFluentUI
                 GetDropdownBounds();
 
             }
-            if (IsOpen && _registrationToken == null)
-                _ = RegisterListFocusAsync();
+            if (IsOpen && _registrationGuid == null)
+                await RegisterListFocusAsync();
 
-            if (!IsOpen && _registrationToken != null)
-                _ = DeregisterListFocusAsync();
+            if (!IsOpen && _registrationGuid != null)
+                await DeregisterListFocusAsync();
 
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -271,7 +271,7 @@ namespace BlazorFluentUI
 
         private async Task RegisterListFocusAsync()
         {
-            if (_registrationToken != null)
+            if (_registrationGuid != null)
             {
                 await DeregisterListFocusAsync();
             }
@@ -279,15 +279,16 @@ namespace BlazorFluentUI
                 _chosenReference = panelReference;
             else
                 _chosenReference = calloutReference;
-            _registrationToken = await baseModule!.InvokeAsync<string>("registerKeyEventsForList", _chosenReference);
+
+            _registrationGuid = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
+            await baseModule!.InvokeVoidAsync("registerKeyEventsForList", _chosenReference, _registrationGuid);
         }
 
         private async Task DeregisterListFocusAsync()
         {
-            if (_registrationToken != null)
+            if (_registrationGuid != null)
             {
-                await baseModule!.InvokeVoidAsync("deregisterKeyEventsForList", _registrationToken);
-                _registrationToken = null;
+                await baseModule!.InvokeVoidAsync("deregisterKeyEventsForList", _registrationGuid);
             }
         }
 

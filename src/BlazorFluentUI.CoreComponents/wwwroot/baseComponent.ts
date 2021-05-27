@@ -273,9 +273,8 @@ var eventRegister: Map<string, (ev: UIEvent) => void> = new Map<string, (ev: UIE
 var eventElementRegister: MapSimple<[HTMLElement, (ev: UIEvent) => void]> = {};
 
 /* Function for Dropdown, but could apply to focusing on any element after onkeydown outside of list containing is-element-focusable items */
-export function registerKeyEventsForList(element: HTMLElement): string {
+export function registerKeyEventsForList(element: HTMLElement, guid: string) {
     if (element instanceof HTMLElement) {
-        var guid = Guid.newGuid();
         eventElementRegister[guid] = [element, (ev: KeyboardEvent) => {
             let elementToFocus: HTMLElement;
             const containsExpandCollapseModifier = ev.altKey || ev.metaKey;
@@ -300,12 +299,9 @@ export function registerKeyEventsForList(element: HTMLElement): string {
             }
         }];
         element.addEventListener("keydown", eventElementRegister[guid][1]);
-        return guid;
-    } else {
-        return null;
     }
 }
-export function deregisterKeyEventsForList(guid: number) {
+export function deregisterKeyEventsForList(guid: string) {
     var tuple = eventElementRegister[guid];
     if (tuple) {
         var element = tuple[0];
@@ -316,8 +312,7 @@ export function deregisterKeyEventsForList(guid: number) {
 }
 
 
-export function registerWindowKeyDownEvent(dotnetRef: DotNetReferenceType, keyCode: string, functionName: string): string {
-    var guid = Guid.newGuid();
+export function registerWindowKeyDownEvent(dotnetRef: DotNetReferenceType, keyCode: string, functionName: string, guid: string) {
     eventRegister.set(guid, (ev: KeyboardEvent) => {
         if (ev.code == keyCode) {
             ev.preventDefault();
@@ -326,7 +321,6 @@ export function registerWindowKeyDownEvent(dotnetRef: DotNetReferenceType, keyCo
         }
     });
     window.addEventListener("keydown", eventRegister.get(guid));
-    return guid;
 }
 
 export function deregisterWindowKeyDownEvent(guid: string) {
@@ -353,15 +347,15 @@ export function deregisterResizeEvent(guid: string) {
     eventRegister.delete(guid);
 }
 
-class Guid {
-    static newGuid() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0,
-                v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
-}
+//class Guid {
+//    static newGuid() {
+//        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+//            var r = Math.random() * 16 | 0,
+//                v = c == 'x' ? r : (r & 0x3 | 0x8);
+//            return v.toString(16);
+//        });
+//    }
+//}
 
 
 var _lastId: number = 0;
@@ -490,11 +484,10 @@ export function elementContainsAttribute(element: HTMLElement, attribute: string
 /* Since elements can be stored in Blazor and we don't want to create more js files, this will hold last focused elements for restoring focus later. */
 var _lastFocus: MapSimple<HTMLElement> = {};
 
-export function storeLastFocusedElement(): string {
+export function storeLastFocusedElement(guid: string): string {
     let element = document.activeElement;
     let htmlElement = <HTMLElement>element;
     if (htmlElement) {
-        let guid = Guid.newGuid();
         _lastFocus[guid] = htmlElement;
         return guid;
     }

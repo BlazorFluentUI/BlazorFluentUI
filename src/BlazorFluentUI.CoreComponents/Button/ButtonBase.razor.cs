@@ -36,7 +36,7 @@ namespace BlazorFluentUI
 
         internal bool isCompoundButton = false;
         internal bool isSplitButton = false;
-        private object? _registrationToken;
+        private string? _registrationGuid;
 
         private bool _menuShouldFocusOnMount = true;
         static List<ButtonBase> radioButtons = new();
@@ -81,10 +81,10 @@ namespace BlazorFluentUI
             {
             }
 
-            if (contextMenuShown && _registrationToken == null)
+            if (contextMenuShown && _registrationGuid == null)
                 await RegisterListFocusAsync();
 
-            if (!contextMenuShown && _registrationToken != null)
+            if (!contextMenuShown && _registrationGuid != null)
                 await DeregisterListFocusAsync();
 
 
@@ -154,21 +154,18 @@ namespace BlazorFluentUI
 
         private async Task RegisterListFocusAsync()
         {
-            if (_registrationToken != null)
+            if (_registrationGuid != null)
             {
                 await DeregisterListFocusAsync();
             }
-            _registrationToken = await baseModule!.InvokeAsync<string>("registerKeyEventsForList", RootElementReference);
+            _registrationGuid = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
+            await baseModule!.InvokeVoidAsync("registerKeyEventsForList", RootElementReference, _registrationGuid);
         }
 
         private async Task DeregisterListFocusAsync()
         {
-            if (_registrationToken != null)
-            {
-                await baseModule!.InvokeVoidAsync("deregisterKeyEventsForList", _registrationToken);
-                _registrationToken = null;
-            }
-        }
+                await baseModule!.InvokeVoidAsync("deregisterKeyEventsForList", _registrationGuid);
+       }
 
         //public async Task Focus()
         //{
@@ -392,7 +389,7 @@ namespace BlazorFluentUI
 
         public override async ValueTask DisposeAsync()
         {
-            if (_registrationToken != null)
+            if (_registrationGuid != null)
                 await DeregisterListFocusAsync();
 
             if (IsRadioButton && radioButtons.Contains(this))

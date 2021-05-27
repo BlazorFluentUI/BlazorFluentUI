@@ -75,12 +75,12 @@ export function setSelectionRange(element, start, end) {
     return element.setSelectionRange(start, end);
 }
 export function getClientHeight(element) {
-    if (element == null)
+    if (element === null || element.clientHeight === undefined)
         return 0;
     return element.clientHeight;
 }
 export function getScrollHeight(element) {
-    if (element == null)
+    if (element === null || element.scrollHeight === undefined)
         return 0;
     return element.scrollHeight;
 }

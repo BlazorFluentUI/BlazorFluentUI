@@ -46,8 +46,6 @@ namespace BlazorFluentUI
         /// </summary>
         [Parameter] public string? OnClickTarget { get; set; }
 
-        [Inject]
-        internal IJSRuntime? JSRuntime { get; set; }
 
         private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/documentCard.js";
         private IJSObjectReference? scriptModule;

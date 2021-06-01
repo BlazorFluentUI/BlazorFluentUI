@@ -335,8 +335,7 @@ namespace BlazorFluentUI.Lists
                 {
                     foreach (IDetailsRowColumn<TItem>? col in columnsWithFilters)
                     {
-                        var filter = col.FilterPredicate as Func<object, bool>;
-                        if (filter != null)
+                        if (col.FilterPredicate is Func<object, bool> filter)
                         {
                             //col.IsFiltered = true;
                             return filter(col.FieldSelector!(item));

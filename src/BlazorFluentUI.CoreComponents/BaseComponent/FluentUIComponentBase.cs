@@ -66,11 +66,13 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-
             try
             {
                 if (baseModule == null)
-                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", cancellationTokenSource.Token, BasePath);
+                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+
+                if (cancellationTokenSource.Token.IsCancellationRequested)
+                    throw new TaskCanceledException();
 
                 if (!ScopedStatics!.FocusRectsInitialized)
                 {

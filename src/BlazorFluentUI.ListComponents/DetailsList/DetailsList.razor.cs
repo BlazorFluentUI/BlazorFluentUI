@@ -92,11 +92,6 @@ namespace BlazorFluentUI.Lists
         [Parameter]
         public Func<TItem, IEnumerable<TItem>>? SubGroupSelector { get; set; }
 
-        [Inject]
-        public IJSRuntime? JSRuntime { get; set; }
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
         //State
         //int focusedItemIndex;
         //double _lastWidth = -1;

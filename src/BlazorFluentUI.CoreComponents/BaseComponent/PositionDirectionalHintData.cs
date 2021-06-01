@@ -106,7 +106,7 @@
 
     public class PositionedData
     {
-        public Position ElementPosition {  get; set;  }
+        public Position? ElementPosition {  get; set;  }
         public RectangleEdge TargetEdge { get; set;  }
 
         public RectangleEdge? AlignmentEdge { get; set; } 
@@ -146,7 +146,7 @@
         {
             ElementRectangle = new PartialRectangle();
         }
-        public CalloutBeakPositionedInfo(PartialRectangle elementRectangle, Position position, RectangleEdge targetEdge, RectangleEdge closestEdge)
+        public CalloutBeakPositionedInfo(PartialRectangle elementRectangle, Position? position, RectangleEdge targetEdge, RectangleEdge closestEdge)
         {
             ElementRectangle = elementRectangle;
             ElementPosition = position;

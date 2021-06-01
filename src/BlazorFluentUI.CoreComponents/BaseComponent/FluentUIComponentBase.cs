@@ -14,7 +14,7 @@ namespace BlazorFluentUI
         public ITheme? Theme { get; set; }
 
         //[Inject] private IComponentContext ComponentContext { get; set; }
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
+        [Inject] protected IJSRuntime? JSRuntime { get; set; }
         [Inject] private ThemeProvider ThemeProvider { get; set; } = new ThemeProvider();
 
         [Parameter] public string? ClassName { get; set; }
@@ -51,8 +51,8 @@ namespace BlazorFluentUI
 
         [Inject] ScopedStatics? ScopedStatics { get; set; }
 
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
+        protected const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        protected IJSObjectReference? baseModule;
 
         protected CancellationTokenSource cancellationTokenSource = new();
 
@@ -70,7 +70,10 @@ namespace BlazorFluentUI
             try
             {
                 if (baseModule == null)
-                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", cancellationTokenSource.Token, BasePath);
+                    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+
+                if (cancellationTokenSource.Token.IsCancellationRequested)
+                    throw new TaskCanceledException();
 
                 if (!ScopedStatics!.FocusRectsInitialized)
                 {

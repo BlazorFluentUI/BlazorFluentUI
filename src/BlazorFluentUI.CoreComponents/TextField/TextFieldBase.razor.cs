@@ -40,11 +40,7 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<TValue> OnChange { get; set; }
         [Parameter] public EventCallback<TValue> OnInput { get; set; }
 
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
-
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
 
         private readonly ICollection<Task> DeferredValidationTasks = new List<Task>();
 

@@ -97,7 +97,6 @@ namespace BlazorFluentUI.Lists
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
         private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/detailsList.js";
         private IJSObjectReference? scriptModule;
 

@@ -33,8 +33,6 @@ namespace BlazorFluentUI.Lists
 
         private IEnumerable<TItem>? _loadedItems;
 
-        //private CancellationTokenSource? _refreshCts;
-
         private Exception? _refreshException;
 
         private ItemsProviderDelegate<TItem> _itemsProvider = default!;
@@ -52,8 +50,6 @@ namespace BlazorFluentUI.Lists
         //[Parameter]
         //public EventCallback<Viewport> OnViewportChanged { get; set; }
 
-        [Inject]
-        private IJSRuntime JSRuntime { get; set; } = default!;
         private const string scriptPath = "./_content/BlazorFluentUI.CoreComponents/list.js";
         private IJSObjectReference? scriptModule;
 

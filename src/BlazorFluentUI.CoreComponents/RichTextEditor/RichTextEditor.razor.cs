@@ -14,9 +14,6 @@ namespace BlazorFluentUI
 {
     public partial class RichTextEditor : FluentUIComponentBase, IDisposable
     {
-
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-
         [Parameter] public bool Disabled { get; set; }
 
         [Parameter] public bool ReadOnly { get; set; }

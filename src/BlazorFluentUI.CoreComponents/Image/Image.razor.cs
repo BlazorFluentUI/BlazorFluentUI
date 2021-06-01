@@ -11,8 +11,6 @@ namespace BlazorFluentUI
 {
     public partial class Image : FluentUIComponentBase, IAsyncDisposable
     {
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-
         [Parameter] public string? Alt { get; set; }
         [Parameter] public ImageCoverStyle CoverStyle { get; set; } = ImageCoverStyle.None;
         [Parameter] public double Height { get; set; } = double.NaN;
@@ -25,9 +23,6 @@ namespace BlazorFluentUI
         [Parameter] public double Width { get; set; } = double.NaN;
 
         [Parameter] public EventCallback<ImageLoadState> OnLoadingStateChange { get; set; }
-
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
 
         protected const string KEY_PREFIX = "fabricImage";
         private static Regex _svgRegex = new(@"\.svg$");

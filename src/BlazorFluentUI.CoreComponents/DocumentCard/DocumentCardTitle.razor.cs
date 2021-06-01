@@ -35,9 +35,6 @@ namespace BlazorFluentUI
         /// </value>
         [Parameter] public bool ShowAsSecondaryTitle { get; set; }
 
-        [Inject]
-        internal IJSRuntime? JSRuntime { get; set; }
-
         private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/documentCard.js";
         private IJSObjectReference? scriptModule;
         private DotNetObjectReference<DocumentCardTitle>? selfReference;

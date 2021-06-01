@@ -26,10 +26,9 @@ namespace BlazorFluentUI
     {
         public char? Value { get; set; }
 
-        /**
-       ///This index refers to the index in the displayMask rather than the inputMask.
-       ///This means that any escaped characters do not count toward this index.
-        */
+        //This index refers to the index in the displayMask rather than the inputMask.
+        //This means that any escaped characters do not count toward this index.
+
         public int DisplayIndex { get; set; }
         public Regex? Format { get; set; }
 
@@ -43,7 +42,7 @@ namespace BlazorFluentUI
         private int MaskCursorPosition { get; set; }
 
         public (ChangeType changeType, int? selectionStart, int? selectionEnd) ChangeSelectionData { get; set; }
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
+
         /// <summary>
         /// The masking string that defines the mask's behavior. A backslash will escape any character. Special format characters are: '9': [0-9] 'a': [a-zA-Z] '*': [a-zA-Z0-9]
         /// </summary>
@@ -91,18 +90,12 @@ namespace BlazorFluentUI
 
         private string? latestValidatedValue = default;
         private readonly EventHandler<ValidationStateChangedEventArgs> _validationStateChangedHandler;
-        //private bool _previousParsingAttemptFailed;
-        //private ValidationMessageStore? _parsingValidationMessages;
 
         private ElementReference? Element;
 
         private readonly static string DEFAULT_MASK_FORMAT = "9:[0-9], a:[a-zA-Z], *:[a-zA-Z0-9]";
 
         private Dictionary<char, Regex> ParsedMaskFormat = new();
-
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
 
         private string? displayValue;
 

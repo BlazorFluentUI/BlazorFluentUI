@@ -17,7 +17,6 @@ namespace BlazorFluentUI
         [Parameter] public Func<bool>? OnShouldStartSelection { get; set; }
         [Parameter] public Selection<TItem>? Selection { get; set; }
 
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
         private const string scriptPath = "./_content/BlazorFluentUI.CoreComponents/marqueeSelection.js";
         private IJSObjectReference? scriptModule;
 

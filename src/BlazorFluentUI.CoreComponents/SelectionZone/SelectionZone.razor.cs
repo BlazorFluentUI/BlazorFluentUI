@@ -67,8 +67,6 @@ namespace BlazorFluentUI
         [Parameter]
         public bool SelectionPreservedOnEmptyClick { get; set; }
 
-        [Inject]
-        private IJSRuntime? JSRuntime { get; set; }
         private IJSObjectReference? scriptModule;
         private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/selectionZone.js";
 

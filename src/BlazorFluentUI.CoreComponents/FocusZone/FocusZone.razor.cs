@@ -12,11 +12,11 @@ namespace BlazorFluentUI
 
     public partial class FocusZone : FluentUIComponentBase, IAsyncDisposable
     {
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
+        //[Inject] private IJSRuntime? JSRuntime { get; set; }
         private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/focusZone.js";
         private IJSObjectReference? scriptModule;
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
+        //private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        //private IJSObjectReference? baseModule;
 
         [Parameter] public bool AllowFocusRoot { get => allowFocusRoot; set { if (value != allowFocusRoot) { updateFocusZone = true; allowFocusRoot = value; } } }
         //[Parameter] public ComponentBase As { get; set; }
@@ -69,15 +69,6 @@ namespace BlazorFluentUI
 
         protected string Id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
         private DotNetObjectReference<FocusZone>? selfReference;
-
-        //private int[] _lastIndexPath;
-        //private bool _jsAvailable;
-        //private int _registrationId = -1;
-
-        //private readonly Task<int>? _registrationTask = null;
-
-        //public event PropertyChangedEventHandler? PropertyChanged;
-        //private bool parametersUpdated = false;
 
         protected override Task OnInitializedAsync()
         {

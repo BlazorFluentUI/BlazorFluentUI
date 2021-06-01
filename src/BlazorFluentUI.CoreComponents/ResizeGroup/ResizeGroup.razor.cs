@@ -13,7 +13,7 @@ namespace BlazorFluentUI
 {
     public partial class ResizeGroup<TObject> : FluentUIComponentBase, IAsyncDisposable
     {
-        [Inject] IJSRuntime? JSRuntime { get; set; }
+        //[Inject] IJSRuntime? JSRuntime { get; set; }
 
         [Parameter] public bool Vertical { get; set; }
         [Parameter] public TObject? Data { get; set; }
@@ -26,8 +26,8 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<TObject> OnDataReduced { get; set; }
         [Parameter] public EventCallback<TObject> OnDataGrown { get; set; }
 
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
+        ////private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        ////private IJSObjectReference? baseModule;
 
         protected string hiddenParentStyles = "position:relative;";
         protected string hiddenDivStyles = "position:fixed;visibility:hidden;";
@@ -52,10 +52,10 @@ namespace BlazorFluentUI
         private DotNetObjectReference<ResizeGroup<TObject>>? selfReference;
         //private ValueTask<string> _resizeEventTokenTask;  // WARNING - can only await this ONCE
 
-        private Task<Rectangle>? boundsTask;
+        //private Task<Rectangle>? boundsTask;
         private CancellationTokenSource boundsCTS = new();
 
-        private Task<ResizeGroupState<TObject>>? nextStateTask;
+        //private Task<ResizeGroupState<TObject>>? nextStateTask;
         private CancellationTokenSource nextStateCTS = new();
 
         protected override Task OnInitializedAsync()
@@ -88,14 +88,6 @@ namespace BlazorFluentUI
             return base.ShouldRender();
         }
 
-        //[JSInvokable] public void OnResizedAsync()
-        //{
-        //    _measureContainer = true;
-        //    StateHasChanged();
-        //}
-
-
-
         [JSInvokable]
         public  void OnResizedAsync()
         {
@@ -124,27 +116,12 @@ namespace BlazorFluentUI
                 //Debug.WriteLine($"IsMeasureContainer: {_measureContainer}");
                 if (_measureContainer)
                 {
-                    //if (boundsTask != null && !boundsTask.IsCompleted)
-                    //{
-                    //    boundsCTS.Cancel();
-                    //    boundsCTS.Dispose();
-                    //    boundsCTS = new CancellationTokenSource();
-                    //}
-                    boundsTask = GetBoundsAsync(boundsCTS.Token);
-                    Rectangle? bounds = await boundsTask;
+                    Rectangle? bounds = await GetBoundsAsync(boundsCTS.Token); ;
                     newContainerDimension = (Vertical ? bounds.Height : bounds.Width);
                 }
                 //Debug.WriteLine($"Container dimension: {_containerDimension}");
 
-
-                //if (nextStateTask != null && !nextStateTask.IsCompleted)
-                //{
-                //    nextStateCTS.Cancel();
-                //    nextStateCTS.Dispose();
-                //    nextStateCTS = new CancellationTokenSource();
-                //}
-                nextStateTask = GetNextStateAsync(newContainerDimension, _containerDimension, _dataToMeasure!, _renderedData!, _resizeDirection, nextStateCTS.Token);
-                ResizeGroupState<TObject>? nextState = await nextStateTask;
+                ResizeGroupState<TObject>? nextState = await GetNextStateAsync(newContainerDimension, _containerDimension, _dataToMeasure!, _renderedData!, _resizeDirection, nextStateCTS.Token);
 
                 if (nextState != null)
                 {

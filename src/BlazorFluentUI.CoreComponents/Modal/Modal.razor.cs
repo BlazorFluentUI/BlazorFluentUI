@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -36,7 +37,7 @@ namespace BlazorFluentUI
 
         [Parameter]
         public RenderFragment? ChildContent { get; set; }
-       
+
         [Parameter]
         public EventCallback<EventArgs> OnDismiss { get; set; }
 
@@ -59,15 +60,8 @@ namespace BlazorFluentUI
         [Parameter]
         public bool IsClickableOutsideFocusTrap { get; set; }
 
-        //private bool _isOpenDelayed = false;
 
         private ElementReference allowScrollOnModal;
-
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
 
         private bool isAnimating = false;
         private bool animationRenderStart = false;
@@ -78,7 +72,6 @@ namespace BlazorFluentUI
         private Action<ModalVisibilityState> _animateTo;
         private Action _onTransitionComplete;
         private ElapsedEventHandler? _handler = null;
-        //private bool _jsAvailable;
         private DotNetObjectReference<Modal>? selfReference;
         private string? _keydownRegistration;
 
@@ -139,25 +132,22 @@ namespace BlazorFluentUI
 
             Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
 
-            //if (_jsAvailable)
-            //{
-                if (currentVisibility != previousVisibility)
+            if (currentVisibility != previousVisibility)
+            {
+                Debug.WriteLine("Clearing animation timer");
+                _clearExistingAnimationTimer();
+                if (currentVisibility == ModalVisibilityState.AnimatingOpen)
                 {
-                    Debug.WriteLine("Clearing animation timer");
-                    _clearExistingAnimationTimer();
-                    if (currentVisibility == ModalVisibilityState.AnimatingOpen)
-                    {
-                        isAnimating = true;
-                        animationRenderStart = true;
-                        _animateTo(ModalVisibilityState.Open);
-                    }
-                    else if (currentVisibility == ModalVisibilityState.AnimatingClosed)
-                    {
-                        isAnimating = true;
-                        _animateTo(ModalVisibilityState.Closed);
-                    }
+                    isAnimating = true;
+                    animationRenderStart = true;
+                    _animateTo(ModalVisibilityState.Open);
                 }
-            //}
+                else if (currentVisibility == ModalVisibilityState.AnimatingClosed)
+                {
+                    isAnimating = true;
+                    _animateTo(ModalVisibilityState.Closed);
+                }
+            }
 
             await base.OnParametersSetAsync();
         }
@@ -171,13 +161,11 @@ namespace BlazorFluentUI
                 _keydownRegistration = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
                 // 27 is Escape code
                 selfReference = DotNetObjectReference.Create(this);
-                await baseModule.InvokeAsync<string>("registerWindowKeyDownEvent", selfReference , "27", "ProcessKeyDown", _keydownRegistration);
+                await baseModule.InvokeVoidAsync("registerWindowKeyDownEvent", selfReference, "27", "ProcessKeyDown", _keydownRegistration);
             }
-            
+
             await base.OnAfterRenderAsync(firstRender);
         }
-
-        
 
         [JSInvokable]
         public void ProcessKeyDown(string keyCode)
@@ -196,7 +184,7 @@ namespace BlazorFluentUI
                 return true;
             }
         }
-               
+
         private bool GetDelayedIsOpened()
         {
 
@@ -204,7 +192,7 @@ namespace BlazorFluentUI
             //timer.Interval = 16;
             //timer.Elapsed
 
-             return IsOpen;
+            return IsOpen;
         }
 
         public async void Dispose()

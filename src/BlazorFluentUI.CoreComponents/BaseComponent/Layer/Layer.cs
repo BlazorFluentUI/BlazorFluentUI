@@ -13,14 +13,6 @@ namespace BlazorFluentUI
 
     public class Layer : FluentUIComponentBase, IAsyncDisposable
     {
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
-        //private const string PanelPath = "./_content/BlazorFluentUI.CoreComponents/panel.js";
-        //private IJSObjectReference? panelModule;
-
-
         [Inject] private LayerHostService? LayerHostService { get; set; }
 
         [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -34,7 +26,6 @@ namespace BlazorFluentUI
         public string id = $"id_{Guid.NewGuid().ToString().Replace("-","")}";
         private ElementReference _element;
 
-        //private bool isFirstRendered = false;
 
         protected override async Task OnParametersSetAsync()
         {

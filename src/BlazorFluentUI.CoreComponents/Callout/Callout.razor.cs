@@ -5,9 +5,6 @@ namespace BlazorFluentUI
 {
     public partial class Callout : FluentUIComponentBase
     {
-        //[Inject] private IComponentContext ComponentContext { get; set; }
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-
         [Parameter] public RenderFragment? ChildContent { get; set; }
         [Parameter] public ElementReference ElementTarget { get; set; }  // not working yet
         [Parameter] public FluentUIComponentBase? FabricComponentTarget { get; set; }
@@ -39,6 +36,5 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<bool> HiddenChanged { get; set; }
         [Parameter] public EventCallback OnDismiss { get; set; }
         [Parameter] public EventCallback<CalloutPositionedInfo> OnPositioned { get; set; }
-        //protected Layer layerReference;
     }
 }

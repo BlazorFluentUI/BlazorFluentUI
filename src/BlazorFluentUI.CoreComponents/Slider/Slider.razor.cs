@@ -27,10 +27,6 @@ namespace BlazorFluentUI
         [Parameter] public Func<double, string>? ValueFormat { get; set; }
         [Parameter] public bool Vertical { get; set; }
 
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-        private IJSObjectReference? baseModule;
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/slider.js";
-
         private readonly string id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
         private ElementReference slideBox;
         private ElementReference sliderLine;

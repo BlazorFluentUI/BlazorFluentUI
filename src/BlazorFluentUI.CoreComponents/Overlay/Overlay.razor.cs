@@ -12,12 +12,6 @@ namespace BlazorFluentUI
 {
     public partial class Overlay : FluentUIComponentBase, IAsyncDisposable
     {
-        [Inject]
-        private IJSRuntime? JSRuntime { get; set; }
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
-
         [Parameter]
         public bool IsDarkThemed { get; set; } = false;
 

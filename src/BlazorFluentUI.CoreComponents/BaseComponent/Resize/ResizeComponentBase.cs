@@ -11,7 +11,7 @@ namespace BlazorFluentUI.Resize
 {
     public class ResizeComponentBase : FluentUIComponentBase, IAsyncDisposable
     {
-        [Inject] IJSRuntime? JSRuntime { get; set; }
+        
         [Parameter] public bool Vertical { get; set; }
         public Func<bool>? OnGrowData { get; set; }
         public Func<bool>? OnReduceData { get; set; }
@@ -36,8 +36,8 @@ namespace BlazorFluentUI.Resize
         private Task<Rectangle>? boundsTask;
         private CancellationTokenSource boundsCTS = new();
 
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
+        //private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
+        //private IJSObjectReference? baseModule;
 
         protected override Task OnInitializedAsync()
         {

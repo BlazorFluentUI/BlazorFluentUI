@@ -26,20 +26,10 @@ namespace BlazorFluentUI
         [Parameter] public string? Placeholder { get; set; }
         [Parameter] public bool Required { get; set; }
         [Parameter] public ResponsiveMode ResponsiveMode { get; set; }
-        //[Parameter] [Obsolete] public string? SelectedKey { get; set; }
         [Parameter] public IDropdownOption? SelectedOption { get; set; }
         [Parameter] public EventCallback<IDropdownOption?> SelectedOptionChanged { get; set; }
-        //[Parameter] [Obsolete] public EventCallback<string> SelectedKeyChanged { get; set; }
-        //[Parameter] [Obsolete] public List<string> SelectedKeys { get; set; } = new List<string>();
         [Parameter] public IEnumerable<IDropdownOption> SelectedOptions { get; set; } = new List<IDropdownOption>();
-        //[Parameter] [Obsolete] public EventCallback<List<string>> SelectedKeysChanged { get; set; }
         [Parameter] public EventCallback<IEnumerable<IDropdownOption>> SelectedOptionsChanged { get; set; }
-
-        [Inject]
-        private IJSRuntime? JSRuntime { get; set; }
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
 
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
 

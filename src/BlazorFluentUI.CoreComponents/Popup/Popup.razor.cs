@@ -28,10 +28,6 @@ namespace BlazorFluentUI
 
         private string? _handleToLastFocusedElement;
 
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (baseModule == null)

@@ -67,12 +67,6 @@ namespace BlazorFluentUI
         [Parameter]
         public bool UseFastIcons { get; set; } = true;
 
-        [Inject]
-        private IJSRuntime JSRuntime { get; set; } = default!;
-
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
         private bool canSelect;
         private bool showCheckbox;
         private ColumnMeasureInfo<TItem>? columnMeasureInfo = null;
@@ -185,7 +179,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", BasePath);
+            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
 
             if (firstRender)
             {

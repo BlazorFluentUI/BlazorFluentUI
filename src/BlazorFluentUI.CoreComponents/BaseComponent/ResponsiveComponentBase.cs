@@ -12,10 +12,6 @@ namespace BlazorFluentUI
         private string? _resizeEventGuid;
         private DotNetObjectReference<ResponsiveComponentBase>? selfReference;
 
-        [Inject] IJSRuntime? JSRuntime { get; set; }
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
         protected ResponsiveMode CurrentMode { get; set; }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

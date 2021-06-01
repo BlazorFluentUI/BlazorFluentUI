@@ -13,11 +13,6 @@ namespace BlazorFluentUI
 {
     public partial class Panel : FluentUIComponentBase, IAsyncDisposable
     {
-        [Inject]
-        private IJSRuntime? JSRuntime { get; set; }
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
         private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/panel.js";
         private IJSObjectReference? scriptModule;
 

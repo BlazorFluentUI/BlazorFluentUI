@@ -17,14 +17,6 @@ namespace BlazorFluentUI
 
         }
 
-        //public ElementReference ButtonRef { get; set; }
-
-
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
         protected bool showMenu = false;
 
         private ICommand? command;

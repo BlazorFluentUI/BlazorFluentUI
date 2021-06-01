@@ -98,11 +98,6 @@ namespace BlazorFluentUI.Lists
         [Parameter]
         public bool SelectionPreservedOnEmptyClick { get; set; }
 
-        [Inject]
-        private IJSRuntime? JSRuntime { get; set; }
-        private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        private IJSObjectReference? baseModule;
-
         private Selection<TItem> _selection = new();
 
         //State

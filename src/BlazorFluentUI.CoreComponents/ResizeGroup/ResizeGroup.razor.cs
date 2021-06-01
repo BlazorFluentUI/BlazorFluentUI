@@ -13,8 +13,6 @@ namespace BlazorFluentUI
 {
     public partial class ResizeGroup<TObject> : FluentUIComponentBase, IAsyncDisposable
     {
-        //[Inject] IJSRuntime? JSRuntime { get; set; }
-
         [Parameter] public bool Vertical { get; set; }
         [Parameter] public TObject? Data { get; set; }
 
@@ -25,9 +23,6 @@ namespace BlazorFluentUI
 
         [Parameter] public EventCallback<TObject> OnDataReduced { get; set; }
         [Parameter] public EventCallback<TObject> OnDataGrown { get; set; }
-
-        ////private const string BasePath = "./_content/BlazorFluentUI.CoreComponents/baseComponent.js";
-        ////private IJSObjectReference? baseModule;
 
         protected string hiddenParentStyles = "position:relative;";
         protected string hiddenDivStyles = "position:fixed;visibility:hidden;";
@@ -50,12 +45,9 @@ namespace BlazorFluentUI
 
         private string? _resizeEventGuid;
         private DotNetObjectReference<ResizeGroup<TObject>>? selfReference;
-        //private ValueTask<string> _resizeEventTokenTask;  // WARNING - can only await this ONCE
 
-        //private Task<Rectangle>? boundsTask;
         private CancellationTokenSource boundsCTS = new();
 
-        //private Task<ResizeGroupState<TObject>>? nextStateTask;
         private CancellationTokenSource nextStateCTS = new();
 
         protected override Task OnInitializedAsync()

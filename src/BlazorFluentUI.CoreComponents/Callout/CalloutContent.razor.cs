@@ -153,7 +153,7 @@ namespace BlazorFluentUI
         }
 
         [JSInvokable]
-        public async Task FocusHandler()
+        public /*async Task*/ void FocusHandler()
         {
             //Need way to tie focus handler between all the callouts (linked contextualmenus)  ... only dimiss when ALL of them lost focus.
             System.Diagnostics.Debug.WriteLine($"Callout {PortalId} called dismiss from FocusHandler from {DirectionalHint}");
@@ -221,7 +221,7 @@ namespace BlazorFluentUI
                     maxBounds.Height -= (2 * MinPagePadding);
                 }
 
-                Rectangle? targetRect = await FabricComponentTarget!.GetBoundsAsync();
+                Rectangle? targetRect = await FabricComponentTarget!.GetBoundsAsync(cancellationToken);
                 //Debug.WriteLine($"TargetRect: {targetRect.Left}, {targetRect.Top}, {targetRect.Right}, {targetRect.Bottom}");
 
                 contentMaxHeight = GetMaxHeight(targetRect, maxBounds);

@@ -8,8 +8,6 @@ namespace BlazorFluentUI
 {
     public partial class FocusTrapZone : FluentUIComponentBase, IAsyncDisposable
     {
-        [Inject]
-        private IJSRuntime? JSRuntime { get; set; }
         private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/focusTrapZone.js";
         private IJSObjectReference? scriptModule;
 

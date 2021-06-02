@@ -62,9 +62,12 @@
                         Selected option: @(_selectedCustomObject?.Label ?? "none")
                     </div>
                 </Stack>
+            </Demo>
+        </div>
 
+        <div class="subSection">
+            <Demo Header="Datasource is a List<CustomObject> using OptionTemplate" MetadataPath="ChoiceGroupPage" Key="3">
                 <Stack>
-                    <h3>Datasource is a List&lt;CustomObject&gt; using the "OptionTemplate"</h3>
                     <ChoiceGroup ItemsSource="this._customObjects2!" @bind-Value="this._selectedCustomObject2" ItemAlignment="FlexDirection.Row">
                         <OptionTemplate Context="item">
                             <div style="width:200px;height:90px">
@@ -112,7 +115,7 @@
     private IDropdownOption? _selectedMonthOption;
 
     private List<string>? _stringItems = new List<string>
-    {
+{
         "Option A",
         "Option B",
         "Option C",
@@ -176,5 +179,11 @@
     private class Month
     {
         public string? Name { get; set; }
+    }
+
+    protected override void OnParametersSet()
+    {
+        _selectedCustomObject2 = _customObjects2[0];
+        base.OnParametersSet();
     }
 }

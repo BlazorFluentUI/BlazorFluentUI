@@ -170,7 +170,7 @@ app {
 
 .textFieldDiv {
     margin: 5px 0px;
-    width: 350px;
+    max-width: 350px;
 }
 
 .iconExample {
@@ -702,6 +702,18 @@ ul.md-list--flex > .mdut--half {
 @media only screen and (max-width:767.999px) {
     .siteWrapper:not(.fullWidth) .siteContent {
         padding: 28px 16px 50px 16px
+    }
+
+    [dir=ltr] .section ul.uListFlex li {
+        margin-right: 24px
+    }
+
+    [dir=rtl] .section ul.uListFlex li {
+        margin-left: 24px
+    }
+
+    .section ul.uListFlex > .uThird {
+        flex-basis: calc(50% - 26px)
     }
 }
 

@@ -124,7 +124,7 @@ app {
 
 .textFieldDiv {
     margin: 5px 0px;
-    width: 350px;
+    max-width: 350px;
 }
 
 .iconExample {
@@ -201,7 +201,6 @@ app {
 }
 
 .section ul.uListFlex > .uThird {
-    -ms-flex-preferred-size: calc(33% - 28px);
     flex-basis: calc(33% - 28px)
 }
 
@@ -660,6 +659,18 @@ ul.md-list--flex > .mdut--half {
     .siteWrapper:not(.fullWidth) .siteContent {
         padding: 28px 16px 50px 16px
     }
+
+    [dir=ltr] .section ul.uListFlex li {
+        margin-right: 24px
+    }
+
+    [dir=rtl] .section ul.uListFlex li {
+        margin-left: 24px
+    }
+
+    .section ul.uListFlex > .uThird {
+        flex-basis: calc(50% - 26px)
+    }
 }
 
 @media only screen and (max-width:767.999px) and (min-width:768px) {
@@ -682,7 +693,7 @@ ul.md-list--flex > .mdut--half {
 
 @media screen and (min-width:768px) {
     .siteWrapper {
-       /* max-width: 1722px;*/
+        /* max-width: 1722px;*/
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         -ms-flex-direction: row;
@@ -725,6 +736,7 @@ code {
     border: 1px solid rgb(237, 235, 233);
     border-radius: 3px;
 }
+
 .title {
     align-items: baseline;
     color: var(--semanticTextColors-BodyText);

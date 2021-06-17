@@ -102,13 +102,13 @@ namespace BlazorFluentUI.Lists
         private bool showCheckbox;
         private bool isCheckboxHidden;
         private bool isCheckboxAlwaysVisible;
-        private int frozenColumnCountFromStart;
+        //private int frozenColumnCountFromStart;
         //private int frozenColumnCountFromEnd;
 
         private string? id;
         //private object? dragDropHelper;
-        private (int SourceIndex, int TargetIndex) onDropIndexInfo;
-        private int currentDropHintIndex;
+        //private (int SourceIndex, int TargetIndex) onDropIndexInfo;
+        //private int currentDropHintIndex;
         //private int draggedColumnIndex = -1;
 
         private bool isResizingColumn;
@@ -129,8 +129,8 @@ namespace BlazorFluentUI.Lists
         protected override Task OnInitializedAsync()
         {
             id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
-            onDropIndexInfo = (-1, -1);
-            currentDropHintIndex = -1;
+            //onDropIndexInfo = (-1, -1);
+            //currentDropHintIndex = -1;
 
             return base.OnInitializedAsync();
         }
@@ -146,11 +146,11 @@ namespace BlazorFluentUI.Lists
             // TBD
             if (ColumnReorderProps != null && ColumnReorderProps.ToString() == "something")
             {
-               frozenColumnCountFromStart = 1234;
+               // frozenColumnCountFromStart = 1234;
             }
             else
             {
-               frozenColumnCountFromStart = 0;
+               // frozenColumnCountFromStart = 0;
             }
 
             return base.OnParametersSetAsync();

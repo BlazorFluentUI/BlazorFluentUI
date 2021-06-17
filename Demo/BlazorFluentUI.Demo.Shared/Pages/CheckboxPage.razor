@@ -61,15 +61,13 @@
         <div class="subSection">
             <Demo Header="Blazor Forms Validation Example" Key="3" MetadataPath="CheckboxPage">
 
-                <EditForm Model="exampleModel" OnValidSubmit=@HandleValidSubmit>
-                    <Stack Tokens=stackTokens>
+                    <EditForm Model="exampleModel" OnValidSubmit=@HandleValidSubmit>
                         <DataAnnotationsValidator />
                         <FluentUIValidationSummary />
                         <Label>Do you agree with the terms?</Label>
                         <Checkbox Label="I agree with the terms!" @bind-Checked=@(exampleModel.IsChecked) />
                         <SubmitButton Text="Submit" />
-                    </Stack>
-                </EditForm>
+                    </EditForm>
 
             </Demo>
         </div>

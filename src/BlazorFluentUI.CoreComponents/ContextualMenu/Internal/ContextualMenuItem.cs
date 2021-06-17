@@ -277,7 +277,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
             //skip KeytipData
             builder.OpenElement(21, "a");
             builder.AddAttribute(22, "href", Href);
-            builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, KeyDownHandler));
+            builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create<KeyboardEventArgs>(this, KeyDownHandler));
             builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, () => DismissMenu.InvokeAsync(true)));
             //builder.AddAttribute(23, "onclick:preventDefault", true);
             builder.AddAttribute(24, "role", "menuitem");
@@ -301,8 +301,8 @@ namespace BlazorFluentUI.ContextualMenuInternal
             builder.OpenElement(20, "div");
             //skip KeytipData
             builder.OpenElement(21, "button");
-            builder.AddAttribute(22, "onkeydown", EventCallback.Factory.Create(this, KeyDownHandler));
-            builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, ClickHandler));
+            builder.AddAttribute(22, "onkeydown", EventCallback.Factory.Create<KeyboardEventArgs>(this, KeyDownHandler));
+            builder.AddAttribute(23, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, ClickHandler));
             builder.AddAttribute(24, "onclick:preventDefault", true);
             builder.AddAttribute(25, "role", "menuitem");
             builder.AddAttribute(26, "class", $"ms-ContextualMenu-link mediumFont {(Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items!))).FirstOrDefault(x => x.Checked == true) != null ? $" subgroup-is-checked" : "")}");  //the subgroup check is only for NavBar

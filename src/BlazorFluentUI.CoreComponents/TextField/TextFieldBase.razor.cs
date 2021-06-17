@@ -301,12 +301,13 @@ namespace BlazorFluentUI
         {
             if (OnChange.HasDelegate)
             {
-                await OnChange.InvokeAsync((TValue?)args.Value);
-            }
-            if (TryParseValueFromString((string?)args.Value, out TValue? result, out _))
-            {
-                await OnChange.InvokeAsync(result);
-                await ValueChanged.InvokeAsync(result);
+                // await OnChange.InvokeAsync((TValue?)args.Value);
+                //}
+                if (TryParseValueFromString((string?)args.Value, out TValue? result, out _))
+                {
+                    await OnChange.InvokeAsync(result);
+                    await ValueChanged.InvokeAsync(result);
+                }
             }
         }
 

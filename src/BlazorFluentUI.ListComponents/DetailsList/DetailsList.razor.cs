@@ -100,15 +100,13 @@ namespace BlazorFluentUI.Lists
         Viewport? _viewport;
         private IEnumerable<IDetailsRowColumn<TItem?>> _adjustedColumns = Enumerable.Empty<IDetailsRowColumn<TItem?>>();
         const double MIN_COLUMN_WIDTH = 100;
-
-
-        Dictionary<string, double> _columnOverrides = new();
+        readonly Dictionary<string, double> _columnOverrides = new();
 
         private Selection<TItem> _selection = new();
 
-        GroupedList<TItem, object>? groupedList;
+        //GroupedList<TItem, object>? groupedList;
         //List<TItem> list;
-        SelectionZone<TItem>? selectionZone;
+        //SelectionZone<TItem>? selectionZone;
 
         protected bool isAllSelected;
         //private bool shouldRender = true;
@@ -127,7 +125,7 @@ namespace BlazorFluentUI.Lists
 
         public void ForceUpdate()
         {
-            groupedList?.ForceUpdate();
+            //groupedList?.ForceUpdate();
         }
 
         protected override bool ShouldRender()

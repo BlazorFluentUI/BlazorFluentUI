@@ -105,9 +105,9 @@ namespace BlazorFluentUI.Lists
 
         private Selection<TItem> _selection = new();
 
-        GroupedList<TItem, object>? groupedList;
+        //GroupedList<TItem, object>? groupedList;
         //List<TItem> list;
-        SelectionZone<TItem>? selectionZone;
+        //SelectionZone<TItem>? selectionZone;
 
         protected bool isAllSelected;
         private bool shouldRender = true;

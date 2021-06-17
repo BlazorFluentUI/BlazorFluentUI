@@ -151,7 +151,7 @@
     line-height: 28px;
     font-size: 12px;
     font-weight: 400;
-    color: rgb(50, 49, 48);
+    color: var(--palette-NeutralPrimary);
     cursor: pointer;
     position: relative;
 }

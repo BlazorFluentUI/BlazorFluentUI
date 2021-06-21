@@ -11,7 +11,7 @@ namespace BlazorFluentUI.Lists
     {
         //private IEnumerable<IGrouping<object, TItem>> groups;
         //private bool _isGrouped;
-        //private List<IGroupedListItem3<TItem>>? listReference;
+        private List<IGroupedListItem3<TItem>>? listReference;
 
         //private ReadOnlyObservableCollection<IGroupedListItem3> dataItems;
 

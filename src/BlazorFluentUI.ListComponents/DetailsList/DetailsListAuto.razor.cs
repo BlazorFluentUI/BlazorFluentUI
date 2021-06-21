@@ -111,9 +111,9 @@ namespace BlazorFluentUI.Lists
 
         Dictionary<string, double> _columnOverrides = new();
 
-        //GroupedListAuto<TItem, object>? groupedList;
+        GroupedListAuto<TItem, object>? groupedList;
         //List<TItem>? list;
-        //SelectionZone<TItem>? selectionZone;
+        SelectionZone<TItem>? selectionZone;
 
         protected bool isAllSelected;
         //private bool shouldRender = true;

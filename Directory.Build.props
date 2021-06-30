@@ -13,7 +13,7 @@
 		<IsPackable>true</IsPackable>
 		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 		<PackageOutputPath>../../packages</PackageOutputPath>
-		<Version>5.3.3</Version>
+		<Version>5.3.4</Version>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 	</PropertyGroup>
 

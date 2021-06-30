@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorFluentUI
 {
@@ -55,7 +56,7 @@ namespace BlazorFluentUI
         bool onFirstRender = true;
         protected override Task OnParametersSetAsync()
         {
-            if(onFirstRender)
+            if (onFirstRender)
             {
                 timeOfDay = NavigatedDate.TimeOfDay;
                 onFirstRender = false;
@@ -81,7 +82,7 @@ namespace BlazorFluentUI
             if (timeOfDay != NavigatedDate.TimeOfDay)
             {
                 timeOfDay = NavigatedDate.TimeOfDay;
-                OnSelectDateInternal(NavigatedDate.Date,true);
+                OnSelectDateInternal(NavigatedDate.Date, true);
             }
             #endregion
 
@@ -147,7 +148,7 @@ namespace BlazorFluentUI
         {
             string classNames = "";
             classNames += "dayCell";
-            if (WeekCornersStyled !=null && WeekCornersStyled.ContainsKey(day.WeekIndex + "_" + (day.OriginalDate.Day - 1)))
+            if (WeekCornersStyled != null && WeekCornersStyled.ContainsKey(day.WeekIndex + "_" + (day.OriginalDate.Day - 1)))
             {
                 classNames += WeekCornersStyled[day.WeekIndex + "_" + (day.OriginalDate.Day - 1)];
             }
@@ -161,8 +162,8 @@ namespace BlazorFluentUI
                 classNames += " ms-Calendar-dayIsFocused";
             if (day.IsInBounds && !day.IsInMonth && DateRangeType == DateRangeType.Day)
                 classNames += " ms-Calendar-dayUnFocused";
-            if (!day.IsInBounds && day.IsInMonth)
-                    classNames += " ms-Calendar-dayOutsideBounds";
+            if (!day.IsInBounds)
+                classNames += " ms-Calendar-dayOutsideBounds";
             switch (DateRangeType)
             {
                 case DateRangeType.Day:
@@ -194,7 +195,7 @@ namespace BlazorFluentUI
             return classNames;
         }
 
-        private Dictionary<string,string> CreateWeekCornerStyles()
+        private Dictionary<string, string> CreateWeekCornerStyles()
         {
             Dictionary<string, string>? weekCornersStyled = new();
 
@@ -204,7 +205,7 @@ namespace BlazorFluentUI
                     for (int weekIndex = 0; weekIndex < Weeks!.Count; weekIndex++)
                     {
                         List<DayInfo>? week = Weeks[weekIndex];
-                        for (int dayIndex =0; dayIndex < week.Count; dayIndex++)
+                        for (int dayIndex = 0; dayIndex < week.Count; dayIndex++)
                         {
                             bool above = false, below = false, left = false, right = false;
                             DayInfo? day = week[dayIndex];
@@ -255,7 +256,7 @@ namespace BlazorFluentUI
                     break;
                 case DateRangeType.Week:
                 case DateRangeType.WorkWeek:
-                    for (int weekIndex =0; weekIndex < Weeks!.Count; weekIndex++)
+                    for (int weekIndex = 0; weekIndex < Weeks!.Count; weekIndex++)
                     {
                         int minIndex = Weeks[weekIndex].IndexOf(Weeks[weekIndex].First(x => x.IsInBounds));
                         int maxIndex = Weeks[weekIndex].IndexOf(Weeks[weekIndex].Last(x => x.IsInBounds));
@@ -281,7 +282,7 @@ namespace BlazorFluentUI
                 dateRange = GetBoundedDateRange(dateRange, MinDate, MaxDate);
             dateRange = dateRange.Where(d => !GetIsRestrictedDate(d)).ToList();
 
-            OnSelectDate.InvokeAsync(new SelectedDateResult() { Date = selectedDateWithTime, SelectedDateRange = dateRange, ShouldLetOpenDatePicker= shouldLetOpenDatePicker });
+            OnSelectDate.InvokeAsync(new SelectedDateResult() { Date = selectedDateWithTime, SelectedDateRange = dateRange, ShouldLetOpenDatePicker = shouldLetOpenDatePicker });
 
             // Navigate to next or previous month if needed
             if (AutoNavigateOnSelection && selectedDateWithTime.Month != NavigatedDate.Month)
@@ -339,8 +340,8 @@ namespace BlazorFluentUI
                         IsHighlightedOnHover = IsInWorkweekRange(date),
                         OnSelected = () => OnSelectDateInternal(originalDate, false),
                         IsInBounds =
-                            (DateTime.Compare(MinDate, date) < 1 ) &&
-                            (DateTime.Compare(date, MaxDate) < 1 ) &&
+                            (DateTime.Compare(MinDate, date) < 1) &&
+                            (DateTime.Compare(date, MaxDate) < 1) &&
                             !GetIsRestrictedDate(date)
                     };
 
@@ -363,7 +364,7 @@ namespace BlazorFluentUI
             if (RestrictedDates == null)
                 return false;
 
-            if (RestrictedDates.Select(x=>x.Date).Contains(date))
+            if (RestrictedDates.Select(x => x.Date).Contains(date))
             {
                 return true;
             }
@@ -372,8 +373,10 @@ namespace BlazorFluentUI
 
         private static bool IsInDateRangeArray(DateTime date, List<DateTime> dateRange)
         {
-            foreach (DateTime dateInRange in dateRange) {
-                if (DateTime.Compare(date, dateInRange) == 0) {
+            foreach (DateTime dateInRange in dateRange)
+            {
+                if (DateTime.Compare(date, dateInRange) == 0)
+                {
                     return true;
                 }
             }
@@ -398,15 +401,17 @@ namespace BlazorFluentUI
         private static List<DateTime> GetBoundedDateRange(List<DateTime> dateRange, DateTime? minDate = null, DateTime? maxDate = null)
         {
             List<DateTime>? boundedDateRange = dateRange;
-            if (minDate.HasValue) {
+            if (minDate.HasValue)
+            {
                 boundedDateRange = boundedDateRange.Where(date => DateTime.Compare(date.Date, minDate.Value) >= 0).ToList();
             }
-            if (maxDate.HasValue) {
+            if (maxDate.HasValue)
+            {
                 boundedDateRange = boundedDateRange.Where(date => DateTime.Compare(date.Date, maxDate.Value) <= 0).ToList();
             }
             return boundedDateRange;
         }
 
 
-}
+    }
 }

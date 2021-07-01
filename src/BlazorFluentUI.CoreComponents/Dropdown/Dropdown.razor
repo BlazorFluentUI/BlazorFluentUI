@@ -27,7 +27,7 @@
              aria-owns=@(IsOpen ? id + "-list" : null)
              @onclick=@ClickHandler
              @onkeydown=@KeydownHandler
-             @onfocus=@FocusHandler
+
              class=@($"ms-Dropdown mediumFont {(IsOpen?"is-open":"")} {(this.Label!=null ? "has-label" : "")} {(Disabled?"is-disabled":"")} {(Required?"is-required":"")} {(SelectedOptions.Count() == 0 && SelectedOption == null ?"has-placeholder":"")} {(ErrorMessage != null ?"has-error":"")}")>
             <span id=@($"{id}-option")
                   class="ms-Dropdown-title"

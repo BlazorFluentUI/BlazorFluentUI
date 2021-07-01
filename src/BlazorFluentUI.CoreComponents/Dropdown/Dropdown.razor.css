@@ -88,10 +88,10 @@
 .ms-Dropdown:not(.is-disabled):hover .ms-Dropdown-title {
     color: var(--semanticTextColors-MenuItemTextHovered);
 }
- 
+
 /*//dropdownRules-Add(new Rule() //{
             //    .ms-Dropdown:focus .ms-Dropdown-title
-            //   
+            //
             //    {
             //        border-color:var(--palette-NeutralPrimary);
             //    }
@@ -235,6 +235,7 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
     text-align: left;
+    padding-top: 7px;
 }
 
 
@@ -260,7 +261,7 @@
     background-color: var(--semanticColors-MenuBackground);
 }
 
-::deep .ms-Dropdown-item.selected, 
+::deep .ms-Dropdown-item.selected,
 ::deep .ms-Dropdown-item.ms-Button.ms-Button--action.selected {
     color: var(--semanticTextColors-MenuItemTextHovered);
     background-color: var(--semanticColors-MenuItemBackgroundPressed);

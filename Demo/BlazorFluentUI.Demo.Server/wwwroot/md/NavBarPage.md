@@ -82,6 +82,7 @@
                         Id="subtest1",
                         IconName="Save",
                         Key="5",
+                        IsExpanded=false,
                         Items = new List<NavBarItem>
                     {
                             new NavBarItem

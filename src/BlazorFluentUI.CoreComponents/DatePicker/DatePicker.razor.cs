@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
+
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -60,7 +60,7 @@ namespace BlazorFluentUI
         protected DateTime? SelectedDate; //= DateTime.MinValue;
 
 
-        protected string? calloutId;
+        protected string? calloutId = $"c_{Guid.NewGuid().ToString().Replace("-", "")}";
         protected ElementReference datePickerDiv;
         protected TextField? textFieldComponent;
         //protected string id = $"id_{Guid.NewGuid().ToString().Replace("-","")}";
@@ -114,7 +114,7 @@ namespace BlazorFluentUI
             if (DateTimeCompareNullable(oldValue, nextValue) != 0
                 || (FormatDate != null
                 && nextFormatDate != null
-                && ((nextValue != null ? FormatDate((DateTime)nextValue) : null) != (nextValue != null ?nextFormatDate((DateTime)nextValue) : null))))
+                && ((nextValue != null ? FormatDate((DateTime)nextValue) : null) != (nextValue != null ? nextFormatDate((DateTime)nextValue) : null))))
             {
                 SelectedDate = nextValue;
                 FormattedDate = FormatDateInternal(nextValue);
@@ -125,13 +125,13 @@ namespace BlazorFluentUI
 
         static int DateTimeCompareNullable(DateTime? val1, DateTime? val2)
         {
-            if(val1 == null && val2 == null)
+            if (val1 == null && val2 == null)
             {
                 return 0;
             }
-            else if(val1 != null && val2 != null)
+            else if (val1 != null && val2 != null)
             {
-                return DateTime.Compare((DateTime)val1,(DateTime)val2);
+                return DateTime.Compare((DateTime)val1, (DateTime)val2);
             }
             else
             {
@@ -196,8 +196,8 @@ namespace BlazorFluentUI
             {
                 _preventFocusOpeningPicker = true;
                 IsDatePickerShown = true;
-                StateHasChanged();
             }
+            StateHasChanged();
         }
 
         protected void DismissDatePickerPopup()
@@ -211,8 +211,9 @@ namespace BlazorFluentUI
             if (AllowTextInput)
             {
                 _preventFocusOpeningPicker = true;
-                DisableAutoFocus = !DisableAutoFocus;
+                //DisableAutoFocus = !DisableAutoFocus;
             }
+            StateHasChanged();
         }
 
         protected void CalendarDismissed()
@@ -225,17 +226,17 @@ namespace BlazorFluentUI
         {
             //skip calendar props OnSelectedDate callback, not implemented through DatePicker
 
-                SelectedDate = selectedDateResult.Date;
-                FormattedDate = FormatDateInternal(selectedDateResult.Date);
-                ErrorMessage = "";
+            SelectedDate = selectedDateResult.Date;
+            FormattedDate = FormatDateInternal(selectedDateResult.Date);
+            ErrorMessage = "";
 
-                CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
-                OnSelectDate.InvokeAsync(selectedDateResult.Date);
-                ValueChanged.InvokeAsync(selectedDateResult.Date);
-                if (!selectedDateResult.ShouldLetOpenDatePicker)
-                {
-                    CalendarDismissed();
-                }
+            CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
+            OnSelectDate.InvokeAsync(selectedDateResult.Date);
+            ValueChanged.InvokeAsync(selectedDateResult.Date);
+            if (!selectedDateResult.ShouldLetOpenDatePicker)
+            {
+                CalendarDismissed();
+            }
 
         }
 
@@ -245,6 +246,7 @@ namespace BlazorFluentUI
                 return;
             if (!AllowTextInput)
             {
+
                 if (!_preventFocusOpeningPicker)
                 {
                     ShowDatePickerPopup();
@@ -301,6 +303,7 @@ namespace BlazorFluentUI
         protected void OnTextFieldBlur()
         {
             ValidateTextInput();
+            IsDatePickerShown = false;
         }
 
         private void ValidateTextInput()

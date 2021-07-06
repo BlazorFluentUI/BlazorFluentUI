@@ -37,9 +37,12 @@ namespace BlazorFluentUI
         private bool showTransitions;
         private bool initialValueSet = false;
         private double value;
-        
+
         private DotNetObjectReference<Slider>? selfReference;
         private Timer timer = new();
+
+        private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/slider.js";
+        private IJSObjectReference? scriptModule;
 
         private string LengthString => (Vertical ? "height" : "width");
 
@@ -102,7 +105,7 @@ namespace BlazorFluentUI
                 value = DefaultValue.Value;
                 _renderedValue = value;
             }
-            
+
             //if  (selfReference == null)
             //    selfReference = DotNetObjectReference.Create(this);
             //if (Disabled)
@@ -117,18 +120,18 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (baseModule == null)
-                baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            if (scriptModule == null)
+                scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", ScriptPath);
             selfReference = DotNetObjectReference.Create(this);
 
             if (firstRender)
             {
                 if (!Disabled)
                 {
-                    await baseModule.InvokeVoidAsync("registerMouseOrTouchStart", selfReference, slideBox, sliderLine);
+                    await scriptModule.InvokeVoidAsync("registerMouseOrTouchStart", selfReference, slideBox, sliderLine);
                 }
                 else
-                    await baseModule!.InvokeVoidAsync("unregisterHandlers", selfReference);
+                    await scriptModule.InvokeVoidAsync("unregisterHandlers", selfReference);
             }
 
             if (shouldFocus)
@@ -287,11 +290,12 @@ namespace BlazorFluentUI
         {
             try
             {
-                if (baseModule != null)
+                if (scriptModule != null)
                 {
-                    await baseModule.InvokeVoidAsync("unregisterHandlers", selfReference);
-                    await baseModule.DisposeAsync();
+                    await scriptModule.InvokeVoidAsync("unregisterHandlers", selfReference);
+                    await scriptModule.DisposeAsync();
                 }
+
                 selfReference?.Dispose();
 
                 await base.DisposeAsync();

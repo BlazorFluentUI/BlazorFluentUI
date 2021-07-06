@@ -45,7 +45,7 @@ namespace BlazorFluentUI
         bool allowFocusRoot;
         bool checkForNoWrap;
         string? defaultActiveElement;
-        FocusZoneDirection direction;
+        FocusZoneDirection direction = FocusZoneDirection.Bidirectional;
         bool disabled;
         bool doNotAllowFocusEventToPropagate;
         FocusZoneTabbableElements handleTabKey;
@@ -72,7 +72,6 @@ namespace BlazorFluentUI
 
         protected override Task OnInitializedAsync()
         {
-            Direction = FocusZoneDirection.Bidirectional;
             return base.OnInitializedAsync();
         }
 

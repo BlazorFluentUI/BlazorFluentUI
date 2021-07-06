@@ -133,8 +133,7 @@
 
         foreach (var item in selection.GetSelection())
         {
-
-        InputList.Remove(item);
+            InputList.Remove(item);
         }
         selection = new Selection<DataItem>();
         //selection.ClearSelection();

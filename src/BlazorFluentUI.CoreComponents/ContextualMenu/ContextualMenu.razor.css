@@ -60,7 +60,7 @@
         border: 0;
     }
 
-.ms-Fabric--isFocusVisible .ms-ContextualMenu-root ::deep ms-ContextualMenu-item:focus::after {
+.ms-Fabric--isFocusVisible .ms-ContextualMenu-list ::deep .ms-ContextualMenu-link:focus::after {
     content: '';
     position: absolute;
     left: 1px;

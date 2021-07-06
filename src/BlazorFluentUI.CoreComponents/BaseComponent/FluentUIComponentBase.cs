@@ -151,7 +151,10 @@ namespace BlazorFluentUI
             {
                 cancellationTokenSource.Cancel();
                 if (baseModule != null && !cancellationTokenSource.IsCancellationRequested)
+                {
                     await baseModule.DisposeAsync();
+                    baseModule = null;
+                }
             }
             catch (TaskCanceledException)
             {

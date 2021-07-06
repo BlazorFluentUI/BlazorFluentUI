@@ -506,7 +506,9 @@ export function getParent(child, allowVirtualParents = true) {
     return child && ((allowVirtualParents && getVirtualParent(child)) || (child.parentNode && child.parentNode));
 }
 export function addOrUpdateVirtualParent(parent) {
-    layerElements[parent.dataset.layerId] = parent;
+    if (parent !== null) {
+        layerElements[parent.dataset.layerId] = parent;
+    }
 }
 export function getVirtualParent(child) {
     let parent;

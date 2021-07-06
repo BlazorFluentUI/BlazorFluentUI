@@ -80,7 +80,7 @@ namespace BlazorFluentUI
 
         protected override Task OnInitializedAsync()
         {
-            Debug.WriteLine("Creating Callout");
+            //Debug.WriteLine("Creating Callout");
             CreateLocalCss();
             SetStyle();
             return base.OnInitializedAsync();
@@ -99,36 +99,39 @@ namespace BlazorFluentUI
             if (calloutModule == null)
                 calloutModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", token, CalloutPath);
 
-            if (!isEventHandlersRegistered)
+            try
             {
-                isEventHandlersRegistered = true;
-                selfReference = DotNetObjectReference.Create(this);
-                try
+                if (!isEventHandlersRegistered)
                 {
-                    eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", RootElementReference, selfReference);
-                }
-                catch (Exception)
-                {
+                    isEventHandlersRegistered = true;
+                    selfReference = DotNetObjectReference.Create(this);
+                    try
+                    {
+                        eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", RootElementReference, selfReference);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                    if (!isMeasured && FabricComponentTarget != null && firstRender && eventHandlerIds != null)
+                    {
+                        await CalculateCalloutPositionAsync(token);
+                    }
 
                 }
 
-                if (!isMeasured && FabricComponentTarget != null && firstRender && eventHandlerIds != null)
+                if (!firstRender && isMeasured && !_finalPositionAnnounced)
                 {
-                    await CalculateCalloutPositionAsync(token);
+                    _finalPositionAnnounced = true;
+                    // May have to limit this...
+                    await OnPositioned.InvokeAsync(CalloutPosition);
                 }
+            }
+            catch (Exception ex)
+            {
 
             }
-
-            if (!firstRender && isMeasured && !_finalPositionAnnounced)
-            {
-                _finalPositionAnnounced = true;
-                // May have to limit this...
-                await OnPositioned.InvokeAsync(CalloutPosition);
-            }
-
-            //isRenderedOnce = true;
-
-            //FocusFirstElement();
 
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -182,11 +185,18 @@ namespace BlazorFluentUI
 
         protected override async Task OnParametersSetAsync()
         {
-            if (FabricComponentTarget != null && !isMeasured && isRenderedOnce)
+            try
             {
-                _finalPositionAnnounced = false;
-                //this will never get called initially because the target won't be rendered yet.  Shouldn't be called after due to isMeasured
-                await CalculateCalloutPositionAsync(cancellationTokenSource.Token);
+                if (FabricComponentTarget != null && !isMeasured && isRenderedOnce)
+                {
+                    _finalPositionAnnounced = false;
+                    //this will never get called initially because the target won't be rendered yet.  Shouldn't be called after due to isMeasured
+                    await CalculateCalloutPositionAsync(cancellationTokenSource.Token);
+
+                }
+            }
+            catch (Exception ex)
+            {
 
             }
             await base.OnParametersSetAsync();

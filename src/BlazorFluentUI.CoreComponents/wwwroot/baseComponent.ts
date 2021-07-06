@@ -700,7 +700,9 @@ export function getParent(child: HTMLElement, allowVirtualParents: boolean = tru
 }
 
 export function addOrUpdateVirtualParent(parent: HTMLElement) {
-    layerElements[parent.dataset.layerId] = parent;
+    if (parent !== null) {
+        layerElements[parent.dataset.layerId] = parent;
+    }
 }
 
 export function getVirtualParent(child: HTMLElement): HTMLElement | undefined {

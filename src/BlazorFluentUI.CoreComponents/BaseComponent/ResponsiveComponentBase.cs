@@ -12,7 +12,7 @@ namespace BlazorFluentUI
         private string? _resizeEventGuid;
         private DotNetObjectReference<ResponsiveComponentBase>? selfReference;
 
-        protected ResponsiveMode CurrentMode { get; set; }
+        protected ResponsiveMode CurrentMode { get; set; } = ResponsiveMode.Large;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -20,19 +20,26 @@ namespace BlazorFluentUI
                 baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
             if (firstRender)
             {
-                Rectangle? windowRect = await baseModule!.InvokeAsync<Rectangle>("getWindowRect");
-                foreach (object? item in Enum.GetValues(typeof(ResponsiveMode)))
+                try
                 {
-                    if (windowRect.Width <= ResponsiveModeUtils.RESPONSIVE_MAX_CONSTRAINT[(int)item])
+                    Rectangle? windowRect = await baseModule!.InvokeAsync<Rectangle>("getWindowRect", cancellationTokenSource.Token);
+                    foreach (object? item in Enum.GetValues(typeof(ResponsiveMode)))
                     {
-                        CurrentMode = (ResponsiveMode)item;
-                        break;
+                        if (windowRect.Width <= ResponsiveModeUtils.RESPONSIVE_MAX_CONSTRAINT[(int)item])
+                        {
+                            CurrentMode = (ResponsiveMode)item;
+                            break;
+                        }
                     }
+                    _resizeEventGuid = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
+                    selfReference = DotNetObjectReference.Create(this);
+                    await baseModule.InvokeVoidAsync("registerResizeEvent", cancellationTokenSource.Token, selfReference, "OnResizedAsync", _resizeEventGuid);
+                    StateHasChanged();  // we will never have window size until after first render, so re-render after this to update the component with ResponsiveMode info.
                 }
-                _resizeEventGuid = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
-                selfReference = DotNetObjectReference.Create(this);
-                await baseModule.InvokeVoidAsync("registerResizeEvent", selfReference , "OnResizedAsync", _resizeEventGuid);
-                StateHasChanged();  // we will never have window size until after first render, so re-render after this to update the component with ResponsiveMode info.
+                catch (Exception ex)
+                {
+
+                }
             }
             await base.OnAfterRenderAsync(firstRender);
         }

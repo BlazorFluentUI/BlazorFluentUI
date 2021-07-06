@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -116,7 +117,7 @@ namespace BlazorFluentUI.Lists
         SelectionZone<TItem>? selectionZone;
 
         protected bool isAllSelected;
-        //private bool shouldRender = true;
+        private bool shouldRender = true;
 
         //private IReadOnlyDictionary<string, object>? lastParameters = null;
 
@@ -178,16 +179,17 @@ namespace BlazorFluentUI.Lists
             //groupedList?.ForceUpdate();
         }
 
-        //protected override bool ShouldRender()
-        //{
-
-        //    if (!shouldRender)
-        //    {
-        //        shouldRender = true;
-        //        //return false;
-        //    }
-        //    return true;
-        //}
+        protected override bool ShouldRender()
+        {
+            if (shouldRender)
+            {
+                shouldRender = false;
+                Debug.WriteLine("should render true!");
+                return true;
+            }
+            Debug.WriteLine("should render false!");
+            return false;
+        }
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
@@ -223,6 +225,21 @@ namespace BlazorFluentUI.Lists
             if (parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility") == CheckboxVisibility.Hidden)
             {
                 selectAllVisibility = SelectAllVisibility.None;
+            }
+
+            //should render checks
+            if (parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility") != CheckboxVisibility ||
+                parameters.GetValueOrDefault<bool>("Compact") != Compact ||
+                parameters.GetValueOrDefault<bool>("EnterModalSelectionOnTouch") != EnterModalSelectionOnTouch ||
+                parameters.GetValueOrDefault<bool>("DisableSelectionZone") != DisableSelectionZone ||
+                parameters.GetValueOrDefault<bool>("IsHeaderVisible") != IsHeaderVisible ||
+                parameters.GetValueOrDefault<bool>("IsVirtualizing") != IsVirtualizing ||
+                parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode") != LayoutMode ||
+                parameters.GetValueOrDefault<SelectionMode>("SelectionMode") != SelectionMode ||
+                parameters.GetValueOrDefault<bool>("SelectionPreservedOnEmptyClick") != SelectionPreservedOnEmptyClick 
+                )
+            {
+                shouldRender = true;
             }
 
             //var subGroupSelector = parameters.GetValueOrDefault<Func<TItem, IEnumerable<TItem>>>("SubGroupSelector");
@@ -307,6 +324,7 @@ namespace BlazorFluentUI.Lists
             IObservable<PropertyChangedEventArgs>? columnsObservable = Observable.Return(new PropertyChangedEventArgs(nameof(Columns)))
                 .Merge(propertyChanged)
                 .Where(x => x.PropertyName == "Columns")
+                .Do(x=>Debug.WriteLine("Popertychanged columns"))
                 .SelectMany(prop =>
                 {
                     // now watch for changes to the Columns object properties and return an initial value so that any following logic can be setup
@@ -426,7 +444,13 @@ namespace BlazorFluentUI.Lists
                 //.Throttle(TimeSpan.FromMilliseconds(100))
                 .Do(x =>
                 {
-                    InvokeAsync(StateHasChanged);
+                    Debug.WriteLine("SourceCache change");
+                    
+                    InvokeAsync(()=>
+                    {
+                        shouldRender = true;
+                        StateHasChanged();
+                    });
                 })
                 .Subscribe();
 
@@ -451,7 +475,7 @@ namespace BlazorFluentUI.Lists
             if (firstRender)
             {
                 selfReference = DotNetObjectReference.Create(this);
-                _viewportRegistration = await baseModule.InvokeAsync<int>("addViewport", selfReference, RootElementReference);
+                _viewportRegistration = await baseModule.InvokeAsync<int>("addViewport", cancellationTokenSource.Token, selfReference, RootElementReference);
 
             }
             await base.OnAfterRenderAsync(firstRender);
@@ -498,10 +522,11 @@ namespace BlazorFluentUI.Lists
         {
             _lastViewport = _viewport;
             _viewport = viewport;
-            //Debug.WriteLine($"Viewport changed: {viewport.ScrollWidth}");
             if (_viewport != null)
             {
                 AdjustColumns(items, LayoutMode, SelectionMode, CheckboxVisibility, Columns, true);
+                Debug.WriteLine($"Viewport changed: {viewport.Width}");
+                shouldRender = true;
                 InvokeAsync(StateHasChanged);
             }
         }

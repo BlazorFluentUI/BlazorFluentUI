@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -109,6 +110,7 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
+            Debug.WriteLine($"Parameters set for {ItemIndex}");
             showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
             canSelect = SelectionMode != SelectionMode.None;
 
@@ -126,6 +128,7 @@ namespace BlazorFluentUI
 
                     selectionSubscription = Selection.SelectionChanged.Subscribe(_ =>
                     {
+                        Debug.WriteLine($"SelectionChanged for {ItemIndex}");
                         bool changed = false;
                         bool newIsSelected;
                         if (GetKey != null && Item != null)
@@ -149,6 +152,7 @@ namespace BlazorFluentUI
                         }
                         if (changed)
                         {
+                            Debug.WriteLine($"SelectionChanged for {ItemIndex} and rerendering");
                             InvokeAsync(StateHasChanged);
                         }
                     });
@@ -179,20 +183,31 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            if (baseModule == null)
+            {
+                baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            }
 
             if (firstRender)
             {
                 await OnRowDidMount.InvokeAsync(this);
             }
 
-            if (columnMeasureInfo != null && columnMeasureInfo.Index >= 0 && cellMeasurer.Id != null)
+            try
             {
-                Action<double>? method = columnMeasureInfo.OnMeasureDone;
-                Rectangle? size = await baseModule.InvokeAsync<Rectangle>("measureElementRect", cellMeasurer);
-                method?.Invoke(size.Width);
-                columnMeasureInfo = null;
-                await InvokeAsync(StateHasChanged);
+                if (columnMeasureInfo != null && columnMeasureInfo.Index >= 0 && cellMeasurer.Id != null)
+                {
+                    Action<double>? method = columnMeasureInfo.OnMeasureDone;
+                    Rectangle? size = await baseModule.InvokeAsync<Rectangle>("measureElementRect", cancellationTokenSource.Token, cellMeasurer);
+                    method?.Invoke(size.Width);
+                    columnMeasureInfo = null;
+                    Debug.WriteLine($"rerendering {ItemIndex} because of column measurement");
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
 
             await base.OnAfterRenderAsync(firstRender);

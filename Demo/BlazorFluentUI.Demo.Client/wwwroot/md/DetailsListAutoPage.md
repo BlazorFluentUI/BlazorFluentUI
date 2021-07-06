@@ -50,7 +50,7 @@
                 </div>
             </Demo>
         </div>
-        <div class="subSection">
+        @*<div class="subSection">
             <Demo MetadataPath="DetailsListAutoPage" Key="1" Header="DetailsListAuto with Fixed Columns">
                 <div data-is-scrollable="true" style="height:400px;overflow-y:auto;">
                     <DetailsListAuto ItemsSource="dataSource"
@@ -79,7 +79,7 @@
                     </MarqueeSelection>
                 </div>
             </Demo>
-        </div>
+        </div>*@
     </div>
 </div>
 @code {
@@ -124,7 +124,7 @@
         fixedColumnsSource.Add(new DetailsRowColumn<DataItem, string>("Description", x => x.Description!) { Index = 2 });
 
         // We're loading our sample data into the dataSource SourceCache.
-        for (var i = 0; i < 100; i++)
+        for (var i = 0; i < 500; i++)
         {
             count++;
             dataSource.Add(new DataItem(count));

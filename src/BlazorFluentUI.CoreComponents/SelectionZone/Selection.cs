@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Collections.Specialized;
-using System.Diagnostics;
 
 namespace BlazorFluentUI
 {
@@ -36,7 +34,7 @@ namespace BlazorFluentUI
         }
 
         private SelectionMode _selectionMode = SelectionMode.Single;
-        public SelectionMode SelectionMode { get => _selectionMode;  set { if (_selectionMode != value) { _selectionMode = value; AdjustSelectionMode(); } } }
+        public SelectionMode SelectionMode { get => _selectionMode; set { if (_selectionMode != value) { _selectionMode = value; AdjustSelectionMode(); } } }
 
         public Func<TItem, object?>? GetKey { get; set; }
 
@@ -81,7 +79,7 @@ namespace BlazorFluentUI
                     //do nothing!
                     break;
                 case SelectionMode.Single:
-                    if (_exemptedIndices.Count> 1)
+                    if (_exemptedIndices.Count > 1)
                     {
                         //clear all
                         SetAllSelected(false);
@@ -214,7 +212,7 @@ namespace BlazorFluentUI
                 case NotifyCollectionChangedAction.Reset:
 
                 case NotifyCollectionChangedAction.Move:
-                    //check all, match by key instead of index as index might have changed from a sort or filter operation 
+                    //check all, match by key instead of index as index might have changed from a sort or filter operation
                     Dictionary<object, int> newKeyToIndexMap = new();
                     Dictionary<int, TItem> newUnselectableIndices = new();
                     Dictionary<int, object> newExemptedIndices = new();
@@ -246,7 +244,7 @@ namespace BlazorFluentUI
                     {
 
                         if (newKeyToIndexMap.ContainsKey(key))  //the item might no longer exist (it was filtered out)
-                                                                // the index won't exist, but they key still does... 
+                                                                // the index won't exist, but they key still does...
                         {
                             index = newKeyToIndexMap[key];
                             newExemptedIndices.Add(index, key);
@@ -339,7 +337,7 @@ namespace BlazorFluentUI
         {
             if (_selectedItems == null)
             {
-                _selectedItems= new List<TItem>();
+                _selectedItems = new List<TItem>();
 
                 IList<TItem>? items = _items;
 
@@ -604,7 +602,7 @@ namespace BlazorFluentUI
             );
         }
 
-        public bool IsKeySelected(object key, bool ignoreIndex=false)
+        public bool IsKeySelected(object key, bool ignoreIndex = false)
         {
             if (ignoreIndex)
             {
@@ -634,6 +632,10 @@ namespace BlazorFluentUI
         public void ClearSelection()
         {
             _items = new List<TItem>();
+            _isAllSelected = false;
+            _exemptedIndices = new();
+            _exemptedKeys = new();
+            _exemptedCount = 0;
         }
 
 

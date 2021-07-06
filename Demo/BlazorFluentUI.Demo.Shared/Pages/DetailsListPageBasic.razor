@@ -50,6 +50,11 @@
                 </div>
             </Demo>
         </div>
+        <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } }) Style="margin-top:25px; margin-bottom:25px; width:100%;">
+            <StackItem>
+                <DefaultButton @onclick="Delete" Disabled="selection.Count==0">Delete</DefaultButton>
+            </StackItem>
+        </Stack>
     </div>
 </div>
 @code {
@@ -71,16 +76,16 @@
         // Do NOT use the DetailsRowColumn with two generic parameters.  It does not create an expression that can be used with DynamicAccessor.
         CustomColumns.Add(new DetailsRowColumn<DataItem>("Key", x => x.KeyNumber) { MaxWidth = 70, Index = 0 });
         CustomColumns.Add(new DetailsRowColumn<DataItem>("Name", x => x.DisplayName!) { Index = 1, MaxWidth = 150, OnColumnClick = this.OnColumnClick, IsResizable = true });
-        CustomColumns.Add(new DetailsRowColumn<DataItem,DataItem>("Notes", x => x)
+        CustomColumns.Add(new DetailsRowColumn<DataItem, DataItem>("Notes", x => x)
         {
             Index = 2,
             // Two issues:
             // 1.  Using a value type directly with a RenderFragment prevents any updating of the original value since it is copied to this RenderFragment.
             //     Instead, the output of ColumnItemTemplate is a DynamicAccessor<object> that has a single property of Value.  This way, changes are passed back
             //     to the original property because DynamicAccessor creates a setter from your original getter (the field selector).
-            // 2.  Blazor cannot do type conversions directly with binding yet.  Since the output (of DynamicAccessor's Value) is an object, we need to manually 
+            // 2.  Blazor cannot do type conversions directly with binding yet.  Since the output (of DynamicAccessor's Value) is an object, we need to manually
             //     create the callback that sets the Value from the change.  We can't use generics (easily) because they would all have to be the same type.
-            ColumnItemTemplate = obj => @<TextField @bind-Value="obj.Description" @bind-Value:event="OnChange"/>
+            ColumnItemTemplate = obj => @<TextField @bind-Value="obj.Description" @bind-Value:event="OnChange" />
             //ColumnItemTemplate = description => builder =>
             //{
             //    builder.OpenComponent<TextField>(0);
@@ -91,12 +96,9 @@
             //    }));
             //    builder.CloseComponent();
             //}
-
         });
-
-
         int count = 0;
-        for (var i = 0; i < 100; i++)
+        for (var i = 0; i< 100; i++)
         {
             count++;
 
@@ -124,5 +126,17 @@
     private void OnClick(DataItem item)
     {
         Console.WriteLine("Clicked!");
+    }
+
+    private void Delete()
+    {
+
+        foreach (var item in selection.GetSelection())
+        {
+            InputList.Remove(item);
+        }
+        selection = new Selection<DataItem>();
+        //selection.ClearSelection();
+        StateHasChanged();
     }
 }

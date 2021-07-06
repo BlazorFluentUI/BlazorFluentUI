@@ -93,6 +93,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            //Debug.WriteLine("Callout afterrenderasync");
             CancellationToken token = cancellationTokenSource.Token;
             if (baseModule == null)
                 baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", token, BasePath);
@@ -114,7 +115,7 @@ namespace BlazorFluentUI
 
                     }
 
-                    if (!isMeasured && FabricComponentTarget != null && firstRender && eventHandlerIds != null)
+                    if (!isMeasured && FabricComponentTarget != null && eventHandlerIds != null)
                     {
                         await CalculateCalloutPositionAsync(token);
                     }
@@ -255,6 +256,10 @@ namespace BlazorFluentUI
             catch (TaskCanceledException cancelled)
             {
                 Debug.WriteLine($"Task was canceled.  Probably due to the component being disposed: {cancelled.Message}");
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 

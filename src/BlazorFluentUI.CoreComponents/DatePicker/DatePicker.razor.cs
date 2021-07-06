@@ -197,7 +197,7 @@ namespace BlazorFluentUI
                 _preventFocusOpeningPicker = true;
                 IsDatePickerShown = true;
             }
-            StateHasChanged();
+            InvokeAsync(StateHasChanged);
         }
 
         protected void DismissDatePickerPopup()
@@ -213,7 +213,7 @@ namespace BlazorFluentUI
                 _preventFocusOpeningPicker = true;
                 //DisableAutoFocus = !DisableAutoFocus;
             }
-            StateHasChanged();
+            InvokeAsync(StateHasChanged);
         }
 
         protected void CalendarDismissed()

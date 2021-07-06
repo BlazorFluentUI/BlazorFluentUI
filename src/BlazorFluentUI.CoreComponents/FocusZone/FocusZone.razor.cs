@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
@@ -38,9 +37,6 @@ namespace BlazorFluentUI
         [Parameter] public string Role { get; set; } = "presentation";
         [Parameter] public Func<bool>? ShouldInputLoseFocusOnArrowKey { get => shouldInputLoseFocusOnArrowKey; set { if (value != shouldInputLoseFocusOnArrowKey) { updateFocusZone = true; shouldInputLoseFocusOnArrowKey = value; } } } // This is likely not having an effect because of asynchronous code allowing the event to propagate.
         [Parameter] public bool IsFocusable { get; set; }
-
-        [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? UnknownAttributes { get; set; }
-
 
         bool allowFocusRoot;
         bool checkForNoWrap;
@@ -93,7 +89,7 @@ namespace BlazorFluentUI
             }
             else
             {
-                if ( updateFocusZone)
+                if (updateFocusZone)
                 {
                     updateFocusZone = false;
                     await UpdateFocusZoneAsync();

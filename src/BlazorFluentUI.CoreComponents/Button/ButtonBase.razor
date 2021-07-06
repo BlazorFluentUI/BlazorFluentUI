@@ -34,7 +34,7 @@
         __builder.AddAttribute(21, "OnKeyDown", OnKeyDown);
         __builder.AddAttribute(22, "Command", Command);
         __builder.AddAttribute(23, "CommandParameter", CommandParameter);
-        __builder.AddAttribute(24, "UnknownProperties", UnknownProperties);
+        __builder.AddAttribute(24, "AdditionalAttributes", AdditionalAttributes);
         __builder.AddAttribute(25, "ContextMenuShown", contextMenuShown);
         __builder.AddAttribute(26, "ContextMenuShownChanged", Microsoft.AspNetCore.Components.EventCallback.Factory.Create<System.Boolean>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => contextMenuShown = __value, contextMenuShown)));
         if (ContentTemplate != null)
@@ -63,7 +63,7 @@
                     style=@Style
                     aria-roledescription=@AriaRoleDescription
                     aria-label=@AriaLabel
-                    @attributes=@UnknownProperties
+                    @attributes=@AdditionalAttributes
                     @ref="RootElementReference">
                 @ButtonContentRederFragment()
 
@@ -80,7 +80,7 @@
                style=@Style
                aria-roledescription=@AriaRoleDescription
                aria-label=@AriaLabel
-               @attributes=@UnknownProperties
+               @attributes=@AdditionalAttributes
                @ref="RootElementReference">
                 @ButtonContentRederFragment()
 

@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace BlazorFluentUI
@@ -26,7 +23,7 @@ namespace BlazorFluentUI
         [Parameter] public string? SecondaryText { get; set; }
         [Parameter] public bool Toggle { get; set; }
         [Parameter] public bool Split { get; set; }
-        
+
         [Parameter] public string? IconName { get; set; }
         [Parameter] public string? IconSrc { get; set; }
         [Parameter] public bool HideChevron { get; set; }
@@ -49,6 +46,5 @@ namespace BlazorFluentUI
         [Parameter] public string? GroupName { get; set; }
 
         #endregion
-        [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? UnknownProperties { get; set; }
     }
 }

@@ -24,7 +24,8 @@
         <div class="subSection">
             <Demo Header="Basic TextFields" Key="0" MetadataPath="TextFieldPage">
                 <div class="textFieldDiv">
-                    <TextField Label="Standard" />
+                    <Label HtmlFor="StandardTF">Standard</Label>
+                    <TextField ForID="StandardTF"/>
                 </div>
                 <div class="textFieldDiv">
                     <TextField Label="Postal Code autocomplete" AutoComplete="AutoComplete.PostalCode" />

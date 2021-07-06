@@ -8,7 +8,7 @@
    style="font-family: FabricMDL2Icons"
    role="presentation"
    aria-hidden="true"
-   @attributes=@ExtraParameters
+   @attributes=@AdditionalAttributes
    >
     @icon
 </i>
@@ -18,7 +18,7 @@ else
 <i data-icon-name=@IconName
    class=@($"ms-Icon{(string.IsNullOrEmpty(IconName) ? " ms-Icon-placeholder" : "")}{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
    style="font-family: FabricMDL2Icons"
-   @attributes=@ExtraParameters
+   @attributes=@AdditionalAttributes
    >
     @icon
 </i>

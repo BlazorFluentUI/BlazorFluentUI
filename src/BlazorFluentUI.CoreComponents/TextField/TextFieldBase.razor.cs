@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -161,9 +161,9 @@ namespace BlazorFluentUI
 
         public void Validate()
         {
-            if(ValidateOnFocusOut)
+            if (ValidateOnFocusOut)
             {
-                if(!isFocused)
+                if (!isFocused)
                 {
                     Validate(CurrentValue);
                 }
@@ -207,6 +207,12 @@ namespace BlazorFluentUI
             if (!string.IsNullOrWhiteSpace(ErrorMessage))
             {
                 defaultErrorMessageIsSet = true;
+            }
+
+            if (AdditionalAttributes != null && AdditionalAttributes.ContainsKey("forid"))
+            {
+                id = AdditionalAttributes["forid"].ToString()!;
+                AdditionalAttributes.Remove("forid");
             }
 
             // to prevent changes after initialisation
@@ -600,7 +606,7 @@ namespace BlazorFluentUI
             }
         }
 
-        
+
 
         public override async ValueTask DisposeAsync()
         {

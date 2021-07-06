@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
+
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
@@ -11,9 +11,6 @@ namespace BlazorFluentUI
         [Parameter]
         public string? IconName { get; set; }
         [Parameter] public string? IconSrc { get; set; }
-
-        [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object>? ExtraParameters { get; set; }
 
         protected override Task OnParametersSetAsync()
         {

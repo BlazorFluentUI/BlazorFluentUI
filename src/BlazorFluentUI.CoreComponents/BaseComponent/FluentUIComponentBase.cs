@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -45,6 +46,12 @@ namespace BlazorFluentUI
         [Parameter] public string? AriaRoleDescription { get; set; }
 
         public ElementReference RootElementReference;
+
+        /// <summary>
+        /// Gets or sets a collection of additional attributes that will be applied to the created element.
+        /// </summary>
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
         //private ITheme _theme;
         //private bool reloadStyle;

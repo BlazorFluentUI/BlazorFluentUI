@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using BlazorFluentUI.Style;
 
 namespace BlazorFluentUI
 {
@@ -57,7 +57,7 @@ namespace BlazorFluentUI
             {
                 isChecked = Checked.Value;
             }
-            if(IsRadioButton)
+            if (IsRadioButton)
             {
                 radioButtons.Add(this);
             }
@@ -104,13 +104,13 @@ namespace BlazorFluentUI
                 isChecked = !isChecked;
                 await CheckedChanged.InvokeAsync(isChecked);
             }
-            if(IsRadioButton)
+            if (IsRadioButton)
             {
                 isChecked = true;
                 await CheckedChanged.InvokeAsync(isChecked);
-                foreach(ButtonBase bFUButtonBase in radioButtons)
+                foreach (ButtonBase bFUButtonBase in radioButtons)
                 {
-                    if(bFUButtonBase != this && bFUButtonBase.GroupName == GroupName)
+                    if (bFUButtonBase != this && bFUButtonBase.GroupName == GroupName)
                     {
                         if (bFUButtonBase.isChecked == true)
                         {
@@ -156,8 +156,8 @@ namespace BlazorFluentUI
 
         private async Task DeregisterListFocusAsync()
         {
-                await baseModule!.InvokeVoidAsync("deregisterKeyEventsForList", _registrationGuid);
-       }
+            await baseModule!.InvokeVoidAsync("deregisterKeyEventsForList", _registrationGuid);
+        }
 
         //public async Task Focus()
         //{
@@ -208,7 +208,7 @@ namespace BlazorFluentUI
             builder.OpenElement(14, "span");
             builder.AddAttribute(15, "style", "display: flex;");
             builder.AddElementReferenceCapture(16, element => RootElementReference = element);
-            
+
             AddContent(builder, buttonClassName);
             AddSplitButtonMenu(builder, buttonClassName);
             AddSplitButtonDivider(builder, buttonClassName);
@@ -255,10 +255,10 @@ namespace BlazorFluentUI
 
             builder.AddAttribute(31, "data-is-focusable", !Disabled && !PrimaryDisabled && !commandDisabled && !isSplitButton);
             builder.AddAttribute(32, "style", Style);
-            builder.AddMultipleAttributes(33, UnknownProperties);
+            builder.AddMultipleAttributes(33, AdditionalAttributes);
 
             if (!isSplitButton)
-                builder.AddElementReferenceCapture(34, (element) => RootElementReference = element );
+                builder.AddElementReferenceCapture(34, (element) => RootElementReference = element);
 
             builder.OpenElement(35, "span");
             builder.AddAttribute(36, "class", "ms-Button-flexContainer");

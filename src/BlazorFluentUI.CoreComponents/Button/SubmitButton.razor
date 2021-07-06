@@ -28,7 +28,7 @@
                 OnKeyDown=@OnKeyDown
                 Command=@Command
                 CommandParameter=@CommandParameter
-                UnknownProperties=@UnknownProperties
+                AdditionalAttributes=@AdditionalAttributes
                 @ref="baseReference" />
 }
 else
@@ -56,7 +56,7 @@ else
                 OnKeyDown=@OnKeyDown
                 Command=@Command
                 CommandParameter=@CommandParameter
-                UnknownProperties=@UnknownProperties
+                AdditionalAttributes=@AdditionalAttributes
                 @ref="baseReference" />
 }
 
@@ -72,17 +72,17 @@ else
         if (ForceDefault)
             primary = false;
 
-        if (UnknownProperties != null)
+        if (AdditionalAttributes != null)
         {
-            if (UnknownProperties.ContainsKey("type"))
-                UnknownProperties["type"] = "submit";
+            if (AdditionalAttributes.ContainsKey("type"))
+                AdditionalAttributes["type"] = "submit";
             else
-                UnknownProperties.Add("type", "submit");
+                AdditionalAttributes.Add("type", "submit");
         }
         else
         {
-            UnknownProperties = new Dictionary<string, object>();
-            UnknownProperties.Add("type", "submit");
+            AdditionalAttributes = new Dictionary<string, object>();
+            AdditionalAttributes.Add("type", "submit");
         }
         if (CascadedEditContext != null)
         {

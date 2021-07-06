@@ -12,7 +12,7 @@
     <div class="ms-TextField-wrapper">
         @if (hasLabel)
         {
-            <Label ClassName="ms-TextField-label" Required=@Required HtmlFor=@id Disabled=@Disabled>@(Label + (Underlined ? ":" : ""))</Label>
+            <Label ClassName="ms-TextField-label" Required=@Required HtmlFor=@id Disabled=@Disabled @attributes=AdditionalAttributes>@(Label + (Underlined ? ":" : ""))</Label>
         }
         <div class="ms-TextField-fieldGroup">
             @if (Prefix != null)

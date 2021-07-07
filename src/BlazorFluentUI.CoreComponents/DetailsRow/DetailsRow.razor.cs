@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -160,7 +161,7 @@ namespace BlazorFluentUI
             }
             if (Selection != null)
             {
-                if (GetKey != null && Item!= null)
+                if (GetKey != null && Item != null)
                 {
                     isSelected = Selection.IsKeySelected(GetKey(Item), false);
                 }
@@ -173,7 +174,7 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
-        public const int ROW_VERTICAL_PADDING= 11;
+        public const int ROW_VERTICAL_PADDING = 11;
         public const int COMPACT_ROW_VERTICAL_PADDING = 6;
         public const int ROW_HEIGHT = 42;
         public const int COMPACT_ROW_HEIGHT = 32;
@@ -205,7 +206,7 @@ namespace BlazorFluentUI
                     await InvokeAsync(StateHasChanged);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

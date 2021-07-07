@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -129,7 +129,7 @@ namespace BlazorFluentUI
                     await OnPositioned.InvokeAsync(CalloutPosition);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -196,7 +196,7 @@ namespace BlazorFluentUI
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -257,7 +257,7 @@ namespace BlazorFluentUI
             {
                 Debug.WriteLine($"Task was canceled.  Probably due to the component being disposed: {cancelled.Message}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

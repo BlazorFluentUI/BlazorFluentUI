@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Microsoft.JSInterop;
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+using System;
+using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
@@ -36,7 +35,7 @@ namespace BlazorFluentUI
                     await baseModule.InvokeVoidAsync("registerResizeEvent", cancellationTokenSource.Token, selfReference, "OnResizedAsync", _resizeEventGuid);
                     StateHasChanged();  // we will never have window size until after first render, so re-render after this to update the component with ResponsiveMode info.
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }

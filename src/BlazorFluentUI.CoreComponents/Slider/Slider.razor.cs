@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -110,7 +110,7 @@ namespace BlazorFluentUI
             //    selfReference = DotNetObjectReference.Create(this);
             //if (Disabled)
             //    await baseModule!.InvokeVoidAsync("unregisterHandler", selfReference);
-            //else 
+            //else
             //    await baseModule!.InvokeVoidAsync("registerMouseOrTouchStart", selfReference, slideBox, sliderLine);
 
             UpdateState();

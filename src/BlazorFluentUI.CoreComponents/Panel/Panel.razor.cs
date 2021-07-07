@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -13,10 +11,6 @@ namespace BlazorFluentUI
 {
     public partial class Panel : FluentUIComponentBase, IAsyncDisposable
     {
-        private const string ScriptPath = "./_content/BlazorFluentUI.CoreComponents/panel.js";
-        private IJSObjectReference? scriptModule;
-
-
         [Parameter]
         public RenderFragment? ChildContent { get; set; }
 
@@ -121,10 +115,8 @@ namespace BlazorFluentUI
 
         private ElapsedEventHandler? _handler = null;
 
-        private bool _jsAvailable = false;
-
         private static string _headerId = "";
-        private DotNetObjectReference<Panel>? selfReference;
+        //private DotNetObjectReference<Panel>? selfReference;
 
         public Panel()
         {
@@ -168,13 +160,6 @@ namespace BlazorFluentUI
 
         }
 
-        //Task OnPanelClick()
-        //{
-        //    this.dismiss();
-        //    return Task.CompletedTask;
-        //}
-
-        [JSInvokable]
         public async Task UpdateFooterPositionAsync()
         {
             //Debug.WriteLine("Calling UpdateFooterPositionAsync");
@@ -262,64 +247,13 @@ namespace BlazorFluentUI
             return "";
         }
 
-        private async Task SetRegistrationsAsync()
-        {
-            //if (ShouldListenForOuterClick())
-            //{
-            //    _mouseDownId = await baseModule!.InvokeAsync<int>("registerMouseDownHandler", panelElement, DotNetObjectReference.Create(this));
-            //}
-
-            selfReference = DotNetObjectReference.Create(this);
-            if (ShouldListenForOuterClick() && _mouseDownId == -1)
-            {
-                _mouseDownId = -2;
-                _mouseDownId = await scriptModule!.InvokeAsync<int>("registerMouseDownHandler", panelElement, selfReference);
-            }
-            else if (!ShouldListenForOuterClick() && _mouseDownId > -1)
-            {
-                await scriptModule!.InvokeVoidAsync("unregisterHandler", _mouseDownId);
-            }
-
-            if (IsOpen && _resizeId == -1)
-            {
-                _resizeId = -2;
-                _resizeId = await scriptModule!.InvokeAsync<int>("registerSizeHandler", selfReference);
-                //listen for lightdismiss
-            }
-            else if (!IsOpen && _resizeId > -1)
-            {
-                await scriptModule!.InvokeVoidAsync("unregisterHandler", _resizeId);
-            }
-
-            //if (IsOpen && !_scrollerRegistered)
-            //{
-            //    _scrollerRegistered = true;
-            //    _scrollerEventId = await baseModule!.InvokeAsync<List<int>>("makeElementScrollAllower", scrollableContent);
-            //}
-
-            if (!IsOpen && _scrollerRegistered)
-            {
-                List<int>? copied = _scrollerEventId.ToList();
-                _scrollerEventId.Clear();
-                _scrollerRegistered = false;
-
-                foreach (int id in copied)
-                {
-                    await scriptModule!.InvokeVoidAsync("unregisterHandler", id);
-                }
-            }
-        }
-
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (baseModule == null)
                 baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-            if (scriptModule == null)
-                scriptModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import",  ScriptPath);
 
             if (firstRender)
             {
-                _jsAvailable = true;
                 // register timers here so that pre-rendered Panels don't have timers running.
                 _animationTimer = new Timer();
 
@@ -370,7 +304,6 @@ namespace BlazorFluentUI
                     await InvokeAsync(StateHasChanged);
                 };
             }
-            await SetRegistrationsAsync();
 
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -399,29 +332,24 @@ namespace BlazorFluentUI
 
             //Debug.WriteLine($"Was: {previousVisibility}  Current:{currentVisibility}");
 
-            if (_jsAvailable)
+
+            if (currentVisibility != previousVisibility)
             {
-                if (currentVisibility != previousVisibility)
+                Debug.WriteLine("Clearing animation timer");
+                _clearExistingAnimationTimer!();
+                if (currentVisibility == PanelVisibilityState.AnimatingOpen)
                 {
-                    Debug.WriteLine("Clearing animation timer");
-                    _clearExistingAnimationTimer!();
-                    if (currentVisibility == PanelVisibilityState.AnimatingOpen)
-                    {
-                        isAnimating = true;
-                        animationRenderStart = true;
-                        _animateTo!(PanelVisibilityState.Open);
-                    }
-                    else if (currentVisibility == PanelVisibilityState.AnimatingClosed)
-                    {
-                        isAnimating = true;
-                        //animationRenderStart = true;
-                        _animateTo!(PanelVisibilityState.Closed);
-                    }
+                    isAnimating = true;
+                    animationRenderStart = true;
+                    _animateTo!(PanelVisibilityState.Open);
                 }
-
-                //await SetRegistrationsAsync();
+                else if (currentVisibility == PanelVisibilityState.AnimatingClosed)
+                {
+                    isAnimating = true;
+                    //animationRenderStart = true;
+                    _animateTo!(PanelVisibilityState.Closed);
+                }
             }
-
 
             await base.OnParametersSetAsync();
         }
@@ -454,29 +382,8 @@ namespace BlazorFluentUI
 
             try
             {
-                if (scriptModule != null && baseModule != null)
-                {
-                    if (_scrollerEventId != null)
-                    {
-                        foreach (int id in _scrollerEventId)
-                        {
-                            await scriptModule.InvokeVoidAsync("unregisterHandler", id);
-                        }
-                        _scrollerEventId.Clear();
-                    }
-
-                    if (_resizeId != -1)
-                    {
-                        await scriptModule.InvokeVoidAsync("unregisterHandler", _resizeId);
-                    }
-                    if (_mouseDownId != -1)
-                    {
-                        await scriptModule.InvokeVoidAsync("unregisterHandler", _mouseDownId);
-                    }
-                    await scriptModule.DisposeAsync();
+                if (baseModule != null)
                     await baseModule.DisposeAsync();
-                }
-                selfReference?.Dispose();
 
                 await base.DisposeAsync();
             }

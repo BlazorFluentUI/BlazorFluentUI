@@ -4,9 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-   branches:
-     exclude:
-       - '*'
+   - main
 
 pr:
  branches:
@@ -63,4 +61,3 @@ steps:
     publishFeedCredentials: 'Nuget-BlazorFluentUI'
     includeNuGetOrg: true
     feedsToUse: select
-    

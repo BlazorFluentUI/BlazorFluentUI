@@ -14,6 +14,9 @@ How To Use: [Blazor Server](https://github.com/BlazorFluentUI/BlazorFluentUI/wik
 [Theming](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/Theming---defaults-and-custom) 
 
 ## Revision history
+### V5.4
+- DetailsList and DetailsListAuto speed vastly improved
+- Callout no longer tracking references in script. No more double clicking needed for opening Dropdown, etc.
 ### V5.3
 - `TextFieldNumber` is renamed to `NumericTextField`
 - `MaskedTextFiled` is now available as a **BETA** component. See https://www.blazorfluentui.net/MaskedTextFieldPage for examples

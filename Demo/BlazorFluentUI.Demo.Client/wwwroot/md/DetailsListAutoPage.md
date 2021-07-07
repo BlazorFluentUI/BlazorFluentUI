@@ -36,7 +36,7 @@
                 </Stack>
                 <TextField Label="Filter Description"
                            Value=@filter
-                           OnInput=@(val => { filter = val; descriptionColumn!.FilterPredicate = prop => (prop as string).Contains(filter); }) />
+                           OnInput=@(val => { filter = val; descriptionColumn!.FilterPredicate = prop => (prop as string)!.Contains(filter); }) />
                 <div data-is-scrollable="true" style="height:400px;overflow-y:auto;">
                     <DetailsListAuto  ItemsSource="dataSource"
                                      IsVirtualizing=@isVirtualizing

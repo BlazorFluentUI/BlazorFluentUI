@@ -195,7 +195,7 @@
 
     bool shouldOverflow;
     bool isParentTooltipVisible;
-    FluentUIComponentBase parent;
+    FluentUIComponentBase? parent;
 
     string contentParent = "If the parent element's content overflows, hovering here will show a tooltip (anchored to the parent element).";
     string contentSelf = "If the TooltipHost's content overflows, hovering here will show a tooltip (anchored to the TooltipHost).";

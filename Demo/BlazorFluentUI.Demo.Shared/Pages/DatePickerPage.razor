@@ -97,7 +97,7 @@
                             IsTimePickerVisible="true"
                             @bind-Value="selectedDate4"
                             Placeholder="Select a date..."
-                            FormatDate=@((date) => date.ToString()) />
+                             />
 
                 <DefaultButton Text="Set date to null" @onclick=@(args => selectedDate4 = null) />
                 <br />Selected date: @selectedDate4

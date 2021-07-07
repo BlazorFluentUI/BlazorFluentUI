@@ -61,14 +61,9 @@ namespace BlazorFluentUI
 
         protected bool isRenderedOnce = false;
         protected bool isMeasured = false;
-        protected bool isEventHandlersRegistered = false;
-        private DotNetObjectReference<CalloutContent>? selfReference;
-
-        //protected Layer layerReference;
 
         protected ElementReference calloutReference;
 
-        private List<int>? eventHandlerIds;
 
         #region Style
         private ICollection<IRule> CalloutLocalRules { get; set; } = new List<IRule>();
@@ -100,38 +95,16 @@ namespace BlazorFluentUI
             if (calloutModule == null)
                 calloutModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", token, CalloutPath);
 
-            try
+            if (!isMeasured && FabricComponentTarget != null)
             {
-                if (!isEventHandlersRegistered)
-                {
-                    isEventHandlersRegistered = true;
-                    selfReference = DotNetObjectReference.Create(this);
-                    try
-                    {
-                        eventHandlerIds = await calloutModule.InvokeAsync<List<int>>("registerHandlers", RootElementReference, selfReference);
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-
-                    if (!isMeasured && FabricComponentTarget != null && eventHandlerIds != null)
-                    {
-                        await CalculateCalloutPositionAsync(token);
-                    }
-
-                }
-
-                if (!firstRender && isMeasured && !_finalPositionAnnounced)
-                {
-                    _finalPositionAnnounced = true;
-                    // May have to limit this...
-                    await OnPositioned.InvokeAsync(CalloutPosition);
-                }
+                await CalculateCalloutPositionAsync(token);
             }
-            catch (Exception)
-            {
 
+            if (!firstRender && isMeasured && !_finalPositionAnnounced)
+            {
+                _finalPositionAnnounced = true;
+                // May have to limit this...
+                await OnPositioned.InvokeAsync(CalloutPosition);
             }
 
             await base.OnAfterRenderAsync(firstRender);
@@ -186,32 +159,16 @@ namespace BlazorFluentUI
 
         protected override async Task OnParametersSetAsync()
         {
-            try
+            if (FabricComponentTarget != null && !isMeasured && isRenderedOnce)
             {
-                if (FabricComponentTarget != null && !isMeasured && isRenderedOnce)
-                {
-                    _finalPositionAnnounced = false;
-                    //this will never get called initially because the target won't be rendered yet.  Shouldn't be called after due to isMeasured
-                    await CalculateCalloutPositionAsync(cancellationTokenSource.Token);
-
-                }
-            }
-            catch (Exception)
-            {
+                _finalPositionAnnounced = false;
+                //this will never get called initially because the target won't be rendered yet.  Shouldn't be called after due to isMeasured
+                await CalculateCalloutPositionAsync(cancellationTokenSource.Token);
 
             }
+
             await base.OnParametersSetAsync();
         }
-
-
-
-
-        //public void ShouldRerender()
-        //{
-        //    //
-        //    //layerRef.Rerender();
-        //    StateHasChanged();
-        //}
 
         private async Task CalculateCalloutPositionAsync(CancellationToken cancellationToken)
         {
@@ -394,7 +351,6 @@ namespace BlazorFluentUI
             return beakPosition;
         }
 
-
         private async Task<(PartialRectangle element, RectangleEdge targetEdge, RectangleEdge alignmentEdge)> FinalizePositionDataAsync(ElementPositionInfo positionedElement, Rectangle bounds, CancellationToken cancellationToken)
         {
             PartialRectangle? finalizedElement = await FinalizeElementPositionAsync(positionedElement.ElementRectangle, positionedElement.TargetEdge, bounds, positionedElement.AlignmentEdge, cancellationToken);
@@ -538,7 +494,6 @@ namespace BlazorFluentUI
             }
             return elementEstimate;
         }
-
 
         private Rectangle EstimatePosition(Rectangle elementToPosition, Rectangle target, PositionDirectionalHintData positionData, double gap = 0)
         {
@@ -823,18 +778,16 @@ namespace BlazorFluentUI
         {
             try
             {
-                if (calloutModule != null && eventHandlerIds != null)
+                if (calloutModule != null)
                 {
-                    isEventHandlersRegistered = false;
-                    await calloutModule.InvokeVoidAsync("unregisterHandlers", eventHandlerIds);
                     await calloutModule.DisposeAsync();
+                    calloutModule = null;
                 }
                 if (baseModule != null)
                 {
                     await baseModule.DisposeAsync();
                     baseModule = null;
                 }
-                selfReference?.Dispose();
             }
             catch (TaskCanceledException)
             {

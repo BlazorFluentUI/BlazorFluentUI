@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BlazorFluentUI.Lists
 {
@@ -111,7 +112,7 @@ namespace BlazorFluentUI.Lists
         SelectionZone<TItem>? selectionZone;
 
         protected bool isAllSelected;
-        //private bool shouldRender = true;
+        private bool shouldRender = true;
 
         //private IReadOnlyDictionary<string, object> lastParameters = null;
 
@@ -132,12 +133,14 @@ namespace BlazorFluentUI.Lists
 
         protected override bool ShouldRender()
         {
-            //if (!shouldRender)
-            //{
-            //    shouldRender = true;
-            //    return false;
-            //}
-            return true;
+            if (shouldRender)
+            {
+                shouldRender = false;
+                Debug.WriteLine("should render true!");
+                return true;
+            }
+            Debug.WriteLine("should render false!");
+            return false;
         }
 
         public override Task SetParametersAsync(ParameterView parameters)
@@ -177,6 +180,20 @@ namespace BlazorFluentUI.Lists
                 selectAllVisibility = SelectAllVisibility.None;
             }
 
+            //should render checks
+            if (parameters.GetValueOrDefault<CheckboxVisibility>("CheckboxVisibility") != CheckboxVisibility ||
+                parameters.GetValueOrDefault<bool>("Compact") != Compact ||
+                parameters.GetValueOrDefault<bool>("EnterModalSelectionOnTouch") != EnterModalSelectionOnTouch ||
+                parameters.GetValueOrDefault<bool>("DisableSelectionZone") != DisableSelectionZone ||
+                parameters.GetValueOrDefault<bool>("IsHeaderVisible") != IsHeaderVisible ||
+                parameters.GetValueOrDefault<bool>("IsVirtualizing") != IsVirtualizing ||
+                parameters.GetValueOrDefault<DetailsListLayoutMode>("LayoutMode") != LayoutMode ||
+                parameters.GetValueOrDefault<SelectionMode>("SelectionMode") != SelectionMode ||
+                parameters.GetValueOrDefault<bool>("SelectionPreservedOnEmptyClick") != SelectionPreservedOnEmptyClick
+                )
+            {
+                shouldRender = true;
+            }
             return base.SetParametersAsync(parameters);
         }
 
@@ -227,7 +244,7 @@ namespace BlazorFluentUI.Lists
             if (firstRender)
             {
                 selfReference = DotNetObjectReference.Create(this);
-                _viewportRegistration = await baseModule!.InvokeAsync<int>("addViewport", selfReference, RootElementReference, true);
+                _viewportRegistration = await baseModule.InvokeAsync<int>("addViewport", cancellationTokenSource.Token, selfReference, RootElementReference);
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -253,10 +270,11 @@ namespace BlazorFluentUI.Lists
         {
             _lastViewport = _viewport;
             _viewport = viewport;
-            //Debug.WriteLine($"Viewport changed: {viewport.ScrollWidth}");
             if (_viewport != null)
             {
                 AdjustColumns(ItemsSource, LayoutMode, SelectionMode, CheckboxVisibility, Columns!, true);
+                Debug.WriteLine($"Viewport changed: {viewport.Width}");
+                shouldRender = true;
                 InvokeAsync(StateHasChanged);
             }
         }

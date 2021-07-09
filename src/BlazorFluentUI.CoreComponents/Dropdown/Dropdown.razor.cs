@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -17,6 +18,7 @@ namespace BlazorFluentUI
         [Parameter] public IEnumerable<IDropdownOption>? DefaultSelectedOptions { get; set; }
         [Parameter] public bool Disabled { get; set; }
         [Parameter] public int DropdownWidth { get; set; } = 0;
+        [Parameter] public int DropdownHeight { get; set; } = 0;
         [Parameter] public string? ErrorMessage { get; set; }
         [Parameter] public IEnumerable<IDropdownOption>? ItemsSource { get; set; }
         [Parameter] public RenderFragment<IDropdownOption>? ItemTemplate { get; set; }

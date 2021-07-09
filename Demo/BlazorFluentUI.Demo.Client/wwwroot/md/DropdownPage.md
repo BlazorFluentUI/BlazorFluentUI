@@ -28,6 +28,8 @@
                           OnChange=@UncontrolledSingleChangeHandler
                           Label=@($"Selected: {uncontrolledSingleSelectionResult?.Text}")
                           Style="width:300px;"
+                          DropdownWidth="450"
+                          DropdownHeight="150"
                           @ref=@dropDown1 />
                 <br />
                 <DefaultButton OnClick=ClickHandler>Clear!</DefaultButton>

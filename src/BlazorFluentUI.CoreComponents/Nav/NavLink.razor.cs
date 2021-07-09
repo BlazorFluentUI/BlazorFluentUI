@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using System;
-using System.CodeDom.Compiler;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorFluentUI.Routing
 {
@@ -50,11 +49,8 @@ namespace BlazorFluentUI.Routing
         protected override Task OnInitializedAsync()
         {
             //System.Diagnostics.Debug.WriteLine("Initializing NavFabricLinkBase");
-            if (NavigationManager != null)
-            {
-                ProcessUri(NavigationManager.Uri);
-                NavigationManager.LocationChanged += UriHelper_OnLocationChanged;
-            }
+            ProcessUri(NavigationManager!.Uri);
+            NavigationManager.LocationChanged += UriHelper_OnLocationChanged;
             CreateLocalCss();
 
 
@@ -95,7 +91,7 @@ namespace BlazorFluentUI.Routing
 
         private void ProcessUri(string uri)
         {
-            if (NavigationManager != null && uri.StartsWith(NavigationManager.BaseUri))
+            if (uri.StartsWith(NavigationManager!.BaseUri))
                 uri = uri[NavigationManager.BaseUri.Length..];
 
             string? processedUri = null;

@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -61,6 +61,8 @@ namespace BlazorFluentUI
 
         protected bool isRenderedOnce = false;
         protected bool isMeasured = false;
+        protected bool isEventHandlersRegistered = false;
+        private DotNetObjectReference<CalloutContent>? selfReference;
 
         protected ElementReference calloutReference;
 
@@ -95,16 +97,42 @@ namespace BlazorFluentUI
             if (calloutModule == null)
                 calloutModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", token, CalloutPath);
 
+            try
+            {
+                if (!isEventHandlersRegistered)
+                {
+                    isEventHandlersRegistered = true;
+                    selfReference = DotNetObjectReference.Create(this);
+                    try
+                    {
+                        await calloutModule.InvokeVoidAsync("registerHandlers", RootElementReference, selfReference);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                    if (!isMeasured && FabricComponentTarget != null)
+                    {
+                        await CalculateCalloutPositionAsync(token);
+                    }
+
+                }
+
+                if (!firstRender && isMeasured && !_finalPositionAnnounced)
+                {
+                    _finalPositionAnnounced = true;
+                    // May have to limit this...
+                    await OnPositioned.InvokeAsync(CalloutPosition);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
             if (!isMeasured && FabricComponentTarget != null)
             {
                 await CalculateCalloutPositionAsync(token);
-            }
-
-            if (!firstRender && isMeasured && !_finalPositionAnnounced)
-            {
-                _finalPositionAnnounced = true;
-                // May have to limit this...
-                await OnPositioned.InvokeAsync(CalloutPosition);
             }
 
             await base.OnAfterRenderAsync(firstRender);
@@ -118,24 +146,26 @@ namespace BlazorFluentUI
         [JSInvokable]
         public async Task ScrollHandler()
         {
-            await OnDismiss.InvokeAsync(null);
+            if (!PreventDismissOnScroll)
+                await OnDismiss.InvokeAsync(null);
             //await HiddenChanged.InvokeAsync(true);
         }
 
         [JSInvokable]
         public async Task ResizeHandler()
         {
-            await OnDismiss.InvokeAsync(null);
+            if (!PreventDismissOnResize)
+                await OnDismiss.InvokeAsync(null);
             //await HiddenChanged.InvokeAsync(true);
         }
 
         [JSInvokable]
-        public /*async Task*/ void FocusHandler()
+        public async Task FocusHandler()
         {
             //Need way to tie focus handler between all the callouts (linked contextualmenus)  ... only dimiss when ALL of them lost focus.
             System.Diagnostics.Debug.WriteLine($"Callout {PortalId} called dismiss from FocusHandler from {DirectionalHint}");
-
-            //await OnDismiss.InvokeAsync(null);
+            if (!PreventDismissOnLostFocus)
+                await OnDismiss.InvokeAsync(null);
         }
 
         [JSInvokable]
@@ -780,6 +810,8 @@ namespace BlazorFluentUI
             {
                 if (calloutModule != null)
                 {
+                    isEventHandlersRegistered = false;
+                    await calloutModule.InvokeVoidAsync("unregisterHandlers");
                     await calloutModule.DisposeAsync();
                     calloutModule = null;
                 }
@@ -788,6 +820,7 @@ namespace BlazorFluentUI
                     await baseModule.DisposeAsync();
                     baseModule = null;
                 }
+                selfReference?.Dispose();
             }
             catch (TaskCanceledException)
             {

@@ -1,7 +1,7 @@
 ﻿::deep .ms-Nav {
     overflow-y: auto;
     user-select: none;
-    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
 }
     .ms-Nav.is-on-top {
         position: absolute;

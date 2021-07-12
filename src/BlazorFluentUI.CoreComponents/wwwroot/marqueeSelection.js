@@ -131,7 +131,30 @@ export class AutoScroll {
         }
     }
 }
-
+//class Handler {
+//    static objectListeners: Map<DotNetReferenceType, Map<string, EventParams>> = new Map<DotNetReferenceType, Map<string, EventParams>>();
+//    static addListener(ref: DotNetReferenceType, element: HTMLElement | Window, event: string, handler: (ev: Event) => void, capture: boolean): void {
+//        let listeners: Map<string, EventParams>;
+//        if (this.objectListeners.has(ref)) {
+//            listeners = this.objectListeners.get(ref);
+//        } else {
+//            listeners = new Map<string, EventParams>();
+//            this.objectListeners.set(ref, listeners);
+//        }
+//        element.addEventListener(event, handler, capture);
+//        listeners.set(event, { capture: capture, event: event, handler: handler, element: element });
+//    }
+//    static removeListener(ref: DotNetReferenceType, event: string): void {
+//        if (this.objectListeners.has(ref)) {
+//            let listeners = this.objectListeners.get(ref);
+//            if (listeners.has(event)) {
+//                var handler = listeners.get(event);
+//                handler.element.removeEventListener(handler.event, handler.handler, handler.capture);
+//            }
+//            listeners.delete[event];
+//        }
+//    }
+//}
 const marqueeSelections = new Map();
 export function registerMarqueeSelection(dotNet, root, props) {
     let marqueeSelection = new MarqueeSelection(dotNet, root, props);
@@ -210,11 +233,16 @@ class MarqueeSelection {
         const targetScrollbarWidth = targetElement.offsetWidth - targetElement.clientWidth;
         if (targetScrollbarWidth) {
             const targetRect = targetElement.getBoundingClientRect();
-            
+            // Check vertical scroll
+            //if (getRTL(this.props.theme)) {
+            //    if (ev.clientX < targetRect.left + targetScrollbarWidth) {
+            //        return true;
+            //    }
+            //} else {
             if (ev.clientX > targetRect.left + targetElement.clientWidth) {
                 return true;
             }
-            
+            //}
             // Check horizontal scroll
             if (ev.clientY > targetRect.top + targetElement.clientHeight) {
                 return true;
@@ -359,13 +387,21 @@ class MarqueeSelection {
         // only update selection when needed
         if (needToUpdate) {
             // Stop change events, clear selection to re-populate.
+            //selection.setChangeEvents(false);
+            //selection.setAllSelected(false);
             await this.dotNet.invokeMethodAsync("SetChangeEvents", false);
             await this.dotNet.invokeMethodAsync("UnselectAll"); //.then(_ => {
             const indices = [];
             for (const index of Object.keys(this._allSelectedIndices)) {
                 indices.push(Number(index));
+                //selection.setIndexSelected(Number(index), true, false);
             }
             await this.dotNet.invokeMethodAsync("SetSelectedIndices", indices);
+            //});
+            //for (const index of Object.keys(this._allSelectedIndices!)) {
+            //    selection.setIndexSelected(Number(index), true, false);
+            //}
+            //selection.setChangeEvents(true);
             await this.dotNet.invokeMethodAsync("SetChangeEvents", true);
         }
     }
@@ -378,6 +414,9 @@ class MarqueeSelection {
         this.autoScroll = this._dragOrigin = this._lastMouseEvent = undefined;
         this._selectedIndicies = this._itemRectCache = undefined;
         if (this._mirroredDragRect) {
+            //this.setState({
+            //    dragRect: undefined,
+            //});
             this._mirroredDragRect = null;
             this.dotNet.invokeMethodAsync("SetDragRect", null);
             ev.preventDefault();
@@ -395,9 +434,9 @@ class MarqueeSelection {
         return false;
     }
     /**
-    * We do not want to start the marquee if we're trying to marquee
-    * from within an existing marquee selection.
-    */
+* We do not want to start the marquee if we're trying to marquee
+* from within an existing marquee selection.
+*/
     _isDragStartInSelection(ev) {
         const selectedElements = this.root.querySelectorAll('[data-is-selected]');
         for (let i = 0; i < selectedElements.length; i++) {

@@ -663,7 +663,7 @@ ul.md-list--flex > .mdut--half {
     }
 
 .siteNavScrollWrapper {
-    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
     width: 252px
 }
 

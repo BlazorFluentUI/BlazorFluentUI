@@ -25,7 +25,7 @@
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
     bottom: 0;
     top: 0;
     left: auto;

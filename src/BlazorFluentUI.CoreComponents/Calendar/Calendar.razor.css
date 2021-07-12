@@ -45,7 +45,7 @@
 
 
 .ms-Calendar-holder {
-    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
     box-sizing: border-box;
     display: none;
 }

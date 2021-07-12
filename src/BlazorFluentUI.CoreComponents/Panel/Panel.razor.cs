@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Timers;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -101,8 +101,8 @@ namespace BlazorFluentUI
         private Action? onPanelClick;
         private Action? _dismiss;
         private List<int> _scrollerEventId = new();
-        private int _resizeId = -1;
-        private int _mouseDownId = -1;
+        //private int _resizeId = -1;
+        //private int _mouseDownId = -1;
 
         private Timer? _animationTimer;
         private Action? _clearExistingAnimationTimer;
@@ -111,7 +111,7 @@ namespace BlazorFluentUI
 
         private ElementReference panelElement;
         private ElementReference scrollableContent;
-        private bool _scrollerRegistered;
+        //private bool _scrollerRegistered;
 
         private ElapsedEventHandler? _handler = null;
 

@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Web;
-
-using System;
+﻿using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorFluentUI
 {
@@ -197,7 +197,7 @@ namespace BlazorFluentUI
                 _preventFocusOpeningPicker = true;
                 IsDatePickerShown = true;
             }
-            InvokeAsync(StateHasChanged);
+            StateHasChanged();
         }
 
         protected void DismissDatePickerPopup()
@@ -211,9 +211,9 @@ namespace BlazorFluentUI
             if (AllowTextInput)
             {
                 _preventFocusOpeningPicker = true;
-                //DisableAutoFocus = !DisableAutoFocus;
+                DisableAutoFocus = !DisableAutoFocus;
             }
-            InvokeAsync(StateHasChanged);
+            StateHasChanged();
         }
 
         protected void CalendarDismissed()
@@ -283,8 +283,8 @@ namespace BlazorFluentUI
                     //stopPropagation
                     if (!IsDatePickerShown)
                     {
-                        ValidateTextInput();
-                        ShowDatePickerPopup();
+                        if (!ValidateTextInput())
+                            ShowDatePickerPopup();
                     }
                     else
                     {
@@ -306,22 +306,21 @@ namespace BlazorFluentUI
             IsDatePickerShown = false;
         }
 
-        private void ValidateTextInput()
+        private bool ValidateTextInput()
         {
             if (IsDatePickerShown)
-                return;
+                return false;
 
             string? inputValue = FormattedDate;
 
             if (AllowTextInput)
             {
-
                 if (!string.IsNullOrWhiteSpace(inputValue))
                 {
                     DateTime? date = DateTime.MinValue;
                     if (SelectedDate != DateTime.MinValue && FormatDate != null && FormatDateInternal(SelectedDate) == inputValue)
                     {
-                        return;
+                        return true;
                     }
                     else
                     {
@@ -367,14 +366,13 @@ namespace BlazorFluentUI
                 }
 
                 CascadedEditContext?.NotifyFieldChanged(FieldIdentifier);
-
-
             }
             else if (IsRequired && string.IsNullOrWhiteSpace(inputValue))
             {
                 ErrorMessage = IsRequiredErrorMessage;
+                return false;
             }
-
+            return true;
         }
 
         private void HandleEscKey(KeyboardEventArgs args)

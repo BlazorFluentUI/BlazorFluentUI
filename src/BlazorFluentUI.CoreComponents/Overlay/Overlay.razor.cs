@@ -14,16 +14,16 @@ namespace BlazorFluentUI
         [Parameter]
         public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            //if (baseModule == null)
-            //    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-            //if (firstRender)
-            //{
-            //    await baseModule!.InvokeVoidAsync("disableBodyScroll");
-            //}
+        //protected override async Task OnAfterRenderAsync(bool firstRender)
+        //{
+        //if (baseModule == null)
+        //    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+        //if (firstRender)
+        //{
+        //    await baseModule!.InvokeVoidAsync("disableBodyScroll");
+        //}
 
-        }
+        //}
 
         public override async ValueTask DisposeAsync()
         {

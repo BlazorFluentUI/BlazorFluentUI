@@ -23,21 +23,22 @@
                       OnKeyDown=@OnTextFieldKeyDown
                       OnChange=@OnTextFieldChange
                       OnClick=@(args => {
-                                    if (!DisableAutoFocus && !Disabled)
+                                    if (!DisableAutoFocus && !IsDatePickerShown && !Disabled)
                                     {
                                         ShowDatePickerPopup();
+                                        return;
                                     }
                                     if (AllowTextInput && !IsDatePickerShown)
                                     {
-                                        DismissDatePickerPopup();
+                                        DisableAutoFocus = !DisableAutoFocus;
+                                        //DismissDatePickerPopup();
                                     }
                                 })
-                      OnBlur=@OnTextFieldBlur
-                      OnFocus=@OnTextFieldFocus />
+                      />
     </div>
     @if (IsDatePickerShown)
     {
-        <Callout
+        <Callout Role="dialog"
                  AriaLabel=@PickerAriaLabel
                  IsBeakVisible="false"
                  GapSpace="0"

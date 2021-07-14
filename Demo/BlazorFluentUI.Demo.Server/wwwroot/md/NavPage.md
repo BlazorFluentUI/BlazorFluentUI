@@ -24,9 +24,22 @@
             <Demo Header="Navigation" Key="0" MetadataPath="NavPage">
                 <Nav>
                     <NavLinkGroup Name="First" CollapseByDefault="false">
-                        <BlazorFluentUI.Routing.NavLink Name="A Link" IconName="Airplane" Url="navPage#ALink" Id="ALink" NavMatchType="NavMatchType.AnchorIncluded" />
+                        <BlazorFluentUI.Routing.NavLink Name="A Link" IconName="Airplane" Url="navPage#ALink" Id="ALink" NavMatchType="NavMatchType.AnchorIncluded" >
+                            <BlazorFluentUI.Routing.NavLink Name="A SubLink 1" NestedDepth="1" Url="navPage#ALink1" Id="ALink1" NavMatchType="NavMatchType.AnchorIncluded" />
+                            <BlazorFluentUI.Routing.NavLink Name="A SubLink 2" NestedDepth="1" Url="navPage#ALink2" Id="ALink2" NavMatchType="NavMatchType.AnchorIncluded" />
+                            <BlazorFluentUI.Routing.NavLink Name="A SubLink 3" NestedDepth="1" Url="navPage#ALink3" Id="ALink3" NavMatchType="NavMatchType.AnchorIncluded" />
+                        </BlazorFluentUI.Routing.NavLink>
+
                         <BlazorFluentUI.Routing.NavLink Name="B Link" Url="navPage#BLink" NestedDepth="0" Id="BLink" NavMatchType="NavMatchType.AnchorIncluded">
-                            <BlazorFluentUI.Routing.NavLink Name="B SubLink 1" NestedDepth="1" Url="navPage#BLink1" Id="BLink1" NavMatchType="NavMatchType.AnchorIncluded" />
+                            <BlazorFluentUI.Routing.NavLink Name="B SubLink 1" NestedDepth="1" Url="navPage#BLink1" Id="BLink1" NavMatchType="NavMatchType.AnchorIncluded">
+                                <BlazorFluentUI.Routing.NavLink Name="B SubSubLink 1" NestedDepth="2" Url="navPage#BBLink1" Id="BBLink1" NavMatchType="NavMatchType.AnchorIncluded">
+                                    <BlazorFluentUI.Routing.NavLink Name="B SubSubSubLink 1" NestedDepth="3" Url="navPage#BBBLink1" Id="BBBLink1" NavMatchType="NavMatchType.AnchorIncluded" />
+                                    <BlazorFluentUI.Routing.NavLink Name="B SubSubSubLink 2" NestedDepth="3" Url="navPage#BBBLink2" Id="BBBLink2" NavMatchType="NavMatchType.AnchorIncluded" />
+                                    <BlazorFluentUI.Routing.NavLink Name="B SubSubSubLink 3" NestedDepth="3" Url="navPage#BBBLink3" Id="BBBLink3" NavMatchType="NavMatchType.AnchorIncluded" />
+                                </BlazorFluentUI.Routing.NavLink>
+                                <BlazorFluentUI.Routing.NavLink Name="B SubSubLink 2" NestedDepth="2" Url="navPage#BBLink2" Id="BBLink2" NavMatchType="NavMatchType.AnchorIncluded" />
+                                <BlazorFluentUI.Routing.NavLink Name="B SubSubLink 3" NestedDepth="2" Url="navPage#BBLink3" Id="BBLink3" NavMatchType="NavMatchType.AnchorIncluded" />
+                            </BlazorFluentUI.Routing.NavLink>
                             <BlazorFluentUI.Routing.NavLink Name="B SubLink 2" NestedDepth="1" Url="navPage#BLink2" Id="BLink2" NavMatchType="NavMatchType.AnchorIncluded" />
                             <BlazorFluentUI.Routing.NavLink Name="B SubLink 3" NestedDepth="1" Url="navPage#BLink3" Id="BLink3" NavMatchType="NavMatchType.AnchorIncluded" />
                         </BlazorFluentUI.Routing.NavLink>

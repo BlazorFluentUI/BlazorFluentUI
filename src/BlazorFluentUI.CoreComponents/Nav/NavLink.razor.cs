@@ -28,7 +28,7 @@ namespace BlazorFluentUI.Routing
         [Parameter] public bool IsExpanded { get => isExpanded; set => isExpanded = value; }
         [Parameter] public string? Url { get; set; }
 
-        [Parameter] public int NestedDepth { get; set; }
+        [Parameter] public int NestedDepth { get; set; } = 0;
         [Parameter] public NavMatchType NavMatchType { get; set; } = NavMatchType.RelativeLinkOnly;
 
         [Parameter] public EventCallback<NavLink> OnClick { get; set; }

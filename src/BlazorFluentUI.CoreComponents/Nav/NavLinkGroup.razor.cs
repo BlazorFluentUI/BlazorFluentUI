@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+﻿using System;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorFluentUI.Routing
 {
@@ -15,9 +17,10 @@ namespace BlazorFluentUI.Routing
 
         [Parameter] public EventCallback<NavLinkGroup> OnClick { get; set; }
 
+        protected string groupIndex = $"gid_{Guid.NewGuid().ToString().Replace("-", "")}";
         private bool isCollapsed;
         public bool IsCollapsed => isCollapsed;
-        
+
         private bool hasRenderedOnce;
 
         protected async Task ClickHandler(MouseEventArgs args)

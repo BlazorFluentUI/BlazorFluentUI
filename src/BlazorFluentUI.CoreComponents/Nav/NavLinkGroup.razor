@@ -1,7 +1,7 @@
 ﻿@namespace BlazorFluentUI.Routing
 @inherits FluentUIComponentBase
 
-<div key={groupIndex}
+<div @key=groupIndex
      class=@($"ms-Nav-group {(!this.isCollapsed ? "is-expanded":"")} {ClassName}")
      style=@Style
      @ref="RootElementReference">
@@ -12,7 +12,7 @@
             <button class="ms-Nav-chevronButton is-group "
                     @onclick=@ClickHandler
                     aria-label=@this.ExpandButtonAriaLabel
-                    aria-expanded={this._isGroupExpanded(group)}>
+                    aria-expanded=@(!isCollapsed)>
                 <Icon ClassName="ms-Nav-chevron" IconName="ChevronRight" />
                 <span class="largeFont">@Name</span>
             </button>

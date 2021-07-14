@@ -39,7 +39,6 @@ namespace BlazorFluentUI.Routing
         [Parameter] public object? CommandParameter { get; set; }
         protected bool isExpanded;
         protected bool isSelected;
-        protected string depthClass = "";
 
         private readonly Rule NavLinkLeftPaddingRule = new();
         private readonly Rule ChevronButtonLeftRule = new();
@@ -64,7 +63,7 @@ namespace BlazorFluentUI.Routing
 
         private void CreateLocalCss()
         {
-            NavLinkLeftPaddingRule.Selector = new ClassSelector() { SelectorName = "ms-Nav-link", LiteralPrefix = ".ms-Nav .ms-Nav-compositeLink " };
+            NavLinkLeftPaddingRule.Selector = new ClassSelector() { SelectorName = $"ms-Nav-link-{NestedDepth}", LiteralPrefix = ".ms-Nav .ms-Nav-compositeLink ", };
             NavLinkLocalRules.Add(NavLinkLeftPaddingRule);
 
             ChevronButtonLeftRule.Selector = new ClassSelector() { SelectorName = "ms-Nav-chevronButton", LiteralPrefix = ".ms-Nav-compositeLink:not(.is-button) " };
@@ -139,34 +138,7 @@ namespace BlazorFluentUI.Routing
 
         protected override Task OnParametersSetAsync()
         {
-            //switch (NestedDepth)
-            //{
-            //    case 0:
-            //        depthClass = "";
-            //        break;
-            //    case 1:
-            //        depthClass = "depth-one";
-            //        break;
-            //    case 2:
-            //        depthClass = "depth-two";
-            //        break;
-            //    case 3:
-            //        depthClass = "depth-three";
-            //        break;
-            //    case 4:
-            //        depthClass = "depth-four";
-            //        break;
-            //    case 5:
-            //        depthClass = "depth-five";
-            //        break;
-            //    case 6:
-            //        depthClass = "depth-six";
-            //        break;
-            //}
             SetStyle();
-
-
-
             return base.OnParametersSetAsync();
         }
 
@@ -174,7 +146,6 @@ namespace BlazorFluentUI.Routing
         {
             isExpanded = !isExpanded;
             return IsExpandedChanged.InvokeAsync(isExpanded);
-            //return Task.CompletedTask;
         }
 
         protected async Task ClickHandler(MouseEventArgs args)

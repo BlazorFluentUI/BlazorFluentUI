@@ -83,7 +83,7 @@ namespace BlazorFluentUI
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
-            _oldIsDatePickerShown = IsDatePickerShown;
+            //_oldIsDatePickerShown = IsDatePickerShown;
 
             if (!parameters.TryGetValue("MinDate", out DateTime nextMinDate))
                 nextMinDate = MinDate;

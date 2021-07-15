@@ -146,11 +146,11 @@ namespace BlazorFluentUI.Lists
             // TBD
             if (ColumnReorderProps != null && ColumnReorderProps.ToString() == "something")
             {
-               frozenColumnCountFromStart = 1234;
+                frozenColumnCountFromStart = 1234;
             }
             else
             {
-               frozenColumnCountFromStart = 0;
+                frozenColumnCountFromStart = 0;
             }
 
             return base.OnParametersSetAsync();

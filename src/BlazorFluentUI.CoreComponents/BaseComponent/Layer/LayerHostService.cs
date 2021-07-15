@@ -82,7 +82,7 @@ namespace BlazorFluentUI
         public LayerHost? GetDefaultHost()
         {
             //if (rootHost == null)
-                //throw new Exception("You need to add a LayerHost somewhere after your Router root component.");
+            //throw new Exception("You need to add a LayerHost somewhere after your Router root component.");
             return rootHost;
         }
     }

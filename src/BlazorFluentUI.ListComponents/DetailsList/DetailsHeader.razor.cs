@@ -1,12 +1,11 @@
-﻿using BlazorFluentUI.Style;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorFluentUI.Lists
 {
@@ -145,13 +144,13 @@ namespace BlazorFluentUI.Lists
             isResizingColumn = isSizing;
 
             // TBD
-            if (ColumnReorderProps!= null && ColumnReorderProps.ToString() == "something")
+            if (ColumnReorderProps != null && ColumnReorderProps.ToString() == "something")
             {
-               frozenColumnCountFromStart = 1234;
+                frozenColumnCountFromStart = 1234;
             }
             else
             {
-               frozenColumnCountFromStart = 0;
+                frozenColumnCountFromStart = 0;
             }
 
             return base.OnParametersSetAsync();

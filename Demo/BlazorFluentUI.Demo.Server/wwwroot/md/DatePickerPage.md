@@ -1,5 +1,4 @@
 ﻿@page "/datePickerPage"
-@using System
 @using System.Linq
 @using System.ComponentModel.DataAnnotations
 
@@ -34,13 +33,76 @@
                             Style="max-width:300px; margin:0 0 15px 0;"
                             @bind-Value="selectedDate1"
                             Placeholder="Select a date..."
-                            FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeekOption?.Key!))
-                            InitialPickerDate=@(DateTime.Parse("24-11-1971"))/>
+                            FirstDayOfWeek=@((DayOfWeek)Enum.Parse(typeof(DayOfWeek), selectedDayOfWeekOption?.Key!)) />
                 Selected date: @selectedDate1
 
             </Demo>
         </div>
+        <div class="subSection">
+            <Demo Header="DatePicker Required" Key="2" MetadataPath="DatePickerPage">
+                <DatePicker AllowTextInput="false"
+                            Style="max-width:300px; margin:0 0 15px 0;"
+                            Underlined="true"
+                            IsRequired="true"
+                            @bind-Value="selectedDate2"
+                            Placeholder="Select a date..." />
+                <br />Selected date: @selectedDate2
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="DatePicker Disabled" Key="3" MetadataPath="DatePickerPage">
+                <DatePicker AllowTextInput="false"
+                            Style="max-width:300px; margin:0 0 15px 0;"
+                            Disabled="true"
+                            @bind-Value="selectedDate2"
+                            Placeholder="Select a date..." />
+                <DatePicker AllowTextInput="false"
+                            Style="max-width:300px; margin:0 0 15px 0;"
+                            Disabled="true"
+                            Label="Disabled (with Label)"
+                            @bind-Value="selectedDate2"
+                            Placeholder="Select a date..." />
+                <br />Selected date: @selectedDate2
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="DatePicker allows input date string" Key="4" MetadataPath="CalendarPage">
+                <p>
+                    Text input is parsed using .NET's (mono's) <span style="font-family:Courier">DateTime.TryParse</span> method.  It is region-aware so should be able to identify many date string inputs.
+                    String input is intended to be accomplished through keyboard navigation as mouse-clicking will open the picker.
+                </p>
+                <DatePicker AllowTextInput="true"
+                            Style="max-width:300px; margin:0 0 15px 0;"
+                            Label="DatePicker with string date input"
+                            @bind-Value="selectedDate3"
+                            Placeholder="Select a date..." />
+                <br />Selected date: @selectedDate3
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="DatePicker with Blazor Forms Validation" Key="5" MetadataPath="CalendarPage">
+                <EditForm Model=@exampleModel OnValidSubmit=@HandleValidSubmit>
+                    <DataAnnotationsValidator />
+                    <FluentUIValidationSummary />
+                    <DatePicker @bind-Value=@exampleModel.DateTime ShowMonthPickerAsOverlay="true" />
+                    <SubmitButton Text="Submit" />
+                </EditForm>
+            </Demo>
+        </div>
+        <div class="subSection">
+            <Demo Header="DatePicker with TimePicker" Key="6" MetadataPath="DatePickerPage">
+                <DatePicker AllowTextInput="false"
+                            Style="max-width:300px; margin:0 0 15px 0;"
+                            IsMonthPickerVisible="false"
+                            IsTimePickerVisible="true"
+                            @bind-Value="selectedDate4"
+                            Placeholder="Select a date..."
+                             />
 
+                <DefaultButton Text="Set date to null" @onclick=@(args => selectedDate4 = null) />
+                <br />Selected date: @selectedDate4
+            </Demo>
+        </div>
     </div>
 </div>
 @code {

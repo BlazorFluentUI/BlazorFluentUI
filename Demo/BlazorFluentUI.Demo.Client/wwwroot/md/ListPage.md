@@ -48,7 +48,8 @@
                                        @ref="selectionZone">
                             <FocusZone>
                                 <BlazorFluentUI.Lists.List ItemsSource=@data
-                                                           TItem="DataItem">
+                                                           TItem="DataItem"
+                                                           ClassName="TestClass">
                                     <ItemTemplate>
 
                                         <div style="display:flex; flex-direction:row;"

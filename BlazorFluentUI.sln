@@ -40,6 +40,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{
 		pipelines\pack-nuget-org.yml = pipelines\pack-nuget-org.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generators", "Generators", "{90CD7327-0498-4ACC-B06F-44E049134F8D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Demo.Generators", "Demo\BlazorFluentUI.Demo.Generators\BlazorFluentUI.Demo.Generators.csproj", "{96BA5062-6D9C-470A-B937-86D17BCDC5F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +70,10 @@ Global
 		{8625EE1F-2059-43D2-A922-D5DC66CAFB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8625EE1F-2059-43D2-A922-D5DC66CAFB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8625EE1F-2059-43D2-A922-D5DC66CAFB2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96BA5062-6D9C-470A-B937-86D17BCDC5F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BA5062-6D9C-470A-B937-86D17BCDC5F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BA5062-6D9C-470A-B937-86D17BCDC5F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BA5062-6D9C-470A-B937-86D17BCDC5F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +88,8 @@ Global
 		{D4FB1B42-6E99-426F-9EB1-D3111FD4BF23} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{8625EE1F-2059-43D2-A922-D5DC66CAFB2B} = {1D626552-1388-4C03-85DD-891C6A1D79E3}
 		{C791ACEB-4E1B-4C2B-9A20-105145ECACCA} = {EB2D25EA-CCF8-4754-9CA8-46ED8134D0D9}
+		{90CD7327-0498-4ACC-B06F-44E049134F8D} = {450B75BB-8CBF-475C-842A-4BEC08D42293}
+		{96BA5062-6D9C-470A-B937-86D17BCDC5F6} = {90CD7327-0498-4ACC-B06F-44E049134F8D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D86C8F-0846-4450-917D-AD689AACC643}

@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
@@ -9,7 +13,7 @@ namespace BlazorFluentUI.Demo.Generators
     [Generator]
     public class DemoSourceGenerator : ISourceGenerator
     {
-
+        
         public void Execute(GeneratorExecutionContext context)
         {
             Debug.WriteLine("Execute code generator");
@@ -34,10 +38,10 @@ namespace BlazorFluentUI.Demo
                 sourceBuilder.AppendLine($@"{{ @""{pair.Key}"", @""{pair.Value}"" }},");
             }
             sourceBuilder.AppendLine("};");
-
+            
             //var foundPair = dictionary.FirstOrDefault(x => x.Key.EndsWith("test" + ".razor"));
             sourceBuilder.AppendLine($@"var foundPair = metadata.FirstOrDefault(x => x.Key.EndsWith(""\\"" + name + "".razor""));");
-
+            
             sourceBuilder.AppendLine(@"return foundPair.Value;");
 
             // finish creating the source to inject
@@ -56,7 +60,7 @@ namespace BlazorFluentUI.Demo
             //{
             //    Debugger.Launch();
             //}
-#endif
+#endif 
         }
     }
 }

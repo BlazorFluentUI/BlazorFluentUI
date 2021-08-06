@@ -206,10 +206,13 @@ namespace BlazorFluentUI.Lists
 
             if (UseGridFlexLayout)
                 builder.AddAttribute(1, "style", "display:flex;flex-flow: row wrap;");
-
-            builder.OpenElement(2, "div");
-            builder.AddAttribute(3, "style", GetSpacerStyle(_itemsBefore));
-            builder.AddElementReferenceCapture(4, elementReference => _spacerBefore = elementReference);
+            if (!string.IsNullOrWhiteSpace(ClassName))
+            {
+                builder.AddAttribute(2, "class", ClassName);
+            }
+            builder.OpenElement(3, "div");
+            builder.AddAttribute(4, "style", GetSpacerStyle(_itemsBefore));
+            builder.AddElementReferenceCapture(5, elementReference => _spacerBefore = elementReference);
             builder.CloseElement();
 
 
@@ -218,7 +221,7 @@ namespace BlazorFluentUI.Lists
             int renderIndex = _itemsBefore;
             int placeholdersBeforeCount = Math.Min(_loadedItemsStartIndex, lastItemIndex);
 
-            builder.OpenRegion(5);
+            builder.OpenRegion(6);
 
             // Render placeholders before the loaded items.
             for (; renderIndex < placeholdersBeforeCount; renderIndex++)
@@ -239,7 +242,7 @@ namespace BlazorFluentUI.Lists
                     .Skip(_itemsBefore - _loadedItemsStartIndex)
                     .Take(lastItemIndex - _loadedItemsStartIndex);
 
-                builder.OpenRegion(6);
+                builder.OpenRegion(7);
 
 
 

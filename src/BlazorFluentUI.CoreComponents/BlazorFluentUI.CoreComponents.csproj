@@ -55,6 +55,7 @@
     <Folder Include="ResponsiveLayout\Collections\" />
   </ItemGroup>
 
+  
   <ProjectExtensions>
     <VisualStudio><UserProperties /></VisualStudio>
   </ProjectExtensions>

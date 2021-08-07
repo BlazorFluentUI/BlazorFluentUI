@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI.Demo.Shared.Components
 {
-    public partial class Demo
+    public partial class Demo : ComponentBase
     {
         [Inject] ThemeProvider? ThemeProvider { get; set; }
         //[Inject] HttpClient? HttpClient { get; set; }

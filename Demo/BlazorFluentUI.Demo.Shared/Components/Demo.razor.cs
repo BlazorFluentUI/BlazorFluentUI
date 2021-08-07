@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI.Demo.Shared.Components
 {
-    public partial class Demo
+    public partial class Demo : ComponentBase
     {
         [Inject] ThemeProvider? ThemeProvider { get; set; }
         //[Inject] HttpClient? HttpClient { get; set; }
@@ -32,7 +32,7 @@ namespace BlazorFluentUI.Demo.Shared.Components
 
         protected override async Task OnInitializedAsync()
         {
-            
+
             //HelloWorld.SayHello();
             if (Key == -1)
                 throw new Exception("Must set Key with an integer 0 or greater and must be unique within page.");

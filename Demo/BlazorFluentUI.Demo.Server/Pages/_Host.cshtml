@@ -1,5 +1,4 @@
 ﻿@page "/"
-@model HostModel
 @namespace BlazorFluentUI.Demo.Server.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -25,7 +24,7 @@
 
 </head>
 <body>
-    <app><component type="typeof(BlazorFluentUI.Demo.Shared.App)" render-mode="ServerPrerendered" /></app>
+    <component type="typeof(BlazorFluentUI.Demo.Shared.App)" render-mode="ServerPrerendered" />
 
     <script src="_framework/blazor.server.js"></script>
 </body>

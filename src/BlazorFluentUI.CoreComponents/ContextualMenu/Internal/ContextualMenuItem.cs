@@ -155,7 +155,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
             await OnKeyDown.InvokeAsync(args);
         }
 
-        //[JSInvokable] 
+        //[JSInvokable]
         //public async void ClickHandler()
         //{
         //    System.Diagnostics.Debug.WriteLine($"ContextualMenuItem called click: {this.Key}");

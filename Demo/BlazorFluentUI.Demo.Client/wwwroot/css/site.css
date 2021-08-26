@@ -153,8 +153,8 @@ app {
     margin-bottom: 28px;
     border-radius: 2px;
     background-clip: padding-box;
-    -webkit-box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,.132),0 .3px .9px 0 rgba(0,0,0,.108);
-    box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,.132),0 .3px .9px 0 rgba(0,0,0,.108);
+    -webkit-box-shadow: 0 1.6px 3.6px 0 var(--demoShadowColors1),0 .3px .9px 0 var(--demoShadowColors2);
+    box-shadow: 0 1.6px 3.6px 0 var(--demoShadowColors1),0 .3px .9px 0 var(--demoShadowColors2);
     position: relative;
     //opacity: 0;
     -webkit-transform: translate3d(0,48px,0);
@@ -639,7 +639,7 @@ ul.md-list--flex > .mdut--half {
 }
 
 .siteWrapper:not(.fullWidth) .siteContent {
-    background-color: #faf9f8
+    background-color: var(--demoSiteBackgroundColor);
 }
 
 .siteContent {

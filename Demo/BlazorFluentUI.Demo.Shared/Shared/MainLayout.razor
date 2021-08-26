@@ -2,6 +2,16 @@
 @using BlazorFluentUI.Themes.Default
 @inherits LayoutComponentBase
 
+<style>
+    :root {
+        --demoShadowColors1: @((customTheme ? "rgba(255,255,255,0.132)" : "rgba(0,0,0,0.132)" ));
+        --demoShadowColors2: @((customTheme ? "rgba(255,255,255,0.108)" : "rgba(0,0,0,0.108)" ));
+
+        --demoSiteBackgroundColor: @((customTheme ? "#11100f" : "#faf9f8" ));
+    }
+</style>
+
+
 <div class="siteWrapper">
     <Stack Horizontal="true" Style="width:100%;">
         <ResponsiveLayout MinWidth="ResponsiveMode.Medium.ToMinCssValue()">
@@ -76,7 +86,7 @@
             var palette = new DefaultPaletteDark();
             ThemeProvider?.UpdateTheme(palette, new DefaultSemanticColorsDark(palette), new DefaultSemanticTextColorsDark(palette));
 
-            dark = $"background-color: {ThemeProvider?.Theme.SemanticColors.BodyBackground}";
+            //dark = $"background-color: {ThemeProvider?.Theme.SemanticColors.BodyBackground}";
 
         }
         else

@@ -111,7 +111,7 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            Debug.WriteLine($"Parameters set for {ItemIndex}");
+            //Debug.WriteLine($"Parameters set for {ItemIndex}");
             showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
             canSelect = SelectionMode != SelectionMode.None;
 
@@ -129,7 +129,7 @@ namespace BlazorFluentUI
 
                     selectionSubscription = Selection.SelectionChanged.Subscribe(_ =>
                     {
-                        Debug.WriteLine($"SelectionChanged for {ItemIndex}");
+                        //Debug.WriteLine($"SelectionChanged for {ItemIndex}");
                         bool changed = false;
                         bool newIsSelected;
                         if (GetKey != null && Item != null)
@@ -153,7 +153,7 @@ namespace BlazorFluentUI
                         }
                         if (changed)
                         {
-                            Debug.WriteLine($"SelectionChanged for {ItemIndex} and rerendering");
+                            //Debug.WriteLine($"SelectionChanged for {ItemIndex} and rerendering");
                             InvokeAsync(StateHasChanged);
                         }
                     });
@@ -202,7 +202,7 @@ namespace BlazorFluentUI
                     Rectangle? size = await baseModule.InvokeAsync<Rectangle>("measureElementRect", cancellationTokenSource.Token, cellMeasurer);
                     method?.Invoke(size.Width);
                     columnMeasureInfo = null;
-                    Debug.WriteLine($"rerendering {ItemIndex} because of column measurement");
+                    //Debug.WriteLine($"rerendering {ItemIndex} because of column measurement");
                     await InvokeAsync(StateHasChanged);
                 }
             }

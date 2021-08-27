@@ -282,6 +282,7 @@ namespace BlazorFluentUI.Lists
         private void AdjustColumns(IEnumerable<TItem?> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<IDetailsRowColumn<TItem?>> newColumns, bool forceUpdate, int resizingColumnIndex = -1)
         {
             _adjustedColumns = GetAdjustedColumns(newItems, newLayoutMode, newSelectionMode, newCheckboxVisibility, newColumns, forceUpdate, resizingColumnIndex);
+            shouldRender = resizingColumnIndex > -1;
         }
 
         private IEnumerable<IDetailsRowColumn<TItem?>> GetAdjustedColumns(IEnumerable<TItem?> newItems, DetailsListLayoutMode newLayoutMode, SelectionMode newSelectionMode, CheckboxVisibility newCheckboxVisibility, IEnumerable<IDetailsRowColumn<TItem?>> newColumns, bool forceUpdate, int resizingColumnIndex)

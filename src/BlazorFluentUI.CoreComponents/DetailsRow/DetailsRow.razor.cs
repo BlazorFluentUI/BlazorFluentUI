@@ -111,7 +111,7 @@ namespace BlazorFluentUI
 
         protected override Task OnParametersSetAsync()
         {
-            Debug.WriteLine($"Parameters set for {ItemIndex}");
+            //Debug.WriteLine($"Parameters set for {ItemIndex}");
             showCheckbox = SelectionMode != SelectionMode.None && CheckboxVisibility != CheckboxVisibility.Hidden;
             canSelect = SelectionMode != SelectionMode.None;
 

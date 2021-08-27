@@ -23,7 +23,7 @@
     </div>
     <div>
         <div class="subSection">
-            <Demo Header="TextFieldNumbers without EditForm" Key="0" MetadataPath="TextFieldNumberPage">
+            <Demo Header="TextFieldNumbers without EditForm" Key="0" MetadataPath="NumericTextFieldPage">
                 <div class="textFieldDiv">
                     <NumericTextField Label="Int test" @bind-Value="model.exampleInt" @bind-Value:event="OnChange" />
                 </div>
@@ -50,7 +50,7 @@
             </Demo>
         </div>
         <div class="subSection">
-            <Demo Header="TextFieldNumbers with EditForm" Key="1" MetadataPath="TextFieldNumberPage">
+            <Demo Header="TextFieldNumbers with EditForm" Key="1" MetadataPath="NumericTextFieldPage">
                 <EditForm Model=@model OnValidSubmit=@HandleValidSubmit>
                 <FluentUIValidationSummary />
                 <div class="textFieldDiv">

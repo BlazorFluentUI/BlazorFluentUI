@@ -20,7 +20,7 @@
         }
         // generate a key that auto-dirties when content changes, to force the container to re-render, to trigger animation
         //string key = $"{column.Key}${(cellValueKey != null ? "-${ cellValueKey}" : "")}";
-        <div 
+        <div
              role=@(column.IsRowHeader ? "rowheader" : "gridcell")
              aria-readonly="true"
              aria-colindex=@(index + ColumnStartIndex + 1)
@@ -42,7 +42,7 @@
             }
             else
             {
-                @: @(column.FieldSelector!(Item!).ToString())
+                @: @(column.FieldSelector!(Item!)?.ToString())
             }
         </div>
     }

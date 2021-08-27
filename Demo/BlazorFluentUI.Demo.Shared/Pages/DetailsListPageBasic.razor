@@ -86,7 +86,7 @@
             // 2.  Blazor cannot do type conversions directly with binding yet.  Since the output (of DynamicAccessor's Value) is an object, we need to manually
             //     create the callback that sets the Value from the change.  We can't use generics (easily) because they would all have to be the same type.
             ColumnItemTemplate = obj => @<TextField @bind-Value="obj.Description" @bind-Value:event="OnChange" />
-            //ColumnItemTemplate = description => builder =>
+    //ColumnItemTemplate = description => builder =>
             //{
             //    builder.OpenComponent<TextField>(0);
             //    builder.AddAttribute(1, "Value", description.Value);
@@ -105,6 +105,7 @@
             InputList.Add(new DataItem(count));
         }
 
+        InputList.Add(new DataItem { Key = "501", KeyNumber = 501, DisplayName = "TestItem"});
         base.OnInitialized();
     }
 

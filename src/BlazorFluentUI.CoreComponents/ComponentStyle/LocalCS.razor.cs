@@ -1,10 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using System.Linq;
-using System.Reflection;
-using System;
-using System.Text.Encodings.Web;
 
 namespace BlazorFluentUI
 {
@@ -13,8 +12,12 @@ namespace BlazorFluentUI
         private string? css;
         private ICollection<IRule>? rules;
 
+        protected long ScopeId { get; set; }
+
         [Inject]
         public IComponentStyle? ComponentStyle { get; set; }
+        [Inject]
+        public ObjectIDGenerator? IdGenerator { get; set; }
 
         [Parameter]
         public ICollection<IRule> Rules
@@ -35,6 +38,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnInitializedAsync()
         {
+            ScopeId = IdGenerator.GetId(this, out _);
             ComponentStyle!.LocalCSSheets.Add(this);
             SetSelectorNames();
             await base.OnInitializedAsync();
@@ -43,7 +47,7 @@ namespace BlazorFluentUI
         protected override void OnParametersSet()
         {
             css = "";
-            css = string.Join(string.Empty, Rules.Select(x=>ComponentStyle!.PrintRule(x)));
+            css = string.Join(string.Empty, Rules.Select(x => ComponentStyle!.PrintRule(x)));
             //foreach(var rule in rules)
             //{
             //    css += ComponentStyle.PrintRule(rule);
@@ -63,11 +67,11 @@ namespace BlazorFluentUI
                     continue;
                 if (string.IsNullOrWhiteSpace(innerRule.Selector?.SelectorName))
                 {
-                    innerRule.Selector!.SelectorName = $"css-{ComponentStyle!.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(innerRule)}";
+                    innerRule.Selector!.SelectorName = $"css-{ScopeId}-{rules.ToList().IndexOf(innerRule)}";
                 }
                 else
                 {
-                    innerRule.Selector.SelectorName = $"{innerRule.Selector.SelectorName}-{ComponentStyle?.LocalCSSheets.ToList().IndexOf(this)}-{rules.ToList().IndexOf(innerRule)}";
+                    innerRule.Selector.SelectorName = $"{innerRule.Selector.SelectorName}-{ScopeId}-{rules.ToList().IndexOf(innerRule)}";
                 }
             }
             RulesChanged.InvokeAsync(rules);

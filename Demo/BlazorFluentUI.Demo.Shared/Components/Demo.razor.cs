@@ -28,32 +28,26 @@ namespace BlazorFluentUI.Demo.Shared.Components
 
         protected override async Task OnInitializedAsync()
         {
-
-            //HelloWorld.SayHello();
             if (Key == -1)
                 throw new Exception("Must set Key with an integer 0 or greater and must be unique within page.");
 
-            // Source inspired by AntDesign (https://github.com/Append-IT/ant-design-blazor/blob/master/docs/Append.AntDesign.Documentation/Infrastructure/DocumentationService.cs)
-            var demoMetaData = BlazorFluentUI.Demo.DemoGenerated.GetRazor(MetadataPath);
-            var start = 0;
-            var end = demoMetaData.Length;
+            string demoMetaData = DemoGenerated.GetRazor(MetadataPath!);
+            int start = 0;
+            int end = demoMetaData.Length;
             bool found = false;
+
             while ((start < end) && (!found))
             {
                 int indexOfDemoBegin = demoMetaData.IndexOf("<Demo", start) + 6;
                 int keyValueBegin = demoMetaData.IndexOf("Key=\"", indexOfDemoBegin) + 5;
                 int keyValueEnd = demoMetaData.IndexOf("\"", keyValueBegin);
-                int keyValue = 0;
-                int.TryParse(demoMetaData.Substring(keyValueBegin, keyValueEnd - keyValueBegin), out keyValue);
 
-                if (keyValue == Key)
+                if (int.TryParse(demoMetaData[keyValueBegin..keyValueEnd], out int keyValue) && keyValue == Key)
                 {
                     found = true;
-                    //var codeBegin = demoMetaData.IndexOf(">", indexOfDemoBegin) + 1;
-                    var codeBegin = demoMetaData.IndexOf(Environment.NewLine, indexOfDemoBegin) + 1;
-                    var codeEnd = demoMetaData.IndexOf("</Demo>", indexOfDemoBegin);
-                    codeLiteral = demoMetaData.Substring(codeBegin, codeEnd - codeBegin);
-                    codeLiteral = codeLiteral.Replace("                ", "");
+                    int codeBegin = demoMetaData.IndexOf("\n", indexOfDemoBegin) + 1;
+                    int codeEnd = demoMetaData.IndexOf("</Demo>", indexOfDemoBegin);
+                    codeLiteral = demoMetaData[codeBegin..codeEnd];
                 }
 
                 start = indexOfDemoBegin;

@@ -27,7 +27,7 @@ namespace BlazorFluentUI.Demo
 
 ");
             var files = context.AdditionalFiles;
-            var dictionary = files.ToDictionary(x => x.Path, x => x.GetText().ToString().Replace(@"""", @"\\"""));//.Replace("}", "}}").Replace("{", "}}").Replace(@"""", @""""""));
+            var dictionary = files.ToDictionary(x => x.Path, x => x.GetText().ToString().Replace(@"""", @""""""));//.Replace("}", "}}").Replace("{", "}}").Replace(@"""", @""""""));
             sourceBuilder.AppendLine("var metadata = new Dictionary<string,string>() {");
             foreach (var pair in dictionary)
             {

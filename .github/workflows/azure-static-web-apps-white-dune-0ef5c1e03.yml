@@ -16,19 +16,19 @@ jobs:
    runs-on: ubuntu-latest
    name: Build and Deploy Job
    steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.3.4
 
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v1.8.1
       with:
-        dotnet-version: 5.0.100
+        dotnet-version: 5.0.x
 
     - name: Build App
       run: dotnet publish -c Release -o published Demo/BlazorFluentUI.Demo.Client/
 
     - name: Build And Deploy
       id: builddeploy
-      uses: Azure/static-web-apps-deploy@v0.0.1-preview
+      uses: Azure/static-web-apps-deploy@v1
       with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_WHITE_DUNE_0EF5C1E03 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)

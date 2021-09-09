@@ -68,7 +68,7 @@ namespace BlazorFluentUI.Demo.Shared.Components
 			}
 			var lastIndex = demoMetaData.LastIndexOf("}");
 
-			ccodeLiteral = "@code {\n" + demoMetaData.Substring(ccodeIndex, lastIndex - ccodeIndex) + "\n}";
+			ccodeLiteral = "@code {\n" + demoMetaData[ccodeIndex..lastIndex] + "\n}";
 
 
 			await base.OnInitializedAsync();

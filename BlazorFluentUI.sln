@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29411.138
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{1D626552-1388-4C03-85DD-891C6A1D79E3}"
 EndProject
@@ -31,8 +31,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serverside", "Serverside", "{E416FEFD-F403-4F62-BB65-A1A010C13AE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.CoreComponents", "src\BlazorFluentUI.CoreComponents\BlazorFluentUI.CoreComponents.csproj", "{D4FB1B42-6E99-426F-9EB1-D3111FD4BF23}"
+	ProjectSection(ProjectDependencies) = postProject
+		{96BA5062-6D9C-470A-B937-86D17BCDC5F6} = {96BA5062-6D9C-470A-B937-86D17BCDC5F6}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.ListComponents", "src\BlazorFluentUI.ListComponents\BlazorFluentUI.ListComponents.csproj", "{8625EE1F-2059-43D2-A922-D5DC66CAFB2B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{96BA5062-6D9C-470A-B937-86D17BCDC5F6} = {96BA5062-6D9C-470A-B937-86D17BCDC5F6}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{C791ACEB-4E1B-4C2B-9A20-105145ECACCA}"
 	ProjectSection(SolutionItems) = preProject

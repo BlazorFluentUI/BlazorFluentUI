@@ -19,6 +19,9 @@
                       OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="$(ProjectDir)\Pages\*.razor" />
+  </ItemGroup>
 
 
 </Project>

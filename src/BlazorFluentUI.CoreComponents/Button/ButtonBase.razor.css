@@ -138,7 +138,7 @@
 
 
 ::deep .ms-Button-icon {
-    font-size: var(--fontSize-MediumPlus);
+    font-size: var(--fontSize-Icon);
     margin: 0px 4px;
     height: 16px;
     line-height: 16px;

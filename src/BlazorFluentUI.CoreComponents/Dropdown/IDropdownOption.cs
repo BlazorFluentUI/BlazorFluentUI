@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace BlazorFluentUI
 {
-    public interface IDropdownOption
+    public interface IDropdownOption : IComparable
     {
         bool Disabled { get; set; }
         bool Hidden { get; set; }

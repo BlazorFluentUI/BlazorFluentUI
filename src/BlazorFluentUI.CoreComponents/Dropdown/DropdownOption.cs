@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BlazorFluentUI
 {
@@ -15,7 +13,7 @@ namespace BlazorFluentUI
         {
             get
             {
-                if(key == null)
+                if (key == null)
                 {
                     key = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
                 }
@@ -27,5 +25,16 @@ namespace BlazorFluentUI
             }
         }
         public string? Text { get; set; }
+
+        public int CompareTo(object? other)
+        {
+            if (other == null)
+                return 0;
+
+            if (Text is null || ((IDropdownOption)other).Text is null)
+                return Key!.CompareTo(((IDropdownOption)other).Key);
+
+            return Text.CompareTo(((IDropdownOption)other).Text);
+        }
     }
 }

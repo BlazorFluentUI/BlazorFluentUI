@@ -14,6 +14,9 @@ How To Use: [Blazor Server](https://github.com/BlazorFluentUI/BlazorFluentUI/wik
 [Theming](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/Theming---defaults-and-custom) 
 
 ## Revision history
+### V5.6
+IDropdownOption (and therefore DropdownOption) is extended to implement IComparable. This makes it possible to sort on selected dropdown values in a details list.
+
 ### V5.5
 - Added parameter `DropdownHeight`to limit the height of the dropdownlist. See first sample on https://www.blazorfluentui.net/dropdownPage for usage (also showing DropdownWidth)
 

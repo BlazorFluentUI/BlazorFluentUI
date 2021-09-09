@@ -189,7 +189,7 @@ export function getNaturalBounds(image: HTMLImageElement): IRectangle {
 }
 
 export function supportsObjectFit(): boolean {
-    return window !== undefined && window.navigator.msMaxTouchPoints === undefined;
+    return window !== undefined && window.navigator.maxTouchPoints === undefined;
 }
 
 export function hasOverflow(element: HTMLElement): boolean {

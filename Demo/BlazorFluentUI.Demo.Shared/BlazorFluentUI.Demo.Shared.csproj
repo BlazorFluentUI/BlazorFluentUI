@@ -8,14 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicData" Version="7.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.5" />
+    <PackageReference Include="DynamicData" Version="7.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.9" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\BlazorFluentUI.CoreComponents\BlazorFluentUI.CoreComponents.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.ListComponents\BlazorFluentUI.ListComponents.csproj" />
-    <ProjectReference Include="..\BlazorFluentUI.Demo.Generators\BlazorFluentUI.Demo.Generators.csproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    <ProjectReference Include="..\BlazorFluentUI.Demo.Generators\BlazorFluentUI.Demo.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>

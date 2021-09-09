@@ -55,6 +55,13 @@
     <Folder Include="ResponsiveLayout\Collections\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\FluentSystemIcons-Regular.ttf">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
   
   <ProjectExtensions>
     <VisualStudio><UserProperties /></VisualStudio>

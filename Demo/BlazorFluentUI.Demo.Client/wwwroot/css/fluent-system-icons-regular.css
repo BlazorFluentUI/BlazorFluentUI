@@ -1,6 +1,6 @@
 @font-face {
     font-family: "FluentSystemIcons-Regular";
-    src: url("./FluentSystemIcons-Regular.ttf?593b2dceb04b99efd1add369f9c640cc") format("truetype");
+    src: url("./FluentSystemIcons-Regular.ttf") format("truetype");
 }
 
 i[class^="icon-"]:before, i[class*=" icon-"]:before {

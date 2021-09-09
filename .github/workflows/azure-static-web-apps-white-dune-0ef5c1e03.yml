@@ -3,11 +3,11 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - main
+      - fluentsystemicons
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - rename
+      - fluentsystemicons
 
 jobs:
 

@@ -134,7 +134,7 @@ export function getNaturalBounds(image) {
     return null;
 }
 export function supportsObjectFit() {
-    return window !== undefined && window.navigator.msMaxTouchPoints === undefined;
+    return window !== undefined && window.navigator.maxTouchPoints === undefined;
 }
 export function hasOverflow(element) {
     return false;

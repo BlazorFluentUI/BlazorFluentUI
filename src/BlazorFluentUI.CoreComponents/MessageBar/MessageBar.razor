@@ -22,7 +22,7 @@
                 @*DismissSingleLine*@
                 @if (HasDismiss)
                 {
-                    <IconButton IconName="Clear"
+                    <IconButton IconName="dismiss"
                                 Disabled="false"
                                 ClassName="ms-MessageBar-dismissal"
                                 OnClick=@OnDismiss
@@ -64,7 +64,7 @@ else
                         <IconButton Disabled="false"
                                     ClassName="ms-MessageBar-expand"
                                     OnClick=@Truncate
-                                    IconName=@( ExpandSingelLine ? "DoubleChevronUp" : "DoubleChevronDown" )
+                                    IconName=@( ExpandSingelLine ? "chevron_double_up" : "chevron_double_down" )
                                     AriaLabel=@OverflowButtonAriaLabel />
                     </div>
                 }
@@ -79,7 +79,7 @@ else
                 @if (HasDismiss)
                 {
                     <div class="ms-MessageBar-dismissSingleLine">
-                        <IconButton IconName="Clear"
+                        <IconButton IconName="dismiss"
                                     Disabled="false"
                                     ClassName="ms-MessageBar-dismissal"
                                     OnClick=@OnDismiss

@@ -21,7 +21,7 @@ else
            style=@FontStyle
            @ref="RootElementReference"
            @attributes=@AdditionalAttributes>
-            @(IconMap.Icons.ContainsKey(SpecificIconName) ? char.ConvertFromUtf32(IconMap.Icons[SpecificIconName]) : "\uF639")           
+            @(IconMap.Icons.ContainsKey(SpecificIconName) ? char.ConvertFromUtf32(IconMap.Icons[SpecificIconName]) : "")           
         </i>
     }
     else

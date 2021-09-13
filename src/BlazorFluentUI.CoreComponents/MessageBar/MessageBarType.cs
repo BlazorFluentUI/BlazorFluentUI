@@ -16,12 +16,12 @@ namespace BlazorFluentUI
     {
         public static Dictionary<MessageBarType, string> IconMap = new()
         {
-            [MessageBarType.Info] = "Info",
-            [MessageBarType.Warning] = "Info",
-            [MessageBarType.Error] = "ErrorBadge",
-            [MessageBarType.Blocked] = "Blocked2",
-            [MessageBarType.SevereWarning] = "Warning",
-            [MessageBarType.Success] = "Completed"
+            [MessageBarType.Info] = "info",
+            [MessageBarType.Warning] = "info",
+            [MessageBarType.Error] = "error_circle",
+            [MessageBarType.Blocked] = "block",
+            [MessageBarType.SevereWarning] = "warning",
+            [MessageBarType.Success] = "checkmark_circle"
         };
     }
 }

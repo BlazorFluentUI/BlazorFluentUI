@@ -33,7 +33,7 @@ namespace BlazorFluentUI
         }
         int filterChanged;
         [Parameter] public double InputWidth { get; set; } = 200;
-        [Parameter] public string IconName { get; set; } = "Search";
+        [Parameter] public string IconName { get; set; } = "search";
         [Parameter] public string? IconSrc { get; set; }
         [Parameter] public bool IsDropDownOpen { get; set; }
         [Parameter] public bool IsLoading { get; set; }

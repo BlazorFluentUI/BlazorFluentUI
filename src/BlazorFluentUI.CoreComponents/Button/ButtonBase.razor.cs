@@ -304,7 +304,7 @@ namespace BlazorFluentUI
             if (!isSplitButton && MenuItems != null && !HideChevron)
             {
                 builder.OpenComponent<Icon>(90);
-                builder.AddAttribute(91, "IconName", "ChevronDown");
+                builder.AddAttribute(91, "IconName", "chevron_down");
                 builder.AddAttribute(92, "IconSrc", "IconSrc");
                 builder.AddAttribute(92, "ClassName", "ms-Button-menuIcon");
                 builder.CloseComponent(); //closes Icon 90
@@ -346,7 +346,7 @@ namespace BlazorFluentUI
             if (Primary)
             {
                 builder.OpenComponent<PrimaryButton>(105);
-                builder.AddAttribute(106, "IconName", "ChevronDown");
+                builder.AddAttribute(106, "IconName", "chevron_down");
                 builder.AddAttribute(107, "ClassName", $"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}");
                 builder.AddAttribute(108, "OnClick", EventCallback.Factory.Create(this, MenuClickHandler));
                 builder.AddAttribute(109, "Disabled", Disabled);
@@ -355,7 +355,7 @@ namespace BlazorFluentUI
             else
             {
                 builder.OpenComponent<DefaultButton>(105);
-                builder.AddAttribute(106, "IconName", "ChevronDown");
+                builder.AddAttribute(106, "IconName", "chevron_down");
                 builder.AddAttribute(107, "ClassName", $"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}");
                 builder.AddAttribute(108, "OnClick", EventCallback.Factory.Create(this, MenuClickHandler));
                 builder.AddAttribute(109, "Disabled", Disabled);

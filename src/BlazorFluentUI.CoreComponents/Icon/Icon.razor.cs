@@ -6,7 +6,7 @@ namespace BlazorFluentUI
     {
         [Parameter] public bool Filled { get; set; }
         [Parameter] public string? IconName { get; set; }
-        [Parameter] public int IconSize { get; set; } = 24;
+        [Parameter] public int IconSize { get; set; } = 20;
         [Parameter] public string? IconSrc { get; set; }
         [Parameter] public IconType IconType { get; set; }
         [Parameter] public bool UseFluentUISystemIcons { get; set; } = true;

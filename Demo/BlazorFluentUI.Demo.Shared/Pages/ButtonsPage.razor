@@ -46,12 +46,12 @@
         <div class="subSection">
             <Demo Header="Command Bar Button" Key="2" MetadataPath="ButtonsPage">
                 <Stack Horizontal="true" Style=@("height:44px")>
-                    <CommandBarButton IconName="Add"
+                    <CommandBarButton IconName="add"
                                       Text="New item"
                                       MenuItems="MenuProperties"
                                       Disabled="@Disabled"
                                       Checked="Checked" />
-                    <CommandBarButton IconName="Mail" Text="Send mail" Disabled="@Disabled" Checked="Checked" />
+                    <CommandBarButton IconName="mail" Text="Send mail" Disabled="@Disabled" Checked="Checked" />
                 </Stack>
             </Demo>
         </div>
@@ -89,8 +89,8 @@
         <div class="subSection">
             <Demo Header="Icon Button" Key="4" MetadataPath="ButtonsPage">
                 <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 8.0 } })>
-                    <IconButton OnClick=@(() => OnClickHandler("Icon")) IconName="Emoji2" AriaLabel="Emoji" Disabled=@Disabled Checked=Checked />
-                    <IconButton MenuItems="MenuProperties" IconName="Emoji2" AriaLabel="Emoji" Disabled=@Disabled Checked=Checked />
+                    <IconButton OnClick=@(() => OnClickHandler("Icon")) IconName="emoji" AriaLabel="Emoji" Disabled=@Disabled Checked=Checked />
+                    <IconButton MenuItems="MenuProperties" IconName="emoji" AriaLabel="Emoji" Disabled=@Disabled Checked=Checked />
                 </Stack>
             </Demo>
         </div>
@@ -101,21 +101,21 @@
                         Emoji
                     </TooltipContent>
                     <ChildContent>
-                        <IconButton OnClick=@(() => OnClickHandler("Icon")) IconName="Emoji2" AriaLabel="Emoji" Disabled=@Disabled Checked=Checked />
+                        <IconButton OnClick=@(() => OnClickHandler("Icon")) IconName="emoji" AriaLabel="Emoji" Disabled=@Disabled Checked=Checked />
                     </ChildContent>
                 </TooltipHost>
             </Demo>
         </div>
         <div class="subSection">
             <Demo Header="Action Button" Key="6" MetadataPath="ButtonsPage">
-                <ActionButton IconName="AddFriend" Disabled=@Disabled Checked=Checked OnClick=@(() => OnClickHandler("Action"))>
+                <ActionButton IconName="person_add" Disabled=@Disabled Checked=Checked OnClick=@(() => OnClickHandler("Action"))>
                     Create account
                 </ActionButton>
             </Demo>
         </div>
         <div class="subSection">
             <Demo Header="Command Button" Key="7" MetadataPath="ButtonsPage">
-                <CommandButton IconName="Add" Text="New item" MenuItems="MenuProperties" Disabled=@Disabled Checked=Checked />
+                <CommandButton IconName="add" Text="New item" MenuItems="MenuProperties" Disabled=@Disabled Checked=Checked />
             </Demo>
         </div>
         <div class="subSection">
@@ -133,7 +133,7 @@
         <div class="subSection">
             <Demo Header="Custom Split Button" Key="10" MetadataPath="ButtonsPage">
                 <IconButton Split="true"
-                            IconName="Add"
+                            IconName="add"
                             SplitButtonAriaLabel="See 2 options"
                             AriaRoleDescription="split button"
                             MenuItems="MenuProperties"
@@ -147,7 +147,7 @@
                 <DefaultButton Toggle="true"
                                Checked=@(muted || Checked)
                                Text=@(muted ? "Volume muted" : "Volume unmuted" )
-                               IconName=@(muted ? "Volume0" : "Volume3")
+                               IconName=@(muted ? "speaker_mute" : "speaker_2")
                                OnClick=Mute
                                Disabled=Disabled />
             </Demo>
@@ -207,8 +207,8 @@
     {
         MenuProperties = new System.Collections.Generic.List<ContextualMenuItem>()
 {
-            new ContextualMenuItem() { Key = "emailMessage", Text = "Email message", IconName="Mail"},
-            new ContextualMenuItem() { Key = "calendarEvent", Text = "Calendar event", IconName="Calendar"}
+            new ContextualMenuItem() { Key = "emailMessage", Text = "Email message", IconName="mail"},
+            new ContextualMenuItem() { Key = "calendarEvent", Text = "Calendar event", IconName="calendar_ltr"}
         };
         buttonCommand = new RelayCommand((p) =>
         {

@@ -151,52 +151,52 @@
         });
 
         items = new List<CommandBarItem> {
-            new CommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
-            new CommandBarItem() {Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
-            new CommandBarItem() {Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
-            new CommandBarItem() {Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"},
-            new CommandBarItem() {Text= "Link", IconName="Share", Key="5", Href="http://www.blazorfluentui.net"},
+            new CommandBarItem() { Text= "First", IconName="home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new CommandBarItem() {Text= "Second", IconName="add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new CommandBarItem() {Text= "Third", IconName="dismiss", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new CommandBarItem() {Text= "Fourth", IconName="save", Key="4", Command=buttonCommand, CommandParameter="Fourth"},
+            new CommandBarItem() {Text= "Link", IconName="share", Key="5", Href="http://www.blazorfluentui.net"},
         };
 
         overflowItems = new List<CommandBarItem> {
-            new CommandBarItem() { Text= "First", IconName="Home", Key="9",  Command=buttonCommand, CommandParameter="First Overflow"},
-            new CommandBarItem() {Text= "Second", IconName="Home", Key="10", Command=buttonCommand, CommandParameter="Second Overflow"},
-            new CommandBarItem() {Text= "Third", IconName="Home", Key="11", Command=buttonCommand, CommandParameter="Third Overflow"},
-            new CommandBarItem() {Text= "Fourth", IconName="Home", Key="12", Command=buttonCommand, CommandParameter="Fourth Overflow"}
+            new CommandBarItem() { Text= "First", IconName="home", Key="9",  Command=buttonCommand, CommandParameter="First Overflow"},
+            new CommandBarItem() {Text= "Second", IconName="home", Key="10", Command=buttonCommand, CommandParameter="Second Overflow"},
+            new CommandBarItem() {Text= "Third", IconName="home", Key="11", Command=buttonCommand, CommandParameter="Third Overflow"},
+            new CommandBarItem() {Text= "Fourth", IconName="home", Key="12", Command=buttonCommand, CommandParameter="Fourth Overflow"}
         };
 
         farItems = new List<CommandBarItem> {
-            new CommandBarItem() { Text= "First", IconName="Info", Key="5",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="First Far"},
-            new CommandBarItem() {Text= "Second", IconName="Share", Key="6",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Second Far"},
-            new CommandBarItem() {Text= "Third", IconName="Tiles", Key="7", IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Third Far"},
-            new CommandBarItem() {Text= "Fourth", IconName="SortLines", Key="8",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Fourth Far"}
+            new CommandBarItem() { Text= "First", IconName="info", Key="5",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="First Far"},
+            new CommandBarItem() {Text= "Second", IconName="share", Key="6",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Second Far"},
+            new CommandBarItem() {Text= "Third", IconName="add_subtract_circle", Key="7", IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Third Far"},
+            new CommandBarItem() {Text= "Fourth", IconName="alert", Key="8",IconOnly=true, CanCheck=true, OnClick=@OnClick, Command=buttonCommand, CommandParameter="Fourth Far"}
         };
 
         customItems = new List<CommandBarItem> {
-            new CommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
-            new CommandBarItem() { Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new CommandBarItem() { Text= "First", IconName="home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new CommandBarItem() { Text= "Second", IconName="add", Key="2", Command=buttonCommand, CommandParameter="Second"},
             new CommandBarItem() { Key="divider1", ItemType = ContextualMenuItemType.Divider },
-            new CommandBarItem() { Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
-            new CommandBarItem() { Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+            new CommandBarItem() { Text= "Third", IconName="dismiss", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new CommandBarItem() { Text= "Fourth", IconName="save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
         };
 
         contentItems = new List<CommandBarItem> {
-            new CommandBarItem() { Text= "First", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="First"},
-            new CommandBarItem() { Text= "Second", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="Second"},
+            new CommandBarItem() { Text= "First", IconName="home", Key="1", Command=buttonCommand, CommandParameter="First"},
+            new CommandBarItem() { Text= "Second", IconName="add", Key="2", Command=buttonCommand, CommandParameter="Second"},
             new CommandBarItem() { Key="yellowCircle" },
             new CommandBarItem() { Key="greenCircle" },
-            new CommandBarItem() { Text= "Third", IconName="Remove", Key="3", Command=buttonCommand, CommandParameter="Third"},
-            new CommandBarItem() { Text= "Fourth", IconName="Save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
+            new CommandBarItem() { Text= "Third", IconName="dismiss", Key="3", Command=buttonCommand, CommandParameter="Third"},
+            new CommandBarItem() { Text= "Fourth", IconName="save", Key="4", Command=buttonCommand, CommandParameter="Fourth"}
         };
         itemsWithRadioButtons = new List<CommandBarItem>
 {
-            new CommandBarItem() { Text= "Non radio", IconName="Home", Key="1", Command=buttonCommand, CommandParameter="Non radio", Toggle=true},
-            new CommandBarItem() { Text= "RadioA1", IconName="Add", Key="2", Command=buttonCommand, CommandParameter="RadioA1", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
-            new CommandBarItem() { Text= "RadioA2", IconName="Add", Key="3", Command=buttonCommand, CommandParameter="RadioA2", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
-            new CommandBarItem() { Text= "RadioA3", IconName="Add", Key="4", Command=buttonCommand, CommandParameter="RadioA3", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
-            new CommandBarItem() { Text= "RadioB1", IconName="Remove", Key="5", Command=buttonCommand, CommandParameter="RadioB1", IsRadioButton = true, GroupName = "secondRadioButtonGroup"},
-            new CommandBarItem() { Text= "RadioB2", IconName="Remove", Key="6", Command=buttonCommand, CommandParameter="RadioB2", IsRadioButton = true, GroupName = "secondRadioButtonGroup"},
-            new CommandBarItem() { Text= "RadioB3", IconName="Remove", Key="7", Command=buttonCommand, CommandParameter="RadioB3", IsRadioButton = true, GroupName = "secondRadioButtonGroup"}
+            new CommandBarItem() { Text= "Non radio", IconName="home", Key="1", Command=buttonCommand, CommandParameter="Non radio", Toggle=true},
+            new CommandBarItem() { Text= "RadioA1", IconName="add", Key="2", Command=buttonCommand, CommandParameter="RadioA1", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
+            new CommandBarItem() { Text= "RadioA2", IconName="add", Key="3", Command=buttonCommand, CommandParameter="RadioA2", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
+            new CommandBarItem() { Text= "RadioA3", IconName="add", Key="4", Command=buttonCommand, CommandParameter="RadioA3", IsRadioButton = true, GroupName = "firstRadioButtonGroup"},
+            new CommandBarItem() { Text= "RadioB1", IconName="dismiss", Key="5", Command=buttonCommand, CommandParameter="RadioB1", IsRadioButton = true, GroupName = "secondRadioButtonGroup"},
+            new CommandBarItem() { Text= "RadioB2", IconName="dismiss", Key="6", Command=buttonCommand, CommandParameter="RadioB2", IsRadioButton = true, GroupName = "secondRadioButtonGroup"},
+            new CommandBarItem() { Text= "RadioB3", IconName="dismiss", Key="7", Command=buttonCommand, CommandParameter="RadioB3", IsRadioButton = true, GroupName = "secondRadioButtonGroup"}
         };
 
         return Task.CompletedTask;

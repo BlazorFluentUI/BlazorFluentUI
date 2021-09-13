@@ -189,7 +189,7 @@
     left: 8px;
     height: 36px;
     line-height: 36px;
-    font-size: var(--fontSize-Small);
+    font-size: var(--fontSize-Medium);
     transition: transform .1s linear;
 }
 ::deep .ms-Nav-compositeLink.is-expanded > * > .ms-Nav-chevron {

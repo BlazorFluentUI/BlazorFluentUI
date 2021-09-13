@@ -15,14 +15,14 @@ else
 {
     @if (IconSrc == null )
     {
-        <span class=@($"ms-Icon {this.ClassName}")
+        <i class=@($"ms-Icon {this.IconClassName} {this.ClassName}")
            data-icon-name=@IconName
            role="presentation"
            style=@FontStyle
            @ref="RootElementReference"
            @attributes=@AdditionalAttributes>
             @(IconMap.Icons.ContainsKey(SpecificIconName) ? char.ConvertFromUtf32(IconMap.Icons[SpecificIconName]) : "\uF639")           
-        </span>
+        </i>
     }
     else
     {

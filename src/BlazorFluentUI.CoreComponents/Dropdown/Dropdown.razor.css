@@ -170,7 +170,7 @@
 
 ::deep .ms-Dropdown-caretDown {
     color: var(--palette-NeutralSecondary);
-    font-size: var(--fontSize-Small);
+    font-size: var(--fontSize-Medium);
     pointer-events: none;
 }
 

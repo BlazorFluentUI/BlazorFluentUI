@@ -1,25 +1,4 @@
 ﻿@namespace BlazorFluentUI
 @inherits FluentUIComponentBase
 
-@if (string.IsNullOrEmpty(AriaLabel))
-{
-<i data-icon-name=@IconName
-   class=@($"ms-Icon{(string.IsNullOrEmpty(IconName) ? " ms-Icon-placeholder" : "")}{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
-   style="font-family: FabricMDL2Icons"
-   role="presentation"
-   aria-hidden="true"
-   @attributes=@AdditionalAttributes
-   >
-    @icon
-</i>
-}
-else
-{
-<i data-icon-name=@IconName
-   class=@($"ms-Icon{(string.IsNullOrEmpty(IconName) ? " ms-Icon-placeholder" : "")}{(string.IsNullOrEmpty(ClassName) ? "" : " " + ClassName)}")
-   style="font-family: FabricMDL2Icons"
-   @attributes=@AdditionalAttributes
-   >
-    @icon
-</i>
-}
+<Icon IconName=@IconName ClassName=@ClassName @attributes=@AdditionalAttributes ></Icon>

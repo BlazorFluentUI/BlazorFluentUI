@@ -6,6 +6,9 @@
     overflow-wrap: break-word;*/
 }
 
+    .ms-Checkbox:not(.is-disabled):not(.is-checked) ::deep .ms-Checkbox-checkmark {
+        opacity: 0;
+    }
 
     .ms-Checkbox:not(.is-disabled):not(.is-checked):hover .ms-Checkbox-checkbox {
         border-color: var(--semanticColors-InputBorderHovered);
@@ -15,9 +18,13 @@
         border-color: var(--semanticColors-InputBorderHovered);
     }
 
-    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover .ms-Checkbox-checkmark {
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover ::deep .ms-Checkbox-checkmark {
         opacity: 1;
         color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate) ::deep .ms-Checkbox-checkmark {
+        color: var(--semanticTextColors-PrimaryButtonText);
     }
 
     .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):hover .ms-Checkbox-checkbox {
@@ -38,7 +45,7 @@
         border-color: var(--semanticColors-InputBackgroundCheckedHovered);
     }
 
-    .ms-Checkbox:not(.is-disabled).is-indeterminate:hover .ms-Checkbox-checkmark {
+    .ms-Checkbox:not(.is-disabled).is-indeterminate:hover ::deep .ms-Checkbox-checkmark {
         opacity: 0;
     }
 
@@ -53,7 +60,7 @@
         border-color: Highlight;
     }
 
-    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover .ms-Checkbox-checkmark {
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover ::deep .ms-Checkbox-checkmark {
         color: Highlight;
     }
 
@@ -70,11 +77,11 @@
         background: Highlight;
     }
 
-    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):focus:hover .ms-Checkbox-checkmark {
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):focus:hover ::deep .ms-Checkbox-checkmark {
         color: Window;
     }
 
-    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):hover .ms-Checkbox-checkmark {
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):hover ::deep .ms-Checkbox-checkmark {
         color: Window;
     }
 

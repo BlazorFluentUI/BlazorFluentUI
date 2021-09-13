@@ -32,5 +32,44 @@ namespace BlazorFluentUI
                 }
             }
         }
+
+        public string FontStyle
+        {
+            get
+            {
+                return $@"font-family: FluentSystemIcons-{(Filled ? "Filled" : "Regular")} !important;
+font-style: normal;
+font-weight: normal !important;
+font-variant: normal;
+text-transform: none;
+line-height: 1;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+{this.Style}
+";
+            }
+        }
+
+        public string SpecificIconName
+        {
+            get
+            {
+                if (IconName == null)
+                {
+                    return "ms-Icon-placeHolder";
+                }
+                else
+                {
+                    if (!UseFluentUISystemIcons)
+                    {
+                        return IconName;
+                    }
+                    else
+                    {
+                        return $"ic_fluent_{IconName}_{IconSize}_{(Filled ? "filled" : "regular")}";
+                    }
+                }
+            }
+        }
     }
 }

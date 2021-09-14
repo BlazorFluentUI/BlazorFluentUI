@@ -8,7 +8,7 @@
                 @ItemTemplate!(context)
         </ItemTemplate>
         <OverflowTemplate>
-            <CommandBarButton SubordinateItemTemplate=@true HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="More" MenuItems=@(ItemTransform!(context))>
+            <CommandBarButton SubordinateItemTemplate=@true HideChevron="true" Style="min-width: 0; padding: 0 4px; align-self: stretch;" IconName="more_horizontal" MenuItems=@(ItemTransform!(context))>
                 <MenuItemTemplate Context="overflowItem">
                     @ItemTemplate!((IRibbonItem)overflowItem)
                 </MenuItemTemplate>

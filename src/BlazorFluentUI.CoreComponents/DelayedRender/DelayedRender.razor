@@ -39,7 +39,7 @@ else
         return base.OnAfterRenderAsync(firstRender);
     }
 
-    private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs args)
+    private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs args)
     {
         isRendered = true;
         InvokeAsync(() => StateHasChanged());

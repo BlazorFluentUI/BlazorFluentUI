@@ -21,7 +21,7 @@ namespace BlazorFluentUI
         private const int coinSizeFontScaleFactor = 6;
         private const int coinSizePresenceScaleFactor = 3;
         private const int presenceMaxSize = 40;
-        private const int presenceFontMaxSize = 20;
+        private const int presenceFontMaxSize = 32;
 
         private ICollection<IRule> PersonaPresenceLocalRules { get; set; } = new List<IRule>();
         private Rule PresenceRule = new();
@@ -46,9 +46,12 @@ namespace BlazorFluentUI
                     ? CoinSize / coinSizePresenceScaleFactor + "px"
                     : presenceMaxSize + "px";
 
-                _presenceFontSize = CoinSize / coinSizeFontScaleFactor < presenceFontMaxSize
-                    ? CoinSize / coinSizeFontScaleFactor + "px"
-                    : presenceFontMaxSize + "px";
+                //_presenceFontSize = CoinSize / coinSizeFontScaleFactor < presenceFontMaxSize
+                //    ? CoinSize / coinSizeFontScaleFactor + "px"
+                //    : presenceFontMaxSize + "px";
+                _presenceFontSize = CoinSize / coinSizePresenceScaleFactor < presenceMaxSize
+                    ? CoinSize / coinSizePresenceScaleFactor + "px"
+                    : presenceMaxSize + "px";
             }
 
             RenderIcon = !(Size == PersonaSize.Size8 || Size == PersonaSize.Size24 || Size == PersonaSize.Size32) && (CoinSize == -1 || CoinSize > 32);
@@ -87,15 +90,16 @@ namespace BlazorFluentUI
         {
             if (presence == PersonaPresenceStatus.None)
                 return "";
-            string? oofIcon = "SkypeArrow";
+            string? oofIcon = "presence_oof";
 
             return presence switch
             {
-                PersonaPresenceStatus.Online => "SkypeCheck",
-                PersonaPresenceStatus.Away => isOutofOffice ? oofIcon : "SkypeClock",
-                PersonaPresenceStatus.DND => "SkypeMinus",
-                PersonaPresenceStatus.Offline => isOutofOffice ? oofIcon : "",
-                _ => "",
+                PersonaPresenceStatus.Online => "presence_available",
+                PersonaPresenceStatus.Busy => "presence_busy",
+                PersonaPresenceStatus.Away => isOutofOffice ? oofIcon : "presence_away",
+                PersonaPresenceStatus.DND => "presence_dnd",
+                PersonaPresenceStatus.Offline => isOutofOffice ? oofIcon : "presence_offline",
+                _ => "presence_unknown",
             };
         }
 
@@ -128,7 +132,7 @@ namespace BlazorFluentUI
 
                 IconRule.Properties = new CssString
                 {
-                    Css = $"font-size:{_presenceFontSize}px;" +
+                    Css = $"font-size:{_presenceHeightWidth}px;" +
                           $"line-height:{_presenceHeightWidth}px;"
                 };
             }
@@ -140,6 +144,14 @@ namespace BlazorFluentUI
             string? pHeight = null;
             string? pWidth = null;
             string? pBackgroundColor = null;
+
+            string? iPosition = null;
+            string? iFontSize = null;
+            string? iLineHeight = null;
+            string? iLeft = null;
+            string? iColor = null;
+            string? iBackgroundColor = null;
+
 
             string bpBorderColor = PresenceColor.Busy;
 
@@ -182,10 +194,10 @@ namespace BlazorFluentUI
             }
 
             if (Presence == PersonaPresenceStatus.Online)
-                pBackgroundColor = PresenceColor.Available;
+                iBackgroundColor = PresenceColor.Available;
 
             if (Presence == PersonaPresenceStatus.Away)
-                pBackgroundColor = PresenceColor.Away;
+                iBackgroundColor = PresenceColor.Away;
             if (Presence == PersonaPresenceStatus.Blocked)
             {
                 if (Size == PersonaSize.Size40 || Size == PersonaSize.Size48 || Size == PersonaSize.Size72 || Size == PersonaSize.Size100)
@@ -208,36 +220,42 @@ namespace BlazorFluentUI
                 }
             }
             if (Presence == PersonaPresenceStatus.Busy)
-                pBackgroundColor = PresenceColor.Busy;
+                iBackgroundColor = PresenceColor.Busy;
             if (Presence == PersonaPresenceStatus.DND)
-                pBackgroundColor = PresenceColor.Dnd;
+                iBackgroundColor = PresenceColor.Dnd;
             if (Presence == PersonaPresenceStatus.Offline)
-                pBackgroundColor = PresenceColor.Offline;
+                iBackgroundColor = PresenceColor.Offline;
 
 
             if (isOpenCirclePresence && Presence == PersonaPresenceStatus.Online)
             {
                 bpBorderColor = PresenceColor.Available;
+                pBackgroundColor = PresenceColor.Available;
             }
             if (isOpenCirclePresence && Presence == PersonaPresenceStatus.Busy)
             {
                 bpBorderColor = PresenceColor.Busy;
+                pBackgroundColor = PresenceColor.Busy;
             }
             if (isOpenCirclePresence && Presence == PersonaPresenceStatus.Away)
             {
                 bpBorderColor = PresenceColor.Oof;
+                pBackgroundColor = PresenceColor.Oof;
             }
             if (isOpenCirclePresence && Presence == PersonaPresenceStatus.DND)
             {
                 bpBorderColor = PresenceColor.Dnd;
+                pBackgroundColor = PresenceColor.Dnd;
             }
             if (isOpenCirclePresence && Presence == PersonaPresenceStatus.Offline)
             {
                 bpBorderColor = PresenceColor.Offline;
+                pBackgroundColor = PresenceColor.Offline;
             }
             if (isOpenCirclePresence && Presence == PersonaPresenceStatus.Offline && IsOutOfOffice)
             {
                 bpBorderColor = PresenceColor.Oof;
+                pBackgroundColor = PresenceColor.Oof;
             }
 
 
@@ -270,29 +288,39 @@ namespace BlazorFluentUI
                       (pBackgroundColor != null ? $"background-color:{pBackgroundColor};" : "")
             };
 
-            string? iPosition = null;
-            string? iFontSize = null;
-            string? iLineHeight = null;
-            string? iLeft = null;
-            string? iColor = null;
-            string? iBorderColor = null;
-
+            
             switch (Size)
             {
+                case PersonaSize.Size24:
+                    iFontSize = PersonaPresenceSize.Size12; //"8px";
+                    iLineHeight = PersonaPresenceSize.Size12;
+                    break;
+                case PersonaSize.Size32:
+                    iFontSize = PersonaPresenceSize.Size12; //Theme?.FontStyle.FontSize.Small;
+                    iLineHeight = PersonaPresenceSize.Size12;
+                    break;
+                case PersonaSize.Size40:
+                    iFontSize = PersonaPresenceSize.Size16; //Theme?.FontStyle.FontSize.Medium;
+                    iLineHeight = PersonaPresenceSize.Size16;
+                    break;
+                case PersonaSize.Size48:
+                    iFontSize = PersonaPresenceSize.Size16; //Theme?.FontStyle.FontSize.Medium;
+                    iLineHeight = PersonaPresenceSize.Size16;
+                    break;
                 case PersonaSize.Size56:
-                    iFontSize = "8px";
+                    iFontSize = PersonaPresenceSize.Size16; //"8px";
                     iLineHeight = PersonaPresenceSize.Size16;
                     break;
                 case PersonaSize.Size72:
-                    iFontSize = Theme?.FontStyle.FontSize.Small;
+                    iFontSize = PersonaPresenceSize.Size20; //Theme?.FontStyle.FontSize.Small;
                     iLineHeight = PersonaPresenceSize.Size20;
                     break;
                 case PersonaSize.Size100:
-                    iFontSize = Theme?.FontStyle.FontSize.Medium;
+                    iFontSize = PersonaPresenceSize.Size28; //Theme?.FontStyle.FontSize.Medium;
                     iLineHeight = PersonaPresenceSize.Size28;
                     break;
                 case PersonaSize.Size120:
-                    iFontSize = Theme?.FontStyle.FontSize.Medium;
+                    iFontSize = PersonaPresenceSize.Size32; //Theme?.FontStyle.FontSize.Medium;
                     iLineHeight = PersonaPresenceSize.Size32;
                     break;
             }
@@ -300,7 +328,7 @@ namespace BlazorFluentUI
             {
                 iPosition = "relative";
                 if (!isOpenCirclePresence)
-                    iLeft = "1px";
+                    iLeft = "0px"; // was 1px
             }
             if (isOpenCirclePresence)
             {
@@ -308,29 +336,29 @@ namespace BlazorFluentUI
                 {
                     case PersonaPresenceStatus.Online:
                         iColor = PresenceColor.Available;
-                        iBorderColor = PresenceColor.Available;
+                        pBackgroundColor = PresenceColor.Available;
                         break;
                     case PersonaPresenceStatus.Busy:
                         iColor = PresenceColor.Busy;
-                        iBorderColor = PresenceColor.Busy;
+                        pBackgroundColor = PresenceColor.Busy;
                         break;
                     case PersonaPresenceStatus.Away:
                         iColor = PresenceColor.Away;
-                        iBorderColor = PresenceColor.Away;
+                        pBackgroundColor = PresenceColor.Away;
                         break;
                     case PersonaPresenceStatus.DND:
                         iColor = PresenceColor.Dnd;
-                        iBorderColor = PresenceColor.Dnd;
+                        pBackgroundColor = PresenceColor.Dnd;
                         break;
                     case PersonaPresenceStatus.Offline:
                         iColor = PresenceColor.Offline;
-                        iBorderColor = PresenceColor.Offline;
+                        pBackgroundColor = PresenceColor.Offline;
                         break;
                 }
                 if ((Presence == PersonaPresenceStatus.Offline || Presence == PersonaPresenceStatus.Away) && IsOutOfOffice)
                 {
                     iColor = PresenceColor.Oof;
-                    iBorderColor = PresenceColor.Oof;
+                    pBackgroundColor = PresenceColor.Oof;
                 }
             }
 
@@ -342,7 +370,8 @@ namespace BlazorFluentUI
                       (iLineHeight != null ? $"line-height:{iLineHeight};" : "") +
                       (iLeft != null ? $"left:{iLeft};" : "") +
                       (iColor != null ? $"color:{iColor};" : "") +
-                      (iBorderColor != null ? $"border-color:{iBorderColor};" : "")
+                      //(iBorderColor != null ? $"border-color:{iBorderColor};" : "")+
+                      (iBackgroundColor != null ? $"color:{iBackgroundColor};" : "")
             };
         }
 

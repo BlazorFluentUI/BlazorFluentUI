@@ -1,0 +1,19 @@
+﻿<Dropdown ItemsSource="statuses" OnChange="ChangeHandler" SelectedOption="row.secondstatus"></Dropdown>
+
+@code {
+    [Parameter]
+    public CustomGrid row { get; set; }
+    [Parameter]
+    public  System.Collections.Generic.List<IDropdownOption> statuses { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    private void ChangeHandler(DropdownChangeArgs args)
+    {
+        row.secondstatus= args.Option;
+    }
+
+}

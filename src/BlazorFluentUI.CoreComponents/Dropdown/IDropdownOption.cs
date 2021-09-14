@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace BlazorFluentUI
 {
     public interface IDropdownOption : IComparable

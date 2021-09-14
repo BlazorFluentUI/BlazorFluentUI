@@ -15,8 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\BlazorFluentUI.CoreComponents\BlazorFluentUI.CoreComponents.csproj" />
     <ProjectReference Include="..\..\src\BlazorFluentUI.ListComponents\BlazorFluentUI.ListComponents.csproj" />
-    <ProjectReference Include="..\BlazorFluentUI.Demo.Generators\BlazorFluentUI.Demo.Generators.csproj" 
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\BlazorFluentUI.Demo.Generators\BlazorFluentUI.Demo.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>

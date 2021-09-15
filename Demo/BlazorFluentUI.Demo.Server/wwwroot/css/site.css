@@ -1,36 +1,12 @@
-﻿/*@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}*/
-
-html, body, button, input, textarea {
+﻿html, body, button, input, textarea {
+    font-size: 15px;
     font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
-}
-
-html, body {
-    font-size: 15px;
 }
 
 body {
     margin: 0;
 }
-/**::-webkit-scrollbar {*/
-/*        background-color: #292827;*/
-/*width:inherit;
-    }
-
-    *::-webkit-scrollbar-track {
-        background-color: #292827;
-    }
-
-    *::-webkit-scrollbar-thumb {
-        background-color: #797775;
-        border-color: #292827;
-    }*/
-
-
 
 app {
     position: relative;
@@ -67,7 +43,6 @@ app {
 .sidebar {
     overflow-y: auto;
     overflow-x: hidden;
-    /*background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);*/
 }
 
     .sidebar .top-row {
@@ -85,87 +60,17 @@ app {
         top: -2px;
     }
 
-/*.nav-item {
-    font-size: 0.9rem;
-    padding-bottom: 0.5rem;
-}
-
-    .nav-item:first-of-type {
-        padding-top: 1rem;
-    }
-
-    .nav-item:last-of-type {
-        padding-bottom: 1rem;
-    }
-
-    .nav-item a {
-        color: #d7d7d7;
-        border-radius: 4px;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
-    }
-
-        .nav-item a.active {
-            background-color: rgba(255,255,255,0.25);
-            color: white;
-        }
-
-        .nav-item a:hover {
-            background-color: rgba(255,255,255,0.1);
-            color: white;
-        }*/
-
-.content {
-    /*padding-top: 1.1rem;*/
-    /*overflow-y: auto;
-    height: 100%;*/
-    /*height: calc(100% - 53.5px);*/
-}
-
 .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/*.valid.modified:not([type=checkbox]) {
+.valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }
 
 .invalid {
     outline: 1px solid red;
 }
-
-.validation-message {
-    color: red;
-}*/
-
-/*@media (max-width: 767.98px) {
-    .wideScreen {
-        display: none;
-    }
-
-    .narrowScreen {
-        display: inherit;
-    }
-
-    .main .top-row {
-        display: none;
-    }
-}
-
-@media (min-width: 768px) {
-    .wideScreen {
-        display: inherit;
-    }
-
-    .narrowScreen {
-        display: none;
-    }
-}*/
-
-
-
 
 
 .textFieldDiv {
@@ -181,7 +86,6 @@ app {
         color: red;
     }
 
-
 .Page {
     position: relative
 }
@@ -196,10 +100,9 @@ app {
     margin-bottom: 28px;
     border-radius: 2px;
     background-clip: padding-box;
-    -webkit-box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,.132),0 .3px .9px 0 rgba(0,0,0,.108);
-    box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,.132),0 .3px .9px 0 rgba(0,0,0,.108);
+    -webkit-box-shadow: 0 1.6px 3.6px 0 var(--demoShadowColors1),0 .3px .9px 0 var(--demoShadowColors2);
+    box-shadow: 0 1.6px 3.6px 0 var(--demoShadowColors1),0 .3px .9px 0 var(--demoShadowColors2);
     position: relative;
-    //opacity: 0;
     -webkit-transform: translate3d(0,48px,0);
     transform: translate3d(0,48px,0);
     -webkit-transition: opacity .3s cubic-bezier(.1,.9,.2,1) 50ms,-webkit-transform .3s cubic-bezier(.1,.9,.2,1);
@@ -244,7 +147,6 @@ app {
 }
 
 .section ul.uListFlex > .uThird {
-    -ms-flex-preferred-size: calc(33% - 28px);
     flex-basis: calc(33% - 28px)
 }
 
@@ -495,7 +397,6 @@ ul.md-list--flex li {
 }
 
 ul.md-list--flex > .mdut--full {
-    -ms-flex-preferred-size: 100%;
     flex-basis: 100%
 }
 
@@ -508,7 +409,6 @@ ul.md-list--flex > .mdut--full {
 }
 
 ul.md-list--flex > .mdut--half {
-    -ms-flex-preferred-size: calc(50% - 28px);
     flex-basis: calc(50% - 28px)
 }
 
@@ -641,11 +541,9 @@ ul.md-list--flex > .mdut--half {
 
 .siteWrapper {
     -webkit-box-flex: 1;
-    -ms-flex-positive: 1;
     flex-grow: 1;
     margin: 0 auto;
     width: 100%;
-    /*max-width: 1650px;*/
     position: relative;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -683,7 +581,7 @@ ul.md-list--flex > .mdut--half {
 }
 
 .siteWrapper:not(.fullWidth) .siteContent {
-    background-color: #faf9f8
+    background-color: var(--demoSiteBackgroundColor);
 }
 
 .siteContent {
@@ -737,7 +635,7 @@ ul.md-list--flex > .mdut--half {
 
 @media screen and (min-width:768px) {
     .siteWrapper {
-        /*max-width: 1722px;*/
+        /* max-width: 1722px;*/
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         -ms-flex-direction: row;

@@ -96,7 +96,7 @@
                 @KeytipDataRenderFragment
                 @if (Primary)
                 {
-                    <PrimaryButton IconName="ChevronDown"
+                    <PrimaryButton IconName="chevron_down"
                                    AriaLabel="@SplitButtonAriaLabel"
                                    ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
                                    OnClick=@MenuClickHandler
@@ -106,7 +106,7 @@
                 }
                 else
                 {
-                    <DefaultButton IconName="ChevronDown"
+                    <DefaultButton IconName="chevron_down"
                                    AriaLabel="@SplitButtonAriaLabel"
                                    ClassName=@($"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}")
                                    OnClick=@MenuClickHandler

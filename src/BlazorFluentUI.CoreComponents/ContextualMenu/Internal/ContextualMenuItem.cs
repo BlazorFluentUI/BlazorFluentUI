@@ -342,7 +342,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
         private void RenderCheckMarkIcon(RenderTreeBuilder builder)
         {
             builder.OpenComponent<Icon>(45);
-            builder.AddAttribute(46, "IconName", Checked ? "CheckMark" : "");
+            builder.AddAttribute(46, "IconName", Checked ? "checkmark" : "");
             builder.AddAttribute(47, "ClassName", "ms-ContextualMenu-checkmarkIcon");
             builder.CloseComponent();
         }
@@ -377,7 +377,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
         {
             builder.OpenComponent<Icon>(65);
             builder.AddAttribute(66, "ClassName", "ms-ContextualMenu-submenuIcon");
-            builder.AddAttribute(67, "IconName", "ChevronRight");  //ignore RTL for now.
+            builder.AddAttribute(67, "IconName", "chevron_right");  //ignore RTL for now.
             builder.CloseComponent();
         }
 

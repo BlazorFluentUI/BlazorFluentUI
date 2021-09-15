@@ -23,7 +23,7 @@
             <Stack VerticalFill="true" Style="width:100%;">
                 <ResponsiveLayout MaxWidth="ResponsiveMode.Medium.ToMaxCssValue()">
                     <StackItem Grow="0" VerticalFill="false">
-                        <IconButton IconName="GlobalNavButton" OnClick=@ShowMenu />
+                        <IconButton IconName="navigation" OnClick=@ShowMenu Style="position:fixed;z-index:1000;"/>
                     </StackItem>
                 </ResponsiveLayout>
                 <ResponsiveLayout MinWidth="ResponsiveMode.Medium.ToMinCssValue()">
@@ -47,7 +47,8 @@
             <ResponsiveLayout MaxWidth="ResponsiveMode.Medium.ToMaxCssValue()">
                 <Panel Type=@PanelType.SmallFixedNear OnDismiss=@(() => isPanelOpen = false) IsOpen=@isPanelOpen IsLightDismiss="true">
                     <NavigationTemplate>
-                        <IconButton IconName="GlobalNavButton" OnClick=@(() => isPanelOpen = false) />
+                        <IconButton IconName="navigation" OnClick=@(() => isPanelOpen = false) />
+                        <Toggle Checked=customTheme CheckedChanged="@SwitchTheme" OnText="Dark Theme" OffText="Default Theme" />
                         <BlazorFluentUI.Link Href="https://github.com/BlazorFluentUI/BlazorFluentUI" Target="_blank">View BlazorFluentUI GitHub repo</BlazorFluentUI.Link>
                     </NavigationTemplate>
                     <ChildContent>

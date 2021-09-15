@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
-
+using System;
 using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
+    [Obsolete]
     public partial class FontIcon : FluentUIComponentBase
     {
         private string? icon;

@@ -7,6 +7,26 @@
         @(GetGlobalVariables())
     }
 
+    @@font-face {
+        font-family: "FluentSystemIcons-Regular";
+        src: url("./_content/BlazorFluentUI.CoreComponents/FluentSystemIcons-Regular.ttf") format("truetype");
+    }
+    @@font-face {
+        font-family: "FluentSystemIcons-Filled";
+        src: url("./_content/BlazorFluentUI.CoreComponents/FluentSystemIcons-Filled.ttf") format("truetype");
+    }
+
+    i[class^="icon-"], i[class*=" icon-"] {
+        font-style: normal;
+        font-weight: normal !important;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+
         body {
             color: var(--semanticTextColors-BodyText);
             background-color: var(--semanticColors-BodyBackground);

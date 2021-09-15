@@ -8,6 +8,6 @@
     @if (RenderIcon)
     {
         <Icon ClassName=@($"ms-Persona-icon {LocalSpecificityClass} {IconRule.Selector?.SelectorName}") 
-              IconName=@DetermineIcon(Presence, IsOutOfOffice) />
+              IconName=@DetermineIcon(Presence, IsOutOfOffice) IconSize=16 Filled=true/>
     }
 </div>

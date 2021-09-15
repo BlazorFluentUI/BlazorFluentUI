@@ -1,4 +1,4 @@
-@namespace BlazorFluentUI
+﻿@namespace BlazorFluentUI
 @inherits FluentUIComponentBase
 
 @if (IconType == IconType.Image)
@@ -15,12 +15,13 @@ else
 {
     @if (IconSrc == null )
     {
-        <i class=@($"ms-Icon {(string.IsNullOrEmpty(this.IconName) ? "ms-Icon-placeHolder" : "ms-Icon--" + this.IconName)} {this.ClassName}")
+        <i class=@($"ms-Icon {this.IconClassName} {this.ClassName}")
            data-icon-name=@IconName
            role="presentation"
-           style="@Style"
+           style=@FontStyle
            @ref="RootElementReference"
            @attributes=@AdditionalAttributes>
+            @(IconMap.Icons.ContainsKey(SpecificIconName) ? char.ConvertFromUtf32(IconMap.Icons[SpecificIconName]) : "")           
         </i>
     }
     else

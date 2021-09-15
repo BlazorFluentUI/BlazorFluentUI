@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BlazorFluentUI.Demo.Generators": {
+      "commandName": "Project",
+      "hotReloadEnabled": false
+    }
+  }
+}

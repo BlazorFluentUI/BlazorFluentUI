@@ -6,6 +6,7 @@
     top: auto;
     right: -2px;
     bottom: -2px;
+    background-color: var(--semanticColors-BodyBackground);
     border: 2px solid var(--semanticColors-BodyBackground);
     text-align: center;
     box-sizing: content-box;

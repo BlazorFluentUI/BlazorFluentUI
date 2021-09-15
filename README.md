@@ -14,6 +14,12 @@ How To Use: [Blazor Server](https://github.com/BlazorFluentUI/BlazorFluentUI/wik
 [Theming](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/Theming---defaults-and-custom) 
 
 ## Revision history
+### V5.7
+**Breaking Changes!**
+
+Icons are now sourced from the MIT licensed FluentUI Icons repo (https://github.com/microsoft/fluentui-system-icons).  These are embedded within the CoreComponents project.  Icon names are now all "snakecase" (lowercase with underscores).  Some of the icon names are completely different.  You can either visit the repo linked or see this demo's Icons page.  `FontSize` is an additional option for `Icon` which is largely irrelevant unless you modify the size using css.  However, `Filled` is a unique option that chooses the filled version of the icon, if it exists.  You no longer need to reference the fabric.min.css file in your index.html page.
+
+
 ### V5.6
 IDropdownOption (and therefore DropdownOption) is extended to implement IComparable. This makes it possible to sort on selected dropdown values in a details list.
 

@@ -15,6 +15,4 @@
     <ProjectReference Include="..\BlazorFluentUI.Demo.Shared\BlazorFluentUI.Demo.Shared.csproj" />
   </ItemGroup>
 
-
-
 </Project>

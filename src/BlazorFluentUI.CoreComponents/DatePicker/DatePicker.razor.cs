@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
+using System;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
@@ -66,7 +65,7 @@ namespace BlazorFluentUI
         //protected string id = $"id_{Guid.NewGuid().ToString().Replace("-","")}";
 
         private bool _preventFocusOpeningPicker = false;
-        private bool _oldIsDatePickerShown;
+        //private bool _oldIsDatePickerShown;
 
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
 
@@ -175,7 +174,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (_oldIsDatePickerShown && !IsDatePickerShown)
+            if (!IsDatePickerShown)
             {
                 _ = OnAfterMenuDismiss.InvokeAsync(null);
             }
@@ -377,6 +376,7 @@ namespace BlazorFluentUI
 
         private void HandleEscKey(KeyboardEventArgs args)
         {
+            _ = args;
             if (IsDatePickerShown)
             {
                 //stopPropagation

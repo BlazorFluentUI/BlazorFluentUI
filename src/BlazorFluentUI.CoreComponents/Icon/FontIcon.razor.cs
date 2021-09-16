@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BlazorFluentUI
 {
-    [Obsolete]
+    [Obsolete(message: "Use 'Icon' instead")]
     public partial class FontIcon : FluentUIComponentBase
     {
         private string? icon;

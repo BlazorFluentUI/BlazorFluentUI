@@ -86,7 +86,7 @@
 					<DetailsListAuto ItemsSource="itemSource" Columns="table"
 									 IsVirtualizing="true" Compact="true"
 									 TItem="CustomGrid"
-									 GetKey=@(x=>x.id)
+									 GetKey=@(x=>x.Id)
 									 LayoutMode="BlazorFluentUI.Lists.DetailsListLayoutMode.Justified"
 									 Selection="tableSelection"
 									 SelectionMode="SelectionMode.Multiple" />
@@ -147,10 +147,10 @@
 		statuses.Add(new DropdownOption { ItemType = SelectableOptionMenuItemType.Normal, Key = "1", Text = "Active" });
 		statuses.Add(new DropdownOption { ItemType = SelectableOptionMenuItemType.Normal, Key = "2", Text = "Suspend" });
 
-		table.Add(new DetailsRowColumn<CustomGrid, string>("name", x => x.name) { Index = 1, MinWidth = 300, MaxWidth = 700, IsResizable = true });
-		table.Add(new DetailsRowColumn<CustomGrid, string>("lastname", x => x.lastname) { Index = 2, MinWidth = 300, MaxWidth = 760, IsResizable = true });
-		table.Add(new DetailsRowColumn<CustomGrid, string>("status", x => x.status) { Index = 3, MinWidth = 80, MaxWidth = 80, IsResizable = true });
-		table.Add(new DetailsRowColumn<CustomGrid, string>("second status", x => x.secondstatus)
+		table.Add(new DetailsRowColumn<CustomGrid, string>("name", x => x.Name) { Index = 1, MinWidth = 300, MaxWidth = 700, IsResizable = true });
+		table.Add(new DetailsRowColumn<CustomGrid, string>("lastname", x => x.Lastname) { Index = 2, MinWidth = 300, MaxWidth = 760, IsResizable = true });
+		table.Add(new DetailsRowColumn<CustomGrid, string>("status", x => x.Status) { Index = 3, MinWidth = 80, MaxWidth = 80, IsResizable = true });
+		table.Add(new DetailsRowColumn<CustomGrid, string>("second status", x => x.Secondstatus)
 		{
 			Index = 4,
 			MinWidth = 130,
@@ -159,14 +159,14 @@
 			ColumnItemTemplate = response =>
 	@<DropDownGridColumn row="response" statuses="statuses"></DropDownGridColumn>
 		});
-		table.Add(new DetailsRowColumn<CustomGrid, int>("amount", x => x.amount)
+		table.Add(new DetailsRowColumn<CustomGrid, int>("amount", x => x.Amount)
 		{
 			Index = 5,
 			MinWidth = 100,
 			MaxWidth = 100,
 			IsResizable = false,
 			ColumnItemTemplate = response =>
-	@<NumericTextField @bind-Value="response.amount" @onfocusout="(()=>inputChangeCheck())" Required="true"></NumericTextField>
+	@<NumericTextField @bind-Value="response.Amount" @onfocusout="(()=>inputChangeCheck())" Required="true"></NumericTextField>
 		});
 
 		// We're loading our sample data into the dataSource SourceCache.
@@ -174,7 +174,7 @@
 		{
 			count++;
 			dataSource.Add(new DataItem(count));
-			itemSource.Add(new CustomGrid { id = Guid.NewGuid().ToString(), amount = (i * 10), name = $"name {i}", lastname = $"lastname {i}", secondid = Guid.NewGuid(), status = statuses.First().Text!, secondstatus = statuses.First(), type = "type", visible = true });
+			itemSource.Add(new CustomGrid { Id = Guid.NewGuid().ToString(), Amount = (i * 10), Name = $"name {i}", Lastname = $"lastname {i}", Secondid = Guid.NewGuid(), Status = statuses.First().Text!, Secondstatus = statuses.First(), Type = "type", Visible = true });
 		}
 
 

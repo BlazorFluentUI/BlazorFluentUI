@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 
 namespace BlazorFluentUI
 {
@@ -38,7 +38,7 @@ namespace BlazorFluentUI
 
         protected override async Task OnInitializedAsync()
         {
-            ScopeId = IdGenerator.GetId(this, out _);
+            ScopeId = IdGenerator!.GetId(this, out _);
             ComponentStyle!.LocalCSSheets.Add(this);
             SetSelectorNames();
             await base.OnInitializedAsync();
@@ -80,6 +80,7 @@ namespace BlazorFluentUI
         public void Dispose()
         {
             ComponentStyle!.LocalCSSheets.Remove(this);
+            GC.SuppressFinalize(this);
         }
     }
 }

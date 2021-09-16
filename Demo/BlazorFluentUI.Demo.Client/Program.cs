@@ -1,30 +1,13 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using BlazorFluentUI;
+using BlazorFluentUI.Demo.Shared;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-namespace BlazorFluentUI.Demo.Client
-{
-    public class Program
-    {
-        public static async Task Main(string[] args)
-        {
-            WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
+WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            //builder.RootComponents.Add<GlobalRules>("#staticcs");
+builder.Services.AddBlazorFluentUI();
+builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            builder.RootComponents.Add<BlazorFluentUI.Demo.Shared.App>("#app");
-
-            builder.Services.AddBlazorFluentUI();
-            builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
-
-            await builder.Build().RunAsync();
-        }
-
-        //public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
-        //    BlazorWebAssemblyHost.CreateDefaultBuilder()
-        //        .UseBlazorStartup<Startup>();
-    }
-}
+await builder.Build().RunAsync();

@@ -2,30 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-preview.6.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.6.*" PrivateAssets="all" />
-    <PackageReference Include="System.Net.Http.Json" Version="6.0.0-preview.6.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-rc.1.21452.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-rc.1.21452.15" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorFluentUI.Demo.Shared\BlazorFluentUI.Demo.Shared.csproj" />
   </ItemGroup>
-
-  <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <ItemGroup>
-      <DemoSource Include="$(ProjectDir)..\BlazorFluentUI.Demo.Shared\Pages\**\*.*" />
-      --><!--<Test Include="$(ProjectDir)wwwroot\examples\%(RecursiveDir)\*.razor" />--><!--
-      --><!--<Readme Include="$(SolutionDir)README.md" />--><!--
-    </ItemGroup>
-
-    <Message Text="Copying the demo source files to the wwwroot/md folder." Importance="High" />
-    <Copy SourceFiles="@(DemoSource)" DestinationFiles="$(ProjectDir)wwwroot\md\%(RecursiveDir)%(Filename).md" />
-
-  </Target>-->
 
 </Project>

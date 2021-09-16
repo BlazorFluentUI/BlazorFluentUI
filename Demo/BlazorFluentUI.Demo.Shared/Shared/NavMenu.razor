@@ -1,4 +1,5 @@
 ﻿@using BlazorFluentUI.Routing
+@namespace BlazorFluentUI.Demo.Shared
 <Stack Horizontal="false" VerticalFill="true" Style="overflow:hidden;">
     <StackItem Grow="0" VerticalFill="false" Style="padding-left: 30px">
         <div class="top-row">
@@ -77,16 +78,4 @@
     </StackItem>
 </Stack>
 
-@code {
 
-    [Parameter] public EventCallback<BlazorFluentUI.Routing.NavLink> OnLinkClicked { get; set; }
-
-    bool collapseNavMenu = true;
-
-    string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29411.138
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31710.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{1D626552-1388-4C03-85DD-891C6A1D79E3}"
 EndProject
@@ -25,6 +25,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clientside", "Clientside", "{93D4755C-B4E6-44DE-8488-ADA4C3AB8E21}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Demo.Client", "Demo\BlazorFluentUI.Demo.Client\BlazorFluentUI.Demo.Client.csproj", "{B3E162E0-F8C4-4DAD-A672-42663763E256}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8625EE1F-2059-43D2-A922-D5DC66CAFB2B} = {8625EE1F-2059-43D2-A922-D5DC66CAFB2B}
+		{D4FB1B42-6E99-426F-9EB1-D3111FD4BF23} = {D4FB1B42-6E99-426F-9EB1-D3111FD4BF23}
+		{96BA5062-6D9C-470A-B937-86D17BCDC5F6} = {96BA5062-6D9C-470A-B937-86D17BCDC5F6}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFluentUI.Demo.Server", "Demo\BlazorFluentUI.Demo.Server\BlazorFluentUI.Demo.Server.csproj", "{DBB167DF-0D7F-4D40-997C-60A4B5351DAB}"
 EndProject

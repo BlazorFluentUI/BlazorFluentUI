@@ -3,7 +3,7 @@
 
 <div class="root-Check">
     <div class=@($"mediumFont ms-Check{(Checked ? " is-checked" : "")}")>
-        @if (UseFastIcons)
+        @*@if (UseFastIcons)
         {
             <FontIcon IconName="CircleRing"
                       ClassName="ms-Check-circle" />
@@ -11,11 +11,11 @@
                       ClassName="ms-Check-check" />
         }
         else
-        {
+        {*@
             <Icon IconName="CircleRing"
                   ClassName="ms-Check-circle" />
             <Icon IconName="StatusCircleCheckmark"
                   ClassName="ms-Check-check" />
-        }
+        @*}*@
     </div>
 </div>

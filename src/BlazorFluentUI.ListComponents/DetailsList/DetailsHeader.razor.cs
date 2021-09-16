@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 
 namespace BlazorFluentUI.Lists
 {
@@ -108,7 +107,7 @@ namespace BlazorFluentUI.Lists
         private string? id;
         //private object? dragDropHelper;
         private (int SourceIndex, int TargetIndex) onDropIndexInfo;
-        private int currentDropHintIndex;
+        //private int currentDropHintIndex;
         //private int draggedColumnIndex = -1;
 
         private bool isResizingColumn;
@@ -130,7 +129,7 @@ namespace BlazorFluentUI.Lists
         {
             id = $"id_{Guid.NewGuid().ToString().Replace("-", "")}";
             onDropIndexInfo = (-1, -1);
-            currentDropHintIndex = -1;
+            //currentDropHintIndex = -1;
 
             return base.OnInitializedAsync();
         }

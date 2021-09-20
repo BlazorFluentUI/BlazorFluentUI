@@ -49,7 +49,7 @@
                             ItemWidth="120"
                             TItem="FontModel">
     <ItemTemplate>
-        
+
         <div class="preview">
             <span class="inner">
                 <Icon IconName=@context.Item.Name IconSize=@context.Item.Size Filled=@context.Item.Filled />
@@ -65,8 +65,8 @@
 <div class="section">
     <div class="subSection">
 
-        
-        
+
+
     </div>
 </div>
 
@@ -75,13 +75,13 @@
 
     protected override Task OnInitializedAsync()
     {
-        var regex = new Regex(@"ic_fluent_(\w*)_(\w*)_(\w*)");
-                
+        var regex = new Regex(@"ic_fluent_(\w*)_(\d*)_(\w)");
+
         data = IconMap.Icons.Select(x =>
             {
                 var matches = regex.Matches(x.Key);
                 if (matches.Count > 0)
-                {                    
+                {
                     var model = new FontModel()
                     {
                         Name = matches[0].Groups[1].Value,

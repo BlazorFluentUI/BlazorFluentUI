@@ -8,19 +8,19 @@
         margin: 10px;
     }
 
-    .preview .inner {
-        display: inline-block;
-        width: 100%;
-        text-align: center;
-        background: #f5f5f5;
-        border-radius: 3px 3px 0 0;
-    }
+        .preview .inner {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            background: #f5f5f5;
+            border-radius: 3px 3px 0 0;
+        }
 
-    .preview .inner i {
-        line-height: 85px;
-        font-size: 40px;
-        color: #333;
-    }
+            .preview .inner i {
+                line-height: 85px;
+                font-size: 40px;
+                color: #333;
+            }
 
     .label {
         display: inline-block;
@@ -33,7 +33,7 @@
         white-space: nowrap;
         overflow: hidden;
         background: #ddd;
-       border-radius: 0 0 3px 3px;
+        border-radius: 0 0 3px 3px;
         color: #666;
     }
 </style>
@@ -43,30 +43,24 @@
     <h1>Regular Fluent System Icons</h1>
 </header>
 
-<div data-is-scrollable="true" style="overflow-y:auto;height:600px;">
-<BlazorFluentUI.Lists.List ItemsSource=@data
-                            UseGridFlexLayout="true"
-                            ItemWidth="120"
-                            TItem="FontModel">
-    <ItemTemplate>
-        
-        <div class="preview">
-            <span class="inner">
-                <Icon IconName=@context.Item.Name IconSize=@context.Item.Size Filled=@context.Item.Filled />
-            </span>
-            <br>
-            <span class="label">@context.Item.Name @context.Item.Size</span>
-        </div>
 
-    </ItemTemplate>
-</BlazorFluentUI.Lists.List>
-</div>
 
 <div class="section">
-    <div class="subSection">
-
-        
-        
+    <div class="subSection" data-is-scrollable="true" style="overflow-y:auto;height:800px;">
+        <BlazorFluentUI.Lists.List ItemsSource=@data
+                                   UseGridFlexLayout="true"
+                                   ItemWidth="120"
+                                   TItem="FontModel">
+            <ItemTemplate>
+                <div class="preview">
+                    <span class="inner">
+                        <Icon IconName=@context.Item.Name IconSize=@context.Item.Size Filled=@context.Item.Filled />
+                    </span>
+                    <br>
+                    <span class="label">@context.Item.Name @context.Item.Size</span>
+                </div>
+            </ItemTemplate>
+        </BlazorFluentUI.Lists.List>
     </div>
 </div>
 
@@ -75,25 +69,26 @@
 
     protected override Task OnInitializedAsync()
     {
-        var regex = new Regex(@"ic_fluent_(\w*)_(\w*)_(\w*)");
-                
+        var regex = new Regex("ic_fluent_(\\w*)_(\\d*)_(\\w)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         data = IconMap.Icons.Select(x =>
             {
                 var matches = regex.Matches(x.Key);
                 if (matches.Count > 0)
-                {                    
+                {
                     var model = new FontModel()
-                    {
-                        Name = matches[0].Groups[1].Value,
-                        Size = int.Parse(matches[0].Groups[2].Value),
-                        Filled = matches[0].Groups[3].Value == "filled" ? true : false
-                    };
+                        {
+                            Name = matches[0].Groups[1].Value,
+                            Size = int.Parse(matches[0].Groups[2].Value),
+                            Filled = matches[0].Groups[3].Value == "filled" ? true : false
+                        };
                     return model;
                 }
                 else
                     return new FontModel();
             }
-        ).ToList();
+        ).OrderBy(x => x.Name).ToList();
+
 
         return Task.CompletedTask;
     }

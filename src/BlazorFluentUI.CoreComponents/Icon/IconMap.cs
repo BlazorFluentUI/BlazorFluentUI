@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BlazorFluentUI
 {
@@ -4368,7 +4364,77 @@ namespace BlazorFluentUI
   { "ic_fluent_video_person_sparkle_24_regular", 0x0204},
   { "ic_fluent_video_person_sparkle_28_regular", 0x0205},
   { "ic_fluent_video_person_sparkle_48_regular", 0x0206},
-
+  { "ic_fluent_accessibility_48_regular", 0x0207},
+  { "ic_fluent_archive_multiple_16_regular", 0x0208},
+  { "ic_fluent_archive_multiple_20_regular", 0x0209},
+  { "ic_fluent_archive_multiple_24_regular", 0x020a},
+  { "ic_fluent_arrow_reset_32_regular", 0x020b},
+  { "ic_fluent_arrow_reset_48_regular", 0x020c},
+  { "ic_fluent_box_20_regular", 0x020d},
+  { "ic_fluent_box_24_regular", 0x020e},
+  { "ic_fluent_box_dismiss_20_regular", 0x020f},
+  { "ic_fluent_box_dismiss_24_regular", 0x0210},
+  { "ic_fluent_clear_formatting_16_regular", 0x0211},
+  { "ic_fluent_clear_formatting_20_regular", 0x0212},
+  { "ic_fluent_clipboard_clock_20_regular", 0x0213},
+  { "ic_fluent_clipboard_clock_24_regular", 0x0214},
+  { "ic_fluent_cloud_archive_24_regular", 0x0215},
+  { "ic_fluent_cloud_archive_28_regular", 0x0216},
+  { "ic_fluent_cloud_archive_32_regular", 0x0217},
+  { "ic_fluent_cloud_archive_48_regular", 0x0218},
+  { "ic_fluent_document_table_arrow_right_20_regular", 0x0219},
+  { "ic_fluent_document_table_arrow_right_24_regular", 0x021a},
+  { "ic_fluent_document_table_checkmark_20_regular", 0x021b},
+  { "ic_fluent_document_table_checkmark_24_regular", 0x021c},
+  { "ic_fluent_document_text_clock_20_regular", 0x021d},
+  { "ic_fluent_document_text_clock_24_regular", 0x021e},
+  { "ic_fluent_flash_settings_20_regular", 0x021f},
+  { "ic_fluent_flash_settings_24_regular", 0x0220},
+  { "ic_fluent_games_16_regular", 0x0221},
+  { "ic_fluent_games_20_regular", 0x0222},
+  { "ic_fluent_games_28_regular", 0x0223},
+  { "ic_fluent_games_32_regular", 0x0224},
+  { "ic_fluent_games_48_regular", 0x0225},
+  { "ic_fluent_hand_draw_28_regular", 0x0226},
+  { "ic_fluent_lasso_28_regular", 0x0227},
+  { "ic_fluent_money_dismiss_20_regular", 0x0228},
+  { "ic_fluent_money_dismiss_24_regular", 0x0229},
+  { "ic_fluent_money_off_20_regular", 0x022a},
+  { "ic_fluent_money_off_24_regular", 0x022b},
+  { "ic_fluent_note_28_regular", 0x022c},
+  { "ic_fluent_note_48_regular", 0x022d},
+  { "ic_fluent_person_lightbulb_20_regular", 0x022e},
+  { "ic_fluent_person_lightbulb_24_regular", 0x022f},
+  { "ic_fluent_picture_in_picture_enter_16_regular", 0x0230},
+  { "ic_fluent_picture_in_picture_enter_20_regular", 0x0231},
+  { "ic_fluent_picture_in_picture_enter_24_regular", 0x0232},
+  { "ic_fluent_picture_in_picture_exit_16_regular", 0x0233},
+  { "ic_fluent_picture_in_picture_exit_20_regular", 0x0234},
+  { "ic_fluent_picture_in_picture_exit_24_regular", 0x0235},
+  { "ic_fluent_plug_connected_20_regular", 0x0236},
+  { "ic_fluent_sanitize_20_regular", 0x0237},
+  { "ic_fluent_sanitize_24_regular", 0x0238},
+  { "ic_fluent_settings_32_regular", 0x0239},
+  { "ic_fluent_settings_48_regular", 0x023a},
+  { "ic_fluent_shapes_28_regular", 0x023b},
+  { "ic_fluent_shapes_48_regular", 0x023c},
+  { "ic_fluent_shopping_bag_percent_20_regular", 0x023d},
+  { "ic_fluent_shopping_bag_percent_24_regular", 0x023e},
+  { "ic_fluent_shopping_bag_tag_20_regular", 0x023f},
+  { "ic_fluent_shopping_bag_tag_24_regular", 0x0240},
+  { "ic_fluent_stack_arrow_forward_20_regular", 0x0241},
+  { "ic_fluent_stack_arrow_forward_24_regular", 0x0242},
+  { "ic_fluent_table_lightning_20_regular", 0x0243},
+  { "ic_fluent_table_lightning_24_regular", 0x0244},
+  { "ic_fluent_table_link_20_regular", 0x0245},
+  { "ic_fluent_table_link_24_regular", 0x0246},
+  { "ic_fluent_text_t_28_regular", 0x0247},
+  { "ic_fluent_text_t_48_regular", 0x0248},
+  { "ic_fluent_thumb_like_28_regular", 0x0249},
+  { "ic_fluent_thumb_like_48_regular", 0x024a},
+  { "ic_fluent_video_off_32_regular", 0x024b},
+  { "ic_fluent_video_off_48_regular", 0x024c},
+  /* filled icons*/
   { "ic_fluent_accessibility_16_filled", 0xf102},
   { "ic_fluent_accessibility_20_filled", 0xf103},
   { "ic_fluent_accessibility_24_filled", 0xf104},
@@ -8738,7 +8804,78 @@ namespace BlazorFluentUI
   { "ic_fluent_video_person_sparkle_24_filled", 0x0210},
   { "ic_fluent_video_person_sparkle_28_filled", 0x0211},
   { "ic_fluent_video_person_sparkle_48_filled", 0x0212},
-        };
+  { "ic_fluent_accessibility_48_filled", 0x0207},
+  { "ic_fluent_archive_multiple_16_filled", 0x0208},
+  { "ic_fluent_archive_multiple_20_filled", 0x0209},
+  { "ic_fluent_archive_multiple_24_filled", 0x020a},
+  { "ic_fluent_arrow_reset_32_filled", 0x020b},
+  { "ic_fluent_arrow_reset_48_filled", 0x020c},
+  { "ic_fluent_box_20_filled", 0x020d},
+  { "ic_fluent_box_24_filled", 0x020e},
+  { "ic_fluent_box_dismiss_20_filled", 0x020f},
+  { "ic_fluent_box_dismiss_24_filled", 0x0210},
+  { "ic_fluent_clear_formatting_16_filled", 0x0211},
+  { "ic_fluent_clear_formatting_20_filled", 0x0212},
+  { "ic_fluent_clipboard_clock_20_filled", 0x0213},
+  { "ic_fluent_clipboard_clock_24_filled", 0x0214},
+  { "ic_fluent_cloud_archive_24_filled", 0x0215},
+  { "ic_fluent_cloud_archive_28_filled", 0x0216},
+  { "ic_fluent_cloud_archive_32_filled", 0x0217},
+  { "ic_fluent_cloud_archive_48_filled", 0x0218},
+  { "ic_fluent_document_table_arrow_right_20_filled", 0x0219},
+  { "ic_fluent_document_table_arrow_right_24_filled", 0x021a},
+  { "ic_fluent_document_table_checkmark_20_filled", 0x021b},
+  { "ic_fluent_document_table_checkmark_24_filled", 0x021c},
+  { "ic_fluent_document_text_clock_20_filled", 0x021d},
+  { "ic_fluent_document_text_clock_24_filled", 0x021e},
+  { "ic_fluent_flash_settings_20_filled", 0x021f},
+  { "ic_fluent_flash_settings_24_filled", 0x0220},
+  { "ic_fluent_games_16_filled", 0x0221},
+  { "ic_fluent_games_20_filled", 0x0222},
+  { "ic_fluent_games_28_filled", 0x0223},
+  { "ic_fluent_games_32_filled", 0x0224},
+  { "ic_fluent_games_48_filled", 0x0225},
+  { "ic_fluent_hand_draw_28_filled", 0x0226},
+  { "ic_fluent_lasso_28_filled", 0x0227},
+  { "ic_fluent_money_dismiss_20_filled", 0x0228},
+  { "ic_fluent_money_dismiss_24_filled", 0x0229},
+  { "ic_fluent_money_off_20_filled", 0x022a},
+  { "ic_fluent_money_off_24_filled", 0x022b},
+  { "ic_fluent_note_28_filled", 0x022c},
+  { "ic_fluent_note_48_filled", 0x022d},
+  { "ic_fluent_person_lightbulb_20_filled", 0x022e},
+  { "ic_fluent_person_lightbulb_24_filled", 0x022f},
+  { "ic_fluent_picture_in_picture_enter_16_filled", 0x0230},
+  { "ic_fluent_picture_in_picture_enter_20_filled", 0x0231},
+  { "ic_fluent_picture_in_picture_enter_24_filled", 0x0232},
+  { "ic_fluent_picture_in_picture_exit_16_filled", 0x0233},
+  { "ic_fluent_picture_in_picture_exit_20_filled", 0x0234},
+  { "ic_fluent_picture_in_picture_exit_24_filled", 0x0235},
+  { "ic_fluent_plug_connected_20_filled", 0x0236},
+  { "ic_fluent_sanitize_20_filled", 0x0237},
+  { "ic_fluent_sanitize_24_filled", 0x0238},
+  { "ic_fluent_settings_32_filled", 0x0239},
+  { "ic_fluent_settings_48_filled", 0x023a},
+  { "ic_fluent_shapes_28_filled", 0x023b},
+  { "ic_fluent_shapes_48_filled", 0x023c},
+  { "ic_fluent_shopping_bag_percent_20_filled", 0x023d},
+  { "ic_fluent_shopping_bag_percent_24_filled", 0x023e},
+  { "ic_fluent_shopping_bag_tag_20_filled", 0x023f},
+  { "ic_fluent_shopping_bag_tag_24_filled", 0x0240},
+  { "ic_fluent_stack_arrow_forward_20_filled", 0x0241},
+  { "ic_fluent_stack_arrow_forward_24_filled", 0x0242},
+  { "ic_fluent_table_lightning_20_filled", 0x0243},
+  { "ic_fluent_table_lightning_24_filled", 0x0244},
+  { "ic_fluent_table_link_20_filled", 0x0245},
+  { "ic_fluent_table_link_24_filled", 0x0246},
+  { "ic_fluent_text_t_28_filled", 0x0247},
+  { "ic_fluent_text_t_48_filled", 0x0248},
+  { "ic_fluent_thumb_like_28_filled", 0x0249},
+  { "ic_fluent_thumb_like_48_filled", 0x024a},
+  { "ic_fluent_video_off_32_filled", 0x024b},
+  { "ic_fluent_video_off_48_filled", 0x024c},
+
+  };
 
         public const int ic_fluent_access_time_24_regular = 0xf101;
         public const int ic_fluent_accessibility_16_regular = 0xf102;
@@ -13098,7 +13235,76 @@ namespace BlazorFluentUI
         public const int ic_fluent_video_person_sparkle_24_regular = 0x0204;
         public const int ic_fluent_video_person_sparkle_28_regular = 0x0205;
         public const int ic_fluent_video_person_sparkle_48_regular = 0x0206;
-
+        public const int ic_fluent_accessibility_48_regular = 0x0207;
+        public const int ic_fluent_archive_multiple_16_regular = 0x0208;
+        public const int ic_fluent_archive_multiple_20_regular = 0x0209;
+        public const int ic_fluent_archive_multiple_24_regular = 0x020a;
+        public const int ic_fluent_arrow_reset_32_regular = 0x020b;
+        public const int ic_fluent_arrow_reset_48_regular = 0x020c;
+        public const int ic_fluent_box_20_regular = 0x020d;
+        public const int ic_fluent_box_24_regular = 0x020e;
+        public const int ic_fluent_box_dismiss_20_regular = 0x020f;
+        public const int ic_fluent_box_dismiss_24_regular = 0x0210;
+        public const int ic_fluent_clear_formatting_16_regular = 0x0211;
+        public const int ic_fluent_clear_formatting_20_regular = 0x0212;
+        public const int ic_fluent_clipboard_clock_20_regular = 0x0213;
+        public const int ic_fluent_clipboard_clock_24_regular = 0x0214;
+        public const int ic_fluent_cloud_archive_24_regular = 0x0215;
+        public const int ic_fluent_cloud_archive_28_regular = 0x0216;
+        public const int ic_fluent_cloud_archive_32_regular = 0x0217;
+        public const int ic_fluent_cloud_archive_48_regular = 0x0218;
+        public const int ic_fluent_document_table_arrow_right_20_regular = 0x0219;
+        public const int ic_fluent_document_table_arrow_right_24_regular = 0x021a;
+        public const int ic_fluent_document_table_checkmark_20_regular = 0x021b;
+        public const int ic_fluent_document_table_checkmark_24_regular = 0x021c;
+        public const int ic_fluent_document_text_clock_20_regular = 0x021d;
+        public const int ic_fluent_document_text_clock_24_regular = 0x021e;
+        public const int ic_fluent_flash_settings_20_regular = 0x021f;
+        public const int ic_fluent_flash_settings_24_regular = 0x0220;
+        public const int ic_fluent_games_16_regular = 0x0221;
+        public const int ic_fluent_games_20_regular = 0x0222;
+        public const int ic_fluent_games_28_regular = 0x0223;
+        public const int ic_fluent_games_32_regular = 0x0224;
+        public const int ic_fluent_games_48_regular = 0x0225;
+        public const int ic_fluent_hand_draw_28_regular = 0x0226;
+        public const int ic_fluent_lasso_28_regular = 0x0227;
+        public const int ic_fluent_money_dismiss_20_regular = 0x0228;
+        public const int ic_fluent_money_dismiss_24_regular = 0x0229;
+        public const int ic_fluent_money_off_20_regular = 0x022a;
+        public const int ic_fluent_money_off_24_regular = 0x022b;
+        public const int ic_fluent_note_28_regular = 0x022c;
+        public const int ic_fluent_note_48_regular = 0x022d;
+        public const int ic_fluent_person_lightbulb_20_regular = 0x022e;
+        public const int ic_fluent_person_lightbulb_24_regular = 0x022f;
+        public const int ic_fluent_picture_in_picture_enter_16_regular = 0x0230;
+        public const int ic_fluent_picture_in_picture_enter_20_regular = 0x0231;
+        public const int ic_fluent_picture_in_picture_enter_24_regular = 0x0232;
+        public const int ic_fluent_picture_in_picture_exit_16_regular = 0x0233;
+        public const int ic_fluent_picture_in_picture_exit_20_regular = 0x0234;
+        public const int ic_fluent_picture_in_picture_exit_24_regular = 0x0235;
+        public const int ic_fluent_plug_connected_20_regular = 0x0236;
+        public const int ic_fluent_sanitize_20_regular = 0x0237;
+        public const int ic_fluent_sanitize_24_regular = 0x0238;
+        public const int ic_fluent_settings_32_regular = 0x0239;
+        public const int ic_fluent_settings_48_regular = 0x023a;
+        public const int ic_fluent_shapes_28_regular = 0x023b;
+        public const int ic_fluent_shapes_48_regular = 0x023c;
+        public const int ic_fluent_shopping_bag_percent_20_regular = 0x023d;
+        public const int ic_fluent_shopping_bag_percent_24_regular = 0x023e;
+        public const int ic_fluent_shopping_bag_tag_20_regular = 0x023f;
+        public const int ic_fluent_shopping_bag_tag_24_regular = 0x0240;
+        public const int ic_fluent_stack_arrow_forward_20_regular = 0x0241;
+        public const int ic_fluent_stack_arrow_forward_24_regular = 0x0242;
+        public const int ic_fluent_table_lightning_20_regular = 0x0243;
+        public const int ic_fluent_table_lightning_24_regular = 0x0244;
+        public const int ic_fluent_table_link_20_regular = 0x0245;
+        public const int ic_fluent_table_link_24_regular = 0x0246;
+        public const int ic_fluent_text_t_28_regular = 0x0247;
+        public const int ic_fluent_text_t_48_regular = 0x0248;
+        public const int ic_fluent_thumb_like_28_regular = 0x0249;
+        public const int ic_fluent_thumb_like_48_regular = 0x024a;
+        public const int ic_fluent_video_off_32_regular = 0x024b;
+        public const int ic_fluent_video_off_48_regular = 0x024c;
 
         public const int ic_fluent_access_time_24_filled = 0xf101;
         public const int ic_fluent_accessibility_16_filled = 0xf102;
@@ -17470,6 +17676,76 @@ namespace BlazorFluentUI
         public const int ic_fluent_video_person_sparkle_24_filled = 0x0210;
         public const int ic_fluent_video_person_sparkle_28_filled = 0x0211;
         public const int ic_fluent_video_person_sparkle_48_filled = 0x0212;
+        public const int ic_fluent_accessibility_48_filled = 0x0207;
+        public const int ic_fluent_archive_multiple_16_filled = 0x0208;
+        public const int ic_fluent_archive_multiple_20_filled = 0x0209;
+        public const int ic_fluent_archive_multiple_24_filled = 0x020a;
+        public const int ic_fluent_arrow_reset_32_filled = 0x020b;
+        public const int ic_fluent_arrow_reset_48_filled = 0x020c;
+        public const int ic_fluent_box_20_filled = 0x020d;
+        public const int ic_fluent_box_24_filled = 0x020e;
+        public const int ic_fluent_box_dismiss_20_filled = 0x020f;
+        public const int ic_fluent_box_dismiss_24_filled = 0x0210;
+        public const int ic_fluent_clear_formatting_16_filled = 0x0211;
+        public const int ic_fluent_clear_formatting_20_filled = 0x0212;
+        public const int ic_fluent_clipboard_clock_20_filled = 0x0213;
+        public const int ic_fluent_clipboard_clock_24_filled = 0x0214;
+        public const int ic_fluent_cloud_archive_24_filled = 0x0215;
+        public const int ic_fluent_cloud_archive_28_filled = 0x0216;
+        public const int ic_fluent_cloud_archive_32_filled = 0x0217;
+        public const int ic_fluent_cloud_archive_48_filled = 0x0218;
+        public const int ic_fluent_document_table_arrow_right_20_filled = 0x0219;
+        public const int ic_fluent_document_table_arrow_right_24_filled = 0x021a;
+        public const int ic_fluent_document_table_checkmark_20_filled = 0x021b;
+        public const int ic_fluent_document_table_checkmark_24_filled = 0x021c;
+        public const int ic_fluent_document_text_clock_20_filled = 0x021d;
+        public const int ic_fluent_document_text_clock_24_filled = 0x021e;
+        public const int ic_fluent_flash_settings_20_filled = 0x021f;
+        public const int ic_fluent_flash_settings_24_filled = 0x0220;
+        public const int ic_fluent_games_16_filled = 0x0221;
+        public const int ic_fluent_games_20_filled = 0x0222;
+        public const int ic_fluent_games_28_filled = 0x0223;
+        public const int ic_fluent_games_32_filled = 0x0224;
+        public const int ic_fluent_games_48_filled = 0x0225;
+        public const int ic_fluent_hand_draw_28_filled = 0x0226;
+        public const int ic_fluent_lasso_28_filled = 0x0227;
+        public const int ic_fluent_money_dismiss_20_filled = 0x0228;
+        public const int ic_fluent_money_dismiss_24_filled = 0x0229;
+        public const int ic_fluent_money_off_20_filled = 0x022a;
+        public const int ic_fluent_money_off_24_filled = 0x022b;
+        public const int ic_fluent_note_28_filled = 0x022c;
+        public const int ic_fluent_note_48_filled = 0x022d;
+        public const int ic_fluent_person_lightbulb_20_filled = 0x022e;
+        public const int ic_fluent_person_lightbulb_24_filled = 0x022f;
+        public const int ic_fluent_picture_in_picture_enter_16_filled = 0x0230;
+        public const int ic_fluent_picture_in_picture_enter_20_filled = 0x0231;
+        public const int ic_fluent_picture_in_picture_enter_24_filled = 0x0232;
+        public const int ic_fluent_picture_in_picture_exit_16_filled = 0x0233;
+        public const int ic_fluent_picture_in_picture_exit_20_filled = 0x0234;
+        public const int ic_fluent_picture_in_picture_exit_24_filled = 0x0235;
+        public const int ic_fluent_plug_connected_20_filled = 0x0236;
+        public const int ic_fluent_sanitize_20_filled = 0x0237;
+        public const int ic_fluent_sanitize_24_filled = 0x0238;
+        public const int ic_fluent_settings_32_filled = 0x0239;
+        public const int ic_fluent_settings_48_filled = 0x023a;
+        public const int ic_fluent_shapes_28_filled = 0x023b;
+        public const int ic_fluent_shapes_48_filled = 0x023c;
+        public const int ic_fluent_shopping_bag_percent_20_filled = 0x023d;
+        public const int ic_fluent_shopping_bag_percent_24_filled = 0x023e;
+        public const int ic_fluent_shopping_bag_tag_20_filled = 0x023f;
+        public const int ic_fluent_shopping_bag_tag_24_filled = 0x0240;
+        public const int ic_fluent_stack_arrow_forward_20_filled = 0x0241;
+        public const int ic_fluent_stack_arrow_forward_24_filled = 0x0242;
+        public const int ic_fluent_table_lightning_20_filled = 0x0243;
+        public const int ic_fluent_table_lightning_24_filled = 0x0244;
+        public const int ic_fluent_table_link_20_filled = 0x0245;
+        public const int ic_fluent_table_link_24_filled = 0x0246;
+        public const int ic_fluent_text_t_28_filled = 0x0247;
+        public const int ic_fluent_text_t_48_filled = 0x0248;
+        public const int ic_fluent_thumb_like_28_filled = 0x0249;
+        public const int ic_fluent_thumb_like_48_filled = 0x024a;
+        public const int ic_fluent_video_off_32_filled = 0x024b;
+        public const int ic_fluent_video_off_48_filled = 0x024c;
 
     }
 }

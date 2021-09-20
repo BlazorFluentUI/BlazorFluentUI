@@ -3,11 +3,11 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - fluentsystemicons
+      - upgrade/net6
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - fluentsystemicons
+      - upgrade/net6
 
 jobs:
 
@@ -21,7 +21,8 @@ jobs:
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1.8.1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 6.0.x
+        include-prerelease: true
 
     - name: Build App
       run: dotnet publish -c Release -o published Demo/BlazorFluentUI.Demo.Client/
@@ -47,7 +48,7 @@ jobs:
     steps:
       - name: Close Pull Request
         id: closepullrequest
-        uses: Azure/static-web-apps-deploy@v0.0.1-preview
+        uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_WHITE_DUNE_0EF5C1E03 }}
           action: "close"

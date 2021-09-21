@@ -65,7 +65,6 @@ namespace BlazorFluentUI
         //protected string id = $"id_{Guid.NewGuid().ToString().Replace("-","")}";
 
         private bool _preventFocusOpeningPicker = false;
-        //private bool _oldIsDatePickerShown;
 
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
 
@@ -82,8 +81,6 @@ namespace BlazorFluentUI
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
-            //_oldIsDatePickerShown = IsDatePickerShown;
-
             if (!parameters.TryGetValue("MinDate", out DateTime nextMinDate))
                 nextMinDate = MinDate;
             if (!parameters.TryGetValue("MaxDate", out DateTime nextMaxDate))

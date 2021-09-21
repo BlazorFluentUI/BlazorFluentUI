@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
+using Timer = System.Timers.Timer;
 
 namespace BlazorFluentUI
 {
@@ -116,14 +114,14 @@ namespace BlazorFluentUI
                 });
             };
 
-            items = new System.Collections.Generic.List<CommandBarItem> {
-                new CommandBarItem() { Text= "Bold", CanCheck=true, IconOnly=true, IconName="text_bold", Key="Bold", Command=buttonCommand, CommandParameter="Bold"},
-                new CommandBarItem() { Text= "Italic", CanCheck=true, IconOnly=true, IconName="text_italic", Key="Italic", Command=buttonCommand, CommandParameter="Italic"},
-                new CommandBarItem() { Text= "Underline", CanCheck=true, IconOnly=true, IconName="text_underline", Key="Underline", Command=buttonCommand, CommandParameter="Underline"},
-                new CommandBarItem() { Text= "Superscript", CanCheck=true, IconOnly=true, IconName="text_superscript", Key="Superscript", Command=buttonCommand, CommandParameter="Superscript"},
-                new CommandBarItem() { Text= "Subscript", CanCheck=true, IconOnly=true, IconName="text_subscript", Key="Subscript", Command=buttonCommand, CommandParameter="Subscript"},
+			items = new System.Collections.Generic.List<CommandBarItem> {
+				new CommandBarItem() { Text= "Bold", CanCheck=true, IconOnly=true, IconName="Bold", Key="Bold", Command=buttonCommand, CommandParameter="Bold"},
+				new CommandBarItem() { Text= "Italic", CanCheck=true, IconOnly=true, IconName="Italic", Key="Italic", Command=buttonCommand, CommandParameter="Italic"},
+				new CommandBarItem() { Text= "Underline", CanCheck=true, IconOnly=true, IconName="Underline", Key="Underline", Command=buttonCommand, CommandParameter="Underline"},
+				new CommandBarItem() { Text= "Superscript", CanCheck=true, IconOnly=true, IconName="Superscript", Key="Superscript", Command=buttonCommand, CommandParameter="Superscript"},
+				new CommandBarItem() { Text= "Subscript", CanCheck=true, IconOnly=true, IconName="Subscript", Key="Subscript", Command=buttonCommand, CommandParameter="Subscript"},
 
-                new CommandBarItem() { Text= "Insert Image", CanCheck=false, IconOnly=true, IconName="image", Key="Image", Command=buttonCommand, CommandParameter="Image"}
+                new CommandBarItem() { Text= "Insert Image", CanCheck=false, IconOnly=true, IconName="ImagePixel", Key="Image", Command=buttonCommand, CommandParameter="Image"}
             };
         }
 
@@ -183,7 +181,7 @@ namespace BlazorFluentUI
             if (firstRender)
             {
                 selfReference = DotNetObjectReference.Create(this);
-                quillId = await JSRuntime!.InvokeAsync<int>("BlazorFluentUIRichTextEditor.register", RootElementReference, selfReference );
+                quillId = await JSRuntime!.InvokeAsync<int>("BlazorFluentUIRichTextEditor.register", RootElementReference, selfReference);
                 if (RichText != null)
                     await JSRuntime!.InvokeVoidAsync("BlazorFluentUIRichTextEditor.setHtmlContent", quillId, RichText);
                 if (ReadOnly)

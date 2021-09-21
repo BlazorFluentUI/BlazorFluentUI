@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using Timer = System.Timers.Timer;
 
 namespace BlazorFluentUI
 {
@@ -87,7 +87,7 @@ namespace BlazorFluentUI
             await base.OnInitializedAsync();
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
         {
             _ = InvokeAsync(() => _ = ValueChanged.InvokeAsync(value));
         }

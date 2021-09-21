@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Timers;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using Timer = System.Timers.Timer;
 
 namespace BlazorFluentUI
 {

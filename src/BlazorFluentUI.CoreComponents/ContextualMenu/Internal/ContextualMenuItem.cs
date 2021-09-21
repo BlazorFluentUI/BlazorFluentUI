@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.JSInterop;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
-using System.Linq;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
+using Timer = System.Timers.Timer;
 
 namespace BlazorFluentUI.ContextualMenuInternal
 {
@@ -186,7 +186,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
         //    //do nothing for now... eventually
         //}
 
-        private async void EnterTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private async void EnterTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
             await InvokeAsync(() =>
             {
@@ -277,7 +277,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
             //skip KeytipData
             builder.OpenElement(21, "a");
             builder.AddAttribute(22, "href", Href);
-            builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create(this, KeyDownHandler));
+            builder.AddAttribute(23, "onkeydown", EventCallback.Factory.Create<KeyboardEventArgs>(this, KeyDownHandler));
             builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, () => DismissMenu.InvokeAsync(true)));
             //builder.AddAttribute(23, "onclick:preventDefault", true);
             builder.AddAttribute(24, "role", "menuitem");
@@ -301,8 +301,8 @@ namespace BlazorFluentUI.ContextualMenuInternal
             builder.OpenElement(20, "div");
             //skip KeytipData
             builder.OpenElement(21, "button");
-            builder.AddAttribute(22, "onkeydown", EventCallback.Factory.Create(this, KeyDownHandler));
-            builder.AddAttribute(23, "onclick", EventCallback.Factory.Create(this, ClickHandler));
+            builder.AddAttribute(22, "onkeydown", EventCallback.Factory.Create<KeyboardEventArgs>(this, KeyDownHandler));
+            builder.AddAttribute(23, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, ClickHandler));
             builder.AddAttribute(24, "onclick:preventDefault", true);
             builder.AddAttribute(25, "role", "menuitem");
             builder.AddAttribute(26, "class", $"ms-ContextualMenu-link mediumFont {(Items?.Concat(Items.Where(x => x.Items != null).SelectMany(x => GetChild(x.Items!))).FirstOrDefault(x => x.Checked == true) != null ? $" subgroup-is-checked" : "")}");  //the subgroup check is only for NavBar
@@ -386,7 +386,7 @@ namespace BlazorFluentUI.ContextualMenuInternal
             builder.OpenComponent<ContextualMenu>(70);
             builder.AddAttribute(71, "FabricComponentTarget", this);
             builder.AddAttribute(72, "OnDismiss", EventCallback.Factory.Create<bool>(this, DismissSubMenu));//EventCallback.Factory.Create<bool>(this, (isDismissed) => { ParentContextualMenu.SetSubmenuActiveKey(""); ParentContextualMenu.OnDismiss.InvokeAsync(true); }));
-            //builder.AddAttribute(73, "IsOpen", ParentContextualMenu.SubmenuActiveKey == Key);
+                                                                                                            //builder.AddAttribute(73, "IsOpen", ParentContextualMenu.SubmenuActiveKey == Key);
             builder.AddAttribute(74, "DirectionalHint", DirectionalHint.RightTopEdge);
             builder.AddAttribute(75, "Items", Items);
             builder.AddAttribute(76, "IsSubMenu", true);

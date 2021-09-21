@@ -58,14 +58,14 @@
     pointer-events: none;
 }
 
- .ms-Button:hover, 
+ .ms-Button:hover,
  .ms-Button:focus {
     text-decoration: none;
     outline: 0;
 }
 
- .ms-Button:link, 
- .ms-Button:visited, 
+ .ms-Button:link,
+ .ms-Button:visited,
  .ms-Button:active {
     text-decoration: none;
 }

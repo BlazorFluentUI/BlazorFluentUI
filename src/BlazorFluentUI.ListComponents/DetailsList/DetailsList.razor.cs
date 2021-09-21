@@ -100,9 +100,7 @@ namespace BlazorFluentUI.Lists
         Viewport? _viewport;
         private IEnumerable<IDetailsRowColumn<TItem?>> _adjustedColumns = Enumerable.Empty<IDetailsRowColumn<TItem?>>();
         const double MIN_COLUMN_WIDTH = 100;
-
-
-        Dictionary<string, double> _columnOverrides = new();
+        readonly Dictionary<string, double> _columnOverrides = new();
 
         private Selection<TItem> _selection = new();
 
@@ -127,7 +125,7 @@ namespace BlazorFluentUI.Lists
 
         public void ForceUpdate()
         {
-            groupedList?.ForceUpdate();
+            //groupedList?.ForceUpdate();
         }
 
         protected override bool ShouldRender()

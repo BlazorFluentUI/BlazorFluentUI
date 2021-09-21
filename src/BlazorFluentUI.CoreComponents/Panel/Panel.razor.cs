@@ -6,6 +6,7 @@ using System.Timers;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Timer = System.Timers.Timer;
 
 namespace BlazorFluentUI
 {

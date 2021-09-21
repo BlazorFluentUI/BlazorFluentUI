@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Timers;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Timer = System.Timers.Timer;
 
 namespace BlazorFluentUI
 {
@@ -23,7 +23,7 @@ namespace BlazorFluentUI
         [Parameter] public FluentUIComponentBase? Parent { get; set; }
         [Parameter] public bool SetAriaDescribedBy { get; set; }
         [Parameter] public RenderFragment? TooltipContent { get; set; }
-        
+
         [Parameter] public int GapSpace { get; set; } = 0;
         [Parameter] public bool IsBeakVisible { get; set; } = true;
 
@@ -46,7 +46,7 @@ namespace BlazorFluentUI
             base.OnInitialized();
         }
 
-        private void openTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void openTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
             InvokeAsync(() =>
             {
@@ -55,7 +55,7 @@ namespace BlazorFluentUI
             });
         }
 
-        private void dismissTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void dismissTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
             InvokeAsync(() =>
             {

@@ -30,8 +30,8 @@ namespace BlazorFluentUI
         internal bool isSplitButton = false;
         private string? _registrationGuid;
 
-        private bool _menuShouldFocusOnMount = true;
-        static List<ButtonBase> radioButtons = new();
+        private readonly bool _menuShouldFocusOnMount = true;
+        static readonly List<ButtonBase> radioButtons = new();
 
         protected override Task OnParametersSetAsync()
         {
@@ -348,7 +348,7 @@ namespace BlazorFluentUI
                 builder.OpenComponent<PrimaryButton>(105);
                 builder.AddAttribute(106, "IconName", "chevron_down");
                 builder.AddAttribute(107, "ClassName", $"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}");
-                builder.AddAttribute(108, "OnClick", EventCallback.Factory.Create(this, MenuClickHandler));
+                builder.AddAttribute(108, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, MenuClickHandler));
                 builder.AddAttribute(109, "Disabled", Disabled);
                 builder.CloseComponent();
             }
@@ -357,7 +357,7 @@ namespace BlazorFluentUI
                 builder.OpenComponent<DefaultButton>(105);
                 builder.AddAttribute(106, "IconName", "chevron_down");
                 builder.AddAttribute(107, "ClassName", $"ms-Button-menuIcon{(Disabled || commandDisabled ? " is-disabled" : "")} {(isChecked ? " is-checked" : "")}{(contextMenuShown ? " is-expanded" : "")}");
-                builder.AddAttribute(108, "OnClick", EventCallback.Factory.Create(this, MenuClickHandler));
+                builder.AddAttribute(108, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, MenuClickHandler));
                 builder.AddAttribute(109, "Disabled", Disabled);
                 builder.CloseComponent();
             }

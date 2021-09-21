@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -251,7 +250,7 @@ namespace BlazorFluentUI.Lists
                     builder.OpenElement(11, "div");
                     builder.SetKey(item);
                     //builder.AddAttribute(8, "data-selection-index", _lastRenderedItemCount + _itemsBefore - _loadedItemsStartIndex + StartIndex);
-                    _itemTemplate(new IndexedItem<TItem> {Item=item, Index = renderIndex + _lastRenderedItemCount + StartIndex })(builder);
+                    _itemTemplate(new IndexedItem<TItem> { Item = item, Index = renderIndex + _lastRenderedItemCount + StartIndex })(builder);
                     _lastRenderedItemCount++;
 
                     builder.CloseElement();

@@ -1,6 +1,6 @@
 @font-face {
     font-family: "FluentSystemIcons-Regular";
-    src: url("./FluentSystemIcons-Regular.ttf?11141") format("truetype");
+    src: url("./FluentSystemIcons-Regular.ttf") format("truetype");
 }
 
 i[class^="icon-"]:before, i[class*=" icon-"]:before {
@@ -17445,6 +17445,7 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 .icon-ic_fluent_video_person_sparkle_48_regular:before {
     content: "\206";
 }
+
 .icon-ic_fluent_accessibility_48_regular:before {
     content: "\207";
 }

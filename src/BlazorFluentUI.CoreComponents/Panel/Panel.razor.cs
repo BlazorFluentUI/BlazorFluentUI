@@ -271,17 +271,17 @@ namespace BlazorFluentUI
                     Debug.WriteLine($"Animating to {animationState}");
                     _animationTimer.Interval = 200;
                     _handler = null;
-                    _handler = (s, e) =>
+                    _handler = async (s, e) =>
                     {
                         _animationTimer.Stop();
                         _animationTimer.Elapsed -= _handler;
                         Debug.WriteLine($"Inside invokeAsync from animateTo timer elapsed.");
-                        //InvokeAsync(() =>
-                        //{
-                        previousVisibility = currentVisibility;
-                        currentVisibility = animationState;
-                        _onTransitionComplete!();
-                        //});
+                        await InvokeAsync(() =>
+                        {
+                            previousVisibility = currentVisibility;
+                            currentVisibility = animationState;
+                            _onTransitionComplete!();
+                        });
                     };
                     _animationTimer.Elapsed += _handler;
                     _animationTimer.Start();

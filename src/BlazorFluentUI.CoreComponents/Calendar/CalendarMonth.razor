@@ -45,7 +45,7 @@ else
                             title=@(PreviousYearAriaLabel + " " + NavigatedDate.AddYears(-1).ToString("yyy"))
                             role="button"
                             type="button">
-                        <Icon IconName="Up" />
+                        <Icon IconName="arrow_up" />
                     </button>
                     <button class=@($"ms-Calendar-nextYear {(!IsNextYearInBounds ? "ms-Calendar-nextYearIsDisabled" : "")}")
                             aria-disabled=@(!IsNextYearInBounds)
@@ -55,7 +55,7 @@ else
                             title=@(NextYearAriaLabel + " " + NavigatedDate.AddYears(1).ToString("yyy"))
                             role="button"
                             type="button">
-                        <Icon IconName="Down" />
+                        <Icon IconName="arrow_down" />
                     </button>
                 </div>
             </div>

@@ -55,7 +55,7 @@ namespace BlazorFluentUI
         // State
         protected string? ErrorMessage = null;
         [Parameter] public bool IsDatePickerShown { get; set; } = false;
-        protected string FormattedDate = "";
+        protected string FormattedDate { get; set; } = "";
         protected DateTime? SelectedDate; //= DateTime.MinValue;
 
 
@@ -270,7 +270,10 @@ namespace BlazorFluentUI
                 ErrorMessage = IsRequired && (Value == DateTime.MinValue) ? IsRequiredErrorMessage : null;
                 FormattedDate = text;
             }
-            // skip TextField OnChange callback ... not implemented through DatePicker
+
+            ValidateTextInput();
+
+            // skip TextField OnChange callback ... not implemented through DatePicker            
         }
 
         protected void OnTextFieldKeyDown(KeyboardEventArgs args)

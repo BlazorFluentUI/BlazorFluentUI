@@ -4434,6 +4434,88 @@ namespace BlazorFluentUI
           { "ic_fluent_thumb_like_48_regular", 0x024a},
           { "ic_fluent_video_off_32_regular", 0x024b},
           { "ic_fluent_video_off_48_regular", 0x024c},
+    { "ic_fluent_bookmark_search_20_regular", 0x024d },
+    { "ic_fluent_bookmark_search_24_regular", 0x024e },
+    { "ic_fluent_building_factory_16_regular", 0x024f },
+    { "ic_fluent_building_factory_20_regular", 0x0250 },
+    { "ic_fluent_building_factory_28_regular", 0x0251 },
+    { "ic_fluent_building_factory_32_regular", 0x0252 },
+    { "ic_fluent_building_factory_48_regular", 0x0253 },
+    { "ic_fluent_calendar_chat_20_regular", 0x0254 },
+    { "ic_fluent_calendar_chat_24_regular", 0x0255 },
+    { "ic_fluent_calendar_toolbox_20_regular", 0x0256 },
+    { "ic_fluent_calendar_toolbox_24_regular", 0x0257 },
+    { "ic_fluent_camera_switch_20_regular", 0x0258 },
+    { "ic_fluent_comment_multiple_32_regular", 0x0259 },
+    { "ic_fluent_comment_multiple_link_16_regular", 0x025a },
+    { "ic_fluent_comment_multiple_link_20_regular", 0x025b },
+    { "ic_fluent_comment_multiple_link_24_regular", 0x025c },
+    { "ic_fluent_comment_multiple_link_28_regular", 0x025d },
+    { "ic_fluent_comment_multiple_link_32_regular", 0x025e },
+    { "ic_fluent_contact_card_ribbon_16_regular", 0x025f },
+    { "ic_fluent_contact_card_ribbon_20_regular", 0x0260 },
+    { "ic_fluent_contact_card_ribbon_24_regular", 0x0261 },
+    { "ic_fluent_contact_card_ribbon_28_regular", 0x0262 },
+    { "ic_fluent_contact_card_ribbon_32_regular", 0x0263 },
+    { "ic_fluent_contact_card_ribbon_48_regular", 0x0264 },
+    { "ic_fluent_database_person_20_regular", 0x0265 },
+    { "ic_fluent_database_person_24_regular", 0x0266 },
+    { "ic_fluent_document_flowchart_20_regular", 0x0267 },
+    { "ic_fluent_document_flowchart_24_regular", 0x0268 },
+    { "ic_fluent_document_table_search_20_regular", 0x0269 },
+    { "ic_fluent_document_table_search_24_regular", 0x026a },
+    { "ic_fluent_document_text_extract_20_regular", 0x026b },
+    { "ic_fluent_document_text_extract_24_regular", 0x026c },
+    { "ic_fluent_fast_forward_16_regular", 0x026d },
+    { "ic_fluent_fast_forward_28_regular", 0x026e },
+    { "ic_fluent_flowchart_20_regular", 0x026f },
+    { "ic_fluent_flowchart_24_regular", 0x0270 },
+    { "ic_fluent_flowchart_circle_20_regular", 0x0271 },
+    { "ic_fluent_flowchart_circle_24_regular", 0x0272 },
+    { "ic_fluent_folder_sync_24_regular", 0x0273 },
+    { "ic_fluent_heart_circle_16_regular", 0x0274 },
+    { "ic_fluent_heart_circle_20_regular", 0x0275 },
+    { "ic_fluent_heart_circle_24_regular", 0x0276 },
+    { "ic_fluent_megaphone_loud_24_regular", 0x0277 },
+    { "ic_fluent_people_lock_20_regular", 0x0278 },
+    { "ic_fluent_people_lock_24_regular", 0x0279 },
+    { "ic_fluent_person_circle_24_regular", 0x027a },
+    { "ic_fluent_phone_update_checkmark_20_regular", 0x027b },
+    { "ic_fluent_phone_update_checkmark_24_regular", 0x027c },
+    { "ic_fluent_plug_connected_24_regular", 0x027d },
+    { "ic_fluent_rewind_16_regular", 0x027e },
+    { "ic_fluent_rewind_28_regular", 0x027f },
+    { "ic_fluent_save_multiple_20_regular", 0x0280 },
+    { "ic_fluent_save_multiple_24_regular", 0x0281 },
+    { "ic_fluent_scan_type_checkmark_20_regular", 0x0282 },
+    { "ic_fluent_scan_type_checkmark_24_regular", 0x0283 },
+    { "ic_fluent_select_object_skew_20_regular", 0x0284 },
+    { "ic_fluent_select_object_skew_24_regular", 0x0285 },
+    { "ic_fluent_select_object_skew_dismiss_20_regular", 0x0286 },
+    { "ic_fluent_select_object_skew_dismiss_24_regular", 0x0287 },
+    { "ic_fluent_select_object_skew_edit_20_regular", 0x0288 },
+    { "ic_fluent_select_object_skew_edit_24_regular", 0x0289 },
+    { "ic_fluent_shopping_bag_dismiss_20_regular", 0x028a },
+    { "ic_fluent_shopping_bag_dismiss_24_regular", 0x028b },
+    { "ic_fluent_shopping_bag_pause_20_regular", 0x028c },
+    { "ic_fluent_shopping_bag_pause_24_regular", 0x028d },
+    { "ic_fluent_tag_error_16_regular", 0x028e },
+    { "ic_fluent_tag_error_20_regular", 0x028f },
+    { "ic_fluent_tag_error_24_regular", 0x0290 },
+    { "ic_fluent_tag_multiple_24_regular", 0x0291 },
+    { "ic_fluent_tag_question_mark_20_regular", 0x0292 },
+    { "ic_fluent_tag_question_mark_32_regular", 0x0293 },
+    { "ic_fluent_text_column_one_wide_lightning_20_regular", 0x0294 },
+    { "ic_fluent_text_column_one_wide_lightning_24_regular", 0x0295 },
+    { "ic_fluent_text_font_info_16_regular", 0x0296 },
+    { "ic_fluent_text_font_info_20_regular", 0x0297 },
+    { "ic_fluent_text_font_info_24_regular", 0x0298 },
+    { "ic_fluent_tray_item_add_20_regular", 0x0299 },
+    { "ic_fluent_tray_item_add_24_regular", 0x029a },
+    { "ic_fluent_tray_item_remove_20_regular", 0x029b },
+    { "ic_fluent_tray_item_remove_24_regular", 0x029c },
+    { "ic_fluent_vehicle_truck_bag_20_regular", 0x029d },
+    { "ic_fluent_vehicle_truck_bag_24_regular", 0x029e},
           /* filled icons*/
           { "ic_fluent_access_time_24_filled", 0xf101 },
           { "ic_fluent_accessibility_16_filled", 0xf102 },
@@ -8874,7 +8956,89 @@ namespace BlazorFluentUI
           { "ic_fluent_thumb_like_28_filled", 0x0255 },
           { "ic_fluent_thumb_like_48_filled", 0x0256 },
           { "ic_fluent_video_off_32_filled", 0x0257 },
-          { "ic_fluent_video_off_48_filled", 0x0258 }
+          { "ic_fluent_video_off_48_filled", 0x0258 },
+                    { "ic_fluent_bookmark_search_20_filled", 0x0259 },
+          { "ic_fluent_bookmark_search_24_filled", 0x025a },
+          { "ic_fluent_building_factory_16_filled", 0x025b },
+          { "ic_fluent_building_factory_20_filled", 0x025c },
+          { "ic_fluent_building_factory_28_filled", 0x025d },
+          { "ic_fluent_building_factory_32_filled", 0x025e },
+          { "ic_fluent_building_factory_48_filled", 0x025f },
+          { "ic_fluent_calendar_chat_20_filled", 0x0260 },
+          { "ic_fluent_calendar_chat_24_filled", 0x0261 },
+          { "ic_fluent_calendar_toolbox_20_filled", 0x0262 },
+          { "ic_fluent_calendar_toolbox_24_filled", 0x0263 },
+          { "ic_fluent_camera_switch_20_filled", 0x0264 },
+          { "ic_fluent_comment_multiple_32_filled", 0x0265 },
+          { "ic_fluent_comment_multiple_link_16_filled", 0x0266 },
+          { "ic_fluent_comment_multiple_link_20_filled", 0x0267 },
+          { "ic_fluent_comment_multiple_link_24_filled", 0x0268 },
+          { "ic_fluent_comment_multiple_link_28_filled", 0x0269 },
+          { "ic_fluent_comment_multiple_link_32_filled", 0x026a },
+          { "ic_fluent_contact_card_ribbon_16_filled", 0x026b },
+          { "ic_fluent_contact_card_ribbon_20_filled", 0x026c },
+          { "ic_fluent_contact_card_ribbon_24_filled", 0x026d },
+          { "ic_fluent_contact_card_ribbon_28_filled", 0x026e },
+          { "ic_fluent_contact_card_ribbon_32_filled", 0x026f },
+          { "ic_fluent_contact_card_ribbon_48_filled", 0x0270 },
+          { "ic_fluent_database_person_20_filled", 0x0271 },
+          { "ic_fluent_database_person_24_filled", 0x0272 },
+          { "ic_fluent_document_flowchart_20_filled", 0x0273 },
+          { "ic_fluent_document_flowchart_24_filled", 0x0274 },
+          { "ic_fluent_document_table_search_20_filled", 0x0275 },
+          { "ic_fluent_document_table_search_24_filled", 0x0276 },
+          { "ic_fluent_document_text_extract_20_filled", 0x0277 },
+          { "ic_fluent_document_text_extract_24_filled", 0x0278 },
+          { "ic_fluent_fast_forward_16_filled", 0x0279 },
+          { "ic_fluent_fast_forward_28_filled", 0x027a },
+          { "ic_fluent_flowchart_20_filled", 0x027b },
+          { "ic_fluent_flowchart_24_filled", 0x027c },
+          { "ic_fluent_flowchart_circle_20_filled", 0x027d },
+          { "ic_fluent_flowchart_circle_24_filled", 0x027e },
+          { "ic_fluent_folder_sync_24_filled", 0x027f },
+          { "ic_fluent_heart_circle_16_filled", 0x0280 },
+          { "ic_fluent_heart_circle_20_filled", 0x0281 },
+          { "ic_fluent_heart_circle_24_filled", 0x0282 },
+          { "ic_fluent_megaphone_loud_24_filled", 0x0283 },
+          { "ic_fluent_people_lock_20_filled", 0x0284 },
+          { "ic_fluent_people_lock_24_filled", 0x0285 },
+          { "ic_fluent_person_circle_24_filled", 0x0286 },
+          { "ic_fluent_phone_update_checkmark_20_filled", 0x0287 },
+          { "ic_fluent_phone_update_checkmark_24_filled", 0x0288 },
+          { "ic_fluent_plug_connected_24_filled", 0x0289 },
+          { "ic_fluent_rewind_16_filled", 0x028a },
+          { "ic_fluent_rewind_28_filled", 0x028b },
+          { "ic_fluent_save_multiple_20_filled", 0x028c },
+          { "ic_fluent_save_multiple_24_filled", 0x028d },
+          { "ic_fluent_scan_type_checkmark_20_filled", 0x028e },
+          { "ic_fluent_scan_type_checkmark_24_filled", 0x028f },
+          { "ic_fluent_select_object_skew_20_filled", 0x0290 },
+          { "ic_fluent_select_object_skew_24_filled", 0x0291 },
+          { "ic_fluent_select_object_skew_dismiss_20_filled", 0x0292 },
+          { "ic_fluent_select_object_skew_dismiss_24_filled", 0x0293 },
+          { "ic_fluent_select_object_skew_edit_20_filled", 0x0294 },
+          { "ic_fluent_select_object_skew_edit_24_filled", 0x0295 },
+          { "ic_fluent_shopping_bag_dismiss_20_filled", 0x0296 },
+          { "ic_fluent_shopping_bag_dismiss_24_filled", 0x0297 },
+          { "ic_fluent_shopping_bag_pause_20_filled", 0x0298 },
+          { "ic_fluent_shopping_bag_pause_24_filled", 0x0299 },
+          { "ic_fluent_tag_error_16_filled", 0x029a },
+          { "ic_fluent_tag_error_20_filled", 0x029b },
+          { "ic_fluent_tag_error_24_filled", 0x029c },
+          { "ic_fluent_tag_multiple_24_filled", 0x029d },
+          { "ic_fluent_tag_question_mark_20_filled", 0x029e },
+          { "ic_fluent_tag_question_mark_32_filled", 0x029f },
+          { "ic_fluent_text_column_one_wide_lightning_20_filled", 0x02a0 },
+          { "ic_fluent_text_column_one_wide_lightning_24_filled", 0x02a1 },
+          { "ic_fluent_text_font_info_16_filled", 0x02a2 },
+          { "ic_fluent_text_font_info_20_filled", 0x02a3 },
+          { "ic_fluent_text_font_info_24_filled", 0x02a4 },
+          { "ic_fluent_tray_item_add_20_filled", 0x02a5 },
+          { "ic_fluent_tray_item_add_24_filled", 0x02a6 },
+          { "ic_fluent_tray_item_remove_20_filled", 0x02a7 },
+          { "ic_fluent_tray_item_remove_24_filled", 0x02a8 },
+          { "ic_fluent_vehicle_truck_bag_20_filled", 0x02a9 },
+          { "ic_fluent_vehicle_truck_bag_24_filled", 0x02aa }
         };
 
         public const int ic_fluent_access_time_24_regular = 0xf101;
@@ -12973,6 +13137,8 @@ namespace BlazorFluentUI
         public const int ic_fluent_window_multiple_16_regular = 0x00fe;
         public const int ic_fluent_zoom_in_16_regular = 0x00ff;
         public const int ic_fluent_zoom_out_16_regular = 0x0100;
+
+        //1.1.141
         public const int ic_fluent_align_end_horizontal_20_regular = 0x0101;
         public const int ic_fluent_align_end_vertical_20_regular = 0x0102;
         public const int ic_fluent_align_space_around_horizontal_20_regular = 0x0103;
@@ -13305,6 +13471,90 @@ namespace BlazorFluentUI
         public const int ic_fluent_thumb_like_48_regular = 0x024a;
         public const int ic_fluent_video_off_32_regular = 0x024b;
         public const int ic_fluent_video_off_48_regular = 0x024c;
+        //1.1.142
+        public const int ic_fluent_bookmark_search_20_regular = 0x024d;
+        public const int ic_fluent_bookmark_search_24_regular = 0x024e;
+        public const int ic_fluent_building_factory_16_regular = 0x024f;
+        public const int ic_fluent_building_factory_20_regular = 0x0250;
+        public const int ic_fluent_building_factory_28_regular = 0x0251;
+        public const int ic_fluent_building_factory_32_regular = 0x0252;
+        public const int ic_fluent_building_factory_48_regular = 0x0253;
+        public const int ic_fluent_calendar_chat_20_regular = 0x0254;
+        public const int ic_fluent_calendar_chat_24_regular = 0x0255;
+        public const int ic_fluent_calendar_toolbox_20_regular = 0x0256;
+        public const int ic_fluent_calendar_toolbox_24_regular = 0x0257;
+        public const int ic_fluent_camera_switch_20_regular = 0x0258;
+        public const int ic_fluent_comment_multiple_32_regular = 0x0259;
+        public const int ic_fluent_comment_multiple_link_16_regular = 0x025a;
+        public const int ic_fluent_comment_multiple_link_20_regular = 0x025b;
+        public const int ic_fluent_comment_multiple_link_24_regular = 0x025c;
+        public const int ic_fluent_comment_multiple_link_28_regular = 0x025d;
+        public const int ic_fluent_comment_multiple_link_32_regular = 0x025e;
+        public const int ic_fluent_contact_card_ribbon_16_regular = 0x025f;
+        public const int ic_fluent_contact_card_ribbon_20_regular = 0x0260;
+        public const int ic_fluent_contact_card_ribbon_24_regular = 0x0261;
+        public const int ic_fluent_contact_card_ribbon_28_regular = 0x0262;
+        public const int ic_fluent_contact_card_ribbon_32_regular = 0x0263;
+        public const int ic_fluent_contact_card_ribbon_48_regular = 0x0264;
+        public const int ic_fluent_database_person_20_regular = 0x0265;
+        public const int ic_fluent_database_person_24_regular = 0x0266;
+        public const int ic_fluent_document_flowchart_20_regular = 0x0267;
+        public const int ic_fluent_document_flowchart_24_regular = 0x0268;
+        public const int ic_fluent_document_table_search_20_regular = 0x0269;
+        public const int ic_fluent_document_table_search_24_regular = 0x026a;
+        public const int ic_fluent_document_text_extract_20_regular = 0x026b;
+        public const int ic_fluent_document_text_extract_24_regular = 0x026c;
+        public const int ic_fluent_fast_forward_16_regular = 0x026d;
+        public const int ic_fluent_fast_forward_28_regular = 0x026e;
+        public const int ic_fluent_flowchart_20_regular = 0x026f;
+        public const int ic_fluent_flowchart_24_regular = 0x0270;
+        public const int ic_fluent_flowchart_circle_20_regular = 0x0271;
+        public const int ic_fluent_flowchart_circle_24_regular = 0x0272;
+        public const int ic_fluent_folder_sync_24_regular = 0x0273;
+        public const int ic_fluent_heart_circle_16_regular = 0x0274;
+        public const int ic_fluent_heart_circle_20_regular = 0x0275;
+        public const int ic_fluent_heart_circle_24_regular = 0x0276;
+        public const int ic_fluent_megaphone_loud_24_regular = 0x0277;
+        public const int ic_fluent_people_lock_20_regular = 0x0278;
+        public const int ic_fluent_people_lock_24_regular = 0x0279;
+        public const int ic_fluent_person_circle_24_regular = 0x027a;
+        public const int ic_fluent_phone_update_checkmark_20_regular = 0x027b;
+        public const int ic_fluent_phone_update_checkmark_24_regular = 0x027c;
+        public const int ic_fluent_plug_connected_24_regular = 0x027d;
+        public const int ic_fluent_rewind_16_regular = 0x027e;
+        public const int ic_fluent_rewind_28_regular = 0x027f;
+        public const int ic_fluent_save_multiple_20_regular = 0x0280;
+        public const int ic_fluent_save_multiple_24_regular = 0x0281;
+        public const int ic_fluent_scan_type_checkmark_20_regular = 0x0282;
+        public const int ic_fluent_scan_type_checkmark_24_regular = 0x0283;
+        public const int ic_fluent_select_object_skew_20_regular = 0x0284;
+        public const int ic_fluent_select_object_skew_24_regular = 0x0285;
+        public const int ic_fluent_select_object_skew_dismiss_20_regular = 0x0286;
+        public const int ic_fluent_select_object_skew_dismiss_24_regular = 0x0287;
+        public const int ic_fluent_select_object_skew_edit_20_regular = 0x0288;
+        public const int ic_fluent_select_object_skew_edit_24_regular = 0x0289;
+        public const int ic_fluent_shopping_bag_dismiss_20_regular = 0x028a;
+        public const int ic_fluent_shopping_bag_dismiss_24_regular = 0x028b;
+        public const int ic_fluent_shopping_bag_pause_20_regular = 0x028c;
+        public const int ic_fluent_shopping_bag_pause_24_regular = 0x028d;
+        public const int ic_fluent_tag_error_16_regular = 0x028e;
+        public const int ic_fluent_tag_error_20_regular = 0x028f;
+        public const int ic_fluent_tag_error_24_regular = 0x0290;
+        public const int ic_fluent_tag_multiple_24_regular = 0x0291;
+        public const int ic_fluent_tag_question_mark_20_regular = 0x0292;
+        public const int ic_fluent_tag_question_mark_32_regular = 0x0293;
+        public const int ic_fluent_text_column_one_wide_lightning_20_regular = 0x0294;
+        public const int ic_fluent_text_column_one_wide_lightning_24_regular = 0x0295;
+        public const int ic_fluent_text_font_info_16_regular = 0x0296;
+        public const int ic_fluent_text_font_info_20_regular = 0x0297;
+        public const int ic_fluent_text_font_info_24_regular = 0x0298;
+        public const int ic_fluent_tray_item_add_20_regular = 0x0299;
+        public const int ic_fluent_tray_item_add_24_regular = 0x029a;
+        public const int ic_fluent_tray_item_remove_20_regular = 0x029b;
+        public const int ic_fluent_tray_item_remove_24_regular = 0x029c;
+        public const int ic_fluent_vehicle_truck_bag_20_regular = 0x029d;
+        public const int ic_fluent_vehicle_truck_bag_24_regular = 0x029e;
+
 
         /* filled */
         public const int ic_fluent_access_time_24_filled = 0xf101;
@@ -17407,6 +17657,8 @@ namespace BlazorFluentUI
         public const int ic_fluent_window_multiple_16_filled = 0x0102;
         public const int ic_fluent_zoom_in_16_filled = 0x0103;
         public const int ic_fluent_zoom_out_16_filled = 0x0104;
+
+        //1.1.141
         public const int ic_fluent_align_end_horizontal_20_filled = 0x0105;
         public const int ic_fluent_align_end_vertical_20_filled = 0x0106;
         public const int ic_fluent_align_space_around_horizontal_20_filled = 0x0107;
@@ -17747,5 +17999,88 @@ namespace BlazorFluentUI
         public const int ic_fluent_thumb_like_48_filled = 0x0256;
         public const int ic_fluent_video_off_32_filled = 0x0257;
         public const int ic_fluent_video_off_48_filled = 0x0258;
+        //1.1.142
+        public const int ic_fluent_bookmark_search_20_filled = 0x0259;
+        public const int ic_fluent_bookmark_search_24_filled = 0x025a;
+        public const int ic_fluent_building_factory_16_filled = 0x025b;
+        public const int ic_fluent_building_factory_20_filled = 0x025c;
+        public const int ic_fluent_building_factory_28_filled = 0x025d;
+        public const int ic_fluent_building_factory_32_filled = 0x025e;
+        public const int ic_fluent_building_factory_48_filled = 0x025f;
+        public const int ic_fluent_calendar_chat_20_filled = 0x0260;
+        public const int ic_fluent_calendar_chat_24_filled = 0x0261;
+        public const int ic_fluent_calendar_toolbox_20_filled = 0x0262;
+        public const int ic_fluent_calendar_toolbox_24_filled = 0x0263;
+        public const int ic_fluent_camera_switch_20_filled = 0x0264;
+        public const int ic_fluent_comment_multiple_32_filled = 0x0265;
+        public const int ic_fluent_comment_multiple_link_16_filled = 0x0266;
+        public const int ic_fluent_comment_multiple_link_20_filled = 0x0267;
+        public const int ic_fluent_comment_multiple_link_24_filled = 0x0268;
+        public const int ic_fluent_comment_multiple_link_28_filled = 0x0269;
+        public const int ic_fluent_comment_multiple_link_32_filled = 0x026a;
+        public const int ic_fluent_contact_card_ribbon_16_filled = 0x026b;
+        public const int ic_fluent_contact_card_ribbon_20_filled = 0x026c;
+        public const int ic_fluent_contact_card_ribbon_24_filled = 0x026d;
+        public const int ic_fluent_contact_card_ribbon_28_filled = 0x026e;
+        public const int ic_fluent_contact_card_ribbon_32_filled = 0x026f;
+        public const int ic_fluent_contact_card_ribbon_48_filled = 0x0270;
+        public const int ic_fluent_database_person_20_filled = 0x0271;
+        public const int ic_fluent_database_person_24_filled = 0x0272;
+        public const int ic_fluent_document_flowchart_20_filled = 0x0273;
+        public const int ic_fluent_document_flowchart_24_filled = 0x0274;
+        public const int ic_fluent_document_table_search_20_filled = 0x0275;
+        public const int ic_fluent_document_table_search_24_filled = 0x0276;
+        public const int ic_fluent_document_text_extract_20_filled = 0x0277;
+        public const int ic_fluent_document_text_extract_24_filled = 0x0278;
+        public const int ic_fluent_fast_forward_16_filled = 0x0279;
+        public const int ic_fluent_fast_forward_28_filled = 0x027a;
+        public const int ic_fluent_flowchart_20_filled = 0x027b;
+        public const int ic_fluent_flowchart_24_filled = 0x027c;
+        public const int ic_fluent_flowchart_circle_20_filled = 0x027d;
+        public const int ic_fluent_flowchart_circle_24_filled = 0x027e;
+        public const int ic_fluent_folder_sync_24_filled = 0x027f;
+        public const int ic_fluent_heart_circle_16_filled = 0x0280;
+        public const int ic_fluent_heart_circle_20_filled = 0x0281;
+        public const int ic_fluent_heart_circle_24_filled = 0x0282;
+        public const int ic_fluent_megaphone_loud_24_filled = 0x0283;
+        public const int ic_fluent_people_lock_20_filled = 0x0284;
+        public const int ic_fluent_people_lock_24_filled = 0x0285;
+        public const int ic_fluent_person_circle_24_filled = 0x0286;
+        public const int ic_fluent_phone_update_checkmark_20_filled = 0x0287;
+        public const int ic_fluent_phone_update_checkmark_24_filled = 0x0288;
+        public const int ic_fluent_plug_connected_24_filled = 0x0289;
+        public const int ic_fluent_rewind_16_filled = 0x028a;
+        public const int ic_fluent_rewind_28_filled = 0x028b;
+        public const int ic_fluent_save_multiple_20_filled = 0x028c;
+        public const int ic_fluent_save_multiple_24_filled = 0x028d;
+        public const int ic_fluent_scan_type_checkmark_20_filled = 0x028e;
+        public const int ic_fluent_scan_type_checkmark_24_filled = 0x028f;
+        public const int ic_fluent_select_object_skew_20_filled = 0x0290;
+        public const int ic_fluent_select_object_skew_24_filled = 0x0291;
+        public const int ic_fluent_select_object_skew_dismiss_20_filled = 0x0292;
+        public const int ic_fluent_select_object_skew_dismiss_24_filled = 0x0293;
+        public const int ic_fluent_select_object_skew_edit_20_filled = 0x0294;
+        public const int ic_fluent_select_object_skew_edit_24_filled = 0x0295;
+        public const int ic_fluent_shopping_bag_dismiss_20_filled = 0x0296;
+        public const int ic_fluent_shopping_bag_dismiss_24_filled = 0x0297;
+        public const int ic_fluent_shopping_bag_pause_20_filled = 0x0298;
+        public const int ic_fluent_shopping_bag_pause_24_filled = 0x0299;
+        public const int ic_fluent_tag_error_16_filled = 0x029a;
+        public const int ic_fluent_tag_error_20_filled = 0x029b;
+        public const int ic_fluent_tag_error_24_filled = 0x029c;
+        public const int ic_fluent_tag_multiple_24_filled = 0x029d;
+        public const int ic_fluent_tag_question_mark_20_filled = 0x029e;
+        public const int ic_fluent_tag_question_mark_32_filled = 0x029f;
+        public const int ic_fluent_text_column_one_wide_lightning_20_filled = 0x02a0;
+        public const int ic_fluent_text_column_one_wide_lightning_24_filled = 0x02a1;
+        public const int ic_fluent_text_font_info_16_filled = 0x02a2;
+        public const int ic_fluent_text_font_info_20_filled = 0x02a3;
+        public const int ic_fluent_text_font_info_24_filled = 0x02a4;
+        public const int ic_fluent_tray_item_add_20_filled = 0x02a5;
+        public const int ic_fluent_tray_item_add_24_filled = 0x02a6;
+        public const int ic_fluent_tray_item_remove_20_filled = 0x02a7;
+        public const int ic_fluent_tray_item_remove_24_filled = 0x02a8;
+        public const int ic_fluent_vehicle_truck_bag_20_filled = 0x02a9;
+        public const int ic_fluent_vehicle_truck_bag_24_filled = 0x02aa;
     }
 }

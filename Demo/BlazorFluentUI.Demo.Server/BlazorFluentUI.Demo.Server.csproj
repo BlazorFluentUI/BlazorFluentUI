@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <RuntimeFrameworkVersion>5.0.10</RuntimeFrameworkVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -9,6 +10,6 @@
     <ProjectReference Include="..\BlazorFluentUI.Demo.Shared\BlazorFluentUI.Demo.Shared.csproj" />
   </ItemGroup>
 
- 
+
 
 </Project>

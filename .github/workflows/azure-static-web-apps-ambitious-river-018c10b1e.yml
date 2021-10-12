@@ -33,7 +33,7 @@ jobs:
         env:
           REPO: self
           BRANCH: data_build
-          FOLDER: bin/build
+          FOLDER: published/wwwroot
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
   deploy_job:

@@ -28,6 +28,7 @@ jobs:
         run: dotnet publish -c Release -o published Demo/BlazorFluentUI.Demo.Client/
         
   deploy_job:
+    needs: build_job
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Deploy Job

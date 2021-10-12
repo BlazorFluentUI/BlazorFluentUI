@@ -1,0 +1,6807 @@
+@import '';
+
+/* _content/BlazorFluentUI.CoreComponents/BaseComponent/Layer/LayerHost.razor.rz.scp.css */
+.ms-Layer--fixed[b-i34c8h5ao8] {
+    position: fixed;
+    z-index: var(--zIndex-Layer);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    visibility: hidden;
+}
+
+[b-i34c8h5ao8] .ms-Layer-content {
+    visibility: visible;
+}
+/* _content/BlazorFluentUI.CoreComponents/Button/ButtonBase.razor.rz.scp.css */
+.ms-Button[b-mfs5oirif6] {
+    outline: transparent;
+    position: relative;
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+    box-sizing: border-box;
+    border: 1px solid var(--semanticColors-ButtonBorder);
+    user-select: none;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: top;
+    padding: 0 16px;
+    min-width: 80px;
+    height: 32px;
+    border-radius: var(--effects-RoundedCorner2);
+}
+
+     .ms-Button[b-mfs5oirif6]::-moz-focus-inner{
+        border:0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-Button:focus[b-mfs5oirif6]::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+    @media screen and (-ms-high-contrast: active){
+        .ms-Fabric--isFocusVisible .ms-Button:focus[b-mfs5oirif6]::after {
+            left: -2px;
+            top: -2px;
+            bottom: -2px;
+            right: -2px;
+            border: none;
+            outline-color: ButtonText;
+        }
+    }
+
+
+     .ms-Button:active > *[b-mfs5oirif6] {
+        position: relative;
+        left: 0;
+        top: 0;
+    }
+
+.ms-Button.is-disabled[b-mfs5oirif6] {
+    background-color: var(--semanticColors-DisabledBackground);
+    color: var(--semanticTextColors-DisabledText);
+    cursor: default;
+    pointer-events: none;
+}
+
+ .ms-Button:hover[b-mfs5oirif6], 
+ .ms-Button:focus[b-mfs5oirif6] {
+    text-decoration: none;
+    outline: 0;
+}
+
+ .ms-Button:link[b-mfs5oirif6], 
+ .ms-Button:visited[b-mfs5oirif6], 
+ .ms-Button:active[b-mfs5oirif6] {
+    text-decoration: none;
+}
+
+@media screen and (-ms-high-contrast: active) {
+     .ms-Button[b-mfs5oirif6] {
+        color: GrayText;
+        border-color: GrayText;
+    }
+}
+
+ .ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded[b-mfs5oirif6] {
+    background-color: var(--palette-NeutralLight);
+    color: var(--palette-NeutralDark);
+}
+ .ms-Button.ms-Button--primary.is-expanded[b-mfs5oirif6] {
+    background-color: var(--palette-ThemeDark);
+    color: var(--palette-White);
+}
+
+ .ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded[b-mfs5oirif6]  .ms-Button-icon {
+    color: var(--palette-ThemeDark);
+}
+
+.ms-Button.ms-Button--primary.is-expanded[b-mfs5oirif6]  .ms-Button-icon {
+    color: var(--palette-White);
+}
+
+.ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded[b-mfs5oirif6]  .ms-Button-menuIcon {
+    color: var(--palette-NeutralPrimary);
+}
+
+.ms-Button.ms-Button--primary.is-expanded[b-mfs5oirif6]  .ms-Button-menuIcon {
+    color: var(--palette-White);
+}
+
+ .ms-Button.ms-Button--default:not(.ms-Button--command).is-expanded:hover[b-mfs5oirif6] {
+    background-color: var(--palette-NeutralQuaternaryAlt);
+}
+ .ms-Button.ms-Button--primary.is-expanded:hover[b-mfs5oirif6] {
+    background-color: var(--palette-ThemeDark);
+}
+
+.ms-Button.is-disabled[b-mfs5oirif6]  .ms-Button-icon {
+    color: var(--semanticTextColors-DisabledText);
+}
+
+.ms-Button.is-disabled[b-mfs5oirif6]  .ms-Button-menuIcon {
+    color: var(--semanticTextColors-DisabledText);
+}
+
+[b-mfs5oirif6] .ms-Button-flexContainer {
+    display: flex;
+    height: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+[b-mfs5oirif6] .ms-Button-textContainer {
+    display: block;
+    flex-grow: 1;
+}
+
+[b-mfs5oirif6] .ms-Button-description {
+    display: block;
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+}
+
+
+[b-mfs5oirif6] .ms-Button-icon {
+    font-size: var(--fontSize-Large);
+    margin: 0px 4px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+[b-mfs5oirif6] .ms-Button-menuIcon,
+[b-mfs5oirif6] .ms-Button-menuIcon .ms-Button-icon {
+    font-size: var(--fontSize-Large);
+    margin: 0px 4px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+
+[b-mfs5oirif6] .ms-Button-label {
+    font-weight: var(--fontWeight-SemiBold);
+    margin: 0px 4px;
+    line-height: 100%;
+    display: block;
+}
+
+
+[b-mfs5oirif6] .ms-Button-screenReaderText {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0px;
+    border: 0px;
+    overflow: hidden;
+}
+
+
+
+ .ms-Button-splitContainer[b-mfs5oirif6] {
+    display: inline-flex;
+    position: relative;
+}
+
+     .ms-Button-splitContainer .ms-Button--default:not(.ms-Button-menuIcon)[b-mfs5oirif6] {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right: none;
+    }
+
+
+     .ms-Button-splitContainer .ms-Button--primary:not(.ms-Button-menuIcon)[b-mfs5oirif6] {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border: none;
+    }
+
+     .ms-Button-splitContainer .ms-Button-menuIcon[b-mfs5oirif6] {
+        padding: 6px;
+        height: 32px;
+        box-sizing: border-box;
+        border-radius: 0;
+        border-top-right-radius: var(--effects-RoundedCorner2);
+        border-bottom-right-radius: var(--effects-RoundedCorner2);
+        border:1px solid var(--palette-NeutralSecondaryAlt);
+        border-left: none;
+        outline: transparent;
+        user-select: none;
+        display: inline-block;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        vertical-align: top;
+        min-width: 32px;
+        width: 32px;
+        margin-left: -1px;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+    }
+         .ms-Button-splitContainer .ms-Button-menuIcon.is-disabled[b-mfs5oirif6] {
+            border-color: var(--palette-NeutralLighter);
+            /* Hack to force disabled on border for splitbutton right side menu */
+        }
+
+ .ms-Button-divider[b-mfs5oirif6] {
+    position: absolute;
+    width: 1px;
+    right: 31px;
+    top: 8px;
+    bottom: 8px;
+}
+
+ .ms-Button--primary.ms-Button-divider[b-mfs5oirif6] {
+    background-color: var(--palette-White);
+}
+
+ .ms-Button--default.ms-Button-divider[b-mfs5oirif6] {
+    background-color: var(--semanticColors-BodyDivider);
+}
+
+ .ms-Button-divider.disabled[b-mfs5oirif6] {
+    background-color: var(--semanticColors-BodyDivider);
+}
+
+
+
+/* PRIMARY BUTTON */
+
+.ms-Button--primary[b-mfs5oirif6] {
+    color: var(--palette-White);
+    background-color: var(--palette-ThemePrimary);
+    border: none;
+    border-width: 0px;
+}
+
+.ms-Fabric--isFocusVisible .ms-Button--primary:focus[b-mfs5oirif6]:after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+
+.ms-Button--primary:hover[b-mfs5oirif6] {
+    color: var(--palette-White);
+    background-color: var(--palette-ThemeDarkAlt);
+}
+
+.ms-Button--primary:active[b-mfs5oirif6] {
+    color: var(--palette-White);
+    background-color: var(--palette-ThemeDark);
+}
+
+.ms-Button--primary.is-checked:not(.is-disabled)[b-mfs5oirif6] {
+    color: var(--palette-White);
+    background-color: var(--palette-ThemeDark);
+    border: none;
+}
+
+.ms-Button--primary.is-checked:hover[b-mfs5oirif6] {
+    background-color: var(--palette-ThemePrimary);
+    color: var(--palette-White);
+    border: none;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Button--primary[b-mfs5oirif6] {
+        color: Window;
+        background-color: WindowText;
+        -ms-high-contrast-adjust: none;
+    }
+
+        .ms-Button--primary:hover[b-mfs5oirif6] {
+            color: Window;
+            background-color: Highlight;
+        }
+
+        .ms-Button--primary:active[b-mfs5oirif6] {
+            color: Window;
+            background-color: WindowText;
+            -ms-high-contrast-adjust: none;
+        }
+
+        .ms-Button--primary.is-disabled[b-mfs5oirif6] {
+            color: GrayText;
+            background-color: Window;
+            border-color: GrayText;
+        }
+}
+
+
+/* DEFAULT BUTTON */
+
+ .ms-Button--default[b-mfs5oirif6] {
+    color: var(--semanticTextColors-ButtonText);
+    background-color: var(--palette-White);
+    border: 1px solid var(--palette-NeutralSecondaryAlt);
+}
+    /*
+ .ms-Fabric--isFocusVisible .ms-Button--default:focus:after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+*/
+    .ms-Button--default:hover[b-mfs5oirif6] {
+        color: var(--semanticTextColors-ButtonTextHovered);
+        background-color: var(--palette-NeutralLighter);
+    }
+
+    .ms-Button--default:active[b-mfs5oirif6] {
+        color: var(--semanticTextColors-ButtonTextChecked);
+        background-color: var(--palette-NeutralLight);
+    }
+
+     .ms-Button--default.is-checked:not(.is-disabled)[b-mfs5oirif6] {
+        color: var(--semanticTextColors-ButtonTextChecked);
+        background-color: var(--palette-NeutralLight);
+    }
+
+     .ms-Button--default.is-checked:hover[b-mfs5oirif6] {
+        background-color: var(--palette-NeutralLight);
+    }
+
+     .ms-Button--default.is-disabled[b-mfs5oirif6] {
+        background-color: var(--palette-NeutralLighter);
+        border-color: var(--palette-NeutralLighter);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+     .ms-Button--default[b-mfs5oirif6] {
+        color: Highlight;
+        background-color: Highlight;
+    }
+}
+
+
+/* MessageBarButton */
+
+.ms-Button--messageBar[b-mfs5oirif6] {
+    height: 24px;
+    border-color: var(--palette-NeutralTertiaryAlt);
+}
+
+/* ActionButton */
+
+ .ms-Button.ms-Button--action[b-mfs5oirif6] {
+    min-width: unset;
+    padding: 0px 4px;
+    height: 40px;
+    color: var(--palette-NeutralPrimary);
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+    /*
+ .ms-Fabric--isFocusVisible .ms-Button--action:focus:after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+*/
+     .ms-Button.ms-Button--action:hover[b-mfs5oirif6] {
+        color: var(--palette-ThemePrimary);
+    }
+
+    .ms-Button.ms-Button--action[b-mfs5oirif6]  .ms-Button-icon:hover {
+        color: var(--palette-ThemePrimary);
+    }
+
+     .ms-Button.ms-Button--action:active[b-mfs5oirif6] {
+        color: var(--palette-Black);
+    }
+
+     .ms-Button.ms-Button--action .ms-Button-icon:active[b-mfs5oirif6] {
+        color: var(--palette-ThemeDarker);
+    }
+
+     .ms-Button.ms-Button--action.is-expanded[b-mfs5oirif6] {
+        color: var(--palette-NeutralLight);
+    }
+
+     .ms-Button.ms-Button--action.is-disabled[b-mfs5oirif6] {
+        color: var(--palette-NeutralTertiary);
+        background-color: transparent;
+    }
+
+
+     .ms-Button.ms-Button--action.is-checked:not(.is-disabled)[b-mfs5oirif6] {
+        color: var(--palette-Black);
+    }
+
+    .ms-Button.ms-Button--action.is-checked[b-mfs5oirif6]  .ms-ButtonIcon {
+        color: var(--palette-ThemeDarker);
+    }
+
+    .ms-Button.ms-Button--action[b-mfs5oirif6]  .ms-Button-flexContainer {
+        justify-content: flex-start;
+    }
+
+    .ms-Button.ms-Button--action[b-mfs5oirif6]  .ms-Button-icon {
+        color: var(--palette-ThemeDarkAlt);
+    }
+
+    .ms-Button.ms-Button--action.is-disabled[b-mfs5oirif6]  .ms-Button-icon {
+        color: inherit;
+    }
+
+    .ms-Button.ms-Button--action[b-mfs5oirif6]  .ms-Button-menuIcon {
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Button.ms-Button--action[b-mfs5oirif6]  .ms-Button-textContainer {
+        flex-grow: 0;
+    }
+
+     .ms-Button.ms-Button--action[b-mfs5oirif6]  .ms-Button-label {
+        font-weight: var(--fontWeight-Regular);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+
+     .ms-Button.ms-Button--action:hover[b-mfs5oirif6] {
+        color: Highlight;
+        background-color: Highlight;
+    }
+}
+
+/* CommandBarButton */
+
+ .ms-Button.ms-Button--commandBar[b-mfs5oirif6] {
+    min-width: 40px;
+    padding: 0 4px;
+    height: 40px;
+    color: var(--palette-NeutralPrimary);
+    background-color: var(--palette-White);
+    border: none;
+    border-radius: 0;
+}
+    /*
+ .ms-Fabric--isFocusVisible .ms-Button--commandBar:focus:after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+*/
+     .ms-Button.ms-Button--commandBar:hover[b-mfs5oirif6] {
+        color: var(--palette-NeutralDark);
+        background-color: var(--palette-NeutralLighter);
+    }
+
+        .ms-Button.ms-Button--commandBar:hover[b-mfs5oirif6]  .ms-Button-icon {
+            color: var(--palette-ThemeDarkAlt);
+        }
+
+        .ms-Button.ms-Button--commandBar:hover[b-mfs5oirif6]  .ms-Button-menuIcon {
+            color: var(--palette-NeutralPrimary);
+        }
+
+     .ms-Button.ms-Button--commandBar:active[b-mfs5oirif6] {
+        color: var(--semanticTextColors-Black);
+        background-color: var(--palette-NeutralLight);
+    }
+
+        .ms-Button.ms-Button--commandBar:active[b-mfs5oirif6]  .ms-Button-icon {
+            color: var(--palette-ThemeDarkAlt);
+        }
+
+        .ms-Button.ms-Button--commandBar:active[b-mfs5oirif6]  .ms-Button-menuIcon {
+            color: var(--palette-NeutralPrimary);
+        }
+
+
+
+     .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled)[b-mfs5oirif6] {
+        color: var(--Palette-NeutralDark);
+        background-color: var(--palette-NeutralLight);
+    }
+
+        .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled)[b-mfs5oirif6]  .ms-Button-icon {
+            color: var(--Palette-ThemeDark);
+        }
+
+        .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled)[b-mfs5oirif6]  .ms-Button-menuIcon {
+            color: var(--Palette-NeutralDark);
+            background-color: var(--palette-NeutralPrimary);
+        }
+
+
+         .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled):hover[b-mfs5oirif6] {
+            background-color: var(--palette-NeutralQuaternaryAlt);
+        }
+
+            .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled):hover[b-mfs5oirif6]  .ms-Button-icon {
+                color: var(--Palette-ThemeDark);
+            }
+
+            .ms-Button.ms-Button--commandBar.is-checked:not(.is-disabled):hover[b-mfs5oirif6]  .ms-Button-menuIcon {
+                color: var(--Palette-NeutralDark);
+                background-color: var(--palette-NeutralPrimary);
+            }
+
+
+
+
+     .ms-Button.ms-Button--commandBar.is-expanded[b-mfs5oirif6] {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-NeutralDark);
+    }
+
+        .ms-Button.ms-Button--commandBar.is-expanded[b-mfs5oirif6]  .ms-Button-icon {
+            color: var(--palette-ThemeDark);
+        }
+
+        .ms-Button.ms-Button--commandBar.is-expanded[b-mfs5oirif6]  .ms-Button-menuIcon {
+            color: var(--palette-NeutralPrimary);
+        }
+
+
+
+     .ms-Button.ms-Button--commandBar.is-disabled[b-mfs5oirif6] {
+        background-color: var(--palette-White);
+    }
+
+        .ms-Button.ms-Button--commandBar.is-disabled[b-mfs5oirif6]  .ms-Button-icon {
+            color: var(--semanticTextColors-DisabledBodySubtext);
+        }
+
+
+    .ms-Button.ms-Button--commandBar[b-mfs5oirif6]  .ms-Button-icon {
+        color: var(--palette-ThemePrimary);
+    }
+
+    .ms-Button.ms-Button--commandBar[b-mfs5oirif6]  .ms-Button-label {
+        font-weight: normal;
+    }
+
+    .ms-Button.ms-Button--commandBar[b-mfs5oirif6]  .ms-Button-menuIcon {
+        color: var(--palette-NeutralSecondary);
+    }
+
+
+
+    /* IconButton */
+
+ .ms-Button--icon[b-mfs5oirif6] {
+    padding: 0 4px;
+    min-width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    color: var(--semanticTextColors-Link);
+}
+
+     .ms-Button--icon:hover[b-mfs5oirif6] {
+        color: var(--palette-ThemeDarkAlt);
+        background-color: var(--palette-NeutralLighter);
+    }
+
+     .ms-Button--icon:active[b-mfs5oirif6] {
+        color: var(--palette-ThemeDark);
+        background-color: var(--palette-NeutralLight);
+    }
+
+     .ms-Button--icon.is-checked:not(.is-disabled)[b-mfs5oirif6] {
+        color: var(--palette-ThemeDark);
+        background-color: var(--palette-NeutralLight);
+        border: none;
+    }
+
+     .ms-Button--icon.is-checked:hover[b-mfs5oirif6] {
+        background-color: var(--palette-NeutralQuaternaryAlt);
+        color: var(--palette-ThemeDark);
+    }
+
+     .ms-Button--icon.is-disabled[b-mfs5oirif6] {
+        border-color: var(--palette-NeutralQuaternaryAlt);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+     .ms-Button.ms-Button--icon:hover[b-mfs5oirif6] {
+        color: Highlight;
+        background-color: Highlight;
+    }
+}
+
+
+
+/* CommandButton */
+
+ .ms-Button.ms-Button--command[b-mfs5oirif6] {
+    min-width: unset;
+    padding: 0px 4px;
+    height: 40px;
+    color: var(--palette-NeutralPrimary);
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+    /*
+ .ms-Fabric--isFocusVisible .ms-Button--command:focus:after {
+    outline: none;
+    border-color: var(--palette-White);
+}
+*/
+     .ms-Button.ms-Button--command:hover[b-mfs5oirif6] {
+        color: var(--palette-ThemePrimary);
+    }
+
+     .ms-Button.ms-Button--command.is-expanded[b-mfs5oirif6] {
+        color: var(--palette-ThemePrimary);
+    }
+
+    .ms-Button.ms-Button--command[b-mfs5oirif6]  .ms-Button-icon:hover {
+        color: var(--palette-ThemePrimary);
+    }
+
+
+     .ms-Button.ms-Button--command:active[b-mfs5oirif6] {
+        color: var(--palette-Black);
+    }
+
+    .ms-Button.ms-Button--command[b-mfs5oirif6]  .ms-Button-icon:active {
+        color: var(--palette-ThemeDarker);
+    }
+
+    /*  .ms-Button.ms-Button--command.is-expanded {
+        color: var(--palette-NeutralLight);
+    }*/
+
+     .ms-Button.ms-Button--command.is-disabled[b-mfs5oirif6] {
+        color: var(--palette-NeutralTertiary);
+        background-color: transparent;
+    }
+
+
+     .ms-Button.ms-Button--command.is-checked:not(.is-disabled)[b-mfs5oirif6] {
+        color: var(--palette-Black);
+    }
+
+    .ms-Button.ms-Button--command.is-checked[b-mfs5oirif6]  .ms-ButtonIcon {
+        color: var(--palette-ThemeDarker);
+    }
+
+    .ms-Button.ms-Button--command[b-mfs5oirif6]  .ms-Button-flexContainer {
+        justify-content: flex-start;
+    }
+
+    .ms-Button.ms-Button--command[b-mfs5oirif6]  .ms-Button-icon {
+        color: var(--palette-ThemeDarkAlt);
+    }
+
+    .ms-Button.ms-Button--command.is-disabled[b-mfs5oirif6]  .ms-Button-icon {
+        color: inherit;
+    }
+
+    .ms-Button.ms-Button--command[b-mfs5oirif6]  .ms-Button-menuIcon {
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Button.ms-Button--command[b-mfs5oirif6]  .ms-Button-textContainer {
+        flex-grow: 0;
+    }
+
+    .ms-Button.ms-Button--command[b-mfs5oirif6]  .ms-Button-label {
+        font-weight: var(--fontWeight-Regular);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+
+     .ms-Button.ms-Button--command:hover[b-mfs5oirif6] {
+        color: Highlight;
+        background-color: Highlight;
+    }
+}
+
+
+
+/* CompoundButton */
+ .ms-Button.ms-Button--compound[b-mfs5oirif6] {
+    max-width: 280px;
+    min-height: 72px;
+    padding: 16px 12px;
+    height: auto;
+}
+
+    .ms-Button.ms-Button--compound[b-mfs5oirif6]  .ms-Button-flexContainer {
+        flex-direction: row;
+        align-items: flex-start;
+        min-width: 100%;
+        margin: unset;
+    }
+
+    .ms-Button.ms-Button--compound[b-mfs5oirif6]  .ms-Button-textContainer {
+        text-align: left;
+    }
+
+    .ms-Button.ms-Button--compound[b-mfs5oirif6]  .ms-Button-label {
+        margin: 0 0 5px 0;
+        line-height: 100%;
+        font-weight: var(--fontWeight-SemiBold);
+    }
+
+    .ms-Button.ms-Button--compound[b-mfs5oirif6]  .ms-Button-description {
+        line-height: 100%;
+    }
+
+
+.ms-Button--default.ms-Button--compound[b-mfs5oirif6]  .ms-Button-description {
+    color: var(--palette-NeutralSecondary);
+}
+
+
+.ms-Button--default.ms-Button--compound:hover[b-mfs5oirif6]  .ms-Button-description {
+    color: var(--palette-NeutralDark);
+}
+
+.ms-Button--default.ms-Button--compound.is-checked[b-mfs5oirif6]  .ms-Button-description {
+    color: inherit;
+}
+
+
+.ms-Button--default.ms-Button--compound.is-disabled[b-mfs5oirif6]  .ms-Button-description {
+    color: inherit;
+}
+
+
+.ms-Button--primary.ms-Button--compound[b-mfs5oirif6]  .ms-Button-description {
+    color: var(--palette-White);
+}
+
+
+.ms-Button--primary.ms-Button--compound:hover[b-mfs5oirif6]  .ms-Button-description {
+    color: var(--palette.White);
+}
+
+.ms-Button--primary.ms-Button--compound.is-checked[b-mfs5oirif6]  .ms-Button-description {
+    color: inherit;
+}
+
+
+.ms-Button--primary.ms-Button--compound.is-disabled[b-mfs5oirif6]  .ms-Button-description {
+    color: inherit;
+}
+/* _content/BlazorFluentUI.CoreComponents/Calendar/Calendar.razor.rz.scp.css */
+
+.ms-Calendar[b-7q5pg5xq0y] {
+    box-sizing: border-box;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+}
+
+
+
+    .ms-Calendar[b-7q5pg5xq0y]  *::-moz-focus-inner {
+        border: 0;
+    }
+
+
+
+    .ms-Calendar[b-7q5pg5xq0y]  * {
+        outline: transparent;
+        position: relative;
+    }
+
+
+
+.ms-Fabric--isFocusVisible .ms-Calendar[b-7q5pg5xq0y]  *:focus:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    border: 1px solid var(--palette-NeutralSecondary);
+}
+
+
+
+.ms-Calendar-picker[b-7q5pg5xq0y] {
+    color: var(--palette-Black);
+    font-size: var(--fontSize-Medium);
+    position: relative;
+    text-align: left;
+}
+
+
+
+.ms-Calendar-holder[b-7q5pg5xq0y] {
+    touch-action: pan-x pan-y;
+    box-sizing: border-box;
+    display: none;
+}
+
+
+
+.ms-Calendar-picker.ms-Calendar-pickerIsOpened .ms-Calendar-holder[b-7q5pg5xq0y] {
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+
+
+.ms-Calendar-picker--opened[b-7q5pg5xq0y] {
+    position: relative;
+}
+
+
+
+.ms-Calendar-frame[b-7q5pg5xq0y] {
+    position: relative;
+}
+
+
+
+.ms-Calendar-wrap[b-7q5pg5xq0y] {
+    min-height: 212px;
+    padding: 12px;
+    display: flex;
+    box-sizing: content-box;
+}
+
+
+
+    .ms-Calendar-wrap.ms-Calendar-goTodaySpacing[b-7q5pg5xq0y] {
+        min-height: 228px;
+    }
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-header {
+    position: relative;
+    display: inline-flex;
+    height: 28px;
+    line-height: 44px;
+    width: 100%;
+}
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-divider {
+    top: 0;
+    margin-top: -12px;
+    margin-bottom: -12px;
+    border-right: 1px solid var(--palette-NeutralLight);
+}
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-monthAndYear,
+[b-7q5pg5xq0y] .ms-Calendar-year,
+[b-7q5pg5xq0y] .ms-Calendar-decade {
+    display: inline-flex;
+    flex-grow: 1;
+    /*   @include ms-font-m; */
+    font-weight: 600;
+    color: var(--palette-NeutralPrimary);
+    padding: 0 5px;
+}
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-monthAndYear:hover,
+    [b-7q5pg5xq0y] .ms-Calendar-currentYear:hover,
+    [b-7q5pg5xq0y] .ms-Calendar-currentDecade:hover {
+        cursor: default;
+    }
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-table {
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    font-size: inherit;
+    margin-top: 3px;
+    width: 197px;
+}
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-table td {
+        margin: 0;
+        padding: 0;
+    }
+
+[b-7q5pg5xq0y] .dayCell {
+    margin: 0px;
+    padding: 0px;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--palette-NeutralPrimary);
+    cursor: pointer;
+    position: relative;
+}
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-weekday {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    line-height: 28px;
+    font-size: var(--fontSize-Small);
+    /*  @include ms-font-m-plus; */
+    color: var(--palette-NeutralPrimary);
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+}
+
+
+
+    [b-7q5pg5xq0y] .dayCell *::-moz-focus-inner,
+    [b-7q5pg5xq0y] .ms-Calendar-weekday *::-moz-focus-inner {
+        border: 0;
+    }
+
+
+
+    [b-7q5pg5xq0y] .dayCell *,
+    [b-7q5pg5xq0y] .ms-Calendar-weekday * {
+        outline: transparent;
+        position: relative;
+    }
+
+
+
+.ms-Fabric--isFocusVisible .ms-Calendar[b-7q5pg5xq0y]  .dayCell *:focus:after,
+.ms-Fabric--isFocusVisible .ms-Calendar[b-7q5pg5xq0y]  .ms-Calendar-weekday *:focus:after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    bottom: -2px;
+    left: -2px;
+    pointer-events: none;
+    border: 1px solid var(--palette-NeutralSecondary);
+}
+
+
+[b-7q5pg5xq0y] .ms-Calendar-monthComponents,
+[b-7q5pg5xq0y] .ms-Calendar-yearComponents,
+[b-7q5pg5xq0y] .ms-Calendar-decadeComponents {
+    display: inline-flex;
+    align-self: flex-end;
+}
+
+[b-7q5pg5xq0y] .ms-Calendar-closeButton,
+[b-7q5pg5xq0y] .ms-Calendar-prevMonth,
+[b-7q5pg5xq0y] .ms-Calendar-nextMonth,
+[b-7q5pg5xq0y] .ms-Calendar-prevYear,
+[b-7q5pg5xq0y] .ms-Calendar-nextYear,
+[b-7q5pg5xq0y] .ms-Calendar-prevDecade,
+[b-7q5pg5xq0y] .ms-Calendar-nextDecade {
+    font-family:inherit;
+    width: 24px;
+    height: 24px;
+    display: block;
+    text-align: center;
+    line-height: 24px;
+    text-align:center;
+    font-size: var(--fontSize-Small);
+    color: var(--palette-NeutralPrimary);
+    border-radius: 2px;
+    position: relative;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-closeButton:hover,
+    [b-7q5pg5xq0y] .ms-Calendar-prevMonth:hover,
+    [b-7q5pg5xq0y] .ms-Calendar-nextMonth:hover,
+    [b-7q5pg5xq0y] .ms-Calendar-prevYear:hover,
+    [b-7q5pg5xq0y] .ms-Calendar-nextYear:hover,
+    [b-7q5pg5xq0y] .ms-Calendar-prevDecade:hover,
+    [b-7q5pg5xq0y] .ms-Calendar-nextDecade:hover {
+        cursor: pointer;
+        color: var(--palette-NeutralDark);
+        outline: 1px solid transparent;
+    }
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-prevMonthIsDisabled,
+[b-7q5pg5xq0y] .ms-Calendar-nextMonthIsDisabled,
+[b-7q5pg5xq0y] .ms-Calendar-prevYearIsDisabled,
+[b-7q5pg5xq0y] .ms-Calendar-nextYearIsDisabled,
+[b-7q5pg5xq0y] .ms-Calendar-prevDecadeIsDisabled,
+[b-7q5pg5xq0y] .ms-Calendar-nextDecadeIsDisabled {
+    pointer-events: none;
+    color: var(--palette-NeutralTertiaryAlt);
+}
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-headerToggleView {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+}
+
+    [b-7q5pg5xq0y] .ms-Calendar-headerToggleView:hover {
+        color: var(--palette-Black);
+        cursor: pointer;
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    [b-7q5pg5xq0y] .ms-Calendar-headerToggleView:hover {
+        outline:1px solid Highlight;
+    }
+
+        [b-7q5pg5xq0y] .ms-Calendar-headerToggleView:hover:active {
+            color:Highlight;
+        }
+}
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-currentYear,
+[b-7q5pg5xq0y] .ms-Calendar-currentDecade {
+    display: inline-flex;
+    flex-grow: 1;
+    padding: 0 5px;
+    /*@include ms-font-m;*/
+    font-weight: 600;
+    color: var(--palette-NeutralPrimary);
+    height: 28px;
+    line-height: 28px;
+    margin-left: 5px;
+}
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-optionGrid {
+    position: relative;
+    height: 210px;
+    width: 196px;
+    margin: 4px, 0, 0, 0;
+}
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-monthOption,
+[b-7q5pg5xq0y] .ms-Calendar-yearOption {
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+    width: 60px;
+    height: 60px;
+    line-height: 100%;
+    cursor: pointer;
+    float: left;
+    margin: 0 10px 10px 0;
+    /*@include ms-font-s-plus;*/
+    color: var(--palette-NeutralPrimary);
+    text-align: center;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 2px;
+}
+
+[b-7q5pg5xq0y] .ms-Calendar-timeOption{
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+    width: 30px;
+    height: 21px;
+    line-height: 100%;
+    cursor: pointer;
+    float: left;
+    margin: 0 10px 10px 0;
+    /*@include ms-font-s-plus;*/
+    color: var(--palette-NeutralPrimary);
+    text-align: center;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 2px;
+}
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-monthOption:hover,
+[b-7q5pg5xq0y] .ms-Calendar-yearOption:hover,
+[b-7q5pg5xq0y] .ms-Calendar-timeOption:hover{
+    color: var(--palette-NeutralDark);
+    background-color: var(--palette-NeutralLighter);
+    outline: 1px solid transparent;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    [b-7q5pg5xq0y] .ms-Calendar-monthOption:hover,
+    [b-7q5pg5xq0y] .ms-Calendar-yearOption:hover,
+    [b-7q5pg5xq0y] .ms-Calendar-timeOption:hover {
+        outline-color: Highlight;
+    }
+    [b-7q5pg5xq0y] .ms-Calendar-monthOption:active,
+    [b-7q5pg5xq0y] .ms-Calendar-yearOption:active,
+    [b-7q5pg5xq0y] .ms-Calendar-timeOption:active {
+        outline-color: Highlight;
+    }
+}
+
+[b-7q5pg5xq0y] .ms-Calendar-monthOption.ms-Calendar-monthIsHighlighted,
+[b-7q5pg5xq0y] .ms-Calendar-yearOption.ms-Calendar-yearIsHighlighted,
+[b-7q5pg5xq0y] .ms-Calendar-timeOption.ms-Calendar-timeIsHighlighted {
+    color: var(--palette-NeutralDark);
+    background-color: var(--palette-ThemeLight);
+    font-weight:600;
+}
+
+
+
+[b-7q5pg5xq0y] .ms-Calendar-dayIsDisabled,
+[b-7q5pg5xq0y] .ms-Calendar-monthOptionIsDisabled,
+[b-7q5pg5xq0y] .ms-Calendar-yearOptionIsDisabled {
+    color: var(--palette-NeutralTertiaryAlt);
+    pointer-events: none;
+}
+
+    /*Button to navigate to the current date-*/
+
+.ms-Calendar-goToday[b-7q5pg5xq0y] {
+    bottom: 0;
+    color: var(--palette-ThemePrimary);
+    cursor: pointer;
+    /*@include ms-font-s;*/
+    color: var(--palette-NeutralPrimary);
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    background-color: transparent;
+    border: none;
+    position: absolute !important;
+    box-sizing: content-box;
+    right: 13px;
+}
+
+    .ms-Calendar-goToday:hover[b-7q5pg5xq0y] {
+        color: var(--palette-ThemePrimary);
+        outline: 1px solid transparent;
+    }
+
+    .ms-Calendar-goToday:active[b-7q5pg5xq0y] {
+        color: var(--palette-ThemeDark);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Calendar-goToday:hover[b-7q5pg5xq0y] {
+        outline-color: Highlight;
+    }
+
+    .ms-Calendar-goToday:active[b-7q5pg5xq0y] {
+        color: Highlight
+    }
+}
+
+
+
+.ms-Calendar-goToTodayIsDisabled[b-7q5pg5xq0y] {
+    color: var(--palette-NeutralTertiaryAlt);
+    pointer-events: none;
+}
+
+    .ms-Calendar-goTodayInlineMonth[b-7q5pg5xq0y] {
+        top: 212px;
+    }
+
+    /*Additional 28px padding needed when Go to today button is visible*/
+
+    .ms-Calendar-wrap.ms-Calendar-goTodaySpacing[b-7q5pg5xq0y] {
+        padding-bottom: 28px;
+    }
+
+    /*State: The picker is showing the year components.*/
+
+    .ms-Calendar-isPickingYears[b-7q5pg5xq0y]  .ms-Calendar-dayPicker,
+    .ms-Calendar-isPickingYears[b-7q5pg5xq0y]  .ms-Calendar-monthComponents {
+        display: none;
+    }
+
+
+
+    .ms-Calendar-isPickingYears[b-7q5pg5xq0y]  .ms-Calendar-monthPicker {
+        display: none;
+    }
+
+
+
+    .ms-Calendar-isPickingYears[b-7q5pg5xq0y]  .ms-Calendar-yearPicker {
+        display: block;
+    }
+
+
+
+    @media (min-device-width: 460px) {
+        .ms-Calendar-wrap[b-7q5pg5xq0y] {
+            padding: 12px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-dayPicker,
+        [b-7q5pg5xq0y] .ms-Calendar-monthPicker {
+            min-height: 200px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-header {
+            height: 28px;
+            line-height: 28px;
+            width: 100%;
+        }
+
+        [b-7q5pg5xq0y] .dayCell,
+        [b-7q5pg5xq0y] .ms-Calendar-weekday {
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            font-size: var(--fontSize-Small);
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-closeButton,
+        [b-7q5pg5xq0y] .ms-Calendar-prevMonth,
+        [b-7q5pg5xq0y] .ms-Calendar-nextMonth,
+        [b-7q5pg5xq0y] .ms-Calendar-prevYear,
+        [b-7q5pg5xq0y] .ms-Calendar-nextYear,
+        [b-7q5pg5xq0y] .ms-Calendar-prevDecade,
+        [b-7q5pg5xq0y] .ms-Calendar-nextDecade {
+            font-size: var(--fontSize-Small);
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+        }
+
+        .ms-Calendar-holder[b-7q5pg5xq0y] {
+            display: inline-block;
+            height: auto;
+            overflow: hidden;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthAndYear,
+        [b-7q5pg5xq0y] .ms-Calendar-year,
+        [b-7q5pg5xq0y] .ms-Calendar-decade {
+            font-size: var(--fontSize-Medium);
+            color: var(--palette-NeutralPrimary);
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-yearComponents {
+            margin-left: 1px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar.ms-Calendar-goToday {
+            padding: 0 3px;
+            /*@include ms-right(20px);*/
+        }
+
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthPickerVisible .ms-Calendar-wrap {
+            padding: 12px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthPickerVisible .ms-Calendar-dayPicker {
+            margin: -10px 0;
+            padding: 10px 0;
+            box-sizing: border-box;
+            width: 212px;
+            min-height: 200px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthPickerVisible .ms-Calendar-monthPicker {
+            display: block;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthPickerVisible .ms-Calendar-optionGrid {
+            height: 150px;
+            width: 196px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-toggleMonthView {
+            display: none;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-currentYear,
+        [b-7q5pg5xq0y] .ms-Calendar-currentDecade {
+            font-size: var(--fontSize-Medium);
+            margin: 0;
+            height: 28px;
+            line-height: 28px;
+            display: inline-block;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthOption,
+        [b-7q5pg5xq0y] .ms-Calendar-yearOption {
+            width: 40px;
+            height: 40px;
+            line-height: 100%;
+            font-size: var(--fontSize-Small);
+            margin: 0 12px 16px 0;
+        }
+
+            [b-7q5pg5xq0y] .ms-Calendar-monthOption:hover,
+            [b-7q5pg5xq0y] .ms-Calendar-yearOption:hover {
+                outline: 1px solid transparent;
+            }
+
+            [b-7q5pg5xq0y] .ms-Calendar-monthOption:nth-child(4n+4),
+            [b-7q5pg5xq0y] .ms-Calendar-yearOption:nth-child(4n+4) {
+                margin: 0 0px 16px 0;
+            }
+
+        [b-7q5pg5xq0y] .ms-Calendar-goToday {
+            font-size: var(--fontSize-Small);
+            height: 28px;
+            line-height: 28px;
+            padding: 0 10px;
+            right: 8px;
+            text-align: right;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-isPickingYears .ms-Calendar-dayPicker,
+        [b-7q5pg5xq0y] .ms-Calendar-isPickingYears .ms-Calendar-monthComponents {
+            display: block;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-isPickingYears .ms-Calendar-monthPicker {
+            display: none;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-isPickingYears .ms-Calendar-yearPicker {
+            display: block;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-calendarsInline .ms-Calendar-wrap {
+            padding: 12px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-calendarsInline .ms-Calendar-holder {
+            height: auto;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-calendarsInline .ms-Calendar-table {
+            margin-right: 12px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-calendarsInline .ms-Calendar-dayPicker {
+            width: auto;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-calendarsInline .ms-Calendar-monthPicker {
+            margin-left: 12px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-calendarsInline .ms-Calendar-yearPicker {
+            margin-left: 12px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-calendarsInline .ms-Calendar-goToday {
+            margin-right: 14px;
+            padding: 0 10px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-calendarsInline .ms-Calendar-monthComponents {
+            margin-right: 12px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthPickerOnly .ms-Calendar-wrap {
+            padding: 12px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthPickerAsOverlay .ms-Calendar-wrap {
+            padding-bottom: 28px;
+            margin-bottom: 6px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthPickerAsOverlay .ms-Calendar-holder {
+            height: 240px;
+            min-height: 240px;
+        }
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthPickerAsOverlay .ms-Calendar-holderWithButton {
+            padding-top: 6px;
+            height: auto;
+        }
+    }
+
+
+
+    @media (max-device-width: 459px) {
+        [b-7q5pg5xq0y] .ms-Calendar-calendarsInline .ms-Calendar-monthPicker,
+        [b-7q5pg5xq0y] .ms-Calendar-calendarsInline .ms-Calendar-yearPicker {
+            /*// Month and year pickers, hidden on small screens by default. .monthPicker, .yearPicker*/
+            display: none;
+        }
+
+        /*// position year components so they do not move when switching between calendars (overlayed calendars)*/
+        [b-7q5pg5xq0y] .ms-Calendar-yearComponents {
+            margin-top: 2px;
+        }
+    }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-goToday {
+        width: auto;
+    }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-closeButton,
+    [b-7q5pg5xq0y] .ms-Calendar-nextMonth,
+    [b-7q5pg5xq0y] .ms-Calendar-prevMonth,
+    [b-7q5pg5xq0y] .ms-Calendar-nextYear,
+    [b-7q5pg5xq0y] .ms-Calendar-prevYear,
+    [b-7q5pg5xq0y] .ms-Calendar-nextDecade,
+    [b-7q5pg5xq0y] .ms-Calendar-prevDecade {
+        display: inline-block;
+    }
+
+
+
+        [b-7q5pg5xq0y] .ms-Calendar-closeButton:hover,
+        [b-7q5pg5xq0y] .ms-Calendar-nextMonth:hover,
+        [b-7q5pg5xq0y] .ms-Calendar-prevMonth:hover,
+        [b-7q5pg5xq0y] .ms-Calendar-nextYear:hover,
+        [b-7q5pg5xq0y] .ms-Calendar-prevYear:hover,
+        [b-7q5pg5xq0y] .ms-Calendar-nextDecade:hover,
+        [b-7q5pg5xq0y] .ms-Calendar-prevDecade:hover {
+            background-color: var(--palette-NeutralLighter);
+            color: var(--palette-NeutralDark);
+            /*@include high-contrast {
+                        outline: 1px solid highlight;
+                    }*/
+        }
+
+
+
+        [b-7q5pg5xq0y] .ms-Calendar-closeButton:active,
+        [b-7q5pg5xq0y] .ms-Calendar-nextMonth:active,
+        [b-7q5pg5xq0y] .ms-Calendar-prevMonth:active,
+        [b-7q5pg5xq0y] .ms-Calendar-nextYear:active,
+        [b-7q5pg5xq0y] .ms-Calendar-prevYear:active,
+        [b-7q5pg5xq0y] .ms-Calendar-nextDecade:active,
+        [b-7q5pg5xq0y] .ms-Calendar-prevDecade:active {
+            background-color: var(--palette-NeutralLight);
+            /*@include high-contrast {
+                        outline: 1px solid highlight;
+                    }*/
+        }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-monthIsHighlighted {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-NeutralDark);
+        font-weight: 600;
+    }
+
+
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthIsHighlighted.ms-Calendar-monthOption:hover {
+            background-color: var(--palette-NeutralLight);
+        }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-monthIsCurrentMonth {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-White);
+    }
+
+
+
+        [b-7q5pg5xq0y] .ms-Calendar-monthIsCurrentMonth.ms-Calendar-monthOption:hover {
+            background-color: var(--palette-NeutralLighter);
+            color: var(--palette-White);
+        }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-monthOption:active {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-NeutralDark);
+    }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-yearIsHighlighted {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-NeutralDark);
+    }
+
+
+
+        [b-7q5pg5xq0y] .ms-Calendar-yearIsHighlighted.ms-Calendar-yearOption:hover {
+            background-color: var(--palette-NeutralLighter);
+        }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-yearIsCurrentYear {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-White);
+    }
+
+
+
+        [b-7q5pg5xq0y] .ms-Calendar-yearIsCurrentYear.yearOption:hover {
+            background-color: var(--palette-NeutralLighter);
+            color: var(--palette-White);
+        }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-yearOption:active {
+        background-color: var(--palette-NeutralLight);
+        color: var(--palette-NeutralDark);
+    }
+
+    /*// Highlighted Month date styling.*/
+
+    [b-7q5pg5xq0y] .ms-Calendar-topLeftCornerDate {
+        border-top-left-radius: 2px;
+    }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-topRightCornerDate {
+        border-top-right-radius: 2px;
+    }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-bottomLeftCornerDate {
+        border-bottom-left-radius: 2px;
+    }
+
+
+
+    [b-7q5pg5xq0y] .ms-Calendar-bottomRightCornerDate {
+        border-bottom-right-radius: 2px;
+    }
+
+/* _content/BlazorFluentUI.CoreComponents/Calendar/CalendarDay.razor.rz.scp.css */
+.dayButton[b-kyoz7e6k89] {
+	outline: transparent;
+	position: relative;
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 12px;
+	font-weight: inherit;
+	border-radius: 2px;
+	border: none;
+	padding: 0px;
+	color: inherit;
+	background-color: transparent;
+	cursor: pointer;
+	overflow: visible;
+}
+
+.ms-Calendar-day[b-kyoz7e6k89] {
+	width: 24px;
+	height: 24px;
+	border-radius: 2px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	padding: 0;
+	background-color: transparent;
+	line-height: 100%;
+	font-size: inherit;
+	color: inherit;
+	font-weight: inherit;
+	cursor: pointer;
+}
+
+.ms-Calendar-daySelection .ms-Calendar-day[b-kyoz7e6k89] {
+	/* high contrast */
+}
+
+
+
+.ms-Calendar-dayIsToday[b-kyoz7e6k89] {
+	border-radius: 100%;
+}
+
+
+
+	.ms-Calendar-dayIsToday[b-kyoz7e6k89], .ms-Calendar-dayIsToday:hover[b-kyoz7e6k89] {
+		position: relative;
+		background-color: var(--palette-NeutralLighter);
+		/* high contrast */
+	}
+
+
+
+.ms-Calendar--dayIsToday span[b-kyoz7e6k89], .ms-Calendar--dayIsToday:hover span[b-kyoz7e6k89] {
+	/* high contrast */
+}
+
+
+
+.ms-Calendar-dayIsToday:hover[b-kyoz7e6k89], .ms-Calendar-dayIsToday:hover:hover[b-kyoz7e6k89] {
+	border-radius: 100%;
+}
+
+
+
+.ms-Calendar-dayIsDisabled[b-kyoz7e6k89]:before {
+	border-top-color: var(--palette-NeutralTertiary);
+}
+
+.ms-Calendar-dayOutsideBounds[b-kyoz7e6k89] {
+	color: var(--palette-NeutralTertiaryAlt);
+	pointer-events: none;
+}
+
+
+
+
+.ms-Calendar-dayIsUnfocused[b-kyoz7e6k89] {
+	color: var(--palette-NeutralSecondary);
+	font-weight: var(--fontWeight.Regular);
+}
+
+
+
+	.ms-Calendar-dayIsFocused:hover[b-kyoz7e6k89], .ms-Calendar-dayIsUnfocused:hover[b-kyoz7e6k89] {
+		cursor: pointer;
+		color: var(--palette-NeutralDark);
+		background: var(--palette-NeutralLighter);
+	}
+
+/*// Highlighted and hovered/focused dates.*/
+
+.ms-Calendar-daySelection.ms-Calendar-dayIsHighlighted:hover[b-kyoz7e6k89], .ms-Calendar-pickerIsFocused .ms-Calendar-dayIsHighlighted.ms-Calendar-daySelection[b-kyoz7e6k89] {
+	cursor: pointer;
+	background-color: var(--palette-NeutralLight);
+	border-radius: 2px;
+	/*@include high-contrast {
+						border: 2px solid Highlight;
+
+						:not(.dayIsToday) span {
+							color: Highlight;
+						}
+					}*/
+}
+
+
+
+.ms-Calendar-dayIsHighlighted button.ms-Calendar-dayIsToday[b-kyoz7e6k89] {
+	/*@include high-contrast {
+						border-radius: 100%;
+					}*/
+}
+
+
+
+	.ms-Calendar-dayIsHighlighted button.ms-Calendar-dayIsToday span[b-kyoz7e6k89] {
+		/*@include high-contrast {
+						border-radius: 100%;
+					}*/
+	}
+
+
+
+.ms-Calendar-dayIsFocused:active[b-kyoz7e6k89], .ms-Calendar-dayIsHighlighted[b-kyoz7e6k89] {
+	background-color: var(--palette-ThemeLight);
+}
+
+
+
+
+	.ms-Calendar-dayIsFocused:active.day[b-kyoz7e6k89], .ms-Calendar-dayIsHighlighted.day[b-kyoz7e6k89] {
+		color: var(--palette-NeutralDark);
+		background-color: var(--palette-NeutralLight);
+	}
+
+	/*// Disabled and highlighted dates.*/
+
+	.ms-Calendar-dayIsHighlighted.dayDisabled[b-kyoz7e6k89], .ms-Calendar-dayIsHighlighted.dayDisabled:hover[b-kyoz7e6k89] {
+		background: var(--palette-NeutralTertiary);
+	}
+
+/*// Highlighted date squares*/
+
+.ms-Calendar-dayBackground[b-kyoz7e6k89],
+.ms-Calendar-dayBackground:hover[b-kyoz7e6k89],
+.ms-Calendar-dayBackground:active[b-kyoz7e6k89] {
+	border-radius: 2px;
+}
+
+
+
+.ms-Calendar-dayHover[b-kyoz7e6k89],
+.ms-Calendar-dayHover:hover[b-kyoz7e6k89] {
+	cursor: pointer;
+	color: var(--palette-NeutralDark);
+	background: var(--palette-NeutralLighter);
+}
+
+
+
+.ms-Calendar-dayPress[b-kyoz7e6k89],
+.ms-Calendar-dayPress:hover[b-kyoz7e6k89] {
+	cursor: pointer;
+	color: var(--palette-NeutralDark);
+	background: var(--palette-NeutralLight);
+}
+
+	.ms-Calendar-dayPress .ms-Calendar-dayIsToday[b-kyoz7e6k89],
+	.ms-Calendar-dayPress:hover .ms-Calendar-dayIsToday[b-kyoz7e6k89] {
+		background: var(--palette-ThemePrimary);
+		border-radius: 100%;
+	}
+
+
+
+.ms-Calendar-dayIsUnfocused:active[b-kyoz7e6k89],
+.ms-Calendar-dayIsFocused:active[b-kyoz7e6k89],
+.ms-Calendar-dayIsHighlighted[b-kyoz7e6k89],
+.ms-Calendar-dayIsHighlighted:hover[b-kyoz7e6k89],
+.ms-Calendar-dayIsHighlighted:active[b-kyoz7e6k89],
+.ms-Calendar-weekBackground[b-kyoz7e6k89],
+.ms-Calendar-weekBackground:hover[b-kyoz7e6k89],
+.ms-Calendar-weekBackground:active[b-kyoz7e6k89] {
+	background-color: var(--palette-NeutralLight);
+	color: var(--palette-NeutralDark);
+}
+
+
+
+.ms-Calendar-dayIsToday[b-kyoz7e6k89],
+.ms-Calendar-pickerIsFocused
+.ms-Calendar-dayIsToday[b-kyoz7e6k89],
+.ms-Calendar-dayIsToday.ms-Calendar-day:active[b-kyoz7e6k89] {
+	position: relative;
+	color: var(--palette-White);
+	font-weight: var(--fontWeight-SemiBold);
+	background: var(--palette-ThemePrimary);
+	border-radius: 100%;
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+	.ms-Calendar-dayIsToday[b-kyoz7e6k89],
+	.ms-Calendar-pickerIsFocused
+	.ms-Calendar-dayIsToday[b-kyoz7e6k89],
+	.ms-Calendar-dayIsToday.ms-Calendar-day:active[b-kyoz7e6k89] {
+		border-color: Highlight;
+		color: HighlightText;
+		-ms-high-contrast-adjust:none;
+	}
+}
+
+.weekNumberCell[b-kyoz7e6k89]
+{
+	margin: 0px;
+	padding: 0px;
+	border-right: 1px solid;
+	border-color: var(--palette-NeutralLight);
+	background-color: var(--palette-NeutralLighterAlt);
+	color: var(--palette-NeutralSecondary);
+	box-sizing: border-box;
+	width: 28px;
+	height: 28px;
+	font-weight: 400;
+	font-size: 12px;
+}
+/* _content/BlazorFluentUI.CoreComponents/Calendar/CalendarMonth.razor.rz.scp.css */
+/* _content/BlazorFluentUI.CoreComponents/Calendar/CalendarYear.razor.rz.scp.css */
+/* _content/BlazorFluentUI.CoreComponents/Callout/CalloutContent.razor.rz.scp.css */
+.ms-Callout-container[b-h36gge7vtg] {
+    position: relative;
+}
+
+.ms-Callout-beakCurtain[b-h36gge7vtg] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--semanticColors-MenuBackground);
+    border-radius: var(--effects-RoundedCorner2);
+}
+
+@media screen and (-ms-high-contrast:active) {
+    .ms-Callout[b-h36gge7vtg] {
+        border-width: 1px;
+        border-style: solid;
+        border-color: WindowText;
+    }
+}
+/* _content/BlazorFluentUI.CoreComponents/Checkbox/Checkbox.razor.rz.scp.css */
+/* ROOT */
+.ms-Checkbox[b-b1el3o0s77] {
+    display: flex;
+    position: relative;
+    /*word-wrap: break-word;
+    overflow-wrap: break-word;*/
+}
+
+    .ms-Checkbox:not(.is-disabled):not(.is-checked)[b-b1el3o0s77]  .ms-Checkbox-checkmark {
+        opacity: 0;
+    }
+
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        border-color: var(--semanticColors-InputBorderHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):focus .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        border-color: var(--semanticColors-InputBorderHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover[b-b1el3o0s77]  .ms-Checkbox-checkmark {
+        opacity: 1;
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate)[b-b1el3o0s77]  .ms-Checkbox-checkmark {
+        color: var(--semanticTextColors-PrimaryButtonText);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):hover .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        background: var(--semanticColors-InputBackgroundCheckedHovered);
+        border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):focus .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        background: var(--semanticColors-InputBackgroundCheckedHovered);
+        border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-indeterminate:hover .ms-Checkbox-checkbox[b-b1el3o0s77], .ms-Checkbox.is-indeterminate:hover[b-b1el3o0s77]  .ms-Checkbox-checkbox::after {
+        border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-indeterminate:focus .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-indeterminate:hover[b-b1el3o0s77]  .ms-Checkbox-checkmark {
+        opacity: 0;
+    }
+
+    .ms-Checkbox:hover .ms-Checkbox-text[b-b1el3o0s77], .ms-Checkbox:focus .ms-Checkbox-text[b-b1el3o0s77] {
+        color: var(--semanticColors-InputTextHovered);
+    }
+
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        border-color: Highlight;
+    }
+
+    .ms-Checkbox:not(.is-disabled):not(.is-checked):hover[b-b1el3o0s77]  .ms-Checkbox-checkmark {
+        color: Highlight;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):hover .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        background: Highlight;
+        border-color: Highlight;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):focus .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        background: Highlight;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):focus:hover .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        background: Highlight;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):focus:hover[b-b1el3o0s77]  .ms-Checkbox-checkmark {
+        color: Window;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-checked:not(.is-indeterminate):hover[b-b1el3o0s77]  .ms-Checkbox-checkmark {
+        color: Window;
+    }
+
+    .ms-Checkbox:not(.is-disabled).is-indeterminate:hover .ms-Checkbox-checkbox[b-b1el3o0s77], .ms-Checkbox.is-indeterminate:hover[b-b1el3o0s77]  .ms-Checkbox-checkbox::after {
+        border-color: WindowText;
+    }
+
+    .ms-Checkbox.is-disabled:hover .ms-Checkbox-text[b-b1el3o0s77], .ms-Checkbox:focus .ms-Checkbox-text[b-b1el3o0s77] {
+        color: GrayText;
+    }
+
+    .ms-Checkbox:not(.is-disabled):hover .ms-Checkbox-text[b-b1el3o0s77], .ms-Checkbox:focus .ms-Checkbox-text[b-b1el3o0s77] {
+        color: WindowText;
+    }
+}
+
+
+
+
+/* INPUT */
+
+.ms-Checkbox-input[b-b1el3o0s77] {
+    position: absolute;
+    background: none;
+    opacity: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-Checkbox[b-b1el3o0s77]  .ms-Checkbox-input:focus + .ms-Checkbox-label::before {
+    content: "";
+    outline: 1px solid var(--palette-NeutralSecondary);
+    outline-offset: 2px;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible .ms-Checkbox[b-b1el3o0s77]  .ms-Checkbox-input:focus + .ms-Checkbox-label::before {
+        outline: 1px solid ActiveBorder;
+    }
+}
+
+
+
+
+
+/* LABEL */
+
+.ms-Checkbox-label[b-b1el3o0s77] {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+    align-self:stretch;
+    width: 100%;
+    user-select: none;
+}
+
+.ms-Checkbox.reversed .ms-Checkbox-label[b-b1el3o0s77] {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.ms-Checkbox[b-b1el3o0s77]  .ms-Checkbox-label::before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    content: "";
+    pointer-events: none;
+}
+
+.ms-Checkbox.is-disabled .ms-Checkbox-label[b-b1el3o0s77]{
+    cursor: default;
+}
+
+
+
+
+/* CHECKBOX */
+
+.ms-Checkbox-checkbox[b-b1el3o0s77] {
+    position:relative;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    border: 1px solid var(--palette-NeutralPrimary);
+    border-radius: var(--effects-RoundedCorner2);
+    box-sizing: border-box;
+    transition-property: background, border, border-color;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(.4,0,.23,1);
+    /* in case the icon is bigger than the box */
+    overflow: hidden;
+    margin-right: 4px;
+}
+    .ms-Checkbox.is-indeterminate[b-b1el3o0s77]  .ms-Checkbox-checkbox::after {
+        content: "";
+        border-radius: var(--effects-RoundedCorner2);
+        position: absolute;
+        height: 10px;
+        width: 10px;
+        top: 4px;
+        left: 4px;
+        box-sizing: border-box;
+        border-width: 5px;
+        border-style: solid;
+        border-color: var(--semanticColors-InputBackgroundChecked);
+        transition-property: border-width, border, border-color;
+        transition-duration: 200ms;
+        transition-timing-function: cubic-bezier(.4, 0, .23, 1);
+    }
+.ms-Checkbox.is-indeterminate.is-disabled[b-b1el3o0s77]  .ms-Checkbox-checkbox::after {
+    border-color: var(--semanticTextColors-DisabledBodySubtext);
+}
+
+.ms-Checkbox.is-indeterminate .ms-Checkbox-checkbox[b-b1el3o0s77] {
+    border-color: var(--semanticColors-InputBackgroundCheckedHovered);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Checkbox-checkbox[b-b1el3o0s77]{
+        border-color:WindowText;
+    }
+
+    .ms-Checkbox-checkbox.is-indeterminate[b-b1el3o0s77]::after {
+        border-color: WindowText;
+    }
+}
+
+.ms-Checkbox.reversed .ms-Checkbox-checkbox[b-b1el3o0s77] {
+    margin-right: 4px;
+    margin-left: 0px; /*skipping RTL*/
+}
+
+.ms-Checkbox:not(.is-disabled):not(.is-indeterminate).is-checked .ms-Checkbox-checkbox[b-b1el3o0s77] {
+    background: var(--semanticColors-InputBackgroundChecked);
+    border-color: var(--semanticColors-InputBackgroundChecked);
+}
+
+.ms-Checkbox.is-disabled .ms-Checkbox-checkbox[b-b1el3o0s77] {
+    border-color: var(--semanticTextColors-DisabledBodySubtext);
+}
+
+.ms-Checkbox.is-disabled.is-checked .ms-Checkbox-checkbox[b-b1el3o0s77] {
+    background: var(--semanticTextColors-DisabledBodySubtext);
+    border-color: var(--semanticTextColors-DisabledBodySubtext);
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Checkbox.is-disabled .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        border-color: GrayText;
+    }
+
+    .ms-Checkbox:not(.is-disabled):not(.is-indeterminate).is-checked .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        background: Highlight;
+        border-color: Highlight;
+    }
+
+    .ms-Checkbox.is-disabled.is-checked .ms-Checkbox-checkbox[b-b1el3o0s77] {
+        background: Window;
+    }
+}
+
+    /* CHECKMARK */
+.ms-Checkbox-checkmark[b-b1el3o0s77] {
+    opacity: 0;
+    color: var(--semanticColors-InputForegroundChecked);
+    font-size: var(--fontSize-Medium);
+    line-height: 20px;
+}
+
+.ms-Checkbox.is-checked .ms-Checkbox-checkmark[b-b1el3o0s77] {
+    opacity: 1;
+}
+
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-Checkbox-checkmark[b-b1el3o0s77] {
+            color: Window;
+            -ms-high-contrast-adjust: none;
+        }
+
+        .ms-Checkbox.is-checked .ms-Checkbox-checkmark[b-b1el3o0s77]{
+            color: GrayText;
+        }
+    }
+
+/* TEXT */
+.ms-Checkbox-text[b-b1el3o0s77] {
+    color: var(--semanticTextColors-BodyText);
+    font-size: var(--fontSize-Medium);
+    line-height: 20px;
+    margin-left: 4px;
+}
+
+.ms-Checkbox.reversed .ms-Checkbox-text[b-b1el3o0s77] {
+    margin-right: 4px;
+    margin-left: 0px;
+}
+
+.ms-Checkbox.is-disabled .ms-Checkbox-text[b-b1el3o0s77] {
+    color: var(--semanticTextColors-DisabledText);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Checkbox-text[b-b1el3o0s77] {
+        color: WindowText;
+    }
+    .ms-Checkbox.is-disabled .ms-Checkbox-text[b-b1el3o0s77] {
+        color: GrayText;
+    }
+}
+
+    /* FLUENT ADDITIONS */
+
+    /*.ms-Checkbox.not-checked.is-enabled:hover .ms-Checkbox-text {
+        color: var(--palette-NeutralDark);
+    }
+
+    .ms-Checkbox.not-checked.is-enabled:hover .ms-Checkbox-checkmark {
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Checkbox.is-checked.is-enabled:hover .ms-Checkbox-checkbox {
+        background: var(--palette-ThemeDark);
+        border-color: var(--palette-ThemeDark);
+    }
+
+    .ms-Checkbox.is-checked.is-enabled:focus .ms-Checkbox-checkbox {
+        background: var(--palette-ThemeDark);
+        border-color: var(--palette-ThemeDark);
+    }*/
+/* _content/BlazorFluentUI.CoreComponents/Check/Check.razor.rz.scp.css */
+.root-Check .ms-Check[b-p4qfuyktei] {
+    line-height: 1;
+    width: 18px;
+    height: 18px;
+    vertical-align: top;
+    position: relative;
+    user-select: none;
+}
+
+    .root-Check[b-p4qfuyktei]  .ms-Check::before {
+        content: '';
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        bottom: 1px;
+        left: 1px;
+        border-radius: 50%;
+        opacity: 1;
+        background: var(--semanticColors-BodyBackground);
+    }
+
+    .ms-Check-checkHost:hover .ms-Check[b-p4qfuyktei], .ms-Check-checkHost:focus .ms-Check[b-p4qfuyktei], .ms-Check:focus[b-p4qfuyktei] {
+        opacity: 1;
+    }
+
+    .root-Check[b-p4qfuyktei]  .ms-Check.is-checked::before {
+        content: '';
+        opacity: 1;
+        background: var(--palette-ThemePrimary);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Check.is-checked[b-p4qfuyktei]:before {
+        background: Window;
+    }
+}
+
+/*Circle*/
+[b-p4qfuyktei] .ms-Check-circle {
+    color: var(--palette-NeutralSecondary);
+    font-size: 18px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ms-Check.is-checked[b-p4qfuyktei]  .ms-Check-circle {
+    color: var(--palette-White);
+}
+@media screen and (-ms-high-contrast: active) {
+    [b-p4qfuyktei] .ms-Check-circle.is-checked:before {
+        color: WindowText;
+    }
+}
+
+/*Check*/
+[b-p4qfuyktei] .ms-Check-check {
+    font-size: 18px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    vertical-align: middle;
+    opacity: 0;
+    color: var(--palette-NeutralSecondary);
+    font-size: var(--iconFontSize-Medium); /*  //This is technically IconFontSize.Medium which is equivalent to FontSize.MediumPlus (16px)*/
+    left: 0.5px; /*//isRTL ignored*/
+}
+
+    .ms-Check-check:hover[b-p4qfuyktei] {
+        opacity: 1;
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Check-check[b-p4qfuyktei] {
+        -ms-high-contrast-adjust: none;
+    }
+}
+
+.ms-Check.is-checked[b-p4qfuyktei]  .ms-Check-check {
+    opacity: 1;
+    color: var(--palette-White);
+    font-weight: 900;
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Check.is-checked .ms-Check-check[b-p4qfuyktei] {
+        border: none;
+        color: WindowText;
+    }
+}
+/* _content/BlazorFluentUI.CoreComponents/ChoiceGroup/ChoiceGroup.razor.rz.scp.css */
+.ms-ChoiceFieldGroup[b-ymdy1aa264] {
+    font-size: var(--fontStyle-FontSize-Medium);
+    font-weight: var(--fontStyle-FontWeight-Regular);
+    display: block;
+}
+
+.ms-ChoiceFieldGroup-flexContainer.flex-direction-row[b-ymdy1aa264] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+/* _content/BlazorFluentUI.CoreComponents/ChoiceGroup/ChoiceGroupOption.razor.rz.scp.css */
+.ms-ChoiceField[b-jrbddpczma] {
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    color: var(--semanticTextColors-BodyText);
+    min-height: 26px;
+    border: none;
+    position: relative;
+    margin-top: 8px;
+}
+.ms-ChoiceFieldLabel[b-jrbddpczma] {
+    color: var(--palette-NeutralDark);
+    display: inline-block;
+}
+.ms-ChoiceField:not(.custom-content) .ms-ChoiceFieldLabel[b-jrbddpczma] {
+    padding-left: 26px;
+}
+
+.ms-ChoiceField.custom-content[b-jrbddpczma] {
+    display: inline-flex;
+    font-size: 0;
+    margin: 0 4px 4px 0;
+    padding-left: 0;
+    background-color: var(--palette-NeutralLighter);
+    height: 100%;
+}
+.ms-ChoiceFieldLabel[b-jrbddpczma]::before {
+    color: var(--semanticColors-InputBorderHovered);
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+.is-checked .ms-ChoiceFieldLabel[b-jrbddpczma]::before {
+    color: var(--palette-ThemeDark);
+    border-color: var(--palette-ThemeDark);
+}
+.ms-ChoiceField:not(.is-checked):not(.custom-content) .ms-ChoiceFieldLabel[b-jrbddpczma]::after {
+    content: '';
+    transition-property: background-color;
+    left: 5px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--palette-NeutralSecondary);
+}
+.ms-ChoiceField.is-checked .ms-ChoiceFieldLabel[b-jrbddpczma]::after {
+    border-color: var(--palette-ThemeDark);
+}
+
+.ms-Fabric--isFocusVisible .focused .ms-ChoiceField-wrapper[b-jrbddpczma]{
+    position:relative;
+    outline:transparent;
+}
+    .ms-Fabric--isFocusVisible .focused .ms-ChoiceField-wrapper[b-jrbddpczma]::-moz-focus-inner {
+        border: 0;
+    }
+    .ms-Fabric--isFocusVisible .focused .ms-ChoiceField-wrapper[b-jrbddpczma]::after {
+        content: '';
+        top: -2px;
+        right: -2px;
+        bottom: -2px;
+        left: -2px;
+        pointer-events: none;
+        border: 1px solid var(--semanticColors-FocusBorder);
+        position:absolute;
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible .focused .ms-ChoiceField-wrapper[b-jrbddpczma]::after {
+        border-color: WindowText;
+        border-width: 2px;
+    }
+    .ms-Fabric--isFocusVisible .ms-ChoiceField.custom-content.focused .ms-ChoiceField-wrapper[b-jrbddpczma]::after {
+        border-width: 1px;
+    }
+}
+
+
+
+.ms-ChoiceField-input[b-jrbddpczma] {
+    position: absolute;
+    opacity: 0;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    margin: 0
+}
+
+.ms-ChoiceField-field[b-jrbddpczma] {
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 0;
+    position: relative;
+    vertical-align: top;
+    user-select: none;
+    min-height: 20px;
+}
+
+.ms-ChoiceField:not(.is-disabled) .ms-ChoiceField-field:hover .ms-ChoiceFieldLabel[b-jrbddpczma],
+.ms-ChoiceField:not(.is-disabled) .ms-ChoiceField-field:focus .ms-ChoiceFieldLabel[b-jrbddpczma] {
+    color: var(--palette-NeutralDark);
+}
+.ms-ChoiceField:not(.is-disabled) .is-checked .ms-ChoiceField-field:hover[b-jrbddpczma]::before,
+.ms-ChoiceField:not(.is-disabled) .is-checked .ms-ChoiceField-field:focus[b-jrbddpczma]::before {
+    border-color: var(--palette-ThemeDark);
+}
+.ms-ChoiceField:not(.is-disabled):not(.is-checked) .ms-ChoiceField-field:hover[b-jrbddpczma]::before,
+.ms-ChoiceField:not(.is-disabled):not(.is-checked) .ms-ChoiceField-field:focus[b-jrbddpczma]::before {
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+.ms-ChoiceField:not(.is-disabled):not(.is-checked):not(.custom-content) .ms-ChoiceField-field:hover[b-jrbddpczma]::after,
+.ms-ChoiceField:not(.is-disabled):not(.is-checked):not(.custom-content) .ms-ChoiceField-field:focus[b-jrbddpczma]::after {
+    content: '';
+    transition-property: background-color;
+    left: 5px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--palette-NeutralSecondary);
+}
+.ms-ChoiceField:not(.is-disabled) .is-checked .ms-ChoiceField-field:hover[b-jrbddpczma],
+.ms-ChoiceField:not(.is-disabled) .is-checked .ms-ChoiceField-field:focus[b-jrbddpczma] {
+    border-color: var(--palette-ThemeDark);
+}
+
+
+.custom-content .ms-ChoiceField-field[b-jrbddpczma] {
+    box-sizing: content-box;
+    cursor: pointer;
+    padding-top: 22px;
+    margin: 0;
+    text-align: center;
+    transition-property: all;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+    border: 1px solid transparent;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.is-checked.custom-content .ms-ChoiceField-field[b-jrbddpczma] {
+    border-color: var(--semanticColors-InputBackgroundChecked);
+}
+
+
+.ms-ChoiceField:not(.is-disabled).is-checked.custom-content .ms-ChoiceField-field:hover[b-jrbddpczma],
+.ms-ChoiceField:not(.is-disabled).is-checked.custom-content .ms-ChoiceField-field:focus[b-jrbddpczma] {
+    border-color: var(--palette-ThemeDark);
+}
+.ms-ChoiceField:not(.is-disabled):not(.is-checked).custom-content .ms-ChoiceField-field:hover[b-jrbddpczma],
+.ms-ChoiceField:not(.is-disabled):not(.is-checked).custom-content .ms-ChoiceField-field:focus[b-jrbddpczma] {
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+.ms-ChoiceField:not(.is-disabled) .is-checked.custom-content .ms-ChoiceField-field:hover[b-jrbddpczma]::before,
+.ms-ChoiceField:not(.is-disabled) .is-checked.custom-content .ms-ChoiceField-field:focus[b-jrbddpczma]::before {
+    opacity: 1;
+    border-color: var(--palette-ThemeDark);
+}
+.ms-ChoiceField:not(.is-disabled):not(.is-checked).custom-content .ms-ChoiceField-field:hover[b-jrbddpczma]::before,
+.ms-ChoiceField:not(.is-disabled):not(.is-checked).custom-content .ms-ChoiceField-field:focus[b-jrbddpczma]::before {
+    opacity: 1;
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+
+
+.ms-ChoiceField.is-disabled .ms-ChoiceField-field[b-jrbddpczma] {
+    cursor: default;
+}
+.ms-ChoiceField.is-disabled .ms-ChoiceFieldLabel[b-jrbddpczma] {
+    color: var(--semanticTextColors-DisabledBodyText);
+}
+@media screen and (-ms-high-contrast: active) {
+    .is-disabled[b-jrbddpczma] {
+        color: GrayText;
+    }
+}
+.is-checked .is-disabled .ms-ChoiceField[b-jrbddpczma] {
+    border-color: var(--palette-NeutralLighter);
+}
+.ms-ChoiceField-labelWrapper[b-jrbddpczma] {
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+}
+.ms-ChoiceField .ms-ChoiceField-field[b-jrbddpczma]::before {
+    content:'';
+    display: inline-block;
+    background-color: var(--semanticColors-BodyBackground);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--palette-NeutralPrimary);
+    width: 20px;
+    height: 20px;
+    font-weight: normal;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    transition-property: border-color;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(.4, 0, .23, 1);
+    border-radius: 50%;
+}
+.is-disabled .ms-ChoiceField-field[b-jrbddpczma]::before {
+    border-color: var(--semanticTextColors-DisabledBodySubtext);
+}
+@media screen and (-ms-high-contrast: active) {
+    .is-disabled .ms-ChoiceField-field[b-jrbddpczma]::before {
+        color: GrayText;
+    }
+}
+
+.is-checked .ms-ChoiceField-field[b-jrbddpczma]::before {
+    border-color: var(--semanticColors-InputBackgroundChecked);
+}
+.custom-content .ms-ChoiceField-field[b-jrbddpczma]::before {
+    top: 3px;
+    right: 3px;
+    left: auto;
+    opacity: 0;
+}
+.is-checked.custom-content .ms-ChoiceField-field[b-jrbddpczma]::before {
+    opacity: 1;
+}
+.ms-ChoiceField-field[b-jrbddpczma]::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    position: absolute;
+    left: 10px;
+    right: 0;
+    transition-property: border-width;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(.4, 0, .23, 1);
+    box-sizing: border-box;
+}
+.is-checked .ms-ChoiceField-field[b-jrbddpczma]::after {
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--semanticColors-InputBackgroundChecked);
+    left: 5px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+}
+.is-checked.custom-content .ms-ChoiceField-field[b-jrbddpczma]::after {
+    top: 8px;
+    right: 8px;
+    left: auto;
+}
+.custom-content .ms-ChoiceField-innerField[b-jrbddpczma] {
+    position: relative;
+    display: inline-block;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.is-disabled.custom-content .ms-ChoiceField-innerField[b-jrbddpczma] {
+    opacity: 0.25;
+}
+@media screen and (-ms-high-contrast: active) {
+    .is-disabled.custom-content .ms-ChoiceField-innerField[b-jrbddpczma] {
+        opacity: 0.25;
+    }
+}
+
+.custom-content .ms-ChoiceField-customContentWrapper[b-jrbddpczma] {
+    padding-bottom: 2px;
+    transition-property: opacity;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+}
+
+.ms-ChoiceField-customContentWrapper .ms-Image[b-jrbddpczma] {
+    display: inline-block;
+    border-style: none;
+}
+
+.custom-content .ms-ChoiceField-labelWrapper[b-jrbddpczma] {
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+    display: flex;
+    position: relative;
+    margin: 4px 8px 2px 8px;
+    height: 32px;
+    line-height: 15px;
+    overflow: hidden;
+    white-space: pre-wrap;
+}
+/* _content/BlazorFluentUI.CoreComponents/CommandBar/CommandBar.razor.rz.scp.css */
+.ms-CommandBar[b-kdq9la3url] {
+    display: flex;
+    background-color: var(--semanticColors-BodyBackground);
+    padding: 0 14px 0 24px;
+    height: 44px;
+}
+
+[b-kdq9la3url] .ms-CommandBar-primarySet {
+    flex-grow: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+[b-kdq9la3url] .ms-CommandBar-secondarySet {
+    flex-shrink: 0;
+    display: flex;
+    align-items: stretch;
+}
+/* _content/BlazorFluentUI.CoreComponents/ContextualMenu/ContextualMenu.razor.rz.scp.css */
+[b-y69p9egh3a] .ms-ContextualMenu {
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+    background-color: var(--semanticColors-MenuBackground);
+    min-width: 180px;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-container:focus {
+    outline: 0;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-header {
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-SemiBold);
+    color: var(--semanticColors-MenuHeader);
+    background: none;
+    background-color: transparent;
+    border: none;
+    height: 36px;
+    line-height: 36px;
+    cursor: default;
+    padding: 0 6px;
+    user-select: none;
+    text-align: left;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-title {
+    font-size: var(--fontSize-MediumPlus);
+    padding-right: 14px;
+    padding-left: 14px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background-color: var(--semanticColors-MenuItemBackgroundPressed);
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu .ms-Callout {
+    box-shadow: var(--effects-Elevation8);
+}
+
+[b-y69p9egh3a] .ms-ContextualMenu-item {
+    outline: transparent;
+    position: relative;
+    color: var(--semanticTextColors-BodyText);
+    position: relative;
+    box-sizing: border-box;
+}
+
+    [b-y69p9egh3a] .ms-ContextualMenu-item::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-ContextualMenu-list[b-y69p9egh3a]  .ms-ContextualMenu-link:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+/*
+@media screen and (-ms-high-contrast: active) {
+    .ms-Fabric--isFocusVisible ms-ContextualMenu-item:focus::after {
+        left: -2px;
+        top: -2px;
+        bottom: -2px;
+        right: -2px;
+        border: none;
+        outline-color: ButtonText;
+    }
+}*/
+
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-divider {
+    display: block;
+    height: 1px;
+    background-color: var(--semanticColors-BodyDivider);
+    position: relative;
+}
+
+[b-y69p9egh3a] .ms-ContextualMenu-link {
+    outline: transparent;
+    position: relative;
+    color: var(--semanticTextColors-BodyText);
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    display: block;
+    cursor: pointer;
+    padding: 0 8px 0 4px;
+    text-align: left;
+}
+
+    [b-y69p9egh3a] .ms-ContextualMenu-link::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-ContextualMenu-root[b-y69p9egh3a]  ms-ContextualMenu-link:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-item.is-disabled .ms-ContextualMenu-link {
+    color: var(--semanticTextColors-DisabledBodyText);
+    cursor: default;
+    pointer-events: none;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-link:focus {
+    outline: 0;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-link:hover {
+    color: var(--semanticTextColors-MenuItemTextHovered);
+    background-color: var(--semanticColors-MenuItemBackgroundHovered);
+}
+
+    [b-y69p9egh3a] .ms-ContextualMenu-link:hover .ms-ContextualMenu-icon {
+        color: var(--palette-ThemeDarkAlt);
+    }
+
+
+    [b-y69p9egh3a] .ms-ContextualMenu-link:hover .ms-ContextualMenu-submenuIcon {
+        color: var(--palette-NeutralPrimary);
+    }
+
+[b-y69p9egh3a] .ms-ContextualMenu-item.is-checked .ms-ContextualMenu-checkmarkIcon {
+    color: var(--palette-NeutralPrimary);
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-link:active {
+    background-color: var(--semanticColors-MenuItemBackgroundPressed);
+}
+
+    [b-y69p9egh3a] .ms-ContextualMenu-link:active .ms-ContextualMenu-icon {
+        color: var(--palette-ThemeDark);
+    }
+
+
+    [b-y69p9egh3a] .ms-ContextualMenu-link:active .ms-ContextualMenu-submenuIcon {
+        color: var(--palette-NeutralPrimary);
+    }
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-item.is-expanded .ms-ContextualMenu-link {
+    background-color: var(--semanticColors-MenuItemBackgroundPressed);
+    color: var(--semanticTextColors-BodyTextChecked);
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-linkContent {
+    white-space: nowrap;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-anchorLink {
+    padding: 0 8px 0 4px;
+    text-rendering: auto;
+    color: inherit;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-itemText {
+    margin: 0 4px;
+    vertical-align: middle;
+    display: inline-block;
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-secondaryText {
+    color: var(--palette-NeutralSecondary);
+    padding-left: 20px;
+    text-align: right;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-icon {
+    display: inline-block;
+    min-height: 1px;
+    max-height: 36px;
+    font-size: var(--iconFontSize-Medium);
+    width: var(--iconFontSize-Medium);
+    margin: 0 4px;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 639px) {
+    [b-y69p9egh3a] .ms-ContextualMenu-icon {
+        font-size: var(--iconFontSize-Large);
+        width: var(--iconFontSize-Large);
+    }
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-iconColor {
+    color: var(--semanticColors-MenuIcon);
+}
+
+[b-y69p9egh3a] .ms-ContextualMenu.is-disabled .ms-ContextualMenu-iconColor {
+    color: var(--semanticTextColors-DisabledBodyText);
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-checkmarkIcon {
+    color: var(--semanticTextColors-BodySubtext);
+    margin: 0 4px;
+}
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-submenuIcon {
+    height: 36px;
+    line-height: 36px;
+    color: var(--palette-NeutralSecondary);
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+    font-size: var(--iconFontSize-Small);
+}
+
+
+    [b-y69p9egh3a] .ms-ContextualMenu-submenuIcon:hover {
+        color: var(--palette-NeutralPrimary);
+    }
+
+    [b-y69p9egh3a] .ms-ContextualMenu-submenuIcon:active {
+        color: var(--palette-NeutralPrimary);
+    }
+
+
+[b-y69p9egh3a] .ms-ContextualMenu-splitButtonFlexContainer {
+    display: flex;
+    height: 36px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+/* _content/BlazorFluentUI.CoreComponents/DatePicker/DatePicker.razor.rz.scp.css */
+.ms-DatePicker[b-ejmmew2ugj] {
+    box-shadow: none;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+
+[b-ejmmew2ugj] .ms-DatePicker-textField {
+    position: relative;
+}
+
+    [b-ejmmew2ugj] .ms-DatePicker-textField input:read-only {
+        cursor: pointer;
+    }
+
+
+    [b-ejmmew2ugj] .ms-DatePicker-textField input::-ms-clear {
+        display: none;
+    }
+
+.ms-DatePicker--disabled .ms-DatePicker-textField input:read-only[b-ejmmew2ugj] {
+    cursor: default;
+}
+
+[b-ejmmew2ugj] .ms-DatePicker-callout {
+    box-shadow: var(--effects-Elevation8);
+}
+
+.ms-DatePicker[b-ejmmew2ugj]  .ms-TextField-icon {
+    color: var(--palette-NeutralSecondary);
+    font-size: var(--fontSize-MediumPlus);
+    line-height: 18px;
+    pointer-events: none;
+    position: absolute;
+    padding-top: 7px;
+}
+
+.ms-DatePicker:not(.ms-DatePicker--is-disabled)[b-ejmmew2ugj]  .ms-Icon {
+    pointer-events: initial;
+    cursor: pointer;
+}
+
+.ms-DatePicker.ms-DatePicker--is-disabled[b-ejmmew2ugj]  .ms-Icon {
+    color: var(--semanticTextColors-DisabledText);
+    cursor: default;
+}
+/* _content/BlazorFluentUI.CoreComponents/DetailsRow/DetailsRow.razor.rz.scp.css */
+[b-d8q781bk6d] .ms-DetailsRow {
+    outline: transparent;
+    position: relative;
+
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+    border-bottom: 1px solid var(--palette-NeutralLighter);
+    background: var(--palette-White);
+    color: var(--palette-NeutralSecondary);
+    display: inline-flex;
+    min-width: 100%;
+    width: 100%; /* added to make DetailsRow fit width of window */
+    min-height: 42px;
+    white-space: nowrap;
+    padding: 0px;
+    box-sizing: border-box;
+    vertical-align: top;
+    text-align: left;
+}
+
+.ms-Fabric--isFocusVisible[b-d8q781bk6d]  .ms-DetailsRow:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--semanticColors-FocusBorder);
+    outline: 1px solid var(--palette-White);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+.ms-List-cell:first-child[b-d8q781bk6d]  .ms-DetailsRow:before {
+    display: none;
+}
+
+[b-d8q781bk6d] .ms-DetailsRow:hover {
+    background: var(--palette-NeutralLighter);
+    color: var(--palette-NeutralPrimary);
+}
+
+[b-d8q781bk6d] .ms-DetailsRow:hover .is-row-header {
+    color: var(--palette-NeutralDark);
+}
+
+[b-d8q781bk6d] .ms-DetailsRow:hover .ms-DetailsRow-check {
+    opacity: 1;
+}
+
+.ms-Fabric--isFocusVisible[b-d8q781bk6d]  .ms-DetailsRow:focus .ms-DetailsRow-check {
+    opacity: 1;
+}
+
+
+
+[b-d8q781bk6d] .ms-DetailsRow.is-selected {
+    color: var(--palette-NeutralPrimary);
+    background: var(--palette-NeutralLight);
+    border-bottom: 1px solid var(--palette-White);
+}
+
+.ms-Fabric--isFocusVisible[b-d8q781bk6d]  .ms-DetailsRow.is-selected:focus::after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    border: 1px solid var(--semanticColors-FocusBorder);
+    outline: 1px solid var(--palette-White);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+
+
+[b-d8q781bk6d] .ms-DetailsRow.is-selected:before {
+    position: absolute;
+    display: block;
+    top: -1px;
+    height: 1px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    content: '';
+    border-top: 1px solid var(--palette-White);
+}
+
+[b-d8q781bk6d] .ms-DetailsRow.is-selected:hover {
+    background: var(--palette-NeutralQuaternaryAlt);
+    color: var(--palette-NeutralPrimary);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-DetailsRow.is-selected:hover .ms-DetailsRow-cell[b-d8q781bk6d] {
+        color: HighlightText;
+    }
+
+        .ms-DetailsRow.is-selected:hover .ms-DetailsRow-cell > a[b-d8q781bk6d] {
+            color: HighlightText;
+        }
+}
+
+[b-d8q781bk6d] .ms-DetailsRow.is-selected.is-row-header:hover {
+    color: var(--palette-NeutralDark);
+}
+
+@media screen and (-ms-high-contrast: active) {
+
+    .ms-DetailsRow.is-selected.is-row-header:hover[b-d8q781bk6d] {
+        color: HighlightText;
+    }
+
+    .ms-DetailsRow.is-selected:hover[b-d8q781bk6d] {
+        background: Highlight;
+    }
+}
+
+/*focus for is-selected*/
+[b-d8q781bk6d] .ms-DetailsRow.is-selected:focus {
+    background: var(--palette-NeutralLight);
+}
+[b-d8q781bk6d] .ms-DetailsRow.is-selected:focus .ms-DetailsRow-cell {
+    color: var(--palette-NeutralPrimary);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-DetailsRow.is-selected:focus .ms-DetailsRow-cell[b-d8q781bk6d] {
+        color: HighlightText;
+    }
+        .ms-DetailsRow.is-selected:focus .ms-DetailsRow-cell > a[b-d8q781bk6d] {
+            background: Highlight;
+        }
+}
+
+
+[b-d8q781bk6d] .ms-DetailsRow.is-selected.is-row-header:focus {
+    color: var(--palette-NeutralDark);
+}
+
+@media screen and (-ms-high-contrast: active) {
+
+    .ms-DetailsRow.is-selected.is-row-header:focus[b-d8q781bk6d] {
+        color: HighlightText;
+    }
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-DetailsRow.is-selected:focus[b-d8q781bk6d] {
+        background: HighlightText;
+    }
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-DetailsRow.is-selected[b-d8q781bk6d] {
+        background: Highlight;
+        color: HighlightText;
+        -ms-high-contrast-adjust: none;
+    }
+
+        .ms-DetailsRow.is-selected a[b-d8q781bk6d] {
+            color: HighlightText;
+        }
+}
+/*focus and hover state*/
+
+[b-d8q781bk6d] .ms-DetailsRow.is-selected.is-row-header:focus {
+    background: var(--palette-NeutralQuaternaryAlt);
+}
+
+[b-d8q781bk6d] .ms-DetailsRow.is-compact {
+    min-height: 32px;
+    border: 0
+}
+
+    .ms-DetailsRow.is-compact.is-selected[b-d8q781bk6d]:before {
+        display: none;
+    }
+
+/* CellUnpadded */
+[b-d8q781bk6d] .ms-DetailsRow-cellUnpadded {
+    padding-right: 8px;
+}
+
+[b-d8q781bk6d] .ms-DetailsRow-cellPadded {
+    padding-right: 32px;
+}
+
+    [b-d8q781bk6d] .ms-DetailsRow-cellPadded.ms-DetailsRow-cellCheck {
+        padding-right: 0px;
+    }
+
+/*Cell*/
+
+[b-d8q781bk6d] .ms-DetailsRow .ms-DetailsRow-cell {
+    outline: transparent;
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    min-height: 42px;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 12px;
+}
+
+.ms-Fabric--isFocusVisible[b-d8q781bk6d]  .ms-DetailsRow .ms-DetailsRow-cell:focus::after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    border: 1px solid var(--palette-NeutralSecondary);
+    outline: 1px solid var(--palette-White);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+[b-d8q781bk6d] .ms-DetailsRow .ms-DetailsRow-cell > button {
+    max-width: 100%;
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-DetailsRow.is-selected .ms-DetailsRow-cell[b-d8q781bk6d] {
+        background: Highlight;
+        color: HighlightText;
+        -ms-high-contrast-adjust: none;
+    }
+        .ms-DetailsRow.is-selected .ms-DetailsRow-cell > a[b-d8q781bk6d] {
+            color: HighlightText;
+        }
+}
+
+.ms-Fabric--isFocusVisible[b-d8q781bk6d]  .ms-DetailsRow .ms-DetailsRow-cell[data-is-focusable='true']:focus::after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    border: 1px solid var(--palette-NeutralSecondary);
+    outline: 1px solid var(--palette-White);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+[b-d8q781bk6d] .ms-DetailsRow.is-compact .ms-DetailsRow-cell {
+    min-height: 32px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 12px;
+}
+
+
+/* CellMeasurer */
+[b-d8q781bk6d] .ms-DetailsRow-cellMeasurer {
+    overflow: visible;
+    white-space: nowrap;
+}
+
+/* CheckCell */
+[b-d8q781bk6d] .ms-DetailsRow-checkCell {
+    padding: 0px;
+    padding-top: 1px;
+    margin-top: -1px;
+    flex-shrink: 0;
+}
+
+
+/* CheckCover */
+[b-d8q781bk6d] .ms-DetailsRow-checkCover {
+    position: absolute;
+    top: -1px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+}
+
+/*Fields*/
+[b-d8q781bk6d] .ms-DetailsRow-fields {
+    display: flex;
+    align-items: stretch;
+    overflow-x: hidden;
+}
+
+/*IsRowHeader*/
+[b-d8q781bk6d] .ms-DetailsRow.is-row-header {
+    color: var(--palette-NeutralPrimary);
+    font-size: var(--fontSize-Medium);
+}
+
+    [b-d8q781bk6d] .ms-DetailsRow.is-row-header.is-selected {
+        color: var(--palette-NeutralDark);
+        font-weight: var(--fontWeight-SemiBold);
+    }
+
+@media screen and (-ms-high-contrast: active) {
+    [b-d8q781bk6d] .ms-DetailsRow.is-row-header.is-selected {
+        color: HighlightText;
+    }
+}
+
+/*IsMultiline*/
+[b-d8q781bk6d] .ms-DetailsRow.is-multiline {
+    white-space: normal;
+    word-break: break-word;
+    text-overflow: clip;
+}
+
+/* _content/BlazorFluentUI.CoreComponents/DetailsRow/DetailsRowCheck.razor.rz.scp.css */
+.ms-DetailsRow-check[b-0muytsr5jw] {
+    outline: transparent;
+    position:relative; 
+
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    box-sizing: border-box;
+    vertical-align: top;
+    background: none;
+    background-color: transparent;
+    border: none;
+    opacity: 0;
+    height: 42px;
+    width: 48px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.ms-Fabric--isFocusVisible .ms-DetailsRow-check:focus[b-0muytsr5jw]::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+@media screen and (-ms-high-contrast: active){
+    .ms-Fabric--isFocusVisible .ms-DetailsRow-check:focus[b-0muytsr5jw]::after {
+        /* missing */
+    }
+}
+
+
+/*.ms-DetailsRow-check::moz-focus-inner{
+    border:0;
+}*/
+.ms-DetailsRow.is-compact .ms-DetailsRow-check[b-0muytsr5jw] {
+    height: 32px;
+}
+
+.ms-DetailsRow.is-header .ms-DetailsRow-check[b-0muytsr5jw] {
+    height: 42px;
+}
+
+.ms-DetailsRow-check.is-checked[b-0muytsr5jw], .ms-DetailsRow-check.is-visible[b-0muytsr5jw] {
+    opacity: 1;
+}
+/* _content/BlazorFluentUI.CoreComponents/Dialog/Dialog.razor.rz.scp.css */
+/* _content/BlazorFluentUI.CoreComponents/Dialog/DialogContent.razor.rz.scp.css */
+.ms-Dialog-content.ms-Dialog--lgHeader[b-2q973jcag9] {
+    border-top: 4px solid var(--palette-ThemePrimary);
+}
+.ms-Dialog-content.ms-Dialog--close[b-2q973jcag9] {
+    flex-grow: 1;
+    overflow-y: hidden;
+}
+.ms-Dialog-subText[b-2q973jcag9] {
+    margin: 0 0 24px 0;
+    color: var(--semanticTextColors-ButtonText);
+    line-height: 1.5;
+    word-break: break-word;
+    font-weight: var(--fontWeight-Regular);
+}
+
+.ms-Dialog-header[b-2q973jcag9] {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ms-Dialog-inner[b-2q973jcag9] {
+    padding: 0 24px 24px;
+}
+
+@media (min-width:320px) and (max-width:479px) {
+    .ms-Dialog-inner[b-2q973jcag9] {
+        padding: 0 16px 16px;
+    }
+}
+
+.ms-Dialog-innerContent[b-2q973jcag9] {
+    position: relative;
+    width: 100%;
+}
+
+.ms-Dialog-title[b-2q973jcag9] {
+    color: var(--semanticTextColors-BodyText);
+    margin: 0;
+    padding: 16px 46px 20px 24px;
+    line-height: normal;
+}
+
+.ms-Dialog--lgHeader .ms-Dialog-title[b-2q973jcag9] {
+    color: var(--semanticColors-MenuHeader);
+}
+.ms-Dialog--multiline .ms-Dialog-title[b-2q973jcag9] {
+    font-size: var(--fontSize-XxLarge);
+}
+
+@media (min-width:320px) and (max-width:479px) {
+
+    .ms-Dialog-title[b-2q973jcag9] {
+        padding: 16px 46px 16px 16px;
+    }
+}
+
+
+.ms-Dialog-topButton[b-2q973jcag9] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px 15px 0 0;
+}
+
+    .ms-Dialog-topButton[b-2q973jcag9]  > * {
+        flex: 0 0 auto;
+    }
+    .ms-Dialog-topButton[b-2q973jcag9]  .ms-Dialog-button {
+        color: var(--semanticTextColors-ButtonText);
+    }
+        .ms-Dialog-topButton[b-2q973jcag9]  .ms-Dialog-button:hover {
+            color: var(--semanticTextColors-ButtonTextHovered);
+            border-radius: var(--effects-RoundedCorner2);
+        }
+
+@media (min-width:320px) and (max-width:479px) {
+    .ms-Dialog-topButton[b-2q973jcag9] {
+        padding: 15px 8px 0 0;
+    }
+}
+
+.ms-Dialog-actions[b-2q973jcag9] {
+    position: relative;
+    width: 100%;
+    min-height: 24px;
+    line-height: 24px;
+    margin: 16px 0 0;
+    font-size: 0;
+}
+
+    .ms-Dialog-actions[b-2q973jcag9]  .ms-Button {
+        line-height: normal;
+    }
+
+.ms-Dialog-actionsRight[b-2q973jcag9] {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: -4px;
+    font-size: 0;
+}
+
+    .ms-Dialog-actionsRight[b-2q973jcag9]  > * {
+        margin: 0 4px;
+    }
+/* _content/BlazorFluentUI.CoreComponents/DocumentCard/DocumentCard.razor.rz.scp.css */
+.ms-DocumentCard[b-acw5rkwtx9] {
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--palette-White);
+    border: 1px solid var(--palette-NeutralLight);
+    max-width: 320px;
+    min-width: 240px;
+    user-select: none;
+    position: relative;
+}
+
+.ms-DocumentCard--actionable:hover[b-acw5rkwtx9] {
+    cursor: pointer;
+    border-color: var(--palette-NeutralTertiaryAlt);
+}
+
+    .ms-DocumentCard--actionable:hover[b-acw5rkwtx9]:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border: 1px solid var(--palette-NeutralTertiaryAlt);
+        pointer-events: none
+    }
+
+.ms-DocumentCard--compact[b-acw5rkwtx9] {
+    display: flex;
+    max-width: 480px;
+    height: 108px;
+}
+
+    .ms-DocumentCard--compact[b-acw5rkwtx9]  .ms-DocumentCardPreview {
+        border-right: 1px solid var(--palette-NeutralLight);
+        border-bottom: 0;
+        max-height: 106px;
+        max-width: 144px;
+    }
+
+
+    .ms-DocumentCard--compact[b-acw5rkwtx9]  .ms-DocumentCardPreview-icon {
+        max-height: 32px;
+        max-width: 32px;
+    }
+
+    .ms-DocumentCard--compact[b-acw5rkwtx9]  .ms-DocumentCardActivity {
+        padding-bottom: 12px
+    }
+
+    .ms-DocumentCard--compact[b-acw5rkwtx9]  .ms-DocumentCardTitle {
+        padding-bottom: 12px 16px 8px 16px;
+        font-size: var(--fontSize-Medium);
+        line-height: 16px;
+    }
+/* _content/BlazorFluentUI.CoreComponents/DocumentCard/DocumentCardActivity.razor.rz.scp.css */
+.ms-DocumentCardActivity[b-b9ml5ftfkt] {
+    padding: 8px 16px;
+    position: relative;
+}
+
+
+.ms-DocumentCardActivity-avatars[b-b9ml5ftfkt] {
+    margin-left: -2px;
+    height: 32px;
+}
+
+.ms-DocumentCardActivity-avatar[b-b9ml5ftfkt] {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+}
+
+    .ms-DocumentCardActivity-avatar[b-b9ml5ftfkt]::after {
+        content: '';
+        position: absolute;
+        left: -1px;
+        top: -1px;
+        right: -1px;
+        bottom: -1px;
+        border: 2px solid var(--palette-White);
+        border-radius: 50%;
+    }
+    .ms-DocumentCardActivity-avatar:nth-of-type(2)[b-b9ml5ftfkt] {
+        margin-left: -16px;
+    }
+
+.ms-DocumentCardActivity-name[b-b9ml5ftfkt] {
+    display: block;
+    font-size: var(--fontSize-Small);
+    line-height: 15px;
+    height: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--palette-NeutralPrimary);
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+.ms-DocumentCardActivity-activity[b-b9ml5ftfkt] {
+    display: block;
+    font-size: var(--fontSize-Small);
+    line-height: 15px;
+    height: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--palette-NeutralSecondary);
+}
+/* _content/BlazorFluentUI.CoreComponents/DocumentCard/DocumentCardTitle.razor.rz.scp.css */
+.ms-DocumentCardTitle[b-n9kynn7c09] {
+    font-size: var(--fontSize-Large);
+    padding: 8px 16px;
+    overflow: hidden;
+    word-wrap: break-word;
+    height: 38px;
+    line-height: 21px;
+    color: var(--palette-NeutralPrimary);
+}
+
+.ms-DocumentCardTitle-secondaryTitle[b-n9kynn7c09] {
+    font-size: var(--fontSize-Medium);
+    height: 45px;
+    line-height: 18px;
+    color: var(--palette-NeutralSecondary);
+}
+/* _content/BlazorFluentUI.CoreComponents/Dropdown/Dropdown.razor.rz.scp.css */
+
+.ms-Dropdown[b-alogj0gxvs] {
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-Regular);
+    color: var(--semanticTextColors-MenuItemText);
+    border-color: var(--semanticColors-FocusBorder);
+    position: relative;
+    outline: 0;
+    user-select: none;
+}
+
+
+    .ms-Dropdown:focus[b-alogj0gxvs]:after {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        box-sizing: border-box;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 2px solid var(--palette-ThemePrimary);
+        border-radius: 2px;
+    }
+
+    .ms-Dropdown.is-disabled:focus[b-alogj0gxvs]:after {
+        border: none;
+    }
+
+.ms-Dropdown-title[b-alogj0gxvs] {
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--semanticColors-InputBackground);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--semanticColors-InputBorder);
+    border-radius: var(--effects-RoundedCorner2); /*//local style when is-open*/
+    cursor: pointer;
+    display: block;
+    height: 32px;
+    line-height: 30px;
+    padding: 0 28px 0 8px;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ms-Dropdown.is-open .ms-Dropdown-title[b-alogj0gxvs] {
+    border-color: var(--palette-ThemePrimary);
+}
+
+.ms-Dropdown.has-placeholder .ms-Dropdown-title[b-alogj0gxvs] {
+    color: var(--semanticTextColors-InputPlaceholderText);
+}
+
+
+.ms-Dropdown.has-error .ms-Dropdown-title[b-alogj0gxvs] {
+    border-color: var(--semanticTextColors-ErrorText)
+}
+
+.ms-Dropdown.has-error.is-open .ms-Dropdown-title[b-alogj0gxvs] {
+    border: 2px solid var(--semanticTextColors-ErrorText)
+}
+
+.ms-Dropdown.is-disabled .ms-Dropdown-title[b-alogj0gxvs] {
+    background-color: var(--semanticColors-DisabledBackground);
+    border: none;
+    color: var(--palette-NeutralTertiary);
+    cursor: default;
+}
+
+
+.ms-Dropdown:hover .ms-Dropdown-title[b-alogj0gxvs] {
+    border-color: var(--palette-NeutralPrimary);
+}
+
+.ms-Dropdown.is-open:hover .ms-Dropdown-title[b-alogj0gxvs] {
+    border-color: var(--palette-NeutralSecondary);
+}
+
+.ms-Dropdown:not(.is-disabled):hover .ms-Dropdown-title[b-alogj0gxvs] {
+    color: var(--semanticTextColors-MenuItemTextHovered);
+}
+
+/*//dropdownRules-Add(new Rule() //{
+            //    .ms-Dropdown:focus .ms-Dropdown-title
+            //
+            //    {
+            //        border-color:var(--palette-NeutralPrimary);
+            //    }
+            //});
+*/
+.ms-Dropdown:not(.is-disabled):focus .ms-Dropdown-title[b-alogj0gxvs] {
+    color: var(--semanticTextColors-MenuItemTextHovered);
+}
+
+
+
+.ms-Dropdown:active .ms-Dropdown-title[b-alogj0gxvs] {
+    border-color: var(--palette-ThemePrimary);
+}
+
+.ms-Dropdown:not(.is-disabled):active .ms-Dropdown-title[b-alogj0gxvs] {
+    color: var(--semanticTextColors-MenuItemTextHovered);
+}
+
+
+.ms-Dropdown:not(.is-disabled):hover .ms-Dropdown-caretDown[b-alogj0gxvs] {
+    color: var(--semanticTextColors-MenuItemText);
+}
+
+.ms-Dropdown:not(.is-disabled):focus .ms-Dropdown-caretDown[b-alogj0gxvs] {
+    color: var(--semanticTextColors-MenuItemText);
+}
+
+.ms-Dropdown:not(.is-disabled):active .ms-Dropdown-caretDown[b-alogj0gxvs] {
+    color: var(--semanticTextColors-MenuItemText);
+}
+
+.ms-Dropdown.has-placeholder:not(.is-disabled):hover .ms-Dropdown-title[b-alogj0gxvs] {
+    color: var(--semanticTextColors-MenuItemText);
+}
+.ms-Dropdown.has-placeholder:not(.is-disabled):focus .ms-Dropdown-title[b-alogj0gxvs] {
+    color: var(--semanticTextColors-MenuItemText);
+}
+
+.ms-Dropdown.has-placeholder:not(.is-disabled):active .ms-Dropdown-title[b-alogj0gxvs] {
+    color: var(--semanticTextColors-MenuItemText);
+}
+
+
+.ms-Dropdown.has-error:hover .ms-Dropdown-title[b-alogj0gxvs] {
+    color: var(--semanticTextColors-ErrorText);
+}
+
+.ms-Dropdown.has-error:focus .ms-Dropdown-title[b-alogj0gxvs] {
+    color: var(--semanticTextColors-ErrorText);
+}
+
+.ms-Dropdown.has-error:active .ms-Dropdown-title[b-alogj0gxvs] {
+    color: var(--semanticTextColors-ErrorText);
+}
+
+
+.ms-Dropdown.is-required:not(.has-label)[b-alogj0gxvs]:after {
+    content: '*';
+    color: var(--semanticTextColors-ErrorText);
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+.ms-Dropdown-caretDownWrapper[b-alogj0gxvs] {
+    position: absolute;
+    top: 1px;
+    right: 8px;
+    height: 32px;
+    line-height: 36px;
+    cursor: pointer;
+}
+.ms-Dropdown.is-disabled .ms-Dropdown-caretDownWrapper[b-alogj0gxvs] {
+    cursor: default;
+}
+
+[b-alogj0gxvs] .ms-Dropdown-caretDown {
+    color: var(--palette-NeutralSecondary);
+    font-size: var(--fontSize-Large);
+    pointer-events: none;
+}
+
+.ms-Dropdown.is-disabled[b-alogj0gxvs]  .ms-Dropdown-caretDown {
+    color: var(--palette-NeutralTertiary);
+}
+
+.ms-Dropdown-errorMessage[b-alogj0gxvs] {
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+    color: var(--palette-RedDark);
+    padding-top: 5px;
+}
+
+[b-alogj0gxvs] .ms-Dropdown-callout {
+    border: none;
+    box-shadow: var(--effects-Elevation8);
+}
+
+
+.ms-Dropdown-itemsWrapper:focus[b-alogj0gxvs] {
+    outline: 0;
+}
+
+.ms-Dropdown-items[b-alogj0gxvs] {
+    display: block;
+}
+
+[b-alogj0gxvs] .ms-Dropdown-itemHeader {
+    font-weight: var(--fontWeight-SemiBold);
+    color: var(--semanticColors-MenuHeader);
+    background: none;
+    background-color: transparent;
+    border: none;
+    height: 36px;
+    line-height: 36px;
+    cursor: default;
+    padding: 0 8px;
+    user-select: none;
+    text-align: left;
+}
+
+[b-alogj0gxvs] .ms-Dropdown-divider {
+    height: 1px;
+    background-color: var(--semanticColors-BodyDivider);
+}
+
+[b-alogj0gxvs] .ms-Dropdown-item {
+    background-color: transparent;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    width: 100%;
+    min-height: 36px;
+    line-height: 20px;
+    height: auto;
+    position: relative;
+    border: 1px solid transparent;
+    border-radius: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: left;
+    padding-top: 7px;
+}
+
+
+.ms-Dropdown-itemsWrapper[b-alogj0gxvs]  .ms-Dropdown-dropdownItems .ms-Dropdown-item.ms-Button {
+    padding: 0 8px;
+    /*  a hack for specificity of css rules-*/
+}
+.ms-Dropdown-itemsWrapper[b-alogj0gxvs]  .ms-Dropdown-dropdownItems .ms-Button-root{
+    display:block; /*workaround to force button to span dropdown width*/
+}
+
+
+.ms-Dropdown-itemsWrapper[b-alogj0gxvs]  .ms-Dropdown-dropdownItems .ms-Dropdown-item:not(.ms-Checkbox-checkbox):hover {
+    color: var(--semanticTextColors-MenuItemTextHovered);
+    background-color: var(--semanticColors-MenuItemBackgroundHovered);
+}
+
+[b-alogj0gxvs] .ms-Dropdown-item:focus {
+    background-color: transparent;
+}
+[b-alogj0gxvs] .ms-Dropdown-item:active {
+    color: var(--semanticTextColors-MenuItemTextHovered);
+    background-color: var(--semanticColors-MenuBackground);
+}
+
+[b-alogj0gxvs] .ms-Dropdown-item.selected,
+[b-alogj0gxvs] .ms-Dropdown-item.ms-Button.ms-Button--action.selected {
+    color: var(--semanticTextColors-MenuItemTextHovered);
+    background-color: var(--semanticColors-MenuItemBackgroundPressed);
+}
+    [b-alogj0gxvs] .ms-Dropdown-item.selected:hover:focus,
+    [b-alogj0gxvs] .ms-Dropdown-item.ms-Button.ms-Button--action.selected:hover:focus {
+        background-color: var(--semanticColors-MenuItemBackgroundPressed);
+    }
+    [b-alogj0gxvs] .ms-Dropdown-item.selected:focus,
+    [b-alogj0gxvs] .ms-Dropdown-item.ms-Button.ms-Button--action.selected:focus {
+        background-color: var(--semanticColors-MenuItemBackgroundPressed);
+    }
+    [b-alogj0gxvs] .ms-Dropdown-item.selected:active,
+    [b-alogj0gxvs] .ms-Dropdown-item.ms-Button.ms-Button--action.selected:active {
+        background-color: var(--semanticColors-MenuItemBackgroundHovered);
+    }
+
+.ms-Fabric--isFocusVisible .ms-Dropdown[b-alogj0gxvs]  .ms-Dropdown-item:focus:after {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+
+[b-alogj0gxvs] .ms-Dropdown-item.is-disabled {
+    color: var(--palette-NeutralTertiary);
+    cursor: default;
+}
+
+[b-alogj0gxvs] .ms-Dropdown-item.is-hidden {
+    display: none;
+}
+
+[b-alogj0gxvs] .ms-Dropdown-optionText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 1px;
+}
+/* _content/BlazorFluentUI.CoreComponents/FocusZone/FocusZone.razor.rz.scp.css */
+.ms-FocusZone:focus[b-qxvxjc61u6] {
+    outline: none;
+}
+/* _content/BlazorFluentUI.CoreComponents/Icon/Icon.razor.rz.scp.css */
+.ms-Icon[b-9w6fkq2ng8] {
+    display: inline-block;
+}
+.ms-Icon-placeHolder[b-9w6fkq2ng8] {
+    width: 1em;
+}
+.ms-Icon-imageContainer[b-9w6fkq2ng8] {
+    overflow: hidden;
+}
+/* _content/BlazorFluentUI.CoreComponents/Image/Image.razor.rz.scp.css */
+.ms-Image[b-aw1xthp9k2] {
+    overflow: hidden;
+}
+
+.ms-Image--maximizeFrame[b-aw1xthp9k2] {
+    height: 100%;
+    width: 100%;
+}
+
+.ms-Image--relative[b-aw1xthp9k2] {
+    position: relative;
+}
+
+.ms-Image-image[b-aw1xthp9k2] {
+    display: block;
+}
+
+.ms-Image-image--fitStyles[b-aw1xthp9k2] {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.ms-Image-image--contain[b-aw1xthp9k2] {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.ms-Image-image--cover[b-aw1xthp9k2] {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ms-Image-image--none[b-aw1xthp9k2] {
+    width: auto;
+    height: auto;
+}
+/* _content/BlazorFluentUI.CoreComponents/Label/Label.razor.rz.scp.css */
+.ms-Label[b-7e7mit7ors] {
+    -webkit-font-smoothing: antialiased;
+    font-size: var(--fontSize-Medium);
+    font-weight: var(--fontWeight-SemiBold);
+    color: var(--semanticTextColors-BodyText);
+    box-sizing: border-box;
+    box-shadow: none;
+    margin: 0;
+    display: block;
+    padding: 5px 0px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+.ms-Label--disabled[b-7e7mit7ors] {
+    color: var(--semanticTextColors-DisabledBodyText);
+}
+.ms-Label--required[b-7e7mit7ors]::after {
+    content: ' *';
+    color: var(--semanticTextColors-ErrorText);
+    padding-right: 12px;
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Label--disabled[b-7e7mit7ors] {
+        color: GrayText;
+    }
+}
+/* _content/BlazorFluentUI.CoreComponents/Link/Link.razor.rz.scp.css */
+.ms-Link[b-ikm1bfnbga] {
+    color: var(--semanticTextColors-Link);
+    outline: none;
+    font-size: inherit;
+    font-weight: inherit;
+}
+    .ms-Link.isButton[b-ikm1bfnbga] {
+        background: none;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        display: inline;
+        margin: 0;
+        overflow: inherit;
+        padding: 0;
+        text-align: left;
+        text-overflow: inherit;
+        user-select: text;
+        border-bottom: 1px solid transparent;
+    }
+    .ms-Link:not(.isButton)[b-ikm1bfnbga] {
+        text-decoration: none;
+    }
+    .ms-Link.isDisabled[b-ikm1bfnbga] {
+        color: var(--semanticTextColors-DisabledText);
+        cursor: default;
+    }
+        .ms-Link.isDisabled:link[b-ikm1bfnbga], 
+        .ms-Link.isDisabled:visited[b-ikm1bfnbga] {
+            pointer-events: none;
+        }
+        .ms-Link.isDisabled:link[b-ikm1bfnbga],
+        .ms-Link.isDisabled:visited[b-ikm1bfnbga] {
+            pointer-events: none;
+        }
+    .ms-Link:not(.isDisabled):hover:active[b-ikm1bfnbga],
+    .ms-Link:not(.isDisabled):hover[b-ikm1bfnbga],
+    .ms-Link:not(.isDisabled):active[b-ikm1bfnbga] {
+        color: var(--semanticTextColors-LinkHovered);
+        text-decoration: underline;
+    }
+    .ms-Link:not(.isDisabled):focus[b-ikm1bfnbga] {
+        color: var(--semanticTextColors-Link);
+    }
+/* _content/BlazorFluentUI.CoreComponents/MarqueeSelection/MarqueeSelection.razor.rz.scp.css */
+.ms-MarqueeSelection[b-hvsoy2rs5e] {
+    position: relative;
+    cursor: default;
+}
+
+.ms-MarqueeSelection-dragMask[b-hvsoy2rs5e] {
+    position: absolute;
+    background: rgba(255,0,0,0);
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+@media screen and (-ms-high-contrast: active){
+    .ms-MarqueeSelection-dragMask[b-hvsoy2rs5e] {
+        background: none;
+        background-color: transparent;
+    }
+}
+
+.ms-MarqueeSelection-box[b-hvsoy2rs5e] {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid var(--palette-ThemePrimary);
+    z-index: 10;
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-MarqueeSelection-box[b-hvsoy2rs5e] {
+        border-color: Highlight;
+    }
+}
+
+
+.ms-MarqueeSelection-boxFill[b-hvsoy2rs5e] {
+    position: absolute;
+    box-sizing: border-box;
+    background-color: var(--palette-ThemePrimary);
+    opacity: 0.1;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-MarqueeSelection-boxFill[b-hvsoy2rs5e] {
+        background: none;
+        background-color: transparent;
+    }
+}
+
+/* _content/BlazorFluentUI.CoreComponents/MessageBar/MessageBar.razor.rz.scp.css */
+
+.ms-MessageBar[b-pkxvby119s] {
+    background: var(--palette-NeutralLighter);
+    color: var(--palette-NeutralPrimary);
+    min-height: 32px;
+    width: 100%;
+    display: flex;
+    word-break: break-word;
+}
+
+
+    .ms-MessageBar.ms-MessageBar--error[b-pkxvby119s], .ms-MessageBar.ms-MessageBar--blocked[b-pkxvby119s] {
+        background: var(--semanticColors-ErrorBackground);
+    }
+
+
+    .ms-MessageBar.ms-MessageBar--severeWarning[b-pkxvby119s] {
+        background: var(--semanticColors-BlockingBackground);
+    }
+
+
+    .ms-MessageBar.ms-MessageBar--success[b-pkxvby119s] {
+        background: var(--semanticColors-SuccessBackground);
+    }
+
+
+    .ms-MessageBar.ms-MessageBar--warning[b-pkxvby119s] {
+        background: var(--semanticColors-WarningBackground);
+    }
+
+
+    .ms-MessageBar.ms-MessageBar-multiline[b-pkxvby119s] {
+        flex-direction: column;
+    }
+
+
+    .ms-MessageBar .ms-Link[b-pkxvby119s] {
+        color: var(--palette-ThemeDark);
+        font-size: var(--fontSize-Small);
+        font-weight: var(--fontWeight-Regular);
+    }
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-MessageBar .ms-Link[b-pkxvby119s] {
+        -ms-high-contrast-adjust: auto;
+    }
+
+    .ms-MessageBar.ms-MessageBar--error[b-pkxvby119s], 
+    .ms-MessageBar.ms-MessageBar--blocked[b-pkxvby119s], 
+    .ms-MessageBar.ms-MessageBar--severeWarning[b-pkxvby119s] {
+        background: rgba(255, 0, 0, 0.3);
+        border: 1px solid WindowText;
+        color: WindowText;
+    }
+
+    .ms-MessageBar.ms-MessageBar--success[b-pkxvby119s] {
+        background: rgba(48, 241, 73, 0.3);
+        border: 1px solid WindowText;
+        color: WindowText;
+    }
+
+    .ms-MessageBar.ms-MessageBar--warning[b-pkxvby119s] {
+        background: rgba(255, 254, 57, 0.3);
+        border: 1px solid WindowText;
+        color: WindowText;
+    }
+
+    .ms-MessageBar[b-pkxvby119s] {
+        background: Window;
+        border: 1px solid WindowText;
+        color: WindowText;
+    }
+}
+
+
+
+.ms-MessageBar-content[b-pkxvby119s] {
+    display: flex;
+    width: 100%;
+    line-height: normal;
+}
+
+
+.ms-MessageBar-icon[b-pkxvby119s] {
+    font-size: var(--iconFontSize-Medium);
+    min-width: 16px;
+    min-height: 16px;
+    display: flex;
+    flex-shrink: 0;
+    margin: 8px 0 8px 12px;
+}
+
+
+    .ms-MessageBar-icon[b-pkxvby119s]  .ms-Icon {
+        color: var(--palette-NeutralSecondary);
+    }
+
+
+    .ms-MessageBar-icon.ms-MessageBar--error[b-pkxvby119s]  .ms-Icon,
+    .ms-MessageBar-icon.ms-MessageBar--blocked[b-pkxvby119s]  .ms-Icon,
+    .ms-MessageBar-icon.ms-MessageBar--severeWarning[b-pkxvby119s]  .ms-Icon {
+        color: var(--semanticTextColors-ErrorText);
+    }
+
+
+    .ms-MessageBar-icon.ms-MessageBar--success[b-pkxvby119s]  .ms-Icon {
+        color: var(--palette-Green);
+    }
+
+
+    .ms-MessageBar-icon.ms-MessageBar--warning[b-pkxvby119s]  .ms-Icon {
+        color: var(--semanticTextColors-WarningText);
+    }
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-MessageBar-icon[b-pkxvby119s] {
+        -ms-high-contrast-adjust: none;
+        color: WindowText;
+    }
+}
+
+.ms-MessageBar-text[b-pkxvby119s] {
+    min-width: 0;
+    display: flex;
+    flex-grow: 1;
+    margin: 8px;
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+}
+
+
+    .ms-MessageBar-text:not(.ms-MessageBar-dismissSingleLine)[b-pkxvby119s] {
+        margin-right: 12px;
+    }
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-MessageBar-text[b-pkxvby119s] {
+        -ms-high-contrast-adjust: none;
+    }
+}
+
+
+.ms-MessageBar-innerText[b-pkxvby119s] {
+    line-height: 16px;
+}
+
+
+    .ms-MessageBar-innerText span[b-pkxvby119s],
+    .ms-MessageBar-innerText a[b-pkxvby119s] {
+        padding-left: 4px;
+    }
+
+
+    .ms-MessageBar-innerText.ms-MessageBar-expandSingleLine[b-pkxvby119s] {
+        overflow: visible;
+        white-space: normal;
+    }
+
+
+    .ms-MessageBar-innerText:not(.ms-MessageBar-multiline):not(.ms-MessageBar-expandSingleLine)[b-pkxvby119s] {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+[b-pkxvby119s] .ms-MessageBar-dismissal {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    padding: 8px 12px;
+}
+
+
+    [b-pkxvby119s] .ms-MessageBar-dismissal.ms-Button-icon {
+        font-size: var(--fontSize-XSmall);
+        height: 10px;
+        line-height: 10px;
+        color: var(--palette-NeutralPrimary);
+    }
+
+
+    [b-pkxvby119s] .ms-MessageBar-dismissal.ms-Button--icon:hover {
+        background-color: transparent;
+    }
+
+
+    [b-pkxvby119s] .ms-MessageBar-dismissal.ms-Button--icon:active {
+        background-color: transparent;
+    }
+
+
+@media screen and (-ms-high-contrast: active) {
+    [b-pkxvby119s] .ms-MessageBar-dismissal.ms-Button-icon {
+        -ms-high-contrast-adjust: none;
+        color: WindowText;
+    }
+}
+
+
+[b-pkxvby119s] .ms-MessageBar-expand {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    padding: 8px 12px;
+}
+
+
+    [b-pkxvby119s] .ms-MessageBar-expand.ms-Button-icon {
+        font-size: var(--fontSize-XSmall);
+        height: 10px;
+        line-height: 10px;
+        color: var(--palette-NeutralPrimary);
+    }
+
+
+    [b-pkxvby119s] .ms-MessageBar-expand.ms-Button--icon:hover {
+        background-color: transparent;
+    }
+
+
+    [b-pkxvby119s] .ms-MessageBar-expand.ms-Button--icon:active {
+        background-color: transparent;
+    }
+
+
+@media screen and (-ms-high-contrast: active) {
+    [b-pkxvby119s] .ms-MessageBar-expand.ms-Button-icon {
+        -ms-high-contrast-adjust: none;
+        color: WindowText;
+    }
+}
+
+
+.ms-MessageBar-actions[b-pkxvby119s] {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+    flex-Direction: row-reverse;
+    align-items: center;
+    margin: 0 12px 8px 8px;
+}
+
+
+    .ms-MessageBar-actions[b-pkxvby119s]  button:nth-child(n+2) {
+        margin-left: 8px;
+    }
+
+
+.ms-MessageBar-actionsSingleLine[b-pkxvby119s] {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+    flex-Direction: row-reverse;
+    align-items: center;
+    margin: 0 12px 0px 8px;
+}
+
+
+    .ms-MessageBar-actionsSingleLine[b-pkxvby119s]  button:nth-child(n+2) {
+        margin-left: 8px;
+    }
+
+
+    .ms-MessageBar-actionsSingleLine .ms-MessageBar-dismissSingleLine[b-pkxvby119s] {
+        margin-right: 0;
+    }
+/* _content/BlazorFluentUI.CoreComponents/Modal/Modal.razor.rz.scp.css */
+.ms-Modal[b-rz5c32t72h] {
+    background-color: transparent;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--animation-DURATION_2) var(--animation-EASING_FUNCTION_2);
+}
+
+    .ms-Modal.isModeless[b-rz5c32t72h] {
+        position: absolute;
+    }
+
+    .ms-Modal.isOpen.topOffsetFixed[b-rz5c32t72h] {
+        align-items: flex-start;
+    }
+
+    .ms-Modal.isOpen[b-rz5c32t72h] {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+[b-rz5c32t72h] .ms-Modal-main {
+    box-shadow: var(--effects-Elevation64);
+    border-radius: var(--effects-RoundedCorner2);
+    background-color: var(--palette-White);
+    box-sizing: border-box;
+    position: relative;
+    text-align: left;
+    outline: 3px solid transparent;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+[b-rz5c32t72h] .ms-Modal.isModeless .ms-Modal-main {
+    z-index: var(--zIndex-Layer);
+}
+[b-rz5c32t72h] .ms-Modal.isOpen.topOffsetFixed .ms-Modal-main {
+    top: 0;
+    /*THIS ISN'T CORRECT*/
+}
+[b-rz5c32t72h] .ms-Modal-scrollableContent {
+    overflow-y: auto;
+    flex-grow: 1;
+    max-height: 100vh;
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+    [b-rz5c32t72h] .ms-Modal-scrollableContent {
+        max-height: 100%; /*THIS IS NOT CORRECT*/
+    }
+}
+[b-rz5c32t72h] .ms-Modal-hiddenModal {
+    visibility: hidden;
+}
+/* _content/BlazorFluentUI.CoreComponents/NavBar/NavBar.razor.rz.scp.css */
+.ms-NavBar-horizontal[b-b4v615cm0m] {
+    display: flex;
+    background-color: var(--semanticColors-BodyBackground);
+    padding: 0 14px 0 24px;
+    height: 44px;
+    flex-grow: 1;
+}
+
+[b-b4v615cm0m] .ms-NavBar-horizontal-primarySet {
+    flex-grow: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+.ms-NavBar-horizontal-secondarySet[b-b4v615cm0m] {
+    flex-shrink: 0;
+    display: flex;
+    align-items: stretch;
+}
+
+
+.ms-NavBar-horizontal[b-b4v615cm0m]  .ms-Button--commandBar.is-checked::after {
+    border-bottom: 2px solid var(--palette-ThemePrimary);
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+
+.ms-NavBar-horizontal[b-b4v615cm0m]  .ms-Button.ms-Button--commandBar:hover {
+    color: var(--palette-ThemePrimary);
+}
+
+.ms-NavBar-horizontal[b-b4v615cm0m]  .ms-Button.ms-Button--commandBar.is-checked:hover {
+    background-color: var(--semanticColors-BodyBackgroundHovered);
+}
+
+
+.ms-NavBar-horizontal[b-b4v615cm0m]  .ms-Button.ms-Button--commandBar.is-checked .ms-Button-label {
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+.ms-NavBar-horizontal[b-b4v615cm0m]  .ms-Button.ms-Button--commandBar.subgroup-is-checked {
+    background-color: var(--palette-NeutralLighter);
+}
+
+
+    .ms-NavBar-horizontal[b-b4v615cm0m]  .ms-Button.ms-Button--commandBar.subgroup-is-checked::after {
+        border-bottom: 2px solid var(--palette-ThemeLight);
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+    }
+
+
+.ms-NavBar-horizontal[b-b4v615cm0m]  .ms-Button.ms-Button--commandBar.is-checked:hover {
+    background-color: var(--semanticColors-BodyBackgroundHovered);
+}
+
+
+.ms-NavBar-horizontal[b-b4v615cm0m]  .ms-ContextualMenu-item.is-checked .ms-ContextualMenu-itemText {
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+
+[b-b4v615cm0m] .ms-ContextualMenu-link.subgroup-is-checked {
+    background-color: var(--palette-NeutralLighter);
+}
+/* _content/BlazorFluentUI.CoreComponents/Nav/Nav.razor.rz.scp.css */
+[b-8eajuovjp2] .ms-Nav {
+    overflow-y: auto;
+    user-select: none;
+    touch-action: pan-x pan-y;
+}
+    .ms-Nav.is-on-top[b-8eajuovjp2] {
+        position: absolute;
+    }
+
+[b-8eajuovjp2] .ms-Nav-linkText {
+    margin: 0px 4px;
+    overflow: hidden;
+    vertical-align: middle;
+    text-align: left;
+    text-overflow: ellipsis;
+}
+
+[b-8eajuovjp2] .ms-Nav-compositeLink {
+    display: block;
+    position: relative;
+    color: var(--semanticTextColors-BodyText);
+    background-color: var(--semanticColors-BodyBackground);
+}
+
+    [b-8eajuovjp2] .ms-Nav-compositeLink.is-disabled {
+        color: var(--semanticTextColors-DisabledText);
+    }
+
+[b-8eajuovjp2] .ms-Nav .ms-Nav-compositeLink .ms-Button-root {
+    display:block; /* Hack to prevent inline-block */
+}
+
+[b-8eajuovjp2] .ms-Nav-link {
+    outline: transparent;
+    position: relative;
+    display: block;
+    position: relative;
+    height: 44px;
+    width: 100%;
+    line-height: 44px;
+    text-decoration: none;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: var(--semanticTextColors-BodyText);
+}
+
+[b-8eajuovjp2] .ms-Nav .ms-Nav-compositeLink .ms-Nav-link::-moz-focus-inner {
+    border: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-Nav-root[b-8eajuovjp2]  .ms-Nav .ms-Nav-compositeLink .ms-Nav-link:focus::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    [b-8eajuovjp2] .ms-Nav-link {
+        border-color: transparent;
+    }
+        [b-8eajuovjp2] .ms-Nav-link:focus {
+            border-color: WindowText;
+        }
+}
+
+[b-8eajuovjp2] .ms-Nav-compositeLink:hover:not(.is-disabled) .ms-Nav-link {
+    background-color: var(--semanticColors-BodyBackgroundHovered);
+    color: var(--semanticTextColors-BodyText);
+}
+
+[b-8eajuovjp2] .ms-Nav-compositeLink.is-selected .ms-Nav-link {
+    background-color: var(--semanticColors-BodyBackgroundChecked);
+    font-weight: var(--fontWeight-SemiBold);
+    color: var(--semanticTextColors-BodyTextChecked);
+}
+
+    [b-8eajuovjp2] .ms-Nav-compositeLink.is-selected .ms-Nav-link::after {
+        border-left: 2px solid var(--palette-ThemePrimary);
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+    }
+
+[b-8eajuovjp2] .ms-Nav-compositeLink.is-disabled .ms-Nav-link {
+    color: var(--semanticTextColors-DisabledText);
+}
+
+[b-8eajuovjp2] .ms-Nav-compositeLink.is-button .ms-Nav-link {
+    color: var(--palette-ThemePrimary);
+}
+
+
+[b-8eajuovjp2] .ms-Nav-chevronButton {
+    outline: transparent;
+    position: relative;
+    display: block;
+    text-align: left;
+    line-height: 44px;
+    font-weight: var(--fontWeight-Regular);
+    font-size: var(--fontSize-Small);
+    margin: 5px 0px;
+    padding: 0px 20px 0px 28px;
+    border: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    color: var(--semanticTextColors-BodyText);
+    background-color: transparent;
+}
+
+[b-8eajuovjp2] .ms-Nav-chevronButton::-moz-focus-inner {
+    border: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-Nav-root[b-8eajuovjp2]  .ms-Nav-chevronButton:focus::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+[b-8eajuovjp2] .ms-Nav-chevronButton:visited {
+    color: inherit;
+}
+
+[b-8eajuovjp2] .ms-Nav-chevronButton:hover {
+    color: var(--semanticTextColors-BodyText);
+    background-color: var(--semanticColors-BodyBackgroundHovered);
+}
+[b-8eajuovjp2] .ms-Nav-compositeLink:hover .ms-Nav-chevronButton {
+    color: var(--semanticTextColors-BodyText);
+    background-color: var(--semanticColors-BodyBackgroundHovered);
+}
+[b-8eajuovjp2] .ms-Nav-chevronButton.is-group {
+    width: 100%;
+    height: 44px;
+    border-bottom: 1px solid var(--semanticColors-BodyDivider);
+}
+
+[b-8eajuovjp2] .ms-Nav-compositeLink:not(.is-button) .ms-Nav-chevronButton {
+    display: block;
+    width: 26px;
+    height: 42px;
+    position: absolute;
+    top: 1px;
+    /*left:1px;*/
+    z-index: var(--zIndex-Nav);
+    padding: 0;
+    margin: 0;
+}
+
+[b-8eajuovjp2] .ms-Nav .ms-Nav-compositeLink.is-selected .ms-Nav-chevronButton {
+    color: var(--palette-ThemePrimary);
+    background-color: var(--palette-NeutralLighterAlt);
+}
+    [b-8eajuovjp2] .ms-Nav .ms-Nav-compositeLink.is-selected .ms-Nav-chevronButton::after {
+        border-left: 2px solid var(--palette-ThemePrimary);
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+    }
+
+[b-8eajuovjp2] .ms-Nav-chevron {
+    position: absolute;
+    left: 8px;
+    height: 36px;
+    line-height: 36px;
+    font-size: var(--fontSize-Medium);
+    transition: transform .1s linear;
+}
+[b-8eajuovjp2] .ms-Nav-compositeLink.is-expanded > * > .ms-Nav-chevron {
+    transform: rotate(-180deg);
+}
+
+[b-8eajuovjp2] .ms-Nav-compositeLink:not(.is-button) > * > .ms-Nav-chevron {
+    top: 0;
+}
+
+[b-8eajuovjp2] .ms-Nav-group.is-expanded > * > .ms-Nav-chevron {
+    transform: rotate(90deg);
+}
+[b-8eajuovjp2] .ms-Nav-group:not(.is-button) > * > .ms-Nav-chevron {
+    top: 5px;
+}
+
+
+[b-8eajuovjp2] .ms-Nav-navItem {
+    padding: 0;
+}
+[b-8eajuovjp2] .ms-Nav-navItems {
+    padding: 0;
+    list-style-type: none;
+}
+
+[b-8eajuovjp2] .ms-Nav-group {
+    position: relative;
+}
+[b-8eajuovjp2] .ms-Nav-groupContent {
+    display: none;
+    margin-bottom: 0px;
+}
+
+[b-8eajuovjp2] .ms-Nav-group.is-expanded .ms-Nav-groupContent {
+    display: block;
+}
+/* _content/BlazorFluentUI.CoreComponents/OverflowSet/OverflowSet.razor.rz.scp.css */
+[b-tjlgnbqnrx] .ms-OverflowSet {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+}
+[b-tjlgnbqnrx] .ms-OverflowSet--vertical {
+    flex-direction: column;
+}
+
+[b-tjlgnbqnrx] .ms-OverflowSet-item {
+    flex-shrink: 0;
+    display: inherit;
+}
+
+[b-tjlgnbqnrx] .ms-OverflowSet-overflowButton {
+    flex-shrink: 0;
+    display: inherit;
+}
+/* _content/BlazorFluentUI.CoreComponents/Overlay/Overlay.razor.rz.scp.css */
+.ms-Overlay[b-4ixl260yk8] {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+}
+
+.ms-Overlay--light[b-4ixl260yk8] {
+    background-color: var(--palette-WhiteTranslucent40);
+}
+
+.ms-Overlay--dark[b-4ixl260yk8] {
+    background-color: var(--palette-BlackTranslucent40);
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Overlay[b-4ixl260yk8] {
+        border: 1px solid WindowText;
+        opacity: 0;
+    }
+}
+/* _content/BlazorFluentUI.CoreComponents/Panel/Panel.razor.rz.scp.css */
+.ms-Panel--hasCloseButton[b-o8au4wlhv0] {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+[b-o8au4wlhv0] .ms-Panel-overlay {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.ms-Panel-hiddenPanel[b-o8au4wlhv0] {
+    visibility: hidden;
+}
+
+[b-o8au4wlhv0] .ms-Panel-main {
+    background-color: var(--semanticColors-BodyBackground);
+    box-shadow: var(--effects-Elevation64);
+    pointer-events: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    touch-action: pan-x pan-y;
+    bottom: 0;
+    top: 0;
+    left: auto;
+    right: 0;
+    width: 100%;
+}
+
+.ms-Panel--smFluid[b-o8au4wlhv0]  .ms-Panel-main {
+    left: 0;
+}
+
+.ms-Panel--sm[b-o8au4wlhv0]  .ms-Panel-main {
+    left: auto;
+    right: 0;
+    width: 272px;
+}
+.ms-Panel--smLeft[b-o8au4wlhv0]  .ms-Panel-main {
+    left: 0;
+    right: auto;
+    width: 272px;
+}
+.ms-Panel--custom[b-o8au4wlhv0]  .ms-Panel-main {
+    max-width: 100vw;
+}
+
+.ms-Panel--customLeft[b-o8au4wlhv0]  .ms-Panel-main {
+    right: auto;
+    left: 0;
+    max-width: 100vw;
+}
+
+@media screen and (min-width: 480px) {
+    .ms-Panel--sm[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--md[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--lg[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--fixed[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--xl[b-o8au4wlhv0]  .ms-Panel-main {
+        width: 340px;
+    }
+}
+
+@media screen and (min-width: 640px) {
+    .ms-Panel--md[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--lg[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--fixed[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--xl[b-o8au4wlhv0]  .ms-Panel-main {
+        width: 592px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .ms-Panel--md[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--lg[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--fixed[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--xl[b-o8au4wlhv0]  .ms-Panel-main {
+        width: 644px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .ms-Panel--lg[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--fixed[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--xl[b-o8au4wlhv0]  .ms-Panel-main {
+        left: 48px;
+        width: auto;
+    }
+}
+
+@media screen and (min-width: 1366px) {
+    .ms-Panel--lg[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--fixed[b-o8au4wlhv0]  .ms-Panel-main, .ms-Panel--xl[b-o8au4wlhv0]  .ms-Panel-main {
+        left: 428px;
+    }
+
+    .ms-Panel--fixed[b-o8au4wlhv0]  .ms-Panel-main {
+        left: auto;
+        width: 940px;
+    }
+
+    .ms-Panel--xl[b-o8au4wlhv0]  .ms-Panel-main {
+        left: 176px;
+    }
+}
+
+@media screen and (-ms-high-contrast: active) {
+    [b-o8au4wlhv0] .ms-Panel-main {
+        border-left: 3px solid var(--semanticColors-VariantBorder);
+        border-right: 3px solid var(--semanticColors-VariantBorder);
+    }
+}
+
+
+.ms-Panel-navigation[b-o8au4wlhv0] {
+    padding: 0 5px;
+    height: 44px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ms-Panel-contentInner[b-o8au4wlhv0] {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: hidden;
+}
+
+[b-o8au4wlhv0] .ms-Panel-header {
+    padding-left: 16px;
+    padding-right: 16px;
+    margin: 14px 0;
+    flex-shrink: 0;
+}
+
+@media screen and (min-width:1024px) {
+    [b-o8au4wlhv0] .ms-Panel-header {
+        margin-top: 30px;
+    }
+}
+
+[b-o8au4wlhv0] .ms-Panel-headerText {
+    color: var(--palette-NeutralPrimary);
+    line-height: 27px;
+    margin: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.ms-Panel-scrollableContent[b-o8au4wlhv0] {
+    overflow-y: auto;
+}
+
+.ms-Panel-scrollableContent--isFooterAtBottom[b-o8au4wlhv0] {
+    flex-grow: 1;
+}
+
+.ms-Panel-content[b-o8au4wlhv0] {
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-bottom: 0;
+    padding-bottom: 20px;
+}
+
+.ms-Panel-footer[b-o8au4wlhv0] {
+    flex-shrink: 0;
+    border-top: 1px solid transparent;
+    transition: opacity var(--animation-DURATION_3) var(--animation-EASING_FUNCTION_2);
+}
+
+.ms-Panel-footer--isStick[b-o8au4wlhv0] {
+    background: var(--semanticColors-BodyBackground);
+    border-top-color: var(--semanticColors-VariantBorder);
+}
+
+.ms-Panel-footerInner[b-o8au4wlhv0] {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    padding-top: 16px;
+}
+/* _content/BlazorFluentUI.CoreComponents/Persona/Persona.razor.rz.scp.css */
+.ms-Persona[b-p3z6jl6ozn] {
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--semanticTextColors-BodyText);
+    position: relative;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+}
+
+
+.ms-Persona-details[b-p3z6jl6ozn] {
+    padding: 0 24px 0 16px;
+    min-width: 0;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+.ms-Persona-primaryText[b-p3z6jl6ozn] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--semanticTextColors-BodyText);
+    font-weight: var(--fontWeight-Regular);
+    font-size: var(--fontSize-Medium);
+}
+
+
+    .ms-Persona-primaryText:hover[b-p3z6jl6ozn] {
+        color: var(--semanticTextColors-InputTextHovered);
+    }
+
+
+.ms-Persona-secondaryText[b-p3z6jl6ozn] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--semanticTextColors-BodySubtext);
+    font-weight: var(--fontWeight-Regular);
+    font-size: var(--fontSize-Small);
+}
+
+
+.ms-Persona-tertiaryText[b-p3z6jl6ozn] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--semanticTextColors-BodySubtext);
+    font-weight: var(--fontWeight-Regular);
+    font-size: var(--fontSize-Small);
+}
+
+.ms-Persona-optionalText[b-p3z6jl6ozn] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--semanticTextColors-BodySubtext);
+    font-weight: var(--fontWeight-Regular);
+    font-size: var(--fontSize-Small);
+}
+
+
+.ms-Persona-textContent[b-p3z6jl6ozn] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* _content/BlazorFluentUI.CoreComponents/Persona/PersonaCoin.razor.rz.scp.css */
+.ms-Persona-size10WithoutPresenceIcon[b-pm5vmqou9u] {
+    font-size: var(--fontSize-XSmall);
+    position: absolute;
+    top: 5px;
+    right: auto;
+    left: 0;
+}
+
+.ms-Persona-imageArea[b-pm5vmqou9u] {
+    position: relative;
+    text-align: center;
+    flex: 0 0 auto;
+}
+
+[b-pm5vmqou9u] .ms-Persona-image {
+    margin-right: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 50%;
+    perspective: 1px;
+}
+
+.ms-Persona-initials[b-pm5vmqou9u] {
+    border-radius: 50%;
+    color: var(--palette-White);
+    font-size: var(--fontSize-Large);
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+.ms-Persona-initials--showUnknownPersonaCoin[b-pm5vmqou9u] {
+    color: rgb(168, 0, 0);
+}
+/* _content/BlazorFluentUI.CoreComponents/Persona/PersonaPresence.razor.rz.scp.css */
+.ms-Persona-presence[b-s4xuuehak5] {
+    position: absolute;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    top: auto;
+    right: -2px;
+    bottom: -2px;
+    background-color: var(--semanticColors-BodyBackground);
+    border: 2px solid var(--semanticColors-BodyBackground);
+    text-align: center;
+    box-sizing: content-box;
+    background-clip: content-box;
+    -ms-high-contrast-adjust: none;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Persona-presence[b-s4xuuehak5] {
+        border-color: Window;
+        background-color: WindowText;
+    }
+}
+
+[b-s4xuuehak5] .ms-Persona-icon {
+    color: var(--semanticColors-BodyBackground);
+    font-size: 6px;
+    line-height: 12px;
+    vertical-align: top;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    [b-s4xuuehak5] .ms-Persona-icon {
+        color: Window;
+    }
+}
+/* _content/BlazorFluentUI.CoreComponents/Pivot/Pivot.razor.rz.scp.css */
+
+.ms-Pivot-count[b-f9rkf0c2en] {
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+[b-f9rkf0c2en] .is-selected.ms-Pivot-link {
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+
+    [b-f9rkf0c2en] .is-selected.ms-Pivot-link::before {
+        background-color: var(--semanticColors-InputBackgroundChecked);
+    }
+
+
+    [b-f9rkf0c2en] .is-selected.ms-Pivot-link:hover::before {
+        left: 0;
+        right: 0;
+    }
+
+
+@media screen and (-ms-high-contrast: active) {
+    [b-f9rkf0c2en] .is-selected.ms-Pivot-link::before {
+        background-color: Highlight;
+    }
+
+    [b-f9rkf0c2en] .is-selected.ms-Pivot-link {
+        color: Highlight;
+    }
+}
+
+[b-f9rkf0c2en] .ms-Pivot-link.ms-Button--default {
+    color: var(--semanticTextColors-ActionLink);
+    display: inline-block;
+    line-height: 44px;
+    height: 44px;
+    margin-right: 8px;
+    padding: 0 8px;
+    text-align: center;
+    position: relative;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+}
+
+
+[b-f9rkf0c2en] .ms-Pivot-link::before {
+    background-color: transparent;
+    bottom: 0;
+    content: '';
+    height: 2px;
+    left: 8px;
+    position: absolute;
+    right: 8px;
+    transition: left var(--animation-Duration2) var(--animation-EasingFunction2), right var(--animation-Duration2) var(--animation-EasingFunction2);
+}
+
+
+[b-f9rkf0c2en] .ms-Pivot-link::after {
+    color: transparent;
+    content: attr(data-content);
+    display: block;
+    font-weight: var(--fontWeight-Bold);
+    height: 1px;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+
+[b-f9rkf0c2en] .ms-Pivot-link:hover {
+    background-color: var(--semanticColors-ButtonBackgroundHovered);
+    color: var(--semanticTextColors-ButtonTextHovered);
+    cursor: pointer;
+}
+
+
+[b-f9rkf0c2en] .ms-Pivot-link:active {
+    background-color: var(--semanticColors-ButtonBackgroundPressed);
+    color: var(--semanticTextColors-ButtonTextHovered);
+}
+
+
+[b-f9rkf0c2en] .ms-Pivot-link:focus {
+    outline: none;
+}
+
+
+.ms-Fabric--isFocusVisible .ms-Pivot[b-f9rkf0c2en]  .ms-Pivot-link:focus {
+    outline: 1px solid var(--semanticColors-FocusBorder);
+}
+
+
+    .ms-Fabric--isFocusVisible .ms-Pivot[b-f9rkf0c2en]  .ms-Pivot-link:focus::after {
+        content: attr(data-content);
+        position: relative;
+        border: 0;
+    }
+
+[b-f9rkf0c2en] .ms-Pivot-linkContent {
+    flex: 0 1 100%;
+}
+
+
+    [b-f9rkf0c2en] .ms-Pivot-linkContent > * {
+        margin-left: 4px;
+    }
+
+
+        .ms-Pivot-linkContent > *:first-child[b-f9rkf0c2en] {
+            margin-left: 0;
+        }
+
+.ms-Pivot[b-f9rkf0c2en] {
+    box-shadow: none;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    position: relative;
+    color: var(--semanticTextColors-Link);
+    white-space: nowrap;
+}
+
+    .ms-Pivot[b-f9rkf0c2en]  > * {
+        display: inline-block;
+    }
+
+    .ms-Pivot.ms-Pivot--large[b-f9rkf0c2en]  .ms-Pivot-link {
+        font-size: var(--fontSize.Large);
+    }
+
+
+    .ms-Pivot.ms-Pivot--tabs[b-f9rkf0c2en]  .ms-Pivot-link {
+        margin-right: 0;
+        height: 44px;
+        line-height: 44px;
+        background-color: var(--semanticColors-ButtonBackground);
+        padding: 0 10px;
+        vertical-align: top;
+    }
+
+
+        .ms-Pivot.ms-Pivot--tabs[b-f9rkf0c2en]  .ms-Pivot-link:focus {
+            outline-offset: -1px;
+        }
+
+
+        .ms-Pivot.ms-Pivot--tabs[b-f9rkf0c2en]  .ms-Pivot-link:not(.is-selected):hover,
+        .ms-Pivot.ms-Pivot--tabs[b-f9rkf0c2en]  .ms-Pivot-link:not(.is-selected):focus {
+            color: var(--semanticTextColors-ButtonTextCheckedHovered);
+        }
+
+
+        .ms-Pivot.ms-Pivot--tabs[b-f9rkf0c2en]  .ms-Pivot-link:not(.is-selected):active,
+        .ms-Pivot.ms-Pivot--tabs[b-f9rkf0c2en]  .ms-Pivot-link:not(.is-selected):hover {
+            color: var(--semanticTextColors-PrimaryButtonText);
+            background-color: var(--semanticColors-PrimaryButtonBackground);
+        }
+
+
+.ms-Pivot--tabs.ms-Pivot .is-selected[b-f9rkf0c2en] {
+    background-color: var(--semanticColors-PrimaryButtonBackground);
+    color: var(--semanticTextColors-PrimaryButtonText);
+    font-weight: var(--fontWeight-Regular);
+}
+
+
+    .ms-Pivot--tabs.ms-Pivot .is-selected[b-f9rkf0c2en]::before {
+        background-color: transparent;
+        transition: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: '';
+        height: auto;
+    }
+
+
+    .ms-Pivot--tabs.ms-Pivot .is-selected:hover[b-f9rkf0c2en] {
+        background-color: var(--semanticColors-PrimaryButtonBackgroundHovered);
+        color: var(--semanticTextColors-PrimaryButtonText);
+    }
+
+
+    .ms-Pivot--tabs.ms-Pivot .is-selected:active[b-f9rkf0c2en] {
+        background-color: var(--semanticColors-PrimaryButtonBackgroundPressed);
+        color: var(--semanticTextColors-PrimaryButtonText);
+    }
+
+
+.ms-Fabric--isFocusVisible .ms-Pivot--tabs.ms-Pivot[b-f9rkf0c2en]  .ms-Pivot-link:focus::before {
+    height: auto;
+    background-color: transparent;
+    transition: none;
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Pivot--tabs.ms-Pivot .is-selected[b-f9rkf0c2en] {
+        font-weight: var(--fontWeight-SemiBold);
+        color: HighlightText;
+        background-color: Highlight;
+        -ms-high-contrast-adjust: none;
+    }
+}
+
+[b-f9rkf0c2en] .ms-Pivot-text {
+    display: inline-block;
+    vertical-align: top;
+}
+/* _content/BlazorFluentUI.CoreComponents/ProgressIndicator/ProgressIndicator.razor.rz.scp.css */
+@keyframes IndeterminateProgress-b-148c2blrt7 {
+    0% {
+        left: -30%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+@keyframes IndeterminateProgressRTL-b-148c2blrt7 {
+    100% {
+        right: -30%;
+    }
+
+    0% {
+        right: 100%;
+    }
+}
+
+.ms-ProgressIndicator-itemName[b-148c2blrt7] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--semanticTextColors-BodyText);
+    padding-top: 4px;
+    line-height: 20px;
+}
+.ms-ProgressIndicator-itemDescription[b-148c2blrt7] {
+    color: var(--semanticTextColors-BodySubtext);
+    font-size: var(--fontSize-Small);
+    line-height: 18px;
+}
+
+.ms-ProgressIndicator-progressBar[b-148c2blrt7] {
+    background-color: var(--palette-ThemePrimary);
+    position: absolute;
+    transition: width .15s linear;
+    width: 0;
+}
+
+.is-indeterminate .ms-ProgressIndicator-progressBar[b-148c2blrt7] {
+    transition: width .3s ease;
+    min-width: 33%;
+    background: linear-gradient(to right,var(--palette-NeutralLight) 0%,var(--palette-ThemePrimary) 50%, var(--palette-NeutralLight) 100%);
+    animation: IndeterminateProgress-b-148c2blrt7 3s infinite;
+}
+
+.isRTL .is-indeterminate .ms-ProgressIndicator-progressBar[b-148c2blrt7] {
+    animation: IndeterminateProgressRTL-b-148c2blrt7 3s infinite;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-ProgressIndicator-progressTrack[b-148c2blrt7] {
+        border-bottom: 1px solid WindowText;
+    }
+
+    .ms-ProgressIndicator-progressBar[b-148c2blrt7] {
+        background-color: WindowText;
+    }
+}
+/* _content/BlazorFluentUI.CoreComponents/Rating/Rating.razor.rz.scp.css */
+
+[b-ioujzxtdv3] .ms-RatingStar-root:hover .ms-RatingStar-back {
+    color: var(--palette-NeutralPrimary);
+}
+
+.ms-RatingStar-root--small[b-ioujzxtdv3] {
+    height: 48px;
+}
+
+.ms-RatingStar-root--large[b-ioujzxtdv3] {
+    height: 56px;
+}
+
+[b-ioujzxtdv3] .ms-RatingStar-root--small {
+    height: 48px;
+}
+
+[b-ioujzxtdv3] .ms-RatingStar-root--large {
+    height: 56px;
+}
+
+.ms-RatingStar-container[b-ioujzxtdv3] {
+    display: inline-block;
+    position: relative;
+    height: inherit;
+}
+
+[b-ioujzxtdv3] .ms-RatingStar-back {
+    color: var(--palette-NeutralSecondary);
+    width: 100%;
+}
+
+[b-ioujzxtdv3] .ms-RatingStar-back--disabled {
+    color: var(--semanticTextColors-DisabledBodySubtext);
+    width: 100%;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    [b-ioujzxtdv3] .ms-RatingStar-back--disabled {
+        color: GrayText;
+    }
+}
+
+
+[b-ioujzxtdv3] .ms-RatingStar-front {
+    position: absolute;
+    height: 100%;
+    left: 0;
+    top: 0;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    color: var(--palette-NeutralPrimary);
+    width: 0px;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    [b-ioujzxtdv3] .ms-RatingStar-front {
+        color: Highlight;
+    }
+}
+
+.ms-Rating-button[b-ioujzxtdv3] {
+    background-color: transparent;
+    padding: 8px 2px;
+    box-sizing: content-box;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+    outline: transparent;
+    position: relative;
+}
+
+.ms-Rating-button[b-ioujzxtdv3]::-moz-focus-inner {
+    border: 0;
+}
+
+.ms-Fabric--isFocusVisible .ms-Rating-button:focus[b-ioujzxtdv3]::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+    .ms-Rating-button:not(.ms-Rating-button--disabled):hover ~ .ms-Rating-button .ms-RatingStar-back[b-ioujzxtdv3] {
+        color: var(--palette-NeutralSecondary);
+    }
+
+    .ms-Rating-button:not(.ms-Rating-button--disabled):hover ~ .ms-Rating-button .ms-RatingStar-front[b-ioujzxtdv3] {
+        color: var(--palette-NeutralSecondary);
+    }
+
+.ms-Rating-button--disabled[b-ioujzxtdv3] {
+    background-color: transparent;
+    padding: 8px 2px;
+    box-sizing: content-box;
+    margin: 0;
+    border: none;
+    cursor: default;
+    outline: transparent;
+    position: relative;
+}
+
+    .ms-Rating-button--disabled[b-ioujzxtdv3]::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-Rating-button--disabled:focus[b-ioujzxtdv3]::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+.ms-Rating-button:hover .ms-RatingStar-back[b-ioujzxtdv3] {
+    color: var(--palette-ThemePrimary);
+}
+
+
+.ms-Rating-button:hover .ms-RatingStar-front[b-ioujzxtdv3] {
+    color: var(--palette-ThemeDark);
+}
+
+.ms-Rating--small[b-ioujzxtdv3] {
+    font-size: 16px;
+    line-height: 16px;
+    height: 16px;
+}
+
+.ms-Rating--large[b-ioujzxtdv3] {
+    font-size: 20px;
+    line-height: 20px;
+    height: 20px;
+}
+
+.ms-Rating-labelText[b-ioujzxtdv3] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+
+.ms-RatingStar-root--small[b-ioujzxtdv3]  .ms-Rating-focuszone,
+.ms-RatingStar-root--large[b-ioujzxtdv3]  .ms-Rating-focuszone {
+    display: inline-block;
+    outline: transparent;
+    position: relative;
+}
+    .ms-RatingStar-root--small[b-ioujzxtdv3]  .ms-Rating-focuszone::-moz-focus-inner,
+    .ms-RatingStar-root--large[b-ioujzxtdv3]  .ms-Rating-focuszone::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-RatingStar-root--small[b-ioujzxtdv3]  .ms-Rating-focuszone:focus::after,
+.ms-Fabric--isFocusVisible .ms-RatingStar-root--large[b-ioujzxtdv3]  .ms-Rating-focuszone:focus::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+/* _content/BlazorFluentUI.CoreComponents/RibbonMenu/RibbonMenuIntern.razor.rz.scp.css */
+
+.ms-Pivot-count[b-2mklwxvd16] {
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+[b-2mklwxvd16] .is-selected.ms-Pivot-link {
+    font-weight: var(--fontWeight-SemiBold);
+}
+
+
+    [b-2mklwxvd16] .is-selected.ms-Pivot-link::before {
+        background-color: var(--semanticColors-InputBackgroundChecked);
+    }
+
+
+    [b-2mklwxvd16] .is-selected.ms-Pivot-link:hover::before {
+        left: 0;
+        right: 0;
+    }
+
+
+@media screen and (-ms-high-contrast: active) {
+    [b-2mklwxvd16] .is-selected.ms-Pivot-link::before {
+        background-color: Highlight;
+    }
+
+    [b-2mklwxvd16] .is-selected.ms-Pivot-link {
+        color: Highlight;
+    }
+}
+
+[b-2mklwxvd16] .ms-Pivot-link.ms-Button--default {
+    color: var(--semanticTextColors-ActionLink);
+    display: inline-block;
+    line-height: 44px;
+    height: 44px;
+    margin-right: 8px;
+    padding: 0 8px;
+    text-align: center;
+    position: relative;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+}
+
+
+[b-2mklwxvd16] .ms-Pivot-link::before {
+    background-color: transparent;
+    bottom: 0;
+    content: '';
+    height: 2px;
+    left: 8px;
+    position: absolute;
+    right: 8px;
+    transition: left var(--animation-Duration2) var(--animation-EasingFunction2), right var(--animation-Duration2) var(--animation-EasingFunction2);
+}
+
+
+[b-2mklwxvd16] .ms-Pivot-link::after {
+    color: transparent;
+    content: attr(data-content);
+    display: block;
+    font-weight: var(--fontWeight-Bold);
+    height: 1px;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+
+[b-2mklwxvd16] .ms-Pivot-link:hover {
+    background-color: var(--semanticColors-ButtonBackgroundHovered);
+    color: var(--semanticTextColors-ButtonTextHovered);
+    cursor: pointer;
+}
+
+
+[b-2mklwxvd16] .ms-Pivot-link:active {
+    background-color: var(--semanticColors-ButtonBackgroundPressed);
+    color: var(--semanticTextColors-ButtonTextHovered);
+}
+
+
+[b-2mklwxvd16] .ms-Pivot-link:focus {
+    outline: none;
+}
+
+
+.ms-Fabric--isFocusVisible .ms-Pivot[b-2mklwxvd16]  .ms-Pivot-link:focus {
+    outline: 1px solid var(--semanticColors-FocusBorder);
+}
+
+
+    .ms-Fabric--isFocusVisible .ms-Pivot[b-2mklwxvd16]  .ms-Pivot-link:focus::after {
+        content: attr(data-content);
+        position: relative;
+        border: 0;
+    }
+
+[b-2mklwxvd16] .ms-Pivot-linkContent {
+    flex: 0 1 100%;
+}
+
+
+    [b-2mklwxvd16] .ms-Pivot-linkContent > * {
+        margin-left: 4px;
+    }
+
+
+.ms-Pivot-linkContent > *:first-child[b-2mklwxvd16] {
+    margin-left: 0;
+}
+
+.ms-Pivot[b-2mklwxvd16] {
+    box-shadow: none;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    position: relative;
+    color: var(--semanticTextColors-Link);
+    white-space: nowrap;
+}
+
+    .ms-Pivot[b-2mklwxvd16]  > * {
+        display: inline-block;
+    }
+
+    .ms-Pivot.ms-Pivot--large[b-2mklwxvd16]  .ms-Pivot-link {
+        font-size: var(--fontSize.Large);
+    }
+
+
+    .ms-Pivot.ms-Pivot--tabs[b-2mklwxvd16]  .ms-Pivot-link {
+        margin-right: 0;
+        height: 44px;
+        line-height: 44px;
+        background-color: var(--semanticColors-ButtonBackground);
+        padding: 0 10px;
+        vertical-align: top;
+    }
+
+
+        .ms-Pivot.ms-Pivot--tabs[b-2mklwxvd16]  .ms-Pivot-link:focus {
+            outline-offset: -1px;
+        }
+
+
+        .ms-Pivot.ms-Pivot--tabs[b-2mklwxvd16]  .ms-Pivot-link:not(.is-selected):hover,
+        .ms-Pivot.ms-Pivot--tabs[b-2mklwxvd16]  .ms-Pivot-link:not(.is-selected):focus {
+            color: var(--semanticTextColors-ButtonTextCheckedHovered);
+        }
+
+
+        .ms-Pivot.ms-Pivot--tabs[b-2mklwxvd16]  .ms-Pivot-link:not(.is-selected):active,
+        .ms-Pivot.ms-Pivot--tabs[b-2mklwxvd16]  .ms-Pivot-link:not(.is-selected):hover {
+            color: var(--semanticTextColors-PrimaryButtonText);
+            background-color: var(--semanticColors-PrimaryButtonBackground);
+        }
+
+
+.ms-Pivot--tabs.ms-Pivot .is-selected[b-2mklwxvd16] {
+    background-color: var(--semanticColors-PrimaryButtonBackground);
+    color: var(--semanticTextColors-PrimaryButtonText);
+    font-weight: var(--fontWeight-Regular);
+}
+
+
+    .ms-Pivot--tabs.ms-Pivot .is-selected[b-2mklwxvd16]::before {
+        background-color: transparent;
+        transition: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: '';
+        height: auto;
+    }
+
+
+    .ms-Pivot--tabs.ms-Pivot .is-selected:hover[b-2mklwxvd16] {
+        background-color: var(--semanticColors-PrimaryButtonBackgroundHovered);
+        color: var(--semanticTextColors-PrimaryButtonText);
+    }
+
+
+    .ms-Pivot--tabs.ms-Pivot .is-selected:active[b-2mklwxvd16] {
+        background-color: var(--semanticColors-PrimaryButtonBackgroundPressed);
+        color: var(--semanticTextColors-PrimaryButtonText);
+    }
+
+
+.ms-Fabric--isFocusVisible .ms-Pivot--tabs.ms-Pivot[b-2mklwxvd16]  .ms-Pivot-link:focus::before {
+    height: auto;
+    background-color: transparent;
+    transition: none;
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Pivot--tabs.ms-Pivot .is-selected[b-2mklwxvd16] {
+        font-weight: var(--fontWeight-SemiBold);
+        color: HighlightText;
+        background-color: Highlight;
+        -ms-high-contrast-adjust: none;
+    }
+}
+
+[b-2mklwxvd16] .ms-Pivot-text {
+    display: inline-block;
+    vertical-align: top;
+}
+/* _content/BlazorFluentUI.CoreComponents/RichTextEditor/RichTextEditor.razor.rz.scp.css */
+.bf-richTextEditor[b-uoxni7ywka] {
+    position: relative;
+}
+
+.bf-richTextEditor-editor[b-uoxni7ywka] {
+    border: 1px solid var(--semanticColors-InputBorder);
+    background: var(--semanticColors-InputBackground);
+    cursor: text;
+    /*padding: 6px 8px;*/
+    margin-top: 0.1px; /* Odd rendering issue with hover for EdgeHTML */
+    min-height: 60px;
+    height: auto;
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .richTextEditor-editor:hover[b-uoxni7ywka] {
+        border-color: Highlight;
+    }
+}
+
+
+.bf-richTextEditor-editor:focus[b-uoxni7ywka] {
+    outline: none;
+}
+
+
+.bf-richTextEditor-editor div:focus[b-uoxni7ywka] {
+    outline: none;
+}
+
+
+.bf-richTextEditor-editor:active[b-uoxni7ywka] {
+    outline: none;
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .bf-richTextEditor-editor:active[b-uoxni7ywka] {
+        border-color: Highlight;
+        border-width: 2px;
+    }
+}
+
+
+.bf-richTextEditor-editor:hover[b-uoxni7ywka] {
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+
+
+.bf-richTextEditor.is-disabled .bf-richTextEditor-editor[b-uoxni7ywka] {
+    background-color: var(--semanticColors-DisabledBackground);
+    /*border-color: var(--semanticColors-DisabledBackground);*/
+    cursor: default;
+}
+
+
+.bf-richTextEditor[b-uoxni7ywka]  .ql-editor {
+    box-sizing: border-box;
+    cursor: text;
+    line-height: 1.42;
+    height: 100%;
+    outline: none;
+    overflow-y: auto;
+    padding: 6px 8px;
+    tab-size: 4;
+    text-align: left;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+    .bf-richTextEditor[b-uoxni7ywka]  .ql-editor:focus {
+        outline: none;
+    }
+
+.bf-richTextEditor[b-uoxni7ywka]  .ql-clipboard {
+    left: -100000px;
+    height: 1px;
+    overflow-y: hidden;
+    position: absolute;
+    top: 50%;
+}
+.bf-richTextEditor[b-uoxni7ywka]  .ql-clipboard {
+    outline: none;
+}
+          
+/* _content/BlazorFluentUI.CoreComponents/Slider/Slider.razor.rz.scp.css */
+
+.ms-Slider[b-5hpk8ecr2x] {
+    font-size: var(--fontSize.Medium);
+    font-weight: var(--fontWeight.Regular);
+    user-select: none;
+}
+    .ms-Slider.ms-Slider-column[b-5hpk8ecr2x] {
+        margin-right: 8px;
+    }
+
+.ms-Slider-titleLabel[b-5hpk8ecr2x] {
+    padding: 0;
+}
+.ms-Slider-column[b-5hpk8ecr2x] {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+    .ms-Slider-column .ms-Slider-container[b-5hpk8ecr2x] {
+        flex-direction: column;
+        height: 100%;
+        text-align: center;
+        margin: 8px 0;
+    }
+
+
+.ms-Slider-slideBox[b-5hpk8ecr2x] {
+    outline: transparent;
+    position:relative;
+    background: transparent;
+    border: none;
+    flex-grow: 1;
+    line-height: 28;
+    display: flex;
+    align-items: center;
+}
+.ms-Slider[b-5hpk8ecr2x]::-moz-focus-inner{
+    border:0;
+}
+.ms-Fabric--isFocusVisible .ms-Slider-slideBox:focus[b-5hpk8ecr2x]::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+.ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-active[b-5hpk8ecr2x] {
+    background-color: var(--semanticColors-InputBackgroundCheckedHovered);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-active[b-5hpk8ecr2x] {
+        background-color: Highlight;
+    }
+}
+.ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-active[b-5hpk8ecr2x] {
+    background-color: var(--semanticColors-InputBackgroundChecked);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-active[b-5hpk8ecr2x] {
+        background-color: Highlight;
+    }
+}
+
+
+.ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-inactive[b-5hpk8ecr2x] {
+    background-color: var(--semanticColors-InputPlaceholderBackgroundChecked);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-inactive[b-5hpk8ecr2x] {
+        background-color: Highlight;
+    }
+}
+
+.ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-inactive[b-5hpk8ecr2x] {
+    background-color: var(--semanticColors-InputPlaceholderBackgroundChecked);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-inactive[b-5hpk8ecr2x] {
+        background-color: Highlight;
+    }
+}
+
+
+.ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-thumb[b-5hpk8ecr2x] {
+    border: 2px solid var(--semanticColors-InputBackgroundCheckedHovered);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-thumb[b-5hpk8ecr2x] {
+        border-color: Highlight;
+    }
+}
+
+.ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-thumb[b-5hpk8ecr2x] {
+    border: 2px solid var(--semanticColors-InputBackgroundCheckedHovered);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-thumb[b-5hpk8ecr2x] {
+        border-color: Highlight;
+    }
+}
+
+
+.ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-zeroTick[b-5hpk8ecr2x] {
+    background-color: var(--semanticColors-InputPlaceholderBackgroundChecked);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:active .ms-Slider-zeroTick[b-5hpk8ecr2x] {
+        background-color: Highlight;
+    }
+}
+
+.ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-zeroTick[b-5hpk8ecr2x] {
+    background-color: var(--semanticColors-InputPlaceholderBackgroundChecked);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-enabled .ms-Slider-slideBox:hover .ms-Slider-zeroTick[b-5hpk8ecr2x] {
+        background-color: Highlight;
+    }
+}
+
+
+
+
+.ms-Slider-column .ms-Slider-slideBox[b-5hpk8ecr2x] {
+    outline:transparent;
+    position:relative;
+    height: 100%;
+    width: 28px;
+    padding: 8px 0;
+}
+
+
+.ms-Slider-row .ms-Slider-slideBox[b-5hpk8ecr2x] {
+    outline: transparent;
+    position: relative;
+    height: 28px;
+    width: auto;
+    padding: 0 8px;
+}
+
+
+.ms-Slider-thumb[b-5hpk8ecr2x] {
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--semanticColors-SmallInputBorder);
+    border-radius: 10px;
+    box-sizing: border-box;
+    background: var(--semanticColors-InputBackground);
+    display: block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+}
+.ms-Slider-column .ms-Slider-thumb[b-5hpk8ecr2x] {
+    left: -6px;
+    margin: 0 auto;
+    transform: translateY(8px);
+}
+.ms-Slider-row .ms-Slider-thumb[b-5hpk8ecr2x] {
+    top: -6px;
+    transform: translateX(-50%);
+    /*skip RTL */
+}
+
+
+.ms-Slider-row .ms-Slider-showTransitions .ms-Slider-thumb[b-5hpk8ecr2x] {
+    transition: left var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+
+.ms-Slider-column .ms-Slider-showTransitions .ms-Slider-thumb[b-5hpk8ecr2x] {
+    transition: bottom var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+
+
+.ms-Slider-disabled .ms-Slider-thumb[b-5hpk8ecr2x] {
+    border-color: var(--semanticColors-DisabledBorder);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-disabled .ms-Slider-thumb[b-5hpk8ecr2x] {
+        border-color: GrayText;
+    }
+}
+
+
+
+.ms-Slider-line[b-5hpk8ecr2x] {
+    display: flex;
+    position: relative;
+}
+
+.ms-Slider-column .ms-Slider-line[b-5hpk8ecr2x] {
+    height: 100%;
+    width: 4px;
+    margin: 0 auto;
+    flex-direction: column-reverse;
+}
+.ms-Slider-row .ms-Slider-line[b-5hpk8ecr2x] {
+    width:100%;
+}
+
+
+
+
+.ms-Slider-lineContainer[b-5hpk8ecr2x] {
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.ms-Slider-column .ms-Slider-lineContainer[b-5hpk8ecr2x] {
+    height: 100%;
+    width: 4px;
+}
+.ms-Slider-row .ms-Slider-lineContainer[b-5hpk8ecr2x] {
+    height: 4px;
+    width: 100%;
+}
+
+
+
+.ms-Slider-active[b-5hpk8ecr2x] {
+    background: var(--semanticColors-SmallInputBorder);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-active[b-5hpk8ecr2x] {
+        background-color: WindowText;
+    }
+}
+
+.ms-Slider-row .ms-Slider-showTransitions .ms-Slider-active[b-5hpk8ecr2x] {
+    transition: width var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+
+.ms-Slider-column .ms-Slider-showTransitions .ms-Slider-active[b-5hpk8ecr2x] {
+    transition: height var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+
+.ms-Slider-disabled .ms-Slider-active[b-5hpk8ecr2x] {
+    background: var(--semanticTextColors-DisabledText);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-disabled .ms-Slider-active[b-5hpk8ecr2x] {
+        background-color: GrayText;
+        border-color: GrayText;
+    }
+}
+
+
+
+
+.ms-Slider-inactive[b-5hpk8ecr2x] {
+    background: var(--semanticColors-DisabledBorder);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-inactive[b-5hpk8ecr2x] {
+        border: 1px solid WindowText;
+    }
+}
+
+.ms-Slider-row .ms-Slider-showTransitions .ms-Slider-inactive[b-5hpk8ecr2x] {
+    transition: width var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+.ms-Slider-column .ms-Slider-showTransitions .ms-Slider-inactive[b-5hpk8ecr2x] {
+    transition: height var(--animation-Duration3) var(--animation-EasingFunction1);
+}
+
+.ms-Slider-disabled .ms-Slider-inactive[b-5hpk8ecr2x] {
+    background: var(--semanticColors-DisabledBackground);
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-disabled .ms-Slider-inactive[b-5hpk8ecr2x] {
+        border-color: GrayText;
+    }
+}
+
+
+
+.ms-Slider-zeroTick[b-5hpk8ecr2x] {
+    position: absolute;
+    background: var(--semanticColors-DisabledBorder);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-zeroTick[b-5hpk8ecr2x] {
+        background-color: WindowText;
+    }
+}
+
+.ms-Slider-disabled .ms-Slider-zeroTick[b-5hpk8ecr2x] {
+    background: var(--semanticColors-DisabledBackground);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Slider-disabled .ms-Slider-zeroTick[b-5hpk8ecr2x] {
+        background-color: GrayText;
+    }
+}
+
+.ms-Slider-column .ms-Slider-zeroTick[b-5hpk8ecr2x] {
+    width: 16px;
+    height: 1px;
+    transform: translateX(-6px); 
+    /*skip RTL*/
+}
+
+.ms-Slider-row .ms-Slider-zeroTick[b-5hpk8ecr2x] {
+    width: 1px;
+    height: 16px;
+    transform: translateY(-6px);
+}
+
+
+
+[b-5hpk8ecr2x] .ms-Slider-value {
+    flex-shrink: 1;
+    width: 30px;
+    line-height: 1;
+}
+.ms-Slider-column[b-5hpk8ecr2x]  .ms-Slider-value {
+    margin: 0 auto;
+    white-space: nowrap;
+    width: 40px;
+}
+.ms-Slider-row[b-5hpk8ecr2x]  .ms-Slider-value {
+    margin: 0 8px;
+    white-space: nowrap;
+    width: 40px;
+}
+
+/* _content/BlazorFluentUI.CoreComponents/Spinner/Spinner.razor.rz.scp.css */
+.ms-Spinner[b-942himbq1a] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ms-Spinner--top[b-942himbq1a] {
+    flex-direction: column-reverse;
+}
+
+.ms-Spinner--left[b-942himbq1a] {
+    flex-direction: row-reverse;
+}
+.ms-Spinner--right[b-942himbq1a] {
+    flex-direction: row;
+}
+
+.ms-Spinner-circle[b-942himbq1a] {
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 1.5px solid var(--palette-ThemeLight);
+    border-top-color: var(--palette-ThemePrimary);
+    animation-name: spinAnimation-b-942himbq1a;
+    animation-duration: 1.3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(.53,.21,.29,.67);
+}
+
+
+.ms-Spinner--xSmall[b-942himbq1a] {
+    width: 12px;
+    height: 12px;
+}
+
+.ms-Spinner--small[b-942himbq1a] {
+    width: 16px;
+    height: 16px;
+}
+
+.ms-Spinner--medium[b-942himbq1a] {
+    width: 20px;
+    height: 20px;
+}
+
+.ms-Spinner--large[b-942himbq1a] {
+    width: 28px;
+    height: 28px;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-Spinner-circle[b-942himbq1a] {
+        border-top-color: Highlight;
+    }
+}
+.ms-Spinner-label[b-942himbq1a] {
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+    color: var(--palette-ThemePrimary);
+    margin: 8px 0 0 0;
+    text-align: center;
+}
+
+
+.ms-Spinner--top .ms-Spinner-label[b-942himbq1a] {
+    margin: 0 0 8px 0;
+}
+.ms-Spinner--right .ms-Spinner-label[b-942himbq1a] {
+    margin: 0 0 0 8px;
+}
+.ms-Spinner--left .ms-Spinner-label[b-942himbq1a] {
+    margin: 0 8px 0 0;
+}
+
+.ms-Spinner-screenReaderText[b-942himbq1a] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+}
+
+@keyframes spinAnimation-b-942himbq1a {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+/* _content/BlazorFluentUI.CoreComponents/TextField/TextFieldBase.razor.rz.scp.css */
+.ms-TextField[b-r1097ihrpi] {
+    position: relative;
+    box-shadow: none;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.ms-TextField--underlined .ms-TextField-wrapper[b-r1097ihrpi] {
+    display: flex;
+    border-bottom: 1px solid var(--semanticColors-InputBorder);
+    width: 100%;
+}
+
+.ms-TextField--underlined.is-disabled .ms-TextField-wrapper[b-r1097ihrpi] {
+    border-bottom-color: var(--semanticColors-DisabledBackground);
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField--underlined.is-disabled .ms-TextField-wrapper[b-r1097ihrpi] {
+        border-color: gray;
+    }
+}
+
+
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.has-error) .ms-TextField-wrapper:hover[b-r1097ihrpi],
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused):not(.invalid) .ms-TextField-wrapper:hover[b-r1097ihrpi] {
+    border-bottom-color: var(--semanticColors-InputBorderHovered);
+}
+
+
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused).has-error .ms-TextField-wrapper:hover[b-r1097ihrpi],
+.ms-TextField--underlined:not(.is-disabled):not(.is-focused).invalid .ms-TextField-wrapper:hover[b-r1097ihrpi] {
+    border-bottom-color: var(--semanticTextColors-ErrorText);
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField--underlined:not(.is-disabled):not(.is-focused) .ms-TextField-wrapper:hover[b-r1097ihrpi] {
+        border-bottom-color: Highlight;
+    }
+}
+
+.ms-TextField--underlined.is-focused .ms-TextField-wrapper[b-r1097ihrpi] {
+    position: relative;
+    border-color: var(--semanticColors-InputFocusBorderAlt);
+}
+
+    .ms-TextField--underlined.is-focused .ms-TextField-wrapper[b-r1097ihrpi]::after {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -1px;
+        bottom: -1px;
+        right: 0;
+        border-bottom: 2px solid var(--semanticColors-InputFocusBorderAlt);
+        border-radius: 0;
+        width:100%;
+    }
+
+.ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper[b-r1097ihrpi],
+.ms-TextField--underlined.is-focused.invalid .ms-TextField-wrapper[b-r1097ihrpi] {
+    position: relative;
+    border-color: var(--semanticTextColors-ErrorText);
+}
+    .ms-TextField--underlined.is-focused.has-error .ms-TextField-wrapper[b-r1097ihrpi]::after,
+    .ms-TextField--underlined.is-focused.invalid .ms-TextField-wrapper[b-r1097ihrpi]::after {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -1px;
+        bottom: -1px;
+        right: 0;
+        border-bottom: 2px solid var(--semanticTextColors-ErrorText);
+        border-radius: 0;
+        width: 100%;
+    }
+
+.ms-TextField--underlined[b-r1097ihrpi]  .ms-TextField-label {
+    font-size: var(--fontSize-Medium);
+    margin-right:8px;
+    padding-left:12px;
+    padding-right:0;
+    line-height:22px;
+    height:32px;
+}
+.ms-TextField--underlined.is-disabled[b-r1097ihrpi]  .ms-TextField-label {
+    color:var(--palette-NeutralTertiary);
+}
+
+
+@media screen and (-ms-high-contrast: active) {
+    .ms-TextField--underlined.is-focused[b-r1097ihrpi]  .ms-TextField-label {
+        height: 31px; /* -1px to prevent jumpiness in HC with the increased border-width to 2px*/
+    }
+}
+
+    .ms-TextField-fieldGroup[b-r1097ihrpi] {
+        box-shadow: none;
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        border: 1px solid var(--semanticColors-InputBorder);
+        border-radius: var(--effects-RoundedCorner2);
+        background: var(--semanticColors-InputBackground);
+        cursor: text;
+        height: 32px;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        position: relative;
+    }
+
+
+    .ms-TextField--multiline .ms-TextField-fieldGroup[b-r1097ihrpi] {
+        min-height: 60px;
+        height: auto;
+        display: flex;
+    }
+
+
+.ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover[b-r1097ihrpi],
+.ms-TextField:not(.is-focused):not(.is-disabled):not(.invalid) .ms-TextField-fieldGroup:hover[b-r1097ihrpi] {
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-TextField:not(.is-focused):not(.is-disabled):not(.has-error) .ms-TextField-fieldGroup:hover[b-r1097ihrpi],
+        .ms-TextField:not(.is-focused):not(.is-disabled):not(.invalid) .ms-TextField-fieldGroup:hover[b-r1097ihrpi] {
+            border-color: Highlight;
+        }
+    }
+
+
+
+    .ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup[b-r1097ihrpi] {
+        border-color: var(--semanticColors-InputFocusBorderAlt);
+    }
+
+        .ms-TextField.is-focused:not(.ms-TextField--underlined) .ms-TextField-fieldGroup[b-r1097ihrpi]::after {
+            pointer-events: none;
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: -1px;
+            bottom: -1px;
+            right: -1px;
+            border: 2px solid var(--semanticColors-InputFocusBorderAlt);
+            border-radius: var(--effects-RoundedCorner2);
+        }
+
+
+
+
+.ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup[b-r1097ihrpi],
+.ms-TextField.is-focused.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup[b-r1097ihrpi] {
+    border-color: var(--semanticTextColors-ErrorText);
+}
+
+    .ms-TextField.is-focused.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup[b-r1097ihrpi]::after,
+    .ms-TextField.is-focused.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup[b-r1097ihrpi]::after {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        left: -1px;
+        top: -1px;
+        bottom: -1px;
+        right: -1px;
+        border: 2px solid var(--semanticTextColors-ErrorText);
+        border-radius: var(--effects-RoundedCorner2);
+    }
+
+
+
+
+    .ms-TextField.is-disabled .ms-TextField-fieldGroup[b-r1097ihrpi] {
+        border-color: var(--semanticColors-DisabledBackground);
+        cursor: default;
+    }
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-TextField.is-disabled .ms-TextField-fieldGroup[b-r1097ihrpi] {
+            border-color: gray;
+        }
+    }
+
+
+    .ms-TextField--borderless .ms-TextField-fieldGroup[b-r1097ihrpi] {
+        border: none;
+    }
+
+
+    .ms-TextField--borderless.is-focused .ms-TextField-fieldGroup[b-r1097ihrpi] {
+        border: none;
+    }
+
+
+.ms-TextField.is-focused.ms-TextField--borderless:not(.ms-TextField--underlined) .ms-TextField-fieldGroup[b-r1097ihrpi]::after {
+    border: none;
+}
+
+
+    .ms-TextField--underlined .ms-TextField-fieldGroup[b-r1097ihrpi] {
+        flex: 1 1 0px;
+        border: none;
+        text-align: left;
+    }
+
+
+    .ms-TextField--underlined.is-disabled .ms-TextField-fieldGroup[b-r1097ihrpi] {
+        background: none;
+    }
+
+
+.ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup[b-r1097ihrpi],
+.ms-TextField.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup[b-r1097ihrpi] {
+    border-color: var(--semanticTextColors-ErrorText);
+}
+
+
+    .ms-TextField.has-error:not(.ms-TextField--underlined) .ms-TextField-fieldGroup:hover[b-r1097ihrpi],
+    .ms-TextField.invalid:not(.ms-TextField--underlined) .ms-TextField-fieldGroup:hover[b-r1097ihrpi] {
+        border-color: var(--semanticTextColors-ErrorText);
+    }
+
+
+    .ms-TextField.no-label.is-required .ms-TextField-fieldGroup[b-r1097ihrpi]:before {
+        content: '*';
+        color: var(--semanticTextColors-ErrorText);
+        position: absolute;
+        top: -5px;
+        right: -10px;
+    }
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-TextField.no-label.is-required .ms-TextField-fieldGroup[b-r1097ihrpi]:before {
+            right: -14px;
+        }
+    }
+
+
+    .ms-TextField-field[b-r1097ihrpi] {
+        box-shadow: none;
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        border-radius: 0;
+        border: none;
+        background: none;
+        background-color: transparent;
+        color: var(--semanticTextColors-InputText);
+        padding: 0px 8px;
+        width: 100%;
+        text-overflow: ellipsis;
+        outline: 0;
+    }
+
+
+        .ms-TextField-field:active[b-r1097ihrpi], .ms-TextField-field:focus[b-r1097ihrpi], .ms-TextField-field:hover[b-r1097ihrpi] {
+            outline: 0;
+        }
+
+
+        .ms-TextField-field[b-r1097ihrpi]::-ms-clear {
+            display: none;
+        }
+
+        .ms-TextField-field[b-r1097ihrpi]::placeholder {
+            color: var(--semanticTextColors-InputPlaceholderText);
+            opacity: 1;
+        }
+
+        .ms-TextField-field:-ms-input-placeholder[b-r1097ihrpi] {
+            color: var(--semanticTextColors-InputPlaceholderText);
+            opacity: 1;
+        }
+
+    .ms-TextField--multiline.ms-TextField--unresizable .ms-TextField-field[b-r1097ihrpi] {
+        resize: none;
+    }
+
+
+    .ms-TextField--multiline .ms-TextField-field[b-r1097ihrpi] {
+        min-height: inherit;
+        line-height: 17px;
+        flex-grow: 1;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        overflow: auto;
+        width: 100%;
+    }
+
+
+    .ms-TextField--multiline.auto-adjust-height .ms-TextField-field[b-r1097ihrpi] {
+        overflow: hidden;
+    }
+
+
+    .ms-TextField.is-disabled .ms-TextField-field[b-r1097ihrpi] {
+        background-color: var(--semanticColors-DisabledBackground);
+        color: var(--semanticTextColors-DisabledText);
+        border-color: var(--semanticColors-DisabledBackground);
+    }
+
+
+        .ms-TextField.is-disabled .ms-TextField-field[b-r1097ihrpi]::placeholder {
+            color: var(--semanticTextColors-DisabledText);
+        }
+
+        .ms-TextField.is-disabled .ms-TextField-field:-ms-input-placeholder[b-r1097ihrpi] {
+            color: var(--semanticTextColors-DisabledText);
+        }
+
+    .ms-TextField--underlined .ms-TextField-field[b-r1097ihrpi] {
+        text-align: left;
+    }
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-TextField.is-focused:not(.ms-TextField--borderless) .ms-TextField-field[b-r1097ihrpi] {
+            padding-left: 11px;
+            padding-right: 11px;
+        }
+
+        .ms-TextField.is-focused.ms-TextField--multiline:not(.ms-TextField--borderless) .ms-TextField-field[b-r1097ihrpi] {
+            padding-top: 4px;
+        }
+    }
+
+
+
+    .ms-TextField--multiline[b-r1097ihrpi]  .ms-TextField-icon {
+        padding-right: 24px;
+        align-items: flex-end;
+    }
+
+
+    [b-r1097ihrpi] .ms-TextField-icon {
+        pointer-events: none;
+        position: absolute;
+        bottom: 6px;
+        right: 8px;
+        top: auto;
+        font-size: var(--fontSize-Medium);
+        line-height: 18px;
+    }
+
+
+    .ms-TextField.is-disabled[b-r1097ihrpi]  .ms-TextField-icon {
+        color: var(--semanticTextColors-DisabledText);
+    }
+
+
+    .ms-TextField-description[b-r1097ihrpi] {
+        color: var(--semanticTextColors-BodySubtext);
+        font-size: var(--fontSize-XSmall);
+    }
+
+
+    .ms-TextField-prefix[b-r1097ihrpi] {
+        background: var(--semanticColors-DisabledBackground);
+        color: var(--semanticTextColors-InputPlaceholderText);
+        display: flex;
+        align-items: center;
+        padding: 0px 10px;
+        line-height: 1px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+
+    .ms-TextField.is-disabled .ms-TextField-prefix[b-r1097ihrpi] {
+        color: var(--semanticTextColors-DisabledText);
+    }
+
+
+
+    .ms-TextField-suffix[b-r1097ihrpi] {
+        background: var(--semanticColors-DisabledBackground);
+        color: var(--semanticTextColors-InputPlaceholderText);
+        display: flex;
+        align-items: center;
+        padding: 0px 10px;
+        line-height: 1px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .ms-TextField.is-disabled .ms-TextField-suffix[b-r1097ihrpi] {
+        color: var(--semanticTextColors-DisabledText);
+    }
+
+
+    .ms-TextField--errorMessage[b-r1097ihrpi] {
+        font-size: var(--fontSize-Small);
+        font-weight: var(--fontWeight-Regular);
+        color: var(--semanticTextColors-ErrorText);
+        margin: 0;
+        padding-top: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+
+    .ms-TextField.ms-TextField--underlined.is-disabled .ms-Label[b-r1097ihrpi] {
+        color: var(--palette-NeutralTertiary);
+    }
+
+
+    .ms-TextField.ms-TextField--underlined .ms-Label[b-r1097ihrpi] {
+        font-size: var(--fontSize-Medium);
+        margin-right: 8px;
+        padding-left: 12px;
+        padding-right: 0px;
+        line-height: 22px;
+        height: 32px;
+    }
+
+
+    @media screen and (-ms-high-contrast: active) {
+        .ms-TextField.ms-TextField--underlined.is-focused .ms-Label[b-r1097ihrpi] {
+            height: 31px;
+        }
+    }
+            
+/* _content/BlazorFluentUI.CoreComponents/Toggle/Toggle.razor.rz.scp.css */
+.ms-Toggle[b-v2exy8akqt] {
+    margin-bottom: 8px;
+}
+.ms-Toggle--inlineLabel[b-v2exy8akqt] {
+    display: flex;
+    align-items: center;
+}
+.ms-Toggle--disabled[b-v2exy8akqt]  .ms-Toggle-label {
+    color: var(--semanticTextColors-DisabledText);
+}
+.ms-Toggle--inlineLabel[b-v2exy8akqt]  .ms-Toggle-label {
+    margin-right: 16px;
+}
+.ms-Toggle--inlineLabel.ms-Toggle--onOffMissing[b-v2exy8akqt]  .ms-Toggle-label {
+    margin-right: initial;
+    margin-left: 16px;
+    order: 1;
+}
+.ms-Toggle-container[b-v2exy8akqt] {
+    display: inline-flex;
+    position: relative;
+}
+
+.ms-Toggle-pill[b-v2exy8akqt] {
+    outline: transparent;
+    position: relative;
+    font-size: 20px;
+    box-sizing: border-box;
+    width: 40px;
+    height: 20px;
+    border-radius: 10px;
+    transition: all 0.1s ease;
+    border: 1px solid var(--semanticColors-SmallInputBorder);
+    background: var(--semanticColors-BodyBackground);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0 3px;
+}
+
+    .ms-Toggle-pill[b-v2exy8akqt]::-moz-focus-inner {
+        border: 0;
+    }
+
+.ms-Fabric--isFocusVisible .ms-Toggle-pill:focus[b-v2exy8akqt]:after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    border: 1px solid var(--palette-White);
+    outline: 1px solid var(--palette-NeutralSecondary);
+    z-index: var(--zIndex-FocusStyle);
+}
+
+.ms-Toggle--enabled.ms-Toggle--unchecked .ms-Toggle-pill:hover[b-v2exy8akqt] {
+    border-color: var(--semanticColors-InputBorderHovered);
+}
+
+    .ms-Toggle--enabled.ms-Toggle--unchecked .ms-Toggle-pill:hover .ms-Toggle-thumb[b-v2exy8akqt] {
+        background-color: var(--palette-NeutralDark);
+    }
+
+.ms-Toggle--enabled.ms-Toggle--checked .ms-Toggle-pill[b-v2exy8akqt] {
+    background: var(--semanticColors-InputBackgroundChecked);
+    border-color: transparent;
+    justify-content: flex-end;
+}
+
+    .ms-Toggle--enabled.ms-Toggle--checked .ms-Toggle-pill:hover[b-v2exy8akqt] {
+        background-color: var(--palette-ThemeDark);
+        border-color: transparent;
+    }
+
+.ms-Toggle--disabled .ms-Toggle-pill[b-v2exy8akqt] {
+    cursor: default;
+}
+
+.ms-Toggle--disabled.ms-Toggle--unchecked .ms-Toggle-pill[b-v2exy8akqt] {
+    border-color: var(--semanticTextColors-DisabledBodySubtext);
+}
+
+.ms-Toggle--disabled.ms-Toggle--checked .ms-Toggle-pill[b-v2exy8akqt] {
+    background-color: var(--semanticTextColors-DisabledBodySubtext);
+    border-color: transparent;
+    justify-content: flex-end;
+}
+
+.ms-Toggle-thumb[b-v2exy8akqt] {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.1s ease;
+    background-color: var(--semanticColors-SmallInputBorder);
+    border-color: transparent;
+    border-width: .28em;
+    border-style: solid;
+    box-sizing: border-box;
+}
+
+.ms-Toggle--enabled.ms-Toggle--checked .ms-Toggle-thumb[b-v2exy8akqt] {
+    background-color: var(--semanticColors-InputForegroundChecked);
+}
+
+.ms-Toggle--disabled.ms-Toggle--unchecked .ms-Toggle-thumb[b-v2exy8akqt] {
+    background-color: var(--semanticTextColors-DisabledBodySubtext);
+}
+
+.ms-Toggle--disabled.ms-Toggle--checked .ms-Toggle-thumb[b-v2exy8akqt] {
+    background-color: var(--semanticColors-DisabledBackground);
+}
+[b-v2exy8akqt] .ms-Label.ms-Toggle-stateText {
+    padding: 0;
+    margin: 0 8px;
+    user-select: none;
+    font-weight: var(--fontWeight-Regular);
+}
+.ms-Toggle--disabled[b-v2exy8akqt]  .ms-Label.ms-Toggle-stateText {
+    color: var(--semanticTextColors-DisabledText);
+}
+@media screen and (-ms-high-contrast: active) {
+    .ms-Toggle--disabled[b-v2exy8akqt]  .ms-Toggle-label {
+        color: GrayText;
+    }
+
+    .ms-Toggle--enabled.ms-Toggle--unchecked .ms-Toggle-pill:hover.ms-Toggle-thumb[b-v2exy8akqt] {
+        border-color: Highlight;
+    }
+
+    .ms-Toggle--enabled.ms-Toggle--checked .ms-Toggle-pill:hover[b-v2exy8akqt] {
+        background-color: Highlight;
+    }
+
+    .ms-Toggle--enabled.ms-Toggle--checked .ms-Toggle-pill[b-v2exy8akqt] {
+        background-color: WindowText;
+    }
+
+    .ms-Toggle--enabled.ms-Toggle-pill:hover[b-v2exy8akqt] {
+        border-color: Highlight;
+    }
+
+    .ms-Toggle--enabled.ms-Toggle--checked .ms-Toggle-thumb[b-v2exy8akqt] {
+        background-color: Window;
+        border-color: Window;
+    }
+
+    .ms-Toggle--disabled[b-v2exy8akqt]  .ms-Toggle-stateText {
+        color: GrayText;
+    }
+}
+/* _content/BlazorFluentUI.CoreComponents/Tooltip/Tooltip.razor.rz.scp.css */
+.ms-Tooltip-content[b-5y5e2axfr5] {
+    position: relative;
+    z-index: 1;
+    color: var(--semanticTextColors-MenuItemText);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    font-size: var(--fontSize-Small);
+    font-weight: var(--fontWeight-Regular);
+}
+.ms-Tooltip-subtext[b-5y5e2axfr5] {
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    margin: 0;
+}
+/* _content/BlazorFluentUI.CoreComponents/Tooltip/TooltipHost.razor.rz.scp.css */
+.ms-TooltipHost[b-hwzxrl4ebz] {
+    display: inline;
+}

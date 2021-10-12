@@ -30,7 +30,7 @@
                         tabindex="0"
                         title=@PrevYearRangeAriaLabel
                         disabled=@(FromYear <= MinYear)>
-                    <Icon IconName="Up" />
+                    <Icon IconName="arrow_up" />
                 </button>
                 <button class=@($"ms-Calendar-nextDecade{(FromYear + 12 -1 -1>= MaxYear ? " ms-Calendar-nextDecadeIsDisabled":"")}")
                         @onclick=@(args=> { if ((FromYear + 12 -1 -1) < MaxYear) { OnSelectNextDecade(); } })
@@ -38,7 +38,7 @@
                         tabindex="0"
                         title=@NextYearRangeAriaLabel
                         disabled=@(FromYear + 12 -1 -1 >= MaxYear)>
-                    <Icon IconName="Down" />
+                    <Icon IconName="arrow_down" />
                 </button>
             </div>
         </div>

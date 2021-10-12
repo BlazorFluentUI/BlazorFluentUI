@@ -16,7 +16,7 @@ namespace BlazorFluentUI
 
         [Parameter] public bool AllowZeroStars { get; set; }
 
-        [Parameter] public string IconName { get; set; } = "Star";
+        [Parameter] public string IconName { get; set; } = "star";
         [Parameter] public int Max { get; set; } = 5;
         [Parameter] public double RatingValue
         {

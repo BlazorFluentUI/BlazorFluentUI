@@ -35,7 +35,7 @@
                         title=@(PreviousMonthAriaLabel + " " + NavigatedDate.AddMonths(-1).ToString("MMMM"))
                         role="button"
                         type="button">
-                    <Icon IconName="Up" />
+                    <Icon IconName="arrow_up" />
                 </button>
                 <button class=@($"ms-Calendar-nextMonth {(!NextMonthInBounds ? "ms-Calendar-nextMonthIsDisabled" : "")}")
                         aria-disabled=@(!NextMonthInBounds)
@@ -45,7 +45,7 @@
                         title=@(NextMonthAriaLabel + " " + NavigatedDate.AddMonths(1).ToString("MMMM"))
                         role="button"
                         type="button">
-                    <Icon IconName="Down" />
+                    <Icon IconName="arrow_down" />
                 </button>
 
                 @if (ShowCloseButton)
@@ -55,7 +55,7 @@
                             @(NextMonthAriaLabel + " " + NavigatedDate.AddMonths(1).ToString("MMMM"))
                         </TooltipContent>
                         <ChildContent>*@
-                    <IconButton IconName="Cancel"
+                    <IconButton IconName="dismiss"
                                 OnClick=@OnClose />
                     @*</ChildContent>
                         </TooltipHost>*@

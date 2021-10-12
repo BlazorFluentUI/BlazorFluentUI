@@ -27,6 +27,15 @@ jobs:
       - name: Build App
         run: dotnet publish -c Release -o published Demo/BlazorFluentUI.Demo.Client/
         
+        # THIS IS WHERE THE DATA IS PUBLISHED TO A BRANCH
+      - name: Deploy
+        uses: s0/git-publish-subdir-action@master
+        env:
+          REPO: self
+          BRANCH: data_build
+          FOLDER: bin/build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
   deploy_job:
     needs: build_job
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')

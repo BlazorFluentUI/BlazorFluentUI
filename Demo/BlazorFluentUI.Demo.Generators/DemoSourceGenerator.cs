@@ -28,7 +28,7 @@ namespace BlazorFluentUI.Demo
 
 ");
             var files = context.AdditionalFiles;
-            var dictionary = files.ToDictionary(x => x.Path, x => x.GetText().ToString().Replace(@"""", @""""""));//.Replace("}", "}}").Replace("{", "}}").Replace(@"""", @""""""));
+            var dictionary = files.ToDictionary(x => x.Path, x => x.GetText().ToString().Replace(@"""", @""""""));
             sourceBuilder.AppendLine("var metadata = new Dictionary<string,string>() {");
             foreach (var pair in dictionary)
             {
@@ -36,7 +36,6 @@ namespace BlazorFluentUI.Demo
             }
             sourceBuilder.AppendLine("};");
 
-            //var foundPair = dictionary.FirstOrDefault(x => x.Key.EndsWith("test" + ".razor"));
             sourceBuilder.AppendLine($@"var foundPair = metadata.FirstOrDefault(x => x.Key.EndsWith(""\\"" + name + "".razor""));");
 
             sourceBuilder.AppendLine(@"return foundPair.Value;");

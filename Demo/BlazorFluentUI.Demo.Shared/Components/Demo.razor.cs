@@ -45,7 +45,7 @@ namespace BlazorFluentUI.Demo.Shared.Components
 				if (int.TryParse(demoMetaData[keyValueBegin..keyValueEnd], out int keyValue) && keyValue == Key)
 					found = true;
 
-				int codeBegin = demoMetaData.IndexOf(Environment.NewLine, indexOfDemoBegin) + 1;
+				int codeBegin = demoMetaData.IndexOf('\n', indexOfDemoBegin) + 1;
 				int codeEnd = demoMetaData.IndexOf("</Demo>", indexOfDemoBegin);
 				codeLiteral = demoMetaData[codeBegin..codeEnd].Replace("                ", "");
 				start = codeEnd;

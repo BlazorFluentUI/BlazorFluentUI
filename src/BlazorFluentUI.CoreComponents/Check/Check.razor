@@ -5,17 +5,17 @@
     <div class=@($"mediumFont ms-Check{(Checked ? " is-checked" : "")}")>
         @*@if (UseFastIcons)
         {
-            <FontIcon IconName="CircleRing"
+            <FontIcon IconName="circle"
                       ClassName="ms-Check-circle" />
-            <FontIcon IconName="StatusCircleCheckmark"
+            <FontIcon IconName="checkmark"
                       ClassName="ms-Check-check" />
         }
         else
-        {*@
-            <Icon IconName="CircleRing"
+        {
+            <Icon IconName="circle"
                   ClassName="ms-Check-circle" />
-            <Icon IconName="StatusCircleCheckmark"
+            <Icon IconName="checkmark"
                   ClassName="ms-Check-check" />
-        @*}*@
+        }
     </div>
 </div>

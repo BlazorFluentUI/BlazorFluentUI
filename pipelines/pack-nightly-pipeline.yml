@@ -50,9 +50,9 @@ steps:
     command: 'pack'
     packagesToPack: '**/*.csproj;!**/BlazorFluentUI.Demo.*.csproj'
     versioningScheme: 'byPrereleaseNumber'
-    majorVersion: '5'
-    minorVersion: '7'
-    patchVersion: '3'
+    majorVersion: '6'
+    minorVersion: '0'
+    patchVersion: '0'
 
 - task: DotNetCoreCLI@2
   inputs:

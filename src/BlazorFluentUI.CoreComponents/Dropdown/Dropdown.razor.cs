@@ -32,7 +32,7 @@ namespace BlazorFluentUI
         [Parameter] public EventCallback<IDropdownOption?> SelectedOptionChanged { get; set; }
         [Parameter] public IEnumerable<IDropdownOption> SelectedOptions { get; set; } = new List<IDropdownOption>();
         [Parameter] public EventCallback<IEnumerable<IDropdownOption>> SelectedOptionsChanged { get; set; }
-
+        [Parameter] public DirectionalHint? DirectionalHint { set; get; }
         [CascadingParameter] EditContext CascadedEditContext { get; set; } = default!;
 
         private FieldIdentifier FieldIdentifier;

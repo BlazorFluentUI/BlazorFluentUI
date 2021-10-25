@@ -94,7 +94,7 @@
                         GapSpace="0"
                         DoNotLayer="false"
                         DirectionalHintFixed="false"
-                        DirectionalHint=@DirectionalHint.BottomLeftEdge
+                        DirectionalHint=@(this.DirectionalHint ?? BlazorFluentUI.DirectionalHint.BottomLeftEdge)
                         ClassName="ms-Dropdown-callout"
                         FabricComponentTarget=@this
                         OnDismiss=@DismissHandler

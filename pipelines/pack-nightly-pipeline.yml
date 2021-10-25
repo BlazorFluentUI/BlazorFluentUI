@@ -52,7 +52,7 @@ steps:
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '5'
     minorVersion: '7'
-    patchVersion: '4'
+    patchVersion: '5'
 
 - task: DotNetCoreCLI@2
   inputs:

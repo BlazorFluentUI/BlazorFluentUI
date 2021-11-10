@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 
 namespace BlazorFluentUI
 {
@@ -14,26 +15,26 @@ namespace BlazorFluentUI
         [Parameter]
         public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-        //protected override async Task OnAfterRenderAsync(bool firstRender)
-        //{
-        //if (baseModule == null)
-        //    baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
-        //if (firstRender)
-        //{
-        //    await baseModule!.InvokeVoidAsync("disableBodyScroll");
-        //}
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (baseModule == null)
+                baseModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import", BasePath);
+            if (firstRender)
+            {
+                await baseModule!.InvokeVoidAsync("disableBodyScroll");
+            }
 
-        //}
+        }
 
         public override async ValueTask DisposeAsync()
         {
             try
             {
-                //if (baseModule != null)
-                //{
-                //    await baseModule!.InvokeVoidAsync("enableBodyScroll");
-                //    await baseModule.DisposeAsync();
-                //}
+                if (baseModule != null)
+                {
+                    await baseModule!.InvokeVoidAsync("enableBodyScroll");
+                    await baseModule.DisposeAsync();
+                }
 
                 await base.DisposeAsync();
             }

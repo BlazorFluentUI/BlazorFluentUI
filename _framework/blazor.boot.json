@@ -7,10 +7,10 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "BlazorFluentUI.CoreComponents.dll": "sha256-sNYSTbKA4W8g7oBL796pTMJSSDexjAssB7bGmm5dcd8=",
-      "BlazorFluentUI.Demo.Client.dll": "sha256-gs1kTMOLjID2A7UAdetWm5lU0nGuhtfC8mvqLrXgqxM=",
-      "BlazorFluentUI.Demo.Shared.dll": "sha256-3Mndy5BizZjdkOFCN9dOMgdVX9GFHPOEY3JfgbY0jXA=",
-      "BlazorFluentUI.ListComponents.dll": "sha256-yQrsuJll+JeZnore06GJnGyYF4GUMJ1ShtS6Q1\/zTbQ=",
+      "BlazorFluentUI.CoreComponents.dll": "sha256-fhUytqpAL4WJ7lyK7tICjHIalL2WSG4Eu2zntXztxa4=",
+      "BlazorFluentUI.Demo.Client.dll": "sha256-H61Tjp7Sum3rM9NIxpiepYBftz\/e6yP41lspM5Jzneg=",
+      "BlazorFluentUI.Demo.Shared.dll": "sha256-DEnmTVM5NQtLsQCu3+KIJj2PPaFy\/gGSeibwloaq6wQ=",
+      "BlazorFluentUI.ListComponents.dll": "sha256-7csXrufVxaPsQSaZteDEhh4i1cvf\/bECowjMs7gOJrA=",
       "DynamicData.dll": "sha256-SZpwRBOMSgl8jO\/R22edD4bNbbZ17JCRkzTI6blb0dQ=",
       "Microsoft.AspNetCore.Components.dll": "sha256-OyPC69zOSMd5ZQqRUda99DmWbYWJFAPuD\/0k6UfCvkc=",
       "Microsoft.AspNetCore.Components.Forms.dll": "sha256-nIdAtifXptJUUqqAsSAgpFZ6xFMfGFmR9Snze7nVS6c=",

@@ -26,7 +26,7 @@ steps:
   displayName: Install DotNet SDK
   inputs:
     packageType: 'sdk'
-    version: '5.x'
+    version: '6.x'
     includePreviewVersions: false
 
 

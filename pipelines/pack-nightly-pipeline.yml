@@ -26,8 +26,8 @@ steps:
   displayName: Install DotNet SDK
   inputs:
     packageType: 'sdk'
-    version: '6.x'
-    includePreviewVersions: false
+    version: '8.x'
+    includePreviewVersions: true
 
 
 - task: DotNetCoreCLI@2

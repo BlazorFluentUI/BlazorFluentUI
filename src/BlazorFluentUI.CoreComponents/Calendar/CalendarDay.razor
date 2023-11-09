@@ -114,10 +114,6 @@
                             var day = week[dayIndex];
                             var isNavigatedDate = DateTime.Compare(NavigatedDate.Date, day.OriginalDate) == 0;
 
-                            @*@onmouseover=@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseOver(args); })
-                                @onmouseleave =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseLeave(args); })
-                                @onmousedown =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseDown(args); })
-                                @onmouseup =@(args => { if (DateRangeType != DateRangeType.Day && day.IsInBounds) OnDayMouseUp(args); })*@
                             <td @key=@day.Key
                                 class=@GetDayClasses(day)
                                 @onclick=@((day.IsInBounds ? day.OnSelected : null)!)

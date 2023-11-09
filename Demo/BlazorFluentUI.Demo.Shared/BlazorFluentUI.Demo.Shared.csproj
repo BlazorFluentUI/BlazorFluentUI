@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseRazorSourceGenerator>false</UseRazorSourceGenerator>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicData" Version="7.4.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
+    <PackageReference Include="DynamicData" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0-rc.2.23480.2" />
+    <PackageReference Include="System.Reactive" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +21,14 @@
 
   <ItemGroup>
     <AdditionalFiles Include="$(ProjectDir)\Pages\*.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Remove="C:\Source\Blazor\BlazorFluentUI\Demo\BlazorFluentUI.Demo.Shared\Pages\SearchBoxPage.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\SearchBoxPage.razor" />
   </ItemGroup>
 
 </Project>

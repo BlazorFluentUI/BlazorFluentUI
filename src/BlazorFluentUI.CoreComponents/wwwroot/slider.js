@@ -80,18 +80,18 @@ function onKeyDown(slider, event) {
     let diff;
     let value;
     switch (event.which) {
-        case 39 /* right */: //right arrow
-        case 38 /* up */: //up arrow
+        case 39 /* FluentUIBaseComponent.KeyCodes.right */: //right arrow
+        case 38 /* FluentUIBaseComponent.KeyCodes.up */: //up arrow
             slider.invokeMethodAsync("OnKeyDown", { step: +1 });
             break;
-        case 37 /* left */: //left arrow
-        case 40 /* down */: //down arrow
+        case 37 /* FluentUIBaseComponent.KeyCodes.left */: //left arrow
+        case 40 /* FluentUIBaseComponent.KeyCodes.down */: //down arrow
             slider.invokeMethodAsync("OnKeyDown", { step: -1 });
             break;
-        case 36 /* home */: //home
+        case 36 /* FluentUIBaseComponent.KeyCodes.home */: //home
             slider.invokeMethodAsync("OnKeyDown", { min: true });
             break;
-        case 35 /* end */: //end
+        case 35 /* FluentUIBaseComponent.KeyCodes.end */: //end
             slider.invokeMethodAsync("OnKeyDown", { max: true });
             break;
         default:

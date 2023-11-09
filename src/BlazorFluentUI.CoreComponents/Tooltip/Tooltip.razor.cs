@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,8 +14,8 @@ namespace BlazorFluentUI
         [Parameter] public DirectionalHint DirectionalHint { get; set; } = DirectionalHint.TopCenter;
         [Parameter] public FluentUIComponentBase? FabricComponentTarget { get; set; }
         [Parameter] public double MaxWidth { get; set; } = 364;
-        [Parameter] public EventCallback<EventArgs> OnMouseEnter { get; set; }
-        [Parameter] public EventCallback<EventArgs> OnMouseLeave { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> OnMouseEnter { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> OnMouseLeave { get; set; }
         [Parameter] public int GapSpace { get; set; } = 0;
         [Parameter] public bool IsBeakVisible { get; set; } = true;
 

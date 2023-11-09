@@ -80,7 +80,19 @@ namespace BlazorFluentUI
             return base.OnParametersSetAsync();
         }
 
-        protected Task OnTooltipMouseEnter(EventArgs args)
+        protected Task OnFocus()
+        {
+            MouseEventArgs? args = new();
+            return OnTooltipMouseEnter(args);
+        }
+
+        protected Task OnBlur()
+        {
+            MouseEventArgs? args = new();
+            return OnTooltipMouseLeave(args);
+        }
+
+        protected Task OnTooltipMouseEnter(MouseEventArgs args)
         {
             Debug.WriteLine("OnMouseEnter");
             if (CurrentVisibleTooltip != null && CurrentVisibleTooltip != this)
@@ -120,7 +132,7 @@ namespace BlazorFluentUI
             return Task.CompletedTask;
         }
 
-        protected Task OnTooltipMouseLeave(EventArgs args)
+        protected Task OnTooltipMouseLeave(MouseEventArgs args)
         {
             if (dismissTimer != null)  // component can be disposed already and still return this event
             {

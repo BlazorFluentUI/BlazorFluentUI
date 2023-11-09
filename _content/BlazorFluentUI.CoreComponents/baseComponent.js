@@ -24,15 +24,15 @@ function _onFocusRectKeyDown(ev) {
     }
 }
 const DirectionalKeyCodes = {
-    [38 /* up */]: 1,
-    [40 /* down */]: 1,
-    [37 /* left */]: 1,
-    [39 /* right */]: 1,
-    [36 /* home */]: 1,
-    [35 /* end */]: 1,
-    [9 /* tab */]: 1,
-    [33 /* pageUp */]: 1,
-    [34 /* pageDown */]: 1
+    [38 /* KeyCodes.up */]: 1,
+    [40 /* KeyCodes.down */]: 1,
+    [37 /* KeyCodes.left */]: 1,
+    [39 /* KeyCodes.right */]: 1,
+    [36 /* KeyCodes.home */]: 1,
+    [35 /* KeyCodes.end */]: 1,
+    [9 /* KeyCodes.tab */]: 1,
+    [33 /* KeyCodes.pageUp */]: 1,
+    [34 /* KeyCodes.pageDown */]: 1
 };
 function isDirectionalKeyCode(which) {
     return !!DirectionalKeyCodes[which];
@@ -203,7 +203,7 @@ export function registerKeyEventsForList(element, guid) {
                 let elementToFocus;
                 const containsExpandCollapseModifier = ev.altKey || ev.metaKey;
                 switch (ev.keyCode) {
-                    case 38 /* up */:
+                    case 38 /* KeyCodes.up */:
                         if (containsExpandCollapseModifier) {
                             //should send a close window or something, maybe let Blazor handle it.
                         }
@@ -211,7 +211,7 @@ export function registerKeyEventsForList(element, guid) {
                             elementToFocus = getLastFocusable(element, element.lastChild, true);
                         }
                         break;
-                    case 40 /* down */:
+                    case 40 /* KeyCodes.down */:
                         if (!containsExpandCollapseModifier) {
                             elementToFocus = getFirstFocusable(element, element.firstChild, true);
                         }
@@ -1169,12 +1169,6 @@ export function filteredAssign(isAllowed, target, ...args) {
      * {@docCategory EventGroup}
      */
 export class EventGroup {
-    /** parent: the context in which events attached to non-HTMLElements are called */
-    constructor(parent) {
-        this._id = EventGroup._uniqueId++;
-        this._parent = parent;
-        this._eventRecords = [];
-    }
     /** For IE8, bubbleEvent is ignored here and must be dealt with by the handler.
      *  Events raised here by default have bubbling set to false and cancelable set to true.
      *  This applies also to built-in events being raised manually here on HTMLElements,
@@ -1244,6 +1238,12 @@ export class EventGroup {
     }
     static _isElement(target) {
         return (!!target && (!!target.addEventListener || (typeof HTMLElement !== 'undefined' && target instanceof HTMLElement)));
+    }
+    /** parent: the context in which events attached to non-HTMLElements are called */
+    constructor(parent) {
+        this._id = EventGroup._uniqueId++;
+        this._parent = parent;
+        this._eventRecords = [];
     }
     dispose() {
         if (!this._isDisposed) {

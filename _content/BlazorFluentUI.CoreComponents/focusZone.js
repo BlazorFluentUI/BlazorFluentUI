@@ -106,32 +106,32 @@ class FocusZone {
             }
             else {
                 switch (ev.which) {
-                    case 32 /* space */:
+                    case 32 /* FluentUIBaseComponent.KeyCodes.space */:
                         if (this._tryInvokeClickForFocusable(ev.target)) {
                             break;
                         }
                         return;
-                    case 37 /* left */:
+                    case 37 /* FluentUIBaseComponent.KeyCodes.left */:
                         if (direction !== FocusZoneDirection.vertical && this._moveFocusLeft()) {
                             break;
                         }
                         return;
-                    case 39 /* right */:
+                    case 39 /* FluentUIBaseComponent.KeyCodes.right */:
                         if (direction !== FocusZoneDirection.vertical && this._moveFocusRight()) {
                             break;
                         }
                         return;
-                    case 38 /* up */:
+                    case 38 /* FluentUIBaseComponent.KeyCodes.up */:
                         if (direction !== FocusZoneDirection.horizontal && this._moveFocusUp()) {
                             break;
                         }
                         return;
-                    case 40 /* down */:
+                    case 40 /* FluentUIBaseComponent.KeyCodes.down */:
                         if (direction !== FocusZoneDirection.horizontal && this._moveFocusDown()) {
                             break;
                         }
                         return;
-                    case 9 /* tab */:
+                    case 9 /* FluentUIBaseComponent.KeyCodes.tab */:
                         if (this.props?.handleTabKey === FocusZoneTabbableElements.all ||
                             (this.props?.handleTabKey === FocusZoneTabbableElements.inputOnly && this._isElementInput(ev.target))) {
                             let focusChanged = false;
@@ -150,7 +150,7 @@ class FocusZone {
                             }
                         }
                         return;
-                    case 36 /* home */:
+                    case 36 /* FluentUIBaseComponent.KeyCodes.home */:
                         if (this._isElementInput(ev.target) && !this._shouldInputLoseFocus(ev.target, false)) {
                             return;
                         }
@@ -159,7 +159,7 @@ class FocusZone {
                             break;
                         }
                         return;
-                    case 35 /* end */:
+                    case 35 /* FluentUIBaseComponent.KeyCodes.end */:
                         if (this._isElementInput(ev.target) && !this._shouldInputLoseFocus(ev.target, true)) {
                             return;
                         }
@@ -168,7 +168,7 @@ class FocusZone {
                             break;
                         }
                         return;
-                    case 13 /* enter */:
+                    case 13 /* FluentUIBaseComponent.KeyCodes.enter */:
                         if (this._tryInvokeClickForFocusable(ev.target)) {
                             break;
                         }
@@ -220,7 +220,7 @@ class FocusZone {
             }
         };
         this._onKeyDownCapture = (ev) => {
-            if (ev.which === 9 /* tab */) {
+            if (ev.which === 9 /* FluentUIBaseComponent.KeyCodes.tab */) {
                 outerZones.forEach(zone => zone._updateTabIndexes());
             }
         };

@@ -168,7 +168,7 @@ class SelectionZone {
         this._isCtrlPressed = ev.ctrlKey;
         this._isMetaPressed = ev.metaKey;
         const keyCode = ev.keyCode;
-        this._isTabPressed = keyCode ? keyCode === 9 /* tab */ : false;
+        this._isTabPressed = keyCode ? keyCode === 9 /* FluentUIBaseComponent.KeyCodes.tab */ : false;
         //console.log('updatemodifiers');
     }
     async _onInvokeMouseDownAsync(ev, index) {

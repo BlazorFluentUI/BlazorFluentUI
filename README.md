@@ -1,14 +1,14 @@
 # Anouncement
-Although we have created a quite complete port of the React Fluent UI library, it has become clear that it is impossible for us to keep up with the changes that Microsoft and the community are making there. That, combined with the fact that we have only a few people working on the code (in their spare time mostly), has made us decide that as of now we will be switching to maintenace mode for the BlazorFluentUI library. 
+Although we have created a quite complete port of the Fluent UI React library, it has become clear that it is impossible for us to keep up with the changes that Microsoft and the community are making there. That, combined with the fact that we have only a few people working on the code (in their spare time mostly), has made us decide that as of now we will be switching to maintenace mode for the BlazorFluentUI library. 
 
 ### What does this mean?
 We will not be adding any new functionality and bug fixing will be minimal. 
 
 ### Does this mean I should not use BlazorFluentUI anymore? 
-That is up to you. The functionality and features that are available will stay available. We have released a V6 version, running on .NET 6. This means you can still use the library **in it's current form** until at least November 2022 (when .NET 7 will be released). 
+That is up to you. The functionality and features that are available will stay available. We have released a ~V6~ V8 version, running on .NET 6, 7 and 8. This means you can still use the library **in it's current form** until at least November 10, 2026 (when .NET 8 support will end). 
 
 ### What is my alternative?
-Microsoft has released V1.0 of a Blazor wrapper (https://github.com/microsoft/fluentui-blazor) for their Fluent UI Web Components library based on standard Web Components technology (https://github.com/microsoft/fluentui/blob/master/packages/web-components/README.md) which is an implementation of their FAST framework (https://www.fast.design/). We are in close contact with the Microsoft team, leveraging our knowledge gained with building BlazorFluentUI and are already actively contributing to the repository. The are not aiming to match what you get with React Fluent UI today. Rather, they are building to the latest version of Fluent as seen in Windows 11. A demo and documentation site for the Fluent UI Blazor component library can be found at https://www.fluentui-blazor.net.
+Microsoft has released V1.0 of a Blazor wrapper (https://github.com/microsoft/fluentui-blazor) for their Fluent UI Web Components library based on standard Web Components technology (https://github.com/microsoft/fluentui/blob/master/packages/web-components/README.md) which is an implementation of their FAST framework (https://www.fast.design/). We are in close contact with the Microsoft team, leveraging our knowledge gained with building BlazorFluentUI and are already actively contributing to the repository. The are not aiming to match what you get with Fluent UI React today. Rather, they are building to the latest version of Fluent as seen in Windows 11. A demo and documentation site for the Fluent UI Blazor component library can be found at https://www.fluentui-blazor.net.
 
 # BlazorFluentUI
 Port of Fluent UI React components and style (formerly Office Fabric) to Blazor
@@ -26,6 +26,9 @@ How To Use: [Blazor Server](https://github.com/BlazorFluentUI/BlazorFluentUI/wik
 [Theming](https://github.com/BlazorFluentUI/BlazorFluentUI/wiki/Theming---defaults-and-custom) 
 
 ## Revision history
+### V8.0
+Packes compiled with .NET 8 SDK only. No other changes have been made.
+
 ### V6.0
 Using the .NET 6 released packages now.
 
